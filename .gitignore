@@ -3,3 +3,6 @@ Frontend/build*
 Frontend/public/*
 Frontend/yarn*
 Backend/env/*
+Backend/__pycache__
+Backend/app/__pycache__
+Backend/*/__pycache__
