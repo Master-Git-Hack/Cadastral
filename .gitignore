@@ -2,7 +2,9 @@ Frontend/node_modules/*
 Frontend/build*
 Frontend/public/*
 Frontend/yarn*
+Frontend/.env
 Backend/env/*
 Backend/__pycache__
 Backend/app/__pycache__
 Backend/*/__pycache__
+Backend/.env
