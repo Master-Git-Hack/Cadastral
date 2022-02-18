@@ -25,29 +25,6 @@ services:
       - ./Backend:/usr/src/Backend
     ports:
       - 56733:56733
-    environment:
-      XDG_RUNTIME_DIR: /tmp
-      RUNLEVEL: 3
-      API_VERSION: 1
-      HOST: 0.0.0.0
-      PORT: 56733
-      DEBUG: 0
-      FLASK_ENV: development
-      ROOT_PATH: /usr/src/Backend/
-      IMAGES_PATH: /app/media/static/images/
-      TEMPLATES_PATH: /app/static/media/templates
-      TEMPORARY_PATH: /app/media/temp
-      APPRAISAL_PATH: /app/apps/appraisal
-      HOMOLOGATIONS_PATH: /app/apps/homologations
-      MODELS_PATH: /models/
-      VIEWS_PATH: /views/
-      FORMS_PATH: /forms/
-      SECRET_KEY: "# __ S3c de F&&nanzas, GOBIERNO de gt0 #__"
-      DBNAME:
-      DBUSERNAME:
-      DBPASSWORD:
-      DBHOST:
-      DBPORT:
 
     networks:
       - cadastral_network
