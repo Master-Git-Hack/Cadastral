@@ -8,3 +8,8 @@ Backend/__pycache__
 Backend/app/__pycache__
 Backend/*/__pycache__
 Backend/.env
+_front/node_modules/*
+_front/build*
+_front/public/*
+_front/yarn*
+_front/.env

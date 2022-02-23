@@ -1,5 +1,5 @@
-import {Symbols} from "../factors/symbols";
-export interface Columns{
-    name:string;
-    value:Symbols;
+import { Symbols } from "../factors/symbols";
+export interface Columns {
+  name: string;
+  value: Symbols;
 }

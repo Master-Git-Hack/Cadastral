@@ -1,4 +1,4 @@
-export interface FactorState{
-    value: number;
-    type:string;
+export interface FactorState {
+  value: number;
+  type: string;
 }
