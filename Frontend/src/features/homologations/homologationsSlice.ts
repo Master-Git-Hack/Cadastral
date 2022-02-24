@@ -1,125 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
-import { HomologationState } from "../../types/homologation/homologation";
+import {
+  HomologationState,
+  template,
+  manageHomologation,
+} from "../../types/homologation/homologation";
 import { Factors } from "../../types/homologation/factors/factors";
-const prevState: Factors = {
-  id: 0,
-  classification: {
-    subject: {
-      type: "URBANO",
-      value: 1.1,
-    },
-    current: {
-      type: "URBANO",
-      value: 1.1,
-    },
-  },
-  typeForm: {
-    subject: {
-      type: "REGULAR",
-      value: 1,
-    },
-    current: {
-      type: "REGULAR",
-      value: 1,
-    },
-  },
-  usage: {
-    subject: {
-      type: "MIXTO I-C",
-      value: 1.09,
-    },
-    current: {
-      type: "MIXTO I-C",
-      value: 1.09,
-    },
-  },
-  topography: {
-    subject: {
-      type: "PLANA",
-      value: 1,
-    },
-    current: {
-      type: "PLANA",
-      value: 1,
-    },
-  },
-  level: {
-    subject: {
-      type: "P.B. NIVEL DE CALLE",
-      value: 1,
-    },
-    current: {
-      type: "P.B. NIVEL DE CALLE",
-      value: 1,
-    },
-  },
-  quality: {
-    subject: {
-      type: "LUJO",
-      value: 1.12,
-    },
-    current: {
-      type: "LUJO",
-      value: 1.12,
-    },
-  },
-  project: {
-    subject: {
-      type: "EXCELENTE",
-      value: 1.06,
-    },
-    current: {
-      type: "EXCELENTE",
-      value: 1.06,
-    },
-  },
-  building: {
-    subject: {
-      type: "RESIDENCIAL PLUS",
-      value: 1.08,
-    },
-    current: {
-      type: "RESIDENCIAL PLUS",
-      value: 1.08,
-    },
-  },
-  location: {
-    id: 1,
-    name: "location",
-    columns: [
-      {
-        name: "C1",
-        value: {
-          type: "+",
-          value: 1,
-        },
-      },
-    ],
-    percentage: 0,
-    addNextRow: true,
-  },
-  zone: {
-    id: 1,
-    name: "zone",
-    columns: [
-      {
-        name: "C1",
-        value: {
-          type: "+",
-          value: 1,
-        },
-      },
-    ],
-    percentage: 0,
-    addNextRow: true,
-  },
-};
+import { _templateLocationZone } from "../../types/homologation/factors/location_zone";
 const initialState: HomologationState = {
   type: "TERRENO",
-  items: [prevState],
+  items: [
+    {
+      ...template(1),
+      location: _templateLocationZone("location", 1),
+      zone: _templateLocationZone("zone", 1),
+    },
+  ],
 };
-
 export const homologationSlice = createSlice({
   name: "homologation",
   initialState,
@@ -146,11 +43,76 @@ export const homologationSlice = createSlice({
         current.id === action.payload.id ? (current = action.payload) : current
       );
     },
+    addNextRow: (state, action: PayloadAction<manageHomologation>) => {
+      const { items } = state;
+      const { itemName } = action.payload;
+      const { length } = items;
+      state.items = [
+        {
+          ...items[0],
+          [itemName]: {
+            ...state.items[0][itemName],
+            columns: {
+              C2:{
+                name:"C2",
+                current: {
+                  type: "+",
+                  value: 1,
+                },
+            },
+            }
+        },
+      },
+        ...items.slice(1),
+      ];
+      state.items.push({ ...template(length + 1), location: 0, zone: 0 });
+    },
+    removeLastRow: (state, action: PayloadAction<manageHomologation>) => {
+      const { items } = state;
+      const { length } = items;
+      const { itemName } = action.payload;
+      if (length > 1) {
+        items.pop();
+        const { rows } = items[0][itemName];
+        if (rows.length > 1) rows.pop();
+        state.items = items;
+      }
+    },
+    setSingleFactor(state, action: PayloadAction<manageHomologation>) {
+      const { transaction, itemID, itemName, isSubject } = action.payload;
+      if (
+        transaction !== undefined &&
+        itemID !== undefined &&
+        itemName !== undefined &&
+        isSubject !== undefined
+      ) {
+        state.items = [
+          ...state.items.slice(0, itemID),
+          {
+            ...state.items[itemID],
+            [itemName]: {
+              ...state.items[itemID][itemName],
+              [isSubject ? "subject" : "current"]: transaction,
+            },
+          },
+          ...state.items.slice(itemID + 1),
+        ];
+      }
+    },
     get: (state) => state,
   },
 });
-export const { add, remove, select, set, get, setStart } =
-  homologationSlice.actions;
+export const {
+  add,
+  remove,
+  select,
+  set,
+  get,
+  setStart,
+  setSingleFactor,
+  addNextRow,
+  removeLastRow,
+} = homologationSlice.actions;
 export const selectHomologation = (state: RootState) => state.homologation;
 export const addByAsync =
   (current: Factors): AppThunk =>

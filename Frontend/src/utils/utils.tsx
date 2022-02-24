@@ -1,3 +1,4 @@
+import { FactorState } from "../types/homologation/factors/factor";
 export const toFancyNumber: Function = (
   value: number,
   isCurrency: boolean = false,
@@ -10,8 +11,15 @@ export const toFancyNumber: Function = (
     maximumFractionDigits: decimals,
     currency: isCurrency ? "currency" : undefined,
   }).format(isPercentage && !isCurrency ? value / 100 : value);
+
 export const roundToTen: Function = (
   value: number,
   decimals: number = 2
 ): number =>
   Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
+
+export const findFactor: Function = (
+  valueToFind: number,
+  collection: Array<FactorState | any>
+): FactorState =>
+  collection.find((object: FactorState) => object.value === valueToFind);

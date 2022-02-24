@@ -1,12 +1,31 @@
-import { Selector } from "../../components/inputs/selector";
+import { Selector } from "../inputs/selector";
 import { TableProps } from "../../types/homologation/table/table";
-import { toFancyNumber } from "../../utils/utils";
+import { toFancyNumber, findFactor } from "../../utils/utils";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
-import { selectHomologation } from "../../features/homologations/homologationsSlice";
-import { FC, ChangeEventHandler } from "react";
+import {
+  selectHomologation,
+  setSingleFactor,
+} from "../../features/homologations/homologationsSlice";
+import { FC } from "react";
 export const Table: FC<TableProps> = (props) => {
   const { items } = useAppSelector(selectHomologation);
-  const handleChange: ChangeEventHandler<HTMLSelectElement> = (event) => null;
+  const dispatch = useAppDispatch();
+
+  const handleChange = (
+    transaction: any,
+    itemID: number,
+    isSubject: boolean = false
+  ) => {
+    transaction = findFactor(transaction, props.collection);
+    dispatch(
+      setSingleFactor({
+        itemName: props.name,
+        itemID,
+        isSubject,
+        transaction,
+      })
+    );
+  };
   return (
     <table
       key={`table-${props.title}-${props.name}-${props.id}`}
@@ -24,7 +43,7 @@ export const Table: FC<TableProps> = (props) => {
         <tr id={`table-${props.title}-${props.name}-${props.id}-headers`}>
           <td
             id={`${props.name}-${props.id}-headers-#`}
-            colSpan={6}
+            colSpan={1}
             rowSpan={1}
           >
             #
@@ -71,7 +90,9 @@ export const Table: FC<TableProps> = (props) => {
               name="subject"
               subject={items[0][props.name].subject}
               selector={props.collection}
-              onChange={handleChange}
+              onChange={(event) =>
+                handleChange(Number(event.target.value), 0, true)
+              }
               style={`bg-warning`}
             />
           </td>
@@ -91,6 +112,13 @@ export const Table: FC<TableProps> = (props) => {
               key={`table-${props.title}-${props.name}-${props.id}-bodyElementsToRender-${index}`}
             >
               <td
+                id={`${props.name}-${props.id}-body-row-${index}-#`}
+                colSpan={1}
+                rowSpan={1}
+              >
+                {`C${index + 1}`}
+              </td>
+              <td
                 id={`${props.name}-${props.id}-body-row-${index}-current`}
                 colSpan={1}
                 rowSpan={1}
@@ -100,7 +128,9 @@ export const Table: FC<TableProps> = (props) => {
                   name={props.name}
                   subject={item.current}
                   selector={props.collection}
-                  onChange={handleChange}
+                  onChange={(event) =>
+                    handleChange(Number(event.target.value), index)
+                  }
                   style={`bg-light`}
                 />
               </td>
@@ -114,6 +144,17 @@ export const Table: FC<TableProps> = (props) => {
                   false,
                   false,
                   2
+                )}
+              </td>
+              <td
+                id={`${props.name}-${props.id}-body-row-${index}-divisor`}
+                colSpan={1}
+                rowSpan={1}
+              >
+                {toFancyNumber(
+                  item.subject.value / item.current.value
+                    ? item.subject.value / item.current.value
+                    : 0
                 )}
               </td>
             </tr>

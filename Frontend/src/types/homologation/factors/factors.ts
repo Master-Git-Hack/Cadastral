@@ -17,6 +17,19 @@ export interface Factors {
   quality: FactorQuality;
   project: FactorProject;
   building: FactorBuilding;
-  location?: LocationZone;
-  zone?: LocationZone;
+  location?: Array<LocationZone> | undefined;
+  zone?: Array<LocationZone> | undefined;
+}
+
+export interface Transaction {
+  transaction:
+    | FactorPeriphery
+    | FactorTypeForm
+    | FactorUsage
+    | FactorTopography
+    | FactorLevel
+    | FactorQuality
+    | FactorProject
+    | FactorBuilding
+    | LocationZone;
 }
