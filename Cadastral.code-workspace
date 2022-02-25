@@ -1,8 +1,40 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+	"compounds": [{
+		"name": "Launch Server & Client",
+		"configurations": [
+		  "Launch Server",
+		  {
+			"folder": "Web Client",
+			"name": "Launch Client",
+			"launch": {
+				"configurations": [{
+					"type": "node",
+					"request": "launch",
+					"name": "Launch test",
+					"program": "${workspaceFolder:Program}/test.js",
+					"skipFiles": [
+					  "${workspaceFolder:Library}/out/**/*.js"
+					]
+				}]
+			  }
+			  
+		  },
+		  {
+			"folder": "Desktop Client",
+			"name": "Launch Client",
+			"launch": {
+				"configurations": [{
+					"type": "node",
+					"request": "launch",
+					"name": "Launch test",
+					"program": "${workspaceFolder:Program}/test.js",
+					"skipFiles": [
+					  "${workspaceFolder:Library}/out/**/*.js"
+					]
+				}]
+			  }
+			  
+		  }
+		]
+	}]
 }
