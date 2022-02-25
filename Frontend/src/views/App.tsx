@@ -1,12 +1,12 @@
 import { Fragment } from "react";
 import "../assets/css/bootstrap.min.css";
 import "../assets/css/App.css";
-import { Homologations } from "./Homologation";
-
+//import { Homologations } from "./Homologation";
+import { RenderRoutes } from "../routes/routes";
 function App() {
   return (
     <Fragment>
-      <Homologations />
+      <RenderRoutes key="routes" />
     </Fragment>
   );
 }

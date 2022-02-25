@@ -1,44 +1,51 @@
-import { Columns } from "../columns/columns";
 import { Symbols, symbols } from "../factors/symbols";
-
 export interface LocationZone {
-  name: string;
-  columns?:Record<string,Columns>;
-  percentage: number;
-  location_zone:string;
-  
-}
-const cols = (length: number = 1): Array<Columns> =>
-  Array.from({ length }, (_: any, i: number) => ({
-    name: `C${i + 1}`,
-    current: symbols[0],
-  }));
-
-export const customCols = (object:any,name:string)=>{
-  object[name]=symbols[0];
+  [key: string]: string | Symbols | number;
 }
 
-  export const insertColumn= (object:any)=>
-  {
-    const {length} = Object.keys(object).filter((current:any)=>current.includes('C'));
-    object[`C${length+1}`] = symbols[0];
-    return object;
-  }
-  /*Array.from({ length }, (_: any, i: number) => {
-    object[`C${i + 2}`] = symbols[0];
-    return object;
-  })[0]*/
-export const _templateLocationZone = (
-  name: string,
-  length: number = 1
-): LocationZone => ({
-  name,
-  columns:{
-    C1:{
-      name: "C1",
-      current: symbols[0],
-    }
-  },
+export const templateLocationZone: LocationZone = {
+  C1: symbols[0],
+  location_zone: "",
   percentage: 0,
-  location_zone: '',
-});
+};
+
+export const _templateLocationZone = [templateLocationZone];
+
+export const addColumnAtLocationZone = (
+  current: Array<LocationZone>
+): Array<LocationZone> => {
+  const length = Object.keys(current[0]).filter((key: string) =>
+    key.includes("C")
+  ).length;
+  current.map((item: LocationZone) => (item[`C${length + 1}`] = symbols[0]));
+  return current;
+};
+
+export const removeColumnAtLocationZone = (
+  current: Array<LocationZone>
+): Array<LocationZone> => {
+  const length = Object.keys(current[0]).filter((key: string) =>
+    key.includes("C")
+  ).length;
+  if (length > 1) {
+    current.map((item: LocationZone) => delete item[`C${length}`]);
+    return current;
+  }
+  return current;
+};
+
+export const addRowAtLocationZone = (
+  current: Array<LocationZone>
+): Array<LocationZone> => {
+  const length = current.length;
+  const columns = Object.keys(current[0]).filter((key: string) =>
+    key.includes("C")
+  );
+  current.push(current[0]);
+  columns.map((column: string) => (current[length][column] = symbols[0]));
+  return current;
+};
+export const removeRowAtLocationZone = (
+  current: Array<LocationZone>
+): Array<LocationZone> =>
+  current.length > 1 ? current.slice(0, current.length - 1) : current;

@@ -231,7 +231,6 @@ export default function FactorsCompilation() {
           key="factor-table-compilation-row-1"
           className="row"
         >
-          <LocationZone key="factors-table-row-LocationZone" />
           <Classification key="factors-table-row-classification" />
           <TypeForm key="factors-table-row-type-form" />
           <Usage key="factors-table-row-usage" />
@@ -249,6 +248,12 @@ export default function FactorsCompilation() {
             <Building key="factors-table-row-building" />
           </tr>
         ) : null}
+        <tr
+          id="factor-table-compilation-row-3"
+          key="factor-table-compilation-row-3"
+        >
+          <LocationZone key="factors-table-row-LocationZone" />
+        </tr>
       </tbody>
       <tfoot
         id="factors-table-compilation-foot"

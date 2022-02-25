@@ -21,8 +21,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "src/.prettiererrc.js"  ],
+    "src",
+    ".prettiererrc.js"  ],
 "plugins": [
   "react-hooks"
 ],

@@ -6,14 +6,20 @@ import {
   manageHomologation,
 } from "../../types/homologation/homologation";
 import { Factors } from "../../types/homologation/factors/factors";
-import { _templateLocationZone } from "../../types/homologation/factors/location_zone";
+import {
+  _templateLocationZone,
+  addColumnAtLocationZone,
+  removeColumnAtLocationZone,
+  addRowAtLocationZone,
+  removeRowAtLocationZone,
+} from "../../types/homologation/factors/location_zone";
 const initialState: HomologationState = {
   type: "TERRENO",
   items: [
     {
       ...template(1),
-      location: _templateLocationZone("location", 1),
-      zone: _templateLocationZone("zone", 1),
+      location: _templateLocationZone,
+      zone: _templateLocationZone,
     },
   ],
 };
@@ -24,6 +30,31 @@ export const homologationSlice = createSlice({
     setStart: (state, action: PayloadAction<HomologationState>) => {
       state.type = action.payload.type;
       state.items = action.payload.items;
+    },
+    caseLocationZoneAddRow(state, action: PayloadAction<manageHomologation>) {
+      const { itemName } = action.payload;
+      const items = state.items[0][itemName];
+      state.items = [
+        {
+          ...state.items[0],
+          [itemName]: addRowAtLocationZone(items),
+        },
+        ...state.items.slice(1),
+      ];
+    },
+    caseLocationZoneRemoveRow(
+      state,
+      action: PayloadAction<manageHomologation>
+    ) {
+      const { itemName } = action.payload;
+      const items = state.items[0][itemName];
+      state.items = [
+        {
+          ...state.items[0],
+          [itemName]: removeRowAtLocationZone(items),
+        },
+        ...state.items.slice(1),
+      ];
     },
     add: (state, action: PayloadAction<Factors>) => {
       state.items.push(action.payload);
@@ -50,22 +81,11 @@ export const homologationSlice = createSlice({
       state.items = [
         {
           ...items[0],
-          [itemName]: {
-            ...state.items[0][itemName],
-            columns: {
-              C2:{
-                name:"C2",
-                current: {
-                  type: "+",
-                  value: 1,
-                },
-            },
-            }
+          [itemName]: addColumnAtLocationZone(items[0][itemName]),
         },
-      },
         ...items.slice(1),
       ];
-      state.items.push({ ...template(length + 1), location: 0, zone: 0 });
+      state.items.push(template(length + 1));
     },
     removeLastRow: (state, action: PayloadAction<manageHomologation>) => {
       const { items } = state;
@@ -73,9 +93,7 @@ export const homologationSlice = createSlice({
       const { itemName } = action.payload;
       if (length > 1) {
         items.pop();
-        const { rows } = items[0][itemName];
-        if (rows.length > 1) rows.pop();
-        state.items = items;
+        items[0][itemName] = removeColumnAtLocationZone(items[0][itemName]);
       }
     },
     setSingleFactor(state, action: PayloadAction<manageHomologation>) {
@@ -112,6 +130,8 @@ export const {
   setSingleFactor,
   addNextRow,
   removeLastRow,
+  caseLocationZoneAddRow,
+  caseLocationZoneRemoveRow,
 } = homologationSlice.actions;
 export const selectHomologation = (state: RootState) => state.homologation;
 export const addByAsync =
