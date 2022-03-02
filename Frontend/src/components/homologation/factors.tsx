@@ -90,7 +90,7 @@ export const Quality: FC = () => (
     />
   </td>
 );
-export const Topography: FC<{type:string}> = (props) => (
+export const Topography: FC<{ type: string }> = (props) => (
   <td
     id="col-topography"
     key="col-topography"
@@ -107,7 +107,7 @@ export const Topography: FC<{type:string}> = (props) => (
     />
   </td>
 );
-export const TypeForm: FC<{type:string}> = (props) => (
+export const TypeForm: FC<{ type: string }> = (props) => (
   <td
     id="col-type-form"
     key="col-type-form"
@@ -162,9 +162,7 @@ export const Location: FC = () => (
     />
   </td>
 );
-export function FactorsCompilation(props:{
-  options:any
-}) {
+export function FactorsCompilation(props: { options: any }) {
   const typeLocationZone = "location";
   const dispatch = useAppDispatch();
   const { type, items } = useAppSelector(selectHomologation);
@@ -218,21 +216,33 @@ export function FactorsCompilation(props:{
       </button>
     </td>
   );
-  const Actions: FC<{style:string}> = (props) => (
+  const Actions: FC<{ style: string }> = (props) => (
     <tr id="12" key="actions" className={`row ${props.style}`}>
       <AddRow />
       <RemoveRow />
     </tr>
   );
-  const classification = props.options.find((object:any)=>object.type==="classification");
-  const typeForm = props.options.find((object:any)=>object.type==="typeForm");
-  const usage = props.options.find((object:any)=>object.type==="usage");
-  const topography = props.options.find((object:any)=>object.type==="topography");
-  const level = props.options.find((object:any)=>object.type==="level" );
-  const project = props.options.find((object:any)=>object.type==="project" );
-  const quality = props.options.find((object:any)=>object.type==="quality");
-  const building = props.options.find((object:any)=>object.type==="building" );
-  
+  const classification = props.options.find(
+    (object: any) => object.type === "classification"
+  );
+  const typeForm = props.options.find(
+    (object: any) => object.type === "typeForm"
+  );
+  const usage = props.options.find((object: any) => object.type === "usage");
+  const topography = props.options.find(
+    (object: any) => object.type === "topography"
+  );
+  const level = props.options.find((object: any) => object.type === "level");
+  const project = props.options.find(
+    (object: any) => object.type === "project"
+  );
+  const quality = props.options.find(
+    (object: any) => object.type === "quality"
+  );
+  const building = props.options.find(
+    (object: any) => object.type === "building"
+  );
+
   return (
     <table
       id="factors-table-compilation"
@@ -260,17 +270,16 @@ export function FactorsCompilation(props:{
           {usage && <Usage />}
           {topography && <Topography type={type} />}
         </tr>
-          <tr
-            id="factor-table-compilation-row-2"
-            key="factor-table-compilation-row-2"
-            className="row"
-          >
-            {level && <Level />}
-            {quality && <Quality />}
-            {project && <Project />}
-            {building && <Building />}
-          </tr>
-
+        <tr
+          id="factor-table-compilation-row-2"
+          key="factor-table-compilation-row-2"
+          className="row"
+        >
+          {level && <Level />}
+          {quality && <Quality />}
+          {project && <Project />}
+          {building && <Building />}
+        </tr>
       </tbody>
     </table>
   );

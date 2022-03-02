@@ -120,7 +120,7 @@ export const Row: FC<{
       id={`Row-Evaluation-${props.index}`}
       className="justify-content-center align-self-middle align-middle text-center"
     >
-      <td>{`C${props.index+1}`}</td>
+      <td>{`C${props.index + 1}`}</td>
       <SalesCost {...props} />
       <Area {...props} />
       <ShowValues

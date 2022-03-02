@@ -57,7 +57,7 @@ export const defineResults = (items: any) => {
     let object = {
       salesCost: 0,
       area: 0,
-      unitCost:0,
+      unitCost: 0,
       building: building.subject.value / building.current.value,
       classification:
         classification.subject.value / classification.current.value,
@@ -92,9 +92,8 @@ export const defineResults = (items: any) => {
       return {
         ...item,
         ...object,
-          location: handle(location),
-          zone: handle(zone),
-        
+        location: handle(location),
+        zone: handle(zone),
       };
     }
     return {
