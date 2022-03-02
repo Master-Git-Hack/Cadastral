@@ -1,27 +1,46 @@
 import { FC } from "react";
-import { toFancyNumber } from "../../utils/utils";
+import { toFancyNumber, defineResults } from "../../utils/utils";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 import {
   selectHomologation,
   caseLocationZoneAddRow,
   caseLocationZoneRemoveRow,
+  setCompareSubjectLocationZone,
 } from "../../features/homologations/homologationsSlice";
 import { ColumnsHeader } from "./locationZone/header";
 import { Body } from "./locationZone/body";
-import { Symbols } from "../../types/homologation/factors/symbols";
+
 export const LocationZoneComponent: FC<{
   id: number;
   title: string;
-  type: "location" | "zone";
+  type: string;
 }> = (props) => {
   const dispatch = useAppDispatch();
   const { items } = useAppSelector(selectHomologation);
+
+  console.log("test=>", defineResults(items));
+
   const rows = items[0][props.type];
   const columns = Object.keys(rows[0]).filter((key: string) =>
     key.includes("C")
   );
   const colSpan =
     (columns.length + 2) % 2 === 0 ? columns.length + 2 : columns.length + 3;
+  const result = columns.map((column: string) =>
+    rows
+      .map((row: any) => ({
+        percentage: row.percentage,
+        [column]: row[column],
+      }))
+      .reduce(
+        (previous: number, current: any) =>
+          previous + (current.percentage / 100) * current[column].value,
+        1
+      )
+  );
+  const percentage = rows
+    .map((row: any) => row.percentage)
+    .reduce((previous: number, current: number) => previous + current, 0);
 
   const Actions: FC = () => (
     <tr
@@ -39,10 +58,14 @@ export const LocationZoneComponent: FC<{
           id={`Table-Factor-por-${props.title}-actions-add-button`}
           className="btn btn-sm btn-outline-primary"
           onClick={() =>
-            dispatch(caseLocationZoneAddRow({ itemName: props.type }))
+            dispatch(
+              caseLocationZoneAddRow({
+                itemName: props.type === "location" ? "location" : "zone",
+              })
+            )
           }
         >
-          +
+          Agregar fila
         </button>
       </td>
       <td
@@ -56,10 +79,14 @@ export const LocationZoneComponent: FC<{
           id={`Table-Factor-por-${props.title}-actions-remove-button`}
           className="btn btn-sm btn-outline-danger"
           onClick={() =>
-            dispatch(caseLocationZoneRemoveRow({ itemName: props.type }))
+            dispatch(
+              caseLocationZoneRemoveRow({
+                itemName: props.type === "location" ? "location" : "zone",
+              })
+            )
           }
         >
-          -
+          Remover ultima fila
         </button>
       </td>
     </tr>
@@ -99,8 +126,16 @@ export const LocationZoneComponent: FC<{
             id={`Table-Factor-por-${props.title}-header-2-porcentaje`}
           >
             Porcentaje &nbsp;
-            <span className="badge rounded-pill bg-warning">
-              {toFancyNumber(0, false, true)}
+            <span
+              className={`badge rounded-pill bg-${
+                percentage === 0 || percentage > 100
+                  ? "danger"
+                  : percentage === 100
+                  ? "success"
+                  : "warning"
+              }`}
+            >
+              {toFancyNumber(percentage, false, true)}
             </span>
           </td>
           <td
@@ -123,10 +158,16 @@ export const LocationZoneComponent: FC<{
           type={props.type}
           rows={rows}
           columns={columns}
-          onChange={(index: number, key: string, value: Symbols) => {
-            console.log(index, key, value);
-          }}
+          dispatch={dispatch}
+          handleCompareSubject={setCompareSubjectLocationZone}
         />
+
+        <tr>
+          <td colSpan={2} />
+          {result.map((r: number, index: number) => (
+            <td key={index}>{toFancyNumber(r, false, false, 2)}</td>
+          ))}
+        </tr>
       </tbody>
     </table>
   );

@@ -1,15 +1,14 @@
 import { FC } from "react";
 import { Nav, Navbar, Container } from "react-bootstrap";
-
+import logoGto from "../../assets/images/logoGto.png";
 export const NavBar: FC = () => (
   <Navbar collapseOnSelect={true} variant="light" className="bg-navbar">
     <Container>
       <Navbar.Brand href="/">
         <img
           alt="logo del gobierno de guanajuato"
-          src="https://www.pngkey.com/png/detail/12-125952_logo-png-transparent-background.png"
+          src={logoGto}
           width={250}
-          height={250}
           className="d-inline-block align-top"
         />
       </Navbar.Brand>

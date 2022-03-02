@@ -154,7 +154,10 @@ export const Table: FC<TableProps> = (props) => {
                 {toFancyNumber(
                   item.subject.value / item.current.value
                     ? item.subject.value / item.current.value
-                    : 0
+                    : 0,
+                  false,
+                  false,
+                  2
                 )}
               </td>
             </tr>

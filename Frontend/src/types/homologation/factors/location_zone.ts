@@ -38,11 +38,10 @@ export const addRowAtLocationZone = (
   current: Array<LocationZone>
 ): Array<LocationZone> => {
   const length = current.length;
-  const columns = Object.keys(current[0]).filter((key: string) =>
+  /*const columns = Object.keys(current[0]).filter((key: string) =>
     key.includes("C")
-  );
-  current.push(current[0]);
-  columns.map((column: string) => (current[length][column] = symbols[0]));
+  );*/
+  current.push(current[length - 1]);
   return current;
 };
 export const removeRowAtLocationZone = (

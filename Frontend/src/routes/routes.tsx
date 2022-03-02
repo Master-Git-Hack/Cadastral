@@ -24,6 +24,10 @@ export const SinglePages: FC = () => (
 
 export const RenderRoutes: FC = () => (
   <Fragment>
-      {new URLSearchParams(window.location.search).get("key") !== null ? <SinglePages /> : <WithNavigation />}
+    {new URLSearchParams(window.location.search).get("key") !== null ? (
+      <SinglePages />
+    ) : (
+      <WithNavigation />
+    )}
   </Fragment>
 );

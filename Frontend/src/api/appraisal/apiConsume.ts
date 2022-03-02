@@ -11,6 +11,6 @@ const config = {
   },
 };
 export const postCollection = async (payload: Properties) =>
-  await axios
+  axios
     .post(`${REACT_APP_API_URL}/APPRAISAL/report/collection`, config)
     .then((response) => response.data);

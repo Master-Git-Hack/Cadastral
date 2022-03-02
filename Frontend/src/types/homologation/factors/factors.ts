@@ -7,7 +7,7 @@ import { FactorBuilding } from "./building";
 import { FactorTopography } from "./topography";
 import { FactorTypeForm } from "./typeForm";
 import { LocationZone } from "./location_zone";
-
+import { FactorState } from "./factor";
 interface FactorsProps {
   [key: string]:
     | FactorPeriphery
@@ -19,18 +19,19 @@ interface FactorsProps {
     | FactorTopography
     | FactorTypeForm
     | Array<LocationZone>
-    | number;
+    | number
+    | Array<number>;
 }
 export interface Factors extends FactorsProps {
   id: number;
-  classification: FactorPeriphery;
-  typeForm: FactorTypeForm;
-  usage: FactorUsage;
-  topography: FactorTopography;
-  level: FactorLevel;
-  quality: FactorQuality;
-  project: FactorProject;
-  building: FactorBuilding;
+  classification: FactorPeriphery | number;
+  typeForm: FactorTypeForm | number;
+  usage: FactorUsage | number;
+  topography: FactorTopography | number;
+  level: FactorLevel | number;
+  quality: FactorQuality | number;
+  project: FactorProject | number;
+  building: FactorBuilding | number;
 }
 
 export interface Transaction {
@@ -43,5 +44,6 @@ export interface Transaction {
     | FactorQuality
     | FactorProject
     | FactorBuilding
-    | Array<LocationZone>;
+    | Array<LocationZone>
+    | FactorState;
 }

@@ -5,6 +5,7 @@ import {
   template,
   manageHomologation,
 } from "../../types/homologation/homologation";
+import { defineResults } from "../../utils/utils";
 import { Factors } from "../../types/homologation/factors/factors";
 import {
   _templateLocationZone,
@@ -13,6 +14,7 @@ import {
   addRowAtLocationZone,
   removeRowAtLocationZone,
 } from "../../types/homologation/factors/location_zone";
+import { FactorState } from "../../types/homologation/factors/factor";
 const initialState: HomologationState = {
   type: "TERRENO",
   items: [
@@ -31,6 +33,7 @@ export const homologationSlice = createSlice({
       state.type = action.payload.type;
       state.items = action.payload.items;
     },
+
     caseLocationZoneAddRow(state, action: PayloadAction<manageHomologation>) {
       const { itemName } = action.payload;
       const items = state.items[0][itemName];
@@ -55,6 +58,31 @@ export const homologationSlice = createSlice({
         },
         ...state.items.slice(1),
       ];
+    },
+    setPercentageLocationZone(
+      state,
+      action: PayloadAction<manageHomologation>
+    ) {
+      const { itemName, itemID, transaction } = action.payload;
+      state.items[0][itemName][itemID as number].percentage =
+        transaction as number;
+    },
+    setLocationZoneValueLocationZone(
+      state,
+      action: PayloadAction<manageHomologation>
+    ) {
+      const { itemName, itemID, transaction } = action.payload;
+      console.log(transaction);
+      state.items[0][itemName][itemID as number].location_zone =
+        transaction as string;
+    },
+    setCompareSubjectLocationZone(
+      state,
+      action: PayloadAction<manageHomologation>
+    ) {
+      const { itemName, itemID, itemColumn, transaction } = action.payload;
+      state.items[0][itemName][itemID as number][itemColumn as string] =
+        transaction as FactorState;
     },
     add: (state, action: PayloadAction<Factors>) => {
       state.items.push(action.payload);
@@ -117,7 +145,9 @@ export const homologationSlice = createSlice({
         ];
       }
     },
-    get: (state) => state,
+    setResults(state) {
+      state.results = defineResults(state.items);
+    },
   },
 });
 export const {
@@ -125,13 +155,16 @@ export const {
   remove,
   select,
   set,
-  get,
+  setResults,
   setStart,
   setSingleFactor,
   addNextRow,
   removeLastRow,
   caseLocationZoneAddRow,
   caseLocationZoneRemoveRow,
+  setPercentageLocationZone,
+  setLocationZoneValueLocationZone,
+  setCompareSubjectLocationZone,
 } = homologationSlice.actions;
 export const selectHomologation = (state: RootState) => state.homologation;
 export const addByAsync =

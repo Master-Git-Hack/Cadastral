@@ -6,7 +6,6 @@ import { level } from "../../types/homologation/factors/level";
 import { periphery } from "../../types/homologation/factors/periphery";
 import { project } from "../../types/homologation/factors/project";
 import { quality } from "../../types/homologation/factors/quality";
-import { symbols } from "../../types/homologation/factors/symbols";
 import { topography } from "../../types/homologation/factors/topography";
 import { type_form } from "../../types/homologation/factors/typeForm";
 import { usage } from "../../types/homologation/factors/usage";
@@ -137,7 +136,7 @@ export default function FactorsCompilation() {
     </td>
   );
 
-  const LocationZone: FC = () => (
+  const Zone: FC = () => (
     <td
       id="col-location-zone"
       key="col-location-zone"
@@ -153,6 +152,24 @@ export default function FactorsCompilation() {
       />
     </td>
   );
+
+  const Location: FC = () => (
+    <td
+      id="col-location-zone"
+      key="col-location-zone"
+      className="col"
+      colSpan={6}
+      rowSpan={1}
+    >
+      <LocationZoneComponent
+        key="location-zone"
+        id={9}
+        title="UBICACIÓN"
+        type="location"
+      />
+    </td>
+  );
+
   const AddRow: FC = () => (
     <td
       key="factor-btn-add"
@@ -236,7 +253,10 @@ export default function FactorsCompilation() {
           <Usage key="factors-table-row-usage" />
           <Topography key="factors-table-row-topography" />
         </tr>
-        {type === "TERRENO" ? (
+        {type ===
+        new URLSearchParams(window.location.search)
+          .get("tipo")
+          ?.toUpperCase() ? (
           <tr
             id="factor-table-compilation-row-2"
             key="factor-table-compilation-row-2"
@@ -252,7 +272,7 @@ export default function FactorsCompilation() {
           id="factor-table-compilation-row-3"
           key="factor-table-compilation-row-3"
         >
-          <LocationZone key="factors-table-row-LocationZone" />
+          <Location key="factors-table-row-LocationZone" />
         </tr>
       </tbody>
       <tfoot

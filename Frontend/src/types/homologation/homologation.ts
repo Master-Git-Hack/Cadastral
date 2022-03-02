@@ -3,6 +3,7 @@ import { Factors, Transaction } from "./factors/factors";
 export interface HomologationState {
   type: string;
   items: Array<Factors | any>;
+  results?: Array<Factors | any>;
 }
 
 export interface manageHomologation {
@@ -18,8 +19,9 @@ export interface manageHomologation {
     | "location"
     | "zone";
   itemID?: number | undefined;
+  itemColumn?: string | undefined;
   isSubject?: boolean | undefined;
-  transaction?: Transaction | undefined;
+  transaction?: Transaction | any;
 }
 
 export const template = (globalID: number): Factors => ({
