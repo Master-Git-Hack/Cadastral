@@ -24,6 +24,7 @@ const initialState: HomologationState = {
       zone: _templateLocationZone,
     },
   ],
+  results:[],
 };
 export const homologationSlice = createSlice({
   name: "homologation",

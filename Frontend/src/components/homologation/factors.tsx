@@ -15,161 +15,160 @@ import {
   addNextRow,
   removeLastRow,
 } from "../../features/homologations/homologationsSlice";
+export const Building: FC = () => (
+  <td
+    id="col-building"
+    key="col-building"
+    className="col"
+    colSpan={6}
+    rowSpan={1}
+  >
+    <Table
+      key="building"
+      id={0}
+      title="CONSTRUCCIÓN"
+      name="building"
+      collection={building}
+    />
+  </td>
+);
 
-export default function FactorsCompilation() {
+export const Level: FC = () => (
+  <td id="col-level" key="col-level" className="col" colSpan={6} rowSpan={1}>
+    <Table key="level" id={1} title="NIVEL" name="level" collection={level} />
+  </td>
+);
+
+export const Classification: FC = () => (
+  <td
+    id="col-classification"
+    key="col-classification"
+    className="col"
+    colSpan={6}
+    rowSpan={1}
+  >
+    <Table
+      key="classification"
+      id={2}
+      title="CLASIFICACIÓN"
+      name="classification"
+      collection={periphery}
+    />
+  </td>
+);
+export const Project: FC = () => (
+  <td
+    id="col-project"
+    key="col-project"
+    className="col"
+    colSpan={6}
+    rowSpan={1}
+  >
+    <Table
+      key="project"
+      id={3}
+      title="PROYECTO"
+      name="project"
+      collection={project}
+    />
+  </td>
+);
+export const Quality: FC = () => (
+  <td
+    id="col-quality"
+    key="col-quality"
+    className="col"
+    colSpan={6}
+    rowSpan={1}
+  >
+    <Table
+      key="quality"
+      id={4}
+      title="CALIDAD"
+      name="quality"
+      collection={quality}
+    />
+  </td>
+);
+export const Topography: FC<{type:string}> = (props) => (
+  <td
+    id="col-topography"
+    key="col-topography"
+    className="col"
+    colSpan={6}
+    rowSpan={1}
+  >
+    <Table
+      key="topography"
+      id={5}
+      title="TOPOGRAFÍA"
+      name="topography"
+      collection={topography(props.type)}
+    />
+  </td>
+);
+export const TypeForm: FC<{type:string}> = (props) => (
+  <td
+    id="col-type-form"
+    key="col-type-form"
+    className="col"
+    colSpan={6}
+    rowSpan={1}
+  >
+    <Table
+      key="type_form"
+      id={6}
+      title="FORMA"
+      name="typeForm"
+      collection={type_form(props.type)}
+    />
+  </td>
+);
+export const Usage: FC = () => (
+  <td id="col-usage" key="col-usage" className="col" colSpan={6} rowSpan={1}>
+    <Table key="usage" id={7} title="USO" name="usage" collection={usage} />
+  </td>
+);
+
+export const Zone: FC = () => (
+  <td
+    id="col-location-zone"
+    key="col-location-zone"
+    className="col"
+    colSpan={6}
+    rowSpan={1}
+  >
+    <LocationZoneComponent
+      key="location-zone"
+      id={8}
+      title="UBICACIÓN"
+      type="location"
+    />
+  </td>
+);
+export const Location: FC = () => (
+  <td
+    id="col-location-zone"
+    key="col-location-zone"
+    className="col"
+    colSpan={6}
+    rowSpan={1}
+  >
+    <LocationZoneComponent
+      key="location-zone"
+      id={9}
+      title="UBICACIÓN"
+      type="location"
+    />
+  </td>
+);
+export function FactorsCompilation(props:{
+  options:any
+}) {
   const typeLocationZone = "location";
   const dispatch = useAppDispatch();
   const { type, items } = useAppSelector(selectHomologation);
   console.log(items);
-  const Building: FC = () => (
-    <td
-      id="col-building"
-      key="col-building"
-      className="col"
-      colSpan={6}
-      rowSpan={1}
-    >
-      <Table
-        key="building"
-        id={0}
-        title="CONSTRUCCIÓN"
-        name="building"
-        collection={building}
-      />
-    </td>
-  );
-
-  const Level: FC = () => (
-    <td id="col-level" key="col-level" className="col" colSpan={6} rowSpan={1}>
-      <Table key="level" id={1} title="NIVEL" name="level" collection={level} />
-    </td>
-  );
-
-  const Classification: FC = () => (
-    <td
-      id="col-classification"
-      key="col-classification"
-      className="col"
-      colSpan={6}
-      rowSpan={1}
-    >
-      <Table
-        key="classification"
-        id={2}
-        title="CLASIFICACIÓN"
-        name="classification"
-        collection={periphery}
-      />
-    </td>
-  );
-  const Project: FC = () => (
-    <td
-      id="col-project"
-      key="col-project"
-      className="col"
-      colSpan={6}
-      rowSpan={1}
-    >
-      <Table
-        key="project"
-        id={3}
-        title="PROYECTO"
-        name="project"
-        collection={project}
-      />
-    </td>
-  );
-  const Quality: FC = () => (
-    <td
-      id="col-quality"
-      key="col-quality"
-      className="col"
-      colSpan={6}
-      rowSpan={1}
-    >
-      <Table
-        key="quality"
-        id={4}
-        title="CALIDAD"
-        name="quality"
-        collection={quality}
-      />
-    </td>
-  );
-  const Topography: FC = () => (
-    <td
-      id="col-topography"
-      key="col-topography"
-      className="col"
-      colSpan={6}
-      rowSpan={1}
-    >
-      <Table
-        key="topography"
-        id={5}
-        title="TOPOGRAFÍA"
-        name="topography"
-        collection={topography(type)}
-      />
-    </td>
-  );
-  const TypeForm: FC = () => (
-    <td
-      id="col-type-form"
-      key="col-type-form"
-      className="col"
-      colSpan={6}
-      rowSpan={1}
-    >
-      <Table
-        key="type_form"
-        id={6}
-        title="FORMA"
-        name="typeForm"
-        collection={type_form(type)}
-      />
-    </td>
-  );
-  const Usage: FC = () => (
-    <td id="col-usage" key="col-usage" className="col" colSpan={6} rowSpan={1}>
-      <Table key="usage" id={7} title="USO" name="usage" collection={usage} />
-    </td>
-  );
-
-  const Zone: FC = () => (
-    <td
-      id="col-location-zone"
-      key="col-location-zone"
-      className="col"
-      colSpan={6}
-      rowSpan={1}
-    >
-      <LocationZoneComponent
-        key="location-zone"
-        id={8}
-        title="UBICACIÓN"
-        type="location"
-      />
-    </td>
-  );
-
-  const Location: FC = () => (
-    <td
-      id="col-location-zone"
-      key="col-location-zone"
-      className="col"
-      colSpan={6}
-      rowSpan={1}
-    >
-      <LocationZoneComponent
-        key="location-zone"
-        id={9}
-        title="UBICACIÓN"
-        type="location"
-      />
-    </td>
-  );
-
   const AddRow: FC = () => (
     <td
       key="factor-btn-add"
@@ -219,13 +218,21 @@ export default function FactorsCompilation() {
       </button>
     </td>
   );
-  const Actions: FC = () => (
-    <tr id="12" key="actions" className="row">
+  const Actions: FC<{style:string}> = (props) => (
+    <tr id="12" key="actions" className={`row ${props.style}`}>
       <AddRow />
       <RemoveRow />
     </tr>
   );
-
+  const classification = props.options.find((object:any)=>object.type==="classification");
+  const typeForm = props.options.find((object:any)=>object.type==="typeForm");
+  const usage = props.options.find((object:any)=>object.type==="usage");
+  const topography = props.options.find((object:any)=>object.type==="topography");
+  const level = props.options.find((object:any)=>object.type==="level" );
+  const project = props.options.find((object:any)=>object.type==="project" );
+  const quality = props.options.find((object:any)=>object.type==="quality");
+  const building = props.options.find((object:any)=>object.type==="building" );
+  
   return (
     <table
       id="factors-table-compilation"
@@ -236,7 +243,7 @@ export default function FactorsCompilation() {
         id="factors-table-compilation-head"
         key="factors-table-compilation-head"
       >
-        <Actions key="superior-actions" />
+        <Actions key="superior-actions" style="my-5" />
       </thead>
       <tbody
         id="factors-table-compilation-body"
@@ -248,39 +255,23 @@ export default function FactorsCompilation() {
           key="factor-table-compilation-row-1"
           className="row"
         >
-          <Classification key="factors-table-row-classification" />
-          <TypeForm key="factors-table-row-type-form" />
-          <Usage key="factors-table-row-usage" />
-          <Topography key="factors-table-row-topography" />
+          {classification && <Classification />}
+          {typeForm && <TypeForm type={type} />}
+          {usage && <Usage />}
+          {topography && <Topography type={type} />}
         </tr>
-        {type ===
-        new URLSearchParams(window.location.search)
-          .get("tipo")
-          ?.toUpperCase() ? (
           <tr
             id="factor-table-compilation-row-2"
             key="factor-table-compilation-row-2"
             className="row"
           >
-            <Level key="factors-table-row-level" />
-            <Quality key="factors-table-row-quality" />
-            <Project key="factors-table-row-project" />
-            <Building key="factors-table-row-building" />
+            {level && <Level />}
+            {quality && <Quality />}
+            {project && <Project />}
+            {building && <Building />}
           </tr>
-        ) : null}
-        <tr
-          id="factor-table-compilation-row-3"
-          key="factor-table-compilation-row-3"
-        >
-          <Location key="factors-table-row-LocationZone" />
-        </tr>
+
       </tbody>
-      <tfoot
-        id="factors-table-compilation-foot"
-        key="factors-table-compilation-foot"
-      >
-        <Actions key="inferior-actions" />
-      </tfoot>
     </table>
   );
 }

@@ -7,24 +7,29 @@ import { toFancyNumber } from "../../../utils/utils";
 export const Row: FC<{
   index: number;
   salesCost: number;
+  unitCost: number;
   area: number;
-  unitaryCost: number;
   surface: number;
   classification: number;
   location: number;
   weightingPercentage: number;
   zone: number;
   typeForm: number;
-  use: number;
+  usage: number;
   topography: number;
+  building: number;
+  level: number;
+  project: number;
+  quality: number;
   resultingTypeApprovalFactor: number;
   resultingUnitaryCost: number;
+  headerForFactors: any;
 }> = (props) => {
   const SalesCost: FC = (props: any) => (
     <FancyInput
       index={props.index}
-      name="sales_cost"
-      value={props.sales_cost}
+      name="salesCost"
+      value={props.salesCost}
       onChange={() => {}}
       isCurrency={true}
       isPercentage={false}
@@ -115,10 +120,11 @@ export const Row: FC<{
       id={`Row-Evaluation-${props.index}`}
       className="justify-content-center align-self-middle align-middle text-center"
     >
+      <td>{`C${props.index+1}`}</td>
       <SalesCost {...props} />
       <Area {...props} />
       <ShowValues
-        value={props.unitaryCost}
+        value={props.unitCost}
         isCurrency={false}
         isPercentage={false}
         decimals={2}
@@ -150,7 +156,7 @@ export const Row: FC<{
         {...props}
       />
       <ShowValues
-        value={props.use}
+        value={props.usage}
         isCurrency={false}
         isPercentage={false}
         decimals={2}

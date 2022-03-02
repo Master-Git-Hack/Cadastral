@@ -17,9 +17,6 @@ export const LocationZoneComponent: FC<{
 }> = (props) => {
   const dispatch = useAppDispatch();
   const { items } = useAppSelector(selectHomologation);
-
-  console.log("test=>", defineResults(items));
-
   const rows = items[0][props.type];
   const columns = Object.keys(rows[0]).filter((key: string) =>
     key.includes("C")

@@ -57,17 +57,16 @@ export const defineResults = (items: any) => {
     let object = {
       salesCost: 0,
       area: 0,
-      factors: {
-        building: building.subject.value / building.current.value,
-        classification:
-          classification.subject.value / classification.current.value,
-        level: level.subject.value / level.current.value,
-        project: project.subject.value / project.current.value,
-        quality: quality.subject.value / quality.current.value,
-        topography: topography.subject.value / topography.current.value,
-        typeForm: typeForm.subject.value / typeForm.current.value,
-        usage: usage.subject.value / usage.current.value,
-      },
+      unitCost:0,
+      building: building.subject.value / building.current.value,
+      classification:
+        classification.subject.value / classification.current.value,
+      level: level.subject.value / level.current.value,
+      project: project.subject.value / project.current.value,
+      quality: quality.subject.value / quality.current.value,
+      topography: topography.subject.value / topography.current.value,
+      typeForm: typeForm.subject.value / typeForm.current.value,
+      usage: usage.subject.value / usage.current.value,
       resultingTypeApprovalFactor: 1,
       weightingPercentage: 0,
     };
@@ -93,11 +92,9 @@ export const defineResults = (items: any) => {
       return {
         ...item,
         ...object,
-        factors: {
-          ...object.factors,
           location: handle(location),
           zone: handle(zone),
-        },
+        
       };
     }
     return {
