@@ -3,6 +3,7 @@ import { RootState, AppThunk } from "../../app/store";
 import {
   HomologationState,
   template,
+  elements,
   manageHomologation,
 } from "../../types/homologation/homologation";
 import { defineResults } from "../../utils/utils";
@@ -15,8 +16,11 @@ import {
   removeRowAtLocationZone,
 } from "../../types/homologation/factors/location_zone";
 import { FactorState } from "../../types/homologation/factors/factor";
+const params = new URLSearchParams(window.location.search);
+const type = params.get("tipo");
+const id = params.get("tipo");
 const initialState: HomologationState = {
-  type: "TERRENO",
+  type: type ? type.toString().toUpperCase() : "TERRENO",
   items: [
     {
       ...template(1),
@@ -25,6 +29,8 @@ const initialState: HomologationState = {
     },
   ],
   results: [],
+  elements,
+  id: id ? Number(id) : 0,
 };
 export const homologationSlice = createSlice({
   name: "homologation",
@@ -85,24 +91,6 @@ export const homologationSlice = createSlice({
       state.items[0][itemName][itemID as number][itemColumn as string] =
         transaction as FactorState;
     },
-    add: (state, action: PayloadAction<Factors>) => {
-      state.items.push(action.payload);
-    },
-    remove: (state, action: PayloadAction<Factors>) => {
-      state.items.filter(
-        (current: Factors) => current.id !== action.payload.id
-      );
-    },
-    select: (state, action: PayloadAction<Factors>) => {
-      state.items.filter(
-        (current: Factors) => current.id === action.payload.id
-      );
-    },
-    set: (state, action: PayloadAction<Factors>) => {
-      state.items.map((current: Factors) =>
-        current.id === action.payload.id ? (current = action.payload) : current
-      );
-    },
     addNextRow: (state, action: PayloadAction<manageHomologation>) => {
       const { items } = state;
       const { itemName } = action.payload;
@@ -149,13 +137,30 @@ export const homologationSlice = createSlice({
     setResults(state) {
       state.results = defineResults(state.items);
     },
+    setElements(state, action: PayloadAction<any>) {
+      state.elements = action.payload;
+    },
+    updateResults(state, action: PayloadAction<manageHomologation>) {
+      const { type } = state;
+      const { itemID, itemName, transaction } = action.payload;
+      if (
+        state.results !== undefined &&
+        itemID !== undefined &&
+        itemName !== undefined &&
+        transaction !== undefined
+      ) {
+        if (type === "TERRENO") {
+          state.results[itemID][itemName] = transaction;
+          state.results[itemID].unitCost =
+            (type === "TERRENO"
+              ? state.results[itemID].salesCost
+              : state.results[itemID].landSurface) / state.results[itemID].area;
+        }
+      }
+    },
   },
 });
 export const {
-  add,
-  remove,
-  select,
-  set,
   setResults,
   setStart,
   setSingleFactor,
@@ -166,12 +171,13 @@ export const {
   setPercentageLocationZone,
   setLocationZoneValueLocationZone,
   setCompareSubjectLocationZone,
+  setElements,
 } = homologationSlice.actions;
 export const selectHomologation = (state: RootState) => state.homologation;
-export const addByAsync =
+/*export const addByAsync =
   (current: Factors): AppThunk =>
   async (dispatch) => {
     dispatch(add(current));
-  };
+  };*/
 export default homologationSlice.reducer;
 //setStart(initialState);

@@ -58,6 +58,8 @@ export const defineResults = (items: any) => {
       salesCost: 0,
       area: 0,
       unitCost: 0,
+      landSurface: 0,
+      surface: 0,
       building: building.subject.value / building.current.value,
       classification:
         classification.subject.value / classification.current.value,
@@ -93,8 +95,12 @@ export const defineResults = (items: any) => {
         ...item,
         ...object,
         location: handle(location),
-        zone: handle(zone),
+        zone: handle(location),
       };
+    }
+    object = {
+      ...object,
+      resultingTypeApprovalFactor: object.building * object.classification * object.level * object.project * object.quality * object.topography * object.typeForm * object.usage,
     }
     return {
       ...item,
@@ -103,10 +109,18 @@ export const defineResults = (items: any) => {
   });
   const handleLocationZone = (name = "location" || "zone"): void =>
     items[0][name].map(
-      (item: any, index: number) => (items[index][name] = item)
+      (item: any, index: number) => {
+        items[index][name] = item;
+        items[index].resultingTypeApprovalFactor*=item
+      }
     );
 
   handleLocationZone("location");
   handleLocationZone("zone");
   return items;
+};
+
+export const handleVisibility = (items: any, element: string) => {
+  const item = items.find((current: any) => current.type === element);
+  return item;
 };

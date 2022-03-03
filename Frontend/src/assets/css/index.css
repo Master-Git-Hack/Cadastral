@@ -17,3 +17,9 @@ code {
 .text-navbar{
   color: rgb(16, 162, 162)!important;
 }
+.card{
+  border-radius:  30px !important;
+}
+.table-bordered{
+  border-radius:  30px !important;
+}

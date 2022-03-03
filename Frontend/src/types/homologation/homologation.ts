@@ -4,6 +4,8 @@ export interface HomologationState {
   type: string;
   items: Array<Factors | any>;
   results?: Array<Factors | any>;
+  elements: Array<any>;
+  id: number;
 }
 
 export interface manageHomologation {
@@ -107,3 +109,46 @@ export const template = (globalID: number): Factors => ({
     },
   },
 });
+
+export const elements = [
+  {
+    name: "Clasificación",
+    type: "classification",
+    value: 0,
+  },
+  {
+    name: "Construcción",
+    type: "building",
+    value: 1,
+  },
+  {
+    name: "Nivel",
+    type: "level",
+    value: 2,
+  },
+  {
+    name: "Proyecto",
+    type: "project",
+    value: 3,
+  },
+  {
+    name: "Calidad",
+    type: "quality",
+    value: 4,
+  },
+  {
+    name: "Topografia",
+    type: "topography",
+    value: 5,
+  },
+  {
+    name: "Forma",
+    type: "typeForm",
+    value: 6,
+  },
+  {
+    name: "Uso",
+    type: "usage",
+    value: 7,
+  },
+];

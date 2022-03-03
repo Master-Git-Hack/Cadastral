@@ -5,39 +5,27 @@ import {
   setResults,
 } from "../../features/homologations/homologationsSlice";
 import { Table } from "./evaluation/table";
+import { handleVisibility } from "../../utils/utils";
 export default function Evaluation(props: any) {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setResults());
   }, []);
 
-  const { results } = useAppSelector(selectHomologation);
-  const classification = props.options.find(
-    (object: any) => object.type === "classification"
-  );
-  const typeForm = props.options.find(
-    (object: any) => object.type === "typeForm"
-  );
-  const usage = props.options.find((object: any) => object.type === "usage");
-  const topography = props.options.find(
-    (object: any) => object.type === "topography"
-  );
-  const level = props.options.find((object: any) => object.type === "level");
-  const project = props.options.find(
-    (object: any) => object.type === "project"
-  );
-  const quality = props.options.find(
-    (object: any) => object.type === "quality"
-  );
-  const building = props.options.find(
-    (object: any) => object.type === "building"
-  );
+  const { results, elements, type } = useAppSelector(selectHomologation);
+  const classification = handleVisibility(elements, "classification");
+  const typeForm = handleVisibility(elements, "typeForm");
+  const usage = handleVisibility(elements, "usage");
+  const topography = handleVisibility(elements, "topography");
+  const level = handleVisibility(elements, "level");
+  const project = handleVisibility(elements, "project");
+  const quality = handleVisibility(elements, "quality");
+  const building = handleVisibility(elements, "building");
   const headerForFactors = [
     "FSup.",
     "FUbic.",
     "FZo.",
-    new URLSearchParams(window.location.search).get("tipo")?.toUpperCase() ===
-      "TERRENO" && "FEd.",
+    type !== "TERRENO" && "FEd.",
     classification && "FClas.",
     typeForm && "FFo.",
     usage && "Fuso",
@@ -50,8 +38,8 @@ export default function Evaluation(props: any) {
   return (
     <div>
       <Table
-        title="Renta"
-        headerForFactors={headerForFactors}
+        title={type}
+        headerForFactors={headerForFactors.filter((key: string) => key)}
         items={results}
         averageUnitValue={0}
         constructionSurface={0}

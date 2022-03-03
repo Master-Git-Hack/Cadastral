@@ -1,5 +1,12 @@
-import { Fragment, useState } from "react";
-export default function SelectorForFactors(props: any) {
+import { Fragment } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import {
+  selectHomologation,
+  setElements,
+} from "../../features/homologations/homologationsSlice";
+export default function SelectorForFactors() {
+  const dispatch = useAppDispatch();
+  const { elements } = useAppSelector(selectHomologation);
   return (
     <Fragment>
       <h1 className="text-center">
@@ -11,7 +18,7 @@ export default function SelectorForFactors(props: any) {
       <div className="row ">
         <div className="col-12 text-center">
           <ul className="list-group">
-            {props.options.map((object: any, index: number) => (
+            {elements.map((object: any, index: number) => (
               <li
                 key={index}
                 className="list-group-item d-flex justify-content-between align-items-center"
@@ -22,8 +29,10 @@ export default function SelectorForFactors(props: any) {
                 <button
                   className="btn btn-sm btn-outline-danger"
                   onClick={() => {
-                    props.setOptions(
-                      props.options.filter((_: any, i: number) => i !== index)
+                    dispatch(
+                      setElements(
+                        elements.filter((_: any, i: number) => i !== index)
+                      )
                     );
                   }}
                 >

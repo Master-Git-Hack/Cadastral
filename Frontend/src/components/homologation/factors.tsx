@@ -15,6 +15,7 @@ import {
   addNextRow,
   removeLastRow,
 } from "../../features/homologations/homologationsSlice";
+import { handleVisibility } from "../../utils/utils";
 export const Building: FC = () => (
   <td
     id="col-building"
@@ -162,11 +163,10 @@ export const Location: FC = () => (
     />
   </td>
 );
-export function FactorsCompilation(props: { options: any }) {
+export function FactorsCompilation() {
   const typeLocationZone = "location";
   const dispatch = useAppDispatch();
-  const { type, items } = useAppSelector(selectHomologation);
-  console.log(items);
+  const { type, items, elements } = useAppSelector(selectHomologation);
   const AddRow: FC = () => (
     <td
       key="factor-btn-add"
@@ -222,26 +222,14 @@ export function FactorsCompilation(props: { options: any }) {
       <RemoveRow />
     </tr>
   );
-  const classification = props.options.find(
-    (object: any) => object.type === "classification"
-  );
-  const typeForm = props.options.find(
-    (object: any) => object.type === "typeForm"
-  );
-  const usage = props.options.find((object: any) => object.type === "usage");
-  const topography = props.options.find(
-    (object: any) => object.type === "topography"
-  );
-  const level = props.options.find((object: any) => object.type === "level");
-  const project = props.options.find(
-    (object: any) => object.type === "project"
-  );
-  const quality = props.options.find(
-    (object: any) => object.type === "quality"
-  );
-  const building = props.options.find(
-    (object: any) => object.type === "building"
-  );
+  const classification = handleVisibility(elements, "classification");
+  const typeForm = handleVisibility(elements, "typeForm");
+  const usage = handleVisibility(elements, "usage");
+  const topography = handleVisibility(elements, "topography");
+  const level = handleVisibility(elements, "level");
+  const project = handleVisibility(elements, "project");
+  const quality = handleVisibility(elements, "quality");
+  const building = handleVisibility(elements, "building");
 
   return (
     <table
@@ -253,7 +241,7 @@ export function FactorsCompilation(props: { options: any }) {
         id="factors-table-compilation-head"
         key="factors-table-compilation-head"
       >
-        <Actions key="superior-actions" style="my-5" />
+        <Actions key="superior-actions" style="my-1" />
       </thead>
       <tbody
         id="factors-table-compilation-body"
@@ -267,16 +255,28 @@ export function FactorsCompilation(props: { options: any }) {
         >
           {classification && <Classification />}
           {typeForm && <TypeForm type={type} />}
-          {usage && <Usage />}
-          {topography && <Topography type={type} />}
         </tr>
         <tr
           id="factor-table-compilation-row-2"
           key="factor-table-compilation-row-2"
           className="row"
         >
+          {usage && <Usage />}
+          {topography && <Topography type={type} />}
+        </tr>
+        <tr
+          id="factor-table-compilation-row-3"
+          key="factor-table-compilation-row-3"
+          className="row"
+        >
           {level && <Level />}
           {quality && <Quality />}
+        </tr>
+        <tr
+          id="factor-table-compilation-row-4"
+          key="factor-table-compilation-row-4"
+          className="row"
+        >
           {project && <Project />}
           {building && <Building />}
         </tr>

@@ -12,7 +12,7 @@ export const FancyInput: FC<FancyInputProps> = (props) => {
         <input
           id={`fancyInput-editing-${props.name}-${props.index}`}
           type="number"
-          className="form-control"
+          className="form-control text-start"
           name={props.name}
           value={props.value}
           onChange={props.onChange}
@@ -26,14 +26,14 @@ export const FancyInput: FC<FancyInputProps> = (props) => {
           }
           step={props.isCurrency || props.isPercentage ? 1 : 0.01}
           onBlur={toggleEditing}
-          style={{ minWidth: "5rem" }}
+          style={{ minWidth: "8rem" }}
         />
       ) : (
         <Fragment>
           <input
             id={`fancyInput-displayed-${props.name}-${props.index}`}
             type="string"
-            className="form-control"
+            className="form-control text-start"
             name={`displayed-${props.name}-${props.index}`}
             value={toFancyNumber(
               props.value,
@@ -43,7 +43,7 @@ export const FancyInput: FC<FancyInputProps> = (props) => {
             )}
             onFocus={toggleEditing}
             readOnly
-            style={{ minWidth: "3rem", margin: "auto" }}
+            style={{ minWidth: "4.7rem", margin: "auto" }}
             data-tip
             data-for={`fancyInput-displayed-${props.name}-${props.index}`}
           />
