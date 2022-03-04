@@ -108,8 +108,14 @@ const Homologations: FC = () => {
     <Fragment>
       {showEvaluation ? (
         <div className="row mt-5">
-          <h6 className="text-center text-muted">F.Re, es aproximado hasta que no ingrese los valores faltantes</h6>
+          <h6 className="text-center text-muted fw-lighter">
+            F.Re, muestra el valor calculado con los datos actuales, favor de
+            ingresar los datos faltantes para que se realice el calculo.
+          </h6>
           <Evaluation key="evaluation-view" />
+          <h6 className="text-center text-muted fw-lighter">
+            En caso de ser necesario primero defina los sujetos de comparación.
+          </h6>
           <div className="row">
             <div className="col-6 text-start">
               <button

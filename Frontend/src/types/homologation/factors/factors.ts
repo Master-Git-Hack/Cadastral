@@ -7,6 +7,7 @@ import { FactorBuilding } from "./building";
 import { FactorTopography } from "./topography";
 import { FactorTypeForm } from "./typeForm";
 import { LocationZone } from "./location_zone";
+import { FactorAge } from "./age";
 import { FactorState } from "./factor";
 interface FactorsProps {
   [key: string]:
@@ -18,6 +19,7 @@ interface FactorsProps {
     | FactorBuilding
     | FactorTopography
     | FactorTypeForm
+    | FactorAge
     | Array<LocationZone>
     | number
     | Array<number>;
@@ -25,6 +27,7 @@ interface FactorsProps {
 export interface Factors extends FactorsProps {
   id: number;
   classification: FactorPeriphery | number;
+  age: FactorAge | number;
   typeForm: FactorTypeForm | number;
   usage: FactorUsage | number;
   topography: FactorTopography | number;
@@ -43,6 +46,7 @@ export interface Transaction {
     | FactorLevel
     | FactorQuality
     | FactorProject
+    | FactorAge
     | FactorBuilding
     | Array<LocationZone>
     | FactorState;

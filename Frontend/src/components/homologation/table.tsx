@@ -7,6 +7,7 @@ import {
   setSingleFactor,
 } from "../../features/homologations/homologationsSlice";
 import { FC } from "react";
+
 export const Table: FC<TableProps> = (props) => {
   const { items } = useAppSelector(selectHomologation);
   const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ export const Table: FC<TableProps> = (props) => {
       })
     );
   };
+  const subject = items[0][props.name].subject;
   return (
     <table
       key={`table-${props.title}-${props.name}-${props.id}`}
@@ -88,7 +90,7 @@ export const Table: FC<TableProps> = (props) => {
             <Selector
               id={props.id}
               name="subject"
-              subject={items[0][props.name].subject}
+              subject={subject}
               selector={props.collection}
               onChange={(event) =>
                 handleChange(Number(event.target.value), 0, true)
@@ -116,7 +118,7 @@ export const Table: FC<TableProps> = (props) => {
                 colSpan={1}
                 rowSpan={1}
               >
-                {`C${index + 1}`}
+                C{index + 1}
               </td>
               <td
                 id={`${props.name}-${props.id}-body-row-${index}-current`}
@@ -152,8 +154,8 @@ export const Table: FC<TableProps> = (props) => {
                 rowSpan={1}
               >
                 {toFancyNumber(
-                  item.subject.value / item.current.value
-                    ? item.subject.value / item.current.value
+                  subject.value / item.current.value
+                    ? subject.value / item.current.value
                     : 0,
                   false,
                   false,

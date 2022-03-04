@@ -15,7 +15,7 @@ export interface Project extends FactorState {
 }
 
 export interface FactorProject {
-  subject: Project;
+  subject?: Project;
   current: Project;
 }
 

@@ -12,7 +12,14 @@ export default function Evaluation(props: any) {
     dispatch(setResults());
   }, []);
 
-  const { results, elements, type } = useAppSelector(selectHomologation);
+  const {
+    results,
+    elements,
+    type,
+    areaSubject,
+    averageLotArea,
+    averageUnitValue,
+  } = useAppSelector(selectHomologation);
   const classification = handleVisibility(elements, "classification");
   const typeForm = handleVisibility(elements, "typeForm");
   const usage = handleVisibility(elements, "usage");
@@ -34,6 +41,7 @@ export default function Evaluation(props: any) {
     project && "FProy.",
     quality && "FCal.",
     building && "FCons.",
+    "FCom.",
   ];
   return (
     <div>
@@ -41,9 +49,9 @@ export default function Evaluation(props: any) {
         title={type}
         headerForFactors={headerForFactors.filter((key: string) => key)}
         items={results}
-        averageUnitValue={0}
-        constructionSurface={0}
-        averageLotArea={0}
+        averageLotArea={averageLotArea}
+        areaSubject={areaSubject}
+        averageUnitValue={averageUnitValue}
       />
     </div>
   );

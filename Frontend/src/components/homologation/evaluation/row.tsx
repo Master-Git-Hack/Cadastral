@@ -1,16 +1,23 @@
 import { FC } from "react";
 
 import { FancyInput } from "../../inputs/fancyInput";
-import { useAppDispatch, useAppSelector } from "../../../hooks/hooks";
-import { selectHomologation } from "../../../features/homologations/homologationsSlice";
+import { useAppDispatch } from "../../../hooks/hooks";
+import { updateResults } from "../../../features/homologations/homologationsSlice";
 import { toFancyNumber } from "../../../utils/utils";
+
 const SalesCost: FC = (props: any) => (
   <td colSpan={3}>
     <FancyInput
       index={props.index}
       name="salesCost"
-      value={15_000_000.00}
-      onChange={() => {}}
+      value={props.salesCost}
+      onChange={(event) =>
+        props.onChange({
+          itemID: props.index,
+          itemName: event.target.name,
+          transaction: Number(event.target.value),
+        })
+      }
       isCurrency={true}
       isPercentage={false}
     />
@@ -22,7 +29,13 @@ const Area: FC = (props: any) => (
       index={props.index}
       name="area"
       value={props.area}
-      onChange={() => {}}
+      onChange={(event) =>
+        props.onChange({
+          itemID: props.index,
+          itemName: event.target.name,
+          transaction: Number(event.target.value),
+        })
+      }
       isCurrency={false}
       isPercentage={false}
     />
@@ -34,7 +47,31 @@ const Zone: FC = (props: any) => (
       index={props.index}
       name="zone"
       value={props.zone}
-      onChange={() => {}}
+      onChange={(event) =>
+        props.onChange({
+          itemID: props.index,
+          itemName: event.target.name,
+          transaction: Number(event.target.value),
+        })
+      }
+      isCurrency={false}
+      isPercentage={false}
+    />
+  </td>
+);
+const Comparison: FC = (props: any) => (
+  <td colSpan={1}>
+    <FancyInput
+      index={props.index}
+      name="comparison"
+      value={props.comparison}
+      onChange={(event) =>
+        props.onChange({
+          itemID: props.index,
+          itemName: event.target.name,
+          transaction: Number(event.target.value),
+        })
+      }
       isCurrency={false}
       isPercentage={false}
     />
@@ -47,7 +84,13 @@ const WeightingPercentage: FC = (props: any) => (
       index={props.index}
       name="weightingPercentage"
       value={props.weightingPercentage}
-      onChange={() => {}}
+      onChange={(event) =>
+        props.onChange({
+          itemID: props.index,
+          itemName: event.target.name,
+          transaction: Number(event.target.value),
+        })
+      }
       isCurrency={false}
       isPercentage={true}
     />
@@ -71,15 +114,17 @@ const ShowValues: FC<any> = (props: any) => (
       : 0}
   </td>
 );
-const Age :FC = (props:any)=>(<></>)
+
 const handleVisibility = (items: any, current: string) =>
   items.find((item: string) => item === current);
 export const Row: FC<{
   index: number;
+  type: string;
   salesCost: number;
   unitCost: number;
   area: number;
   surface: number;
+  age: number;
   classification: number;
   location: number;
   weightingPercentage: number;
@@ -91,13 +136,13 @@ export const Row: FC<{
   level: number;
   project: number;
   quality: number;
+  comparison: number;
   resultingTypeApprovalFactor: number;
   resultingUnitaryCost: number;
   headerForFactors: any;
+  onChange: Function;
 }> = (props) => {
-  const dispatch = useAppDispatch();
-  const { type } = useAppSelector(selectHomologation);
-  const edification = handleVisibility(props.headerForFactors, "FEd.");
+  const age = handleVisibility(props.headerForFactors, "FEd.");
   const classification = handleVisibility(props.headerForFactors, "FClas.");
   const typeForm = handleVisibility(props.headerForFactors, "FFo.");
   const usage = handleVisibility(props.headerForFactors, "Fuso");
@@ -120,13 +165,12 @@ export const Row: FC<{
       <ShowValues
         name="unitCost"
         value={props.unitCost}
-        isCurrency={false}
+        isCurrency={true}
         isPercentage={false}
         decimals={2}
         colspan={3}
         {...props}
       />
-      edad
       <ShowValues
         name="surface"
         value={props.surface}
@@ -146,7 +190,17 @@ export const Row: FC<{
         {...props}
       />
       <Zone {...props} />
-      {edification && <>FEd.</>}
+      {age && (
+        <ShowValues
+          name="classification"
+          value={props.age}
+          isCurrency={false}
+          isPercentage={false}
+          decimals={2}
+          colspan={1}
+          {...props}
+        />
+      )}
       {classification && (
         <ShowValues
           name="classification"
@@ -180,7 +234,6 @@ export const Row: FC<{
           {...props}
         />
       )}
-
       {topography && (
         <ShowValues
           name="topography"
@@ -236,6 +289,7 @@ export const Row: FC<{
           {...props}
         />
       )}
+      <Comparison {...props} />
       <ShowValues
         name="resultingTypeApprovalFactor"
         value={props.resultingTypeApprovalFactor}

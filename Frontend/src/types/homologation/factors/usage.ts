@@ -13,7 +13,7 @@ export interface Usage extends FactorState {
 }
 
 export interface FactorUsage {
-  subject: Usage;
+  subject?: Usage;
   current: Usage;
 }
 

@@ -5,7 +5,7 @@ export interface Periphery extends FactorState {
   value: 1.1 | 1.05 | 1.0 | 0.95;
 }
 export interface FactorPeriphery {
-  subject: Periphery;
+  subject?: Periphery;
   current: Periphery;
 }
 export const periphery: Array<Periphery> = [

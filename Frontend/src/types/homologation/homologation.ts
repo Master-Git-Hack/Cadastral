@@ -6,6 +6,9 @@ export interface HomologationState {
   results?: Array<Factors | any>;
   elements: Array<any>;
   id: number;
+  averageLotArea: number;
+  areaSubject: number;
+  averageUnitValue: number;
 }
 
 export interface manageHomologation {
@@ -19,14 +22,15 @@ export interface manageHomologation {
     | "project"
     | "building"
     | "location"
-    | "zone";
+    | "zone"
+    | "age";
   itemID?: number | undefined;
   itemColumn?: string | undefined;
   isSubject?: boolean | undefined;
   transaction?: Transaction | any;
 }
 
-export const template = (globalID: number): Factors => ({
+export const initialTemplate = (globalID: number): Factors => ({
   id: globalID,
   classification: {
     subject: {
@@ -108,8 +112,75 @@ export const template = (globalID: number): Factors => ({
       value: 1.08,
     },
   },
+  age: {
+    subject: {
+      type: "",
+      value: 1,
+    },
+    current: {
+      type: "",
+      value: 1,
+    },
+  },
 });
 
+export const template = (globalID: number): Factors => ({
+  id: globalID,
+  classification: {
+    current: {
+      type: "URBANO",
+      value: 1.1,
+    },
+  },
+  typeForm: {
+    current: {
+      type: "REGULAR",
+      value: 1,
+    },
+  },
+  usage: {
+    current: {
+      type: "MIXTO I-C",
+      value: 1.09,
+    },
+  },
+  topography: {
+    current: {
+      type: "PLANA",
+      value: 1,
+    },
+  },
+  level: {
+    current: {
+      type: "P.B. NIVEL DE CALLE",
+      value: 1,
+    },
+  },
+  quality: {
+    current: {
+      type: "LUJO",
+      value: 1.12,
+    },
+  },
+  project: {
+    current: {
+      type: "EXCELENTE",
+      value: 1.06,
+    },
+  },
+  building: {
+    current: {
+      type: "RESIDENCIAL PLUS",
+      value: 1.08,
+    },
+  },
+  age: {
+    current: {
+      type: "",
+      value: 1,
+    },
+  },
+});
 export const elements = [
   {
     name: "Clasificación",

@@ -16,6 +16,13 @@ import {
   removeLastRow,
 } from "../../features/homologations/homologationsSlice";
 import { handleVisibility } from "../../utils/utils";
+import { Ages } from "./ages";
+export const Age: FC<{ type: string }> = (props) =>
+  props.type !== "TERRENO" ? (
+    <td id="col-age" key="col-age" colSpan={6} rowSpan={1}>
+      <Ages />
+    </td>
+  ) : null;
 export const Building: FC = () => (
   <td
     id="col-building"
@@ -230,7 +237,7 @@ export function FactorsCompilation() {
   const project = handleVisibility(elements, "project");
   const quality = handleVisibility(elements, "quality");
   const building = handleVisibility(elements, "building");
-
+  console.log(items);
   return (
     <table
       id="factors-table-compilation"
@@ -280,6 +287,11 @@ export function FactorsCompilation() {
           {project && <Project />}
           {building && <Building />}
         </tr>
+        {type !== "TERRENO" ? (
+          <tr>
+            <Age type={type} />
+          </tr>
+        ) : null}
       </tbody>
     </table>
   );

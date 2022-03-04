@@ -16,7 +16,7 @@ export interface Building extends FactorState {
   value: 1.08 | 1.06 | 1.04 | 1.02 | 1 | 0.98 | 0.96 | 0.94 | 0.92 | 0.9 | 0.88;
 }
 export interface FactorBuilding {
-  subject: Building;
+  subject?: Building;
   current: Building;
 }
 

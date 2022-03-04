@@ -5,7 +5,7 @@ export interface Symbols extends FactorState {
   value: 1 | 0 | -1;
 }
 export interface FactorSymbols {
-  subject: Symbols;
+  subject?: Symbols;
   current: Symbols;
 }
 

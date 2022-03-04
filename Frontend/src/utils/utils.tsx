@@ -32,7 +32,7 @@ export const toFancyNumber: Function = (
  *
  */
 export const roundToTenth = (value: number, decimals: number = 2): number =>
-  Number((value / 10).toString().split(".")[1]) <= 5
+  Number((value / 10).toString().split(".")[1][0]) <= 5
     ? Math.floor(value / Math.pow(10, decimals)) * Math.pow(10, decimals)
     : Math.ceil(value / Math.pow(10, decimals)) * Math.pow(10, decimals);
 
@@ -43,8 +43,18 @@ export const findFactor: Function = (
   collection.find((object: FactorState) => object.value === valueToFind);
 
 export const defineResults = (items: any) => {
+  const ageSubject = items[0].age.subject.value;
+  const buildingSubject = items[0].building.subject.value;
+  const classificationSubject = items[0].classification.subject.value;
+  const levelSubject = items[0].level.subject.value;
+  const projectSubject = items[0].project.subject.value;
+  const qualitySubject = items[0].quality.subject.value;
+  const topographySubject = items[0].topography.subject.value;
+  const typeFormSubject = items[0].typeForm.subject.value;
+  const usageSubject = items[0].usage.subject.value;
   items = items.map((item: any, index: number) => {
     const {
+      age,
       building,
       classification,
       level,
@@ -55,22 +65,23 @@ export const defineResults = (items: any) => {
       usage,
     } = item;
     let object = {
-      salesCost: 0,
-      area: 0,
-      unitCost: 0,
-      landSurface: 0,
-      surface: 0,
-      building: building.subject.value / building.current.value,
-      classification:
-        classification.subject.value / classification.current.value,
-      level: level.subject.value / level.current.value,
-      project: project.subject.value / project.current.value,
-      quality: quality.subject.value / quality.current.value,
-      topography: topography.subject.value / topography.current.value,
-      typeForm: typeForm.subject.value / typeForm.current.value,
-      usage: usage.subject.value / usage.current.value,
+      salesCost: 1,
+      area: 1,
+      unitCost: 1,
+      surface: 1,
+      age: 1 - (ageSubject - age.current.value) * 0.01,
+      building: buildingSubject / building.current.value,
+      classification: classificationSubject / classification.current.value,
+      level: levelSubject / level.current.value,
+      project: projectSubject / project.current.value,
+      quality: qualitySubject / quality.current.value,
+      topography: topographySubject / topography.current.value,
+      typeForm: typeFormSubject / typeForm.current.value,
+      usage: usageSubject / usage.current.value,
+      comparison: 1,
       resultingTypeApprovalFactor: 1,
-      weightingPercentage: 0,
+      weightingPercentage: 100 / items.length,
+      resultingUnitaryCost: 1,
     };
     if (index === 0) {
       const { location, zone } = item;
@@ -100,20 +111,27 @@ export const defineResults = (items: any) => {
     }
     object = {
       ...object,
-      resultingTypeApprovalFactor: object.building * object.classification * object.level * object.project * object.quality * object.topography * object.typeForm * object.usage,
-    }
+      resultingTypeApprovalFactor:
+        object.age *
+        object.building *
+        object.classification *
+        object.level *
+        object.project *
+        object.quality *
+        object.topography *
+        object.typeForm *
+        object.usage,
+    };
     return {
       ...item,
       ...object,
     };
   });
   const handleLocationZone = (name = "location" || "zone"): void =>
-    items[0][name].map(
-      (item: any, index: number) => {
-        items[index][name] = item;
-        items[index].resultingTypeApprovalFactor*=item
-      }
-    );
+    items[0][name].map((item: any, index: number) => {
+      items[index][name] = item;
+      items[index].resultingTypeApprovalFactor *= item;
+    });
 
   handleLocationZone("location");
   handleLocationZone("zone");
@@ -123,4 +141,71 @@ export const defineResults = (items: any) => {
 export const handleVisibility = (items: any, element: string) => {
   const item = items.find((current: any) => current.type === element);
   return item;
+};
+
+export const makeCalculations = (
+  items: any,
+  type: string,
+  areaSubject: number
+) => {
+  const averageLotArea =
+    items.reduce(
+      (previous: number, current: any) => previous + Number(current.area),
+      0
+    ) / items.length;
+
+  items = items.map((item: any) => {
+    const { salesCost, area } = item;
+    item.unitCost = salesCost / area;
+
+    item.surface =
+      (area / (type === "TERRENO" ? averageLotArea : areaSubject)) **
+      (1 / (type === "TERRENO" ? 12 : 8));
+    const {
+      age,
+      building,
+      classification,
+      level,
+      project,
+      quality,
+      typeForm,
+      topography,
+      usage,
+      location,
+      zone,
+      comparison,
+      surface,
+    } = item;
+
+    item.resultingTypeApprovalFactor =
+      (age || 1) *
+      (building || 1) *
+      (classification || 1) *
+      (level || 1) *
+      (project || 1) *
+      (quality || 1) *
+      (topography || 1) *
+      (typeForm || 1) *
+      (usage || 1) *
+      (location || 1) *
+      (zone || 1) *
+      (comparison || 1) *
+      (surface || 1);
+
+    item.resultingUnitaryCost =
+      item.resultingTypeApprovalFactor * item.unitCost || 1;
+
+    return item;
+  });
+  const averageUnitValue = items.reduce(
+    (previous: number, current: any) =>
+      previous +
+      current.resultingUnitaryCost * (current.weightingPercentage / 100),
+    0
+  );
+  return {
+    results: items,
+    averageLotArea,
+    averageUnitValue,
+  };
 };

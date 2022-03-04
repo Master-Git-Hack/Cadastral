@@ -9,7 +9,7 @@ export interface Topography extends FactorState {
 }
 
 export interface FactorTopography {
-  subject: Topography;
+  subject?: Topography;
   current: Topography;
 }
 export const topography = (type: string): Array<Topography> => [

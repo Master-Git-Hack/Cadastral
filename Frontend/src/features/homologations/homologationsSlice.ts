@@ -2,11 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
 import {
   HomologationState,
+  initialTemplate,
   template,
   elements,
   manageHomologation,
 } from "../../types/homologation/homologation";
-import { defineResults } from "../../utils/utils";
+import { defineResults, makeCalculations } from "../../utils/utils";
 import { Factors } from "../../types/homologation/factors/factors";
 import {
   _templateLocationZone,
@@ -18,12 +19,12 @@ import {
 import { FactorState } from "../../types/homologation/factors/factor";
 const params = new URLSearchParams(window.location.search);
 const type = params.get("tipo");
-const id = params.get("tipo");
+const id = params.get("id");
 const initialState: HomologationState = {
   type: type ? type.toString().toUpperCase() : "TERRENO",
   items: [
     {
-      ...template(1),
+      ...initialTemplate(1),
       location: _templateLocationZone,
       zone: _templateLocationZone,
     },
@@ -31,6 +32,9 @@ const initialState: HomologationState = {
   results: [],
   elements,
   id: id ? Number(id) : 0,
+  averageLotArea: 1,
+  areaSubject: 1,
+  averageUnitValue: 1,
 };
 export const homologationSlice = createSlice({
   name: "homologation",
@@ -140,6 +144,9 @@ export const homologationSlice = createSlice({
     setElements(state, action: PayloadAction<any>) {
       state.elements = action.payload;
     },
+    setAreaSubject(state, action: PayloadAction<number>) {
+      state.areaSubject = action.payload;
+    },
     updateResults(state, action: PayloadAction<manageHomologation>) {
       const { type } = state;
       const { itemID, itemName, transaction } = action.payload;
@@ -149,13 +156,34 @@ export const homologationSlice = createSlice({
         itemName !== undefined &&
         transaction !== undefined
       ) {
-        if (type === "TERRENO") {
-          state.results[itemID][itemName] = transaction;
-          state.results[itemID].unitCost =
-            (type === "TERRENO"
-              ? state.results[itemID].salesCost
-              : state.results[itemID].landSurface) / state.results[itemID].area;
-        }
+        state.results[itemID][itemName] = transaction;
+        /*
+        state.results[itemID].unitCost =
+        state.results[itemID].salesCost / state.results[itemID].area;
+
+        state.averageLotArea = state.results.reduce((previous:number,current:any)=>previous + current.area,0) / state.results.length;
+
+        state.results[itemID].surface = (state.results[itemID].area / ((state.type==="TERRENO")?state.averageLotArea:state.areaSubject))**
+        (1/((state.type==="TERRENO")?12:8))
+
+        const {age,building,classification,level,project,quality,typeForm,topography,usage,location,zone,comparison,surface} = state.results[itemID];
+        
+        state.results[itemID].resultingTypeApprovalFactor = (age*building*classification*level*project*quality*typeForm*topography*usage*location*zone*comparison*surface);
+        
+        state.results[itemID].resultingUnitaryCost=state.results[itemID].resultingTypeApprovalFactor * state.results[itemID].unitCost;
+
+        state.averageUnitValue = state.results.reduce((previous:number,current:any)=>previous + Number(current.unitCost * (Number(current.weightingPercentage)/100)),0);
+
+        const response = makeCalculations(state.results,type,state.areaSubject);
+*/
+        const response = makeCalculations(
+          state.results,
+          type,
+          state.areaSubject
+        );
+        state.results = response.results;
+        state.averageUnitValue = response.averageUnitValue;
+        state.averageLotArea = response.averageLotArea;
       }
     },
   },
@@ -172,6 +200,8 @@ export const {
   setLocationZoneValueLocationZone,
   setCompareSubjectLocationZone,
   setElements,
+  updateResults,
+  setAreaSubject,
 } = homologationSlice.actions;
 export const selectHomologation = (state: RootState) => state.homologation;
 /*export const addByAsync =

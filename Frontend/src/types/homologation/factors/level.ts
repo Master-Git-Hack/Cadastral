@@ -6,7 +6,7 @@ export interface Level extends FactorState {
 }
 
 export interface FactorLevel {
-  subject: Level;
+  subject?: Level;
   current: Level;
 }
 

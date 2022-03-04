@@ -10,7 +10,7 @@ export interface TypeForm extends FactorState {
   value: 1 | 0.98 | 0.97 | 0.96 | 0.95 | 0.94 | 0.93 | 0.92 | 0.9 | 0.85;
 }
 export interface FactorTypeForm {
-  subject: TypeForm;
+  subject?: TypeForm;
   current: TypeForm;
 }
 export const type_form = (type: string): Array<TypeForm> => [

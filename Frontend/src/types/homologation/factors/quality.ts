@@ -14,7 +14,7 @@ export interface Quality extends FactorState {
 }
 
 export interface FactorQuality {
-  subject: Quality;
+  subject?: Quality;
   current: Quality;
 }
 
