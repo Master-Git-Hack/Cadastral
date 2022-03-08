@@ -1,54 +1,71 @@
-import { FactorState } from "./factor";
+/** @format */
 
-export interface Quality extends FactorState {
-  type:
-    | "PRECARIA"
-    | "BAJA"
-    | "ECONOMICA"
-    | "COMERCIAL"
-    | "MEDIA COMÚN"
-    | "MEDIA ALTA"
-    | "ALTA"
-    | "LUJO";
-  value: 0.91 | 0.94 | 0.97 | 1 | 1.03 | 1.06 | 1.09 | 1.12;
+import {StateProps} from '../state';
+
+interface State extends StateProps {
+	id?: number;
+	type:
+		| 'PRECARIA'
+		| 'BAJA'
+		| 'ECONOMICA'
+		| 'COMERCIAL'
+		| 'MEDIA COMÚN'
+		| 'MEDIA ALTA'
+		| 'ALTA'
+		| 'LUJO';
+	value: 0.91 | 0.94 | 0.97 | 1 | 1.03 | 1.06 | 1.09 | 1.12;
+	result?: number;
 }
-
-export interface FactorQuality {
-  subject?: Quality;
-  current: Quality;
+export interface QualityProps {
+	name: string;
+	tag: string;
+	subject: State;
+	data: Array<State>;
+	isUsed: boolean;
 }
-
-export const quality: Array<Quality> = [
-  {
-    type: "PRECARIA",
-    value: 0.91,
-  },
-  {
-    type: "BAJA",
-    value: 0.94,
-  },
-  {
-    type: "ECONOMICA",
-    value: 0.97,
-  },
-  {
-    type: "COMERCIAL",
-    value: 1.0,
-  },
-  {
-    type: "MEDIA COMÚN",
-    value: 1.03,
-  },
-  {
-    type: "MEDIA ALTA",
-    value: 1.06,
-  },
-  {
-    type: "ALTA",
-    value: 1.09,
-  },
-  {
-    type: "LUJO",
-    value: 1.12,
-  },
+export const qualityOptions: Array<State> = [
+	{
+		type: 'PRECARIA',
+		value: 0.91,
+	},
+	{
+		type: 'BAJA',
+		value: 0.94,
+	},
+	{
+		type: 'ECONOMICA',
+		value: 0.97,
+	},
+	{
+		type: 'COMERCIAL',
+		value: 1.0,
+	},
+	{
+		type: 'MEDIA COMÚN',
+		value: 1.03,
+	},
+	{
+		type: 'MEDIA ALTA',
+		value: 1.06,
+	},
+	{
+		type: 'ALTA',
+		value: 1.09,
+	},
+	{
+		type: 'LUJO',
+		value: 1.12,
+	},
 ];
+export const qualityData = (id: number): State => ({
+	id,
+	...qualityOptions[0],
+	result: 1,
+})
+export const qualityTemplate: QualityProps = {
+	name: 'Calidad',
+	tag: 'FCal.',
+	subject: qualityOptions[0],
+	data: [qualityData(1)],
+	isUsed: true,
+};

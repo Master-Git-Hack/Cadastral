@@ -1,25 +1,24 @@
-import { FactorState } from "./factor";
+/** @format */
 
-export interface Symbols extends FactorState {
-  type: "+" | "=" | "-";
-  value: 1 | 0 | -1;
-}
-export interface FactorSymbols {
-  subject?: Symbols;
-  current: Symbols;
-}
+import {StateProps} from '../state';
 
-export const symbols: Array<Symbols> = [
-  {
-    type: "+",
-    value: 1,
-  },
-  {
-    type: "=",
-    value: 0,
-  },
-  {
-    type: "-",
-    value: -1,
-  },
+export interface State extends StateProps {
+	id?: number;
+	type: '+' | '=' | '-';
+	value: 1 | 0 | -1;
+	result?: number;
+}
+export const symbolsOptions: Array<State> = [
+	{
+		type: '+',
+		value: 1,
+	},
+	{
+		type: '=',
+		value: 0,
+	},
+	{
+		type: '-',
+		value: -1,
+	},
 ];

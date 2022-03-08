@@ -2,7 +2,6 @@ from app.config import APPRAISAL_PATH, MODELS_PATH, DBNAME, DBUSER, DBPASSWORD, 
 from psycopg2 import connect, DatabaseError
 from psycopg2.extras import RealDictCursor
 from jinja2 import Template
-from json import dumps
 
 class Cadastral():
     
@@ -39,10 +38,10 @@ class Cadastral():
         data = []
         if len(self.collection) > 1 and self.collection != None:
             for id in self.collection:
-                query = Template(open(f"{APPRAISAL_PATH}{MODELS_PATH}/Justipreciacion.sql").read()).render(ID=id)
+                query = Template(open(f"{APPRAISAL_PATH}{MODELS_PATH}/Appraisal.sql").read()).render(ID=id)
                 data.append([row for row in self.query(query)])
         elif len(self.collection) == 1 and self.collection != None:
-            query = Template(open(f"{APPRAISAL_PATH}{MODELS_PATH}/Justipreciacion.sql").read()).render(ID=self.collection[0])
+            query = Template(open(f"{APPRAISAL_PATH}{MODELS_PATH}/Appraisal.sql").read()).render(ID=self.collection[0])
             data.append([row for row in self.query(query)])
         else:
             data = None

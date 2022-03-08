@@ -1,13 +1,10 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter/counterSlice";
-import homologationReducer from "../features/homologations/homologationsSlice";
-import appraisalReducer from "../features/appraisal/appraisalSlice";
-
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import counterReducer from '../features/counter/counterSlice';
+import homologationReducer from '../features/homologation/slice';
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     homologation: homologationReducer,
-    appraisal: appraisalReducer,
   },
 });
 

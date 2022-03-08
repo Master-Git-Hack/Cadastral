@@ -2,7 +2,7 @@ from app import app
 from app.config import API_URL, API_ENV, TEMPORARY_PATH, TEMPLATE_PATH
 from os.path import exists
 from os import remove
-from flask import after_this_request, request, jsonify, send_file
+from flask import after_this_request, request, send_file
 from app.apps.cadastral.appraisal.controllers import Controller
 @app.route(f"{API_URL}/APPRAISAL/report/collection", methods=['POST'])
 def generate_report():

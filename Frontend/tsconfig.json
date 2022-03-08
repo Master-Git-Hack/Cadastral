@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
@@ -18,21 +18,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "sourceMap": true
+    "jsx": "react-jsx"
   },
   "include": [
-    "src",
-    ".prettiererrc.js",
-  "eslintrc.js" ],
-"plugins": [
-  "react-hooks",
-  "react", 
-  "@typescript-eslint", 
-  "jest"
-],
-"rules": {
-  "react-hooks/rules-of-hooks": "error",
-  "react-hooks/exhaustive-deps": "warn",
-}
+    "src"
+  ]
 }

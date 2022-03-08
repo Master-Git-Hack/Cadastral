@@ -21,7 +21,8 @@ export default function SelectorForFactors() {
             {elements.map((object: any, index: number) => (
               <li
                 key={index}
-                className="list-group-item d-flex justify-content-between align-items-center"
+                className="
+                className="list-group-item d-flex justify-content-between align-items-center
               >
                 <div className="ms-2 me-auto">
                   <div className="fw-bold">{object.name}</div>
