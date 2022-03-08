@@ -27,7 +27,7 @@ export const AgeTable:FC=()=>{
             })
         )
     
-    console.log(data)
+
     return(
         <table
             className="table table-sm table-responsive table-responsive-sm table-hover table-bordered table-stripped "
