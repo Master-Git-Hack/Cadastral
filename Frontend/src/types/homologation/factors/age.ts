@@ -1,6 +1,6 @@
 /** @format */
 
-import {StateProps} from '../state';
+import { StateProps } from "../state";
 
 export interface AgeProps {
 	name: string;
@@ -9,17 +9,15 @@ export interface AgeProps {
 	data: Array<StateProps>;
 	isUsed: boolean;
 }
-export const ageData = (id: number):StateProps => ({
+export const ageData = (id: number): StateProps => ({
 	id,
 	value: 1,
 	result: 1,
-})
+});
 export const ageTemplate: AgeProps = {
-	name: 'Edad',
-	tag: 'FEd.',
-	subject: {value:1},
-	data: [
-		ageData(1),
-	],
+	name: "Edad",
+	tag: "FEd.",
+	subject: { value: 1 },
+	data: [ageData(1)],
 	isUsed: true,
 };

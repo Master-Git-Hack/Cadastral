@@ -1,17 +1,17 @@
 /** @format */
 
-import {StateProps} from '../state';
+import { StateProps } from "../state";
 
 interface State extends StateProps {
 	id?: number;
 	type:
-		| 'HABITACIONAL'
-		| 'COMERCIAL'
-		| 'MIXTO H-C'
-		| 'INDUSTRIAL'
-		| 'MIXTO I-H'
-		| 'MIXTO I-C'
-		| 'SERVICIOS';
+		| "HABITACIONAL"
+		| "COMERCIAL"
+		| "MIXTO H-C"
+		| "INDUSTRIAL"
+		| "MIXTO I-H"
+		| "MIXTO I-C"
+		| "SERVICIOS";
 	value: 1.0 | 1.03 | 1.05 | 1.07 | 0.97 | 1.09 | 1.04;
 	result?: number;
 }
@@ -24,31 +24,31 @@ export interface UsageProps {
 }
 export const usageOptions: Array<State> = [
 	{
-		type: 'HABITACIONAL',
+		type: "HABITACIONAL",
 		value: 1.0,
 	},
 	{
-		type: 'COMERCIAL',
+		type: "COMERCIAL",
 		value: 1.03,
 	},
 	{
-		type: 'MIXTO H-C',
+		type: "MIXTO H-C",
 		value: 1.05,
 	},
 	{
-		type: 'INDUSTRIAL',
+		type: "INDUSTRIAL",
 		value: 1.07,
 	},
 	{
-		type: 'MIXTO I-H',
+		type: "MIXTO I-H",
 		value: 0.97,
 	},
 	{
-		type: 'MIXTO I-C',
+		type: "MIXTO I-C",
 		value: 1.09,
 	},
 	{
-		type: 'SERVICIOS',
+		type: "SERVICIOS",
 		value: 1.04,
 	},
 ];
@@ -56,10 +56,10 @@ export const usageData = (id: number): State => ({
 	id,
 	...usageOptions[0],
 	result: 1,
-})
+});
 export const usageTemplate: UsageProps = {
-	name: 'Uso',
-	tag: 'FUso.',
+	name: "Uso",
+	tag: "FUso.",
 	subject: usageOptions[0],
 	data: [usageData(1)],
 	isUsed: true,

@@ -1,24 +1,24 @@
 /** @format */
 
-import {StateProps} from '../state';
+import { StateProps } from "../state";
 
 export interface State extends StateProps {
 	id?: number;
-	type: '+' | '=' | '-';
+	type: "+" | "=" | "-";
 	value: 1 | 0 | -1;
 	result?: number;
 }
 export const symbolsOptions: Array<State> = [
 	{
-		type: '+',
+		type: "+",
 		value: 1,
 	},
 	{
-		type: '=',
+		type: "=",
 		value: 0,
 	},
 	{
-		type: '-',
+		type: "-",
 		value: -1,
 	},
 ];

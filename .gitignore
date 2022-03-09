@@ -1,6 +1,5 @@
 Frontend/node_modules/*
 Frontend/build*
-Frontend/public/*
 Frontend/yarn*
 Frontend/.env
 Backend/env/*

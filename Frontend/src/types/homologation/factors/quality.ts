@@ -1,18 +1,18 @@
 /** @format */
 
-import {StateProps} from '../state';
+import { StateProps } from "../state";
 
 interface State extends StateProps {
 	id?: number;
 	type:
-		| 'PRECARIA'
-		| 'BAJA'
-		| 'ECONOMICA'
-		| 'COMERCIAL'
-		| 'MEDIA COMÚN'
-		| 'MEDIA ALTA'
-		| 'ALTA'
-		| 'LUJO';
+		| "PRECARIA"
+		| "BAJA"
+		| "ECONOMICA"
+		| "COMERCIAL"
+		| "MEDIA COMÚN"
+		| "MEDIA ALTA"
+		| "ALTA"
+		| "LUJO";
 	value: 0.91 | 0.94 | 0.97 | 1 | 1.03 | 1.06 | 1.09 | 1.12;
 	result?: number;
 }
@@ -25,35 +25,35 @@ export interface QualityProps {
 }
 export const qualityOptions: Array<State> = [
 	{
-		type: 'PRECARIA',
+		type: "PRECARIA",
 		value: 0.91,
 	},
 	{
-		type: 'BAJA',
+		type: "BAJA",
 		value: 0.94,
 	},
 	{
-		type: 'ECONOMICA',
+		type: "ECONOMICA",
 		value: 0.97,
 	},
 	{
-		type: 'COMERCIAL',
+		type: "COMERCIAL",
 		value: 1.0,
 	},
 	{
-		type: 'MEDIA COMÚN',
+		type: "MEDIA COMÚN",
 		value: 1.03,
 	},
 	{
-		type: 'MEDIA ALTA',
+		type: "MEDIA ALTA",
 		value: 1.06,
 	},
 	{
-		type: 'ALTA',
+		type: "ALTA",
 		value: 1.09,
 	},
 	{
-		type: 'LUJO',
+		type: "LUJO",
 		value: 1.12,
 	},
 ];
@@ -61,10 +61,10 @@ export const qualityData = (id: number): State => ({
 	id,
 	...qualityOptions[0],
 	result: 1,
-})
+});
 export const qualityTemplate: QualityProps = {
-	name: 'Calidad',
-	tag: 'FCal.',
+	name: "Calidad",
+	tag: "FCal.",
 	subject: qualityOptions[0],
 	data: [qualityData(1)],
 	isUsed: true,

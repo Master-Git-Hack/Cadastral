@@ -1,6 +1,6 @@
 /** @format */
 
-import {StateProps} from '../state';
+import { StateProps } from "../state";
 
 interface State extends StateProps {
 	id: number;
@@ -11,11 +11,11 @@ export interface WeightingPercentageProps {
 	total: number;
 	data: Array<State>;
 }
-export const weightingPercentageData=(id: number):State=>({
+export const weightingPercentageData = (id: number): State => ({
 	id,
 	value: 1,
-})
-export const weightingPercentageTemplate:WeightingPercentageProps={
+});
+export const weightingPercentageTemplate: WeightingPercentageProps = {
 	total: 1,
-	data: [weightingPercentageData(1)]
-}
+	data: [weightingPercentageData(1)],
+};
