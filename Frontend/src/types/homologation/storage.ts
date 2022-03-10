@@ -43,6 +43,7 @@ interface Storage {
 export interface StorageProps extends Storage {
 	id: number;
 	type: string;
+	rowsCount: number;
 	status: "complete" | "loading" | "working" | "failed" | "exists";
 	factors: FactorsProps;
 	homologation: HomologationProps;

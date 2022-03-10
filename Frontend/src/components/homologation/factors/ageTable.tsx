@@ -56,7 +56,7 @@ export const AgeTable: FC = () => {
 					</td>
 				</tr>
 				{data.map((item: any, index: number) => (
-					<tr>
+					<tr key={index}>
 						<td>C{index + 1}</td>
 						<td colSpan={4}>
 							<input
@@ -67,7 +67,7 @@ export const AgeTable: FC = () => {
 								onChange={(e) => handleChange(e.target.value, index, false)}
 							/>
 						</td>
-						<td>{toFancyNumber(Number(subject.value / item.value))}</td>
+						<td>{toFancyNumber(item.result)}</td>
 					</tr>
 				))}
 			</tbody>

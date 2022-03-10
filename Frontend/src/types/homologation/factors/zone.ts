@@ -10,13 +10,13 @@ interface Data extends State {
 	C1: SymbolsProps;
 	percentage: number;
 	observations: string;
-	result: number;
 }
 export interface ZoneProps {
 	name: string;
 	tag: string;
 	subject?: string;
 	data: Array<Data>;
+	results: Array<StateProps>;
 	isUsed: boolean;
 }
 const zoneBasic = (id: number): Data => ({
@@ -24,7 +24,6 @@ const zoneBasic = (id: number): Data => ({
 	C1: symbolsOptions[0],
 	percentage: 0,
 	observations: "",
-	result: 1,
 });
 export const ZoneData = (id: number, lenght: number): Data => {
 	const data = zoneBasic(id);
@@ -34,6 +33,7 @@ export const ZoneData = (id: number, lenght: number): Data => {
 export const ZoneTemplate: ZoneProps = {
 	name: "Zona",
 	tag: "FZo.",
+	results: [{ id: 1, value: 1 }],
 	data: [ZoneData(1, 1)],
 	isUsed: true,
 };

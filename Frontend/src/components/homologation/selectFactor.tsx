@@ -15,36 +15,37 @@ export const SelectFactor: FC = (props: any) => {
 			<div className="row text-center">
 				<div className="col-12 col-sm-12">
 					<ul className="list-group">
-						{Object.keys(factors).map((key: string, index: number) => {
-							if (key !== "location" && key !== "zone" && key !== "surface") {
-								if (factors[key].isUsed) {
-									return (
-										<li
-											key={index}
-											className="list-group-item d-flex justify-content-between align-items-center"
+						{Object.keys(factors).map((key: string, index: number) =>
+							key !== "location" &&
+							key !== "zone" &&
+							key !== "surface" &&
+							key !== "comparison" ? (
+								factors[key].isUsed ? (
+									<li
+										key={index}
+										className="list-group-item d-flex justify-content-between align-items-center"
+									>
+										<div className="ms-2 me-auto">
+											<div className="fw-bold">{factors[key].name}</div>
+										</div>
+										<button
+											className="btn btn-sm btn-outline-danger"
+											onClick={() =>
+												dispatch(
+													setFactors({
+														itemName: key,
+														subItemName: "isUsed",
+														value: false,
+													}),
+												)
+											}
 										>
-											<div className="ms-2 me-auto">
-												<div className="fw-bold">{factors[key].name}</div>
-											</div>
-											<button
-												className="btn btn-sm btn-outline-danger"
-												onClick={() =>
-													dispatch(
-														setFactors({
-															itemName: key,
-															subItemName: "isUsed",
-															value: false,
-														}),
-													)
-												}
-											>
-												Eliminar
-											</button>
-										</li>
-									);
-								}
-							}
-						})}
+											Eliminar
+										</button>
+									</li>
+								) : null
+							) : null,
+						)}
 					</ul>
 				</div>
 			</div>

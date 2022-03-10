@@ -10,6 +10,7 @@ import { comparisonTemplate } from "../../types/homologation/factors/comparison"
 import { levelTemplate } from "../../types/homologation/factors/level";
 import { projectTemplate } from "../../types/homologation/factors/project";
 import { qualityTemplate } from "../../types/homologation/factors/quality";
+import { resultsTemplate } from "../../types/homologation/factors/results";
 import { surfaceTemplate } from "../../types/homologation/factors/surface";
 import { topographyData, topographyTemplate } from "../../types/homologation/factors/topography";
 import { typeFormData, typeFormTemplate } from "../../types/homologation/factors/typeForm";
@@ -23,8 +24,12 @@ import { weightingPercentageTemplate } from "../../types/homologation/homologati
 import {
 	addValueToUsedFactors,
 	removeValueFromUsedFactors,
+	factorsResult,
 	addValueToHomologations,
 	removeValueFromHomologations,
+	calculationLocationZone,
+	addValueToLocationZone,
+	removeValueToLocationZone,
 } from "../../utils/utils";
 
 const parameters = new URLSearchParams(window.location.search);
@@ -35,6 +40,7 @@ const initialState: StorageProps = {
 	id: id ? Number(id) : 0,
 	type,
 	status: "working",
+	rowsCount: 1,
 	factors: {
 		ages: { ...ageTemplate, isUsed: type === "TERRENO" ? false : true },
 		buildings: buildingTemplate,
@@ -55,6 +61,7 @@ const initialState: StorageProps = {
 		},
 		usage: usageTemplate,
 		zone: ZoneTemplate,
+		results: resultsTemplate,
 	},
 	homologation: {
 		areas: areasTemplate(type),
@@ -87,8 +94,24 @@ export const slice = createSlice({
 		},
 		setFactorsData(state, action: PayloadAction<TransactionProps>) {
 			const { itemID, itemName, value } = action.payload;
-			if (itemName !== undefined && value !== undefined && itemID !== undefined)
+			if (itemName !== undefined && value !== undefined && itemID !== undefined) {
+				/*if(itemName !== "ages" && itemName !== "comparison")
+				{
+					const option = findOption(itemName,state.type,itemName ==="level" ? "type":"value",value)
+					state.factors[itemName].data[itemID] = {
+						id: itemID,
+						...option,
+						result:Number(state.factors[itemName].subject.value/option.value)
+						
+					};
+				}
+				else */
 				state.factors[itemName].data[itemID] = value;
+				state.factors.results = factorsResult(state.factors);
+				if(itemName==="ages"){
+					state.factors.ages.data[itemID].result = (1 - (Number(state.factors.ages.subject.value - value)*0.01));
+				}
+			}
 		},
 		setLocationZone(state, action: PayloadAction<TransactionProps>) {
 			const { itemName, itemID, subItemName, value } = action.payload;
@@ -97,16 +120,62 @@ export const slice = createSlice({
 				value !== undefined &&
 				itemID !== undefined &&
 				subItemName !== undefined
-			)
+			) {
 				state.factors[itemName].data[itemID][subItemName] = value;
+				if (subItemName !== "observations") {
+					state.factors[itemName].results = calculationLocationZone(
+						state.factors[itemName].data,
+					);
+					
+				}
+				state.factors.results = factorsResult(state.factors);
+			}
+		},
+		addDataRowLocationZone(state, action: PayloadAction<TransactionProps>) {
+			const { itemName } = action.payload;
+			if (itemName !== undefined) {
+				state.factors[itemName].data = addValueToLocationZone(state.factors[itemName].data);
+			}
+		},
+		removeDataRowLocationZone(state, action: PayloadAction<TransactionProps>) {
+			const { itemName } = action.payload;
+			if (itemName !== undefined) {
+				state.factors[itemName].data = removeValueToLocationZone(
+					state.factors[itemName].data,
+				);
+			}
 		},
 		addDataRow(state) {
 			state.factors = addValueToUsedFactors(state.factors);
 			state.homologation = addValueToHomologations(state.homologation);
+			state.rowsCount++;
 		},
 		removeDataRow(state) {
 			state.factors = removeValueFromUsedFactors(state.factors);
 			state.homologation = removeValueFromHomologations(state.homologation);
+			if (state.rowsCount > 1) state.rowsCount--;
+		},
+		setHomologation(state, action: PayloadAction<TransactionProps>) {
+			const { itemName, itemID, value } = action.payload;
+			if (itemName !== undefined && value !== undefined && itemID !== undefined) {
+				state.homologation[itemName].data[itemID].value = value;
+				state.homologation.salesCosts.data[itemID].unitaryCost =
+					state.homologation.salesCosts.data[itemID].value /
+					state.homologation.areas.data[itemID].value;
+				if (state.type === "TERRENO" && itemName === "areas") {
+					state.homologation.areas.averageLotArea =
+						state.homologation.areas.data.reduce(
+							(previous: number, current: any) => previous + Number(current.value),
+							0,
+						) / state.homologation.areas.data.length;
+				}
+			}
+		},
+		setHomologationAreaSubject(state, action: PayloadAction<TransactionProps>) {
+			const { value } = action.payload;
+			if (value !== undefined) {
+				state.homologation.areas.subject = value;
+			}
 		},
 	},
 	extraReducers: (builder) => {
@@ -127,6 +196,10 @@ export const {
 	addDataRow,
 	removeDataRow,
 	setLocationZone,
+	addDataRowLocationZone,
+	removeDataRowLocationZone,
+	setHomologation,
+	setHomologationAreaSubject,
 } = slice.actions;
 
 export default slice.reducer;

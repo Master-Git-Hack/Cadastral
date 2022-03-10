@@ -19,8 +19,8 @@ export const Selector: FC<{
 	>
 		{props.selector.map((option: any, index: number) => (
 			<option
-				id={`selector-${props.name}-${props.id}-option-${option.type}-${index}`}
-				key={`selector-${props.name}-${props.id}-option-${option.type}-${index}`}
+				id={`selector-${props.name}-${props.id}-option-${option.value}-${index}`}
+				key={`selector-${props.name}-${props.id}-option-${option.value}-${index}`}
 				value={option.type}
 				className="bg-light"
 			>

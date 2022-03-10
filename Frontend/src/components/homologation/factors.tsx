@@ -13,12 +13,12 @@ import { qualityOptions } from "../../types/homologation/factors/quality";
 import { topographyOptions } from "../../types/homologation/factors/topography";
 import { typeFormOptions } from "../../types/homologation/factors/typeForm";
 import { usageOptions } from "../../types/homologation/factors/usage";
-
+import { SymbolsTable } from "./factors/symbolsTable";
 export const FactorsCompilation: FC = () => {
 	const dispatch = useAppDispatch();
 	const { type } = useAppSelector(selector);
 	return (
-		<table className="table table-sm table-responsive table-responsive-sm table-striped table-borderless">
+		<table className="table table-sm table-responsive table-responsive-sm table-borderless">
 			<thead>
 				<Actions dispatch={dispatch} />
 			</thead>
@@ -28,7 +28,7 @@ export const FactorsCompilation: FC = () => {
 				<Classification />
 				<Comparison />
 				<Level />
-				{/*<Location/>*/}
+				<Location />
 				<Project />
 				<Quality />
 				<Topography type={type} />
@@ -71,7 +71,7 @@ export const Building: FC = () => (
 	<tr className="row text-center">
 		<td className="col-3 col-sm-3" />
 		<td className="col-6 col-sm-6">
-			<CommonTable name="buildings" options={buildingOptions} />
+			<CommonTable name="buildings" options={buildingOptions} id={1} />
 		</td>
 		<td className="col-3 col-sm-3" />
 	</tr>
@@ -80,7 +80,7 @@ export const Classification: FC = () => (
 	<tr className="row text-center">
 		<td className="col-3 col-sm-3" />
 		<td className="col-6 col-sm-6">
-			<CommonTable name="classification" options={classificationOptions} />
+			<CommonTable name="classification" options={classificationOptions} id={2} />
 		</td>
 		<td className="col-3 col-sm-3" />
 	</tr>
@@ -96,7 +96,7 @@ export const Level: FC = () => (
 	<tr className="row text-center">
 		<td className="col-3 col-sm-3" />
 		<td className="col-6 col-sm-6">
-			<CommonTable name="level" options={levelOptions} />
+			<CommonTable name="level" options={levelOptions} id={3} />
 		</td>
 		<td className="col-3 col-sm-3" />
 	</tr>
@@ -104,7 +104,9 @@ export const Level: FC = () => (
 export const Location: FC = () => (
 	<tr className="row text-center">
 		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6"></td>
+		<td className="col-6 col-sm-6">
+			<SymbolsTable name="location" />
+		</td>
 		<td className="col-3 col-sm-3" />
 	</tr>
 );
@@ -112,7 +114,7 @@ export const Project: FC = () => (
 	<tr className="row text-center">
 		<td className="col-3 col-sm-3" />
 		<td className="col-6 col-sm-6">
-			<CommonTable name="project" options={projectOptions} />
+			<CommonTable name="project" options={projectOptions} id={4} />
 		</td>
 		<td className="col-3 col-sm-3" />
 	</tr>
@@ -121,7 +123,7 @@ export const Quality: FC = () => (
 	<tr className="row text-center">
 		<td className="col-3 col-sm-3" />
 		<td className="col-6 col-sm-6">
-			<CommonTable name="quality" options={qualityOptions} />
+			<CommonTable name="quality" options={qualityOptions} id={5} />
 		</td>
 		<td className="col-3 col-sm-3" />
 	</tr>
@@ -130,7 +132,7 @@ export const Topography: FC<{ type: string }> = (props) => (
 	<tr className="row text-center">
 		<td className="col-3 col-sm-3" />
 		<td className="col-6 col-sm-6">
-			<CommonTable name="topography" options={topographyOptions(props.type)} />
+			<CommonTable name="topography" options={topographyOptions(props.type)} id={6} />
 		</td>
 		<td className="col-3 col-sm-3" />
 	</tr>
@@ -139,7 +141,7 @@ export const TypeForm: FC<{ type: string }> = (props) => (
 	<tr className="row text-center">
 		<td className="col-3 col-sm-3" />
 		<td className="col-6 col-sm-6">
-			<CommonTable name="typeForm" options={typeFormOptions(props.type)} />
+			<CommonTable name="typeForm" options={typeFormOptions(props.type)} id={7} />
 		</td>
 		<td className="col-3 col-sm-3" />
 	</tr>
@@ -148,7 +150,7 @@ export const Usage: FC = () => (
 	<tr className="row text-center">
 		<td className="col-3 col-sm-3" />
 		<td className="col-6 col-sm-6">
-			<CommonTable name="usage" options={usageOptions} />
+			<CommonTable name="usage" options={usageOptions} id={8} />
 		</td>
 		<td className="col-3 col-sm-3" />
 	</tr>

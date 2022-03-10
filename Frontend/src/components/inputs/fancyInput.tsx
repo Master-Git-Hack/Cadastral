@@ -11,6 +11,7 @@ export const FancyInput: FC<{
 	onChange: ChangeEventHandler<HTMLInputElement>;
 	isCurrency?: boolean;
 	isPercentage?: boolean;
+	style?: string;
 }> = (props) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const toggleEditing = () => setIsEditing(!isEditing);
@@ -41,7 +42,9 @@ export const FancyInput: FC<{
 					<input
 						id={`fancyInput-displayed-${props.name}-${props.index}`}
 						type="string"
-						className="form-control text-start"
+						className={`form-control  ${
+							props.style !== undefined ? props.style : "text-start"
+						}`}
 						name={`displayed-${props.name}-${props.index}`}
 						value={toFancyNumber(props.value, props.isCurrency, props.isPercentage, 2)}
 						onFocus={toggleEditing}

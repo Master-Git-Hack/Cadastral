@@ -1,11 +1,12 @@
 /** @format */
 
 import { Selector } from "../../inputs/selector";
-import { FC, ChangeEventHandler } from "react";
+import { FC } from "react";
 import { useAppSelector, useAppDispatch } from "../../../hooks/store";
 import { toFancyNumber, searchByType } from "../../../utils/utils";
 import { selector, setFactorsData, setFactorsSubject } from "../../../features/homologation/slice";
 export const CommonTable: FC<{
+	id: number;
 	name: string;
 	options: Array<any>;
 }> = (props: any) => {

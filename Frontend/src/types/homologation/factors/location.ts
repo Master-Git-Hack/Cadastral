@@ -10,13 +10,13 @@ interface Data extends State {
 	C1: SymbolsProps;
 	percentage: number;
 	observations: string;
-	result: number;
 }
 export interface LocationProps {
 	name: string;
 	tag: string;
 	subject?: string;
 	data: Array<Data>;
+	results: Array<StateProps>;
 	isUsed: boolean;
 }
 const locationBasic = (id: number): Data => ({
@@ -24,7 +24,6 @@ const locationBasic = (id: number): Data => ({
 	C1: symbolsOptions[0],
 	percentage: 0,
 	observations: "",
-	result: 1,
 });
 export const LocationData = (id: number, lenght: number): Data => {
 	const data = locationBasic(id);
@@ -35,5 +34,6 @@ export const LocationTemplate: LocationProps = {
 	name: "Ubicación",
 	tag: "FUbic.",
 	data: [LocationData(1, 1)],
+	results: [{ id: 1, value: 1 }],
 	isUsed: true,
 };

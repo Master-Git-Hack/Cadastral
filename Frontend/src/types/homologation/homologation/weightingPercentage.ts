@@ -13,7 +13,7 @@ export interface WeightingPercentageProps {
 }
 export const weightingPercentageData = (id: number): State => ({
 	id,
-	value: 1,
+	value: 100,
 });
 export const weightingPercentageTemplate: WeightingPercentageProps = {
 	total: 1,
