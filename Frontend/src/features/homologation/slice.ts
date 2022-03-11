@@ -40,7 +40,7 @@ const initialState: StorageProps = {
 	id: id ? Number(id) : 0,
 	type,
 	status: "working",
-	rowsCount: 1,
+	rowsCount: 1 as number,
 	factors: {
 		ages: { ...ageTemplate, isUsed: type === "TERRENO" ? false : true },
 		buildings: buildingTemplate,
@@ -89,8 +89,15 @@ export const slice = createSlice({
 		},
 		setFactorsSubject(state, action: PayloadAction<TransactionProps>) {
 			const { itemName, value } = action.payload;
-			if (itemName !== undefined && value !== undefined)
+			if (itemName !== undefined && value !== undefined) {
 				state.factors[itemName].subject = value;
+				state.factors[itemName].data.map((item: any) => {
+					item.result =
+						Number(state.factors[itemName].subject.value) / Number(item.value);
+
+					return item;
+				});
+			}
 		},
 		setFactorsData(state, action: PayloadAction<TransactionProps>) {
 			const { itemID, itemName, value } = action.payload;
@@ -107,10 +114,7 @@ export const slice = createSlice({
 				}
 				else */
 				state.factors[itemName].data[itemID] = value;
-				state.factors.results = factorsResult(state.factors);
-				if(itemName==="ages"){
-					state.factors.ages.data[itemID].result = (1 - (Number(state.factors.ages.subject.value - value)*0.01));
-				}
+				state.factors.results.data = factorsResult(state.factors);
 			}
 		},
 		setLocationZone(state, action: PayloadAction<TransactionProps>) {
@@ -122,14 +126,16 @@ export const slice = createSlice({
 				subItemName !== undefined
 			) {
 				state.factors[itemName].data[itemID][subItemName] = value;
-				if (subItemName !== "observations") {
-					state.factors[itemName].results = calculationLocationZone(
-						state.factors[itemName].data,
-					);
-					
-				}
-				state.factors.results = factorsResult(state.factors);
+				state.factors[itemName].results = calculationLocationZone(
+					state.factors[itemName].data,
+				);
+				state.factors.results.data = factorsResult(state.factors);
 			}
+		},
+		setLocationZoneResults(state, action: PayloadAction<TransactionProps>) {
+			const { itemName, itemID, value } = action.payload;
+			if (itemName !== undefined && value !== undefined && itemID !== undefined)
+				state.factors[itemName].results[itemID].value = value;
 		},
 		addDataRowLocationZone(state, action: PayloadAction<TransactionProps>) {
 			const { itemName } = action.payload;
@@ -162,12 +168,30 @@ export const slice = createSlice({
 				state.homologation.salesCosts.data[itemID].unitaryCost =
 					state.homologation.salesCosts.data[itemID].value /
 					state.homologation.areas.data[itemID].value;
-				if (state.type === "TERRENO" && itemName === "areas") {
-					state.homologation.areas.averageLotArea =
-						state.homologation.areas.data.reduce(
-							(previous: number, current: any) => previous + Number(current.value),
-							0,
-						) / state.homologation.areas.data.length;
+				if (itemName === "areas") {
+					if (state.type === "TERRENO") {
+						state.homologation.areas.averageLotArea =
+							state.homologation.areas.data.reduce(
+								(previous: number, current: any) =>
+									previous + Number(current.value),
+								0,
+							) / state.homologation.areas.data.length;
+						state.factors.surface.data.map((item: any, index: number) => {
+							item.value =
+								(state.homologation.areas.data[index].value /
+									state.homologation.areas.averageLotArea) **
+								(1 / 12);
+							return item;
+						});
+					} else {
+						state.factors.surface.data.map((item: any, index: number) => {
+							item.value =
+								(state.homologation.areas.data[index].value /
+									state.homologation.areas.subject) **
+								(1 / 8);
+							return item;
+						});
+					}
 				}
 			}
 		},
@@ -200,6 +224,7 @@ export const {
 	removeDataRowLocationZone,
 	setHomologation,
 	setHomologationAreaSubject,
+	setLocationZoneResults,
 } = slice.actions;
 
 export default slice.reducer;

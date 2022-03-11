@@ -53,7 +53,13 @@ export const SymbolsTable: FC<{ name: string }> = (props) => {
 					<td className="bg-warning">{title}</td>
 					<Headers columns={columns} />
 				</tr>
-				<Body data={data} name={props.name} columns={columns} dispatch={dispatch} />
+				<Body
+					data={data}
+					name={props.name}
+					columns={columns}
+					dispatch={dispatch}
+					factors={factors}
+				/>
 				<Footer results={results} name={props.name} />
 			</tbody>
 		</table>
@@ -88,7 +94,9 @@ const Actions: FC<{ colSpan: number; name: string; dispatch: Function }> = (prop
 const Headers: FC<{ columns: any }> = (props) =>
 	props.columns.map((column: string) => <td key={column}>{column}</td>);
 
-const Body: FC<{ data: any; name: string; columns: any; dispatch: Function }> = (props) =>
+const Body: FC<{ data: any; name: string; columns: any; dispatch: Function; factors: any }> = (
+	props,
+) =>
 	props.data.map((item: any, index: number) => (
 		<tr key={index}>
 			<td>

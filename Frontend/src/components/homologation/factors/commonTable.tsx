@@ -24,7 +24,7 @@ export const CommonTable: FC<{
 						itemID,
 						itemName: props.name,
 						value: {
-							id: itemID,
+							id: itemID + 1,
 							...transaction,
 							result: Number(subject.value / transaction.value),
 						},

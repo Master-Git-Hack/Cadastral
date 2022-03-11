@@ -12,18 +12,6 @@ import { typeFormOptions } from "../types/homologation/factors/typeForm";
 import { usageOptions } from "../types/homologation/factors/usage";
 import { symbolsOptions } from "../types/homologation/factors/symbols";
 
-export const surfaceCalculation=(factors:any,root:number)=>factors.surface.data.map((item:any,index:number)=>{
-	for(const factor in factors){
-		if(factor !=="surface"){
-			if(factors[factor].isUsed){
-				if(factors[factor].data[index]){
-					item.result += factors[factor].data[index].result;
-				}
-			}
-		}
-	}
-
-})
 export const getUsedFactors = (factors: any) => {
 	const usedFactors: any = {};
 	for (const factor in factors) {
@@ -52,28 +40,29 @@ export const countFactors = (factors: any) => {
 	}
 	return count;
 };
-export const factorsResult = (factors: any) => {
-	const { data } = factors.results;
-	const length = data.length;
-	for (let i = 0; i < length; i++)
+export const factorsResult = (factors: any) =>
+	factors.results.data.map((item: any, index: number) => {
+		item.value = 1;
 		for (const factor in factors)
-			if (factor !== "results")
-				if (factors[factor].isUsed)
-					data[i].value *= (
-						(factor==="surface")
-						?
-						(factors[factor].data[i].value)
-						:
-						(
-							(factor !== "location" && factor !== "zone") 
-							?
-							(factors[factor].data[i].result) 
-							:
-							(factors[factor].results[i].value)
-						)
-					);
-	return factors.results;
-};
+			if (factors[factor].isUsed) {
+				if (factor === "surface" || factor === "comparison") {
+					console.log("surface y comparison", factor, index, item.value);
+					item.value *= factors[factor].data[index].value;
+				} else if (
+					factor !== "location" &&
+					factor !== "zone" &&
+					factor !== "surface" &&
+					factor !== "comparison"
+				) {
+					console.log("todo menos location an zone", factor, index, item.value);
+					item.value *= factors[factor].data[index].result;
+				} else if (factor === "location" || factor === "zone") {
+					console.log("location y zone", factor, index, item.value);
+					item.value *= factors[factor].results[index].value;
+				}
+			}
+		return item;
+	});
 export const addValueToLocationZone = (items: any) => {
 	const id = items.length + 1;
 	items.push({ id, ...items[id - 2] });
@@ -114,8 +103,13 @@ const deleteColumns = (object: any) => {
 };
 export const addValueToUsedFactors = (factors: any) => {
 	for (const factor of getObjectKey(factors)) {
-		if (factor !== "location" && factor !== "zone" && factor !== "surface") {
-			const { length } = factors[factor].data;
+		let length = factors[factor].data.length;
+		if (
+			factor !== "location" &&
+			factor !== "zone" &&
+			factor !== "surface" &&
+			factor !== "comparison"
+		) {
 			const { subject, isUsed } = factors[factor];
 			if (isUsed) {
 				factors[factor].data.push({ id: length + 1, ...subject, result: 1 });
@@ -124,15 +118,14 @@ export const addValueToUsedFactors = (factors: any) => {
 				factors[factor].data.push({ id: length + 1, ...factors[factor].data[length - 1] });
 			}
 		} else {
-			if (factor === "surface") {
-				const { length } = factors[factor].data;
+			if (factor === "surface" || factor === "comparison") {
 				factors[factor].data.push({ id: length + 1, value: 1 });
 			} else {
-				const { length } = factors[factor].results;
+				length = factors[factor].results.length;
 				const { data, isUsed, results } = factors[factor];
 				if (isUsed) {
 					factors[factor].data[0] = addColumns(data[0]);
-					factors[factor].results.push({ id: length + 1, ...results[0] });
+					factors[factor].results.push({ id: results.length + 1, value: 1 });
 				}
 			}
 		}
@@ -161,9 +154,8 @@ export const addValueToHomologations = (homologation: any) => {
 	for (const item of getObjectKey(homologation)) {
 		const length = homologation[item].data.length;
 		if (item === "salesCosts") {
-			homologation[item].data.push({ id: length + 1, value: 1,unitaryCost:1 });
-		}
-		else{
+			homologation[item].data.push({ id: length + 1, value: 1, unitaryCost: 1 });
+		} else {
 			homologation[item].data.push({ id: length + 1, value: 1 });
 		}
 		if (item === "weightingPercentage") {

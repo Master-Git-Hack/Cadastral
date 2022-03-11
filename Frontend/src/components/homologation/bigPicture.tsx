@@ -10,14 +10,19 @@ import {
 	getUsedFactors,
 	getObjectKey,
 } from "../../utils/utils";
-import { selector } from "../../features/homologation/slice";
+import {
+	selector,
+	setFactorsData,
+	setLocationZoneResults,
+} from "../../features/homologation/slice";
 export const BigPicture: FC = () => {
 	const dispatch = useAppDispatch();
 	const { factors, homologation, rowsCount } = useAppSelector(selector);
-	console.log(useAppSelector(selector));
+
 	const factorItems = getUsedFactors(factors);
 	const colSpan = countFactors(factorItems);
-	const tags = getFactorsTag(factorItems);
+	const tags = getFactorsTag(factorItems).filter((key: string) => !key.includes("FCom."));
+	console.log(useAppSelector(selector));
 	return (
 		<table className="table table-sm table-responsive table-responsive-sm table-bordered table-stripped table-hover">
 			<thead className="align-self-middle align-middle text-center">
@@ -57,9 +62,11 @@ const Headers: FC<{ tags: any }> = (props) => (
 		{props.tags.map((header: string, index: number) => (
 			<th key={`bigPicture-headers-${header}-${index}`}>{header}</th>
 		))}
+		<th>FCom.</th>
 	</tr>
 );
 const Show: FC<{
+	id: string;
 	value: number;
 	isCurrency?: boolean;
 	isPercentage?: boolean;
@@ -70,7 +77,7 @@ const Show: FC<{
 		isCurrency: boolean = false,
 		isPercentage: boolean = false,
 		decimals: number = 2,
-	) => <td>{toFancyNumber(value, isCurrency, isPercentage, decimals)}</td>;
+	) => <td id={props.id}>{toFancyNumber(value, isCurrency, isPercentage, decimals)}</td>;
 	return (
 		<>
 			{show(
@@ -97,16 +104,23 @@ const Body: FC<{
 			{items.map((item: string, index: number) => (
 				<tr key={`bigPicture-body-${item}-${index}`}>
 					<td>{item}</td>
-					<Show value={salesCosts.data[index].value} />
-					<Show value={areas.data[index].value} decimals={0} />
-					<Show value={salesCosts.data[index].unitaryCost} isCurrency={true} />
+					<Show id={`salesCost-${index}`} value={salesCosts.data[index].value} />
+					<Show id={`areas-${index}`} value={areas.data[index].value} decimals={0} />
+					<Show
+						id={`unitaryCost-${index}`}
+						value={salesCosts.data[index].unitaryCost}
+						isCurrency={true}
+					/>
 					<FactorsView
 						factors={props.factors}
 						tags={props.tags}
 						index={index}
 						dispatch={props.dispatch}
 					/>
-					<Show value={props.factorResults.data[index].value} />
+					<Show
+						id={`factorResults-${index}`}
+						value={props.factorResults.data[index].value}
+					/>
 					<td>
 						<FancyInput
 							index={index}
@@ -123,27 +137,69 @@ const Body: FC<{
 	);
 };
 const FactorsView: FC<{ factors: any; tags: any; index: number; dispatch: Function }> = (props) => {
-	const keys = getObjectKey(props.factors);
+	const keys = getObjectKey(props.factors).filter(
+		(key: string) => !key.includes("comparison") && !key.includes("Zona"),
+	);
 	return (
 		<>
 			{keys.map((key: string) =>
-				props.tags.map((tag: string) =>
-					props.factors[key].tag === tag ? (
-						<Show
-							key={`bigPicture-factors-${key}-${tag}-${props.index}`}
-							value={
-								key==="surface" 
-								?
-								props.factors[key].data[props.index].value
-								:
-								key !== "location" && key !== "zone"
-									? props.factors[key].data[props.index].result
-									:props.factors[key].results[props.index].value
-							}
-						/>
-					) : null,
-				),
+				props.tags
+					.filter((tag: string) => !tag.includes("FZo."))
+					.map((tag: string) =>
+						props.factors[key].tag === tag ? (
+							<Show
+								id={`bigPicture-factors-${key}-${tag}-${props.index}`}
+								key={`bigPicture-factors-${key}-${tag}-${props.index}`}
+								value={
+									key === "surface"
+										? props.factors[key].data[props.index].value
+										: key !== "location" && key !== "zone"
+										? props.factors[key].data[props.index].result
+										: props.factors[key].results[props.index].value
+								}
+							/>
+						) : null,
+					),
 			)}
+			<td>
+				<FancyInput
+					index={props.index}
+					name="zone"
+					value={props.factors.zone.results[props.index].value}
+					onChange={(event) => 
+						props.dispatch(
+							setLocationZoneResults({
+								itemName: "zone",
+								itemID: props.index,
+								value: Number(event.target.value),
+							}),
+						)
+					}
+					isCurrency={false}
+					isPercentage={false}
+				/>
+			</td>
+			<td>
+				<FancyInput
+					index={props.index}
+					name="comparison"
+					value={props.factors.comparison.data[props.index].value}
+					onChange={(event) =>
+						props.dispatch(
+							setFactorsData({
+								itemName: "comparison",
+								itemID: props.index,
+								value: {
+									id: props.index + 1,
+									value: Number(event.target.value),
+								},
+							}),
+						)
+					}
+					isCurrency={false}
+					isPercentage={false}
+				/>
+			</td>
 		</>
 	);
 };

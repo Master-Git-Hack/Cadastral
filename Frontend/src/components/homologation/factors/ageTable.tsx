@@ -15,15 +15,15 @@ export const AgeTable: FC = () => {
 			isSubject
 				? setFactorsSubject({
 						itemName: "ages",
-						value: { value: transaction },
+						value: { value: Number(transaction) },
 				  })
 				: setFactorsData({
 						itemID,
 						itemName: "ages",
 						value: {
-							id: itemID,
-							value: transaction,
-							result: Number(subject.value / transaction),
+							id: itemID + 1,
+							value: Number(transaction),
+							result: 1 - (Number(subject.value) - Number(transaction)) * 0.01,
 						},
 				  }),
 		);

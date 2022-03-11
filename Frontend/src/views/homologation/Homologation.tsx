@@ -13,22 +13,29 @@ export default function Homologation() {
 	return (
 		<>
 			<SelectionFactor
+				name="begin"
 				visibility={showSelectFactor}
 				setCurrent={setShowSelectFactor}
 				setNext={setShowEditFactors}
 			/>
 			<EditFactor
+				name="edit"
 				visibility={showEditFactors}
+				setPrev={setShowSelectFactor}
 				setCurrent={setShowEditFactors}
 				setNext={setShowUnitCost}
 			/>
 			<EditHomologation
+				name="edit"
 				visibility={showUnitCost}
+				setPrev={setShowEditFactors}
 				setCurrent={setShowUnitCost}
 				setNext={setShowBigPicture}
 			/>
 			<ShowBigPicture
+				name="end"
 				visibility={showBigPicture}
+				setPrev={setShowUnitCost}
 				setCurrent={setShowBigPicture}
 				setNext={() => {}}
 			/>
@@ -36,19 +43,37 @@ export default function Homologation() {
 	);
 }
 const VisibilityButton: FC = (props: any) => (
-	<div className="text-end">
-		<button
-			className="btn btn-sm btn-primary"
-			onClick={() => {
-				props.setCurrent(false);
-				props.setNext(true);
-			}}
-		>
-			Continuar
-		</button>
+	<div className="row">
+		{props.name !== "begin" ? (
+			<div className="col text-start">
+				<button
+					className="btn btn-sm btn-link"
+					onClick={() => {
+						props.setCurrent(false);
+						props.setPrev(true);
+					}}
+				>
+					Atras
+				</button>
+			</div>
+		) : null}
+		{props.name !== "end" ? (
+			<div className=" col text-end">
+				<button
+					className="btn btn-sm btn-primary"
+					onClick={() => {
+						props.setCurrent(false);
+						props.setNext(true);
+					}}
+				>
+					Continuar
+				</button>
+			</div>
+		) : null}
 	</div>
 );
 const SelectionFactor: FC<{
+	name: string;
 	visibility: boolean;
 	setCurrent: Function;
 	setNext: Function;
@@ -63,7 +88,9 @@ const SelectionFactor: FC<{
 	</>
 );
 const EditFactor: FC<{
+	name: string;
 	visibility: boolean;
+	setPrev: Function;
 	setCurrent: Function;
 	setNext: Function;
 }> = (props) => (
@@ -77,7 +104,9 @@ const EditFactor: FC<{
 	</>
 );
 const EditHomologation: FC<{
+	name: string;
 	visibility: boolean;
+	setPrev: Function;
 	setCurrent: Function;
 	setNext: Function;
 }> = (props) => (
@@ -91,12 +120,15 @@ const EditHomologation: FC<{
 	</>
 );
 const ShowBigPicture: FC<{
+	name: string;
 	visibility: boolean;
+	setPrev: Function;
 	setCurrent: Function;
 	setNext: Function;
 }> = (props) =>
 	props.visibility ? (
 		<div className="m-5">
 			<BigPicture />
+			<VisibilityButton {...props} />
 		</div>
 	) : null;
