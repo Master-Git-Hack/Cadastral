@@ -20,7 +20,7 @@ export default function Homologation() {
 	const [showBigPicture, setShowBigPicture] = useState(false);
 	const [showRefactor, setShowRefactor] = useState(false);
 	console.log(useAppSelector(selector));
-	useEffect(() => {
+	/*useEffect(() => {
 		dispatch(searchForExistence(id));
 	}, []);
 	useEffect(() => {
@@ -31,7 +31,7 @@ export default function Homologation() {
 			setShowUnitCost(false);
 			setShowBigPicture(true);
 		}
-	}, [status]);
+	}, [status]);*/
 	return (
 		<>
 			{status === "loading" ? (

@@ -246,7 +246,10 @@ export const addValueToUsedFactors = (factors: any) => {
 				const { data, isUsed, results } = factors[factor];
 				if (isUsed) {
 					factors[factor].data[0] = addColumns(data[0]);
-					factors[factor].results.push({ id: results.length + 1, value: 1 });
+					factors[factor].results.push({ id: length + 1, value: 1 });
+					if(factor === "zone"){
+						factors[factor].analytics.push({id:length+1,...factors[factor].analytics[length-1]})
+					}
 				}
 			}
 		}

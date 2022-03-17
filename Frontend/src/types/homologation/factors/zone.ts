@@ -20,76 +20,27 @@ interface Data extends State {
 	percentage: number;
 	observations: string;
 }
-interface Factors extends StateProps {
+interface AnalyticsData extends StateProps {
 	id: number;
 	type: string;
 	value: number;
+    result:number
 }
-interface Subject extends State {
-	delegation: string;
-	type: string;
-	value: number;
+interface Subject {
+	district: string;
+	factor1:{
+        type: string;
+	    value: number;
+    };
+    factor2:{
+        type: string;
+        value?: number;
+    }
 }
-interface Analytics extends State {
+interface Analytics {
 	id: number;
-	district:
-		| "ABASOLO"
-		| "ACÁMBARO"
-		| "APASEO EL ALTO"
-		| "APASEO EL GRANDE"
-		| "ATARJEA"
-		| "CELAYA"
-		| "COMONFORT"
-		| "CORONEO"
-		| "CORTAZAR"
-		| "CUERAMARO"
-		| "DOCTOR MORA"
-		| "DOLORES HIDALGO"
-		| "GUANAJUATO"
-		| "HUANÍMARO"
-		| "IRAPUATO"
-		| "JARAL DEL PROGRESO"
-		| "JERÉCUARO"
-		| "LEÓN"
-		| "MANUEL DOBLADO"
-		| "MOROLEÓN"
-		| "OCAMPO"
-		| "PÉNJAMO"
-		| "PUEBLO NUEVO"
-		| "PURÍSIMA DEL RINCÓN"
-		| "ROMITA"
-		| "SALAMANCA"
-		| "SALVATIERRA"
-		| "SAN DIEGO DE LA UNIÓN"
-		| "SAN FELIPE"
-		| "SAN FRANCISCO DEL RINCÓN"
-		| "SAN JOSÉ ITURBIDE"
-		| "SAN LUIS DE LA PAZ"
-		| "SAN MIGUEL DE ALLENDE"
-		| "SANTA CATARINA"
-		| "SANTA CRUZ DE JUVENTINO"
-		| "SANTIAGO MARAVATIO"
-		| "SILAO DE LA VICTORIA"
-		| "TARANDACUAO"
-		| "TARIMORO"
-		| "TIERRA BLANCA"
-		| "URIANGATO"
-		| "VALLE DE SANTIAGO"
-		| "VICTORIA"
-		| "VILLAGRAN"
-		| "XICHU"
-		| "YURIRIA"
-		| "";
-	type:
-		| "POBLACIÓN TOTAL"
-		| "DENSIDAD DE POBLACIÓN"
-		| "POBLACIÓN ECONÓMICAMENTE ACTIVA"
-		| "PORCENTAJE"
-		| "TOTAL DE VIVIENDAS HABITADAS"
-		| "";
-	value: number;
-	Factors: Array<Factors>;
-	results: Array<StateProps>;
+	district:string;
+    data:Array<AnalyticsData>
 }
 export interface ZoneProps extends State {
 	name: string;
@@ -98,7 +49,7 @@ export interface ZoneProps extends State {
 	data: Array<Data>;
 	results: Array<StateProps>;
 	isUsed: boolean;
-	analytics: Array<Analytics>;
+	analytics: any;
 }
 
 const zoneBasic = (id: number): Data => ({
@@ -112,31 +63,38 @@ export const ZoneData = (id: number, lenght: number): Data => {
 	for (let i = 2; i <= lenght; i++) data[`C${i}`] = symbolsOptions[0];
 	return data;
 };
-export const ZoneTemplate: ZoneProps = {
+export const ZoneTemplate: any = {
 	name: "Zona",
 	tag: "FZo.",
 	results: [{ id: 1, value: 1 }],
 	data: [ZoneData(1, 1)],
 	isUsed: true,
 	subject: {
-		delegation: "",
-		type: "",
-		value: 1,
+		district: "Abasolo",
+        factor1:{
+            type: "totalPopulation",
+		    value: 92040,
+        },
+        factor2:{
+            type: "totalPopulation",
+        }
+		
 	},
 	analytics: [
 		{
 			id: 1,
-			district: "",
-			type: "",
-			value: 1,
-			Factors: [
-				{ id: 1, type: "", value: 1 },
-				{ id: 2, type: "", value: 1 },
-			],
-			results: [
-				{ id: 1, value: 1 },
-				{ id: 2, value: 1 },
-			],
+			district: "Abasolo",
+            factor1:{
+                type: "totalPopulation",
+                value:92040,
+                result:0
+            },
+            factor2:{
+                type:"totalPopulation",
+                value:92040,
+                result:0
+            }
+
 		},
 	],
 };

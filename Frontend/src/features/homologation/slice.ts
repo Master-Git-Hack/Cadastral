@@ -133,12 +133,18 @@ export const slice = createSlice({
 				state.factors.results.data = factorsResult(factors);
 			}
 		},
+		setZoneSubjectFactors(state,action:PayloadAction<TransactionProps>){
+			const { itemName, value } = action.payload;
+			if (itemName !== undefined && value !== undefined){
+				state.factors.zone.subject[itemName]=value
+			}
+		},
 		setZone(state, action: PayloadAction<TransactionProps>) {
 			const { itemName, subItemName, itemID, value } = action.payload;
 			if (itemName !== undefined && value !== undefined && itemID !== undefined && subItemName !== undefined) {
 				
 				if(itemName ==="subject"){
-					state.factors.zone[itemName] = value;
+					state.factors.zone[itemName].district = value;
 				}
 				else{
 					
@@ -271,6 +277,7 @@ export const {
 	setZone,
 	updateAverageUnitCost,
 	setHomologationRector,
+	setZoneSubjectFactors,
 } = slice.actions;
 
 export const sendPatchRequest = createAsyncThunk(

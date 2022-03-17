@@ -68,6 +68,8 @@
     "eslint": "^8.11.0",
     "eslint-config-airbnb-typescript-prettier": "^5.0.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-config-react-app": "^7.0.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.0"
   }
