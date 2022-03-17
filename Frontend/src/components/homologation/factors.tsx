@@ -14,6 +14,7 @@ import { topographyOptions } from "../../types/homologation/factors/topography";
 import { typeFormOptions } from "../../types/homologation/factors/typeForm";
 import { usageOptions } from "../../types/homologation/factors/usage";
 import { SymbolsTable } from "./factors/symbolsTable";
+import { ZoneTable } from "./factors/zoneTable";
 export const FactorsCompilation: FC = () => {
 	const dispatch = useAppDispatch();
 	const { type } = useAppSelector(selector);
@@ -22,18 +23,40 @@ export const FactorsCompilation: FC = () => {
 			<thead>
 				<Actions dispatch={dispatch} />
 			</thead>
-			<tbody className="align-self-center align-middle text-center">
-				<Age />
-				<Building />
-				<Classification />
-				<Comparison />
-				<Level />
-				<Location />
-				<Project />
-				<Quality />
-				<Topography type={type} />
-				<TypeForm type={type} />
-				<Usage />
+			<tbody className="align-self-center align-middle text-center align-items-center">
+				<tr className="row px-5">
+					<td className="col-6 col-sm-6">
+						<Classification />
+					</td>
+					<td className="col-6 col-sm-6">
+						<TypeForm type={type} />
+					</td>
+				</tr>
+				<tr className="row text-center px-5">
+					<td className="col-6 col-sm-6">
+						<Usage />
+					</td>
+					<td className="col-6 col-sm-6">
+						<Topography type={type} />
+					</td>
+				</tr>
+				<tr className="row text-center px-5">
+					<td className="col-6 col-sm-6">
+						<Level />
+					</td>
+					<td className="col-6 col-sm-6">
+						<Quality />
+					</td>
+				</tr>
+				<tr className="row text-center px-5">
+					<td className="col-6 col-sm-6">
+						<Project />
+					</td>
+					<td className="col-6 col-sm-6">
+						<Building />
+					</td>
+				</tr>
+				{/*<Location />*/}
 				{/*<Zone/>*/}
 			</tbody>
 		</table>
@@ -42,8 +65,8 @@ export const FactorsCompilation: FC = () => {
 const Actions: FC<{
 	dispatch: any;
 }> = (props) => (
-	<tr className="row text-center">
-		<td className="col text-start" colSpan={12} rowSpan={1}>
+	<tr className="row text-center px-5">
+		<td className="col text-start px-5 pe-5" colSpan={12} rowSpan={1}>
 			<button className="btn btn-sm btn-success" onClick={() => props.dispatch(addDataRow())}>
 				Agregar nueva fila
 			</button>
@@ -60,105 +83,84 @@ const Actions: FC<{
 );
 export const Age: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<AgeTable />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
 export const Building: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<CommonTable name="buildings" options={buildingOptions} id={1} />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
 export const Classification: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<CommonTable name="classification" options={classificationOptions} id={2} />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
-export const Comparison: FC = () => (
+export const Commercial: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6"></td>
-		<td className="col-3 col-sm-3" />
+		<td className="col-12 col-sm-12"></td>
 	</tr>
 );
 export const Level: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<CommonTable name="level" options={levelOptions} id={3} />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
 export const Location: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<SymbolsTable name="location" />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
 export const Project: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<CommonTable name="project" options={projectOptions} id={4} />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
 export const Quality: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<CommonTable name="quality" options={qualityOptions} id={5} />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
 export const Topography: FC<{ type: string }> = (props) => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<CommonTable name="topography" options={topographyOptions(props.type)} id={6} />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
 export const TypeForm: FC<{ type: string }> = (props) => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<CommonTable name="typeForm" options={typeFormOptions(props.type)} id={7} />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
 export const Usage: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6">
+		<td className="col-12 col-sm-12">
 			<CommonTable name="usage" options={usageOptions} id={8} />
 		</td>
-		<td className="col-3 col-sm-3" />
 	</tr>
 );
 export const Zone: FC = () => (
 	<tr className="row text-center">
-		<td className="col-3 col-sm-3" />
-		<td className="col-6 col-sm-6"></td>
-		<td className="col-3 col-sm-3" />
+		<td className="col-12 col-sm-12">
+			<ZoneTable />
+			<SymbolsTable name="zone" />
+		</td>
 	</tr>
 );

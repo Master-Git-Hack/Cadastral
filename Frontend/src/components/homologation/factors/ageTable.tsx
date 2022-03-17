@@ -39,20 +39,8 @@ export const AgeTable: FC = () => {
 				<tr>
 					<td>#</td>
 					<td colSpan={4}>{title}</td>
-					<td colSpan={1} rowSpan={2}>
+					<td colSpan={1} rowSpan={1}>
 						Factores
-					</td>
-				</tr>
-				<tr>
-					<td>SUJETO</td>
-					<td colSpan={4}>
-						<input
-							type="number"
-							className="form-control form-control-sm bg-warning text-center"
-							name="subject"
-							value={subject.value}
-							onChange={(e) => handleChange(e.target.value, 0, true)}
-						/>
 					</td>
 				</tr>
 				{data.map((item: any, index: number) => (
@@ -71,6 +59,20 @@ export const AgeTable: FC = () => {
 					</tr>
 				))}
 			</tbody>
+			<tfoot>
+				<tr>
+					<td>SUJETO</td>
+					<td colSpan={6}>
+						<input
+							type="number"
+							className="form-control form-control-sm bg-warning text-center"
+							name="subject"
+							value={subject.value}
+							onChange={(e) => handleChange(e.target.value, 0, true)}
+						/>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	) : null;
 };

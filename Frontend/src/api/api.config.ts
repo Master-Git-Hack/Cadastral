@@ -7,11 +7,13 @@ const baseURL = process.env.REACT_APP_API_URL;
 export const consume = (responseType: "blob" | "json") =>
 	axios.create({
 		baseURL,
-		withCredentials: true,
+		// withCredentials: true,
 		timeout: 30000,
 		headers: {
 			Authorization: "Basic",
 			"Cache-Control": "no-cache, no-store, must-revalidate",
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Credentials": true,
 			Pragma: "no-cache",
 			"Content-Type": "application/json",
 			Accept: "application/json",

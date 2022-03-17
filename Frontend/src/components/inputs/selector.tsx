@@ -13,7 +13,7 @@ export const Selector: FC<{
 		key={props.id}
 		id={`selector-${props.name}-${props.id}`}
 		name={props.name}
-		className={`form-select form-select-sm ${props.style}`}
+		className={`form-select form-select-sm mx-auto ${props.style}`}
 		value={props.subject.type}
 		onChange={props.onChange}
 	>

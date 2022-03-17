@@ -7,19 +7,19 @@ interface State extends StateProps {
 	value: number;
 }
 
-export interface ComparisonProps {
+export interface CommercialProps {
 	name: string;
 	tag: string;
 	data: Array<State>;
 	isUsed: boolean;
 }
-export const comparisonData = (id: number): State => ({
+export const commercialData = (id: number): State => ({
 	id,
-	value: 1,
+	value: 0.95,
 });
-export const comparisonTemplate: ComparisonProps = {
-	name: "Comparacion",
+export const commercialTemplate: CommercialProps = {
+	name: "Comercial",
 	tag: "FCom.",
-	data: [comparisonData(1)],
+	data: [commercialData(1)],
 	isUsed: true,
 };

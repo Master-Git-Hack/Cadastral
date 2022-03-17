@@ -11,7 +11,132 @@ import { topographyOptions } from "../types/homologation/factors/topography";
 import { typeFormOptions } from "../types/homologation/factors/typeForm";
 import { usageOptions } from "../types/homologation/factors/usage";
 import { symbolsOptions } from "../types/homologation/factors/symbols";
+export const handleHomologationUpdate = (state: any) => {
+	const { type, factors, homologation } = state;
+	const { salesCosts, areas, weightingPercentage, reFactor, indiviso } = homologation;
 
+	const { results, surface } = factors;
+	//handle homologation only
+	salesCosts.results = calculateResultantUnitaryCost(results.data, salesCosts);
+
+	salesCosts.averageUnitCost.value = calculateAverageUnitCost(
+		salesCosts.results,
+		weightingPercentage.data,
+	);
+
+	salesCosts.averageUnitCost.roundedValue = roundToTenth(salesCosts.averageUnitCost.value, 1);
+
+	salesCosts.averageUnitCost.result = salesCosts.averageUnitCost.roundedValue;
+
+	weightingPercentage.total = calculateWeightingPercentage(weightingPercentage.data);
+
+	areas.averageLotArea.value = calculateAverageLotArea(areas.data);
+
+	//handle factors Only
+	surface.data = calculateSurface(surface.data, areas.data, areas.averageLotArea.value, type);
+
+	//handle reFactor Only
+	if (type === "TERRENO") {
+		reFactor.data[0].value = (areas.subject.value / areas.averageLotArea.value) ** (1 / 12);
+		reFactor.factorResult.value = reFactor.data.reduce(
+			(previous: number, current: any) => previous * Number(current.value),
+			1,
+		);
+	} else {
+		reFactor.factorResult.value =
+			(areas.subject.value / areas.averageLotArea.value) ** (1 / 12);
+	}
+
+	//handle averageUnitCost
+	salesCosts.averageUnitCost.result =
+		reFactor.factorResult.value * salesCosts.averageUnitCost.roundedValue;
+
+	//handle indiviso
+	if (type === "TERRENO") {
+		indiviso.indiviso = indiviso.private / indiviso.surface;
+		indiviso.result = indiviso.indiviso * areas.subject.value;
+	}
+
+	return {
+		...state,
+		factors: {
+			...factors,
+			surface,
+			results,
+		},
+		homologation: {
+			...homologation,
+			salesCosts,
+			areas,
+			reFactor,
+		},
+		averageUnitCost: roundToTenth(salesCosts.averageUnitCost.result),
+	};
+};
+export const calculateWeightingPercentage = (data: any) =>
+	data.reduce((prev: number, curr: any) => prev + Number(curr.value), 0);
+/*
+export const handleHomologationUpdate = (state: any) => {
+	const { data } = state.factors.results;
+	const { salesCosts } = state.homologation;
+	state.homologation.salesCosts.results = calculateResultantUnitaryCost(data, salesCosts);
+	const weightingPercentage = state.homologation.weightingPercentage.data;
+	state.homologation.salesCosts.averageUnitCost = calculateAverageUnitCost(
+		salesCosts.results,
+		weightingPercentage,
+	);
+	state.homologation.weightingPercentage.total = weightingPercentage.reduce(
+		(prev: number, curr: any) => prev + Number(curr.value),
+		0,
+	);
+	const { averageUnitCost } = state.homologation.salesCosts;
+	state.reFactor.averageUnitCost.value = averageUnitCost;
+
+	const { areas } = state.homologation;
+	const { surface } = state.factors;
+	const { type } = state;
+	state.homologation.areas.averageLotArea = calculateAverageLotArea(areas.data);
+	state.reFactor.averageLotArea.value = areas.averageLotArea;
+	state.factors.surface.data = calculateSurface(
+		surface.data,
+		areas.data,
+		areas.averageLotArea,
+		type,
+	);
+	const {value} = state.reFactor.averageUnitCost
+	state.reFactor.averageUnitCost.value = roundToTenth(Number(value), 1);
+	if(type === "TERRENO"){
+		const {areaSubject,averageLotArea} =state.reFactor;
+		state.reFactor.factors[0].value = ((averageLotArea.value/areaSubject.value)**(1/12));
+		const {factors} = state.reFactor
+		state.reFactor.factorResult.value = factors.reduce((prev:number,curr:any)=>prev*Number(curr.value),1);
+		state.reFactor.averageUnitCost.result
+
+	}
+
+	return state;
+};*/
+export const calculateAverageUnitCost = (salesCosts: any, weightingPercentage: any) =>
+	salesCosts.reduce(
+		(previous: number, current: any, index: number) =>
+			previous + Number(current.value * (weightingPercentage[index].value / 100)),
+		0,
+	);
+export const calculateResultantUnitaryCost = (resultantFactor: any, salesCosts: any) =>
+	salesCosts.results.map((item: any, index: number) => {
+		item.value =
+			Number(resultantFactor[index].value) * Number(salesCosts.data[index].unitaryCost);
+		return item;
+	});
+
+export const calculateSurface = (surface: any, areas: any, value: number, type: string) =>
+	surface.map((item: any, index: number) => {
+		item.value = (areas[index].value / value) ** (1 / (type === "TERRENO" ? 12 : 8));
+		return item;
+	});
+export const calculateAverageLotArea = (areas: any) =>
+	areas.reduce((previous: number, current: any) => previous + Number(current.value), 0) /
+	areas.length;
 export const getUsedFactors = (factors: any) => {
 	const usedFactors: any = {};
 	for (const factor in factors) {
@@ -45,19 +170,16 @@ export const factorsResult = (factors: any) =>
 		item.value = 1;
 		for (const factor in factors)
 			if (factors[factor].isUsed) {
-				if (factor === "surface" || factor === "comparison") {
-					console.log("surface y comparison", factor, index, item.value);
+				if (factor === "surface" || factor === "commercial") {
 					item.value *= factors[factor].data[index].value;
 				} else if (
 					factor !== "location" &&
 					factor !== "zone" &&
 					factor !== "surface" &&
-					factor !== "comparison"
+					factor !== "commercial"
 				) {
-					console.log("todo menos location an zone", factor, index, item.value);
 					item.value *= factors[factor].data[index].result;
 				} else if (factor === "location" || factor === "zone") {
-					console.log("location y zone", factor, index, item.value);
 					item.value *= factors[factor].results[index].value;
 				}
 			}
@@ -69,7 +191,7 @@ export const addValueToLocationZone = (items: any) => {
 	return items;
 };
 export const removeValueToLocationZone = (items: any) => {
-	items.pop();
+	if (items.length > 1) items.pop();
 	return items;
 };
 export const calculationLocationZone = (items: any) => {
@@ -88,7 +210,6 @@ export const calculationLocationZone = (items: any) => {
 	);
 	return results.map((item: number, index: number) => ({ id: index + 1, value: item }));
 };
-
 const addColumns = (object: any) => {
 	const length = getObjectKey(object).filter((key: string) => key.includes("C")).length;
 	object[`C${length + 1}`] = object.C1;
@@ -108,7 +229,7 @@ export const addValueToUsedFactors = (factors: any) => {
 			factor !== "location" &&
 			factor !== "zone" &&
 			factor !== "surface" &&
-			factor !== "comparison"
+			factor !== "commercial"
 		) {
 			const { subject, isUsed } = factors[factor];
 			if (isUsed) {
@@ -118,8 +239,8 @@ export const addValueToUsedFactors = (factors: any) => {
 				factors[factor].data.push({ id: length + 1, ...factors[factor].data[length - 1] });
 			}
 		} else {
-			if (factor === "surface" || factor === "comparison") {
-				factors[factor].data.push({ id: length + 1, value: 1 });
+			if (factor === "surface" || factor === "commercial") {
+				factors[factor].data.push({ id: length + 1, ...factors[factor].data[length - 1] });
 			} else {
 				length = factors[factor].results.length;
 				const { data, isUsed, results } = factors[factor];
@@ -152,21 +273,39 @@ export const removeValueFromUsedFactors = (factors: any) => {
 };
 export const addValueToHomologations = (homologation: any) => {
 	for (const item of getObjectKey(homologation)) {
-		const length = homologation[item].data.length;
-		if (item === "salesCosts") {
-			homologation[item].data.push({ id: length + 1, value: 1, unitaryCost: 1 });
-		} else {
-			homologation[item].data.push({ id: length + 1, value: 1 });
-		}
-		if (item === "weightingPercentage") {
-			homologation[item].data.map((current: any) => (current.value = 100 / (length + 1)));
+		if (item !== "reFactor" && item !== "indiviso") {
+			const length = homologation[item].data.length;
+			if (item === "salesCosts") {
+				homologation[item].data.push({ id: length + 1, value: 1, unitaryCost: 1 });
+				homologation[item].results.push({ id: length + 1, value: 1 });
+			} else {
+				homologation[item].data.push({ id: length + 1, value: 1 });
+				if (item === "weightingPercentage") {
+					homologation[item].data.map(
+						(current: any) => (current.value = 100 / (length + 1)),
+					);
+				} else {
+					homologation[item].data[length] = {
+						...homologation[item].data[length],
+						surface: 1,
+					};
+				}
+			}
 		}
 	}
 	return homologation;
 };
 export const removeValueFromHomologations = (homologation: any) => {
 	for (const item of Object.keys(homologation))
-		if (homologation[item].data.length > 1) homologation[item].data.pop();
+		if (item !== "reFactor" && item !== "indiviso")
+			if (homologation[item].data.length > 1) {
+				homologation[item].data.pop();
+				if (item === "weightingPercentage") {
+					homologation[item].data.map(
+						(current: any) => (current.value = 100 / homologation[item].data.length),
+					);
+				}
+			}
 	return homologation;
 };
 export const getObjectKey = (items: any) => Object.keys(items);
@@ -245,7 +384,11 @@ export const toFancyNumber: Function = (
  * @example
  *
  */
-export const roundToTenth = (value: number, decimals: number = 1): number =>
-	Number((value / 10).toString().split(".")[1][0]) <= 5
-		? Math.floor(value / Math.pow(10, decimals)) * Math.pow(10, decimals)
-		: Math.ceil(value / Math.pow(10, decimals)) * Math.pow(10, decimals);
+export const roundToTenth = (value: number, decimals: number = 1): number => {
+	const aux = (value / 10).toString().split(".");
+	if (aux.length === 1) return Math.round(value);
+	else
+		return Number(aux[1][0]) <= 5
+			? Math.floor(value / Math.pow(10, decimals)) * Math.pow(10, decimals)
+			: Math.ceil(value / Math.pow(10, decimals)) * Math.pow(10, decimals);
+};

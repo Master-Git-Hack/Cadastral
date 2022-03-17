@@ -14,7 +14,7 @@ import {
 
 import { FC } from "react";
 
-export const SymbolsTable: FC<{ name: string }> = (props) => {
+export const SymbolsTable: FC<{ name: string; component?: any }> = (props) => {
 	const dispatch = useAppDispatch();
 	const { factors } = useAppSelector(selector);
 	const items = factors[props.name];
@@ -26,43 +26,54 @@ export const SymbolsTable: FC<{ name: string }> = (props) => {
 		.map((item: any) => item.percentage)
 		.reduce((previous: number, current: any) => previous + Number(current), 0);
 	return isUsed ? (
-		<table className="table table-sm table-responsive table-responsive-sm table-bordered table-striped table-hover">
-			<tbody className="align-self-middle align-middle text-center">
-				<tr>
-					<td className="align-middle" colSpan={colSpan}>
-						FACTOR POR {title}
-					</td>
-				</tr>
-				<Actions dispatch={dispatch} colSpan={colSpan} name={props.name} />
-				<tr>
-					<td>
-						PORCENTAJE
-						<br />
-						<small
-							className={`badge rounded-pill bg-${
-								percentage === 100
-									? "success"
-									: percentage > 100
-									? "danger"
-									: "warning"
-							}`}
-						>
-							{toFancyNumber(percentage, false, true)}
-						</small>
-					</td>
-					<td className="bg-warning">{title}</td>
-					<Headers columns={columns} />
-				</tr>
-				<Body
-					data={data}
-					name={props.name}
-					columns={columns}
-					dispatch={dispatch}
-					factors={factors}
-				/>
-				<Footer results={results} name={props.name} />
-			</tbody>
-		</table>
+		<div className="row">
+			<div
+				className={`col-${props.component !== undefined ? 10 : 12} col-sm-${
+					props.component !== undefined ? 10 : 12
+				}`}
+			>
+				<table className="table table-sm table-responsive table-responsive-sm table-bordered table-striped table-hover">
+					<tbody className="align-self-middle align-middle text-center">
+						<tr>
+							<td className="align-middle" colSpan={colSpan}>
+								FACTOR POR {title}
+							</td>
+						</tr>
+						<Actions dispatch={dispatch} colSpan={colSpan} name={props.name} />
+						<tr>
+							<td>
+								PORCENTAJE
+								<br />
+								<small
+									className={`badge rounded-pill bg-${
+										percentage === 100
+											? "success"
+											: percentage > 100
+											? "danger"
+											: "warning"
+									}`}
+								>
+									{toFancyNumber(percentage, false, true)}
+								</small>
+							</td>
+							<td className="bg-warning">{title}</td>
+							<Headers columns={columns} />
+						</tr>
+						<Body
+							data={data}
+							name={props.name}
+							columns={columns}
+							dispatch={dispatch}
+							factors={factors}
+						/>
+						<Footer results={results} name={props.name} />
+					</tbody>
+				</table>
+			</div>
+			<div className="col-2 col-sm-2">
+				{props.component !== undefined ? <props.component /> : null}
+			</div>
+		</div>
 	) : null;
 };
 
@@ -122,7 +133,7 @@ const Body: FC<{ data: any; name: string; columns: any; dispatch: Function; fact
 				<input
 					type="text"
 					name="observations"
-					className="form-control"
+					className="form-control form-control-sm"
 					value={item.observations}
 					onChange={(event) =>
 						props.dispatch(

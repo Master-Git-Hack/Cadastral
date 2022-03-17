@@ -2,83 +2,98 @@
 
 import { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
-import {
-	selector,
-	setHomologation,
-	setHomologationAreaSubject,
-} from "../../features/homologation/slice";
+import { selector, setFactorsData, setHomologation } from "../../features/homologation/slice";
 import { FancyInput } from "../inputs/fancyInput";
 import { toFancyNumber } from "../../utils/utils";
 
 export const UnitCost: FC = () => {
 	const dispatch = useAppDispatch();
-	const { homologation, type } = useAppSelector(selector);
-	const { areas, salesCosts } = homologation;
+	const { homologation, type, factors } = useAppSelector(selector);
+	const { surface, commercial } = factors;
+	const { areas, salesCosts, weightingPercentage } = homologation;
 	const length = Array.from({ length: areas.data.length }, (_, i) => i);
-	const handleType = type === "TERRENO" ? 1 : 0;
+	const percentage = weightingPercentage.total;
 	return (
 		<table className="table table-sm table-responsive table-responsive-sm table-bordered table-striped table-hover">
 			<tbody className="align-self-middle align-middle text-center">
 				<tr>
-					<td className="align-middle" colSpan={7}>
-						Precio Unitario ( $ / m<sup>2</sup> )
-					</td>
-				</tr>
-				<AreaSubject
-					type={type}
-					subject={type !== "TERRENO" ? areas.subject : areas.averageLotArea}
-					dispatch={dispatch}
-				/>
-				<tr>
 					<td colSpan={1}>#</td>
-					<td colSpan={2}>Precio de {handleType ? "Venta" : "Renta"}</td>
+					<td colSpan={2}>{salesCosts.tag}</td>
+					{type !== "TERRENO" ? (
+						<td colSpan={2}>
+							Sup. Terreno ( $ / m<sup>2</sup> )
+						</td>
+					) : null}
 					<td colSpan={2}>
-						{handleType ? "Área " : "Sup. Terreno "}(m<sup>2</sup>)
+						{areas.name}(m<sup>2</sup>)
 					</td>
 					<td className="align-middle" colSpan={2}>
 						Precio Unitario ( $ / m<sup>2</sup> )
 					</td>
+					<td className="align-middle" colSpan={2}>
+						Factor de Superficie
+					</td>
+					<td className="align-middle" colSpan={2}>
+						Factor de Comercialización
+					</td>
+					<td className="align-middle" colSpan={2}>
+						Ponderación
+						<br />
+						<small
+							className={`badge rounded-pill bg-${
+								percentage === 100
+									? "success"
+									: percentage > 100
+									? "danger"
+									: "warning"
+							}`}
+						>
+							{toFancyNumber(percentage, false, true, 0)}
+						</small>
+					</td>
 				</tr>
 
 				<Body
+					type={type}
 					length={length}
-					areas={areas.data}
+					surface={surface.data}
+					commercial={commercial.data}
+					areas={areas}
+					weightingPercentage={weightingPercentage.data}
 					salesCosts={salesCosts.data}
 					dispatch={dispatch}
 				/>
 			</tbody>
+			<tfoot>
+				<AreaSubject type={type} area={areas} />
+			</tfoot>
 		</table>
 	);
 };
-const AreaSubject: FC<{ type: string; subject: number; dispatch: Function }> = (props) =>
-	props.type !== "TERRENO" ? (
-		<tr>
-			<td colSpan={2}>
-				Superficie (m<sup>2</sup>) del sujeto
+const AreaSubject: FC<{ type: string; area: any }> = (props) => (
+	<tr>
+		<td colSpan={3}>{props.area.tag}</td>
+		{props.type !== "TERRENO" ? (
+			<td colSpan={2} className="text-center">
+				{toFancyNumber(props.area.subject.value)} m<sup>2</sup>
 			</td>
-			<td colSpan={4}>
-				<FancyInput
-					index={0}
-					name="subject"
-					value={props.subject}
-					onChange={(event) =>
-						props.dispatch(
-							setHomologationAreaSubject({ value: Number(event.target.value) }),
-						)
-					}
-					isCurrency={false}
-					isPercentage={false}
-					style={`text-center`}
-				/>
-			</td>
-		</tr>
-	) : (
-		<tr>
-			<td colSpan={3}>Área de Lote Moda</td>
-			<td colSpan={4}>{toFancyNumber(props.subject)}</td>
-		</tr>
-	);
-const Body: FC<{ length: any; areas: any; salesCosts: any; dispatch: Function }> = (props) =>
+		) : null}
+		<td colSpan={2} className="text-center">
+			{toFancyNumber(props.area.averageLotArea.value)} m<sup>2</sup>
+		</td>
+		<td colSpan={8} />
+	</tr>
+);
+const Body: FC<{
+	type: string;
+	length: any;
+	areas: any;
+	salesCosts: any;
+	surface: any;
+	commercial: any;
+	weightingPercentage: any;
+	dispatch: Function;
+}> = (props) =>
 	props.length.map((i: number) => (
 		<tr key={`areasBody-${i}`}>
 			<td colSpan={1}>C{i + 1}</td>
@@ -100,16 +115,38 @@ const Body: FC<{ length: any; areas: any; salesCosts: any; dispatch: Function }>
 					isPercentage={false}
 				/>
 			</td>
+			{props.type !== "TERRENO" ? (
+				<td colSpan={2}>
+					<FancyInput
+						index={i}
+						name="surface"
+						value={props.areas.data[i].surface}
+						onChange={(event) =>
+							props.dispatch(
+								setHomologation({
+									itemName: "areas",
+									itemID: i,
+									subItemName: "surface",
+									value: Number(event.target.value),
+								}),
+							)
+						}
+						isCurrency={false}
+						isPercentage={false}
+					/>
+				</td>
+			) : null}
 			<td colSpan={2}>
 				<FancyInput
 					index={i}
 					name="areas"
-					value={props.areas[i].value}
+					value={props.areas.data[i].value}
 					onChange={(event) =>
 						props.dispatch(
 							setHomologation({
 								itemName: "areas",
 								itemID: i,
+								subItemName: "value",
 								value: Number(event.target.value),
 							}),
 						)
@@ -119,5 +156,47 @@ const Body: FC<{ length: any; areas: any; salesCosts: any; dispatch: Function }>
 				/>
 			</td>
 			<td colSpan={2}>{toFancyNumber(props.salesCosts[i].unitaryCost, true)}</td>
+			<td colSpan={2}>{toFancyNumber(props.surface[i].value)}</td>
+			<td colSpan={2}>
+				<FancyInput
+					index={i}
+					name="commercial"
+					value={props.commercial[i].value}
+					onChange={(event) =>
+						props.dispatch(
+							setFactorsData({
+								itemName: "commercial",
+								itemID: i,
+								value: {
+									id: i + 1,
+									value: Number(event.target.value),
+								},
+							}),
+						)
+					}
+					isCurrency={false}
+					isPercentage={false}
+					style="text-center"
+				/>
+			</td>
+			<td colSpan={2}>
+				<FancyInput
+					index={i}
+					name="weightingPercentage"
+					value={props.weightingPercentage[i].value}
+					onChange={(event) =>
+						props.dispatch(
+							setHomologation({
+								itemName: "weightingPercentage",
+								itemID: i,
+								value: Number(event.target.value),
+							}),
+						)
+					}
+					isCurrency={false}
+					isPercentage={true}
+					style="text-center"
+				/>
+			</td>
 		</tr>
 	));
