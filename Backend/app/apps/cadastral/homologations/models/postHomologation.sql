@@ -1,0 +1,1 @@
+INSERT INTO homologacion VALUES (nextval('homologacion_id_seq'::regclass), '{{TIPO}}', '{{FACTORES}}', '{{RESULTADO}}', '{{VALOR_UNITARIO}}','{{REGISTRO}}', '{{TIPO_SERVICIO}}');

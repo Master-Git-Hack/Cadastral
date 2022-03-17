@@ -1,0 +1,1 @@
+SELECT * FROM homologacion WHERE registro='{{REGISTRATION}}' AND tipo='{{TYPE}}';

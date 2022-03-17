@@ -1,0 +1,1 @@
+UPDATE justripreciacion SET sp1_vu = '{{VALOR_UNITARIO}}' WHERE id={{ID}}

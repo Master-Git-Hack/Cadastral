@@ -1,0 +1,289 @@
+{
+    "appraisalPurpose": "JUSTIPRECIACI\u00d3N DE RENTA",
+    "averageUnitCost": 0,
+    "factors": {
+        "ages": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "value": 1
+                }
+            ],
+            "isUsed": false,
+            "name": "Edad",
+            "subject": {
+                "value": 1
+            },
+            "tag": "FEd."
+        },
+        "buildings": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "RESIDENCIAL PLUS",
+                    "value": 1.08
+                }
+            ],
+            "isUsed": true,
+            "name": "Construccion",
+            "subject": {
+                "type": "RESIDENCIAL PLUS",
+                "value": 1.08
+            },
+            "tag": "FCons."
+        },
+        "classification": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                }
+            ],
+            "isUsed": true,
+            "name": "Clasificacion",
+            "subject": {
+                "type": "URBANO",
+                "value": 1.1
+            },
+            "tag": "FClas."
+        },
+        "commercial": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.95
+                }
+            ],
+            "isUsed": true,
+            "name": "Comercial",
+            "tag": "FCom."
+        },
+        "level": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "SOTANO 1",
+                    "value": 0.9
+                }
+            ],
+            "isUsed": true,
+            "name": "Nivel",
+            "subject": {
+                "type": "SOTANO 1",
+                "value": 0.9
+            },
+            "tag": "FNiv."
+        },
+        "location": {
+            "data": [
+                {
+                    "C1": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "id": 1,
+                    "observations": "",
+                    "percentage": 0
+                }
+            ],
+            "isUsed": true,
+            "name": "Ubicaci\u00f3n",
+            "results": [
+                {
+                    "id": 1,
+                    "value": 1
+                }
+            ],
+            "tag": "FUbic."
+        },
+        "project": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "EXCELENTE",
+                    "value": 1.06
+                }
+            ],
+            "isUsed": true,
+            "name": "Proyecto",
+            "subject": {
+                "type": "EXCELENTE",
+                "value": 1.06
+            },
+            "tag": "FProy."
+        },
+        "quality": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "PRECARIA",
+                    "value": 0.91
+                }
+            ],
+            "isUsed": true,
+            "name": "Calidad",
+            "subject": {
+                "type": "PRECARIA",
+                "value": 0.91
+            },
+            "tag": "FCal."
+        },
+        "results": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 1
+                }
+            ],
+            "isUsed": false,
+            "name": "Homologaci\u00f3n Resultante",
+            "tag": "F.Ho.Re."
+        },
+        "surface": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Superficie",
+            "tag": "FSup."
+        },
+        "topography": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Topograf\u00eda",
+            "subject": {
+                "type": "PLANA",
+                "value": 1
+            },
+            "tag": "FTop."
+        },
+        "typeForm": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Forma",
+            "subject": {
+                "type": "REGULAR",
+                "value": 1
+            },
+            "tag": "FFo."
+        },
+        "usage": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "HABITACIONAL",
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Uso",
+            "subject": {
+                "type": "HABITACIONAL",
+                "value": 1
+            },
+            "tag": "FUso."
+        },
+        "zone": {
+            "data": [
+                {
+                    "C1": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "id": 1,
+                    "observations": "",
+                    "percentage": 0
+                }
+            ],
+            "isUsed": true,
+            "name": "Zona",
+            "results": [
+                {
+                    "id": 1,
+                    "value": 1
+                }
+            ],
+            "tag": "FZo."
+        }
+    },
+    "homologation": {
+        "areas": {
+            "averageLotArea": 1,
+            "data": [
+                {
+                    "id": 1,
+                    "value": 1
+                }
+            ],
+            "name": "\u00c1reas ",
+            "subject": 1,
+            "tag": "\u00c1rea de Lote Moda"
+        },
+        "indiviso": {
+            "indiviso": 1,
+            "private": 1,
+            "result": 1,
+            "totalArea": 1,
+            "totalSurfaceArea": 1
+        },
+        "refactor": {
+            "formFactor": 1,
+            "resultantFactor": 1,
+            "surfaceFactor": 0.7,
+            "totalSurface": 1,
+            "unitCost": 1
+        },
+        "salesCosts": {
+            "averageUnitCost": 1,
+            "data": [
+                {
+                    "id": 1,
+                    "unitaryCost": 1,
+                    "value": 1
+                }
+            ],
+            "results": [
+                {
+                    "id": 1,
+                    "value": 1
+                }
+            ],
+            "tag": "Precio de Venta"
+        },
+        "weightingPercentage": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 100
+                }
+            ],
+            "total": 100
+        }
+    },
+    "registration": "0101-01_19"
+}

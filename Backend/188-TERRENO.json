@@ -1,0 +1,610 @@
+{
+    "appraisalPurpose": "JUSTIPRECIACI\u00d3N DE RENTA",
+    "averageUnitCost": 1540,
+    "factors": {
+        "ages": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "value": 1
+                }
+            ],
+            "isUsed": false,
+            "name": "Edad",
+            "subject": {
+                "value": 1
+            },
+            "tag": "FEd."
+        },
+        "buildings": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "MEDIA",
+                    "value": 1.02
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "MEDIA",
+                    "value": 1.02
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "MEDIA",
+                    "value": 1.02
+                },
+                {
+                    "id": 4,
+                    "result": 1.02,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1
+                }
+            ],
+            "isUsed": false,
+            "name": "Construccion",
+            "subject": {
+                "type": "MEDIA",
+                "value": 1.02
+            },
+            "tag": "FCons."
+        },
+        "classification": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                }
+            ],
+            "isUsed": true,
+            "name": "Clasificacion",
+            "subject": {
+                "type": "URBANO",
+                "value": 1.1
+            },
+            "tag": "FClas."
+        },
+        "commercial": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                }
+            ],
+            "isUsed": true,
+            "name": "Comercial",
+            "tag": "FCom."
+        },
+        "level": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
+                }
+            ],
+            "isUsed": false,
+            "name": "Nivel",
+            "subject": {
+                "type": "P.B. NIVEL DE CALLE",
+                "value": 1
+            },
+            "tag": "FNiv."
+        },
+        "location": {
+            "data": [
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "Manzana",
+                    "percentage": 4
+                },
+                {
+                    "C1": {
+                        "type": "-",
+                        "value": -1
+                    },
+                    "C2": {
+                        "type": "-",
+                        "value": -1
+                    },
+                    "C3": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C4": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "id": 1,
+                    "observations": "Vialidad",
+                    "percentage": 3
+                },
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "Pavimento",
+                    "percentage": 3
+                }
+            ],
+            "isUsed": true,
+            "name": "Ubicaci\u00f3n",
+            "results": [
+                {
+                    "id": 1,
+                    "value": 0.97
+                },
+                {
+                    "id": 2,
+                    "value": 0.97
+                },
+                {
+                    "id": 3,
+                    "value": 1.03
+                },
+                {
+                    "id": 4,
+                    "value": 1.03
+                }
+            ],
+            "tag": "FUbic."
+        },
+        "project": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "FUNCIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "FUNCIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "FUNCIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "FUNCIONAL",
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Proyecto",
+            "subject": {
+                "type": "FUNCIONAL",
+                "value": 1
+            },
+            "tag": "FProy."
+        },
+        "quality": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
+                }
+            ],
+            "isUsed": false,
+            "name": "Calidad",
+            "subject": {
+                "type": "MEDIA COM\u00daN",
+                "value": 1.03
+            },
+            "tag": "FCal."
+        },
+        "results": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.8653194244146658
+                },
+                {
+                    "id": 1,
+                    "value": 0.8926042543760392
+                },
+                {
+                    "id": 1,
+                    "value": 0.9033077602198704
+                },
+                {
+                    "id": 1,
+                    "value": 0.7487664007534355
+                }
+            ],
+            "isUsed": false,
+            "name": "Homologaci\u00f3n Resultante",
+            "tag": "F.Ho.Re."
+        },
+        "surface": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.977384255271354
+                },
+                {
+                    "id": 1,
+                    "value": 1.0082026588106499
+                },
+                {
+                    "id": 1,
+                    "value": 1.0184611439881117
+                },
+                {
+                    "id": 1,
+                    "value": 0.9904826561898209
+                }
+            ],
+            "isUsed": true,
+            "name": "Superficie",
+            "tag": "FSup."
+        },
+        "topography": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Topograf\u00eda",
+            "subject": {
+                "type": "PLANA",
+                "value": 1
+            },
+            "tag": "FTop."
+        },
+        "typeForm": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Forma",
+            "subject": {
+                "type": "REGULAR",
+                "value": 1
+            },
+            "tag": "FFo."
+        },
+        "usage": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 0.9904761904761905,
+                    "type": "MIXTO H-C",
+                    "value": 1.05
+                },
+                {
+                    "id": 2,
+                    "result": 0.9904761904761905,
+                    "type": "MIXTO H-C",
+                    "value": 1.05
+                },
+                {
+                    "id": 3,
+                    "result": 0.9541284403669724,
+                    "type": "MIXTO I-C",
+                    "value": 1.09
+                },
+                {
+                    "id": 4,
+                    "result": 0.9904761904761905,
+                    "type": "MIXTO H-C",
+                    "value": 1.05
+                }
+            ],
+            "isUsed": true,
+            "name": "Uso",
+            "subject": {
+                "type": "SERVICIOS",
+                "value": 1.04
+            },
+            "tag": "FUso."
+        },
+        "zone": {
+            "data": [
+                {
+                    "C1": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C2": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C3": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C4": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "id": 1,
+                    "observations": "",
+                    "percentage": 0
+                }
+            ],
+            "isUsed": true,
+            "name": "Zona",
+            "results": [
+                {
+                    "id": 1,
+                    "value": 0.97
+                },
+                {
+                    "id": 2,
+                    "value": 0.97
+                },
+                {
+                    "id": 3,
+                    "value": 0.95
+                },
+                {
+                    "id": 4,
+                    "value": 0.78
+                }
+            ],
+            "tag": "FZo."
+        }
+    },
+    "homologation": {
+        "areas": {
+            "averageLotArea": 15869.5,
+            "data": [
+                {
+                    "id": 1,
+                    "value": 12060
+                },
+                {
+                    "id": 2,
+                    "value": 17504
+                },
+                {
+                    "id": 3,
+                    "value": 19765
+                },
+                {
+                    "id": 4,
+                    "value": 14149
+                }
+            ],
+            "name": "\u00c1reas ",
+            "subject": 1,
+            "tag": "\u00c1rea de Lote Moda"
+        },
+        "indiviso": {
+            "indiviso": 1,
+            "private": 1,
+            "result": 1,
+            "totalArea": 1,
+            "totalSurfaceArea": 1
+        },
+        "refactor": {
+            "formFactor": 1,
+            "resultantFactor": 0.29848986841621,
+            "surfaceFactor": 0.29848986841621,
+            "totalSurface": 1,
+            "unitCost": 459.6743973609634
+        },
+        "salesCosts": {
+            "averageUnitCost": 1543.7826397161575,
+            "data": [
+                {
+                    "id": 1,
+                    "unitaryCost": 1800,
+                    "value": 21708000
+                },
+                {
+                    "id": 2,
+                    "unitaryCost": 1500,
+                    "value": 26256000
+                },
+                {
+                    "id": 3,
+                    "unitaryCost": 1999.8988110295977,
+                    "value": 39528000
+                },
+                {
+                    "id": 4,
+                    "unitaryCost": 2200,
+                    "value": 31127800
+                }
+            ],
+            "results": [
+                {
+                    "id": 1,
+                    "value": 1557.5749639463984
+                },
+                {
+                    "id": 2,
+                    "value": 1338.9063815640588
+                },
+                {
+                    "id": 3,
+                    "value": 1806.5241156575278
+                },
+                {
+                    "id": 4,
+                    "value": 1647.286081657558
+                }
+            ],
+            "tag": "Precio de Venta"
+        },
+        "weightingPercentage": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 30
+                },
+                {
+                    "id": 2,
+                    "value": 30
+                },
+                {
+                    "id": 3,
+                    "value": 10
+                },
+                {
+                    "id": 4,
+                    "value": 30
+                }
+            ],
+            "total": 100
+        }
+    },
+    "registration": "0076-01_22"
+}

@@ -1,0 +1,416 @@
+[
+    {
+        "annualCensus": 2020,
+        "populationDensity": 149.6,
+        "id": 1,
+        "district": "Abasolo",
+        "economicallyActivePopulation": 42110,
+        "totalPopulation": 92040,
+        "inhabitedDwellings": 22275
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 123.8,
+        "id": 2,
+        "district": "Acámbaro",
+        "economicallyActivePopulation": 51121,
+        "totalPopulation": 108697,
+        "inhabitedDwellings": 30171
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 16.9,
+        "id": 5,
+        "district": "Atarjea",
+        "economicallyActivePopulation": 1903,
+        "totalPopulation": 5296,
+        "inhabitedDwellings": 1558
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 942.3,
+        "id": 6,
+        "district": "Celaya",
+        "economicallyActivePopulation": 262642,
+        "totalPopulation": 521169,
+        "inhabitedDwellings": 143420
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 168.2,
+        "id": 7,
+        "district": "Comonfort",
+        "economicallyActivePopulation": 37053,
+        "totalPopulation": 82216,
+        "inhabitedDwellings": 19536
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 89.5,
+        "id": 8,
+        "district": "Coroneo",
+        "economicallyActivePopulation": 4976,
+        "totalPopulation": 11083,
+        "inhabitedDwellings": 3133
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 292.1,
+        "id": 9,
+        "district": "Cortazar",
+        "economicallyActivePopulation": 47608,
+        "totalPopulation": 97928,
+        "inhabitedDwellings": 25373
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 118.7,
+        "id": 11,
+        "district": "Doctor Mora",
+        "economicallyActivePopulation": 11632,
+        "totalPopulation": 27390,
+        "inhabitedDwellings": 6761
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 98.5,
+        "id": 12,
+        "district": "Dolores Hidalgo",
+        "economicallyActivePopulation": 76217,
+        "totalPopulation": 163038,
+        "inhabitedDwellings": 38964
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 191.8,
+        "id": 13,
+        "district": "Guanajuato",
+        "economicallyActivePopulation": 95753,
+        "totalPopulation": 194500,
+        "inhabitedDwellings": 51675
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 165.7,
+        "id": 14,
+        "district": "Huanímaro",
+        "economicallyActivePopulation": 8775,
+        "totalPopulation": 21128,
+        "inhabitedDwellings": 5372
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 696.7,
+        "id": 15,
+        "district": "Irapuato",
+        "economicallyActivePopulation": 285598,
+        "totalPopulation": 592953,
+        "inhabitedDwellings": 151888
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 56.1,
+        "id": 17,
+        "district": "Jerécuaro",
+        "economicallyActivePopulation": 21799,
+        "totalPopulation": 49517,
+        "inhabitedDwellings": 13760
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 50.3,
+        "id": 19,
+        "district": "Manuel Doblado",
+        "economicallyActivePopulation": 18933,
+        "totalPopulation": 41240,
+        "inhabitedDwellings": 11183
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 295.8,
+        "id": 20,
+        "district": "Moroleón",
+        "economicallyActivePopulation": 25507,
+        "totalPopulation": 47261,
+        "inhabitedDwellings": 14271
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 25.7,
+        "id": 21,
+        "district": "Ocampo",
+        "economicallyActivePopulation": 11790,
+        "totalPopulation": 26383,
+        "inhabitedDwellings": 6134
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 99.3,
+        "id": 22,
+        "district": "Pénjamo",
+        "economicallyActivePopulation": 69059,
+        "totalPopulation": 154960,
+        "inhabitedDwellings": 39604
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 207.1,
+        "id": 23,
+        "district": "Pueblo Nuevo",
+        "economicallyActivePopulation": 5185,
+        "totalPopulation": 12403,
+        "inhabitedDwellings": 3281
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 149.2,
+        "id": 25,
+        "district": "Romita",
+        "economicallyActivePopulation": 27889,
+        "totalPopulation": 65766,
+        "inhabitedDwellings": 16202
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 361.9,
+        "id": 26,
+        "district": "Salamanca",
+        "economicallyActivePopulation": 125419,
+        "totalPopulation": 273417,
+        "inhabitedDwellings": 74971
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 158.8,
+        "id": 27,
+        "district": "Salvatierra",
+        "economicallyActivePopulation": 43209,
+        "totalPopulation": 94126,
+        "inhabitedDwellings": 25786
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 40.5,
+        "id": 28,
+        "district": "San Diego de la Unión",
+        "economicallyActivePopulation": 17030,
+        "totalPopulation": 41054,
+        "inhabitedDwellings": 10165
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 39.8,
+        "id": 29,
+        "district": "San Felipe",
+        "economicallyActivePopulation": 51773,
+        "totalPopulation": 119793,
+        "inhabitedDwellings": 27991
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 307.7,
+        "id": 30,
+        "district": "San Francisco del Rincón",
+        "economicallyActivePopulation": 68824,
+        "totalPopulation": 130871,
+        "inhabitedDwellings": 32211
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 163.4,
+        "id": 31,
+        "district": "San José Iturbide",
+        "economicallyActivePopulation": 42361,
+        "totalPopulation": 89558,
+        "inhabitedDwellings": 22741
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 63.3,
+        "id": 32,
+        "district": "San Luis de la Paz",
+        "economicallyActivePopulation": 56086,
+        "totalPopulation": 128536,
+        "inhabitedDwellings": 30386
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 112.4,
+        "id": 33,
+        "district": "San Miguel de Allende",
+        "economicallyActivePopulation": 87924,
+        "totalPopulation": 174615,
+        "inhabitedDwellings": 44543
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 29.4,
+        "id": 34,
+        "district": "Santa Catarina",
+        "economicallyActivePopulation": 2219,
+        "totalPopulation": 5723,
+        "inhabitedDwellings": 1550
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 80.3,
+        "id": 36,
+        "district": "Santiago Maravatío",
+        "economicallyActivePopulation": 2850,
+        "totalPopulation": 6714,
+        "inhabitedDwellings": 2002
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 378.0,
+        "id": 37,
+        "district": "Silao",
+        "economicallyActivePopulation": 93113,
+        "totalPopulation": 203556,
+        "inhabitedDwellings": 46602
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 93.6,
+        "id": 38,
+        "district": "Tarandacuao",
+        "economicallyActivePopulation": 4809,
+        "totalPopulation": 11304,
+        "inhabitedDwellings": 3189
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 107.4,
+        "id": 39,
+        "district": "Tarimoro",
+        "economicallyActivePopulation": 16362,
+        "totalPopulation": 35905,
+        "inhabitedDwellings": 10193
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 48.9,
+        "id": 40,
+        "district": "Tierra Blanca",
+        "economicallyActivePopulation": 8364,
+        "totalPopulation": 20007,
+        "inhabitedDwellings": 4904
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 528.6,
+        "id": 41,
+        "district": "Uriangato",
+        "economicallyActivePopulation": 33124,
+        "totalPopulation": 61494,
+        "inhabitedDwellings": 17350
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 20.3,
+        "id": 43,
+        "district": "Victoria",
+        "economicallyActivePopulation": 9048,
+        "totalPopulation": 21253,
+        "inhabitedDwellings": 5471
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 512.1,
+        "id": 44,
+        "district": "Villagrán",
+        "economicallyActivePopulation": 29425,
+        "totalPopulation": 65791,
+        "inhabitedDwellings": 16398
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 12.2,
+        "id": 45,
+        "district": "Xichú",
+        "economicallyActivePopulation": 3664,
+        "totalPopulation": 11143,
+        "inhabitedDwellings": 3011
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 103.2,
+        "id": 46,
+        "district": "Yuriria",
+        "economicallyActivePopulation": 31945,
+        "totalPopulation": 68741,
+        "inhabitedDwellings": 19175
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 1409.0,
+        "id": 18,
+        "district": "León",
+        "economicallyActivePopulation": 900923,
+        "totalPopulation": 1721215,
+        "inhabitedDwellings": 440662
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 169.6,
+        "id": 3,
+        "district": "Apaseo el Alto",
+        "economicallyActivePopulation": 29864,
+        "totalPopulation": 63392,
+        "inhabitedDwellings": 16165
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 280.4,
+        "id": 4,
+        "district": "Apaseo el Grande",
+        "economicallyActivePopulation": 54766,
+        "totalPopulation": 117883,
+        "inhabitedDwellings": 31264
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 288.4,
+        "id": 24,
+        "district": "Purísima del Rincón",
+        "economicallyActivePopulation": 43493,
+        "totalPopulation": 83842,
+        "inhabitedDwellings": 19865
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 191.9,
+        "id": 35,
+        "district": "Santa Cruz de Juventino Rosas",
+        "economicallyActivePopulation": 36296,
+        "totalPopulation": 82340,
+        "inhabitedDwellings": 19426
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 183.1,
+        "id": 42,
+        "district": "Valle de Santiago",
+        "economicallyActivePopulation": 67924,
+        "totalPopulation": 150054,
+        "inhabitedDwellings": 37795
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 221.1,
+        "id": 16,
+        "district": "Jaral del Progreso",
+        "economicallyActivePopulation": 17395,
+        "totalPopulation": 38782,
+        "inhabitedDwellings": 9994
+    },
+    {
+        "annualCensus": 2020,
+        "populationDensity": 118.5,
+        "id": 10,
+        "district": "Cuerámaro",
+        "economicallyActivePopulation": 13379,
+        "totalPopulation": 30857,
+        "inhabitedDwellings": 8160
+    }
+]
