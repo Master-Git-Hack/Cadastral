@@ -8,9 +8,7 @@ import {
 	getUsedFactors,
 	getObjectKey,
 } from "../../utils/utils";
-import {
-	selector
-} from "../../features/homologation/slice";
+import { selector } from "../../features/homologation/slice";
 export const BigPicture: FC = () => {
 	const dispatch = useAppDispatch();
 	const { factors, homologation, rowsCount, type, status } = useAppSelector(selector);
@@ -209,11 +207,12 @@ const Footer: FC<{
 						rowSpan={2}
 					/>
 				</>
-			) : null}
+			) : (
+				<td colSpan={2} rowSpan={2} className="text-end">
+					{props.area.tag}
+				</td>
+			)}
 
-			<td colSpan={2} rowSpan={2} className="text-end">
-				{props.area.tag}
-			</td>
 			<Show
 				id="bigPicture-areaValue"
 				value={props.area.averageLotArea.value}
@@ -221,7 +220,7 @@ const Footer: FC<{
 				rowSpan={2}
 			/>
 
-			<td colSpan={props.length + (props.type === "TERRENO" ? 3 : 0)} className="text-end">
+			<td colSpan={props.length + (props.type === "TERRENO" ? 3 : 2)} className="text-end">
 				{props.type === "TERRENO"
 					? "Valor Unitario Promedio"
 					: "Valor Unitario  Ponderado homologado"}
@@ -233,7 +232,7 @@ const Footer: FC<{
 			/>
 		</tr>
 		<tr className="text-center">
-			<td colSpan={props.length + (props.type === "TERRENO" ? 3 : 0)} className="text-end">
+			<td colSpan={props.length + (props.type === "TERRENO" ? 3 : 2)} className="text-end">
 				Valor Unitario Aplicable en Números Redondos
 			</td>
 

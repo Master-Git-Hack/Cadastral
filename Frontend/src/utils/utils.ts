@@ -15,7 +15,7 @@ export const handleHomologationUpdate = (state: any) => {
 	const { type, factors, homologation } = state;
 	const { salesCosts, areas, weightingPercentage, reFactor, indiviso } = homologation;
 
-	const { results, surface } = factors;
+	const { results, surface, zone } = factors;
 	//handle homologation only
 	salesCosts.results = calculateResultantUnitaryCost(results.data, salesCosts);
 
@@ -34,6 +34,8 @@ export const handleHomologationUpdate = (state: any) => {
 
 	//handle factors Only
 	surface.data = calculateSurface(surface.data, areas.data, areas.averageLotArea.value, type);
+
+	state.zone = updateZoneAnalytics(zone);
 
 	//handle reFactor Only
 	if (type === "TERRENO") {
@@ -72,6 +74,35 @@ export const handleHomologationUpdate = (state: any) => {
 		},
 		averageUnitCost: roundToTenth(salesCosts.averageUnitCost.result),
 	};
+};
+const updateZoneAnalytics = (zone: any) => {
+	const { district, factor1, factor2 } = zone.subject;
+	zone.analytics.map((item: any, index: number) => {
+		const f1Value =
+			factor1.type === "percentage"
+				? district.percentage / item.district.percentage
+				: (district[factor1.type] / item.district[factor1.type]) ** (1 / factor1.root);
+		item.factor1.value = f1Value;
+		const f2Value =
+			factor2.type === "percentage"
+				? district.percentage / item.district.percentage
+				: factor2.type === "useZoneResults"
+				? zone.results[index].value
+				: (district[factor2.type] / item.district[factor2.type]) ** (1 / factor2.root);
+		item.factor2.value = f2Value;
+		console.log(
+			f1Value,
+			f2Value,
+			zone.results[index].value,
+			f1Value,
+			f2Value,
+			f1Value * zone.results[index].value,
+		);
+		item.factor1.result = f1Value * f2Value;
+		item.factor2.result = item.factor1.result * zone.results[index].value;
+		return item;
+	});
+	return zone;
 };
 export const calculateWeightingPercentage = (data: any) =>
 	data.reduce((prev: number, curr: any) => prev + Number(curr.value), 0);
@@ -247,8 +278,11 @@ export const addValueToUsedFactors = (factors: any) => {
 				if (isUsed) {
 					factors[factor].data[0] = addColumns(data[0]);
 					factors[factor].results.push({ id: length + 1, value: 1 });
-					if(factor === "zone"){
-						factors[factor].analytics.push({id:length+1,...factors[factor].analytics[length-1]})
+					if (factor === "zone") {
+						factors[factor].analytics.push({
+							id: length + 1,
+							...factors[factor].analytics[length - 1],
+						});
 					}
 				}
 			}

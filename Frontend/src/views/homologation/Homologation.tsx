@@ -164,7 +164,7 @@ const LocationZone: FC<{
 				<tbody>
 					<Location />
 					<Zone />
-					<Age />
+
 					<VisibilityButton {...props} />
 				</tbody>
 			</table>
@@ -181,6 +181,7 @@ const EditHomologation: FC<{
 	<>
 		{props.visibility ? (
 			<div className="m-3">
+				<Age />
 				<UnitCost />
 				<VisibilityButton {...props} />
 			</div>

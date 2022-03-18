@@ -131,26 +131,29 @@ export const slice = createSlice({
 				state.factors[itemName].results = calculationLocationZone(data);
 				const { factors } = state;
 				state.factors.results.data = factorsResult(factors);
+				state = handleHomologationUpdate(state);
 			}
 		},
-		setZoneSubjectFactors(state,action:PayloadAction<TransactionProps>){
+		setZoneSubjectFactors(state, action: PayloadAction<TransactionProps>) {
 			const { itemName, value } = action.payload;
-			if (itemName !== undefined && value !== undefined){
-				state.factors.zone.subject[itemName]=value
+			if (itemName !== undefined && value !== undefined) {
+				state.factors.zone.subject[itemName] = value;
 			}
+			state = handleHomologationUpdate(state);
 		},
 		setZone(state, action: PayloadAction<TransactionProps>) {
-			const { itemName, subItemName, itemID, value } = action.payload;
-			if (itemName !== undefined && value !== undefined && itemID !== undefined && subItemName !== undefined) {
-				
-				if(itemName ==="subject"){
-					state.factors.zone[itemName].district = value;
-				}
-				else{
-					
+			const { itemName, itemID, value, subItemName } = action.payload;
+			if (
+				itemName !== undefined &&
+				value !== undefined &&
+				itemID !== undefined &&
+				subItemName !== undefined
+			) {
+				if (itemName === "analytics") {
+					state.factors.zone.analytics[itemID][subItemName] = value;
+				} else {
 				}
 				state = handleHomologationUpdate(state);
-
 			}
 		},
 		addDataRowLocationZone(state, action: PayloadAction<TransactionProps>) {

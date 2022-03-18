@@ -28,8 +28,8 @@ export const SymbolsTable: FC<{ name: string; component?: any }> = (props) => {
 	return isUsed ? (
 		<div className="row">
 			<div
-				className={`col-${props.component !== undefined ? 10 : 12} col-sm-${
-					props.component !== undefined ? 10 : 12
+				className={`col-${props.name !== "zone" ? 12 : 10} col-sm-${
+					props.name !== "zone" ? 12 : 10
 				}`}
 			>
 				<table className="table table-sm table-responsive table-responsive-sm table-bordered table-striped table-hover">
@@ -70,9 +70,23 @@ export const SymbolsTable: FC<{ name: string; component?: any }> = (props) => {
 					</tbody>
 				</table>
 			</div>
-			<div className="col-2 col-sm-2">
-				{props.component !== undefined ? <props.component /> : null}
-			</div>
+			{props.name === "zone" ? (
+				<div className="col-2 col-sm-2">
+					<table className="table table-sm table-responsive table-responsive-sm table-bordered table-striped table-hover">
+						<tbody className="align-self-middle align-middle text-center">
+							<tr>
+								<td colSpan={2}>Factor resultante con dos indicadores (F.Zona)</td>
+							</tr>
+							{items.analytics.map((item: any, index: number) => (
+								<tr key={`Factor resultante con dos indicadores (F.Zona) ${index}`}>
+									<td>C{index + 1}</td>
+									<td>{toFancyNumber(Number(item.factor2.result.toFixed(2)))}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			) : null}
 		</div>
 	) : null;
 };
