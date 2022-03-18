@@ -1,1 +1,0 @@
-UPDATE tablex SET {{COLUMN}} = {{VALUE}} WHERE id = {{ID}};
