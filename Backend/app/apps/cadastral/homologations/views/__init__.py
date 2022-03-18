@@ -9,3 +9,7 @@ def update_jAppreciation(id):
     value = data['value']
     
 
+
+@app.route(f"{API_URL}/HOMOLOGATION/j-appreciation/<string:type>/<int:id>", methods=['GET'])
+def get_jAppreciation(id,type):
+    
