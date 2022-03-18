@@ -10,7 +10,7 @@ export const ReFactor: FC = () => {
 	const dispatch = useAppDispatch();
 	const { type, homologation } = useAppSelector(selector);
 	console.log(useAppSelector(selector));
-	const { areas, refactor } = homologation;
+	const { areas, reFactor } = homologation;
 	const { subject, averageLotArea } = areas;
 	return (
 		<table className="mt-3 table table-sm table-responsive table-responsive-sm table-hover table-stripped table-bordered">
@@ -23,10 +23,10 @@ export const ReFactor: FC = () => {
 				<ReFactorTerreno
 					subject={subject}
 					averageLotArea={averageLotArea}
-					surface={refactor.totalSurface}
-					formFactor={refactor.formFactor}
-					resultantFactor={refactor.resultantFactor}
-					unitCost={refactor.unitCost}
+					surface={reFactor.totalSurface}
+					formFactor={reFactor.formFactor}
+					resultantFactor={reFactor.resultantFactor}
+					unitCost={reFactor.unitCost}
 					dispatch={dispatch}
 				/>
 			) : (
@@ -53,7 +53,7 @@ const ReFactorTerreno: FC<{
 	<>
 		<tbody className="align-self-middle align-middle text-center">
 			<tr>
-				<td>SUPERFICIE TOTAL (SUJETO)</td>
+				<td className="text-start">SUPERFICIE TOTAL (SUJETO)</td>
 				<td>
 					<FancyInput
 						index={1}
@@ -74,15 +74,15 @@ const ReFactorTerreno: FC<{
 				</td>
 			</tr>
 			<tr>
-				<td>SUPERFICIE LOTE MODA</td>
+				<td className="text-start">SUPERFICIE LOTE MODA</td>
 				<td>{toFancyNumber(props.averageLotArea)}</td>
 			</tr>
 			<tr>
-				<td>FACTOR DE SUPERFICIE</td>
+				<td className="text-start">FACTOR DE SUPERFICIE</td>
 				<td>{toFancyNumber(props.surface)}</td>
 			</tr>
 			<tr>
-				<td>FACTOR DE FORMA</td>
+				<td className="text-start">FACTOR DE FORMA</td>
 				<td>
 					<FancyInput
 						index={1}
@@ -91,7 +91,7 @@ const ReFactorTerreno: FC<{
 						onChange={(event) =>
 							props.dispatch(
 								setHomologationRector({
-									itemName: "refactor",
+									itemName: "reFactor",
 									subItemName: "formFactor",
 									value: Number(event.target.value),
 								}),
@@ -103,7 +103,7 @@ const ReFactorTerreno: FC<{
 				</td>
 			</tr>
 			<tr>
-				<td>FACTOR RESULTANTE</td>
+				<td className="text-start">FACTOR RESULTANTE</td>
 				<td>{toFancyNumber(props.resultantFactor)}</td>
 			</tr>
 			<tr>
@@ -124,7 +124,7 @@ const ReFactorRenta: FC<{
 	<>
 		<tbody className="align-self-middle align-middle text-center">
 			<tr>
-				<td>SUPERFICIE TOTAL (SUJETO)</td>
+				<td className="text-start">SUPERFICIE TOTAL (SUJETO)</td>
 				<td>
 					<FancyInput
 						index={1}
@@ -137,11 +137,11 @@ const ReFactorRenta: FC<{
 				</td>
 			</tr>
 			<tr>
-				<td>SUPERFICIE DEL COMPARABLE</td>
+				<td className="text-start">SUPERFICIE DEL COMPARABLE</td>
 				<td>{toFancyNumber(props.averageLotArea)}</td>
 			</tr>
 			<tr>
-				<td>SUPERFICIE DEL SUJETO</td>
+				<td className="text-start">SUPERFICIE DEL SUJETO</td>
 				<td>
 					<FancyInput
 						index={1}

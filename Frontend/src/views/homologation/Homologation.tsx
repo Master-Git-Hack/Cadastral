@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { selector, searchForExistence } from "../../features/homologation/slice";
 import { ReFactor } from "../../components/homologation/reFactor";
 import { Indiviso } from "../../components/homologation/indiviso";
+import { AdjustedValue } from "../../components/homologation/adjustedValue";
 export default function Homologation() {
 	const dispatch = useAppDispatch();
 	const { id, status } = useAppSelector(selector);
@@ -211,7 +212,16 @@ const ShowRefactor: FC<{
 }> = (props) =>
 	props.visibility ? (
 		<div className="px-5">
-			<ReFactor />
-			<Indiviso />
+			<div className="row">
+				<div className="col-5 col-sm-5">
+					<ReFactor />
+				</div>
+				<div className="col-2 col-sm-2 text-center">
+					<AdjustedValue />
+				</div>
+				<div className="col-5 col-sm-5">
+					<Indiviso />
+				</div>
+			</div>
 		</div>
 	) : null;
