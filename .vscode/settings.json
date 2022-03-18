@@ -4,5 +4,16 @@
     "editor.renderWhitespace": "all",
     "editor.wordWrap": "on",
     "editor.bracketPairColorization.enabled": true,
-    "workbench.preferredDarkColorTheme": "b93ab4ea-ff96-4459-8fa2-0caae5bc7116"
+    "workbench.preferredDarkColorTheme": "b93ab4ea-ff96-4459-8fa2-0caae5bc7116",
+    "cSpell.words": [
+        "Einar",
+        "homologation",
+        "Homologation",
+        "Homologations",
+        "indiviso",
+        "Jhordany",
+        "Serna",
+        "TERRENO",
+        "Valdivia"
+    ]
 }
