@@ -169,7 +169,9 @@ const FactorsView: FC<{ factors: any; tags: any; index: number; dispatch: Functi
 									? props.factors[key].data[props.index].value
 									: key !== "location" && key !== "zone"
 									? props.factors[key].data[props.index].result
-									: props.factors[key].results[props.index].value
+									: key!=="zone"?
+									props.factors[key].results[props.index].value
+									: props.factors[key].analytics[props.index].factor1.result
 							}
 						/>
 					) : null,

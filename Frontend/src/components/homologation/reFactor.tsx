@@ -1,7 +1,7 @@
 /** @format */
 
 import { FC } from "react";
-import { selector, setHomologationRector } from "../../features/homologation/slice";
+import { selector, setHomologationReFactor, setHomologationReFactorData } from "../../features/homologation/slice";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { toFancyNumber } from "../../utils/utils";
 import { FancyInput } from "../inputs/fancyInput";
@@ -21,10 +21,10 @@ export const ReFactor: FC = () => {
 			</thead>
 			{type === "TERRENO" ? (
 				<ReFactorTerreno
-					subject={subject}
+					subject={reFactor.surface}
 					averageLotArea={averageLotArea}
-					surface={reFactor.totalSurface}
-					formFactor={reFactor.formFactor}
+					surface={reFactor.data[0]}
+					formFactor={reFactor.data[1]}
 					resultantFactor={reFactor.resultantFactor}
 					unitCost={reFactor.unitCost}
 					dispatch={dispatch}
@@ -33,8 +33,7 @@ export const ReFactor: FC = () => {
 				<ReFactorRenta
 					subject={subject}
 					averageLotArea={averageLotArea}
-					areaSubject={subject}
-					land={1}
+					result={reFactor.factorResult.value}
 					dispatch={dispatch}
 				/>
 			)}
@@ -42,10 +41,10 @@ export const ReFactor: FC = () => {
 	);
 };
 const ReFactorTerreno: FC<{
-	subject: number;
-	averageLotArea: number;
-	surface: number;
-	formFactor: number;
+	subject: any;
+	averageLotArea: any;
+	surface: any;
+	formFactor: any;
 	resultantFactor: number;
 	unitCost: number;
 	dispatch: Function;
@@ -58,13 +57,15 @@ const ReFactorTerreno: FC<{
 					<FancyInput
 						index={1}
 						name="superficieTotal"
-						value={props.subject}
+						value={props.subject.value}
 						onChange={(event) =>
 							props.dispatch(
-								setHomologationRector({
-									itemName: "areas",
-									subItemName: "subject",
-									value: Number(event.target.value),
+								setHomologationReFactor({
+									itemName: "reFactor",
+									subItemName: "surface",
+									value: {
+										value:Number(event.target.value)
+									},
 								}),
 							)
 						}
@@ -75,11 +76,11 @@ const ReFactorTerreno: FC<{
 			</tr>
 			<tr>
 				<td className="text-start">SUPERFICIE LOTE MODA</td>
-				<td>{toFancyNumber(props.averageLotArea)}</td>
+				<td>{toFancyNumber(props.averageLotArea.value)}</td>
 			</tr>
 			<tr>
 				<td className="text-start">FACTOR DE SUPERFICIE</td>
-				<td>{toFancyNumber(props.surface)}</td>
+				<td>{toFancyNumber(props.surface.value)}</td>
 			</tr>
 			<tr>
 				<td className="text-start">FACTOR DE FORMA</td>
@@ -87,13 +88,15 @@ const ReFactorTerreno: FC<{
 					<FancyInput
 						index={1}
 						name="formFactor"
-						value={props.formFactor}
+						value={props.formFactor.value}
 						onChange={(event) =>
 							props.dispatch(
-								setHomologationRector({
-									itemName: "reFactor",
-									subItemName: "formFactor",
-									value: Number(event.target.value),
+								setHomologationReFactorData({
+									itemID: 1,
+									value: {
+										...props.formFactor,
+										value:Number(event.target.value)
+									},
 								}),
 							)
 						}
@@ -115,10 +118,9 @@ const ReFactorTerreno: FC<{
 );
 
 const ReFactorRenta: FC<{
-	subject: number;
-	averageLotArea: number;
-	areaSubject: number;
-	land: number;
+	subject: any;
+	averageLotArea: any;
+	result:number;
 	dispatch: Function;
 }> = (props) => (
 	<>
@@ -126,36 +128,18 @@ const ReFactorRenta: FC<{
 			<tr>
 				<td className="text-start">SUPERFICIE TOTAL (SUJETO)</td>
 				<td>
-					<FancyInput
-						index={1}
-						name="superficieTotal"
-						value={props.subject}
-						onChange={() => props.dispatch}
-						isCurrency={false}
-						isPercentage={false}
-					/>
+				{toFancyNumber(props.averageLotArea.value)}
 				</td>
 			</tr>
 			<tr>
 				<td className="text-start">SUPERFICIE DEL COMPARABLE</td>
-				<td>{toFancyNumber(props.averageLotArea)}</td>
+				<td>{toFancyNumber(props.subject.value)}</td>
 			</tr>
 			<tr>
-				<td className="text-start">SUPERFICIE DEL SUJETO</td>
-				<td>
-					<FancyInput
-						index={1}
-						name="areaSubject"
-						value={props.areaSubject}
-						onChange={() => props.dispatch}
-						isCurrency={false}
-						isPercentage={false}
-					/>
-				</td>
 			</tr>
 			<tr>
 				<td>FACTOR DEL TERRENO</td>
-				<td>{toFancyNumber(props.land)}</td>
+				<td>{toFancyNumber(Number(props.result.toFixed(2)))}</td>
 			</tr>
 		</tbody>
 	</>

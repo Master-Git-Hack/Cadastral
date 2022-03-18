@@ -198,13 +198,21 @@ export const slice = createSlice({
 				state = handleHomologationUpdate(state);
 			}
 		},
-		setHomologationRector(state, action: PayloadAction<TransactionProps>) {
-			const { itemName, value, subItemName } = action.payload;
+		setHomologationReFactor(state, action: PayloadAction<TransactionProps>) {
+			const { itemName, value, subItemName,itemID } = action.payload;
 			if (itemName !== undefined && value !== undefined && subItemName !== undefined) {
-				console.log(state.homologation[itemName][subItemName]);
 				state.homologation[itemName][subItemName] = value;
 				state = handleHomologationUpdate(state);
 			}
+
+		},
+		setHomologationReFactorData(state, action: PayloadAction<TransactionProps>) {
+			const {value,itemID } = action.payload;
+			if (itemID ) {
+				state.homologation.reFactor.data[itemID] = value;
+				state = handleHomologationUpdate(state);
+			}
+
 		},
 		setHomologationAreaSubject(state, action: PayloadAction<TransactionProps>) {
 			const { value } = action.payload;
@@ -279,8 +287,9 @@ export const {
 	setHomologationAreaSubject,
 	setZone,
 	updateAverageUnitCost,
-	setHomologationRector,
+	setHomologationReFactor,
 	setZoneSubjectFactors,
+	setHomologationReFactorData
 } = slice.actions;
 
 export const sendPatchRequest = createAsyncThunk(

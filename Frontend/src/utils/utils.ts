@@ -36,17 +36,17 @@ export const handleHomologationUpdate = (state: any) => {
 	surface.data = calculateSurface(surface.data, areas.data, areas.averageLotArea.value, type);
 
 	state.zone = updateZoneAnalytics(zone);
-
+	state.factors.results.data = factorsResult(state.factors);
 	//handle reFactor Only
 	if (type === "TERRENO") {
-		reFactor.data[0].value = (areas.subject.value / areas.averageLotArea.value) ** (1 / 12);
+		reFactor.data[0].value = (  areas.averageLotArea.value / reFactor.surface.value) ** (1 / 12);
 		reFactor.factorResult.value = reFactor.data.reduce(
 			(previous: number, current: any) => previous * Number(current.value),
 			1,
 		);
 	} else {
 		reFactor.factorResult.value =
-			(areas.subject.value / areas.averageLotArea.value) ** (1 / 12);
+			(areas.averageLotArea.value / areas.subject.value ) ** (1 / 12);
 	}
 
 	//handle averageUnitCost
@@ -90,14 +90,6 @@ const updateZoneAnalytics = (zone: any) => {
 				? zone.results[index].value
 				: (district[factor2.type] / item.district[factor2.type]) ** (1 / factor2.root);
 		item.factor2.value = f2Value;
-		console.log(
-			f1Value,
-			f2Value,
-			zone.results[index].value,
-			f1Value,
-			f2Value,
-			f1Value * zone.results[index].value,
-		);
 		item.factor1.result = f1Value * f2Value;
 		item.factor2.result = item.factor1.result * zone.results[index].value;
 		return item;
@@ -210,8 +202,15 @@ export const factorsResult = (factors: any) =>
 					factor !== "commercial"
 				) {
 					item.value *= factors[factor].data[index].result;
-				} else if (factor === "location" || factor === "zone") {
+
+				} else if (factor === "location") {
+	
 					item.value *= factors[factor].results[index].value;
+
+				} else if(factor ==="zone"){
+					console.log(factor,`index: ${index}`,factors[factor].analytics[index].factor1.result,item.value)
+					item.value *= factors[factor].analytics[index].factor1.result;
+					console.log(item.value)
 				}
 			}
 		return item;
