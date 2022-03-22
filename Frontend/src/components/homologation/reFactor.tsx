@@ -1,7 +1,11 @@
 /** @format */
 
 import { FC } from "react";
-import { selector, setHomologationReFactor, setHomologationReFactorData } from "../../features/homologation/slice";
+import {
+	selector,
+	setHomologationReFactor,
+	setHomologationReFactorData,
+} from "../../features/homologation/slice";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { toFancyNumber } from "../../utils/utils";
 import { FancyInput } from "../inputs/fancyInput";
@@ -9,8 +13,7 @@ import { FancyInput } from "../inputs/fancyInput";
 export const ReFactor: FC = () => {
 	const dispatch = useAppDispatch();
 	const { type, homologation } = useAppSelector(selector);
-	console.log(useAppSelector(selector));
-	const { areas, reFactor } = homologation;
+	const { areas, reFactor,salesCosts } = homologation;
 	const { subject, averageLotArea } = areas;
 	return (
 		<table className="mt-3 table table-sm table-responsive table-responsive-sm table-hover table-stripped table-bordered">
@@ -25,8 +28,8 @@ export const ReFactor: FC = () => {
 					averageLotArea={averageLotArea}
 					surface={reFactor.data[0]}
 					formFactor={reFactor.data[1]}
-					resultantFactor={reFactor.resultantFactor}
-					unitCost={reFactor.unitCost}
+					resultantFactor={reFactor.factorResult.value}
+					unitCost={salesCosts.averageUnitCost.result}
 					dispatch={dispatch}
 				/>
 			) : (
@@ -64,7 +67,7 @@ const ReFactorTerreno: FC<{
 									itemName: "reFactor",
 									subItemName: "surface",
 									value: {
-										value:Number(event.target.value)
+										value: Number(event.target.value),
 									},
 								}),
 							)
@@ -95,7 +98,7 @@ const ReFactorTerreno: FC<{
 									itemID: 1,
 									value: {
 										...props.formFactor,
-										value:Number(event.target.value)
+										value: Number(event.target.value),
 									},
 								}),
 							)
@@ -120,23 +123,20 @@ const ReFactorTerreno: FC<{
 const ReFactorRenta: FC<{
 	subject: any;
 	averageLotArea: any;
-	result:number;
+	result: number;
 	dispatch: Function;
 }> = (props) => (
 	<>
 		<tbody className="align-self-middle align-middle text-center">
 			<tr>
 				<td className="text-start">SUPERFICIE TOTAL (SUJETO)</td>
-				<td>
-				{toFancyNumber(props.averageLotArea.value)}
-				</td>
+				<td>{toFancyNumber(props.averageLotArea.value)}</td>
 			</tr>
 			<tr>
 				<td className="text-start">SUPERFICIE DEL COMPARABLE</td>
 				<td>{toFancyNumber(props.subject.value)}</td>
 			</tr>
-			<tr>
-			</tr>
+			<tr></tr>
 			<tr>
 				<td>FACTOR DEL TERRENO</td>
 				<td>{toFancyNumber(Number(props.result.toFixed(2)))}</td>

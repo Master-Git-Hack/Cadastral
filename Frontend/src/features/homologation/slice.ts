@@ -199,20 +199,18 @@ export const slice = createSlice({
 			}
 		},
 		setHomologationReFactor(state, action: PayloadAction<TransactionProps>) {
-			const { itemName, value, subItemName,itemID } = action.payload;
+			const { itemName, value, subItemName, itemID } = action.payload;
 			if (itemName !== undefined && value !== undefined && subItemName !== undefined) {
 				state.homologation[itemName][subItemName] = value;
 				state = handleHomologationUpdate(state);
 			}
-
 		},
 		setHomologationReFactorData(state, action: PayloadAction<TransactionProps>) {
-			const {value,itemID } = action.payload;
-			if (itemID ) {
+			const { value, itemID } = action.payload;
+			if (itemID) {
 				state.homologation.reFactor.data[itemID] = value;
 				state = handleHomologationUpdate(state);
 			}
-
 		},
 		setHomologationAreaSubject(state, action: PayloadAction<TransactionProps>) {
 			const { value } = action.payload;
@@ -222,6 +220,13 @@ export const slice = createSlice({
 		},
 		updateAverageUnitCost(state, action: PayloadAction<number>) {
 			state.averageUnitCost = action.payload;
+		},
+		setIndiviso(state, action: PayloadAction<TransactionProps>){
+			const {itemName,value} = action.payload;
+			if(itemName !== undefined && value !== undefined){
+				state.homologation.indiviso[itemName] = value;
+				state = handleHomologationUpdate(state);
+			}
 		},
 	},
 	extraReducers: (builder) => {
@@ -234,11 +239,14 @@ export const slice = createSlice({
 				const { exists } = response;
 				if (exists !== undefined) {
 					if (exists) {
-						const { factors, homologation, averageUnitCost } = response;
+						const { factors, homologation, averageUnitCost, registration, appraisalPurpose  } = response;
 						state.status = "exists";
+						state.record=response.record;
 						state.factors = factors;
 						state.homologation = homologation;
 						state.averageUnitCost = averageUnitCost;
+						state.registration = registration;
+						state.appraisalPurpose = appraisalPurpose;
 						state.rowsCount = homologation.salesCosts.data.length;
 						state.districtIndicators = response.districtOptions;
 					} else {
@@ -289,18 +297,21 @@ export const {
 	updateAverageUnitCost,
 	setHomologationReFactor,
 	setZoneSubjectFactors,
-	setHomologationReFactorData
+	setHomologationReFactorData,
+	setIndiviso
 } = slice.actions;
 
 export const sendPatchRequest = createAsyncThunk(
 	"homologation/sendPatchRequest",
 	async (state: any) => {
-		const { id, type, factors, homologation, averageUnitCost, registration, appraisalPurpose } =
+		const { id, type, factors, homologation, registration, appraisalPurpose, status, record} =
 			state;
 		const payload = {
+			exists: status ==="exists" ? true:false,
+			record,
 			factors,
 			homologation,
-			averageUnitCost: roundToTenth(Number(averageUnitCost), 1),
+			averageUnitCost: roundToTenth(Number(homologation.salesCosts.averageUnitCost.result.toFixed(0)),1),
 			registration,
 			appraisalPurpose,
 		};

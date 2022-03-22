@@ -8,12 +8,19 @@ def update_jAppreciation(id,type):
     data = request.get_json()
     with open(f'{id}-{type}.json','w') as file:
         file.write(dumps(data,indent=4,sort_keys=True))
-    control = Controller(id,type);
-    
+    control = Controller(id,type)
+   
+    exists = data['exists']
+    if exists:
+         record = data['record']
+    else:
+        record = None
     factors = data['factors']
-    homologation = data['homologation']
+    result = data['homologation']
     averageUnitCost = data['averageUnitCost']
-    print(data)
+    registration = data['registration']
+    appraisalPurpose = data['appraisalPurpose']
+    control.patch(record, exists, factors,result,averageUnitCost,registration,appraisalPurpose)
     return jsonify({"response":True}), 200
     
 

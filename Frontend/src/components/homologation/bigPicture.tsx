@@ -81,7 +81,7 @@ const Show: FC<{
 		isArea: boolean = false,
 	) => (
 		<td id={props.id} className="text-center" rowSpan={props.rowSpan}>
-			{toFancyNumber(value, isCurrency, isPercentage, decimals)}{" "}
+			{toFancyNumber(Number(value.toFixed(2)), isCurrency, isPercentage, decimals)}{" "}
 			{isArea ? (
 				<>
 					m<sup>2</sup>
@@ -169,8 +169,8 @@ const FactorsView: FC<{ factors: any; tags: any; index: number; dispatch: Functi
 									? props.factors[key].data[props.index].value
 									: key !== "location" && key !== "zone"
 									? props.factors[key].data[props.index].result
-									: key!=="zone"?
-									props.factors[key].results[props.index].value
+									: key !== "zone"
+									? props.factors[key].results[props.index].value
 									: props.factors[key].analytics[props.index].factor1.result
 							}
 						/>

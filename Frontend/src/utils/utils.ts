@@ -39,28 +39,28 @@ export const handleHomologationUpdate = (state: any) => {
 	state.factors.results.data = factorsResult(state.factors);
 	//handle reFactor Only
 	if (type === "TERRENO") {
-		reFactor.data[0].value = (  areas.averageLotArea.value / reFactor.surface.value) ** (1 / 12);
+		reFactor.data[0].value = (areas.averageLotArea.value / reFactor.surface.value) ** (1 / 12);
 		reFactor.factorResult.value = reFactor.data.reduce(
 			(previous: number, current: any) => previous * Number(current.value),
 			1,
 		);
 	} else {
 		reFactor.factorResult.value =
-			(areas.averageLotArea.value / areas.subject.value ) ** (1 / 12);
+			(areas.averageLotArea.value / areas.subject.value) ** (1 / 12);
 	}
-
 	//handle averageUnitCost
 	salesCosts.averageUnitCost.result =
-		reFactor.factorResult.value * salesCosts.averageUnitCost.roundedValue;
+	reFactor.factorResult.value * salesCosts.averageUnitCost.roundedValue;
 
 	//handle indiviso
 	if (type === "TERRENO") {
 		indiviso.indiviso = indiviso.private / indiviso.surface;
 		indiviso.result = indiviso.indiviso * areas.subject.value;
+	}else{
+		salesCosts.averageUnitCost.result = indiviso.result * salesCosts.averageUnitCost.roundedValue
 	}
 
 	return {
-		...state,
 		factors: {
 			...factors,
 			surface,
@@ -72,7 +72,8 @@ export const handleHomologationUpdate = (state: any) => {
 			areas,
 			reFactor,
 		},
-		averageUnitCost: roundToTenth(salesCosts.averageUnitCost.result),
+		averageUnitCost:roundToTenth(salesCosts.averageUnitCost.result,1),
+		...state,
 	};
 };
 const updateZoneAnalytics = (zone: any) => {
@@ -202,15 +203,10 @@ export const factorsResult = (factors: any) =>
 					factor !== "commercial"
 				) {
 					item.value *= factors[factor].data[index].result;
-
 				} else if (factor === "location") {
-	
 					item.value *= factors[factor].results[index].value;
-
-				} else if(factor ==="zone"){
-					console.log(factor,`index: ${index}`,factors[factor].analytics[index].factor1.result,item.value)
+				} else if (factor === "zone") {
 					item.value *= factors[factor].analytics[index].factor1.result;
-					console.log(item.value)
 				}
 			}
 		return item;

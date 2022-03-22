@@ -32,5 +32,6 @@ export const salesCostTemplate: any = (type: string = "TERRENO" || "RENTA"): Sal
 		value: 1,
 		roundedValue: 1,
 		result: 1,
+		reFactor:1,
 	},
 });

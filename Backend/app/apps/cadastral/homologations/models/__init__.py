@@ -8,14 +8,15 @@ class Homologation():
         self.id = id
         self.type = type
     
-    def query(self, query):
+    def query(self, query, insert = False):
         if DBHOST is not None and DBUSER is not None and DBPASSWORD is not None and DBPASSWORD is not None:
             try:
                 with connect(host=DBHOST, port=DBPORT, dbname=DBNAME, user=DBUSER, password=DBPASSWORD) as connection:
                     if connection is not None:
                         with connection.cursor(cursor_factory = RealDictCursor) as cursor:
                             cursor.execute(query)
-
+                            if insert:
+                                connection.commit()
                             return cursor.fetchall()
                     else:
                         return None
@@ -52,15 +53,39 @@ class Homologation():
             )
         return self.query(query)
 
+    def insertHomologation(self,factors,result,averageUnitCost,registration,appraisalPurpose):
+        query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/postHomologation.sql").read()).render(
+            TIPO=self.type,
+            FACTORES=dumps(factors),
+            RESULTADO=dumps(result),
+            VALOR_UNITARIO=averageUnitCost,
+            REGISTRO = registration,
+            TIPO_SERVICIO = appraisalPurpose
+            )
+        return self.query(query,True)
+
+    def patchHomologation(self,id,factors,result,averageUnitCost,registration,appraisalPurpose):
+        
+        query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/patchHomologation.sql").read()).render(
+        ID=id,
+        TIPO=self.type,
+        FACTORES=dumps(factors),
+        RESULTADO=dumps(result),
+        VALOR_UNITARIO=averageUnitCost,
+        REGISTRO = registration,
+        TIPO_SERVICIO = appraisalPurpose
+        )
+        return self.query(query,True)
+
     def updateJustipreciacion(self,averageUnitCost):
         if(self.type =="TERRENO"):
-            query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/updateJustipreciacionTerreno.sql").read()).render(
+            query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/patchJustipreciacionTerreno.sql").read()).render(
                 ID=self.id,
                 VALOR_UNITARIO=averageUnitCost
             )
         else:
-            query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/updateJustipreciacionRenta.sql").read()).render(
+            query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/patchJustiPreciacionRenta.sql").read()).render(
                 ID=self.id,
                 COMPARATIVO_MERCADO=averageUnitCost
             )
-        return self.query(query)
+        return self.query(query,True)

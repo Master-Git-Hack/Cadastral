@@ -27,12 +27,13 @@ class Controller:
         if(len(responseHomologation)>0):
             return {
                 'exists':True,
+                'record':responseHomologation[0]['id'],
                 'type':responseHomologation[0]['tipo'],
                 'factors':responseHomologation[0]['factores'],
                 'homologation':responseHomologation[0]['resultado'],
                 'averageUnitCost':responseHomologation[0]['valor_unitario'],
                 'registration':responseHomologation[0]['registro'],
-                'appraisalPurpose':responseHomologation[0]['proposito_avaluo'],
+                'appraisalPurpose':responseHomologation[0]['tipo_servicio'],
                  'districtOptions':districtIndicators
                
             }
@@ -63,10 +64,13 @@ class Controller:
                 }
             return data
     
-    def patch(self,factors,results,averageUnitCost,registration,appraisalPurpose):
+    def patch(self,record, exists,factors,results,averageUnitCost,registration,appraisalPurpose):
         homologation = Homologation(self.id,self.type)
-        homologation.insert(factors,results,averageUnitCost,registration,appraisalPurpose)
-        homologation.updateHomologation(averageUnitCost)
+        if exists:
+            homologation.patchHomologation(record,factors,results,averageUnitCost,registration,appraisalPurpose)
+        else:
+            homologation.insertHomologation(factors,results,averageUnitCost,registration,appraisalPurpose)
+        homologation.updateJustipreciacion(averageUnitCost)
 
 
 

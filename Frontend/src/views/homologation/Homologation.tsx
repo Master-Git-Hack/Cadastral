@@ -222,6 +222,7 @@ const ShowRefactor: FC<{
 				<div className="col-5 col-sm-5">
 					<Indiviso />
 				</div>
+				<VisibilityButton {...props} />
 			</div>
 		</div>
 	) : null;

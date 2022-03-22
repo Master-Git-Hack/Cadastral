@@ -22,8 +22,8 @@ export const refactoringTemplate = (type: string = "TERRENO" || "RENTA"): ReFact
 				value: 1,
 			},
 		];
-		data['surface']={
-			value:1
+		data["surface"] = {
+			value: 1,
 		};
 		return data;
 	} else return data;

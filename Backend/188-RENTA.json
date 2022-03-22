@@ -1,20 +1,35 @@
 {
     "appraisalPurpose": "JUSTIPRECIACI\u00d3N DE RENTA",
-    "averageUnitCost": 1430,
+    "averageUnitCost": null,
     "exists": true,
     "factors": {
         "ages": {
             "data": [
                 {
                     "id": 1,
-                    "result": 1,
-                    "value": 1
+                    "result": 0.96,
+                    "value": 3
+                },
+                {
+                    "id": 2,
+                    "result": 1.01,
+                    "value": 8
+                },
+                {
+                    "id": 3,
+                    "result": 0.98,
+                    "value": 5
+                },
+                {
+                    "id": 4,
+                    "result": 1.03,
+                    "value": 10
                 }
             ],
-            "isUsed": false,
+            "isUsed": true,
             "name": "Edad",
             "subject": {
-                "value": 1
+                "value": 7
             },
             "tag": "FEd."
         },
@@ -23,33 +38,33 @@
                 {
                     "id": 1,
                     "result": 1,
-                    "type": "RESIDENCIAL PLUS",
-                    "value": 1.08
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1
                 },
                 {
                     "id": 2,
                     "result": 1,
-                    "type": "RESIDENCIAL PLUS",
-                    "value": 1.08
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1
                 },
                 {
                     "id": 3,
                     "result": 1,
-                    "type": "RESIDENCIAL PLUS",
-                    "value": 1.08
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1
                 },
                 {
                     "id": 4,
                     "result": 1,
-                    "type": "RESIDENCIAL PLUS",
-                    "value": 1.08
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1
                 }
             ],
-            "isUsed": false,
+            "isUsed": true,
             "name": "Construccion",
             "subject": {
-                "type": "RESIDENCIAL PLUS",
-                "value": 1.08
+                "type": "MEDIA COM\u00daN",
+                "value": 1
             },
             "tag": "FCons."
         },
@@ -80,7 +95,7 @@
                     "value": 1.1
                 }
             ],
-            "isUsed": true,
+            "isUsed": false,
             "name": "Clasificacion",
             "subject": {
                 "type": "URBANO",
@@ -92,19 +107,19 @@
             "data": [
                 {
                     "id": 1,
-                    "value": 0.95
+                    "value": 0.98
                 },
                 {
-                    "id": 1,
-                    "value": 0.95
+                    "id": 2,
+                    "value": 0.98
                 },
                 {
-                    "id": 1,
-                    "value": 0.95
+                    "id": 3,
+                    "value": 0.98
                 },
                 {
-                    "id": 1,
-                    "value": 0.95
+                    "id": 4,
+                    "value": 0.98
                 }
             ],
             "isUsed": true,
@@ -116,33 +131,33 @@
                 {
                     "id": 1,
                     "result": 1,
-                    "type": "SOTANO 1",
-                    "value": 0.9
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
                 },
                 {
                     "id": 2,
                     "result": 1,
-                    "type": "SOTANO 1",
-                    "value": 0.9
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
                 },
                 {
                     "id": 3,
                     "result": 1,
-                    "type": "SOTANO 1",
-                    "value": 0.9
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
                 },
                 {
                     "id": 4,
                     "result": 1,
-                    "type": "SOTANO 1",
-                    "value": 0.9
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
                 }
             ],
-            "isUsed": false,
+            "isUsed": true,
             "name": "Nivel",
             "subject": {
-                "type": "SOTANO 1",
-                "value": 0.9
+                "type": "P.B. NIVEL DE CALLE",
+                "value": 1
             },
             "tag": "FNiv."
         },
@@ -167,28 +182,28 @@
                     },
                     "id": 1,
                     "observations": "MANZANA",
-                    "percentage": 4
+                    "percentage": 2
                 },
                 {
                     "C1": {
-                        "type": "-",
-                        "value": -1
+                        "type": "=",
+                        "value": 0
                     },
                     "C2": {
-                        "type": "-",
-                        "value": -1
+                        "type": "=",
+                        "value": 0
                     },
                     "C3": {
-                        "type": "+",
-                        "value": 1
+                        "type": "=",
+                        "value": 0
                     },
                     "C4": {
-                        "type": "+",
-                        "value": 1
+                        "type": "=",
+                        "value": 0
                     },
                     "id": 1,
                     "observations": "VIALIDAD",
-                    "percentage": 3
+                    "percentage": 5
                 },
                 {
                     "C1": {
@@ -217,19 +232,19 @@
             "results": [
                 {
                     "id": 1,
-                    "value": 0.97
+                    "value": 1
                 },
                 {
                     "id": 2,
-                    "value": 0.97
+                    "value": 1
                 },
                 {
                     "id": 3,
-                    "value": 1.03
+                    "value": 1
                 },
                 {
                     "id": 4,
-                    "value": 1.03
+                    "value": 1
                 }
             ],
             "tag": "FUbic."
@@ -238,25 +253,25 @@
             "data": [
                 {
                     "id": 1,
-                    "result": 1,
+                    "result": 1.03,
                     "type": "FUNCIONAL",
                     "value": 1
                 },
                 {
                     "id": 2,
-                    "result": 1,
+                    "result": 1.03,
                     "type": "FUNCIONAL",
                     "value": 1
                 },
                 {
                     "id": 3,
-                    "result": 1,
+                    "result": 1.03,
                     "type": "FUNCIONAL",
                     "value": 1
                 },
                 {
                     "id": 4,
-                    "result": 1,
+                    "result": 1.03,
                     "type": "FUNCIONAL",
                     "value": 1
                 }
@@ -264,8 +279,8 @@
             "isUsed": true,
             "name": "Proyecto",
             "subject": {
-                "type": "FUNCIONAL",
-                "value": 1
+                "type": "MUY BUENO",
+                "value": 1.03
             },
             "tag": "FProy."
         },
@@ -274,33 +289,33 @@
                 {
                     "id": 1,
                     "result": 1,
-                    "type": "PRECARIA",
-                    "value": 0.91
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
                 },
                 {
                     "id": 2,
                     "result": 1,
-                    "type": "PRECARIA",
-                    "value": 0.91
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
                 },
                 {
                     "id": 3,
                     "result": 1,
-                    "type": "PRECARIA",
-                    "value": 0.91
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
                 },
                 {
                     "id": 4,
-                    "result": 1,
-                    "type": "PRECARIA",
-                    "value": 0.91
+                    "result": 1.0618556701030928,
+                    "type": "ECONOMICA",
+                    "value": 0.97
                 }
             ],
-            "isUsed": false,
+            "isUsed": true,
             "name": "Calidad",
             "subject": {
-                "type": "PRECARIA",
-                "value": 0.91
+                "type": "MEDIA COM\u00daN",
+                "value": 1.03
             },
             "tag": "FCal."
         },
@@ -308,19 +323,19 @@
             "data": [
                 {
                     "id": 1,
-                    "value": 0.8653194244146658
+                    "value": 0.961152226933189
                 },
                 {
                     "id": 1,
-                    "value": 0.8926042543760392
+                    "value": 0.9229156472851887
                 },
                 {
                     "id": 1,
-                    "value": 0.8993829897936744
+                    "value": 0.9590679176943251
                 },
                 {
                     "id": 1,
-                    "value": 0.7515268465536793
+                    "value": 1.1837391978463334
                 }
             ],
             "isUsed": false,
@@ -331,19 +346,19 @@
             "data": [
                 {
                     "id": 1,
-                    "value": 0.977384255271354
+                    "value": 1.0026351420491155
                 },
                 {
                     "id": 1,
-                    "value": 1.0082026588106499
+                    "value": 0.9800433060474596
                 },
                 {
                     "id": 1,
-                    "value": 1.0184611439881117
+                    "value": 0.9800433060474596
                 },
                 {
                     "id": 1,
-                    "value": 0.9904826561898209
+                    "value": 1.0309952729059237
                 }
             ],
             "isUsed": true,
@@ -412,7 +427,7 @@
                     "value": 1
                 }
             ],
-            "isUsed": true,
+            "isUsed": false,
             "name": "Forma",
             "subject": {
                 "type": "REGULAR",
@@ -424,34 +439,34 @@
             "data": [
                 {
                     "id": 1,
-                    "result": 0.9904761904761905,
-                    "type": "MIXTO H-C",
-                    "value": 1.05
+                    "result": 1,
+                    "type": "HABITACIONAL",
+                    "value": 1
                 },
                 {
                     "id": 2,
-                    "result": 0.9904761904761905,
-                    "type": "MIXTO H-C",
-                    "value": 1.05
+                    "result": 1,
+                    "type": "HABITACIONAL",
+                    "value": 1
                 },
                 {
                     "id": 3,
-                    "result": 0.9541284403669724,
-                    "type": "MIXTO I-C",
-                    "value": 1.09
+                    "result": 1,
+                    "type": "HABITACIONAL",
+                    "value": 1
                 },
                 {
                     "id": 4,
-                    "result": 0.9904761904761905,
-                    "type": "MIXTO H-C",
-                    "value": 1.05
+                    "result": 1,
+                    "type": "HABITACIONAL",
+                    "value": 1
                 }
             ],
-            "isUsed": true,
+            "isUsed": false,
             "name": "Uso",
             "subject": {
-                "type": "SERVICIOS",
-                "value": 1.04
+                "type": "HABITACIONAL",
+                "value": 1
             },
             "tag": "FUso."
         },
@@ -460,21 +475,63 @@
                 {
                     "district": {
                         "annualCensus": 2020,
-                        "district": "San Francisco del Rinc\u00f3n",
-                        "economicallyActivePopulation": 68824,
-                        "id": 30,
-                        "inhabitedDwellings": 32211,
-                        "percentage": 52.59,
-                        "populationDensity": 307.7,
-                        "totalPopulation": 130871
+                        "district": "Salamanca",
+                        "economicallyActivePopulation": 125419,
+                        "id": 26,
+                        "inhabitedDwellings": 74971,
+                        "percentage": 45.87,
+                        "populationDensity": 361.9,
+                        "totalPopulation": 273417
                     },
                     "factor1": {
-                        "result": 0.97,
-                        "value": 1
+                        "result": 0.9892697301189871,
+                        "value": 0.9512208943451799
                     },
                     "factor2": {
-                        "result": 0.9409,
-                        "value": 0.97
+                        "result": 1.0288405193237466,
+                        "value": 1.04
+                    },
+                    "id": 1
+                },
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Irapuato",
+                        "economicallyActivePopulation": 285598,
+                        "id": 15,
+                        "inhabitedDwellings": 151888,
+                        "percentage": 48.17,
+                        "populationDensity": 696.7,
+                        "totalPopulation": 592953
+                    },
+                    "factor1": {
+                        "result": 0.9237023920875503,
+                        "value": 0.8881753770072599
+                    },
+                    "factor2": {
+                        "result": 0.9606504877710523,
+                        "value": 1.04
+                    },
+                    "id": 1
+                },
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Salamanca",
+                        "economicallyActivePopulation": 125419,
+                        "id": 26,
+                        "inhabitedDwellings": 74971,
+                        "percentage": 45.87,
+                        "populationDensity": 361.9,
+                        "totalPopulation": 273417
+                    },
+                    "factor1": {
+                        "result": 0.9892697301189871,
+                        "value": 0.9512208943451799
+                    },
+                    "factor2": {
+                        "result": 1.0288405193237466,
+                        "value": 1.04
                     },
                     "id": 1
                 },
@@ -490,54 +547,12 @@
                         "totalPopulation": 130871
                     },
                     "factor1": {
-                        "result": 0.97,
+                        "result": 1.04,
                         "value": 1
                     },
                     "factor2": {
-                        "result": 0.9409,
-                        "value": 0.97
-                    },
-                    "id": 1
-                },
-                {
-                    "district": {
-                        "annualCensus": 2020,
-                        "district": "Silao",
-                        "economicallyActivePopulation": 93113,
-                        "id": 37,
-                        "inhabitedDwellings": 46602,
-                        "percentage": 45.74,
-                        "populationDensity": 378,
-                        "totalPopulation": 203556
-                    },
-                    "factor1": {
-                        "result": 0.9458723570536152,
-                        "value": 0.9751261412923868
-                    },
-                    "factor2": {
-                        "result": 0.9174961863420067,
-                        "value": 0.97
-                    },
-                    "id": 1
-                },
-                {
-                    "district": {
-                        "annualCensus": 2020,
-                        "district": "Le\u00f3n",
-                        "economicallyActivePopulation": 900923,
-                        "id": 18,
-                        "inhabitedDwellings": 440662,
-                        "percentage": 52.34,
-                        "populationDensity": 1409,
-                        "totalPopulation": 1721215
-                    },
-                    "factor1": {
-                        "result": 0.782875593405398,
-                        "value": 0.8070882406241217
-                    },
-                    "factor2": {
-                        "result": 0.759389325603236,
-                        "value": 0.97
+                        "result": 1.0816000000000001,
+                        "value": 1.04
                     },
                     "id": 1
                 }
@@ -562,69 +577,6 @@
                     },
                     "id": 1,
                     "observations": "20% EQUIPAMIENTO",
-                    "percentage": 2
-                },
-                {
-                    "C1": {
-                        "type": "=",
-                        "value": 0
-                    },
-                    "C2": {
-                        "type": "=",
-                        "value": 0
-                    },
-                    "C3": {
-                        "type": "=",
-                        "value": 0
-                    },
-                    "C4": {
-                        "type": "=",
-                        "value": 0
-                    },
-                    "id": 1,
-                    "observations": "20% SERVICIOS",
-                    "percentage": 2
-                },
-                {
-                    "C1": {
-                        "type": "-",
-                        "value": -1
-                    },
-                    "C2": {
-                        "type": "-",
-                        "value": -1
-                    },
-                    "C3": {
-                        "type": "-",
-                        "value": -1
-                    },
-                    "C4": {
-                        "type": "-",
-                        "value": -1
-                    },
-                    "id": 1,
-                    "observations": "40% DESEABILIDAD",
-                    "percentage": 3
-                },
-                {
-                    "C1": {
-                        "type": "=",
-                        "value": 0
-                    },
-                    "C2": {
-                        "type": "=",
-                        "value": 0
-                    },
-                    "C3": {
-                        "type": "=",
-                        "value": 0
-                    },
-                    "C4": {
-                        "type": "=",
-                        "value": 0
-                    },
-                    "id": 1,
-                    "observations": "10% TRANSPORTE",
                     "percentage": 1
                 },
                 {
@@ -645,8 +597,71 @@
                         "value": 0
                     },
                     "id": 1,
-                    "observations": "10% PERIFERIA",
+                    "observations": "20%  SERVICIOS",
                     "percentage": 2
+                },
+                {
+                    "C1": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C2": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C3": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C4": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "id": 1,
+                    "observations": "40% DESEABILIDAD ",
+                    "percentage": 4
+                },
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "10% TRANSPORTE",
+                    "percentage": 2
+                },
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "10% PERIFERIA",
+                    "percentage": 1
                 }
             ],
             "isUsed": true,
@@ -654,19 +669,19 @@
             "results": [
                 {
                     "id": 1,
-                    "value": 0.97
+                    "value": 1.04
                 },
                 {
                     "id": 2,
-                    "value": 0.97
+                    "value": 1.04
                 },
                 {
                     "id": 3,
-                    "value": 0.97
+                    "value": 1.04
                 },
                 {
                     "id": 4,
-                    "value": 0.97
+                    "value": 1.04
                 }
             ],
             "subject": {
@@ -695,124 +710,106 @@
     "homologation": {
         "areas": {
             "averageLotArea": {
-                "name": "SUPERFICIE LOTE MODA",
-                "value": 15869.5
+                "name": "SUPERFICIE DEL COMPARABLE",
+                "value": 47
             },
             "data": [
                 {
                     "id": 1,
-                    "surface": 1,
-                    "value": 12060
+                    "surface": 48,
+                    "value": 48
                 },
                 {
                     "id": 2,
-                    "surface": 1,
-                    "value": 17504
+                    "surface": 40,
+                    "value": 40
                 },
                 {
                     "id": 3,
-                    "surface": 1,
-                    "value": 19765
+                    "surface": 40,
+                    "value": 40
                 },
                 {
                     "id": 4,
-                    "surface": 1,
-                    "value": 14149
+                    "surface": 60,
+                    "value": 60
                 }
             ],
-            "name": "\u00c1reas ",
+            "name": "Sup. Const ",
             "subject": {
-                "name": "SUPERFICIE TOTAL DEL TERRENO",
+                "name": "SUPERFICIE DEL SUJETO",
                 "value": 57.85
             },
-            "tag": "\u00c1rea de Lote Moda"
+            "tag": "Superficie del sujeto"
         },
-        "indiviso": {
-            "indiviso": 0.0015928335493004334,
-            "private": 39.2,
-            "result": 0.09214542082703008,
-            "surface": 24610.23
-        },
+        "indiviso": {},
         "reFactor": {
-            "data": [
-                {
-                    "name": "FACTOR DE SUPERFICIE",
-                    "value": 0.9258527858807976
-                },
-                {
-                    "name": "FACTOR DE FORMA",
-                    "value": 1
-                }
-            ],
             "factorResult": {
-                "name": "FACTOR RESULTANTE",
-                "value": 0.9258527858807976
-            },
-            "surface": {
-                "value": 40000
+                "name": "FACTOR DE TERRENO",
+                "value": 0.9828401161014233
             }
         },
         "salesCosts": {
             "averageUnitCost": {
-                "result": 1425.8132902564282,
-                "roundedValue": 1540,
-                "value": 1544.819619573427
+                "result": null,
+                "roundedValue": 70,
+                "value": 66.59904277872423
             },
             "data": [
                 {
                     "id": 1,
-                    "unitaryCost": 1800,
-                    "value": 21708000
+                    "unitaryCost": 62.5,
+                    "value": 3000
                 },
                 {
                     "id": 2,
-                    "unitaryCost": 1500,
-                    "value": 26256000
+                    "unitaryCost": 70,
+                    "value": 2800
                 },
                 {
                     "id": 3,
-                    "unitaryCost": 1999.8988110295977,
-                    "value": 39528000
+                    "unitaryCost": 62.5,
+                    "value": 2500
                 },
                 {
                     "id": 4,
-                    "unitaryCost": 2200,
-                    "value": 31127800
+                    "unitaryCost": 66.66666666666667,
+                    "value": 4000
                 }
             ],
             "results": [
                 {
                     "id": 1,
-                    "value": 1557.5749639463984
+                    "value": 60.07201418332431
                 },
                 {
                     "id": 2,
-                    "value": 1338.9063815640588
+                    "value": 64.60409530996321
                 },
                 {
                     "id": 3,
-                    "value": 1798.6749719486143
+                    "value": 59.941744855895315
                 },
                 {
                     "id": 4,
-                    "value": 1653.3590624180945
+                    "value": 78.9159465230889
                 }
             ],
-            "tag": "Precio de Venta"
+            "tag": "Precio de Renta"
         },
         "weightingPercentage": {
             "data": [
                 {
                     "id": 1,
-                    "value": 30
+                    "value": 25
                 },
                 {
                     "id": 2,
-                    "value": 30
+                    "value": 20
                 },
                 {
                     "id": 3,
-                    "value": 10
+                    "value": 25
                 },
                 {
                     "id": 4,
@@ -822,6 +819,6 @@
             "total": 100
         }
     },
-    "record": 7,
+    "record": 4,
     "registration": "0076-01_22"
 }
