@@ -50,14 +50,15 @@ export const handleHomologationUpdate = (state: any) => {
 	}
 	//handle averageUnitCost
 	salesCosts.averageUnitCost.result =
-	reFactor.factorResult.value * salesCosts.averageUnitCost.roundedValue;
+		reFactor.factorResult.value * salesCosts.averageUnitCost.roundedValue;
 
 	//handle indiviso
 	if (type === "TERRENO") {
 		indiviso.indiviso = indiviso.private / indiviso.surface;
 		indiviso.result = indiviso.indiviso * areas.subject.value;
-	}else{
-		salesCosts.averageUnitCost.result = indiviso.result * salesCosts.averageUnitCost.roundedValue
+	} else {
+		salesCosts.averageUnitCost.result =
+			indiviso.result * salesCosts.averageUnitCost.roundedValue;
 	}
 
 	return {
@@ -72,7 +73,7 @@ export const handleHomologationUpdate = (state: any) => {
 			areas,
 			reFactor,
 		},
-		averageUnitCost:roundToTenth(salesCosts.averageUnitCost.result,1),
+		averageUnitCost: roundToTenth(salesCosts.averageUnitCost.result, 1),
 		...state,
 	};
 };

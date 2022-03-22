@@ -1,6 +1,6 @@
 {
     "appraisalPurpose": "JUSTIPRECIACI\u00d3N DE RENTA",
-    "averageUnitCost": 70,
+    "averageUnitCost": null,
     "exists": true,
     "factors": {
         "ages": {
@@ -597,7 +597,7 @@
                         "value": 0
                     },
                     "id": 1,
-                    "observations": "20%  SERVICIOS",
+                    "observations": "",
                     "percentage": 2
                 },
                 {
@@ -618,7 +618,7 @@
                         "value": 1
                     },
                     "id": 1,
-                    "observations": "40% DESEABILIDAD ",
+                    "observations": "",
                     "percentage": 4
                 },
                 {
@@ -639,7 +639,7 @@
                         "value": 0
                     },
                     "id": 1,
-                    "observations": "10% TRANSPORTE",
+                    "observations": "",
                     "percentage": 2
                 },
                 {
@@ -660,7 +660,7 @@
                         "value": 0
                     },
                     "id": 1,
-                    "observations": "10% PERIFERIA",
+                    "observations": "",
                     "percentage": 1
                 }
             ],
@@ -751,7 +751,8 @@
         },
         "salesCosts": {
             "averageUnitCost": {
-                "result": 68.79880812709963,
+                "reFactor": 1,
+                "result": null,
                 "roundedValue": 70,
                 "value": 66.59904277872423
             },
@@ -819,6 +820,6 @@
             "total": 100
         }
     },
-    "record": 4,
-    "registration": "0076-01_22"
+    "record": 14,
+    "registration": "0034-01_22"
 }

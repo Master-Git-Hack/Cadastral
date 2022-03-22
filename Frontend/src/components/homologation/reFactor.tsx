@@ -13,7 +13,7 @@ import { FancyInput } from "../inputs/fancyInput";
 export const ReFactor: FC = () => {
 	const dispatch = useAppDispatch();
 	const { type, homologation } = useAppSelector(selector);
-	const { areas, reFactor,salesCosts } = homologation;
+	const { areas, reFactor, salesCosts } = homologation;
 	const { subject, averageLotArea } = areas;
 	return (
 		<table className="mt-3 table table-sm table-responsive table-responsive-sm table-hover table-stripped table-bordered">

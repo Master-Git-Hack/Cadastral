@@ -155,7 +155,9 @@ const Body: FC<{
 					isPercentage={false}
 				/>
 			</td>
-			<td colSpan={2}>{toFancyNumber(Number(props.salesCosts[i].unitaryCost.toFixed(2)), true)}</td>
+			<td colSpan={2}>
+				{toFancyNumber(Number(props.salesCosts[i].unitaryCost.toFixed(2)), true)}
+			</td>
 			<td colSpan={2}>{toFancyNumber(Number(props.surface[i].value.toFixed(2)))}</td>
 			<td colSpan={2}>
 				<FancyInput

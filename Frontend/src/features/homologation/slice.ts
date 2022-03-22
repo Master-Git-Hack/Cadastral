@@ -1,6 +1,6 @@
 /** @format */
 
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isRejectedWithValue, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
 import { StorageProps, TransactionProps } from "../../types/homologation/storage";
 import { ageTemplate } from "../../types/homologation/factors/age";
@@ -83,10 +83,13 @@ const initialState: StorageProps = {
 
 export const searchForExistence = createAsyncThunk(
 	"homologation/searchForExistence",
-	async (id: number) => {
+	async (id: number,{ rejectWithValue }) => {
 		const url = `/HOMOLOGATION/j-appreciation/${type}/${id}`;
-		const response = await consume("json").get(url);
-		return response.data;
+		try{
+			const response = await consume("json").get(url);
+			return response.data;
+		}
+		catch(err:any){return rejectWithValue(err.response.data);}
 	},
 );
 export const slice = createSlice({
@@ -221,9 +224,9 @@ export const slice = createSlice({
 		updateAverageUnitCost(state, action: PayloadAction<number>) {
 			state.averageUnitCost = action.payload;
 		},
-		setIndiviso(state, action: PayloadAction<TransactionProps>){
-			const {itemName,value} = action.payload;
-			if(itemName !== undefined && value !== undefined){
+		setIndiviso(state, action: PayloadAction<TransactionProps>) {
+			const { itemName, value } = action.payload;
+			if (itemName !== undefined && value !== undefined) {
 				state.homologation.indiviso[itemName] = value;
 				state = handleHomologationUpdate(state);
 			}
@@ -233,15 +236,24 @@ export const slice = createSlice({
 		builder
 			.addCase(searchForExistence.pending, (state) => {
 				state.status = "loading";
+			}).addCase(searchForExistence.rejected, (state,action) => {
+				console.log(action.payload)
+				state.states = "failed";
 			})
 			.addCase(searchForExistence.fulfilled, (state, action) => {
 				const { response } = action.payload;
 				const { exists } = response;
 				if (exists !== undefined) {
 					if (exists) {
-						const { factors, homologation, averageUnitCost, registration, appraisalPurpose  } = response;
+						const {
+							factors,
+							homologation,
+							averageUnitCost,
+							registration,
+							appraisalPurpose,
+						} = response;
 						state.status = "exists";
-						state.record=response.record;
+						state.record = response.record;
 						state.factors = factors;
 						state.homologation = homologation;
 						state.averageUnitCost = averageUnitCost;
@@ -273,12 +285,15 @@ export const slice = createSlice({
 			.addCase(sendPatchRequest.fulfilled, (state, action) => {
 				const { response } = action.payload;
 				if (response !== undefined) {
-					state.status = response ? "complete" : "failed";
-					console.log("executed");
+					state.status = response !== -1 ? "complete" : "failed";
 				} else {
 					state.states = "failed";
 				}
-			});
+			}).addCase(sendPatchRequest.rejected, (state, action) => {
+				console.log(action.payload)
+				state.states = "failed";
+			})
+
 	},
 });
 export const selector = (state: RootState) => state.homologation;
@@ -298,26 +313,33 @@ export const {
 	setHomologationReFactor,
 	setZoneSubjectFactors,
 	setHomologationReFactorData,
-	setIndiviso
+	setIndiviso,
 } = slice.actions;
 
 export const sendPatchRequest = createAsyncThunk(
 	"homologation/sendPatchRequest",
-	async (state: any) => {
-		const { id, type, factors, homologation, registration, appraisalPurpose, status, record} =
+	async (state: any,{ rejectWithValue }) => {
+		const { id, type, factors, homologation, registration, appraisalPurpose, status, record } =
 			state;
 		const payload = {
-			exists: status ==="exists" ? true:false,
+			exists: status === "exists" ? true : false,
 			record,
 			factors,
 			homologation,
-			averageUnitCost: roundToTenth(Number(homologation.salesCosts.averageUnitCost.result.toFixed(0)),1),
+			averageUnitCost: roundToTenth(
+				Number(homologation.salesCosts.averageUnitCost.result.toFixed(0)),
+				1,
+			),
 			registration,
 			appraisalPurpose,
 		};
 		const url = `/HOMOLOGATION/j-appreciation/${type}/${id}`;
-		const response = await consume("json").patch(url, payload);
-		return response.data;
+		try{
+			const response = await consume("json").patch(url, payload);
+			return response.data;
+		}
+		catch(err:any){return rejectWithValue(err.response.data)}
+		
 	},
 );
 

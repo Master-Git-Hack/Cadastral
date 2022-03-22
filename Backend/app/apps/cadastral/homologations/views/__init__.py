@@ -20,8 +20,11 @@ def update_jAppreciation(id,type):
     averageUnitCost = data['averageUnitCost']
     registration = data['registration']
     appraisalPurpose = data['appraisalPurpose']
-    control.patch(record, exists, factors,result,averageUnitCost,registration,appraisalPurpose)
-    return jsonify({"response":True}), 200
+    response = control.patch(record, exists, factors,result,averageUnitCost,registration,appraisalPurpose)
+    if response != -1:
+        return jsonify({"response":response}), 200
+    else:
+        return jsonify({"response":response}), 400
     
 
 

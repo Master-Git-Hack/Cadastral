@@ -42,24 +42,23 @@ class Controller:
                 'exists':False,
                 'type':self.type,
                 'registration':registration,
-                'appraisalPurpose':responseJustipreciacion[0]['proposito_avaluo'],
+                'appraisalPurpose':responseJustipreciacion[0]['proposito_avaluo'] if responseJustipreciacion[0]['proposito_avaluo'] is not None else "",
                 'districtOptions':districtIndicators,
                 'areas':{
                     'subject':{
-                        'value':responseJustipreciacion[0]['superficie']
+                        'value':responseJustipreciacion[0]['superficie'] if responseJustipreciacion[0]['superficie'] is not None else 1
                     }
                 },
 
             }
             if self.type == "TERRENO":
                 data['reFactor']={
-                    'data': responseJustipreciacion[0]['factor']
+                    'data': responseJustipreciacion[0]['factor'] if responseJustipreciacion[0]['factor'] is not None else 1
                 }
             else:
-                print(responseJustipreciacion[0])
                 data['ages']={
                     'subject':{
-                        'value': responseJustipreciacion[0]['edad']
+                        'value': responseJustipreciacion[0]['edad'] if responseJustipreciacion[0]['edad'] is not None else 1
                     }
                 }
             return data
@@ -67,10 +66,18 @@ class Controller:
     def patch(self,record, exists,factors,results,averageUnitCost,registration,appraisalPurpose):
         homologation = Homologation(self.id,self.type)
         if exists:
-            homologation.patchHomologation(record,factors,results,averageUnitCost,registration,appraisalPurpose)
+            response = homologation.patchHomologation(record,factors,results,averageUnitCost,registration,appraisalPurpose)
         else:
-            homologation.insertHomologation(factors,results,averageUnitCost,registration,appraisalPurpose)
-        homologation.updateJustipreciacion(averageUnitCost)
+            response = homologation.insertHomologation(factors,results,averageUnitCost,registration,appraisalPurpose)
+        if response != -1:
+            response = homologation.updateJustipreciacion(averageUnitCost)
+            if response != -1:
+                return response
+            else:
+                return response
+        else: 
+            return response
+        
 
 
 

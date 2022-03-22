@@ -1,6 +1,6 @@
 /** @format */
 
-import { selector,setIndiviso } from "../../features/homologation/slice";
+import { selector, setIndiviso } from "../../features/homologation/slice";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { toFancyNumber } from "../../utils/utils";
 import { FancyInput } from "../inputs/fancyInput";
@@ -23,10 +23,14 @@ export const Indiviso = () => {
 							index={0}
 							name="indiviso surface"
 							value={indiviso.surface}
-							onChange={(e) => dispatch(setIndiviso({
-								itemName:"surface",
-								value:Number(e.target.value)
-							}))}
+							onChange={(e) =>
+								dispatch(
+									setIndiviso({
+										itemName: "surface",
+										value: Number(e.target.value),
+									}),
+								)
+							}
 						/>
 					</td>
 				</tr>
@@ -37,10 +41,14 @@ export const Indiviso = () => {
 							index={0}
 							name="indiviso private"
 							value={indiviso.private}
-							onChange={(e) => dispatch(setIndiviso({
-								itemName:"private",
-								value:Number(e.target.value)
-							}))}
+							onChange={(e) =>
+								dispatch(
+									setIndiviso({
+										itemName: "private",
+										value: Number(e.target.value),
+									}),
+								)
+							}
 						/>
 					</td>
 				</tr>

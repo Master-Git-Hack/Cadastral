@@ -1,5 +1,5 @@
 from app.config import HOMOLOGATIONS_PATH, MODELS_PATH, DBNAME, DBPASSWORD, DBUSER, DBHOST, DBPORT
-from psycopg2 import connect, DatabaseError
+from psycopg2 import connect, DatabaseError, extensions
 from psycopg2.extras import RealDictCursor
 from jinja2 import Template
 from json import dumps
@@ -7,6 +7,22 @@ class Homologation():
     def __init__(self,id, type):
         self.id = id
         self.type = type
+
+    def checkPollStatus(self, connection):
+        """
+            extensions.POLL_ERROR == -1
+            extensions.POLL_OK == 0
+            extensions.POLL_READ == 1
+            extensions.POLL_WRITE == 2
+        """
+        if connection.poll() == extensions.POLL_OK:
+            return 0
+        if connection.poll() == extensions.POLL_READ:
+            return 1
+        if connection.poll() == extensions.POLL_WRITE:
+            return 2
+        if connection.poll() == extensions.POLL_ERROR:
+            return -1
     
     def query(self, query, insert = False):
         if DBHOST is not None and DBUSER is not None and DBPASSWORD is not None and DBPASSWORD is not None:
@@ -17,7 +33,10 @@ class Homologation():
                             cursor.execute(query)
                             if insert:
                                 connection.commit()
-                            return cursor.fetchall()
+                                response = self.checkPollStatus(connection)
+                                return response
+                            else:
+                                return cursor.fetchall()
                     else:
                         return None
             except(Exception, DatabaseError) as e:
@@ -78,10 +97,11 @@ class Homologation():
         return self.query(query,True)
 
     def updateJustipreciacion(self,averageUnitCost):
+        averageUnitCost = averageUnitCost if averageUnitCost is not None else 0
         if(self.type =="TERRENO"):
             query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/patchJustipreciacionTerreno.sql").read()).render(
                 ID=self.id,
-                VALOR_UNITARIO=averageUnitCost
+                VALOR_UNITARIO=averageUnitCost 
             )
         else:
             query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/patchJustiPreciacionRenta.sql").read()).render(

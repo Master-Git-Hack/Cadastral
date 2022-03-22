@@ -1,7 +1,6 @@
-version: '3.3'
-name: cadastral.app.container.docker
+version: '3.8'
+#name: cadastral.app.container.docker
 services:
-
   frontend:
     container_name: cadastral.react.container.docker
     build:
