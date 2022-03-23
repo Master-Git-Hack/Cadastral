@@ -1,23 +1,25 @@
 /** @format */
 
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useLayoutEffect } from "react";
 import { SelectFactor } from "../../components/homologation/selectFactor";
 import { FactorsCompilation, Location, Zone, Age } from "../../components/homologation/factors";
-import { UnitCost } from "../../components/homologation/unitCost";
+import { UnitCost } from "../../components/homologation/homologation/unitCost";
+import { Areas } from "../../components/homologation/homologation/areas";
 import { BigPicture } from "../../components/homologation/bigPicture";
-import { Save } from "../../components/homologation/save";
+import { Save } from "../../components/homologation/homologation/save";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { selector, searchForExistence } from "../../features/homologation/slice";
-import { ReFactor } from "../../components/homologation/reFactor";
-import { Indiviso } from "../../components/homologation/indiviso";
-import { AdjustedValue } from "../../components/homologation/adjustedValue";
+import { ReFactor } from "../../components/homologation/homologation/reFactor";
+import { Indiviso } from "../../components/homologation/homologation/indiviso";
+import { AdjustedValue } from "../../components/homologation/homologation/adjustedValue";
 export default function Homologation() {
 	const dispatch = useAppDispatch();
-	const { id, status } = useAppSelector(selector);
-	const [showSelectFactor, setShowSelectFactor] = useState(true);
-	const [showEditFactors, setShowEditFactors] = useState(false);
+	const { id, status, type } = useAppSelector(selector);
+
+	const [showEditFactors, setShowEditFactors] = useState(true);
 	const [showLocationZone, setShowLocationZone] = useState(false);
 	const [showUnitCost, setShowUnitCost] = useState(false);
+	const [showSelectFactor, setShowSelectFactor] = useState(false);
 	const [showBigPicture, setShowBigPicture] = useState(false);
 	const [showRefactor, setShowRefactor] = useState(false);
 	console.log(useAppSelector(selector));
@@ -31,6 +33,7 @@ export default function Homologation() {
 			setShowLocationZone(false);
 			setShowUnitCost(false);
 			setShowBigPicture(true);
+			setShowRefactor(false);
 		}
 	}, [status]);
 	return (
@@ -44,17 +47,17 @@ export default function Homologation() {
 			) : (
 				<>
 					<Save />
+					<div className="text-center">
+						<h1>Homolgacion de Tipo:</h1>
 
-					<SelectionFactor
-						name="begin"
-						visibility={showSelectFactor}
-						setCurrent={setShowSelectFactor}
-						setNext={setShowEditFactors}
-					/>
+						<h1>
+							<strong>{type}</strong>
+						</h1>
+					</div>
 					<EditFactor
-						name="edit"
+						name="begin"
 						visibility={showEditFactors}
-						setPrev={setShowSelectFactor}
+						setPrev={() => {}}
 						setCurrent={setShowEditFactors}
 						setNext={setShowLocationZone}
 					/>
@@ -70,12 +73,19 @@ export default function Homologation() {
 						visibility={showUnitCost}
 						setPrev={setShowLocationZone}
 						setCurrent={setShowUnitCost}
+						setNext={setShowSelectFactor}
+					/>
+					<SelectionFactor
+						name="select"
+						visibility={showSelectFactor}
+						setPrev={setShowUnitCost}
+						setCurrent={setShowSelectFactor}
 						setNext={setShowBigPicture}
 					/>
 					<ShowBigPicture
 						name="bigPicture"
 						visibility={showBigPicture}
-						setPrev={setShowUnitCost}
+						setPrev={setShowSelectFactor}
 						setCurrent={setShowBigPicture}
 						setNext={setShowRefactor}
 					/>
@@ -91,6 +101,15 @@ export default function Homologation() {
 		</>
 	);
 }
+const useWindowSize = (width: number, height: number) => {
+	const [size, setSize] = useState([0, 0]);
+	useLayoutEffect(() => {
+		const updateSize = () => setSize([window.innerWidth, window.innerHeight]);
+		window.resizeTo(width, height);
+		return () => window.removeEventListener("resize", updateSize);
+	}, []);
+	return size;
+};
 const VisibilityButton: FC = (props: any) => (
 	<div className="row mb-3 me-1">
 		{props.name !== "begin" ? (
@@ -124,6 +143,7 @@ const VisibilityButton: FC = (props: any) => (
 const SelectionFactor: FC<{
 	name: string;
 	visibility: boolean;
+	setPrev: Function;
 	setCurrent: Function;
 	setNext: Function;
 }> = (props: any) => (
@@ -183,6 +203,7 @@ const EditHomologation: FC<{
 		{props.visibility ? (
 			<div className="m-3">
 				<Age />
+				<Areas />
 				<UnitCost />
 				<VisibilityButton {...props} />
 			</div>
@@ -199,6 +220,7 @@ const ShowBigPicture: FC<{
 	props.visibility ? (
 		<div className="px-5">
 			<br />
+
 			<BigPicture />
 			<VisibilityButton {...props} />
 		</div>

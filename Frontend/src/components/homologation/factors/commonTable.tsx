@@ -34,7 +34,7 @@ export const CommonTable: FC<{
 	const subject = factors[props.name].subject;
 	const title = factors[props.name].name;
 	const factor = factors[props.name].data;
-	return factors[props.name].isUsed ? (
+	return (
 		<table
 			key={`table-${title}-${props.name}-${props.id}`}
 			className="table table-sm table-responsive table-responsive-sm table-striped table-bordered table-hover"
@@ -145,5 +145,5 @@ export const CommonTable: FC<{
 				))}
 			</tbody>
 		</table>
-	) : null;
+	);
 };

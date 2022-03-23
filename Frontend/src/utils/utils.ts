@@ -17,6 +17,11 @@ export const handleHomologationUpdate = (state: any) => {
 
 	const { results, surface, zone } = factors;
 	//handle homologation only
+	salesCosts.data.map((item:any,index:number)=>{
+		item.unitaryCost = item.value/areas.data[index].value;
+		return item;
+	})
+
 	salesCosts.results = calculateResultantUnitaryCost(results.data, salesCosts);
 
 	salesCosts.averageUnitCost.value = calculateAverageUnitCost(
@@ -270,7 +275,7 @@ export const addValueToUsedFactors = (factors: any) => {
 				factors[factor].data.push({ id: length + 1, ...factors[factor].data[length - 1] });
 			} else {
 				length = factors[factor].results.length;
-				const { data, isUsed, results } = factors[factor];
+				const { data, isUsed } = factors[factor];
 				if (isUsed) {
 					factors[factor].data[0] = addColumns(data[0]);
 					factors[factor].results.push({ id: length + 1, value: 1 });
@@ -319,8 +324,8 @@ export const addValueToHomologations = (homologation: any) => {
 					);
 				} else {
 					homologation[item].data[length] = {
-						...homologation[item].data[length],
-						surface: 1,
+						...homologation[item].data[length-1 ],
+						
 					};
 				}
 			}

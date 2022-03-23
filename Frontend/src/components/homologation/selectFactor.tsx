@@ -16,8 +16,7 @@ export const SelectFactor: FC = (props: any) => {
 				<div className="col-12 col-sm-12">
 					<ul className="list-group">
 						{Object.keys(factors).map((key: string, index: number) =>
-							key !== "location" &&
-							key !== "zone" &&
+							key !== "ages" &&
 							key !== "surface" &&
 							key !== "commercial" &&
 							key !== "results" ? (

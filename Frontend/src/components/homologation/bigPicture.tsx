@@ -1,5 +1,5 @@
 /** @format */
-import { FC } from "react";
+import { FC,useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/store";
 import {
 	toFancyNumber,
@@ -8,19 +8,27 @@ import {
 	getUsedFactors,
 	getObjectKey,
 } from "../../utils/utils";
-import { selector } from "../../features/homologation/slice";
+import { selector,updateState } from "../../features/homologation/slice";
 export const BigPicture: FC = () => {
 	const dispatch = useAppDispatch();
 	const { factors, homologation, rowsCount, type, status } = useAppSelector(selector);
 	const factorItems = getUsedFactors(factors);
 	const colSpan = countFactors(factorItems);
 	const tags = getFactorsTag(factorItems).filter((key: string) => !key.includes("FCom."));
+	useEffect(() => {
+		dispatch(updateState())
+	},[])
 	return (
 		<table className="table table-sm table-responsive table-responsive-sm table-bordered table-stripped table-hover">
 			<thead className="align-self-middle align-middle text-center">
 				<tr>
 					<th rowSpan={2}>Oferta</th>
-					<th rowSpan={2}>{homologation.salesCosts.tag}</th>
+					{type === "TERRENO" ? <th rowSpan={2}>{homologation.salesCosts.tag}</th> : null}
+					{type !== "TERRENO" ? (
+						<th rowSpan={2}>
+							Sup. Terreno ( $ / m<sup>2</sup> )
+						</th>
+					) : null}
 					<th rowSpan={2}>
 						{homologation.areas.name}
 						(m<sup>2</sup>)
@@ -38,6 +46,7 @@ export const BigPicture: FC = () => {
 				<Headers tags={tags} />
 			</thead>
 			<Body
+				type={type}
 				tags={tags}
 				rowsCount={rowsCount}
 				factors={factorItems}
@@ -102,6 +111,7 @@ const Show: FC<{
 	);
 };
 const Body: FC<{
+	type: string;
 	rowsCount: number;
 	factorResults: any;
 	tags: any;
@@ -116,14 +126,23 @@ const Body: FC<{
 			{items.map((item: string, index: number) => (
 				<tr key={`bigPicture-body-${item}-${index}`}>
 					<td>{item}</td>
-					<Show
-						id={`salesCost-${index}`}
-						value={salesCosts.data[index].value}
-						isCurrency={true}
-					/>
+					{props.type === "TERRENO" ? (
+						<Show
+							id={`salesCost-${index}`}
+							value={salesCosts.data[index].value}
+							isCurrency={true}
+						/>
+					) : null}
+					{props.type !== "TERRENO" ? (
+						<Show
+							id={`areas-${index}-surface`}
+							value={areas.data[index].surface}
+							decimals={0}
+						/>
+					) : null}
 					<Show id={`areas-${index}`} value={areas.data[index].value} decimals={0} />
 					<Show
-						id={`unitaryCost-${index}`}
+						id={`unitaryCost-${index}-value`}
 						value={salesCosts.data[index].unitaryCost}
 						isCurrency={true}
 					/>
@@ -199,7 +218,7 @@ const Footer: FC<{
 		<tr className="text-center align-self-middle align-middle">
 			{props.type !== "TERRENO" ? (
 				<>
-					<td colSpan={2} rowSpan={2} className="text-end">
+					<td colSpan={1} rowSpan={2} className="text-end">
 						SUJETO
 					</td>
 					<Show
@@ -222,7 +241,7 @@ const Footer: FC<{
 				rowSpan={2}
 			/>
 
-			<td colSpan={props.length + (props.type === "TERRENO" ? 3 : 2)} className="text-end">
+			<td colSpan={props.length + (props.type === "TERRENO" ? 3 : 3)} className="text-end">
 				{props.type === "TERRENO"
 					? "Valor Unitario Promedio"
 					: "Valor Unitario  Ponderado homologado"}
@@ -234,7 +253,7 @@ const Footer: FC<{
 			/>
 		</tr>
 		<tr className="text-center">
-			<td colSpan={props.length + (props.type === "TERRENO" ? 3 : 2)} className="text-end">
+			<td colSpan={props.length + (props.type === "TERRENO" ? 3 : 3)} className="text-end">
 				Valor Unitario Aplicable en Números Redondos
 			</td>
 

@@ -1,6 +1,11 @@
 /** @format */
 
-import { createAsyncThunk, createSlice, isRejectedWithValue, PayloadAction } from "@reduxjs/toolkit";
+import {
+	createAsyncThunk,
+	createSlice,
+	isRejectedWithValue,
+	PayloadAction,
+} from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
 import { StorageProps, TransactionProps } from "../../types/homologation/storage";
 import { ageTemplate } from "../../types/homologation/factors/age";
@@ -41,9 +46,13 @@ const parameters = new URLSearchParams(window.location.search);
 const id = parameters.get("id");
 const typeUsage = parameters.get("tipo");
 const type = typeUsage ? typeUsage.toString().toUpperCase() : "TERRENO";
+const serviceType = parameters.get("tipo_servicio")
+	? parameters.get("tipo_servicio")
+	: "justipreciacion";
 const initialState: StorageProps = {
 	id: id ? Number(id) : 0,
 	type,
+	appraisalPurpose: serviceType as string,
 	status: "working",
 	rowsCount: 1 as number,
 	factors: {
@@ -75,27 +84,33 @@ const initialState: StorageProps = {
 		reFactor: refactoringTemplate(type),
 		indiviso: indivisoTemplate(type),
 	},
-	averageUnitCost: 1 as number,
+	averageUnitCost: Number(1) ,
 	registration: "",
-	appraisalPurpose: "",
 	districtIndicators: districtOptions,
 };
 
 export const searchForExistence = createAsyncThunk(
 	"homologation/searchForExistence",
-	async (id: number,{ rejectWithValue }) => {
+	async (id: number, { rejectWithValue }) => {
 		const url = `/HOMOLOGATION/j-appreciation/${type}/${id}`;
-		try{
+		try {
 			const response = await consume("json").get(url);
 			return response.data;
+		} catch (err: any) {
+			return rejectWithValue(err.response.data);
 		}
-		catch(err:any){return rejectWithValue(err.response.data);}
 	},
 );
 export const slice = createSlice({
 	name: "homologation",
 	initialState,
 	reducers: {
+		updateState(state){
+			state = handleHomologationUpdate(state);
+			const {result} = state.homologation.salesCosts.averageUnitCost;
+			console.log(roundToTenth(result, 1))
+			state.averageUnitCost = roundToTenth(result, 1)
+		},
 		setFactors(state, action: PayloadAction<TransactionProps>) {
 			const { itemName, subItemName, value } = action.payload;
 			if (itemName !== undefined && value !== undefined && subItemName !== undefined)
@@ -201,6 +216,12 @@ export const slice = createSlice({
 				state = handleHomologationUpdate(state);
 			}
 		},
+		setHomologationAddress(state, action: PayloadAction<TransactionProps>) {
+			const { itemID, itemName, value } = action.payload;
+			if (itemName !== undefined && value !== undefined && itemID !== undefined) {
+				state.homologation.areas.data[itemID].address[itemName] = value;
+			}
+		},
 		setHomologationReFactor(state, action: PayloadAction<TransactionProps>) {
 			const { itemName, value, subItemName, itemID } = action.payload;
 			if (itemName !== undefined && value !== undefined && subItemName !== undefined) {
@@ -218,7 +239,7 @@ export const slice = createSlice({
 		setHomologationAreaSubject(state, action: PayloadAction<TransactionProps>) {
 			const { value } = action.payload;
 			if (value !== undefined) {
-				state.homologation.areas.subject = value;
+				state.homologation.areas.subject.value = value;
 			}
 		},
 		updateAverageUnitCost(state, action: PayloadAction<number>) {
@@ -236,8 +257,9 @@ export const slice = createSlice({
 		builder
 			.addCase(searchForExistence.pending, (state) => {
 				state.status = "loading";
-			}).addCase(searchForExistence.rejected, (state,action) => {
-				console.log(action.payload)
+			})
+			.addCase(searchForExistence.rejected, (state, action) => {
+				console.log(action.payload);
 				state.states = "failed";
 			})
 			.addCase(searchForExistence.fulfilled, (state, action) => {
@@ -262,10 +284,9 @@ export const slice = createSlice({
 						state.rowsCount = homologation.salesCosts.data.length;
 						state.districtIndicators = response.districtOptions;
 					} else {
-						const { registration, appraisalPurpose } = response;
+						const { registration } = response;
 						state.status = "working";
 						state.registration = registration;
-						state.appraisalPurpose = appraisalPurpose;
 						state.districtIndicators = response.districtOptions;
 						state.homologation.areas.subject.value = response.areas.subject.value;
 						if (state.type === "TERRENO") {
@@ -289,11 +310,11 @@ export const slice = createSlice({
 				} else {
 					state.states = "failed";
 				}
-			}).addCase(sendPatchRequest.rejected, (state, action) => {
-				console.log(action.payload)
-				state.states = "failed";
 			})
-
+			.addCase(sendPatchRequest.rejected, (state, action) => {
+				console.log(action.payload);
+				state.states = "failed";
+			});
 	},
 });
 export const selector = (state: RootState) => state.homologation;
@@ -314,11 +335,13 @@ export const {
 	setZoneSubjectFactors,
 	setHomologationReFactorData,
 	setIndiviso,
+	setHomologationAddress,
+	updateState
 } = slice.actions;
 
 export const sendPatchRequest = createAsyncThunk(
 	"homologation/sendPatchRequest",
-	async (state: any,{ rejectWithValue }) => {
+	async (state: any, { rejectWithValue }) => {
 		const { id, type, factors, homologation, registration, appraisalPurpose, status, record } =
 			state;
 		const payload = {
@@ -334,12 +357,12 @@ export const sendPatchRequest = createAsyncThunk(
 			appraisalPurpose,
 		};
 		const url = `/HOMOLOGATION/j-appreciation/${type}/${id}`;
-		try{
+		try {
 			const response = await consume("json").patch(url, payload);
 			return response.data;
+		} catch (err: any) {
+			return rejectWithValue(err.response.data);
 		}
-		catch(err:any){return rejectWithValue(err.response.data)}
-		
 	},
 );
 

@@ -18,14 +18,14 @@ export const SymbolsTable: FC<{ name: string; component?: any }> = (props) => {
 	const dispatch = useAppDispatch();
 	const { factors } = useAppSelector(selector);
 	const items = factors[props.name];
-	const { data, isUsed, name, results } = items;
+	const { data, name, results } = items;
 	const title = name.toUpperCase();
 	const columns = Object.keys(data[0]).filter((key: string) => key.includes("C"));
 	const colSpan = (columns.length + 1) % 2 === 0 ? columns.length + 3 : columns.length + 2;
 	const percentage = data
 		.map((item: any) => item.percentage)
 		.reduce((previous: number, current: any) => previous + Number(current), 0);
-	return isUsed ? (
+	return (
 		<div className="row">
 			<div
 				className={`col-${props.name !== "zone" ? 12 : 10} col-sm-${
@@ -88,7 +88,7 @@ export const SymbolsTable: FC<{ name: string; component?: any }> = (props) => {
 				</div>
 			) : null}
 		</div>
-	) : null;
+	);
 };
 
 const Actions: FC<{ colSpan: number; name: string; dispatch: Function }> = (props) => (

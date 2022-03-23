@@ -42,7 +42,6 @@ class Controller:
                 'exists':False,
                 'type':self.type,
                 'registration':registration,
-                'appraisalPurpose':responseJustipreciacion[0]['proposito_avaluo'] if responseJustipreciacion[0]['proposito_avaluo'] is not None else "",
                 'districtOptions':districtIndicators,
                 'areas':{
                     'subject':{

@@ -57,7 +57,7 @@ class Homologation():
         return self.query(query)
     
     def getHomologation(self,registration):
-        query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/getHomologation.sql").read()).render(REGISTRATION=registration, TYPE=self.type)
+        query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/getHomologation.sql").read()).render(REGISTRATION=registration, TYPE=self.type.lower())
         return self.query(query)
 
     def insert(self,factors,homologation,averageUnitCost,registration,appraisalPurpose):
@@ -87,7 +87,7 @@ class Homologation():
         
         query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/patchHomologation.sql").read()).render(
         ID=id,
-        TIPO=self.type,
+        TIPO=self.type.lower(),
         FACTORES=dumps(factors),
         RESULTADO=dumps(result),
         VALOR_UNITARIO=averageUnitCost,

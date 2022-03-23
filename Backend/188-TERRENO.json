@@ -1,5 +1,5 @@
 {
-    "appraisalPurpose": "JUSTIPRECIACI\u00d3N DE RENTA",
+    "appraisalPurpose": "justipreciacion",
     "averageUnitCost": 1430,
     "exists": true,
     "factors": {
@@ -138,7 +138,7 @@
                     "value": 0.9
                 }
             ],
-            "isUsed": false,
+            "isUsed": true,
             "name": "Nivel",
             "subject": {
                 "type": "SOTANO 1",
@@ -239,33 +239,33 @@
                 {
                     "id": 1,
                     "result": 1,
-                    "type": "FUNCIONAL",
-                    "value": 1
+                    "type": "EXCELENTE",
+                    "value": 1.06
                 },
                 {
                     "id": 2,
                     "result": 1,
-                    "type": "FUNCIONAL",
-                    "value": 1
+                    "type": "EXCELENTE",
+                    "value": 1.06
                 },
                 {
                     "id": 3,
                     "result": 1,
-                    "type": "FUNCIONAL",
-                    "value": 1
+                    "type": "EXCELENTE",
+                    "value": 1.06
                 },
                 {
                     "id": 4,
                     "result": 1,
-                    "type": "FUNCIONAL",
-                    "value": 1
+                    "type": "EXCELENTE",
+                    "value": 1.06
                 }
             ],
-            "isUsed": true,
+            "isUsed": false,
             "name": "Proyecto",
             "subject": {
-                "type": "FUNCIONAL",
-                "value": 1
+                "type": "EXCELENTE",
+                "value": 1.06
             },
             "tag": "FProy."
         },
@@ -700,22 +700,62 @@
             },
             "data": [
                 {
+                    "address": {
+                        "characteristics": "PREDIO URBANO, EN ESQUINA, REGULAR, TOPOGRAF\u00cdA PLANA, PAVIMENTACI\u00d3N DE CONCRETO HIDR\u00c1ULICO, CON TODOS LOS SERVICIOS",
+                        "date": "2022-02-02",
+                        "link": "INVESTICACI\u00d3N EN CAMPO 4774844409",
+                        "street": "PROLONGACI\u00d3N BOULEVARD JUVENTINO ROSAS",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": true,
+                        "suburb": "BOSQUES DE SAN FRANCISCO",
+                        "type": "HABITACIONAL RESIDENCIAL"
+                    },
                     "id": 1,
                     "surface": 1,
                     "value": 12060
                 },
                 {
-                    "id": 2,
+                    "address": {
+                        "characteristics": "PREDIO URBANO, REGULAR, TOPOGRAF\u00cdA PLANA, PAVIMENTACI\u00d3N DE CONCRETO HIDR\u00c1ULICO, CON TODOS LOS SERVICIOS",
+                        "date": "2022-02-02",
+                        "link": "INVESTIGACI\u00d3N EN CAMPO 4777944850",
+                        "street": "PROLONGACI\u00d3N BOULEVARD JUVENTINO ROSAS",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": true,
+                        "suburb": "COMPLEJO INDUSTRIAL RIVERA DEL RIO",
+                        "type": "HABITACIONAL RESIDENCIAL"
+                    },
+                    "id": 1,
                     "surface": 1,
                     "value": 17504
                 },
                 {
-                    "id": 3,
+                    "address": {
+                        "characteristics": "PREDIO URBANO, REGULAR, TOPOGRAF\u00cdA PLANA, PAVIMENTACI\u00d3N TERRACER\u00cdA, CON TODOS LOS SERVICIOS",
+                        "date": "2022-02-02",
+                        "link": "https://www.lamudi.com.mx/terreno-en-venta-en-col-san-antonio-texas-silao-gto-2.html",
+                        "street": "CARRETERA LE\u00d3N-SILAO",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": true,
+                        "suburb": "COLONIA NUEVO M\u00c9XICO",
+                        "type": "COMERCIAL"
+                    },
+                    "id": 1,
                     "surface": 1,
                     "value": 19765
                 },
                 {
-                    "id": 4,
+                    "address": {
+                        "characteristics": "PREDIO URBANO, REGULAR, TOPOGRAF\u00cdA PLANA, PAVIMENTACI\u00d3N CONCRETO HIDR\u00c1ULICO, CON TODOS LOS SERVICIOS.",
+                        "date": "2022-02-02",
+                        "link": "https://www.lamudi.com.mx/terreno-en-venta-km-2-carr-leon-silao-gto.html",
+                        "street": "CARRETERA SILAO- LE\u00d3N",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": true,
+                        "suburb": "COLONIA LOS SAUCES",
+                        "type": "HABITACIONAL"
+                    },
+                    "id": 1,
                     "surface": 1,
                     "value": 14149
                 }
@@ -754,6 +794,7 @@
         },
         "salesCosts": {
             "averageUnitCost": {
+                "reFactor": 1,
                 "result": 1425.8132902564282,
                 "roundedValue": 1540,
                 "value": 1544.819619573427
@@ -822,6 +863,6 @@
             "total": 100
         }
     },
-    "record": 7,
+    "record": 15,
     "registration": "0076-01_22"
 }

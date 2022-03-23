@@ -25,37 +25,30 @@ export const FactorsCompilation: FC = () => {
 			</thead>
 			<tbody className="align-self-center align-middle text-center align-items-center">
 				<tr className="row px-5">
-					<td className="col-6 col-sm-6">
-						<Classification />
-					</td>
-					<td className="col-6 col-sm-6">
-						<TypeForm type={type} />
-					</td>
+					<Classification />
 				</tr>
-				<tr className="row text-center px-5">
-					<td className="col-6 col-sm-6">
-						<Usage />
-					</td>
-					<td className="col-6 col-sm-6">
-						<Topography type={type} />
-					</td>
+				<tr className="row px-5">
+					<TypeForm type={type} />
 				</tr>
-				<tr className="row text-center px-5">
-					<td className="col-6 col-sm-6">
-						<Level />
-					</td>
-					<td className="col-6 col-sm-6">
-						<Quality />
-					</td>
+				<tr className="row px-5">
+					<Usage />
 				</tr>
-				<tr className="row text-center px-5">
-					<td className="col-6 col-sm-6">
-						<Project />
-					</td>
-					<td className="col-6 col-sm-6">
-						<Building />
-					</td>
+				<tr className="row px-5">
+					<Topography type={type} />
 				</tr>
+				<tr className="row px-5">
+					<Level />
+				</tr>
+				<tr className="row px-5">
+					<Quality />
+				</tr>
+				<tr className="row px-5">
+					<Project />
+				</tr>
+				<tr className="row px-5">
+					<Building />
+				</tr>
+
 				{/*<Location />*/}
 				{/*<Zone/>*/}
 			</tbody>
@@ -89,75 +82,75 @@ export const Age: FC = () => (
 	</tr>
 );
 export const Building: FC = () => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<CommonTable name="buildings" options={buildingOptions} id={1} />
 		</td>
 	</tr>
 );
 export const Classification: FC = () => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<CommonTable name="classification" options={classificationOptions} id={2} />
 		</td>
 	</tr>
 );
 export const Commercial: FC = () => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12"></td>
 	</tr>
 );
 export const Level: FC = () => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<CommonTable name="level" options={levelOptions} id={3} />
 		</td>
 	</tr>
 );
 export const Location: FC = () => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<SymbolsTable name="location" />
 		</td>
 	</tr>
 );
 export const Project: FC = () => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<CommonTable name="project" options={projectOptions} id={4} />
 		</td>
 	</tr>
 );
 export const Quality: FC = () => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<CommonTable name="quality" options={qualityOptions} id={5} />
 		</td>
 	</tr>
 );
 export const Topography: FC<{ type: string }> = (props) => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<CommonTable name="topography" options={topographyOptions(props.type)} id={6} />
 		</td>
 	</tr>
 );
 export const TypeForm: FC<{ type: string }> = (props) => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<CommonTable name="typeForm" options={typeFormOptions(props.type)} id={7} />
 		</td>
 	</tr>
 );
 export const Usage: FC = () => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<CommonTable name="usage" options={usageOptions} id={8} />
 		</td>
 	</tr>
 );
 export const Zone: FC = () => (
-	<tr className="row text-center">
+	<tr className="row text-center px-5">
 		<td className="col-12 col-sm-12">
 			<ZoneTable />
 			<SymbolsTable name="zone" />

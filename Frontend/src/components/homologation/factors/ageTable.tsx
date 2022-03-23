@@ -28,7 +28,7 @@ export const AgeTable: FC = () => {
 				  }),
 		);
 
-	return isUsed ? (
+	return isUsed?(
 		<table className="table table-sm table-responsive table-responsive-sm table-hover table-bordered table-stripped ">
 			<thead>
 				<tr>
@@ -74,5 +74,5 @@ export const AgeTable: FC = () => {
 				</tr>
 			</tfoot>
 		</table>
-	) : null;
+	):null;
 };
