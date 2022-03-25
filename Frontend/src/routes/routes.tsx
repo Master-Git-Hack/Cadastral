@@ -2,10 +2,16 @@
 
 import { FC, Fragment } from "react";
 import { Routes, Route } from "react-router-dom";
-import Homologation from "../views/homologation/Homologation";
+import { NavigationBar } from "../components/navigation/navbar";
+import Homologation from "../views/Homologation";
+import HandleReports from "../views/HandleReports";
 export const WithNavigation: FC = () => (
 	<Fragment>
-		<Routes></Routes>
+		<NavigationBar />
+		<Routes>
+			<Route path="/Reportes" element={<HandleReports />} />
+			<Route path="*" element={<h1>Error418</h1>} />
+		</Routes>
 	</Fragment>
 );
 
@@ -16,6 +22,5 @@ export const SinglePages: FC = () => (
 	</Routes>
 );
 const params = new URLSearchParams(window.location.search).get("key");
-export const RenderRoutes: FC = () => (
-	<Fragment>{params !== undefined ? <SinglePages /> : <WithNavigation />}</Fragment>
-);
+export const RenderRoutes: FC = () =>
+	params !== undefined && params !== null ? <SinglePages /> : <WithNavigation />;

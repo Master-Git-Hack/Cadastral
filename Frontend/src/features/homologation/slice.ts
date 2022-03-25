@@ -1,12 +1,7 @@
 /** @format */
 
-import {
-	createAsyncThunk,
-	createSlice,
-	isRejectedWithValue,
-	PayloadAction,
-} from "@reduxjs/toolkit";
-import { RootState, AppThunk } from "../../app/store";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 import { StorageProps, TransactionProps } from "../../types/homologation/storage";
 import { ageTemplate } from "../../types/homologation/factors/age";
 import { buildingTemplate } from "../../types/homologation/factors/building";
@@ -87,7 +82,7 @@ const initialState: StorageProps = {
 	averageUnitCost: Number(1),
 	registration: "",
 	districtIndicators: districtOptions,
-	errors:[]
+	errors: [],
 };
 
 export const searchForExistence = createAsyncThunk(
@@ -223,7 +218,7 @@ export const slice = createSlice({
 			}
 		},
 		setHomologationReFactor(state, action: PayloadAction<TransactionProps>) {
-			const { itemName, value, subItemName, itemID } = action.payload;
+			const { itemName, value, subItemName } = action.payload;
 			if (itemName !== undefined && value !== undefined && subItemName !== undefined) {
 				state.homologation[itemName][subItemName] = value;
 				state = handleHomologationUpdate(state);
@@ -253,8 +248,8 @@ export const slice = createSlice({
 				state = handleHomologationUpdate(state);
 			}
 		},
-		findErrors(state){
-			state.errors = validateErrors(state)
+		findErrors(state) {
+			state.errors = validateErrors(state);
 		},
 	},
 	extraReducers: (builder) => {
@@ -341,20 +336,30 @@ export const {
 	setIndiviso,
 	setHomologationAddress,
 	updateState,
-	findErrors
+	findErrors,
 } = slice.actions;
 
-export const checkForErrors=(dispatch:Function)=>new Promise<void>((resolve,reject)=>{
-	dispatch(findErrors());
-	setTimeout(()=>resolve(),)
-})
+export const checkForErrors = (dispatch: Function) =>
+	new Promise<void>((resolve, reject) => {
+		dispatch(findErrors());
+		setTimeout(() => resolve());
+	});
 export const sendPatchRequest = createAsyncThunk(
 	"homologation/sendPatchRequest",
-	async (state: any,{ rejectWithValue }) => {
-		const { id, type, factors, homologation, registration, appraisalPurpose, status, record, errors } =
-			state.state;
-		state.dispatch(findErrors())
-		if(errors.length ===0) {
+	async (state: any, { rejectWithValue }) => {
+		const {
+			id,
+			type,
+			factors,
+			homologation,
+			registration,
+			appraisalPurpose,
+			status,
+			record,
+			errors,
+		} = state.state;
+		state.dispatch(findErrors());
+		if (errors.length === 0) {
 			const payload = {
 				exists: status === "exists" ? true : false,
 				record,

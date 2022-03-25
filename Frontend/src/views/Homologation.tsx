@@ -1,17 +1,17 @@
 /** @format */
 
-import { FC, useState, useEffect, useLayoutEffect } from "react";
-import { SelectFactor } from "../../components/homologation/selectFactor";
-import { FactorsCompilation, Location, Zone, Age } from "../../components/homologation/factors";
-import { UnitCost } from "../../components/homologation/homologation/unitCost";
-import { Areas } from "../../components/homologation/homologation/areas";
-import { BigPicture } from "../../components/homologation/bigPicture";
-import { Save } from "../../components/homologation/homologation/save";
-import { useAppDispatch, useAppSelector } from "../../hooks/store";
-import { selector, searchForExistence } from "../../features/homologation/slice";
-import { ReFactor } from "../../components/homologation/homologation/reFactor";
-import { Indiviso } from "../../components/homologation/homologation/indiviso";
-import { AdjustedValue } from "../../components/homologation/homologation/adjustedValue";
+import { FC, useState, useEffect } from "react";
+import { SelectFactor } from "../components/homologation/selectFactor";
+import { FactorsCompilation, Location, Zone, Age } from "../components/homologation/factors";
+import { UnitCost } from "../components/homologation/homologation/unitCost";
+import { Areas } from "../components/homologation/homologation/areas";
+import { BigPicture } from "../components/homologation/bigPicture";
+import { Save } from "../components/homologation/homologation/save";
+import { useAppDispatch, useAppSelector } from "../hooks/store";
+import { selector, searchForExistence } from "../features/homologation/slice";
+import { ReFactor } from "../components/homologation/homologation/reFactor";
+import { Indiviso } from "../components/homologation/homologation/indiviso";
+import { AdjustedValue } from "../components/homologation/homologation/adjustedValue";
 export default function Homologation() {
 	const dispatch = useAppDispatch();
 	const { id, status, type, errors } = useAppSelector(selector);
@@ -22,9 +22,9 @@ export default function Homologation() {
 	const [showSelectFactor, setShowSelectFactor] = useState(false);
 	const [showBigPicture, setShowBigPicture] = useState(false);
 	const [showRefactor, setShowRefactor] = useState(false);
-	console.log(useAppSelector(selector));
 	useEffect(() => {
 		dispatch(searchForExistence(id));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	useEffect(() => {
 		if (status === "exists") {
@@ -112,6 +112,7 @@ export default function Homologation() {
 		</>
 	);
 }
+/*
 const useWindowSize = (width: number, height: number) => {
 	const [size, setSize] = useState([0, 0]);
 	useLayoutEffect(() => {
@@ -120,7 +121,7 @@ const useWindowSize = (width: number, height: number) => {
 		return () => window.removeEventListener("resize", updateSize);
 	}, []);
 	return size;
-};
+};*/
 const VisibilityButton: FC = (props: any) => (
 	<div className="row mb-3 me-1">
 		{props.name !== "begin" ? (

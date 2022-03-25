@@ -62,7 +62,7 @@ export interface StorageProps extends Storage {
 	registration: string;
 	appraisalPurpose: string;
 	districtIndicators: Array<DistrictsProps>;
-	errors:Array<any>
+	errors: Array<any>;
 }
 export interface TransactionProps {
 	itemID?: number;
