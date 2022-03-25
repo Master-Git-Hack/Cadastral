@@ -1,5 +1,5 @@
 /** @format */
-import { FC,useEffect } from "react";
+import { FC, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/store";
 import {
 	toFancyNumber,
@@ -8,7 +8,7 @@ import {
 	getUsedFactors,
 	getObjectKey,
 } from "../../utils/utils";
-import { selector,updateState } from "../../features/homologation/slice";
+import { selector, updateState } from "../../features/homologation/slice";
 export const BigPicture: FC = () => {
 	const dispatch = useAppDispatch();
 	const { factors, homologation, rowsCount, type, status } = useAppSelector(selector);
@@ -16,8 +16,8 @@ export const BigPicture: FC = () => {
 	const colSpan = countFactors(factorItems);
 	const tags = getFactorsTag(factorItems).filter((key: string) => !key.includes("FCom."));
 	useEffect(() => {
-		dispatch(updateState())
-	},[])
+		dispatch(updateState());
+	}, []);
 	return (
 		<table className="table table-sm table-responsive table-responsive-sm table-bordered table-stripped table-hover">
 			<thead className="align-self-middle align-middle text-center">

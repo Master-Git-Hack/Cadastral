@@ -14,7 +14,7 @@ import { Indiviso } from "../../components/homologation/homologation/indiviso";
 import { AdjustedValue } from "../../components/homologation/homologation/adjustedValue";
 export default function Homologation() {
 	const dispatch = useAppDispatch();
-	const { id, status, type } = useAppSelector(selector);
+	const { id, status, type, errors } = useAppSelector(selector);
 
 	const [showEditFactors, setShowEditFactors] = useState(true);
 	const [showLocationZone, setShowLocationZone] = useState(false);
@@ -47,6 +47,17 @@ export default function Homologation() {
 			) : (
 				<>
 					<Save />
+					{errors.length > 0 ? (
+						<ol className="">
+							{errors.map((item: any, index: number) => (
+								<p key={`list of errors finded ${index}`}>
+									<span className="badge rounded-pill bg-danger">
+										<h6>{item}</h6>
+									</span>
+								</p>
+							))}
+						</ol>
+					) : null}
 					<div className="text-center">
 						<h1>Homolgacion de Tipo:</h1>
 

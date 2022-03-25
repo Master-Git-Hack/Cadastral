@@ -11,17 +11,49 @@ import { topographyOptions } from "../types/homologation/factors/topography";
 import { typeFormOptions } from "../types/homologation/factors/typeForm";
 import { usageOptions } from "../types/homologation/factors/usage";
 import { symbolsOptions } from "../types/homologation/factors/symbols";
+export const validateErrors=(state:any)=>{
+	const errors:any=[];
+	const {homologation,factors,type} = state;
+	const {location,zone}=factors;
+	const {areas}=homologation;
+	location.data.map((item:any,index:number)=>{
+		if(item.observations==="")
+			errors.push(`C${index+1}, en el campo de ${location.name} se encuentra vacio.`)
+	})
+	zone.data.map((item:any,index:number)=>{
+		if(item.observations==="")
+			errors.push(`C${index+1}, en el campo de ${zone.name} se encuentra vacio.`)
+	})
+	areas.data.map((item:any,index:number)=>{
+		const {address} = item;
+		const {characteristics,link,street,suburb} = address;
+		if(characteristics==="")
+			errors.push(`C${index+1}, en el campo de informacion referente a la direccion se encuntra vacio el campo de --Características-- se encuentra vacio.`)
+		if(link==="")
+			errors.push(`C${index+1}, en el campo de informacion referente a la direccion se encuntra vacio el campo de --LINK PARA REVISIÓN-- se encuentra vacio.`)
+		if(street==="")
+			errors.push(`C${index+1}, en el campo de informacion referente a la direccion se encuntra vacio el campo de --Calle y/o Numero-- se encuentra vacio.`)
+		if(suburb==="")
+			errors.push(`C${index+1}, en el campo de informacion referente a la direccion se encuntra vacio el campo de --Colonia-- se encuentra vacio.`)
+		if(address.type==="")
+			errors.push(`C${index+1}, en el campo de informacion referente a la direccion se encuntra vacio el campo de -${type==="TERRENO"?"Uso de suelo":"Tipo Construcción"}-- se encuentra vacio.`)
+	})
+	return errors;
+}
 export const handleHomologationUpdate = (state: any) => {
 	const { type, factors, homologation } = state;
 	const { salesCosts, areas, weightingPercentage, reFactor, indiviso } = homologation;
 
+	//handle results data only
+	factors.results.data = factorsResult(factors);
+	
 	const { results, surface, zone } = factors;
 	//handle homologation only
-	salesCosts.data.map((item:any,index:number)=>{
-		item.unitaryCost = item.value/areas.data[index].value;
+	salesCosts.data.map((item: any, index: number) => {
+		item.unitaryCost = item.value / areas.data[index].value;
 		return item;
-	})
-
+	});
+	
 	salesCosts.results = calculateResultantUnitaryCost(results.data, salesCosts);
 
 	salesCosts.averageUnitCost.value = calculateAverageUnitCost(
@@ -41,7 +73,7 @@ export const handleHomologationUpdate = (state: any) => {
 	surface.data = calculateSurface(surface.data, areas.data, areas.averageLotArea.value, type);
 
 	state.zone = updateZoneAnalytics(zone);
-	state.factors.results.data = factorsResult(state.factors);
+	factors.results.data = factorsResult(factors);
 	//handle reFactor Only
 	if (type === "TERRENO") {
 		reFactor.data[0].value = (areas.averageLotArea.value / reFactor.surface.value) ** (1 / 12);
@@ -54,6 +86,17 @@ export const handleHomologationUpdate = (state: any) => {
 			(areas.averageLotArea.value / areas.subject.value) ** (1 / 12);
 	}
 	//handle averageUnitCost
+	
+	salesCosts.results = calculateResultantUnitaryCost(results.data, salesCosts);
+
+	salesCosts.averageUnitCost.value = calculateAverageUnitCost(
+		salesCosts.results,
+		weightingPercentage.data,
+	);
+
+	salesCosts.averageUnitCost.roundedValue = roundToTenth(salesCosts.averageUnitCost.value, 1);
+
+	salesCosts.averageUnitCost.result = salesCosts.averageUnitCost.roundedValue;
 	salesCosts.averageUnitCost.result =
 		reFactor.factorResult.value * salesCosts.averageUnitCost.roundedValue;
 
@@ -63,7 +106,7 @@ export const handleHomologationUpdate = (state: any) => {
 		indiviso.result = indiviso.indiviso * areas.subject.value;
 	} else {
 		salesCosts.averageUnitCost.result =
-			indiviso.result * salesCosts.averageUnitCost.roundedValue;
+		reFactor.factorResult.value * salesCosts.averageUnitCost.roundedValue;
 	}
 
 	return {
@@ -324,8 +367,7 @@ export const addValueToHomologations = (homologation: any) => {
 					);
 				} else {
 					homologation[item].data[length] = {
-						...homologation[item].data[length-1 ],
-						
+						...homologation[item].data[length - 1],
 					};
 				}
 			}

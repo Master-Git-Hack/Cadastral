@@ -2,15 +2,27 @@
 
 import { FC, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
-import { selector, sendPatchRequest } from "../../../features/homologation/slice";
+import {
+	selector,
+	sendPatchRequest,
+	findErrors,
+	checkForErrors,
+} from "../../../features/homologation/slice";
 export const Save: FC = () => {
 	const dispatch = useAppDispatch();
-	const { status } = useAppSelector(selector);
+	const { status, errors } = useAppSelector(selector);
 	const state = useAppSelector(selector);
-	const sendRequest = () => dispatch(sendPatchRequest(state));
+	const sendRequest = async () =>
+		checkForErrors(dispatch).then(() => {
+			if (errors.length > 0) {
+				window.alert("Favor de atender los errors encontrados!");
+			} else {
+				dispatch(sendPatchRequest({ state, dispatch }));
+			}
+		});
 
 	useEffect(() => {
-		if (status === "complete") {
+		if (status === "complete" && errors.length === 0) {
 			alert("Registro guardado exitosamente");
 			window.opener = null;
 			window.open("about:blank", "_self", "");

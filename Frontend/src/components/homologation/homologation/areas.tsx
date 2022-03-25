@@ -10,9 +10,9 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { FancyInput } from "../../inputs/fancyInput";
 export const Areas: FC = () => {
-	const { type, homologation, districtIndicators,factors } = useAppSelector(selector);
+	const { type, homologation, districtIndicators, factors } = useAppSelector(selector);
 	const { areas, salesCosts } = homologation;
-	const {analytics} = factors.zone;
+	const { analytics } = factors.zone;
 	const dispatch = useAppDispatch();
 	const findDistrict = (district: string) =>
 		districtIndicators.find((d) => d.district === district);
@@ -28,8 +28,8 @@ export const Areas: FC = () => {
 					{type === "TERRENO" ? <th>Uso de Suelo</th> : null}
 					{type !== "TERRENO" ? <th>Precio de Renta</th> : null}
 					<th>Fecha</th>
-					<th>Caracteristicas</th>
 					{type !== "TERRENO" ? <th>Tipo de Construcción</th> : null}
+					<th>Caracteristicas</th>
 					<th>Link de Consulta</th>
 				</tr>
 			</thead>
@@ -117,7 +117,7 @@ export const Areas: FC = () => {
 								index={index}
 								name="district"
 								value={analytics[index].district.district}
-								onChange={(event: any) =>{
+								onChange={(event: any) => {
 									const response = findDistrict(event.target.value);
 									dispatch(
 										setZone({
@@ -127,9 +127,7 @@ export const Areas: FC = () => {
 											value: response,
 										}),
 									);
-								}
-									
-								}
+								}}
 							/>
 						</td>
 						{type === "TERRENO" ? (

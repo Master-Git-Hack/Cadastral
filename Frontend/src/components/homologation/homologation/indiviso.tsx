@@ -1,6 +1,10 @@
 /** @format */
 
-import { selector, setIndiviso } from "../../../features/homologation/slice";
+import {
+	selector,
+	setHomologationAreaSubject,
+	setIndiviso,
+} from "../../../features/homologation/slice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { toFancyNumber } from "../../../utils/utils";
 import { FancyInput } from "../../inputs/fancyInput";
@@ -58,7 +62,20 @@ export const Indiviso = () => {
 				</tr>
 				<tr>
 					<td className="text-start">SUPERFICIE TOTAL DE TERRENO</td>
-					<td>{toFancyNumber(subject.value)}</td>
+					<td>
+						<FancyInput
+							index={0}
+							name="areaSubject"
+							value={subject.value}
+							onChange={(event) =>
+								dispatch(
+									setHomologationAreaSubject({
+										value: Number(event.target.value),
+									}),
+								)
+							}
+						/>
+					</td>
 				</tr>
 				<tr>
 					<td className="text-start">SUPERFICIE DE TERRENO SEGUN INDIVISO</td>

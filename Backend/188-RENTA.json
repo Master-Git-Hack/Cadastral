@@ -1,0 +1,739 @@
+{
+    "appraisalPurpose": "justipreciacion",
+    "averageUnitCost": 0,
+    "exists": true,
+    "factors": {
+        "ages": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "value": 7
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "value": 7
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "value": 7
+                }
+            ],
+            "isUsed": true,
+            "name": "Edad",
+            "subject": {
+                "value": 7
+            },
+            "tag": "FEd."
+        },
+        "buildings": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "RESIDENCIAL PLUS",
+                    "value": 1.08
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "RESIDENCIAL PLUS",
+                    "value": 1.08
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "RESIDENCIAL PLUS",
+                    "value": 1.08
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "RESIDENCIAL PLUS",
+                    "value": 1.08
+                }
+            ],
+            "isUsed": true,
+            "name": "Construccion",
+            "subject": {
+                "type": "RESIDENCIAL PLUS",
+                "value": 1.08
+            },
+            "tag": "FCons."
+        },
+        "classification": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                }
+            ],
+            "isUsed": true,
+            "name": "Clasificacion",
+            "subject": {
+                "type": "URBANO",
+                "value": 1.1
+            },
+            "tag": "FClas."
+        },
+        "commercial": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                }
+            ],
+            "isUsed": true,
+            "name": "Comercial",
+            "tag": "FCom."
+        },
+        "level": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "SOTANO 1",
+                    "value": 0.9
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "SOTANO 1",
+                    "value": 0.9
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "SOTANO 1",
+                    "value": 0.9
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "SOTANO 1",
+                    "value": 0.9
+                }
+            ],
+            "isUsed": true,
+            "name": "Nivel",
+            "subject": {
+                "type": "SOTANO 1",
+                "value": 0.9
+            },
+            "tag": "FNiv."
+        },
+        "location": {
+            "data": [
+                {
+                    "C1": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C2": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C3": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C4": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "id": 1,
+                    "observations": "",
+                    "percentage": 0
+                }
+            ],
+            "isUsed": true,
+            "name": "Ubicaci\u00f3n",
+            "results": [
+                {
+                    "id": 1,
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "value": 1
+                }
+            ],
+            "tag": "FUbic."
+        },
+        "project": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "EXCELENTE",
+                    "value": 1.06
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "EXCELENTE",
+                    "value": 1.06
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "EXCELENTE",
+                    "value": 1.06
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "EXCELENTE",
+                    "value": 1.06
+                }
+            ],
+            "isUsed": true,
+            "name": "Proyecto",
+            "subject": {
+                "type": "EXCELENTE",
+                "value": 1.06
+            },
+            "tag": "FProy."
+        },
+        "quality": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "PRECARIA",
+                    "value": 0.91
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "PRECARIA",
+                    "value": 0.91
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "PRECARIA",
+                    "value": 0.91
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "PRECARIA",
+                    "value": 0.91
+                }
+            ],
+            "isUsed": true,
+            "name": "Calidad",
+            "subject": {
+                "type": "PRECARIA",
+                "value": 0.91
+            },
+            "tag": "FCal."
+        },
+        "results": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                }
+            ],
+            "isUsed": false,
+            "name": "Homologaci\u00f3n Resultante",
+            "tag": "F.Ho.Re."
+        },
+        "surface": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 1
+                },
+                {
+                    "id": 1,
+                    "value": 1
+                },
+                {
+                    "id": 1,
+                    "value": 1
+                },
+                {
+                    "id": 1,
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Superficie",
+            "tag": "FSup."
+        },
+        "topography": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Topograf\u00eda",
+            "subject": {
+                "type": "PLANA",
+                "value": 1
+            },
+            "tag": "FTop."
+        },
+        "typeForm": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Forma",
+            "subject": {
+                "type": "REGULAR",
+                "value": 1
+            },
+            "tag": "FFo."
+        },
+        "usage": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "HABITACIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "HABITACIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "HABITACIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "HABITACIONAL",
+                    "value": 1
+                }
+            ],
+            "isUsed": true,
+            "name": "Uso",
+            "subject": {
+                "type": "HABITACIONAL",
+                "value": 1
+            },
+            "tag": "FUso."
+        },
+        "zone": {
+            "analytics": [
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Abasolo",
+                        "economicallyActivePopulation": 42110,
+                        "id": 1,
+                        "inhabitedDwellings": 22275,
+                        "percentage": 45.75,
+                        "populationDensity": 149.6,
+                        "totalPopulation": 92040
+                    },
+                    "factor1": {
+                        "result": 1,
+                        "value": 1
+                    },
+                    "factor2": {
+                        "result": 1,
+                        "value": 1
+                    },
+                    "id": 1
+                },
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Abasolo",
+                        "economicallyActivePopulation": 42110,
+                        "id": 1,
+                        "inhabitedDwellings": 22275,
+                        "percentage": 45.75,
+                        "populationDensity": 149.6,
+                        "totalPopulation": 92040
+                    },
+                    "factor1": {
+                        "result": 1,
+                        "value": 1
+                    },
+                    "factor2": {
+                        "result": 1,
+                        "value": 1
+                    },
+                    "id": 1
+                },
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Abasolo",
+                        "economicallyActivePopulation": 42110,
+                        "id": 1,
+                        "inhabitedDwellings": 22275,
+                        "percentage": 45.75,
+                        "populationDensity": 149.6,
+                        "totalPopulation": 92040
+                    },
+                    "factor1": {
+                        "result": 1,
+                        "value": 1
+                    },
+                    "factor2": {
+                        "result": 1,
+                        "value": 1
+                    },
+                    "id": 1
+                },
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Abasolo",
+                        "economicallyActivePopulation": 42110,
+                        "id": 1,
+                        "inhabitedDwellings": 22275,
+                        "percentage": 45.75,
+                        "populationDensity": 149.6,
+                        "totalPopulation": 92040
+                    },
+                    "factor1": {
+                        "result": 1,
+                        "value": 1
+                    },
+                    "factor2": {
+                        "result": 1,
+                        "value": 1
+                    },
+                    "id": 1
+                }
+            ],
+            "data": [
+                {
+                    "C1": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C2": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C3": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C4": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "id": 1,
+                    "observations": "",
+                    "percentage": 0
+                }
+            ],
+            "isUsed": true,
+            "name": "Zona",
+            "results": [
+                {
+                    "id": 1,
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "value": 1
+                }
+            ],
+            "subject": {
+                "district": {
+                    "annualCensus": 2020,
+                    "district": "Abasolo",
+                    "economicallyActivePopulation": 42110,
+                    "id": 1,
+                    "inhabitedDwellings": 22275,
+                    "percentage": 45.75,
+                    "populationDensity": 149.6,
+                    "totalPopulation": 92040
+                },
+                "factor1": {
+                    "root": 12,
+                    "type": "totalPopulation"
+                },
+                "factor2": {
+                    "root": 12,
+                    "type": "totalPopulation"
+                }
+            },
+            "tag": "FZo."
+        }
+    },
+    "homologation": {
+        "areas": {
+            "averageLotArea": {
+                "name": "SUPERFICIE DEL COMPARABLE",
+                "value": 1
+            },
+            "data": [
+                {
+                    "address": {
+                        "characteristics": "",
+                        "date": "2022-03-24",
+                        "link": "",
+                        "street": "",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": false,
+                        "suburb": "",
+                        "type": ""
+                    },
+                    "id": 1,
+                    "surface": 1,
+                    "value": 1
+                },
+                {
+                    "address": {
+                        "characteristics": "",
+                        "date": "2022-03-24",
+                        "link": "",
+                        "street": "",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": false,
+                        "suburb": "",
+                        "type": ""
+                    },
+                    "id": 1,
+                    "surface": 1,
+                    "value": 1
+                },
+                {
+                    "address": {
+                        "characteristics": "",
+                        "date": "2022-03-24",
+                        "link": "",
+                        "street": "",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": false,
+                        "suburb": "",
+                        "type": ""
+                    },
+                    "id": 1,
+                    "surface": 1,
+                    "value": 1
+                },
+                {
+                    "address": {
+                        "characteristics": "",
+                        "date": "2022-03-24",
+                        "link": "",
+                        "street": "",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": false,
+                        "suburb": "",
+                        "type": ""
+                    },
+                    "id": 1,
+                    "surface": 1,
+                    "value": 1
+                }
+            ],
+            "name": "Sup. Const ",
+            "subject": {
+                "name": "SUPERFICIE DEL SUJETO",
+                "value": 57.85
+            },
+            "tag": "Superficie del sujeto"
+        },
+        "indiviso": {},
+        "reFactor": {
+            "factorResult": {
+                "name": "FACTOR DE TERRENO",
+                "value": 0.7130851402047229
+            }
+        },
+        "salesCosts": {
+            "averageUnitCost": {
+                "reFactor": 1,
+                "result": 0,
+                "roundedValue": 0,
+                "value": 0.95
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "unitaryCost": 1,
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "unitaryCost": 1,
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "unitaryCost": 1,
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "unitaryCost": 1,
+                    "value": 1
+                }
+            ],
+            "results": [
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 2,
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "value": 1
+                }
+            ],
+            "tag": "Precio de Renta"
+        },
+        "weightingPercentage": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 25
+                },
+                {
+                    "id": 2,
+                    "value": 25
+                },
+                {
+                    "id": 3,
+                    "value": 25
+                },
+                {
+                    "id": 4,
+                    "value": 25
+                }
+            ],
+            "total": 100
+        }
+    },
+    "record": 16,
+    "registration": "0076-01_22"
+}

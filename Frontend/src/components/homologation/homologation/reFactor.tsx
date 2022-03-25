@@ -1,11 +1,11 @@
 /** @format */
 
-import { FC,useEffect } from "react";
+import { FC, useEffect } from "react";
 import {
 	selector,
 	setHomologationReFactor,
 	setHomologationReFactorData,
-	updateState
+	updateState,
 } from "../../../features/homologation/slice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { toFancyNumber } from "../../../utils/utils";
@@ -17,8 +17,8 @@ export const ReFactor: FC = () => {
 	const { areas, reFactor, salesCosts } = homologation;
 	const { subject, averageLotArea } = areas;
 	useEffect(() => {
-		dispatch(updateState())
-	},[])
+		dispatch(updateState());
+	}, []);
 	return (
 		<table className="mt-3 table table-sm table-responsive table-responsive-sm table-hover table-stripped table-bordered">
 			<thead className="align-self-middle align-middle text-center">

@@ -1,16 +1,18 @@
 def bool2string(bool):
     if bool:
-        return 'Sí'
+        return "Sí"
     else:
-        return 'No'
-def item_validator(item, validator = None):
+        return "No"
+
+
+def item_validator(item, validator=None):
     if validator is None:
         if item is not None:
             return item
         else:
-            return ''
+            return ""
     else:
         if item is not None:
-            return item if validator else ''
+            return item if validator else ""
         else:
-            return ''
+            return ""

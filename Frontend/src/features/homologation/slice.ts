@@ -34,7 +34,7 @@ import {
 	addValueToHomologations,
 	removeValueFromHomologations,
 	calculationLocationZone,
-	calculateAverageUnitCost,
+	validateErrors,
 	addValueToLocationZone,
 	removeValueToLocationZone,
 	handleHomologationUpdate,
@@ -84,9 +84,10 @@ const initialState: StorageProps = {
 		reFactor: refactoringTemplate(type),
 		indiviso: indivisoTemplate(type),
 	},
-	averageUnitCost: Number(1) ,
+	averageUnitCost: Number(1),
 	registration: "",
 	districtIndicators: districtOptions,
+	errors:[]
 };
 
 export const searchForExistence = createAsyncThunk(
@@ -101,15 +102,16 @@ export const searchForExistence = createAsyncThunk(
 		}
 	},
 );
+
 export const slice = createSlice({
 	name: "homologation",
 	initialState,
 	reducers: {
-		updateState(state){
+		updateState(state) {
 			state = handleHomologationUpdate(state);
-			const {result} = state.homologation.salesCosts.averageUnitCost;
-			console.log(roundToTenth(result, 1))
-			state.averageUnitCost = roundToTenth(result, 1)
+			const { result } = state.homologation.salesCosts.averageUnitCost;
+			console.log(roundToTenth(result, 1));
+			state.averageUnitCost = roundToTenth(result, 1);
 		},
 		setFactors(state, action: PayloadAction<TransactionProps>) {
 			const { itemName, subItemName, value } = action.payload;
@@ -129,10 +131,8 @@ export const slice = createSlice({
 		},
 		setFactorsData(state, action: PayloadAction<TransactionProps>) {
 			const { itemID, itemName, value } = action.payload;
-			const { factors } = state;
 			if (itemName !== undefined && value !== undefined && itemID !== undefined) {
 				state.factors[itemName].data[itemID] = value;
-				state.factors.results.data = factorsResult(factors);
 				state = handleHomologationUpdate(state);
 			}
 		},
@@ -240,6 +240,7 @@ export const slice = createSlice({
 			const { value } = action.payload;
 			if (value !== undefined) {
 				state.homologation.areas.subject.value = value;
+				state = handleHomologationUpdate(state);
 			}
 		},
 		updateAverageUnitCost(state, action: PayloadAction<number>) {
@@ -251,6 +252,9 @@ export const slice = createSlice({
 				state.homologation.indiviso[itemName] = value;
 				state = handleHomologationUpdate(state);
 			}
+		},
+		findErrors(state){
+			state.errors = validateErrors(state)
 		},
 	},
 	extraReducers: (builder) => {
@@ -336,32 +340,40 @@ export const {
 	setHomologationReFactorData,
 	setIndiviso,
 	setHomologationAddress,
-	updateState
+	updateState,
+	findErrors
 } = slice.actions;
 
+export const checkForErrors=(dispatch:Function)=>new Promise<void>((resolve,reject)=>{
+	dispatch(findErrors());
+	setTimeout(()=>resolve(),)
+})
 export const sendPatchRequest = createAsyncThunk(
 	"homologation/sendPatchRequest",
-	async (state: any, { rejectWithValue }) => {
-		const { id, type, factors, homologation, registration, appraisalPurpose, status, record } =
-			state;
-		const payload = {
-			exists: status === "exists" ? true : false,
-			record,
-			factors,
-			homologation,
-			averageUnitCost: roundToTenth(
-				Number(homologation.salesCosts.averageUnitCost.result.toFixed(0)),
-				1,
-			),
-			registration,
-			appraisalPurpose,
-		};
-		const url = `/HOMOLOGATION/j-appreciation/${type}/${id}`;
-		try {
-			const response = await consume("json").patch(url, payload);
-			return response.data;
-		} catch (err: any) {
-			return rejectWithValue(err.response.data);
+	async (state: any,{ rejectWithValue }) => {
+		const { id, type, factors, homologation, registration, appraisalPurpose, status, record, errors } =
+			state.state;
+		state.dispatch(findErrors())
+		if(errors.length ===0) {
+			const payload = {
+				exists: status === "exists" ? true : false,
+				record,
+				factors,
+				homologation,
+				averageUnitCost: roundToTenth(
+					Number(homologation.salesCosts.averageUnitCost.result.toFixed(0)),
+					1,
+				),
+				registration,
+				appraisalPurpose,
+			};
+			const url = `/HOMOLOGATION/j-appreciation/${type}/${id}`;
+			try {
+				const response = await consume("json").patch(url, payload);
+				return response.data;
+			} catch (err: any) {
+				return rejectWithValue(err.response.data);
+			}
 		}
 	},
 );

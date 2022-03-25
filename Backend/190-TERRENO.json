@@ -1,0 +1,868 @@
+{
+    "appraisalPurpose": "justipreciacion",
+    "averageUnitCost": 2510,
+    "exists": true,
+    "factors": {
+        "ages": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "value": 1
+                }
+            ],
+            "isUsed": false,
+            "name": "Edad",
+            "subject": {
+                "value": 1
+            },
+            "tag": "FEd."
+        },
+        "buildings": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 0.9803921568627451,
+                    "type": "MEDIA",
+                    "value": 1.02
+                },
+                {
+                    "id": 2,
+                    "result": 0.9803921568627451,
+                    "type": "MEDIA",
+                    "value": 1.02
+                },
+                {
+                    "id": 3,
+                    "result": 0.9803921568627451,
+                    "type": "MEDIA",
+                    "value": 1.02
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1
+                }
+            ],
+            "isUsed": false,
+            "name": "Construccion",
+            "subject": {
+                "type": "MEDIA COM\u00daN",
+                "value": 1
+            },
+            "tag": "FCons."
+        },
+        "classification": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "URBANO",
+                    "value": 1.1
+                }
+            ],
+            "isUsed": true,
+            "name": "Clasificacion",
+            "subject": {
+                "type": "URBANO",
+                "value": 1.1
+            },
+            "tag": "FClas."
+        },
+        "commercial": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                },
+                {
+                    "id": 1,
+                    "value": 0.95
+                }
+            ],
+            "isUsed": true,
+            "name": "Comercial",
+            "tag": "FCom."
+        },
+        "level": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 1,
+                    "type": "P.B. NIVEL DE CALLE",
+                    "value": 1
+                }
+            ],
+            "isUsed": false,
+            "name": "Nivel",
+            "subject": {
+                "type": "P.B. NIVEL DE CALLE",
+                "value": 1
+            },
+            "tag": "FNiv."
+        },
+        "location": {
+            "data": [
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "type": "-",
+                        "value": -1
+                    },
+                    "C4": {
+                        "type": "-",
+                        "value": -1
+                    },
+                    "id": 1,
+                    "observations": "MANZANA",
+                    "percentage": 4
+                },
+                {
+                    "C1": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C2": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C3": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "VIALIDAD",
+                    "percentage": 3
+                },
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "PAVIMENTO",
+                    "percentage": 3
+                }
+            ],
+            "isUsed": true,
+            "name": "Ubicaci\u00f3n",
+            "results": [
+                {
+                    "id": 1,
+                    "value": 1.03
+                },
+                {
+                    "id": 2,
+                    "value": 1.03
+                },
+                {
+                    "id": 3,
+                    "value": 0.99
+                },
+                {
+                    "id": 4,
+                    "value": 0.96
+                }
+            ],
+            "tag": "FUbic."
+        },
+        "project": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 0.98,
+                    "type": "FUNCIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 0.98,
+                    "type": "FUNCIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 0.98,
+                    "type": "FUNCIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 0.98,
+                    "type": "FUNCIONAL",
+                    "value": 1
+                }
+            ],
+            "isUsed": false,
+            "name": "Proyecto",
+            "subject": {
+                "type": "ADECUADO",
+                "value": 0.98
+            },
+            "tag": "FProy."
+        },
+        "quality": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 0.970873786407767,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
+                },
+                {
+                    "id": 2,
+                    "result": 0.970873786407767,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
+                },
+                {
+                    "id": 3,
+                    "result": 0.970873786407767,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
+                },
+                {
+                    "id": 4,
+                    "result": 0.970873786407767,
+                    "type": "MEDIA COM\u00daN",
+                    "value": 1.03
+                }
+            ],
+            "isUsed": false,
+            "name": "Calidad",
+            "subject": {
+                "type": "COMERCIAL",
+                "value": 1
+            },
+            "tag": "FCal."
+        },
+        "results": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 1.0470748372169634
+                },
+                {
+                    "id": 1,
+                    "value": 1.17005314537501
+                },
+                {
+                    "id": 1,
+                    "value": 1.0424364164816624
+                },
+                {
+                    "id": 1,
+                    "value": 1.047526635282694
+                }
+            ],
+            "isUsed": false,
+            "name": "Homologaci\u00f3n Resultante",
+            "tag": "F.Ho.Re."
+        },
+        "surface": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.9893505837950886
+                },
+                {
+                    "id": 1,
+                    "value": 1.0196084064391953
+                },
+                {
+                    "id": 1,
+                    "value": 0.9632786832557538
+                },
+                {
+                    "id": 1,
+                    "value": 1.0166991126625455
+                }
+            ],
+            "isUsed": true,
+            "name": "Superficie",
+            "tag": "FSup."
+        },
+        "topography": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "PLANA",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1.0638297872340425,
+                    "type": "PENDIENTE INCLINADA",
+                    "value": 0.94
+                },
+                {
+                    "id": 3,
+                    "result": 1.0638297872340425,
+                    "type": "PENDIENTE INCLINADA",
+                    "value": 0.94
+                },
+                {
+                    "id": 4,
+                    "result": 1.0638297872340425,
+                    "type": "PENDIENTE INCLINADA",
+                    "value": 0.94
+                }
+            ],
+            "isUsed": true,
+            "name": "Topograf\u00eda",
+            "subject": {
+                "type": "PLANA",
+                "value": 1
+            },
+            "tag": "FTop."
+        },
+        "typeForm": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1,
+                    "type": "REGULAR",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 1.0309278350515465,
+                    "type": "IRREGULAR LIGERO",
+                    "value": 0.97
+                }
+            ],
+            "isUsed": true,
+            "name": "Forma",
+            "subject": {
+                "type": "REGULAR",
+                "value": 1
+            },
+            "tag": "FFo."
+        },
+        "usage": {
+            "data": [
+                {
+                    "id": 1,
+                    "result": 1.04,
+                    "type": "HABITACIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "result": 1.04,
+                    "type": "HABITACIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "result": 1.04,
+                    "type": "HABITACIONAL",
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "result": 0.9904761904761905,
+                    "type": "MIXTO H-C",
+                    "value": 1.05
+                }
+            ],
+            "isUsed": true,
+            "name": "Uso",
+            "subject": {
+                "type": "SERVICIOS",
+                "value": 1.04
+            },
+            "tag": "FUso."
+        },
+        "zone": {
+            "analytics": [
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Guanajuato",
+                        "economicallyActivePopulation": 95753,
+                        "id": 13,
+                        "inhabitedDwellings": 51675,
+                        "percentage": 49.23,
+                        "populationDensity": 191.8,
+                        "totalPopulation": 194500
+                    },
+                    "factor1": {
+                        "result": 1.04,
+                        "value": 1
+                    },
+                    "factor2": {
+                        "result": 1.0816000000000001,
+                        "value": 1.04
+                    },
+                    "id": 1
+                },
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Guanajuato",
+                        "economicallyActivePopulation": 95753,
+                        "id": 13,
+                        "inhabitedDwellings": 51675,
+                        "percentage": 49.23,
+                        "populationDensity": 191.8,
+                        "totalPopulation": 194500
+                    },
+                    "factor1": {
+                        "result": 1.06,
+                        "value": 1
+                    },
+                    "factor2": {
+                        "result": 1.1236000000000002,
+                        "value": 1.06
+                    },
+                    "id": 1
+                },
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Guanajuato",
+                        "economicallyActivePopulation": 95753,
+                        "id": 13,
+                        "inhabitedDwellings": 51675,
+                        "percentage": 49.23,
+                        "populationDensity": 191.8,
+                        "totalPopulation": 194500
+                    },
+                    "factor1": {
+                        "result": 1.04,
+                        "value": 1
+                    },
+                    "factor2": {
+                        "result": 1.0816000000000001,
+                        "value": 1.04
+                    },
+                    "id": 1
+                },
+                {
+                    "district": {
+                        "annualCensus": 2020,
+                        "district": "Guanajuato",
+                        "economicallyActivePopulation": 95753,
+                        "id": 13,
+                        "inhabitedDwellings": 51675,
+                        "percentage": 49.23,
+                        "populationDensity": 191.8,
+                        "totalPopulation": 194500
+                    },
+                    "factor1": {
+                        "result": 1.04,
+                        "value": 1
+                    },
+                    "factor2": {
+                        "result": 1.0816000000000001,
+                        "value": 1.04
+                    },
+                    "id": 1
+                }
+            ],
+            "data": [
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C3": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "EQUIPAMIENTO",
+                    "percentage": 1
+                },
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "SERVCIOS",
+                    "percentage": 2
+                },
+                {
+                    "C1": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C2": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C3": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C4": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "id": 1,
+                    "observations": "DESEABILIDAD",
+                    "percentage": 4
+                },
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "+",
+                        "value": 1
+                    },
+                    "C3": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "TRANSPORTE",
+                    "percentage": 1
+                },
+                {
+                    "C1": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C2": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "type": "=",
+                        "value": 0
+                    },
+                    "id": 1,
+                    "observations": "PERIFERIA",
+                    "percentage": 2
+                }
+            ],
+            "isUsed": true,
+            "name": "Zona",
+            "results": [
+                {
+                    "id": 1,
+                    "value": 1.04
+                },
+                {
+                    "id": 2,
+                    "value": 1.06
+                },
+                {
+                    "id": 3,
+                    "value": 1.04
+                },
+                {
+                    "id": 4,
+                    "value": 1.04
+                }
+            ],
+            "subject": {
+                "district": {
+                    "annualCensus": 2020,
+                    "district": "Guanajuato",
+                    "economicallyActivePopulation": 95753,
+                    "id": 13,
+                    "inhabitedDwellings": 51675,
+                    "percentage": 49.23,
+                    "populationDensity": 191.8,
+                    "totalPopulation": 194500
+                },
+                "factor1": {
+                    "root": 12,
+                    "type": "economicallyActivePopulation"
+                },
+                "factor2": {
+                    "root": 12,
+                    "type": "useZoneResults"
+                }
+            },
+            "tag": "FZo."
+        }
+    },
+    "homologation": {
+        "areas": {
+            "averageLotArea": {
+                "name": "SUPERFICIE LOTE MODA",
+                "value": 141
+            },
+            "data": [
+                {
+                    "address": {
+                        "characteristics": " ",
+                        "date": "2022-03-24",
+                        "link": " ",
+                        "street": "CALLE JOS\u00c9 MAR\u00cdA MORELOS",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": false,
+                        "suburb": " ",
+                        "type": " "
+                    },
+                    "id": 1,
+                    "surface": 1,
+                    "value": 124
+                },
+                {
+                    "address": {
+                        "characteristics": " ",
+                        "date": "2022-03-24",
+                        "link": " ",
+                        "street": " ",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": false,
+                        "suburb": " ",
+                        "type": " "
+                    },
+                    "id": 1,
+                    "surface": 1,
+                    "value": 178
+                },
+                {
+                    "address": {
+                        "characteristics": " ",
+                        "date": "2022-03-24",
+                        "link": " ",
+                        "street": " ",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": false,
+                        "suburb": " ",
+                        "type": " "
+                    },
+                    "id": 1,
+                    "surface": 1,
+                    "value": 90
+                },
+                {
+                    "address": {
+                        "characteristics": " ",
+                        "date": "2022-03-24",
+                        "link": " ",
+                        "street": " ",
+                        "streetNumber": 0,
+                        "streetWithoutNumber": false,
+                        "suburb": " ",
+                        "type": " "
+                    },
+                    "id": 1,
+                    "surface": 1,
+                    "value": 172
+                }
+            ],
+            "name": "\u00c1reas ",
+            "subject": {
+                "name": "SUPERFICIE TOTAL DEL TERRENO",
+                "value": 57.85
+            },
+            "tag": "\u00c1rea de Lote Moda"
+        },
+        "indiviso": {
+            "indiviso": 0.0015928335493004334,
+            "private": 39.2,
+            "result": 0.09214542082703008,
+            "surface": 24610.23
+        },
+        "reFactor": {
+            "data": [
+                {
+                    "name": "FACTOR DE SUPERFICIE",
+                    "value": 0.6245922532841445
+                },
+                {
+                    "name": "FACTOR DE FORMA",
+                    "value": 1
+                }
+            ],
+            "factorResult": {
+                "name": "FACTOR RESULTANTE",
+                "value": 0.6245922532841445
+            },
+            "surface": {
+                "value": 40000
+            }
+        },
+        "salesCosts": {
+            "averageUnitCost": {
+                "reFactor": 1,
+                "result": 2510.8608582022607,
+                "roundedValue": 4020,
+                "value": 4017.01623082932
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "unitaryCost": 3298.3870967741937,
+                    "value": 409000
+                },
+                {
+                    "id": 2,
+                    "unitaryCost": 3002.247191011236,
+                    "value": 534400
+                },
+                {
+                    "id": 3,
+                    "unitaryCost": 4611.111111111111,
+                    "value": 415000
+                },
+                {
+                    "id": 4,
+                    "unitaryCost": 3779.0697674418607,
+                    "value": 650000
+                }
+            ],
+            "results": [
+                {
+                    "id": 1,
+                    "value": 3453.658132433371
+                },
+                {
+                    "id": 2,
+                    "value": 3512.788769035985
+                },
+                {
+                    "id": 3,
+                    "value": 4806.790142665443
+                },
+                {
+                    "id": 4,
+                    "value": 3958.676237986925
+                }
+            ],
+            "tag": "Precio de Venta"
+        },
+        "weightingPercentage": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 30
+                },
+                {
+                    "id": 2,
+                    "value": 10
+                },
+                {
+                    "id": 3,
+                    "value": 30
+                },
+                {
+                    "id": 4,
+                    "value": 30
+                }
+            ],
+            "total": 100
+        }
+    },
+    "record": 17,
+    "registration": "0034-01_22"
+}

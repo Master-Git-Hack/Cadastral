@@ -3,24 +3,24 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-if getenv('API_VERSION'):
+if getenv("API_VERSION"):
     API_VERSION = f'v{getenv("API_VERSION")}'
 else:
-    API_VERSION = 'v1'
+    API_VERSION = "v1"
 
-if getenv('API_ENV'):
-    API_ENV = getenv('API_ENV')
+if getenv("API_ENV"):
+    API_ENV = getenv("API_ENV")
 else:
-    API_ENV = 'development'
+    API_ENV = "development"
 
-API_URL = f'/api/{API_VERSION}/'
+API_URL = f"/api/{API_VERSION}/"
 
 if getenv("HOST"):
     HOST = getenv("HOST")
-    corsSrc = {f'{API_URL}*' : {'origins': '*'}}
+    CORSSRC = {f"{API_URL}*": {"origins": "*"}}
 else:
     HOST = None
-    corsSrc = None
+    CORSSRC = None
 
 if getenv("DEBUG"):
     DEBUG = getenv("DEBUG")
