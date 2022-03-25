@@ -1,0 +1,30 @@
+REPOSITORY           TAG            IMAGE ID       CREATED             SIZE
+docker.dev.flask     latest         e8cbddc24fc0   3 minutes ago       969MB
+<none>               <none>         85307c1ba8a0   22 minutes ago      969MB
+<none>               <none>         8c00919ae3df   32 minutes ago      1.24GB
+<none>               <none>         214e684d65af   43 minutes ago      969MB
+<none>               <none>         9229ba5ee2d4   52 minutes ago      969MB
+<none>               <none>         89bb6458c7b5   About an hour ago   656MB
+<none>               <none>         7f497126071e   About an hour ago   255MB
+<none>               <none>         6261919f3e77   About an hour ago   758MB
+<none>               <none>         d2d2ff3b6919   About an hour ago   742MB
+<none>               <none>         7687fa1ff9fa   About an hour ago   246MB
+docker.dev.react     latest         499e061f8796   21 hours ago        25.8MB
+<none>               <none>         4b6f1d53f2a8   21 hours ago        1.24GB
+<none>               <none>         f98504928061   21 hours ago        246MB
+<none>               <none>         aa7c5d46d782   2 days ago          25.4MB
+<none>               <none>         bd045e008c01   2 days ago          1.09GB
+<none>               <none>         00edace25687   2 days ago          25.4MB
+<none>               <none>         2abc99744466   2 days ago          1.16GB
+<none>               <none>         5bca1c0b70a3   2 days ago          926MB
+<none>               <none>         da7dbd09f41b   2 days ago          25.4MB
+<none>               <none>         bdc1f5b6bd3d   2 days ago          1.1GB
+<none>               <none>         abdb19b094bd   2 days ago          1.1GB
+<none>               <none>         3367c1d41044   2 days ago          1.1GB
+cadastral_backend    latest         aba2c85d65eb   2 days ago          926MB
+cadastral_frontend   latest         03a3a582f12d   2 days ago          25.4MB
+<none>               <none>         8c6cb011aa92   2 days ago          1.1GB
+node                 16-alpine      41b9374c0901   6 days ago          111MB
+nginx                alpine         7d73f57a7cf7   7 days ago          23.4MB
+hello-world          latest         feb5d9fea6a5   6 months ago        13.3kB
+python               3.8.2-alpine   6c32e2504283   23 months ago       107MB

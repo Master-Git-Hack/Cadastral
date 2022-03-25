@@ -4,13 +4,13 @@ services:
   frontend:
     container_name: cadastral.react.container.docker
     build:
-      context: ./Frontend
+      context: ./Frontend/
       dockerfile: Dockerfile
     volumes:
       - ./Frontend:/usr/src/Frontend
       - /usr/src/Frontend/node_modules
     ports:
-      - 8080:80
+      - 80:80
     networks:
       - cadastral_network
 

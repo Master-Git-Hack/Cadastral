@@ -5,4 +5,4 @@ import app.apps.cadastral.homologations.views as homologationsViews
 
 @app.route("/")
 def index():
-    return "Hello, World!", 418
+    return "Hello, World!", 200

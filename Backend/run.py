@@ -1,10 +1,9 @@
 from app import app
-from app.config import HOST, DEBUG, PORT
+from app.config import HOST, PORT
 
-if HOST != None and DEBUG != None and PORT != None:
+if HOST is not None and PORT is not None:
     if __name__ == "__main__":
         app.run(
             host=HOST,
-            debug=DEBUG,
             port=PORT,
         )

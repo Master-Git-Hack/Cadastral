@@ -1,36 +1,28 @@
 from os import getenv, getcwd
-from dotenv import load_dotenv
-
-load_dotenv()
 
 if getenv("API_VERSION"):
     API_VERSION = f'v{getenv("API_VERSION")}'
 else:
     API_VERSION = "v1"
 
-if getenv("API_ENV"):
-    API_ENV = getenv("API_ENV")
+if getenv("FLASK_ENV"):
+    API_ENV = getenv("FLASK_ENV")
 else:
     API_ENV = "development"
 
 API_URL = f"/api/{API_VERSION}/"
 
-if getenv("HOST"):
-    HOST = getenv("HOST")
+if getenv("FLASK_RUN_HOST"):
+    HOST = getenv("FLASK_RUN_HOST")
     CORSSRC = {f"{API_URL}*": {"origins": "*"}}
 else:
-    HOST = None
+    HOST = "localhost"
     CORSSRC = None
 
-if getenv("DEBUG"):
-    DEBUG = getenv("DEBUG")
+if getenv("FLASK_RUN_PORT"):
+    PORT = getenv("FLASK_RUN_PORT")
 else:
-    DEBUG = None
-
-if getenv("PORT"):
-    PORT = getenv("PORT")
-else:
-    PORT = None
+    PORT = 5000
 
 if getenv("SECRET_KEY") and getenv("SECRET_KEY") != "":
     SECRET_KEY = getenv("SECRET_KEY")

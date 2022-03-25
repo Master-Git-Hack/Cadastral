@@ -84,7 +84,7 @@ class Homologation:
         return self.query(query)
 
     def insert(self, factors, homologation, averageUnitCost, registration, appraisalPurpose):
-        query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}/postHomologation.sql").read()).render(
+        query = Template(open(f"{HOMOLOGATIONS_PATH}{MODELS_PATH}" + "/postHomologation.sql").read()).render(
             ID=self.id,
             TIPO=type.lower(),
             FACTORES=factors,
