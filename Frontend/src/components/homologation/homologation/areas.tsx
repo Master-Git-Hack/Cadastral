@@ -14,10 +14,8 @@ export const Areas: FC = () => {
 	const { areas, salesCosts } = homologation;
 	const { analytics } = factors.zone;
 	const dispatch = useAppDispatch();
-	const findDistrict = (district: string) =>
-		districtIndicators.find((d) => d.district === district);
 	return (
-		<table className="table table-sm table-responsive table-responsive-sm table-hover table-stripped table-bordered">
+		<table className="table table-sm table-responsive table-responsive-sm table-hover table-striped table-bordered">
 			<thead className="align-self-middle align-middle text-center">
 				<tr>
 					<th>Oferta</th>
@@ -30,7 +28,7 @@ export const Areas: FC = () => {
 					<th>Fecha</th>
 					{type !== "TERRENO" ? <th>Tipo de Construcción</th> : null}
 					<th>Caracteristicas</th>
-					<th>Link de Consulta</th>
+					<th>Consulta</th>
 				</tr>
 			</thead>
 			<tbody className="align-self-middle align-middle text-center">
@@ -54,46 +52,42 @@ export const Areas: FC = () => {
 							/>
 						</td>
 						<td>
-							<div className="mx-3">
+							<div className="mx-2" style={{ minWidth: 125 }}>
 								{!item.address.streetWithoutNumber ? (
+									<div className="mb-2">
+										<input
+											type="number"
+											className="form-control form-control-sm"
+											value={item.address.streetNumber}
+											onChange={(event) =>
+												dispatch(
+													setHomologationAddress({
+														itemName: "streetNumber",
+														itemID: index,
+														value: Number(event.target.value),
+													}),
+												)
+											}
+										/>
+									</div>
+								) : null}
+								<div className="form-check form-switch form-check-sm form-switch-sm">
 									<input
-										type="number"
-										className="form-control form-control-sm"
-										value={item.address.streetNumber}
+										className="form-check-input form-check-input-sm "
+										type="checkbox"
+										checked={item.address.streetWithoutNumber}
 										onChange={(event) =>
 											dispatch(
 												setHomologationAddress({
-													itemName: "streetNumber",
+													itemName: "streetWithoutNumber",
 													itemID: index,
-													value: Number(event.target.value),
+													value: event.target.checked,
 												}),
 											)
 										}
 									/>
-								) : null}
-								<br />
-							</div>
-							<div className="form-check form-switch form-check-sm form-switch-sm">
-								<input
-									className="form-check-input form-check-input-sm "
-									type="checkbox"
-									value={item.address.streetWithoutNumber}
-									onChange={(event) =>
-										dispatch(
-											setHomologationAddress({
-												itemName: "streetWithoutNumber",
-												itemID: index,
-												value: event.target.checked,
-											}),
-										)
-									}
-								/>
-								<label
-									className="form-check-label form-check-label-sm"
-									htmlFor="flexSwitchCheckDefault"
-								>
 									Sin Numero
-								</label>
+								</div>
 							</div>
 						</td>
 						<td>
@@ -112,24 +106,7 @@ export const Areas: FC = () => {
 								}
 							/>
 						</td>
-						<td>
-							<DistrictSelect
-								index={index}
-								name="district"
-								value={analytics[index].district.district}
-								onChange={(event: any) => {
-									const response = findDistrict(event.target.value);
-									dispatch(
-										setZone({
-											itemName: "analytics",
-											subItemName: "district",
-											itemID: index,
-											value: response,
-										}),
-									);
-								}}
-							/>
-						</td>
+						<td>{analytics[index].district.district}</td>
 						{type === "TERRENO" ? (
 							<td>
 								<input
@@ -168,7 +145,7 @@ export const Areas: FC = () => {
 								/>
 							</td>
 						) : null}
-						<td>
+						<td style={{ maxWidth: 150 }}>
 							<input
 								type="date"
 								className="form-control form-control-sm"
@@ -234,6 +211,13 @@ export const Areas: FC = () => {
 									)
 								}
 							/>
+							<div className="mt-2">
+								<input
+									className="form-control form-control-sm"
+									id={`formFileSm-${index}`}
+									type="file"
+								/>
+							</div>
 						</td>
 					</tr>
 				))}

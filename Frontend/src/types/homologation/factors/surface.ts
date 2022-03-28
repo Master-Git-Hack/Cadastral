@@ -11,16 +11,22 @@ export interface SurfaceProps {
 	name: string;
 	tag: string;
 	subject?: State;
+	root:number;
 	data: Array<State>;
 	isUsed: boolean;
+	handleInsert:Function;
 }
 export const surfaceData = (id: number) => ({
 	id,
 	value: 1,
 });
+//the result is 1/8 exponential value
 export const surfaceTemplate: SurfaceProps = {
 	name: "Superficie",
 	tag: "FSup.",
+	root:8,
 	data: [surfaceData(1)],
 	isUsed: true,
+	handleInsert:surfaceData
+	
 };

@@ -1,7 +1,7 @@
 /** @format */
 
 import { StateProps } from "../state";
-
+import {handleOperationForFactors as handleOperation} from "../../../features/homologation/handler"
 interface State extends StateProps {
 	id?: number;
 	type:
@@ -24,6 +24,7 @@ export interface ProjectProps {
 	subject: State;
 	data: Array<State>;
 	isUsed: boolean;
+	handleInsert:Function;
 }
 
 export const projectOptions: Array<State> = [
@@ -72,7 +73,8 @@ export const projectData = (id: number): State => ({
 export const projectTemplate: ProjectProps = {
 	name: "Proyecto",
 	tag: "FProy.",
-	subject: projectOptions[0],
+	subject: {...projectOptions[0],handleOperation},
 	data: [projectData(1)],
 	isUsed: true,
+	handleInsert:projectData
 };

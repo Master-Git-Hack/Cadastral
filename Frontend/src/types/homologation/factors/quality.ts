@@ -1,7 +1,7 @@
 /** @format */
 
 import { StateProps } from "../state";
-
+import {handleOperationForFactors as handleOperation} from "../../../features/homologation/handler"
 interface State extends StateProps {
 	id?: number;
 	type:
@@ -22,6 +22,7 @@ export interface QualityProps {
 	subject: State;
 	data: Array<State>;
 	isUsed: boolean;
+	handleInsert:Function;
 }
 export const qualityOptions: Array<State> = [
 	{
@@ -65,7 +66,8 @@ export const qualityData = (id: number): State => ({
 export const qualityTemplate: QualityProps = {
 	name: "Calidad",
 	tag: "FCal.",
-	subject: qualityOptions[0],
+	subject: {...qualityOptions[0],handleOperation},
 	data: [qualityData(1)],
 	isUsed: true,
+	handleInsert:qualityData
 };

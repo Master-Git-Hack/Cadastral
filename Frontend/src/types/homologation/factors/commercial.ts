@@ -12,6 +12,7 @@ export interface CommercialProps {
 	tag: string;
 	data: Array<State>;
 	isUsed: boolean;
+	handleInsert:Function;
 }
 export const commercialData = (id: number): State => ({
 	id,
@@ -22,4 +23,5 @@ export const commercialTemplate: CommercialProps = {
 	tag: "FCom.",
 	data: [commercialData(1)],
 	isUsed: true,
+	handleInsert:commercialData
 };

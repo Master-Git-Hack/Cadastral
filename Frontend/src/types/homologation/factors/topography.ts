@@ -2,10 +2,11 @@
 
 import { StateProps } from "../state";
 
+import {handleOperationForFactors as handleOperation} from "../../../features/homologation/handler"
 interface State extends StateProps {
 	id?: number;
 	type: "PLANA" | "PENDIENTE LIGERA" | "PENDIENTE INCLINADA" | "PENDIENTE ACCIDENTADA";
-	value: 1 | 0.98 | 0.97 | 0.96 | 0.94 | 0.91;
+	value: 1 | 0.98 | 0.96 | 0.94
 	result?: number;
 }
 export interface TopographyProps {
@@ -14,38 +15,37 @@ export interface TopographyProps {
 	subject: State;
 	data: Array<State>;
 	isUsed: boolean;
+	handleInsert:Function;
 }
 
-export const topographyOptions = (type: string = "TERRENO" || "RENTA"): Array<State> => [
+export const topographyOptions: Array<State> = [
 	{
 		type: "PLANA",
 		value: 1.0,
 	},
 	{
 		type: "PENDIENTE LIGERA",
-		value: type === "TERRENO" ? 0.97 : 0.98,
+		value: 0.98,
 	},
 	{
 		type: "PENDIENTE INCLINADA",
-		value: type === "TERRENO" ? 0.94 : 0.96,
+		value:0.96,
 	},
 	{
 		type: "PENDIENTE ACCIDENTADA",
-		value: type === "TERRENO" ? 0.91 : 0.94,
+		value: 0.94,
 	},
 ];
 export const topographyData = (id: number, type: string): State => ({
 	id,
-	...topographyOptions(type)[0],
+	...topographyOptions[0],
 	result: 1,
 });
 export const topographyTemplate: TopographyProps = {
 	name: "Topografía",
 	tag: "FTop.",
-	subject: {
-		type: "PLANA",
-		value: 1.0,
-	},
+	subject: {...topographyOptions[0],handleOperation},
 	data: [],
 	isUsed: true,
+	handleInsert:topographyData
 };

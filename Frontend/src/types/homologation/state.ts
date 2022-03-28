@@ -5,4 +5,5 @@ export interface StateProps {
 	type?: string;
 	value: string | number;
 	result?: number;
+	handleOperation?:Function;
 }

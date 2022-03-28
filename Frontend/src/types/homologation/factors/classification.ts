@@ -1,7 +1,7 @@
 /** @format */
 
 import { StateProps } from "../state";
-
+import {handleOperationForFactors as handleOperation} from "../../../features/homologation/handler"
 interface State extends StateProps {
 	id?: number;
 	type: "URBANO" | "SUBURBANO" | "RÚSTICO" | "RURAL";
@@ -14,6 +14,7 @@ export interface ClassificationProps {
 	subject: State;
 	data: Array<State>;
 	isUsed: boolean;
+	handleInsert:Function
 }
 export const classificationOptions: Array<State> = [
 	{
@@ -41,7 +42,8 @@ export const classificationData = (id: number): State => ({
 export const classificationTemplate: ClassificationProps = {
 	name: "Clasificacion",
 	tag: "FClas.",
-	subject: classificationOptions[0],
+	subject: {...classificationOptions[0], handleOperation},
 	data: [classificationData(1)],
 	isUsed: true,
+	handleInsert:classificationData
 };

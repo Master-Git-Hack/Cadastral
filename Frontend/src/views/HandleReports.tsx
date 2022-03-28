@@ -15,6 +15,7 @@ export default function HandleReports() {
 			FileSaver.saveAs(document, filename);
 			setTimeout(() => window.location.reload(), 5000);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [status]);
 	return (
 		<div className="px-3">
@@ -30,8 +31,3 @@ const SaveButton = (props: { state: any; dispatch: Function }) => (
 		Descargar Documento
 	</button>
 );
-const downloadFile = (filename: string, document: any) => {
-	return new Promise<boolean>((resolve) => {
-		resolve(true);
-	});
-};

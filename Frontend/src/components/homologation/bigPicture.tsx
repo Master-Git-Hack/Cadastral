@@ -1,13 +1,13 @@
 /** @format */
 import { FC, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/store";
+import { toFancyNumber } from "../../utils/utils";
 import {
-	toFancyNumber,
 	countFactors,
 	getFactorsTag,
 	getUsedFactors,
 	getObjectKey,
-} from "../../utils/utils";
+} from "../../features/homologation/handler";
 import { selector, updateState } from "../../features/homologation/slice";
 export const BigPicture: FC = () => {
 	const dispatch = useAppDispatch();
@@ -19,7 +19,7 @@ export const BigPicture: FC = () => {
 		dispatch(updateState());
 	}, []);
 	return (
-		<table className="table table-sm table-responsive table-responsive-sm table-bordered table-stripped table-hover">
+		<table className="table table-sm table-responsive table-responsive-sm table-bordered table-striped table-hover">
 			<thead className="align-self-middle align-middle text-center">
 				<tr>
 					<th rowSpan={2}>Oferta</th>

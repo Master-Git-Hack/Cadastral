@@ -1,11 +1,11 @@
 /** @format */
 
 import { StateProps } from "../state";
-
+import {handleOperationForFactors as handleOperation} from "../../../features/homologation/handler"
 interface State extends StateProps {
 	id?: number;
 	type: "SOTANO 1" | "SOTANO 2" | "P.B. NIVEL DE CALLE" | "P.A. NIVEL DE CALLE";
-	value: 0.9 | 0.95 | 1 | 1;
+	value: 0.9 | 0.95 | 1 ;
 	result?: number;
 }
 export interface LevelProps {
@@ -14,6 +14,7 @@ export interface LevelProps {
 	subject: State;
 	data: Array<State>;
 	isUsed: boolean;
+	handleInsert:Function;
 }
 
 export const levelOptions: Array<State> = [
@@ -31,7 +32,7 @@ export const levelOptions: Array<State> = [
 	},
 	{
 		type: "P.A. NIVEL DE CALLE",
-		value: 1.0,
+		value: 0.95,
 	},
 ];
 export const levelData = (id: number): State => ({
@@ -42,7 +43,8 @@ export const levelData = (id: number): State => ({
 export const levelTemplate: LevelProps = {
 	name: "Nivel",
 	tag: "FNiv.",
-	subject: levelOptions[0],
+	subject: {...levelOptions[0],handleOperation},
 	data: [levelData(1)],
 	isUsed: true,
+	handleInsert:levelData
 };

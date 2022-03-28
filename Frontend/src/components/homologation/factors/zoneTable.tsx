@@ -157,7 +157,7 @@ const Header: FC<{
 					<option value="percentage">Porcentaje poblacion activa</option>
 					<option value="populationDensity">Densidad de Poblacion</option>
 					<option value="totalPopulation">Poblacion Total</option>
-					<option value="useZoneResults">Factor de Zona Calculador</option>
+					<option value="useZoneResults">Factor de Zona Calculado</option>
 				</select>
 			</th>
 			<th>Factor 2</th>

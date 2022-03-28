@@ -1,7 +1,7 @@
 /** @format */
 
 import { StateProps } from "../state";
-
+import {handleOperationForFactors as handleOperation} from "../../../features/homologation/handler"
 interface State extends StateProps {
 	id?: number;
 	type:
@@ -18,6 +18,8 @@ interface State extends StateProps {
 		| "MÍNIMA";
 	value: 1.08 | 1.06 | 1.04 | 1.02 | 1 | 0.98 | 0.96 | 0.94 | 0.92 | 0.9 | 0.88;
 	result?: number;
+	handleOperation?:Function;
+	
 }
 export interface BuildingProps {
 	name: string;
@@ -25,6 +27,7 @@ export interface BuildingProps {
 	subject: State;
 	data: Array<State>;
 	isUsed: boolean;
+	handleInsert:Function;
 }
 
 export const buildingOptions: Array<State> = [
@@ -78,10 +81,12 @@ export const buildingData = (id: number): State => ({
 	...buildingOptions[0],
 	result: 1,
 });
+
 export const buildingTemplate: BuildingProps = {
 	name: "Construccion",
 	tag: "FCons.",
-	subject: buildingOptions[0],
+	subject: {...buildingOptions[0],handleOperation},
 	data: [buildingData(1)],
 	isUsed: true,
+	handleInsert:buildingData
 };

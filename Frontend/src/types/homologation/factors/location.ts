@@ -3,13 +3,14 @@
 import { StateProps } from "../state";
 import { State as SymbolsProps, symbolsOptions } from "./symbols";
 interface State {
-	[key: string]: SymbolsProps | string | StateProps | number;
+	[key: string]: SymbolsProps | string | StateProps | number |Function;
 }
 interface Data extends State {
 	id: number;
 	C1: SymbolsProps;
 	percentage: number;
 	observations: string;
+	handleInsert:Function;
 }
 export interface LocationProps {
 	name: string;
@@ -18,16 +19,19 @@ export interface LocationProps {
 	data: Array<Data>;
 	results: Array<StateProps>;
 	isUsed: boolean;
+	handleInsert:Function;
 }
 const locationBasic = (id: number): Data => ({
 	id,
 	C1: symbolsOptions[0],
 	percentage: 0,
 	observations: "",
+	handleInsert:basicData
 });
-export const LocationData = (id: number, lenght: number): Data => {
+const basicData = (id:number,item:Data)=>({...item,[`C${id}`]:symbolsOptions[0]})
+export const LocationData = (id: number, length: number): Data => {
 	const data = locationBasic(id);
-	for (let i = 2; i <= lenght; i++) data[`C${i}`] = symbolsOptions[0];
+	for (let i = 2; i <= length; i++) data[`C${i}`] = symbolsOptions[0];
 	return data;
 };
 export const LocationTemplate: LocationProps = {
@@ -36,4 +40,5 @@ export const LocationTemplate: LocationProps = {
 	data: [LocationData(1, 1)],
 	results: [{ id: 1, value: 1 }],
 	isUsed: true,
+	handleInsert:LocationData
 };

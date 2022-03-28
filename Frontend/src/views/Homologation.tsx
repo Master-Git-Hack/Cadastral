@@ -15,7 +15,7 @@ import { AdjustedValue } from "../components/homologation/homologation/adjustedV
 export default function Homologation() {
 	const dispatch = useAppDispatch();
 	const { id, status, type, errors } = useAppSelector(selector);
-
+	console.log(useAppSelector(selector));
 	const [showEditFactors, setShowEditFactors] = useState(true);
 	const [showLocationZone, setShowLocationZone] = useState(false);
 	const [showUnitCost, setShowUnitCost] = useState(false);

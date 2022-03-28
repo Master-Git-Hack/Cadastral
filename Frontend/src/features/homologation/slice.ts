@@ -33,8 +33,8 @@ import {
 	addValueToLocationZone,
 	removeValueToLocationZone,
 	handleHomologationUpdate,
-	roundToTenth,
-} from "../../utils/utils";
+} from "./handler";
+import { roundToTenth } from "../../utils/utils";
 import { consume } from "../../api/api.config";
 
 const parameters = new URLSearchParams(window.location.search);
@@ -105,7 +105,6 @@ export const slice = createSlice({
 		updateState(state) {
 			state = handleHomologationUpdate(state);
 			const { result } = state.homologation.salesCosts.averageUnitCost;
-			console.log(roundToTenth(result, 1));
 			state.averageUnitCost = roundToTenth(result, 1);
 		},
 		setFactors(state, action: PayloadAction<TransactionProps>) {

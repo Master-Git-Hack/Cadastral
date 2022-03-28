@@ -2,6 +2,7 @@
 
 import { StateProps } from "../state";
 
+import {handleOperationForFactors as handleOperation} from "../../../features/homologation/handler"
 interface State extends StateProps {
 	id?: number;
 	type:
@@ -21,6 +22,7 @@ export interface UsageProps {
 	subject: State;
 	data: Array<State>;
 	isUsed: boolean;
+	handleInsert:Function;
 }
 export const usageOptions: Array<State> = [
 	{
@@ -60,7 +62,8 @@ export const usageData = (id: number): State => ({
 export const usageTemplate: UsageProps = {
 	name: "Uso",
 	tag: "FUso.",
-	subject: usageOptions[0],
+	subject: {...usageOptions[0],handleOperation},
 	data: [usageData(1)],
 	isUsed: true,
+	handleInsert:usageData
 };
