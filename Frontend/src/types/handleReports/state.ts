@@ -7,8 +7,8 @@ export interface State extends StateProps {
 	id: number;
 	filename: string;
 	document: any;
-    showHide:boolean;
-    status:string;
+	showHide: boolean;
+	status: string;
 	limits: {
 		min: number;
 		max: number;
@@ -18,7 +18,7 @@ export interface State extends StateProps {
 	zoom: number;
 	watermark: boolean;
 	recommendedProperties: boolean;
-    showProperties: boolean;
+	showProperties: boolean;
 	moreProperties: {
 		pageSize: string;
 		dpi: number;
@@ -30,12 +30,12 @@ export interface State extends StateProps {
 		};
 	};
 }
-export const initalStateReports: State = {
+export const initialStateReports: State = {
 	id: 1,
 	filename: `report_${new Date().toISOString()}_temp.pdf`,
 	document: "",
-    showHide:true,
-    status:"working",
+	showHide: true,
+	status: "working",
 	limits: {
 		min: 1,
 		max: 1,
@@ -45,7 +45,7 @@ export const initalStateReports: State = {
 	zoom: 1,
 	watermark: false,
 	recommendedProperties: false,
-    showProperties:false,
+	showProperties: false,
 	moreProperties: {
 		pageSize: "A4",
 		dpi: 300,
@@ -58,7 +58,7 @@ export const initalStateReports: State = {
 	},
 };
 export const recommendedProperties: StateProps = {
-	zoom: 105,
+	zoom: 1.05,
 	moreProperties: {
 		pageSize: "A4",
 		dpi: 1200,

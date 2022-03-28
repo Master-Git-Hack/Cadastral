@@ -1,19 +1,38 @@
 /** @format */
 import { useAppSelector, useAppDispatch } from "../../hooks/store";
-import { selector, handleProperties } from "../../features/handleReports/slice";
+import {
+	selector,
+	addDocument,
+	removeDocument,
+	handleProperties,
+	handleMoreProperties,
+	getReport,
+} from "../../features/handleReports/slice";
 import { Viewer } from "../pdf/viewer/viewer";
-export const DocumentProperties = () => {
+export const DocumentProperties = (props: { saveButton: any }) => {
 	const dispatch = useAppDispatch();
 	const { reports } = useAppSelector(selector);
 	return (
-		<table className="table table-sm table-responsive table-responsive-sm table-hover table-stripped table-borderless">
+		<table className="table table-sm table-responsive table-responsive-sm table-hover table-stripped ">
 			<thead className="table-light align-self-middle align-middle text-center">
 				<tr>
 					<th className="text-start">
-						<button className="btn btn-sm btn-primary">Agregar otra seccion</button>
+						<button
+							className="btn btn-sm btn-primary"
+							onClick={() => dispatch(addDocument())}
+						>
+							Agregar otra seccion
+						</button>
 					</th>
 					<th className="text-end">
-						<button className="btn btn-sm btn-outline-danger">Remover seccion</button>
+						{reports.length > 1 ? (
+							<button
+								className="btn btn-sm btn-outline-danger"
+								onClick={() => dispatch(removeDocument())}
+							>
+								Remover seccion
+							</button>
+						) : null}
 					</th>
 				</tr>
 				<tr>
@@ -24,7 +43,14 @@ export const DocumentProperties = () => {
 			<tbody>
 				<Body data={reports} dispatch={dispatch} />
 			</tbody>
-			<tfoot>{reports.length > 1 ? <tr></tr> : null}</tfoot>
+			<tfoot>
+				{reports.length > 1 ? (
+					<tr>
+						<td />
+						<td className="text-end">{props.saveButton}</td>
+					</tr>
+				) : null}
+			</tfoot>
 		</table>
 	);
 };
@@ -41,21 +67,32 @@ const Body = (props: { data: any; dispatch: Function }) =>
 								</h6>
 							</div>
 							<div className="col text-end">
-								<button className="btn btn-sm btn-outline-warning text-end">
+								<button
+									className="btn btn-sm btn-outline-warning text-end"
+									onClick={() =>
+										props.dispatch(
+											handleProperties({
+												itemName: "showHide",
+												itemID: index,
+												value: !item.showHide,
+											}),
+										)
+									}
+								>
 									Ocultar
 								</button>
 							</div>
 						</div>
 					</div>
-					<div className="container ">
+					<div className="container mt-2">
 						<div className="row text-center px-5">
-							<div className="input-group">
-								<div className="form-floating form-floating-sm mx-auto">
+							<div className="col px-2">
+								<div className="mx-auto border-0">
+									Identificador:
 									<input
-										type="number"
+										type="text"
 										value={item.collection}
 										className="form-control form-control-sm"
-										id="floatingInput-Identificador"
 										onChange={(event) =>
 											props.dispatch(
 												handleProperties({
@@ -66,11 +103,11 @@ const Body = (props: { data: any; dispatch: Function }) =>
 											)
 										}
 									/>
-									<label htmlFor="floatingInput-Identificador">
-										Identificador:
-									</label>
 								</div>
-								<div className="form-floating form-floating-sm mx-auto">
+							</div>
+							<div className="col px-2">
+								<div className="mx-auto">
+									Inicio:
 									<input
 										type="number"
 										value={item.limits.min}
@@ -82,19 +119,18 @@ const Body = (props: { data: any; dispatch: Function }) =>
 													itemName: "limits",
 													itemID: index,
 													value: {
-														...item.limits.max,
+														max: item.limits.max,
 														min: Number(event.target.value),
 													},
 												}),
 											)
 										}
 									/>
-									<label htmlFor="floatingInput-Inicio">
-										Inicio:{" "}
-										<strong>{`${item.collection}_${item.limits.min}_${item.year}`}</strong>
-									</label>
 								</div>
-								<div className="form-floating form-floating-sm mx-auto">
+							</div>
+							<div className="col px-2">
+								<div className="mx-auto">
+									Fin:
 									<input
 										type="number"
 										value={item.limits.max}
@@ -106,19 +142,18 @@ const Body = (props: { data: any; dispatch: Function }) =>
 													itemName: "limits",
 													itemID: index,
 													value: {
-														...item.limits.min,
+														min: item.limits.min,
 														max: Number(event.target.value),
 													},
 												}),
 											)
 										}
 									/>
-									<label htmlFor="floatingInput-Fin">
-										Fin:{" "}
-										<strong>{`${item.collection}_${item.limits.max}_${item.year}`}</strong>
-									</label>
 								</div>
-								<div className="form-floating form-floating-sm mx-auto">
+							</div>
+							<div className="col px-2">
+								<div className="mx-auto">
+									Año:
 									<input
 										type="number"
 										value={item.year}
@@ -134,12 +169,23 @@ const Body = (props: { data: any; dispatch: Function }) =>
 											)
 										}
 									/>
-									<label htmlFor="floatingInput-Anio">Año:</label>
 								</div>
 							</div>
 						</div>
+						<div className="row mt-4">
+							<div className="col">
+								{"De "}
+								<strong>{`${item.collection}_${item.limits.min}_${item.year
+									.toString()
+									.slice(2, 4)}`}</strong>
+								{" a "}
+								<strong>{`${item.collection}_${item.limits.max}_${item.year
+									.toString()
+									.slice(2, 4)}`}</strong>
+							</div>
+						</div>
 						<div className="row text-center px-5">
-							<div className="col-sm-5 mt-4">
+							<div className="col-sm-6 mt-4">
 								<div className="form-check form-switch text-start">
 									<label className="form-check-label">
 										Usar propiedades recomendadas
@@ -194,9 +240,9 @@ const Body = (props: { data: any; dispatch: Function }) =>
 									/>
 								</div>
 							</div>
-							<div className="col-sm-7 mt-4">
+							<div className="col-sm-6 mt-4">
 								<label className="form-label">
-									Zoom de la pagina: {item.zoom * 100}
+									Zoom de la pagina: {(item.zoom * 100).toFixed(0)}
 								</label>
 								<input
 									value={item.zoom}
@@ -204,7 +250,7 @@ const Body = (props: { data: any; dispatch: Function }) =>
 									className="form-range"
 									min="0.5"
 									max="2"
-									step="0.1"
+									step="0.05"
 									onChange={(event) =>
 										props.dispatch(
 											handleProperties({
@@ -218,14 +264,22 @@ const Body = (props: { data: any; dispatch: Function }) =>
 							</div>
 						</div>
 						{item.showProperties ? (
-							<div className="text-center px-5">
+							<div className="text-center px-5 border-top mt-4">
 								<div className="row">
 									<div className="col">
 										<label className="form-label">Tipo de Pagina:</label>
 										<select
 											className="form-select "
 											value={item.moreProperties.pageSize}
-											onChange={(event) => props.dispatch()}
+											onChange={(event) =>
+												props.dispatch(
+													handleMoreProperties({
+														itemName: "pageSize",
+														itemID: index,
+														value: event.target.value,
+													}),
+												)
+											}
 										>
 											<option value="A4">A4</option>
 											<option value="Letter">Carta</option>
@@ -242,20 +296,39 @@ const Body = (props: { data: any; dispatch: Function }) =>
 											min="300"
 											max="2000"
 											step="100"
-											onChange={(event) => props.dispatch()}
+											onChange={(event) =>
+												props.dispatch(
+													handleMoreProperties({
+														itemName: "dpi",
+														itemID: index,
+														value: Number(event.target.value),
+													}),
+												)
+											}
 										/>
 									</div>
 								</div>
 								<p className="mt-4">Margenes del documento</p>
 								<div className="row px-5">
 									<div className="col">
-										<div className="form-floating form-floating-sm mx-auto">
+										<div className="form-floating form-floating-sm">
 											<input
 												type="number"
 												value={item.moreProperties.margins.top}
 												className="form-control form-control-sm"
 												id="floatingInput-Margin-Top"
-												onChange={(event) => props.dispatch()}
+												onChange={(event) =>
+													props.dispatch(
+														handleMoreProperties({
+															itemName: "margins",
+															itemID: index,
+															value: {
+																...item.moreProperties.margins,
+																top: Number(event.target.value),
+															},
+														}),
+													)
+												}
 											/>
 											<label htmlFor="floatingInput-Margin-Top">
 												Superior:{" "}
@@ -264,13 +337,24 @@ const Body = (props: { data: any; dispatch: Function }) =>
 										</div>
 									</div>
 									<div className="col">
-										<div className="form-floating form-floating-sm mx-auto">
+										<div className="form-floating form-floating-sm">
 											<input
 												type="number"
 												value={item.moreProperties.margins.bottom}
 												className="form-control form-control-sm"
 												id="floatingInput-Margin-Bottom"
-												onChange={(event) => props.dispatch()}
+												onChange={(event) =>
+													props.dispatch(
+														handleMoreProperties({
+															itemName: "margins",
+															itemID: index,
+															value: {
+																...item.moreProperties.margins,
+																bottom: Number(event.target.value),
+															},
+														}),
+													)
+												}
 											/>
 											<label htmlFor="floatingInput-Margin-Bottom">
 												Inferior:{" "}
@@ -283,44 +367,74 @@ const Body = (props: { data: any; dispatch: Function }) =>
 								</div>
 								<div className="row px-5 mt-3">
 									<div className="col">
-										<div className="form-floating form-floating-sm mx-auto">
+										<div className="form-floating form-floating-sm">
 											<input
 												type="number"
-												value={item.moreProperties.margins.top}
+												value={item.moreProperties.margins.left}
 												className="form-control form-control-sm"
-												id="floatingInput-Margin-Top"
-												onChange={(event) => props.dispatch()}
+												id="floatingInput-Margin-Left"
+												onChange={(event) =>
+													props.dispatch(
+														handleMoreProperties({
+															itemName: "margins",
+															itemID: index,
+															value: {
+																...item.moreProperties.margins,
+																left: Number(event.target.value),
+															},
+														}),
+													)
+												}
 											/>
-											<label htmlFor="floatingInput-Margin-Top">
+											<label htmlFor="floatingInput-Margin-Left">
 												Superior:{" "}
-												<strong>{item.moreProperties.margins.top}</strong>
+												<strong>{item.moreProperties.margins.left}</strong>
 											</label>
 										</div>
 									</div>
 									<div className="col">
-										<div className="form-floating form-floating-sm mx-auto">
+										<div className="form-floating form-floating-sm">
 											<input
 												type="number"
-												value={item.moreProperties.margins.bottom}
+												value={item.moreProperties.margins.right}
 												className="form-control form-control-sm"
-												id="floatingInput-Margin-Bottom"
-												onChange={(event) => props.dispatch()}
+												id="floatingInput-Margin-Right"
+												onChange={(event) =>
+													props.dispatch(
+														handleMoreProperties({
+															itemName: "margins",
+															itemID: index,
+															value: {
+																...item.moreProperties.margins,
+																right: Number(event.target.value),
+															},
+														}),
+													)
+												}
 											/>
-											<label htmlFor="floatingInput-Margin-Bottom">
+											<label htmlFor="floatingInput-Margin-Right">
 												Inferior:{" "}
-												<strong>
-													{item.moreProperties.margins.bottom}
-												</strong>
+												<strong>{item.moreProperties.margins.right}</strong>
 											</label>
 										</div>
 									</div>
 								</div>
 							</div>
 						) : null}
-						<div className="row mt-5">
+						<div className="row mt-4">
 							<div className="col" />
 							<div className="col text-end">
-								<button className="btn btn-sm btn-outline-success">
+								<button
+									className="btn btn-sm btn-outline-success"
+									onClick={() =>
+										props.dispatch(
+											getReport({
+												report: item,
+												dispatch: props.dispatch,
+											}),
+										)
+									}
+								>
 									Vista Previa
 								</button>
 							</div>
@@ -337,7 +451,18 @@ const Body = (props: { data: any; dispatch: Function }) =>
 					<h6 className="text-start badge rounded-pill bg-info">Documento: {item.id}</h6>
 				</td>
 				<td>
-					<button className="btn btn-sm btn-info">
+					<button
+						className="btn btn-sm btn-info"
+						onClick={() =>
+							props.dispatch(
+								handleProperties({
+									itemName: "showHide",
+									itemID: index,
+									value: !item.showHide,
+								}),
+							)
+						}
+					>
 						Mostrar Documento {index > 0 ? item.id : null}
 					</button>
 				</td>

@@ -5,9 +5,7 @@ from json import dumps
 from app.apps.cadastral.homologations.controllers import Controller
 
 
-@app.route(
-    f"{API_URL}/HOMOLOGATION/j-appreciation/<string:type>/<int:id>", methods=["PATCH"]
-)
+@app.route(f"{API_URL}/HOMOLOGATION/j-appreciation/<string:type>/<int:id>", methods=["PATCH"])
 def update_jAppreciation(id, type):
     data = request.get_json()
     with open(f"{id}-{type}.json", "w") as file:
@@ -24,18 +22,14 @@ def update_jAppreciation(id, type):
     averageUnitCost = data["averageUnitCost"]
     registration = data["registration"]
     appraisalPurpose = data["appraisalPurpose"]
-    response = control.patch(
-        record, exists, factors, result, averageUnitCost, registration, appraisalPurpose
-    )
+    response = control.patch(record, exists, factors, result, averageUnitCost, registration, appraisalPurpose)
     if response != -1:
         return jsonify({"response": response}), 200
     else:
         return jsonify({"response": response}), 400
 
 
-@app.route(
-    f"{API_URL}/HOMOLOGATION/j-appreciation/<string:type>/<int:id>", methods=["GET"]
-)
+@app.route(f"{API_URL}/HOMOLOGATION/j-appreciation/<string:type>/<int:id>", methods=["GET"])
 def get_jAppreciation(id, type):
     data = Controller(id, type)
     response = data.get()

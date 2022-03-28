@@ -9,7 +9,8 @@ export const Viewer = (props: { document: any; status: string }) => (
 			width="100%"
 			height="630"
 			src={props.status === "complete" ? props.document : blankDocument}
-			allow="clipboard-write; encrypted-media; gyroscope; picture-in-picture full"
+			allow="clipboard-write; encrypted-media;"
+			allowFullScreen
 		/>
 	</div>
 );
