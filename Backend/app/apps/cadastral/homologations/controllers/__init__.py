@@ -15,7 +15,7 @@ class Controller:
         districtIndicators = [
             {
                 "id": district["id"],
-                "district": district["municipio"],
+                "name": district["municipio"],
                 "totalPopulation": district["poblacion_total"],
                 "percentage": district["porcentaje"],
                 "populationDensity": district["densidad_poblacion"],
