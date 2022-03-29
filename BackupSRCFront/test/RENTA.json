@@ -1,0 +1,555 @@
+{
+	"id": 0,
+	"type": "RENTA",
+	"status": "working",
+	"rowsCount": 4,
+	"factors": {
+		"ages": {
+			"name": "Edad",
+			"tag": "FEd.",
+			"subject": {
+				"value": 14
+			},
+			"data": [
+				{
+					"id": 1,
+					"value": 9,
+					"result": 0.95
+				},
+				{
+					"id": 2,
+					"value": 20,
+					"result": 1.06
+				},
+				{
+					"id": 3,
+					"value": 6,
+					"result": 0.92
+				},
+				{
+					"id": 4,
+					"value": 10,
+					"result": 0.96
+				}
+			],
+			"isUsed": true
+		},
+		"buildings": {
+			"name": "Construccion",
+			"tag": "FCons.",
+			"subject": {
+				"type": "MEDIA",
+				"value": 1.02
+			},
+			"data": [
+				{
+					"id": 1,
+					"type": "MEDIA",
+					"value": 1.02,
+					"result": 1
+				},
+				{
+					"id": 2,
+					"type": "MEDIA",
+					"value": 1.02,
+					"result": 1
+				},
+				{
+					"id": 3,
+					"type": "MEDIA",
+					"value": 1.02,
+					"result": 1
+				},
+				{
+					"id": 4,
+					"type": "MEDIA",
+					"value": 1.02,
+					"result": 1
+				}
+			],
+			"isUsed": true
+		},
+		"classification": {
+			"name": "Clasificacion",
+			"tag": "FClas.",
+			"subject": {
+				"type": "URBANO",
+				"value": 1.1
+			},
+			"data": [
+				{
+					"id": 1,
+					"type": "URBANO",
+					"value": 1.1,
+					"result": 1
+				}
+			],
+			"isUsed": false
+		},
+		"commercial": {
+			"name": "Comercial",
+			"tag": "FCom.",
+			"data": [
+				{
+					"id": 1,
+					"value": 0.98
+				},
+				{
+					"id": 2,
+					"value": 0.98
+				},
+				{
+					"id": 3,
+					"value": 0.98
+				},
+				{
+					"id": 4,
+					"value": 0.98
+				}
+			],
+			"isUsed": true
+		},
+		"level": {
+			"name": "Nivel",
+			"tag": "FNiv.",
+			"subject": {
+				"type": "SOTANO 1",
+				"value": 0.9
+			},
+			"data": [
+				{
+					"id": 1,
+					"type": "P.B. NIVEL DE CALLE",
+					"value": 1,
+					"result": 0.9
+				},
+				{
+					"id": 2,
+					"type": "P.B. NIVEL DE CALLE",
+					"value": 1,
+					"result": 0.9
+				},
+				{
+					"id": 3,
+					"type": "P.B. NIVEL DE CALLE",
+					"value": 1,
+					"result": 0.9
+				},
+				{
+					"id": 4,
+					"type": "P.B. NIVEL DE CALLE",
+					"value": 1,
+					"result": 0.9
+				}
+			],
+			"isUsed": true
+		},
+		"location": {
+			"name": "Ubicación",
+			"tag": "FUbic.",
+			"data": [
+				{
+					"id": 1,
+					"C1": {
+						"type": "+",
+						"value": 1
+					},
+					"percentage": 2,
+					"observations": "manzana",
+					"C2": {
+						"type": "+",
+						"value": 1
+					},
+					"C3": {
+						"type": "+",
+						"value": 1
+					},
+					"C4": {
+						"type": "+",
+						"value": 1
+					}
+				},
+				{
+					"id": 1,
+					"C1": {
+						"type": "=",
+						"value": 0
+					},
+					"percentage": 5,
+					"observations": "vialidad",
+					"C2": {
+						"type": "=",
+						"value": 0
+					},
+					"C3": {
+						"type": "=",
+						"value": 0
+					},
+					"C4": {
+						"type": "=",
+						"value": 0
+					}
+				},
+				{
+					"id": 1,
+					"C1": {
+						"type": "=",
+						"value": 0
+					},
+					"percentage": 3,
+					"observations": "pavimento",
+					"C2": {
+						"type": "=",
+						"value": 0
+					},
+					"C3": {
+						"type": "=",
+						"value": 0
+					},
+					"C4": {
+						"type": "=",
+						"value": 0
+					}
+				}
+			],
+			"results": [
+				{
+					"id": 1,
+					"value": 1.02
+				},
+				{
+					"id": 2,
+					"value": 1.02
+				},
+				{
+					"id": 3,
+					"value": 1.02
+				},
+				{
+					"id": 4,
+					"value": 1.02
+				}
+			],
+			"isUsed": true
+		},
+		"project": {
+			"name": "Proyecto",
+			"tag": "FProy.",
+			"subject": {
+				"type": "MUY BUENO",
+				"value": 1.03
+			},
+			"data": [
+				{
+					"id": 1,
+					"type": "FUNCIONAL",
+					"value": 1,
+					"result": 1.03
+				},
+				{
+					"id": 2,
+					"type": "FUNCIONAL",
+					"value": 1,
+					"result": 1.03
+				},
+				{
+					"id": 3,
+					"type": "FUNCIONAL",
+					"value": 1,
+					"result": 1.03
+				},
+				{
+					"id": 4,
+					"type": "FUNCIONAL",
+					"value": 1,
+					"result": 1.03
+				}
+			],
+			"isUsed": true
+		},
+		"quality": {
+			"name": "Calidad",
+			"tag": "FCal.",
+			"subject": {
+				"type": "COMERCIAL",
+				"value": 1
+			},
+			"data": [
+				{
+					"id": 1,
+					"type": "MEDIA ALTA",
+					"value": 1.06,
+					"result": 0.9433962264150942
+				},
+				{
+					"id": 2,
+					"type": "MEDIA ALTA",
+					"value": 1.06,
+					"result": 0.9433962264150942
+				},
+				{
+					"id": 3,
+					"type": "MEDIA ALTA",
+					"value": 1.06,
+					"result": 0.9433962264150942
+				},
+				{
+					"id": 4,
+					"type": "MEDIA ALTA",
+					"value": 1.06,
+					"result": 0.9433962264150942
+				}
+			],
+			"isUsed": true
+		},
+		"surface": {
+			"name": "Superficie",
+			"tag": "FSup.",
+			"data": [
+				{
+					"id": 1,
+					"value": 0.9892875398066444
+				},
+				{
+					"id": 2,
+					"value": 0.9803426978725917
+				},
+				{
+					"id": 3,
+					"value": 0.9964993437935054
+				},
+				{
+					"id": 4,
+					"value": 1.0080722736975145
+				}
+			],
+			"isUsed": true
+		},
+		"topography": {
+			"name": "Topografía",
+			"tag": "FTop.",
+			"subject": {
+				"type": "PENDIENTE INCLINADA",
+				"value": 0.96
+			},
+			"data": [
+				{
+					"id": 1,
+					"type": "PLANA",
+					"value": 1,
+					"result": 0.96
+				},
+				{
+					"id": 2,
+					"type": "PLANA",
+					"value": 1,
+					"result": 0.96
+				},
+				{
+					"id": 3,
+					"type": "PLANA",
+					"value": 1,
+					"result": 0.96
+				},
+				{
+					"id": 4,
+					"type": "PLANA",
+					"value": 1,
+					"result": 0.96
+				}
+			],
+			"isUsed": true
+		},
+		"typeForm": {
+			"name": "Forma",
+			"tag": "FFo.",
+			"subject": {
+				"type": "REGULAR",
+				"value": 1
+			},
+			"data": [
+				{
+					"id": 1,
+					"type": "REGULAR",
+					"value": 1,
+					"result": 1
+				}
+			],
+			"isUsed": false
+		},
+		"usage": {
+			"name": "Uso",
+			"tag": "FUso.",
+			"subject": {
+				"type": "HABITACIONAL",
+				"value": 1
+			},
+			"data": [
+				{
+					"id": 1,
+					"type": "HABITACIONAL",
+					"value": 1,
+					"result": 1
+				}
+			],
+			"isUsed": false
+		},
+		"zone": {
+			"name": "Zona",
+			"tag": "FZo.",
+			"results": [
+				{
+					"id": 1,
+					"value": 0.94
+				},
+				{
+					"id": 2,
+					"value": 0.94
+				},
+				{
+					"id": 3,
+					"value": 0.94
+				},
+				{
+					"id": 4,
+					"value": 0.94
+				}
+			],
+			"data": [
+				{
+					"id": 1,
+					"C1": {
+						"type": "+",
+						"value": 1
+					},
+					"percentage": 0,
+					"observations": "",
+					"C2": {
+						"type": "+",
+						"value": 1
+					},
+					"C3": {
+						"type": "+",
+						"value": 1
+					},
+					"C4": {
+						"type": "+",
+						"value": 1
+					}
+				}
+			],
+			"isUsed": true
+		},
+		"results": {
+			"name": "Homologación Resultante",
+			"tag": "F.Ho.Re.",
+			"data": [
+				{
+					"id": 1,
+					"value": 0.7413876501480743
+				},
+				{
+					"id": 1,
+					"value": 0.8197529468776222
+				},
+				{
+					"id": 1,
+					"value": 0.7232093751369656
+				},
+				{
+					"id": 1,
+					"value": 0.7634174908596248
+				}
+			],
+			"isUsed": false
+		}
+	},
+	"homologation": {
+		"areas": {
+			"subject": 637.64,
+			"data": [
+				{
+					"id": 1,
+					"value": 585
+				},
+				{
+					"id": 2,
+					"value": 544
+				},
+				{
+					"id": 3,
+					"value": 620
+				},
+				{
+					"id": 4,
+					"value": 680
+				}
+			]
+		},
+		"salesCosts": {
+			"data": [
+				{
+					"id": 1,
+					"value": 80000,
+					"unitaryCost": 136.75213675213675
+				},
+				{
+					"id": 2,
+					"value": 54400,
+					"unitaryCost": 100
+				},
+				{
+					"id": 3,
+					"value": 68548,
+					"unitaryCost": 110.56129032258065
+				},
+				{
+					"id": 4,
+					"value": 60000,
+					"unitaryCost": 88.23529411764706
+				}
+			],
+			"results": [
+				{
+					"id": 1,
+					"value": 101.38634531939478
+				},
+				{
+					"id": 2,
+					"value": 81.97529468776223
+				},
+				{
+					"id": 3,
+					"value": 79.9589616885302
+				},
+				{
+					"id": 4,
+					"value": 67.36036684055513
+				}
+			],
+			"averageUnitCost": 80.86812656015701
+		},
+		"weightingPercentage": {
+			"total": 100,
+			"data": [
+				{
+					"id": 1,
+					"value": 20
+				},
+				{
+					"id": 2,
+					"value": 20
+				},
+				{
+					"id": 3,
+					"value": 30
+				},
+				{
+					"id": 4,
+					"value": 30
+				}
+			]
+		}
+	},
+	"averageUnitCost": 80.0
+}
