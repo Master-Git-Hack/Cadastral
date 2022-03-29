@@ -1,7 +1,7 @@
 /** @format */
 import { useAppSelector, useAppDispatch } from "../../hooks/store";
 import {
-	selector,
+	getState,
 	addDocument,
 	removeDocument,
 	handleProperties,
@@ -11,7 +11,7 @@ import {
 import { Viewer } from "../pdf/viewer/viewer";
 export const DocumentProperties = (props: { saveButton: any }) => {
 	const dispatch = useAppDispatch();
-	const { reports } = useAppSelector(selector);
+	const { reports } = useAppSelector(getState);
 	return (
 		<table className="table table-sm table-responsive table-responsive-sm table-hover table-stripped ">
 			<thead className="table-light align-self-middle align-middle text-center">

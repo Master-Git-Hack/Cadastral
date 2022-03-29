@@ -5,7 +5,6 @@ import { RootState } from "../../app/store";
 import { consume } from "../../api/api.config";
 import { Storage } from "../../types/handleReports/storage";
 import { initialStateReports, recommendedProperties } from "../../types/handleReports/state";
-import { stat } from "fs/promises";
 
 const initialState: Storage = {
 	status: "working",
@@ -73,14 +72,14 @@ export const slice = createSlice({
 				const response = action.payload;
 				if (response !== undefined) {
 					state.document = response;
-					state.status="complete"
+					state.status = "complete";
 				}
 			});
 	},
 });
 export const { addDocument, removeDocument, handleProperties, handleMoreProperties, changeStatus } =
 	slice.actions;
-export const selector = (state: RootState) => state.reports;
+export const getState = (state: RootState) => state.reports;
 
 export const getReport = createAsyncThunk(
 	"reports/GetReports",

@@ -1,159 +1,124 @@
 /** @format */
-
-import { FC } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/store";
-import { selector, addDataRow, removeDataRow } from "../../features/homologation/slice";
-import { CommonTable } from "./factors/commonTable";
-import { AgeTable } from "./factors/ageTable";
-import { buildingOptions } from "../../types/homologation/factors/building";
-import { classificationOptions } from "../../types/homologation/factors/classification";
-import { levelOptions } from "../../types/homologation/factors/level";
-import { projectOptions } from "../../types/homologation/factors/project";
-import { qualityOptions } from "../../types/homologation/factors/quality";
-import { topographyOptions } from "../../types/homologation/factors/topography";
-import { typeFormOptions } from "../../types/homologation/factors/typeForm";
-import { usageOptions } from "../../types/homologation/factors/usage";
-import { SymbolsTable } from "./factors/symbolsTable";
-import { ZoneTable } from "./factors/zoneTable";
-export const FactorsCompilation: FC = () => {
+import { Header, Body, SingleColumnInARow, Footer, Table } from "../table/Table";
+import { AgeTable, CommonTable, SymbolsTable } from "./factors/tables";
+import { useAppDispatch } from "../../hooks/store";
+import { addRow, removeRow } from "../../features/homologation/slice";
+export default function Factors() {
 	const dispatch = useAppDispatch();
-	const { type } = useAppSelector(selector);
 	return (
-		<table className="table table-sm table-responsive table-responsive-sm table-borderless">
-			<thead>
-				<Actions dispatch={dispatch} />
-			</thead>
-			<tbody className="align-self-center align-middle text-center align-items-center">
-				<tr className="row px-5">
-					<Classification />
+		<Table>
+			<Header>
+				<tr>
+					<th className="text-start">
+						<button
+							className="btn btn-sm btn-primary"
+							onClick={() => dispatch(addRow())}
+						>
+							Agregar Fila
+						</button>
+					</th>
+					<th className="text-end">
+						<button
+							className="btn btn-sm btn-outline-danger"
+							onClick={() => dispatch(removeRow())}
+						>
+							Remover Fila
+						</button>
+					</th>
 				</tr>
-				<tr className="row px-5">
-					<TypeForm type={type} />
-				</tr>
-				<tr className="row px-5">
-					<Usage />
-				</tr>
-				<tr className="row px-5">
-					<Topography type={type} />
-				</tr>
-				<tr className="row px-5">
-					<Level />
-				</tr>
-				<tr className="row px-5">
-					<Quality />
-				</tr>
-				<tr className="row px-5">
-					<Project />
-				</tr>
-				<tr className="row px-5">
-					<Building />
-				</tr>
-
-				{/*<Location />*/}
-				{/*<Zone/>*/}
-			</tbody>
-		</table>
+			</Header>
+			<Body>
+				<SingleColumnInARow colSpan={2}>
+					<AgeFactor />
+				</SingleColumnInARow>
+				<SingleColumnInARow colSpan={2}>
+					<BuildingFactor />
+				</SingleColumnInARow>
+				<SingleColumnInARow colSpan={2}>
+					<ClassificationFactor />
+				</SingleColumnInARow>
+				<SingleColumnInARow colSpan={2}>
+					<LevelFactor />
+				</SingleColumnInARow>
+				<SingleColumnInARow colSpan={2}>
+					<ProjectFactor />
+				</SingleColumnInARow>
+				<SingleColumnInARow colSpan={2}>
+					<QualityFactor />
+				</SingleColumnInARow>
+				<SingleColumnInARow colSpan={2}>
+					<TopographyFactor />
+				</SingleColumnInARow>
+				<SingleColumnInARow colSpan={2}>
+					<TypeFormFactor />
+				</SingleColumnInARow>
+				<SingleColumnInARow colSpan={2}>
+					<UsageFactor />
+				</SingleColumnInARow>
+			</Body>
+		</Table>
 	);
-};
-const Actions: FC<{
-	dispatch: any;
-}> = (props) => (
-	<tr className="row text-center px-5">
-		<td className="col text-start px-5 pe-5" colSpan={12} rowSpan={1}>
-			<button className="btn btn-sm btn-success" onClick={() => props.dispatch(addDataRow())}>
-				Agregar nueva fila
-			</button>
-		</td>
-		<td className="col text-end" colSpan={12} rowSpan={1}>
-			<button
-				className="btn btn-sm btn-outline-danger"
-				onClick={() => props.dispatch(removeDataRow())}
-			>
-				Remover ultima fila
-			</button>
-		</td>
-	</tr>
+}
+
+export const AgeFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<AgeTable />
+	</div>
 );
-export const Age: FC = () => (
-	<tr className="row text-center">
-		<td className="col-12 col-sm-12">
-			<AgeTable />
-		</td>
-	</tr>
+export const BuildingFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<CommonTable id={1} name="Building" />
+	</div>
 );
-export const Building: FC = () => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<CommonTable name="buildings" options={buildingOptions} id={1} />
-		</td>
-	</tr>
+export const ClassificationFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<CommonTable id={2} name="Classification" />
+	</div>
 );
-export const Classification: FC = () => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<CommonTable name="classification" options={classificationOptions} id={2} />
-		</td>
-	</tr>
+
+export const LevelFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<CommonTable id={3} name="Level" />
+	</div>
 );
-export const Commercial: FC = () => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12"></td>
-	</tr>
+
+export const ProjectFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<CommonTable id={4} name="Project" />
+	</div>
 );
-export const Level: FC = () => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<CommonTable name="level" options={levelOptions} id={3} />
-		</td>
-	</tr>
+
+export const QualityFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<CommonTable id={5} name="Quality" />
+	</div>
 );
-export const Location: FC = () => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<SymbolsTable name="location" />
-		</td>
-	</tr>
+
+export const TopographyFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<CommonTable id={6} name="Topography" />
+	</div>
 );
-export const Project: FC = () => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<CommonTable name="project" options={projectOptions} id={4} />
-		</td>
-	</tr>
+
+export const TypeFormFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<CommonTable id={7} name="TypeForm" />
+	</div>
 );
-export const Quality: FC = () => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<CommonTable name="quality" options={qualityOptions} id={5} />
-		</td>
-	</tr>
+
+export const UsageFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<CommonTable id={8} name="Usage" />
+	</div>
 );
-export const Topography: FC<{ type: string }> = (props) => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<CommonTable name="topography" options={topographyOptions(props.type)} id={6} />
-		</td>
-	</tr>
+
+export const LocationFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<SymbolsTable id={9} name="Location" />
+	</div>
 );
-export const TypeForm: FC<{ type: string }> = (props) => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<CommonTable name="typeForm" options={typeFormOptions(props.type)} id={7} />
-		</td>
-	</tr>
-);
-export const Usage: FC = () => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<CommonTable name="usage" options={usageOptions} id={8} />
-		</td>
-	</tr>
-);
-export const Zone: FC = () => (
-	<tr className="row text-center px-5">
-		<td className="col-12 col-sm-12">
-			<ZoneTable />
-			<SymbolsTable name="zone" />
-		</td>
-	</tr>
+export const LocationZoneFactor = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<LocationFactor />
+	</div>
 );

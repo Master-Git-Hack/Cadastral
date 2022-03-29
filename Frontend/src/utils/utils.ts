@@ -1,4 +1,6 @@
+/** @format */
 
+export const handleOperation = (subject: number, current: number): number => subject / current;
 export const searchByType = (options: any, type: string) =>
 	options.find((option: any) => option.type === type);
 
@@ -21,11 +23,13 @@ export const toFancyNumber: Function = (
 	isPercentage: boolean = false,
 	decimals: number = 2,
 ): string =>
-	new Intl.NumberFormat("es-MX", {
-		style: isCurrency ? "currency" : isPercentage ? "percent" : "decimal",
-		minimumFractionDigits: decimals,
-		currency: isCurrency ? "MXN" : undefined,
-	}).format(isPercentage && !isCurrency ? value / 100 : value);
+	Number(
+		new Intl.NumberFormat("es-MX", {
+			style: isCurrency ? "currency" : isPercentage ? "percent" : "decimal",
+			minimumFractionDigits: decimals,
+			currency: isCurrency ? "MXN" : undefined,
+		}).format(isPercentage && !isCurrency ? value / 100 : value),
+	).toFixed(decimals);
 
 /**
  * @param value number that will round to the nearest tenth
@@ -41,4 +45,9 @@ export const roundToTenth = (value: number, decimals: number = 1): number => {
 		return Number(aux[1][0]) <= 5
 			? Math.floor(value / Math.pow(10, decimals)) * Math.pow(10, decimals)
 			: Math.ceil(value / Math.pow(10, decimals)) * Math.pow(10, decimals);
+};
+
+export const getParams = (key: string) => {
+	const params = new URLSearchParams(window.location.search);
+	return params.get(key) !== null && params.get(key) !== undefined ? params.get(key) : "";
 };

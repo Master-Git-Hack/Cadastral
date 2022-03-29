@@ -1,6 +1,96 @@
 /** @format */
-
-import { FC, useState, useEffect } from "react";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/store";
+import { getState } from "../features/homologation/slice";
+import Factors, { LocationZoneFactor } from "../components/homologation/factors";
+export default function Homologation() {
+	const dispatch = useAppDispatch();
+	const state = useAppSelector(getState);
+	const [visibility, setVisibility] = useState({
+		factors: true,
+		location: false,
+		documentation: false,
+	});
+	console.log(state, visibility);
+	return (
+		<div className="mx-5 px-5">
+			Homologation
+			<Container
+				previous=""
+				current="factors"
+				target="location"
+				visibility={visibility}
+				setVisibility={setVisibility}
+			>
+				<Factors />
+			</Container>
+			<Container
+				previous="factors"
+				current="location"
+				target="documentation"
+				visibility={visibility}
+				setVisibility={setVisibility}
+			>
+				<LocationZoneFactor />
+			</Container>
+		</div>
+	);
+}
+const NavigationButton = (props: {
+	previous: string;
+	current: string;
+	target: string;
+	visibility: { [key: string]: boolean };
+	setVisibility: Function;
+}) => {
+	const handleVisibility = (target: string) => {
+		const aux = props.visibility;
+		for (const key in aux) {
+			aux[key] = false;
+		}
+		props.setVisibility({ ...aux, [target]: true });
+		return undefined;
+	};
+	return (
+		<div className="row my-2 text-center">
+			<div className="col text-start">
+				{props.current !== "factors" ? (
+					<button
+						className="btn btn-sm btn-link"
+						onClick={() => handleVisibility(props.previous)}
+					>
+						Atras
+					</button>
+				) : null}
+			</div>
+			<div className="col text-end">
+				{props.current !== "x" ? (
+					<button
+						className="btn btn-sm btn-outline-info"
+						onClick={() => handleVisibility(props.target)}
+					>
+						Siguiente
+					</button>
+				) : null}
+			</div>
+		</div>
+	);
+};
+const Container = (props: {
+	previous: string;
+	current: string;
+	target: string;
+	visibility: { [key: string]: boolean };
+	setVisibility: Function;
+	children: any;
+}) =>
+	props.visibility[props.current] ? (
+		<div>
+			{props.children}
+			<NavigationButton {...props} />
+		</div>
+	) : null;
+/*
 import { SelectFactor } from "../components/homologation/selectFactor";
 import { FactorsCompilation, Location, Zone, Age } from "../components/homologation/factors";
 import { UnitCost } from "../components/homologation/homologation/unitCost";
@@ -60,7 +150,6 @@ export default function Homologation() {
 					) : null}
 					<div className="text-center">
 						<h1>Homolgacion de Tipo:</h1>
-
 						<h1>
 							<strong>{type}</strong>
 						</h1>
@@ -121,7 +210,7 @@ const useWindowSize = (width: number, height: number) => {
 		return () => window.removeEventListener("resize", updateSize);
 	}, []);
 	return size;
-};*/
+};
 const VisibilityButton: FC = (props: any) => (
 	<div className="row mb-3 me-1">
 		{props.name !== "begin" ? (
@@ -260,3 +349,4 @@ const ShowRefactor: FC<{
 			</div>
 		</div>
 	) : null;
+*/

@@ -1,15 +1,14 @@
 /** @format */
 import { useEffect } from "react";
 import { DocumentProperties } from "../components/handleReports/documentProperties";
-import { selector, getReportsJoined } from "../features/handleReports/slice";
+import { getState, getReportsJoined } from "../features/handleReports/slice";
 import { useAppSelector, useAppDispatch } from "../hooks/store";
 import FileSaver from "file-saver";
 
 export default function HandleReports() {
-	const state = useAppSelector(selector);
+	const state = useAppSelector(getState);
 	const { status, document, filename } = state;
 	const dispatch = useAppDispatch();
-	console.log(document, status);
 	useEffect(() => {
 		if (status === "complete") {
 			FileSaver.saveAs(document, filename);
