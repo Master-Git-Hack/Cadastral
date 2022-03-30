@@ -1,5 +1,6 @@
 /** @format */
 import { Header, Body, SingleColumnInARow, Footer, Table } from "../table/Table";
+import { ZoneExtraInformationTable } from "./documentation/area";
 import { AgeTable, CommonTable, SymbolsTable } from "./factors/tables";
 import { useAppDispatch } from "../../hooks/store";
 import { addRow, removeRow } from "../../features/homologation/slice";
@@ -117,8 +118,15 @@ export const LocationFactor = () => (
 		<SymbolsTable id={9} name="Location" />
 	</div>
 );
-export const LocationZoneFactor = () => (
+export const ZoneFactor = () => (
 	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<SymbolsTable id={10} name="Zone" />
+	</div>
+);
+export const LocationZoneFactor = () => (
+	<div className="col justify-content-center px-5 my-3 mx-5">
 		<LocationFactor />
+		<ZoneExtraInformationTable />
+		<ZoneFactor />
 	</div>
 );

@@ -2,6 +2,7 @@
 
 import { getParams } from "../../utils/utils";
 import { properties } from "./state";
+//factors
 import { ageStateProperties, ageState } from "./factors/ages";
 import { buildingState, buildingStateProperties } from "./factors/building";
 import { classificationStateProperties, classificationState } from "./factors/classification";
@@ -15,6 +16,9 @@ import { topographyStateProperties, topographyState } from "./factors/topography
 import { typeFormStateProperties, typeFormState } from "./factors/typeForm";
 import { usageStateProperties, usageState } from "./factors/usage";
 import { locationStateProperties, locationState } from "./factors/location";
+import {zoneStateProperties, zoneState} from "./factors/zone";
+//documentation
+import {areaState, areaStateProperties} from "./documentation/area";
 
 interface Factors extends properties {
 	[key: string]:
@@ -31,11 +35,15 @@ interface Factors extends properties {
 		| topographyStateProperties
 		| typeFormStateProperties
 		| usageStateProperties
-		| locationStateProperties;
+		| locationStateProperties
+		| zoneStateProperties;
 }
 interface Documentation extends properties {
-	[key: string]: properties;
+	[key: string]: 
+		| properties
+		| areaStateProperties;
 }
+
 interface Record extends properties {
 	justipreciacion: {
 		id: number;
@@ -45,6 +53,7 @@ interface Record extends properties {
 		type: string;
 		appraisalPurpose: string;
 		status: "exists" | "newOne" | "deleted" | "updated";
+		hasIndiviso: boolean;
 	};
 }
 export interface Storage extends properties {
@@ -52,9 +61,11 @@ export interface Storage extends properties {
 	factors: Factors;
 	documentation: Documentation;
 	errors: Array<string>;
-	districtIndicators: any;
 	record: Record;
 }
+const type = (getParams("tipo") !== ""
+? getParams("tipo")?.toUpperCase()
+: "TERRENO") as string
 export const initialState: Storage = {
 	status: "working",
 	factors: {
@@ -71,23 +82,24 @@ export const initialState: Storage = {
 		TypeForm: typeFormState,
 		Usage: usageState,
 		Location: locationState,
+		Zone: zoneState,
 	},
-	documentation: {},
+	documentation: {
+		Area: areaState(type),
+	},
 	errors: [],
-	districtIndicators: [],
 	record: {
 		justipreciacion: {
 			id: Number(getParams("id")),
 		},
 		homologacion: {
 			id: 0,
-			type: (getParams("tipo") !== ""
-				? getParams("tipo")?.toUpperCase()
-				: "TERRENO") as string,
+			type,
 			appraisalPurpose: (getParams("tipo_servicio") !== ""
 				? getParams("tipo_servicio")?.toUpperCase()
 				: "justipreciacion") as string,
 			status: "newOne",
+			hasIndiviso:true,
 		},
 	},
 };

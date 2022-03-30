@@ -1,7 +1,7 @@
 /** @format */
 
-import { properties } from "../state";
-const options = [
+import { properties, operation  } from "../state";
+export const options = [
 	{
 		type: "HABITACIONAL",
 		value: 1.0,
@@ -41,11 +41,7 @@ export interface usageStateProperties extends properties {
 	data: Array<properties>;
 	options: any;
 }
-const operation = (data: any, subject: any) =>
-	data.map((item: any) => {
-		item.result = subject.value / item.value;
-		return item;
-	});
+
 const template = (id: number) => ({
 	id,
 	...options[0],

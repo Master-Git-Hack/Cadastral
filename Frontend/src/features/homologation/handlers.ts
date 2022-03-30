@@ -3,18 +3,30 @@
 export const handlerAddRow = (state: any) => {
 	const { factors, documentation } = state;
 	for (const key in factors) {
+		const id = factors[key].data.length + 1;
 		if (key !== "Location" && key !== "Zone") {
-			const id = factors[key].data.length + 1;
+			
 			factors[key].data.push(factors[key].template(id));
 		}
-		if (key === "Location") {
-			const id = factors[key].data.length + 1;
+		if (key === "Location" || key === "Zone") {
 			factors[key].subject.map((item: any) => {
 				item = item.insertion(`C${id}`, item);
 				return item;
 			});
 			factors[key].data.push(factors[key].templateData(id));
+			if(key === "Zone"){
+				factors[key].results.push(factors[key].templateResults(id))
+			}
 		}
+	}
+	for(const key in documentation){
+		const id = documentation[key].data.length + 1;
+		if(key.includes('Area')){
+			const {type} = state.record.homologacion
+			documentation[key].data.push(documentation[key].template(id,type))
+		}
+		
+		
 	}
 	return {
 		factors,
@@ -44,3 +56,13 @@ export const handlerRemoveRow = (state: any) => {
 		documentation,
 	};
 };
+
+export const handleUpdateOperationValues = (state: any) => {
+	const {factors,documentation} = state;
+	const {Area}=documentation;
+	const factorKeys =Area.factorsKeys(Area.subject.factors)
+	Area.data = Area.insertFactors(Area.data,factorKeys);
+	
+	return state
+	
+}

@@ -52,7 +52,7 @@ const NavigationButton = (props: {
 		return undefined;
 	};
 	return (
-		<div className="row my-2 text-center">
+		<div className="row my-2 text-center mb-5">
 			<div className="col text-start">
 				{props.current !== "factors" ? (
 					<button
@@ -85,7 +85,7 @@ const Container = (props: {
 	children: any;
 }) =>
 	props.visibility[props.current] ? (
-		<div>
+		<div className="container container-fluid card p-4">
 			{props.children}
 			<NavigationButton {...props} />
 		</div>

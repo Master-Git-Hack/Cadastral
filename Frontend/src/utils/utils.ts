@@ -22,14 +22,11 @@ export const toFancyNumber: Function = (
 	isCurrency: boolean = false,
 	isPercentage: boolean = false,
 	decimals: number = 2,
-): string =>
-	Number(
-		new Intl.NumberFormat("es-MX", {
-			style: isCurrency ? "currency" : isPercentage ? "percent" : "decimal",
-			minimumFractionDigits: decimals,
-			currency: isCurrency ? "MXN" : undefined,
-		}).format(isPercentage && !isCurrency ? value / 100 : value),
-	).toFixed(decimals);
+): string =>new Intl.NumberFormat("es-MX", {
+	style: isCurrency ? "currency" : isPercentage ? "percent" : "decimal",
+	minimumFractionDigits: decimals,
+	currency: isCurrency ? "MXN" : undefined,
+}).format(isPercentage && !isCurrency ? value / 100 : value)
 
 /**
  * @param value number that will round to the nearest tenth

@@ -2,20 +2,26 @@
 import { useAppSelector, useAppDispatch } from "../../../hooks/store";
 import {
 	getState,
+	addRowLocationZone,
 	updateFactorStateAge,
+	removeRowLocationZone,
 	updateFactorStateCommon,
+	updateFactorStateLocationZone,
 } from "../../../features/homologation/slice";
 import { searchByType, toFancyNumber } from "../../../utils/utils";
 import { Selector } from "../../inputs/selector";
 import { Header, Table, Body, Footer } from "../../table/Table";
-const Title = (props: { title: string }) => (
+import { FancyInput } from "../../inputs/fancyInput";
+import { Fragment } from "react";
+const Title = (props: { title: string; colSpan?: number }) => (
 	<tr>
-		<th colSpan={6}>FACTOR POR {props.title.toUpperCase()}</th>
+		<th colSpan={props.colSpan ? props.colSpan : 6}>FACTOR POR {props.title.toUpperCase()}</th>
 	</tr>
 );
 const handleChange = (
 	key: string,
 	object: string,
+	item: string,
 	value: any,
 	dispatch: Function,
 	action: Function,
@@ -25,6 +31,7 @@ const handleChange = (
 	const payload = {
 		key,
 		object,
+		item,
 		value,
 	};
 	dispatch(
@@ -69,6 +76,7 @@ export const AgeTable = () => {
 									handleChange(
 										"Age",
 										"data",
+										"value",
 										Number(event.target.value),
 										dispatch,
 										updateFactorStateAge,
@@ -95,6 +103,7 @@ export const AgeTable = () => {
 								handleChange(
 									"Age",
 									"subject",
+									"value",
 									Number(event.target.value),
 									dispatch,
 									updateFactorStateAge,
@@ -147,6 +156,7 @@ export const CommonTable = (props: { id: number; name: string }) => {
 								handleChange(
 									props.name,
 									"subject",
+									"value",
 									value,
 									dispatch,
 									updateFactorStateCommon,
@@ -184,6 +194,7 @@ export const CommonTable = (props: { id: number; name: string }) => {
 									handleChange(
 										props.name,
 										"data",
+										"value",
 										value,
 										dispatch,
 										updateFactorStateCommon,
@@ -224,7 +235,7 @@ const SymbolsActions = (props: { dispatch: Function; colSpan: number; name: stri
 		<th colSpan={props.colSpan / 2} className="text-start">
 			<button
 				className="btn btn-sm btn-primary"
-				onClick={() => props.dispatch({ itemName: props.name, value: null })}
+				onClick={() => props.dispatch(addRowLocationZone({ key: props.name }))}
 			>
 				Agregar fila
 			</button>
@@ -232,7 +243,7 @@ const SymbolsActions = (props: { dispatch: Function; colSpan: number; name: stri
 		<th colSpan={props.colSpan / 2} className="text-end">
 			<button
 				className="btn btn-sm btn-outline-danger"
-				onClick={() => props.dispatch({ itemName: props.name, value: null })}
+				onClick={() => props.dispatch(removeRowLocationZone({ key: props.name }))}
 			>
 				Remover fila
 			</button>
@@ -242,23 +253,25 @@ const SymbolsActions = (props: { dispatch: Function; colSpan: number; name: stri
 const SymbolsComponent = (props: { id: number; name: string }) => {
 	const dispatch = useAppDispatch();
 	const factor = useAppSelector(getState).factors[props.name];
-	const { subject, data, name } = factor;
-	const percentage = subject
-		.map((item: any) => item.percentage)
-		.reduce((previous: number, current: any) => previous + Number(current), 0);
+	const { subject, data, name, options } = factor;
+
+	const columns: Array<string> = Object.keys(subject[0]).filter((key: string) =>
+		key.includes("C"),
+	);
+	const colSpan = (columns.length + 1) % 2 === 0 ? columns.length + 3 : columns.length + 2;
+
+	const percentage = subject.reduce(
+		(previous: number, current: any) => previous + Number(current.percentage),
+		0,
+	);
+
 	return (
 		<Table>
 			<Header>
-				<Title title={name} />
-				<SymbolsActions
-					dispatch={dispatch}
-					colSpan={factor.options.length + 2}
-					name={props.name}
-				/>
-			</Header>
-			<Body>
+				<Title title={name} colSpan={colSpan} />
+				<SymbolsActions dispatch={dispatch} colSpan={colSpan} name={props.name} />
 				<tr>
-					<td>
+					<th>
 						PORCENTAJE
 						<br />
 						<small
@@ -272,14 +285,154 @@ const SymbolsComponent = (props: { id: number; name: string }) => {
 						>
 							{toFancyNumber(percentage, false, true)}
 						</small>
-					</td>
-					<td className="bg-warning">{title}</td>
-					<Headers columns={columns} />
+					</th>
+					<th className="bg-warning">{name.toUpperCase()}</th>
+					<SymbolsHeader name={props.name} columns={columns} />
 				</tr>
+			</Header>
+
+			<Body>
+				<SymbolsBody
+					data={subject}
+					name={props.name}
+					columns={columns}
+					dispatch={dispatch}
+					options={options}
+				/>
+			</Body>
+			<Footer>
+				<SymbolsFooter results={data} name={props.name} />
+			</Footer>
+		</Table>
+	);
+};
+const SymbolsHeader = (props: { name: string; columns: any }) =>
+	props.columns.map((column: string, index: number) => (
+		<th key={`header for table ${props.name} in ${column} - ${index}`}>{column}</th>
+	));
+
+const SymbolsBody = (props: {
+	data: any;
+	name: string;
+	columns: any;
+	dispatch: Function;
+	options: any;
+}) =>
+	props.data.map((item: any, index: number) => (
+		<tr key={index}>
+			<td>
+				<FancyInput
+					index={index}
+					name="percentage"
+					value={item.percentage}
+					onChange={(event) =>
+						handleChange(
+							props.name,
+							"subject",
+							"percentage",
+							Number(event.target.value),
+							props.dispatch,
+							updateFactorStateLocationZone,
+							false,
+							index,
+						)
+					}
+					isCurrency={false}
+					isPercentage={true}
+				/>
+			</td>
+			<td>
+				<input
+					type="text"
+					name="observations"
+					className="form-control form-control-sm"
+					value={item.observations}
+					onChange={(event) =>
+						handleChange(
+							props.name,
+							"subject",
+							"observations",
+							event.target.value,
+							props.dispatch,
+							updateFactorStateLocationZone,
+							false,
+							index,
+						)
+					}
+				/>
+			</td>
+			{props.columns.map((column: string) => (
+				<td key={`Body-${props.name}-${index}-${column}`} style={{ minWidth: 75 }}>
+					<Selector
+						id={index}
+						name={column}
+						subject={item[column]}
+						selector={props.options}
+						onChange={(event) => {
+							const value = searchByType(props.options, event.target.value);
+
+							handleChange(
+								props.name,
+								"subject",
+								column,
+								value,
+								props.dispatch,
+								updateFactorStateLocationZone,
+								false,
+								index,
+							);
+						}}
+					/>
+				</td>
+			))}
+		</tr>
+	));
+const SymbolsFooter = (props: { results: any; name: string }) => (
+	<tr>
+		<td colSpan={2} />
+		{props.results.map((item: any, index: number) => (
+			<td key={`footer-${props.name}-${item.id}-${index}`}>{toFancyNumber(item.value)}</td>
+		))}
+	</tr>
+);
+const ZoneExtra = () => {
+	const { data } = useAppSelector(getState).documentation.Area;
+	const { results } = useAppSelector(getState).factors.Zone;
+	const headers = Object.keys(results[0])
+		.filter((name: string) => name.includes("factor"))
+		.slice(1);
+
+	return (
+		<Table>
+			<Header>
+				<tr>
+					<th colSpan={2}>Factor resultante con dos indicadores (F.Zona)</th>
+				</tr>
+			</Header>
+			<Body>
+				{data.map((item: any, index: number) => (
+					<tr key={`row at zone extra information ${index}`}>
+						<td>C{item.id}</td>
+						{headers.map((key: string, id: number) => (
+							<td key={`column generator ${index} ${id}`}>{results[index][key]}</td>
+						))}
+					</tr>
+				))}
 			</Body>
 		</Table>
 	);
 };
-export const SymbolsTable = (props: { id: number; name: string }) => (
-	<SymbolsComponent {...props} />
-);
+export const SymbolsTable = (props: { id: number; name: string }) =>
+	props.name === "Zone" ? (
+		<div className="d-flex">
+			<div className="col-11 col-sm-11 ">
+				<SymbolsComponent {...props} />
+			</div>
+
+			<div className="col-1 col-sm-1">
+				<ZoneExtra />
+			</div>
+		</div>
+	) : (
+		<SymbolsComponent {...props} />
+	);

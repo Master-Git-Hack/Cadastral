@@ -1,6 +1,6 @@
 /** @format */
 
-import { properties } from "../state";
+import { properties, operation  } from "../state";
 const options = [
 	{
 		type: "EXCELENTE",
@@ -48,11 +48,7 @@ export interface projectStateProperties extends properties {
 	data: Array<properties>;
 	options: any;
 }
-const operation = (data: any, subject: any) =>
-	data.map((item: any) => {
-		item.result = subject.value / item.value;
-		return item;
-	});
+
 const template = (id: number) => ({
 	id,
 	...options[0],

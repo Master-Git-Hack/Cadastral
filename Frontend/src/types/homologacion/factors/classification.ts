@@ -1,6 +1,6 @@
 /** @format */
 
-import { properties } from "../state";
+import { properties, operation  } from "../state";
 const options = [
 	{
 		type: "URBANO",
@@ -28,11 +28,7 @@ export interface classificationStateProperties extends properties {
 	data: Array<properties>;
 	options: any;
 }
-const operation = (data: any, subject: any) =>
-	data.map((item: any) => {
-		item.result = subject.value / item.value;
-		return item;
-	});
+
 const template = (id: number) => ({
 	id,
 	...options[0],
