@@ -13,7 +13,7 @@ export interface ageStateProperties extends properties {
 
 const template = (id: number) => ({
 	id,
-	value: 0,
+	value: 1,
 	result: 1,
 });
 const operation = (data: any, subject: any) =>

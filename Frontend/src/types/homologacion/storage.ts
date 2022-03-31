@@ -16,9 +16,10 @@ import { topographyStateProperties, topographyState } from "./factors/topography
 import { typeFormStateProperties, typeFormState } from "./factors/typeForm";
 import { usageStateProperties, usageState } from "./factors/usage";
 import { locationStateProperties, locationState } from "./factors/location";
-import {zoneStateProperties, zoneState} from "./factors/zone";
+import { zoneStateProperties, zoneState } from "./factors/zone";
 //documentation
-import {areaState, areaStateProperties} from "./documentation/area";
+import { areaState, areaStateProperties } from "./documentation/area";
+import { salesCostStateProperties, salesCostState } from "./documentation/salesCost";
 
 interface Factors extends properties {
 	[key: string]:
@@ -39,9 +40,7 @@ interface Factors extends properties {
 		| zoneStateProperties;
 }
 interface Documentation extends properties {
-	[key: string]: 
-		| properties
-		| areaStateProperties;
+	[key: string]: properties | areaStateProperties | salesCostStateProperties;
 }
 
 interface Record extends properties {
@@ -63,9 +62,7 @@ export interface Storage extends properties {
 	errors: Array<string>;
 	record: Record;
 }
-const type = (getParams("tipo") !== ""
-? getParams("tipo")?.toUpperCase()
-: "TERRENO") as string
+const type = (getParams("tipo") !== "" ? getParams("tipo")?.toUpperCase() : "TERRENO") as string;
 export const initialState: Storage = {
 	status: "working",
 	factors: {
@@ -86,6 +83,7 @@ export const initialState: Storage = {
 	},
 	documentation: {
 		Area: areaState(type),
+		SalesCost: salesCostState(type),
 	},
 	errors: [],
 	record: {
@@ -99,7 +97,7 @@ export const initialState: Storage = {
 				? getParams("tipo_servicio")?.toUpperCase()
 				: "justipreciacion") as string,
 			status: "newOne",
-			hasIndiviso:true,
+			hasIndiviso: true,
 		},
 	},
 };

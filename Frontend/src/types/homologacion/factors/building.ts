@@ -60,6 +60,7 @@ export interface buildingStateProperties extends properties {
 const template = (id: number) => ({
 	id,
 	...options[0],
+	result: 1,
 });
 const insertion = (data: any) => {
 	const length = data.length;

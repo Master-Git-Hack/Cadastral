@@ -34,6 +34,7 @@ export const FancyInput: FC<{
 							: 2
 					}
 					step={props.isCurrency || props.isPercentage ? 1 : 0.01}
+					autoFocus
 					onBlur={toggleEditing}
 				/>
 			) : (

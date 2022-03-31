@@ -1,6 +1,6 @@
 /** @format */
 
-import { properties, operation  } from "../state";
+import { properties, operation } from "../state";
 export const options = [
 	{
 		type: "HABITACIONAL",
@@ -45,6 +45,7 @@ export interface usageStateProperties extends properties {
 const template = (id: number) => ({
 	id,
 	...options[0],
+	result: 1,
 });
 const insertion = (data: any) => {
 	const length = data.length;

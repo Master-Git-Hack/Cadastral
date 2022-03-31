@@ -11,9 +11,8 @@ export interface locationStateProperties extends properties {
 	data: Array<properties>;
 	options: any;
 }
-const operation = (items: any,) =>
-{
-	const columns =  Object.keys(items[0]).filter((key: string) => key.includes("C"));
+const operation = (items: any) => {
+	const columns = Object.keys(items[0]).filter((key: string) => key.includes("C"));
 	const results = columns.map((column: string) =>
 		items
 			.map((item: any) => ({
@@ -27,7 +26,7 @@ const operation = (items: any,) =>
 			),
 	);
 	return results.map((item: number, index: number) => ({ id: index + 1, value: item }));
-}
+};
 const templateSubject = (id: number) => ({
 	id,
 	C1: options[0],
@@ -46,15 +45,15 @@ const insertColumn = (columnName: string, item: any) => {
 
 const insertionSubject = (data: any) => {
 	const id = data.length + 1;
-	
+
 	const keys = Object.keys(data[id - 2]).filter((name: string) => name.includes("C"));
 	let newRow = templateSubject(id);
 	for (let i = 2; i <= keys.length; i++) {
 		newRow = newRow.insertion(`C${i}`, newRow);
 	}
-	data.push(newRow)
-	data.map((item:any)=>item.percentage=10/id)
-	return data
+	data.push(newRow);
+	data.map((item: any) => (item.percentage = 10 / id));
+	return data;
 };
 const insertionData = (id: number) => ({
 	id,

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
 import { getState } from "../features/homologation/slice";
 import Factors, { LocationZoneFactor } from "../components/homologation/factors";
+import AreaDocumentation from "../components/homologation/documentation/area";
 export default function Homologation() {
 	const dispatch = useAppDispatch();
 	const state = useAppSelector(getState);
@@ -10,6 +11,7 @@ export default function Homologation() {
 		factors: true,
 		location: false,
 		documentation: false,
+		selection: false,
 	});
 	console.log(state, visibility);
 	return (
@@ -32,6 +34,15 @@ export default function Homologation() {
 				setVisibility={setVisibility}
 			>
 				<LocationZoneFactor />
+			</Container>
+			<Container
+				previous="location"
+				current="documentation"
+				target="selection"
+				visibility={visibility}
+				setVisibility={setVisibility}
+			>
+				<AreaDocumentation />
 			</Container>
 		</div>
 	);

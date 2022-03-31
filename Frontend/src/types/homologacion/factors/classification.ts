@@ -1,6 +1,6 @@
 /** @format */
 
-import { properties, operation  } from "../state";
+import { properties, operation } from "../state";
 const options = [
 	{
 		type: "URBANO",
@@ -32,6 +32,7 @@ export interface classificationStateProperties extends properties {
 const template = (id: number) => ({
 	id,
 	...options[0],
+	result: 1,
 });
 const insertion = (data: any) => {
 	const length = data.length;

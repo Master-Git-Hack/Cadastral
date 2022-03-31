@@ -17,11 +17,31 @@ const operation = (data: any, factors: any) =>
 	data.map((item: any, index: number) => {
 		item.value = 1;
 		for (const key in factors) {
-			if (key !== "location" && key !== "zone" && key !== "surface" && key !== "commercial") {
+			if (
+				!key.includes("Location") &&
+				!key.includes("Zone") &&
+				!key.includes("Surface") &&
+				!key.includes("Commercial") &&
+				!key.includes("Results")
+			) {
 				item.value *= factors[key].data[index].result;
-			} else if (key === "surface" || key === "commercial") {
+				console.log(
+					`key:${key},index:${index},valor_actual:${item.value},resultado:${factors[key].data[index].result}`,
+				);
+			}
+			if (key.includes("Surface") || key.includes("Commercial") || key.includes("Location")) {
 				item.value *= factors[key].data[index].value;
-			} else item.value *= factors[key].results[index].value;
+				console.log(
+					`key:${key},index:${index},valor_actual:${item.value},resultado:${factors[key].data[index].value}`,
+				);
+			}
+
+			if (key.includes("Zone")) {
+				item.value *= factors[key].results[index].factor1;
+				console.log(
+					`key:${key},index:${index},valor_actual:${item.value},resultado:${factors[key].results[index].factor1}`,
+				);
+			}
 		}
 		return item;
 	});

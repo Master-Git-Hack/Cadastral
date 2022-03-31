@@ -67,11 +67,10 @@ export const AgeTable = () => {
 					<tr key={`table for ages, values section ${index}`}>
 						<td>C{item.id}</td>
 						<td colSpan={4}>
-							<input
-								type="number"
-								className="form-control form-control-sm text-center"
-								name="value"
-								value={Number(item.value)}
+							<FancyInput
+								index={index}
+								name="Ages"
+								value={item.value}
 								onChange={(event) =>
 									handleChange(
 										"Age",
@@ -84,6 +83,7 @@ export const AgeTable = () => {
 										index,
 									)
 								}
+								style={`text-center`}
 							/>
 						</td>
 						<td>{toFancyNumber(item.result)}</td>
@@ -94,11 +94,10 @@ export const AgeTable = () => {
 				<tr>
 					<td>SUJETO</td>
 					<td colSpan={5}>
-						<input
-							type="number"
-							className="form-control form-control-sm bg-warning text-center"
-							name="subject"
-							value={Number(subject.value)}
+						<FancyInput
+							index={0}
+							name="Ages"
+							value={subject.value}
 							onChange={(event) =>
 								handleChange(
 									"Age",
@@ -110,6 +109,7 @@ export const AgeTable = () => {
 									true,
 								)
 							}
+							style={`text-center bg-warning`}
 						/>
 					</td>
 				</tr>
@@ -217,12 +217,7 @@ export const CommonTable = (props: { id: number; name: string }) => {
 							colSpan={1}
 							rowSpan={1}
 						>
-							{toFancyNumber(
-								subject.value / item.value ? subject.value / item.value : 0,
-								false,
-								false,
-								2,
-							)}
+							{toFancyNumber(Number(item.result.toFixed(2)), false, false, 2)}
 						</td>
 					</tr>
 				))}
@@ -414,7 +409,9 @@ const ZoneExtra = () => {
 					<tr key={`row at zone extra information ${index}`}>
 						<td>C{item.id}</td>
 						{headers.map((key: string, id: number) => (
-							<td key={`column generator ${index} ${id}`}>{results[index][key]}</td>
+							<td key={`column generator ${index} ${id}`}>
+								{toFancyNumber(Number(results[index][key].toFixed(2)))}
+							</td>
 						))}
 					</tr>
 				))}

@@ -8,7 +8,7 @@ export const operation = (data: any, subject: any) =>
 	data.map((item: any) => {
 		item.result = subject.value / item.value;
 		return item;
-});
+	});
 
 export const symbolsOptions = [
 	{

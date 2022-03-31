@@ -22,11 +22,12 @@ export const toFancyNumber: Function = (
 	isCurrency: boolean = false,
 	isPercentage: boolean = false,
 	decimals: number = 2,
-): string =>new Intl.NumberFormat("es-MX", {
-	style: isCurrency ? "currency" : isPercentage ? "percent" : "decimal",
-	minimumFractionDigits: decimals,
-	currency: isCurrency ? "MXN" : undefined,
-}).format(isPercentage && !isCurrency ? value / 100 : value)
+): string =>
+	new Intl.NumberFormat("es-MX", {
+		style: isCurrency ? "currency" : isPercentage ? "percent" : "decimal",
+		minimumFractionDigits: decimals,
+		currency: isCurrency ? "MXN" : undefined,
+	}).format(isPercentage && !isCurrency ? value / 100 : value);
 
 /**
  * @param value number that will round to the nearest tenth
@@ -48,3 +49,10 @@ export const getParams = (key: string) => {
 	const params = new URLSearchParams(window.location.search);
 	return params.get(key) !== null && params.get(key) !== undefined ? params.get(key) : "";
 };
+
+export const toBase64 = (file:any)=>new Promise((resolve,reject)=>{
+	const reader = new FileReader();
+	reader.readAsDataURL(file);
+	reader.onload = ()=>resolve(reader.result);
+	reader.onerror = error=>reject(error);
+})
