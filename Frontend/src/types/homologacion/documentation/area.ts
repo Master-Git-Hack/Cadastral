@@ -27,7 +27,7 @@ const template = (id: number, type: string) => ({
 			factor1: 1,
 			factor2: 1,
 			type: type.includes("TERRENO") ? usage[0].type : building[0].type,
-			date: date.format("yyyy-MM-D"),
+			date: date.format("yyyy-MM-DD"),
 			observations: "",
 			reference: "",
 			document: {

@@ -20,7 +20,10 @@ import { zoneStateProperties, zoneState } from "./factors/zone";
 //documentation
 import { areaState, areaStateProperties } from "./documentation/area";
 import { salesCostStateProperties, salesCostState } from "./documentation/salesCost";
-
+import {
+	weightingPercentageStateProperties,
+	weightingPercentageState,
+} from "./documentation/weightingPercentage";
 interface Factors extends properties {
 	[key: string]:
 		| properties
@@ -40,7 +43,11 @@ interface Factors extends properties {
 		| zoneStateProperties;
 }
 interface Documentation extends properties {
-	[key: string]: properties | areaStateProperties | salesCostStateProperties;
+	[key: string]:
+		| properties
+		| areaStateProperties
+		| salesCostStateProperties
+		| weightingPercentageStateProperties;
 }
 
 interface Record extends properties {
@@ -84,6 +91,7 @@ export const initialState: Storage = {
 	documentation: {
 		Area: areaState(type),
 		SalesCost: salesCostState(type),
+		WeightingPercentage: weightingPercentageState,
 	},
 	errors: [],
 	record: {

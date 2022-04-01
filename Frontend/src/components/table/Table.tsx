@@ -3,8 +3,10 @@
 const className =
 	"align-self-middle align-middle justify-content-center justify-content-sm-center text-center";
 
-export const Table = (props: { children: any }) => (
-	<table className="table table-sm table-responsive table-responsive-sm table-striped table-bordered table-hover">
+export const Table = (props: { children: any; style?: string }) => (
+	<table
+		className={`table table-sm table-responsive table-responsive-sm table-striped table-bordered table-hover align-self-middle align-middle justify-content-center justify-content-sm-center text-center ${props.style}`}
+	>
 		{props.children}
 	</table>
 );

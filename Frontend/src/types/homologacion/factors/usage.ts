@@ -54,8 +54,8 @@ const insertion = (data: any) => {
 export const usageState: usageStateProperties = {
 	name: "Uso",
 	tag: "FUso.",
-	isUsed: true,
-	position: 9,
+	isUsed: false,
+	position: 0,
 	subject: options[0],
 	data: [template(1)],
 	operation,

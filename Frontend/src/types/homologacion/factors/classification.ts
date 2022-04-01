@@ -41,8 +41,8 @@ const insertion = (data: any) => {
 export const classificationState: classificationStateProperties = {
 	name: "Clasificación",
 	tag: "FClas.",
-	isUsed: true,
-	position: 2,
+	isUsed: false,
+	position: 0,
 	subject: options[0],
 	data: [template(1)],
 	operation,

@@ -50,8 +50,8 @@ const insertion = (data: any) => {
 export const typeFormState: typeFormStateProperties = {
 	name: "Forma",
 	tag: "FFo.",
-	isUsed: true,
-	position: 8,
+	isUsed: false,
+	position: 0,
 	subject: options[0],
 	data: [template(1)],
 	operation,

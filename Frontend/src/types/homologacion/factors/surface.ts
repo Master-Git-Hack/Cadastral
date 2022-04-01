@@ -29,7 +29,7 @@ export const surfaceState: surfaceStateProperties = {
 	name: "Superficie",
 	tag: "FSup.",
 	isUsed: true,
-	position: 6,
+	position: 1,
 	root: {
 		value: 8,
 		enabled: false,

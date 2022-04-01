@@ -24,6 +24,6 @@ export const salesCostState = (type: string): salesCostStateProperties => ({
 		result: 1,
 		reFactor: 1,
 	},
-    template:templateData,
-    templateResults
+	template: templateData,
+	templateResults,
 });

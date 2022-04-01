@@ -61,8 +61,8 @@ const insertion = (data: any) => {
 export const projectState: projectStateProperties = {
 	name: "Proyecto",
 	tag: "FProy.",
-	isUsed: true,
-	position: 4,
+	isUsed: false,
+	position: 0,
 	subject: options[0],
 	data: [template(1)],
 	operation,

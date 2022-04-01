@@ -2,6 +2,7 @@
 import { Header, Body, SingleColumnInARow, Footer, Table } from "../table/Table";
 import { ZoneExtraInformationTable } from "./documentation/area";
 import { AgeTable, CommonTable, SymbolsTable } from "./factors/tables";
+import { SelectFactorsComponent } from "./factors/select";
 import { useAppDispatch } from "../../hooks/store";
 import { addRow, removeRow } from "../../features/homologation/slice";
 export default function Factors() {
@@ -123,10 +124,16 @@ export const ZoneFactor = () => (
 		<SymbolsTable id={10} name="Zone" />
 	</div>
 );
+
 export const LocationZoneFactor = () => (
 	<div className="col justify-content-center px-5 my-3 mx-5">
 		<LocationFactor />
 		<ZoneExtraInformationTable />
 		<ZoneFactor />
+	</div>
+);
+export const SelectFactors = () => (
+	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+		<SelectFactorsComponent />
 	</div>
 );

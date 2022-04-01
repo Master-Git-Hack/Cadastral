@@ -2,15 +2,184 @@
 import { Fragment } from "react";
 import {
 	getState,
+	updateFactorStateCommon,
 	updateDocumentationStateArea,
 	updateDocumentationStateSalesCost,
+	updateDocumentationStateWeightingPercentage,
 } from "../../../features/homologation/slice";
+import { HandleSurfaceRoot } from "../factors/surface";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { toBase64, toFancyNumber } from "../../../utils/utils";
 import { FancyInput } from "../../inputs/fancyInput";
 import { Table, Body, Header } from "../../table/Table";
 import FileSaver from "file-saver";
-export default function AreaDocumentation() {
+export default function Area() {
+	return (
+		<div className="row">
+			<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+				<AreaDocumentation />
+			</div>
+			<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+				<AreaCalculation />
+			</div>
+		</div>
+	);
+}
+export const AreaCalculation = () => {
+	const dispatch = useAppDispatch();
+	const { Area, SalesCost, WeightingPercentage } = useAppSelector(getState).documentation;
+	const { data } = Area;
+	const { Surface, Commercial } = useAppSelector(getState).factors;
+	const { type } = useAppSelector(getState).record.homologacion;
+	const percentage = WeightingPercentage.total;
+	return (
+		<Table>
+			<Header>
+				<tr>
+					<th>#</th>
+					<th>
+						{type.includes("TERRENO") ? (
+							SalesCost.tag
+						) : (
+							<>
+								Sup. Terreno ( $ / m<sup>2</sup> )
+							</>
+						)}
+					</th>
+
+					<th>
+						{Area.name}(m<sup>2</sup>)
+					</th>
+					<th className="align-middle">
+						Precio Unitario ( $ / m<sup>2</sup> )
+					</th>
+					<th className="align-middle">
+						Factor de Superficie
+						<HandleSurfaceRoot />
+					</th>
+
+					<th className="align-middle">Factor de Comercialización</th>
+					<th className="align-middle">
+						Ponderación
+						<br />
+						<small
+							className={`badge rounded-pill bg-${
+								percentage === 100
+									? "success"
+									: percentage > 100
+									? "danger"
+									: "warning"
+							}`}
+						>
+							{toFancyNumber(percentage, false, true, 0)}
+						</small>
+					</th>
+				</tr>
+			</Header>
+			<Body>
+				{data.map((item: any, index: number) => (
+					<tr key={`row of columns to handle area operations ${index}`}>
+						<td>C{item.id}</td>
+						<td>
+							<FancyInput
+								index={index}
+								name={type.includes("TERRENO") ? "salesCost" : "surface"}
+								value={
+									type.includes("TERRENO")
+										? SalesCost.data[index].value
+										: item.surface
+								}
+								onChange={(event: any) =>
+									dispatch(
+										type.includes("TERRENO")
+											? updateDocumentationStateSalesCost({
+													key: "data",
+													index,
+													object: "value",
+													value: Number(event.target.value),
+											  })
+											: updateDocumentationStateArea({
+													key: "data",
+													index,
+													object: "surface",
+													value: Number(event.target.value),
+											  }),
+									)
+								}
+								isCurrency={type.includes("TERRENO")}
+							/>
+						</td>
+						<td>
+							<FancyInput
+								index={index}
+								name="area"
+								value={item.value}
+								onChange={(event) =>
+									dispatch(
+										updateDocumentationStateArea({
+											key: "data",
+											index,
+											object: "value",
+											value: Number(event.target.value),
+										}),
+									)
+								}
+							/>
+						</td>
+						<td>
+							{toFancyNumber(
+								Number(SalesCost.data[index].unitaryCost.toFixed(2)),
+								true,
+							)}
+						</td>
+						<td>{toFancyNumber(Number(Surface.data[index].value.toFixed(2)))}</td>
+						<td>
+							<FancyInput
+								index={index}
+								name="commercial"
+								value={Commercial.data[index].value}
+								onChange={(event) =>
+									dispatch(
+										updateFactorStateCommon({
+											key: "Commercial",
+											index,
+											object: "data",
+											value: {
+												value: Number(event.target.value),
+											},
+										}),
+									)
+								}
+								style={`text-center`}
+							/>
+						</td>
+						<td>
+							<FancyInput
+								index={index}
+								name="weightingPercentage"
+								value={WeightingPercentage.data[index].value}
+								onChange={(event) =>
+									dispatch(
+										updateDocumentationStateWeightingPercentage({
+											key: "data",
+											index,
+											object: "value",
+											value: Number(event.target.value),
+										}),
+									)
+								}
+								isPercentage={true}
+								style={`text-center`}
+							/>
+						</td>
+					</tr>
+				))}
+			</Body>
+		</Table>
+	);
+};
+
+export const AreaDocumentation = () => {
 	const dispatch = useAppDispatch();
 	const { Area, SalesCost } = useAppSelector(getState).documentation;
 	const { data, typeOptions } = Area;
@@ -255,7 +424,7 @@ export default function AreaDocumentation() {
 			</Body>
 		</Table>
 	);
-}
+};
 const HandleDocuments = (props: { index: number; extras: any; dispatch: Function }) => (
 	<div className="mt-2">
 		<input
@@ -414,6 +583,7 @@ const HeaderZone = (props: {
 						<th colSpan={2}>Raíz {factor.id}</th>
 						<th colSpan={6}>
 							<SelectRootValue
+								initialValue={2}
 								name={`Raíz ${factor.id} ${index}`}
 								value={factor.root}
 								onChange={(event: any) =>
@@ -536,9 +706,9 @@ export const SelectLocation = (props: {
 		</select>
 	);
 };
-const RootOptions = (props: { name: string }) => {
+const RootOptions = (props: { name: string; initialValue: number }) => {
 	const options = [];
-	for (let i = 2; i <= 12; i++) options.push(i);
+	for (let i = props.initialValue; i <= 12; i++) options.push(i);
 	return (
 		<>
 			{options.map((item: any) => (
@@ -549,9 +719,14 @@ const RootOptions = (props: { name: string }) => {
 		</>
 	);
 };
-export const SelectRootValue = (props: { name: string; value: number; onChange: any }) => (
+export const SelectRootValue = (props: {
+	name: string;
+	value: number;
+	onChange: any;
+	initialValue: number;
+}) => (
 	<select className="form-select form-select-sm" value={props.value} onChange={props.onChange}>
-		<RootOptions name={props.name} />
+		<RootOptions {...props} />
 	</select>
 );
 const SelectFactorsHeader = (props: {

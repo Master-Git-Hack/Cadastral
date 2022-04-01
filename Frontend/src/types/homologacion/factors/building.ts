@@ -69,8 +69,8 @@ const insertion = (data: any) => {
 export const buildingState: buildingStateProperties = {
 	name: "Construcción",
 	tag: "FCons.",
-	isUsed: true,
-	position: 1,
+	isUsed: false,
+	position: 0,
 	subject: options[0],
 	data: [template(1)],
 	operation,

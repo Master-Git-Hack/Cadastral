@@ -57,8 +57,8 @@ const insertion = (data: any) => {
 export const qualityState: qualityStateProperties = {
 	name: "Calidad",
 	tag: "FCal.",
-	isUsed: true,
-	position: 5,
+	isUsed: false,
+	position: 0,
 	subject: options[0],
 	data: [template(1)],
 	operation,

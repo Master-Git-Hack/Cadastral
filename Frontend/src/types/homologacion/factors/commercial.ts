@@ -21,7 +21,7 @@ export const commercialState: commercialStateProperties = {
 	name: "Comercialización",
 	tag: "FCom.",
 	isUsed: true,
-	position: 12,
+	position: 13,
 	data: [template(1)],
 	insertion,
 	template,

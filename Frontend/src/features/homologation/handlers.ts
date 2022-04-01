@@ -20,11 +20,14 @@ export const handlerAddRow = (state: any) => {
 	}
 	for (const key in documentation) {
 		const id = documentation[key].data.length + 1;
-		if (key.includes("Area")) {
+		if (key.includes("Area") || key.includes("WeightingPercentage")) {
 			const { type } = state.record.homologacion;
 			documentation[key].data.push(documentation[key].template(id, type));
+			if (key.includes("WeightingPercentage")) {
+				documentation[key].data.map((item: any) => (item.value = 100 / id));
+			}
 		}
-		if(key.includes("SalesCost")){
+		if (key.includes("SalesCost")) {
 			documentation[key].data.push(documentation[key].template(id));
 			documentation[key].results.push(documentation[key].templateResults(id));
 		}

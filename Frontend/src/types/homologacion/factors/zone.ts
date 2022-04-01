@@ -72,8 +72,8 @@ const handleResults = (area: any) =>
 export const zoneState: zoneStateProperties = {
 	name: "Zona",
 	tag: "FZon.",
-	isUsed: true,
-	position: 10,
+	isUsed: false,
+	position: 0,
 	subject: [templateSubject(1)],
 	data: [templateData(1)],
 	results: [templateResults(1)],

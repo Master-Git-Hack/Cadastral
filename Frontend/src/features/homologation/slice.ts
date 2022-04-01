@@ -9,6 +9,9 @@ export const slice = createSlice({
 	name: "homologation",
 	initialState,
 	reducers: {
+		setIndiviso(state, action: PayloadAction<any>) {
+			state.record.homologacion.hasIndiviso = action.payload;
+		},
 		addRow(state) {
 			const result = handlerAddRow(state);
 			state.factors = result.factors;
@@ -20,6 +23,14 @@ export const slice = createSlice({
 			const { insertionSubject, subject } = state.factors[key];
 			state.factors[key].subject = insertionSubject(subject);
 			state = handleUpdateOperationValues(state);
+		},
+		setVisibilityOrderFactors(state, action: PayloadAction<any>) {
+			const { key, value } = action.payload;
+			const data = state.factors[key];
+			state.factors[key] = {
+				...data,
+				...value,
+			};
 		},
 		removeRow(state) {
 			const result = handlerRemoveRow(state);
@@ -63,8 +74,10 @@ export const slice = createSlice({
 					...value,
 				};
 			}
-			const { operation, data, subject } = state.factors[key];
-			state.factors[key].data = operation(data, subject);
+			if (!key.includes("Surface") && !key.includes("Commercial")) {
+				const { operation, data, subject } = state.factors[key];
+				state.factors[key].data = operation(data, subject);
+			}
 			state = handleUpdateOperationValues(state);
 		},
 		updateFactorStateLocationZone(state, action: PayloadAction<any>) {
@@ -94,9 +107,19 @@ export const slice = createSlice({
 			state = handleUpdateOperationValues(state);
 		},
 		updateDocumentationStateSalesCost(state, action: PayloadAction<any>) {
-			const {key,object,index,value} = action.payload;
-			if(index !== undefined && object !== "data"){
+			const { key, object, index, value } = action.payload;
+			if (index !== undefined && object !== "data") {
 				state.documentation.SalesCost[key][index][object] = value;
+				state = handleUpdateOperationValues(state);
+			}
+		},
+		updateDocumentationStateWeightingPercentage(state, action: PayloadAction<any>) {
+			const { key, object, index, value } = action.payload;
+			if (index !== undefined && object !== "data") {
+				state.documentation.WeightingPercentage[key][index][object] = value;
+				const { calculation, data } = state.documentation.WeightingPercentage;
+				state.documentation.WeightingPercentage.total = calculation(data);
+				state = handleUpdateOperationValues(state);
 			}
 		},
 	},
@@ -104,14 +127,17 @@ export const slice = createSlice({
 });
 export const {
 	addRow,
+	setIndiviso,
 	addRowLocationZone,
 	removeRow,
 	removeRowLocationZone,
 	updateFactorStateAge,
 	updateFactorStateCommon,
+	setVisibilityOrderFactors,
 	updateFactorStateLocationZone,
 	updateDocumentationStateArea,
 	updateDocumentationStateSalesCost,
+	updateDocumentationStateWeightingPercentage,
 } = slice.actions;
 export const getState = (state: RootState) => state.homologation;
 export default slice.reducer;

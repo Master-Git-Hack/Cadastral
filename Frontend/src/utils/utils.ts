@@ -50,9 +50,10 @@ export const getParams = (key: string) => {
 	return params.get(key) !== null && params.get(key) !== undefined ? params.get(key) : "";
 };
 
-export const toBase64 = (file:any)=>new Promise((resolve,reject)=>{
-	const reader = new FileReader();
-	reader.readAsDataURL(file);
-	reader.onload = ()=>resolve(reader.result);
-	reader.onerror = error=>reject(error);
-})
+export const toBase64 = (file: any) =>
+	new Promise((resolve, reject) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = () => resolve(reader.result);
+		reader.onerror = (error) => reject(error);
+	});

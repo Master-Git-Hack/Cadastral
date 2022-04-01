@@ -48,9 +48,10 @@ const handleChange = (
 export const AgeTable = () => {
 	const dispatch = useAppDispatch();
 	const { Age } = useAppSelector(getState).factors;
-	const { data, subject, isUsed, name } = Age;
+	const { data, subject, name } = Age;
+	const { type } = useAppSelector(getState).record.homologacion;
 
-	return isUsed ? (
+	return !type.includes("TERRENO") ? (
 		<Table>
 			<Header>
 				<Title title={name} />

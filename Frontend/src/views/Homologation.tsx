@@ -1,26 +1,31 @@
 /** @format */
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
-import { getState } from "../features/homologation/slice";
-import Factors, { LocationZoneFactor } from "../components/homologation/factors";
-import AreaDocumentation from "../components/homologation/documentation/area";
+import { getState, setIndiviso } from "../features/homologation/slice";
+import Factors, { LocationZoneFactor, SelectFactors } from "../components/homologation/factors";
+import Area from "../components/homologation/documentation/area";
+import BigPicture from "../components/homologation/bigPicture";
 export default function Homologation() {
 	const dispatch = useAppDispatch();
 	const state = useAppSelector(getState);
+	const { type, hasIndiviso } = state.record.homologacion;
 	const [visibility, setVisibility] = useState({
 		factors: true,
 		location: false,
 		documentation: false,
 		selection: false,
+		bigPicture: false,
+		reFactor: false,
 	});
-	console.log(state, visibility);
+	console.log(state);
 	return (
 		<div className="mx-5 px-5">
-			Homologation
+			Homologación de tipo: <strong>{type}</strong>
 			<Container
 				previous=""
 				current="factors"
 				target="location"
+				hasIndiviso={true}
 				visibility={visibility}
 				setVisibility={setVisibility}
 			>
@@ -30,6 +35,7 @@ export default function Homologation() {
 				previous="factors"
 				current="location"
 				target="documentation"
+				hasIndiviso={true}
 				visibility={visibility}
 				setVisibility={setVisibility}
 			>
@@ -39,10 +45,52 @@ export default function Homologation() {
 				previous="location"
 				current="documentation"
 				target="selection"
+				hasIndiviso={true}
 				visibility={visibility}
 				setVisibility={setVisibility}
 			>
-				<AreaDocumentation />
+				<Area />
+			</Container>
+			<Container
+				previous="documentation"
+				current="selection"
+				target="bigPicture"
+				hasIndiviso={true}
+				visibility={visibility}
+				setVisibility={setVisibility}
+			>
+				<SelectFactors />
+			</Container>
+			<Container
+				previous="selection"
+				current="bigPicture"
+				target={hasIndiviso ? "reFactor" : ""}
+				hasIndiviso={hasIndiviso}
+				visibility={visibility}
+				setVisibility={setVisibility}
+			>
+				{type.includes("TERRENO") ? (
+					<div className="form-check form-switch form-check-sm form-switch-sm mb-3">
+						<input
+							className="form-check-input form-check-input-sm "
+							type="checkbox"
+							checked={hasIndiviso}
+							onChange={(event: any) => dispatch(setIndiviso(event.target.checked))}
+						/>
+						Realizar Proceso de Indiviso
+					</div>
+				) : null}
+				<BigPicture />
+			</Container>
+			<Container
+				previous="bigPicture"
+				current="reFactor"
+				target=""
+				hasIndiviso={false}
+				visibility={visibility}
+				setVisibility={setVisibility}
+			>
+				{}
 			</Container>
 		</div>
 	);
@@ -52,7 +100,9 @@ const NavigationButton = (props: {
 	current: string;
 	target: string;
 	visibility: { [key: string]: boolean };
+
 	setVisibility: Function;
+	hasIndiviso: boolean;
 }) => {
 	const handleVisibility = (target: string) => {
 		const aux = props.visibility;
@@ -65,7 +115,7 @@ const NavigationButton = (props: {
 	return (
 		<div className="row my-2 text-center mb-5">
 			<div className="col text-start">
-				{props.current !== "factors" ? (
+				{!props.current.includes("factors") ? (
 					<button
 						className="btn btn-sm btn-link"
 						onClick={() => handleVisibility(props.previous)}
@@ -75,7 +125,7 @@ const NavigationButton = (props: {
 				) : null}
 			</div>
 			<div className="col text-end">
-				{props.current !== "x" ? (
+				{!props.current.includes("reFactor") && props.hasIndiviso ? (
 					<button
 						className="btn btn-sm btn-outline-info"
 						onClick={() => handleVisibility(props.target)}
@@ -91,6 +141,7 @@ const Container = (props: {
 	previous: string;
 	current: string;
 	target: string;
+	hasIndiviso: boolean;
 	visibility: { [key: string]: boolean };
 	setVisibility: Function;
 	children: any;

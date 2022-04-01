@@ -41,8 +41,8 @@ const insertion = (data: any) => {
 export const levelState: levelStateProperties = {
 	name: "Nivel",
 	tag: "FNiv.",
-	isUsed: true,
-	position: 3,
+	isUsed: false,
+	position: 0,
 	subject: options[0],
 	data: [template(1)],
 	operation,

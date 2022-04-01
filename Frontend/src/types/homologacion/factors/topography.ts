@@ -42,8 +42,8 @@ const insertion = (data: any) => {
 export const topographyState: topographyStateProperties = {
 	name: "Topografía",
 	tag: "FTop.",
-	isUsed: true,
-	position: 7,
+	isUsed: false,
+	position: 0,
 	subject: options[0],
 	data: [template(1)],
 	operation,
