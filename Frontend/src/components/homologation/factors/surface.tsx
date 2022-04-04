@@ -4,6 +4,7 @@ import { getState, updateFactorStateCommon } from "../../../features/homologatio
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { Modal } from "react-bootstrap";
 import { SelectRootValue } from "../documentation/area";
+import ReactTooltip from "react-tooltip";
 const SurfaceRoot = (props: {
 	dispatch: Function;
 	enabled: boolean;
@@ -104,6 +105,7 @@ export const HandleSurfaceRoot = () => {
 			<button className="btn btn-sm btn-link" onClick={(event: any) => setShow(!show)}>
 				Cambiar Raíz
 			</button>
+
 			<SurfaceRoot {...props} />
 		</>
 	);

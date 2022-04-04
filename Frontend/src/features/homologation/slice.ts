@@ -24,6 +24,11 @@ export const slice = createSlice({
 			state.factors[key].subject = insertionSubject(subject);
 			state = handleUpdateOperationValues(state);
 		},
+		addRowSupplementary(state) {
+			const { template, data } = state.supplementaryWorks;
+			const id = data.length + 1;
+			state.supplementaryWorks.data.push(template(id));
+		},
 		setVisibilityOrderFactors(state, action: PayloadAction<any>) {
 			const { key, value } = action.payload;
 			const data = state.factors[key];
@@ -38,6 +43,12 @@ export const slice = createSlice({
 			state.documentation = result.documentation;
 			state = handleUpdateOperationValues(state);
 		},
+		removeRowSupplementary(state) {
+			const { data } = state.supplementaryWorks;
+			if (data.length > 1) {
+				state.supplementaryWorks.data.pop();
+			}
+		},
 		removeRowLocationZone(state, action: PayloadAction<any>) {
 			const { key } = action.payload;
 			const length = state.factors[key].subject.length;
@@ -48,6 +59,19 @@ export const slice = createSlice({
 				);
 				state = handleUpdateOperationValues(state);
 			}
+		},
+		updateSupplementary(state, action: PayloadAction<any>) {
+			const { index, key, value, object } = action.payload;
+			if (object !== undefined) {
+				state.supplementaryWorks.data[index][key][object] = value;
+			} else {
+				state.supplementaryWorks.data[index][key] = value;
+			}
+			if (key.includes("state")) {
+			}
+			const { getTotal, operation, data } = state.supplementaryWorks;
+			state.supplementaryWorks.data = operation(data);
+			state.supplementaryWorks.total = getTotal(data);
 		},
 		updateFactorStateAge(state, action: PayloadAction<any>) {
 			const { key, object, index, value } = action.payload;
@@ -129,6 +153,9 @@ export const {
 	addRow,
 	setIndiviso,
 	addRowLocationZone,
+	addRowSupplementary,
+	removeRowSupplementary,
+	updateSupplementary,
 	removeRow,
 	removeRowLocationZone,
 	updateFactorStateAge,

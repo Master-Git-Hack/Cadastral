@@ -44,7 +44,7 @@ export default function BigPicture() {
 	useEffect(() => {
 		countFactorsUsed();
 	}, []);
-
+	const footerLength = (type.includes("TERRENO") ? -3 : -2) + factorsUsed;
 	return (
 		<Table style={`mb-5`}>
 			<Header>
@@ -79,7 +79,43 @@ export default function BigPicture() {
 				factors={factors}
 				type={type}
 			/>
-			<Footer>{}</Footer>
+			<Footer>
+				<tr>
+					<td rowSpan={2} colSpan={type.includes("TERRENO") ? 2 : 1}>
+						SUJETO
+					</td>
+					{!type.includes("TERRENO") ? (
+						<td rowSpan={2}>
+							{toFancyNumber(
+								Number(documentation.Area.averageLotArea.surface.toFixed(2)),
+							)}
+						</td>
+					) : null}
+					<td rowSpan={2}>
+						{toFancyNumber(Number(documentation.Area.averageLotArea.value.toFixed(2)))}
+					</td>
+					<td className="text-start" colSpan={footerLength} rowSpan={2}>
+						m<sup>2</sup>
+					</td>
+					<td colSpan={type.includes("TERRENO") ? 4 : 5} className="text-end">
+						Valor Unitario Promedio
+					</td>
+					<td>
+						{toFancyNumber(
+							Number(documentation.SalesCost.averageUnitCost.value.toFixed(2)),
+							true,
+						)}
+					</td>
+				</tr>
+				<tr>
+					<td colSpan={type.includes("TERRENO") ? 4 : 5} className="text-end">
+						Valor Unitario Aplicable en Números Redondos
+					</td>
+					<td>
+						{toFancyNumber(documentation.SalesCost.averageUnitCost.roundedValue, true)}
+					</td>
+				</tr>
+			</Footer>
 		</Table>
 	);
 }

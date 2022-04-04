@@ -4,7 +4,7 @@ import { DocumentProperties } from "../components/handleReports/documentProperti
 import { getState, getReportsJoined } from "../features/handleReports/slice";
 import { useAppSelector, useAppDispatch } from "../hooks/store";
 import FileSaver from "file-saver";
-
+import download from "bootstrap-icons/icons/download.svg";
 export default function HandleReports() {
 	const state = useAppSelector(getState);
 	const { status, document, filename } = state;
@@ -27,6 +27,6 @@ const SaveButton = (props: { state: any; dispatch: Function }) => (
 		onClick={() => props.dispatch(getReportsJoined(props.state))}
 		className="btn btn-sm btn-success"
 	>
-		Descargar Documento
+		Descargar Documento <img src={download} className="mb-1" alt="Descargar" />
 	</button>
 );

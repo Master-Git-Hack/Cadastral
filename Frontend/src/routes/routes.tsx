@@ -6,6 +6,7 @@ import { NavigationBar } from "../components/navigation/navbar";
 import Index from "../views/Index";
 import ErrorPage from "../views/ErrorPage";
 import Homologation from "../views/Homologation";
+import SupplementaryWorks from "../views/Homologation/SupplementaryWorks";
 import HandleReports from "../views/HandleReports";
 export const WithNavigation: FC = () => (
 	<Fragment>
@@ -21,6 +22,7 @@ export const WithNavigation: FC = () => (
 export const SinglePages: FC = () => (
 	<Routes>
 		<Route path="/homologaciones/" element={<Homologation />} />
+		<Route path="/homologaciones/Obras-Complementarias" element={<SupplementaryWorks />} />
 		<Route path="*" element={<ErrorPage />} />
 	</Routes>
 );

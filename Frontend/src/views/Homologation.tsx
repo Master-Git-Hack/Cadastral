@@ -5,6 +5,7 @@ import { getState, setIndiviso } from "../features/homologation/slice";
 import Factors, { LocationZoneFactor, SelectFactors } from "../components/homologation/factors";
 import Area from "../components/homologation/documentation/area";
 import BigPicture from "../components/homologation/bigPicture";
+import ReFactor from "../components/homologation/documentation/reFactor";
 export default function Homologation() {
 	const dispatch = useAppDispatch();
 	const state = useAppSelector(getState);
@@ -90,7 +91,7 @@ export default function Homologation() {
 				visibility={visibility}
 				setVisibility={setVisibility}
 			>
-				{}
+				<ReFactor />
 			</Container>
 		</div>
 	);
@@ -147,7 +148,7 @@ const Container = (props: {
 	children: any;
 }) =>
 	props.visibility[props.current] ? (
-		<div className="container container-fluid card p-4">
+		<div className="container container-fluid py-4 px-auto">
 			{props.children}
 			<NavigationButton {...props} />
 		</div>

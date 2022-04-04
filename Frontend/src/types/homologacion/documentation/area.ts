@@ -73,6 +73,7 @@ export const areaState = (type: string): areaStateProperties => ({
 	averageLotArea: {
 		name: type.includes("TERRENO") ? "SUPERFICIE LOTE MODA" : "SUPERFICIE DEL COMPARABLE",
 		value: 0,
+		surface: 1,
 		operation: operationAverageLotArea,
 	},
 	subject: {

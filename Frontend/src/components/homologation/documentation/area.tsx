@@ -11,15 +11,16 @@ import { HandleSurfaceRoot } from "../factors/surface";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { toBase64, toFancyNumber } from "../../../utils/utils";
 import { FancyInput } from "../../inputs/fancyInput";
-import { Table, Body, Header } from "../../table/Table";
+import { Table, Body, Header, Footer } from "../../table/Table";
+import ReactTooltip from "react-tooltip";
 import FileSaver from "file-saver";
 export default function Area() {
 	return (
 		<div className="row">
-			<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+			<div className="col d-flex justify-content-center px-5 my-3 mx-auto">
 				<AreaDocumentation />
 			</div>
-			<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+			<div className="col d-flex justify-content-center px-5 my-3 mx-auto">
 				<AreaCalculation />
 			</div>
 		</div>
@@ -50,16 +51,18 @@ export const AreaCalculation = () => {
 					<th>
 						{Area.name}(m<sup>2</sup>)
 					</th>
-					<th className="align-middle">
+					<th className=" align-middle">
 						Precio Unitario ( $ / m<sup>2</sup> )
 					</th>
-					<th className="align-middle">
+					<th className=" align-middle">
 						Factor de Superficie
 						<HandleSurfaceRoot />
 					</th>
 
-					<th className="align-middle">Factor de Comercialización</th>
-					<th className="align-middle">
+					<th className=" align-middle" style={{ maxWidth: 130 }}>
+						Factor de Comercialización
+					</th>
+					<th className=" align-middle">
 						Ponderación
 						<br />
 						<small
@@ -132,8 +135,20 @@ export const AreaCalculation = () => {
 								true,
 							)}
 						</td>
-						<td>{toFancyNumber(Number(Surface.data[index].value.toFixed(2)))}</td>
 						<td>
+							<span data-tip data-for={`fancyInput-displayed-${index}-surface`}>
+								{toFancyNumber(Number(Surface.data[index].value.toFixed(2)))}
+							</span>
+							<ReactTooltip
+								id={`fancyInput-displayed-${index}-surface`}
+								place="bottom"
+								type="dark"
+								effect="solid"
+							>
+								{`(${item.value} / ${Area.averageLotArea.value}) ^ (1 / ${Surface.root.value})`}{" "}
+							</ReactTooltip>
+						</td>
+						<td style={{ maxWidth: 130 }}>
 							<FancyInput
 								index={index}
 								name="commercial"
@@ -153,7 +168,7 @@ export const AreaCalculation = () => {
 								style={`text-center`}
 							/>
 						</td>
-						<td>
+						<td style={{ maxWidth: 100 }}>
 							<FancyInput
 								index={index}
 								name="weightingPercentage"
@@ -175,6 +190,25 @@ export const AreaCalculation = () => {
 					</tr>
 				))}
 			</Body>
+			<Footer>
+				<tr>
+					<td colSpan={type.includes("TERRENO") ? 2 : 1}>SUJETO</td>
+					{!type.includes("TERRENO") ? (
+						<td>
+							<FancyInput
+								index={0}
+								name="area subject"
+								value={Area.averageLotArea.surface}
+								onChange={() => {}}
+							/>
+						</td>
+					) : null}
+					<td>{toFancyNumber(Number(Area.averageLotArea.value.toFixed(2)))}</td>
+					<td className="text-start" colSpan={4}>
+						m<sup>2</sup>
+					</td>
+				</tr>
+			</Footer>
 		</Table>
 	);
 };
@@ -223,7 +257,10 @@ export const AreaDocumentation = () => {
 							/>
 						</td>
 						<td>
-							<div className="mx-2" style={{ minWidth: 125 }}>
+							<div
+								className="mx-2"
+								style={{ minWidth: !item.address.hasNoStreetNumber ? 125 : 50 }}
+							>
 								{!item.address.hasNoStreetNumber ? (
 									<div className="mb-2">
 										<input
@@ -246,7 +283,7 @@ export const AreaDocumentation = () => {
 								) : null}
 								<div className="form-check form-switch form-check-sm form-switch-sm">
 									<input
-										className="form-check-input form-check-input-sm "
+										className="form-check-input form-check-input-sm"
 										type="checkbox"
 										checked={item.address.hasNoStreetNumber}
 										onChange={(event: any) =>
@@ -261,7 +298,7 @@ export const AreaDocumentation = () => {
 											)
 										}
 									/>
-									Sin Numero
+									{!item.address.hasNoStreetNumber ? "Sin Numero" : "S/N"}
 								</div>
 							</div>
 						</td>
@@ -283,7 +320,7 @@ export const AreaDocumentation = () => {
 						</td>
 						<td>{item.address.zone.name}</td>
 						{type.includes("TERRENO") ? (
-							<td>
+							<td style={{ minWidth: 180 }}>
 								<SelectTypeOption
 									options={typeOptions}
 									value={item.address.extras.type}

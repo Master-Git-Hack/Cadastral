@@ -24,6 +24,9 @@ import {
 	weightingPercentageStateProperties,
 	weightingPercentageState,
 } from "./documentation/weightingPercentage";
+
+//supplementary workspace
+import { supplementaryWorksStateProperties, supplementaryWorksState } from "./supplementaryWorks";
 interface Factors extends properties {
 	[key: string]:
 		| properties
@@ -66,6 +69,7 @@ export interface Storage extends properties {
 	status: "complete" | "loading" | "working" | "failed";
 	factors: Factors;
 	documentation: Documentation;
+	supplementaryWorks: supplementaryWorksStateProperties;
 	errors: Array<string>;
 	record: Record;
 }
@@ -93,6 +97,7 @@ export const initialState: Storage = {
 		SalesCost: salesCostState(type),
 		WeightingPercentage: weightingPercentageState,
 	},
+	supplementaryWorks: supplementaryWorksState,
 	errors: [],
 	record: {
 		justipreciacion: {

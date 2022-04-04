@@ -9,6 +9,12 @@ import {
 	getReport,
 } from "../../features/handleReports/slice";
 import { Viewer } from "../pdf/viewer/viewer";
+import pdfIcon from "bootstrap-icons/icons/file-pdf.svg";
+import eye from "bootstrap-icons/icons/eye.svg";
+import eyeSlash from "bootstrap-icons/icons/eye-slash.svg";
+import fileAdd from "bootstrap-icons/icons/file-earmark-plus.svg";
+import fileRemove from "bootstrap-icons/icons/file-earmark-minus.svg";
+
 export const DocumentProperties = (props: { saveButton: any }) => {
 	const dispatch = useAppDispatch();
 	const { reports } = useAppSelector(getState);
@@ -21,7 +27,8 @@ export const DocumentProperties = (props: { saveButton: any }) => {
 							className="btn btn-sm btn-primary"
 							onClick={() => dispatch(addDocument())}
 						>
-							Agregar otra seccion
+							Agregar otra seccion{" "}
+							<img src={fileAdd} alt="file" className="mb-1 bg-primary" />
 						</button>
 					</th>
 					<th className="text-end">
@@ -30,7 +37,7 @@ export const DocumentProperties = (props: { saveButton: any }) => {
 								className="btn btn-sm btn-outline-danger"
 								onClick={() => dispatch(removeDocument())}
 							>
-								Remover seccion
+								Remover seccion <img src={fileRemove} alt="file" className="mb-1" />
 							</button>
 						) : null}
 					</th>
@@ -79,7 +86,7 @@ const Body = (props: { data: any; dispatch: Function }) =>
 										)
 									}
 								>
-									Ocultar
+									Ocultar <img src={eyeSlash} alt="file" className="mb-1" />
 								</button>
 							</div>
 						</div>
@@ -435,7 +442,7 @@ const Body = (props: { data: any; dispatch: Function }) =>
 										)
 									}
 								>
-									Vista Previa
+									Vista Previa <img src={pdfIcon} className="mb-1" alt="Pdf" />
 								</button>
 							</div>
 						</div>
@@ -446,7 +453,7 @@ const Body = (props: { data: any; dispatch: Function }) =>
 				</td>
 			</tr>
 		) : (
-			<tr key={`document properties hided for reports ${index}`} className="text-center">
+			<tr key={`document properties hided for reports ${index}`} className=" text-center">
 				<td>
 					<h6 className="text-start badge rounded-pill bg-info">Documento: {item.id}</h6>
 				</td>
@@ -463,7 +470,8 @@ const Body = (props: { data: any; dispatch: Function }) =>
 							)
 						}
 					>
-						Mostrar Documento {index > 0 ? item.id : null}
+						Mostrar Documento {index > 0 ? item.id : null}{" "}
+						<img src={eye} alt="file" className="mb-1" />
 					</button>
 				</td>
 			</tr>
