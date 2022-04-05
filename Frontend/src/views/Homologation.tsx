@@ -2,7 +2,11 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
 import { getState, setIndiviso } from "../features/homologation/slice";
-import Factors, { LocationZoneFactor, SelectFactors } from "../components/homologation/factors";
+import Factors, {
+	LocationZoneFactor,
+	SelectFactors,
+	AgeFactor,
+} from "../components/homologation/factors";
 import Area from "../components/homologation/documentation/area";
 import BigPicture from "../components/homologation/bigPicture";
 import ReFactor from "../components/homologation/documentation/reFactor";
@@ -50,6 +54,7 @@ export default function Homologation() {
 				visibility={visibility}
 				setVisibility={setVisibility}
 			>
+				<AgeFactor />
 				<Area />
 			</Container>
 			<Container

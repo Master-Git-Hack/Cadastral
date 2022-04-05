@@ -1,5 +1,10 @@
 /** @format */
-import { getState } from "../../../features/homologation/slice";
+import {
+	getState,
+	updateDocumentationStateArea,
+	updateReFactor,
+	updateIndiviso,
+} from "../../../features/homologation/slice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
 import { toFancyNumber } from "../../../utils/utils";
 import { FancyInput } from "../../inputs/fancyInput";
@@ -14,19 +19,17 @@ export default function ReFactor() {
 			<div className="col mx-2 my-auto">
 				<AdjustedValueComponent />
 			</div>
-			{type.includes("TERRENO") ? (
-				<div className="col mx-2">
-					<IndivisoComponent />
-				</div>
-			) : null}
+			<div className="col mx-2">
+				<IndivisoComponent />
+			</div>
 		</div>
 	);
 }
 export const ReFactorComponent = () => {
 	const dispatch = useAppDispatch();
 	const { documentation, record } = useAppSelector(getState);
-	const { SalesCost, Area } = documentation;
-	const { surface } = Area.averageLotArea;
+	const { SalesCost, Area, ReFactor } = documentation;
+	const { surface, value } = Area.averageLotArea;
 	const { type } = record.homologacion;
 	const { result } = SalesCost.averageUnitCost;
 	return (
@@ -39,51 +42,125 @@ export const ReFactorComponent = () => {
 				</tr>
 			</Header>
 			<Body>
+				{type.includes("TERRENO") ? (
+					<tr>
+						<td>SUPERFICIE TOTAL (SUJETO)</td>
+						<td>
+							<FancyInput
+								index={0}
+								name="surface"
+								value={surface}
+								onChange={(event) =>
+									dispatch(
+										updateDocumentationStateArea({
+											key: "averageLotArea",
+											object: "surface",
+											value: Number(event.target.value),
+										}),
+									)
+								}
+							/>
+						</td>
+					</tr>
+				) : null}
 				<tr>
-					<td>SUPERFICIE TOTAL (SUJETO)</td>
 					<td>
-						<FancyInput
-							index={0}
-							name="Total Surface"
-							value={surface}
-							onChange={() => {}}
-						/>
+						{type.includes("TERRENO")
+							? "SUPERFICIE LOTE MODA"
+							: "SUPERFICIE DEL COMPARABLE"}
 					</td>
+					<td>{toFancyNumber(value)}</td>
 				</tr>
+				{!type.includes("TERRENO") ? (
+					<tr>
+						<td>SUPERFICIE DEL SUJETO</td>
+						<td>
+							<FancyInput
+								index={0}
+								name="surface"
+								value={Area.subject.value}
+								onChange={(event) =>
+									dispatch(
+										updateDocumentationStateArea({
+											key: "subject",
+											object: "value",
+											value: Number(event.target.value),
+										}),
+									)
+								}
+							/>
+						</td>
+					</tr>
+				) : null}
 				<tr>
-					<td>{Area.subject.name}</td>
-					<td>
-						<FancyInput index={0} name="Surface" value={surface} onChange={() => {}} />
-					</td>
+					<td>{ReFactor.surface.name}</td>
+					<td>{toFancyNumber(Number(ReFactor.surface.value.toFixed(2)))}</td>
 				</tr>
+				{type.includes("TERRENO") ? (
+					<>
+						<tr>
+							<td>{ReFactor.form.name}</td>
+							<td>
+								<FancyInput
+									index={0}
+									name="form"
+									value={ReFactor.form.value}
+									onChange={(event) =>
+										dispatch(
+											updateReFactor({
+												key: "form",
+												object: "value",
+												value: Number(event.target.value),
+											}),
+										)
+									}
+								/>
+							</td>
+						</tr>
+						<tr>
+							<td>{ReFactor.result.name}</td>
+							<td>{toFancyNumber(Number(ReFactor.result.value.toFixed(2)))}</td>
+						</tr>
+					</>
+				) : null}
 			</Body>
 			{type.includes("TERRENO") ? (
 				<Footer>
 					<tr>
 						<td>Valor Unitario Aplicable en Números Redondos AL TERRENO</td>
-						<td>{toFancyNumber(Number(result.toFixed(2)))}</td>
+						<td>
+							{toFancyNumber(
+								Number(SalesCost.averageUnitCost.result.toFixed(2)),
+								true,
+							)}
+						</td>
 					</tr>
 				</Footer>
 			) : null}
 		</Table>
 	);
 };
+
 export const AdjustedValueComponent = () => {
-	const { reFactor } = useAppSelector(getState).documentation.SalesCost.averageUnitCost;
+	const { adjustedValue } = useAppSelector(getState).documentation.SalesCost.averageUnitCost;
 	return (
 		<Table>
 			<Header>
 				<tr>
 					<th>VALOR AJUSTADO</th>
-					<th>{toFancyNumber(Number(reFactor.toFixed(0)), true)}</th>
+					<th>{toFancyNumber(Number(adjustedValue.toFixed(0)), true)}</th>
 				</tr>
 			</Header>
 		</Table>
 	);
 };
 export const IndivisoComponent = () => {
-	const { type } = useAppSelector(getState).record.homologacion;
-	const { reFactor } = useAppSelector(getState).documentation.SalesCost.averageUnitCost;
+	const { documentation, record } = useAppSelector(getState);
+	const { type } = record.homologacion;
+	const { adjustedValue } = documentation.SalesCost.averageUnitCost;
+	const { surface, building, indiviso, result } = documentation.Indiviso;
+	const { value } = documentation.Area.subject;
+	const dispatch = useAppDispatch();
 	return type.includes("TERRENO") ? (
 		<Table>
 			<Header>
@@ -93,6 +170,71 @@ export const IndivisoComponent = () => {
 					</th>
 				</tr>
 			</Header>
+			<Body>
+				<tr>
+					<td>SUPERFICIE DE CONSTRUCCION</td>
+					<td>
+						<FancyInput
+							index={0}
+							name="surface"
+							value={surface}
+							onChange={(event) =>
+								dispatch(
+									updateIndiviso({
+										key: "surface",
+										value: Number(event.target.value),
+									}),
+								)
+							}
+						/>
+					</td>
+				</tr>
+				<tr>
+					<td>CONST. PRIVATIVA</td>
+					<td>
+						<FancyInput
+							index={0}
+							name="building"
+							value={building}
+							onChange={(event) =>
+								dispatch(
+									updateIndiviso({
+										key: "building",
+										value: Number(event.target.value),
+									}),
+								)
+							}
+						/>
+					</td>
+				</tr>
+				<tr>
+					<td>INDIVISO</td>
+					<td>{toFancyNumber(indiviso)}</td>
+				</tr>
+				<tr>
+					<td>SUPERFICIE TOTAL DEL TERRENO</td>
+					<td>
+						<FancyInput
+							index={0}
+							name="area surface"
+							value={value}
+							onChange={(event) =>
+								dispatch(
+									updateDocumentationStateArea({
+										key: "subject",
+										object: "value",
+										value: Number(event.target.value),
+									}),
+								)
+							}
+						/>
+					</td>
+				</tr>
+				<tr>
+					<td>SUPERFICIE DE TERRENO SEGÚN INDIVISO</td>
+					<td>{toFancyNumber(Number(result.toFixed(2)))}</td>
+				</tr>
+			</Body>
 			<Footer>
 				<tr>
 					<td colSpan={2} style={{ minWidth: 450 }}>
@@ -107,8 +249,10 @@ export const IndivisoComponent = () => {
 			{
 				<Header>
 					<tr>
-						<td>VALOR UNITARIO APLICABLE</td>
-						<td>{toFancyNumber(Number(reFactor.toFixed(2)))}</td>
+						<th style={{ minWidth: 230 }}>VALOR UNITARIO APLICABLE</th>
+						<th className="bg-info">
+							{toFancyNumber(Number(adjustedValue.toFixed(2)))}
+						</th>
 					</tr>
 				</Header>
 			}

@@ -18,7 +18,9 @@ const template = (id: number) => ({
 const operation = (area: any, surface: any) =>
 	surface.data.map((item: any, index: number) => {
 		item.value = 1;
-		item.value = (area.data[index].value / area.subject.value) ** (1 / surface.root.value);
+		item.value =
+			(area.data[index].value / area.averageLotArea.value) ** (1 / surface.root.value);
+
 		return item;
 	});
 const insertion = (data: any) => {

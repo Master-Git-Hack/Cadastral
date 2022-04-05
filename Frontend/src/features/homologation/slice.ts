@@ -9,6 +9,9 @@ export const slice = createSlice({
 	name: "homologation",
 	initialState,
 	reducers: {
+		UpdateOperationValues(state) {
+			state = handleUpdateOperationValues(state);
+		},
 		setIndiviso(state, action: PayloadAction<any>) {
 			state.record.homologacion.hasIndiviso = action.payload;
 		},
@@ -36,6 +39,7 @@ export const slice = createSlice({
 				...data,
 				...value,
 			};
+			state = handleUpdateOperationValues(state);
 		},
 		removeRow(state) {
 			const result = handlerRemoveRow(state);
@@ -115,7 +119,7 @@ export const slice = createSlice({
 		},
 		updateDocumentationStateArea(state, action: PayloadAction<any>) {
 			const { key, object, index, item, value } = action.payload;
-			if (key.includes("subject")) {
+			if (key.includes("subject") || key.includes("averageLotArea")) {
 				if (index !== undefined && item !== undefined) {
 					state.documentation.Area[key][object][index][item] = value;
 				} else {
@@ -146,17 +150,30 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
+		updateReFactor(state, action: PayloadAction<any>) {
+			const { key, object, value } = action.payload;
+			state.documentation.ReFactor[key][object] = value;
+			state = handleUpdateOperationValues(state);
+		},
+		updateIndiviso(state, action: PayloadAction<any>) {
+			const { key, value } = action.payload;
+			state.documentation.Indiviso[key] = value;
+			state = handleUpdateOperationValues(state);
+		},
 	},
 	extraReducers: (builder) => {},
 });
 export const {
+	UpdateOperationValues,
 	addRow,
 	setIndiviso,
+	updateReFactor,
 	addRowLocationZone,
 	addRowSupplementary,
 	removeRowSupplementary,
 	updateSupplementary,
 	removeRow,
+	updateIndiviso,
 	removeRowLocationZone,
 	updateFactorStateAge,
 	updateFactorStateCommon,

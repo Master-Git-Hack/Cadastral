@@ -1,7 +1,7 @@
 /** @format */
 
-import { useState, useEffect, Fragment } from "react";
-import { getState } from "../../features/homologation/slice";
+import { useState, useEffect } from "react";
+import { getState, UpdateOperationValues } from "../../features/homologation/slice";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { toFancyNumber } from "../../utils/utils";
 import { Body, Footer, Header, Table } from "../table/Table";
@@ -42,6 +42,7 @@ export default function BigPicture() {
 		setOrder(newOrder);
 	};
 	useEffect(() => {
+		dispatch(UpdateOperationValues());
 		countFactorsUsed();
 	}, []);
 	const footerLength = (type.includes("TERRENO") ? -3 : -2) + factorsUsed;
@@ -86,9 +87,7 @@ export default function BigPicture() {
 					</td>
 					{!type.includes("TERRENO") ? (
 						<td rowSpan={2}>
-							{toFancyNumber(
-								Number(documentation.Area.averageLotArea.surface.toFixed(2)),
-							)}
+							{toFancyNumber(Number(documentation.Area.subject.value.toFixed(2)))}
 						</td>
 					) : null}
 					<td rowSpan={2}>
@@ -209,8 +208,14 @@ const BodyBigPicture = (props: {
 					{order.map((key: string) => (
 						<Show
 							key={`column ${key} for row ${row}`}
-							id={`${row}-Surface Factor`}
-							value={key.includes("") ? factors[key].data[index].value : 0}
+							id={`${row}-${key} Factor`}
+							value={
+								!key.includes("Zone") && !key.includes("Location")
+									? factors[key].data[index].result
+									: key.includes("Location")
+									? factors[key].data[index].value
+									: factors[key].results[index].factor1
+							}
 						/>
 					))}
 					<Show id={`${row}-Commercial Factor`} value={Commercial.data[index].value} />

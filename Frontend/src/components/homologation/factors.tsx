@@ -30,32 +30,39 @@ export default function Factors() {
 				</tr>
 			</Header>
 			<Body>
-				<SingleColumnInARow colSpan={2}>
+				{/*<SingleColumnInARow colSpan={2}>
 					<AgeFactor />
-				</SingleColumnInARow>
-				<SingleColumnInARow colSpan={2}>
-					<BuildingFactor />
-				</SingleColumnInARow>
+				</SingleColumnInARow> */}
 				<SingleColumnInARow colSpan={2}>
 					<ClassificationFactor />
 				</SingleColumnInARow>
-				<SingleColumnInARow colSpan={2}>
-					<LevelFactor />
-				</SingleColumnInARow>
-				<SingleColumnInARow colSpan={2}>
-					<ProjectFactor />
-				</SingleColumnInARow>
-				<SingleColumnInARow colSpan={2}>
-					<QualityFactor />
-				</SingleColumnInARow>
-				<SingleColumnInARow colSpan={2}>
-					<TopographyFactor />
-				</SingleColumnInARow>
+
 				<SingleColumnInARow colSpan={2}>
 					<TypeFormFactor />
 				</SingleColumnInARow>
+
 				<SingleColumnInARow colSpan={2}>
 					<UsageFactor />
+				</SingleColumnInARow>
+
+				<SingleColumnInARow colSpan={2}>
+					<TopographyFactor />
+				</SingleColumnInARow>
+
+				<SingleColumnInARow colSpan={2}>
+					<LevelFactor />
+				</SingleColumnInARow>
+
+				<SingleColumnInARow colSpan={2}>
+					<QualityFactor />
+				</SingleColumnInARow>
+
+				<SingleColumnInARow colSpan={2}>
+					<ProjectFactor />
+				</SingleColumnInARow>
+
+				<SingleColumnInARow colSpan={2}>
+					<BuildingFactor />
 				</SingleColumnInARow>
 			</Body>
 		</Table>

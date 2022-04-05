@@ -229,7 +229,7 @@ export const calculateResultantUnitaryCost = (resultantFactor: any, salesCosts: 
 			Number(resultantFactor[index].value) * Number(salesCosts.data[index].unitaryCost);
 		return item;
 	});
-
+//calculateSurface(surface.data, areas.data, areas.averageLotArea.value, type);
 export const calculateSurface = (surface: any, areas: any, value: number, type: string) =>
 	surface.map((item: any, index: number) => {
 		item.value = (areas[index].value / value) ** (1 / (type === "TERRENO" ? 12 : 8));

@@ -24,7 +24,8 @@ import {
 	weightingPercentageStateProperties,
 	weightingPercentageState,
 } from "./documentation/weightingPercentage";
-
+import { reFactorStateProperties, reFactorState } from "./documentation/reFactor";
+import { indivisoStateProperties, indivisoState } from "./documentation/indiviso";
 //supplementary workspace
 import { supplementaryWorksStateProperties, supplementaryWorksState } from "./supplementaryWorks";
 interface Factors extends properties {
@@ -50,7 +51,9 @@ interface Documentation extends properties {
 		| properties
 		| areaStateProperties
 		| salesCostStateProperties
-		| weightingPercentageStateProperties;
+		| weightingPercentageStateProperties
+		| reFactorStateProperties
+		| indivisoStateProperties;
 }
 
 interface Record extends properties {
@@ -96,6 +99,8 @@ export const initialState: Storage = {
 		Area: areaState(type),
 		SalesCost: salesCostState(type),
 		WeightingPercentage: weightingPercentageState,
+		ReFactor: reFactorState(type),
+		Indiviso: indivisoState(type),
 	},
 	supplementaryWorks: supplementaryWorksState,
 	errors: [],

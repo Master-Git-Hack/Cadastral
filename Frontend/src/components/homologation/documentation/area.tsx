@@ -29,7 +29,7 @@ export default function Area() {
 export const AreaCalculation = () => {
 	const dispatch = useAppDispatch();
 	const { Area, SalesCost, WeightingPercentage } = useAppSelector(getState).documentation;
-	const { data } = Area;
+	const { data, subject } = Area;
 	const { Surface, Commercial } = useAppSelector(getState).factors;
 	const { type } = useAppSelector(getState).record.homologacion;
 	const percentage = WeightingPercentage.total;
@@ -198,8 +198,16 @@ export const AreaCalculation = () => {
 							<FancyInput
 								index={0}
 								name="area subject"
-								value={Area.averageLotArea.surface}
-								onChange={() => {}}
+								value={subject.value}
+								onChange={(event) =>
+									dispatch(
+										updateDocumentationStateArea({
+											key: "subject",
+											object: "value",
+											value: Number(event.target.value),
+										}),
+									)
+								}
 							/>
 						</td>
 					) : null}
@@ -239,8 +247,9 @@ export const AreaDocumentation = () => {
 				{data.map((item: any, index: number) => (
 					<tr key={`area properties to handle address information ${index}`}>
 						<td>C{item.id}</td>
-						<td>
+						<td style={{ minWidth: 150 }}>
 							<textarea
+								rows={1}
 								className="form-control form-control-sm"
 								value={item.address.street}
 								onChange={(event: any) =>
@@ -302,16 +311,18 @@ export const AreaDocumentation = () => {
 								</div>
 							</div>
 						</td>
-						<td>
+						<td style={{ minWidth: 100 }}>
 							<textarea
 								className="form-control form-control-sm"
 								value={item.address.colony}
+								rows={1}
 								onChange={(event: any) =>
 									dispatch(
 										updateDocumentationStateArea({
 											key: "data",
 											index,
-											object: "colony",
+											object: "address",
+											item: "colony",
 											value: event.target.value,
 										}),
 									)
