@@ -5,8 +5,8 @@ from json import dumps
 from app.apps.cadastral.homologations.controllers import Controller
 
 
-@app.route(f"{API_URL}/HOMOLOGATION/j-appreciation/<string:type>/<int:id>", methods=["PATCH"])
-def update_jAppreciation(id, type):
+@app.route(f"{API_URL}/HOMOLOGATION/<string:type>/<int:id>", methods=["POST"])
+def postRegular(id, type):
     data = request.get_json()
     with open(f"{id}-{type}.json", "w") as file:
         file.write(dumps(data, indent=4, sort_keys=True))
@@ -29,8 +29,8 @@ def update_jAppreciation(id, type):
         return jsonify({"response": response}), 400
 
 
-@app.route(f"{API_URL}/HOMOLOGATION/j-appreciation/<string:type>/<int:id>", methods=["GET"])
-def get_jAppreciation(id, type):
+@app.route(f"{API_URL}/HOMOLOGATION/<string:type>/<int:id>", methods=["GET"])
+def getRegular(id, type):
     data = Controller(id, type)
     response = data.get()
     return jsonify({"response": response}), 200

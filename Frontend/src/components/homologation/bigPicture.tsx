@@ -45,7 +45,8 @@ export default function BigPicture() {
 		dispatch(UpdateOperationValues());
 		countFactorsUsed();
 	}, []);
-	const footerLength = (type.includes("TERRENO") ? -3 : -2) + factorsUsed;
+	const footerLength = factorsUsed - (!type.includes("TERRENO") ? 4 : 3);
+
 	return (
 		<Table style={`mb-5`}>
 			<Header>
@@ -96,7 +97,7 @@ export default function BigPicture() {
 					<td className="text-start" colSpan={footerLength} rowSpan={2}>
 						m<sup>2</sup>
 					</td>
-					<td colSpan={type.includes("TERRENO") ? 4 : 5} className="text-end">
+					<td colSpan={6} className="text-end">
 						Valor Unitario Promedio
 					</td>
 					<td>
@@ -107,7 +108,7 @@ export default function BigPicture() {
 					</td>
 				</tr>
 				<tr>
-					<td colSpan={type.includes("TERRENO") ? 4 : 5} className="text-end">
+					<td colSpan={6} className="text-end">
 						Valor Unitario Aplicable en Números Redondos
 					</td>
 					<td>

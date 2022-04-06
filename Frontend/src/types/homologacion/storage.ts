@@ -65,11 +65,10 @@ interface Record extends properties {
 		type: string;
 		appraisalPurpose: string;
 		status: "exists" | "newOne" | "deleted" | "updated";
-		hasIndiviso: boolean;
 	};
 }
 export interface Storage extends properties {
-	status: "complete" | "loading" | "working" | "failed";
+	status: "complete" | "loading" | "working" | "failed" | "exists";
 	factors: Factors;
 	documentation: Documentation;
 	supplementaryWorks: supplementaryWorksStateProperties;
@@ -115,7 +114,6 @@ export const initialState: Storage = {
 				? getParams("tipo_servicio")?.toUpperCase()
 				: "justipreciacion") as string,
 			status: "newOne",
-			hasIndiviso: true,
 		},
 	},
 };

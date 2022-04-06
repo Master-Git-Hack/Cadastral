@@ -58,6 +58,23 @@ export const handlerRemoveRow = (state: any) => {
 			}
 		}
 	}
+	for (const key in documentation) {
+		const id =
+			!key.includes("ReFactor") && !key.includes("Indiviso")
+				? documentation[key]?.data.length
+				: 0;
+		if (key.includes("Area") || key.includes("WeightingPercentage")) {
+			if (id > 1) {
+				documentation[key].data.pop();
+			}
+		}
+		if (key.includes("SalesCost")) {
+			if (id > 1) {
+				documentation[key].data.pop();
+				documentation[key].results.pop();
+			}
+		}
+	}
 	return {
 		factors,
 		documentation,
@@ -145,3 +162,258 @@ export const handleUpdateOperationValues = (state: any) => {
 
 	return state;
 };
+
+export const handleRequest = (state: any) => ({
+	factors: {
+		Age: {
+			subject: state.factors.Age.subject,
+			data: state.factors.Age.data,
+			isUsed: state.factors.Age.isUsed,
+			position: state.factors.Age.position,
+		},
+		Building: {
+			subject: state.factors.Building.subject,
+			data: state.factors.Building.data,
+			isUsed: state.factors.Building.isUsed,
+			position: state.factors.Building.position,
+		},
+		Classification: {
+			subject: state.factors.Classification.subject,
+			data: state.factors.Classification.data,
+			isUsed: state.factors.Classification.isUsed,
+			position: state.factors.Classification.position,
+		},
+		Commercial: {
+			data: state.factors.Commercial.data,
+			isUsed: state.factors.Commercial.isUsed,
+			position: state.factors.Commercial.position,
+		},
+		Level: {
+			subject: state.factors.Level.subject,
+			data: state.factors.Level.data,
+			isUsed: state.factors.Level.isUsed,
+			position: state.factors.Level.position,
+		},
+		Location: {
+			subject: state.factors.Location.subject,
+			data: state.factors.Location.data,
+			isUsed: state.factors.Location.isUsed,
+			position: state.factors.Location.position,
+		},
+		Project: {
+			subject: state.factors.Project.subject,
+			data: state.factors.Project.data,
+			isUsed: state.factors.Project.isUsed,
+			position: state.factors.Project.position,
+		},
+		Quality: {
+			subject: state.factors.Quality.subject,
+			data: state.factors.Quality.data,
+			isUsed: state.factors.Quality.isUsed,
+			position: state.factors.Quality.position,
+		},
+		Results: {
+			data: state.factors.Results.data,
+			isUsed: state.factors.Results.isUsed,
+			position: state.factors.Results.position,
+		},
+		Surface: {
+			data: state.factors.Surface.data,
+			isUsed: state.factors.Surface.isUsed,
+			position: state.factors.Surface.position,
+			root: state.factors.Surface.root,
+		},
+		Topography: {
+			subject: state.factors.Topography.subject,
+			data: state.factors.Topography.data,
+			isUsed: state.factors.Topography.isUsed,
+			position: state.factors.Topography.position,
+		},
+		TypeForm: {
+			subject: state.factors.TypeForm.subject,
+			data: state.factors.TypeForm.data,
+			isUsed: state.factors.TypeForm.isUsed,
+			position: state.factors.TypeForm.position,
+		},
+		Usage: {
+			subject: state.factors.Usage.subject,
+			data: state.factors.Usage.data,
+			isUsed: state.factors.Usage.isUsed,
+			position: state.factors.Usage.position,
+		},
+		Zone: {
+			subject: state.factors.Zone.subject,
+			data: state.factors.Zone.data,
+			results: state.factors.Zone.results,
+			isUsed: state.factors.Zone.isUsed,
+			position: state.factors.Zone.position,
+		},
+	},
+	documentation: {
+		Area: {
+			averageLotArea: state.documentation.Area.averageLotArea,
+			subject: state.documentation.Area.subject,
+			data: state.documentation.Area.data,
+		},
+		Indiviso: state.documentation.Indiviso,
+		ReFactor: {
+			surface: state.documentation.ReFactor.surface,
+			form: state.documentation.ReFactor.form,
+			result: state.documentation.ReFactor.result,
+			root: state.documentation.ReFactor.root,
+			isUsed: state.documentation.ReFactor.isUsed,
+		},
+		SalesCost: {
+			averageUnitCost: state.documentation.SalesCost.averageUnitCost,
+			data: state.documentation.SalesCost.data,
+			results: state.documentation.SalesCost.results,
+		},
+		WeightingPercentage: {
+			total: state.documentation.WeightingPercentage.total,
+			data: state.documentation.WeightingPercentage.data,
+		},
+	},
+	averageUnitCost: state.record.homologacion.hasIndiviso
+		? state.SalesCost.averageUnitCost.adjustedValue
+		: state.SalesCost.averageUnitCost.roundedValue,
+	appraisalPurpose: state.record.homologacion.appraisalPurpose,
+});
+export const handleGetRequest = (state: any, initialState: any) => ({
+	factors: {
+		Age: {
+			subject: state.factors.Age.subject,
+			data: state.factors.Age.data,
+			isUsed: state.factors.Age.isUsed,
+			position: state.factors.Age.position,
+			...initialState.factors.Age,
+		},
+		Building: {
+			subject: state.factors.Building.subject,
+			data: state.factors.Building.data,
+			isUsed: state.factors.Building.isUsed,
+			position: state.factors.Building.position,
+			...initialState.factors.Building,
+		},
+		Classification: {
+			subject: state.factors.Classification.subject,
+			data: state.factors.Classification.data,
+			isUsed: state.factors.Classification.isUsed,
+			position: state.factors.Classification.position,
+			...initialState.factors.Classification,
+		},
+		Commercial: {
+			data: state.factors.Commercial.data,
+			isUsed: state.factors.Commercial.isUsed,
+			position: state.factors.Commercial.position,
+			...initialState.factors.Commercial,
+		},
+		Level: {
+			subject: state.factors.Level.subject,
+			data: state.factors.Level.data,
+			isUsed: state.factors.Level.isUsed,
+			position: state.factors.Level.position,
+			...initialState.factors.Level,
+		},
+		Location: {
+			subject: state.factors.Location.subject,
+			data: state.factors.Location.data,
+			isUsed: state.factors.Location.isUsed,
+			position: state.factors.Location.position,
+			...initialState.factors.Location,
+		},
+		Project: {
+			subject: state.factors.Project.subject,
+			data: state.factors.Project.data,
+			isUsed: state.factors.Project.isUsed,
+			position: state.factors.Project.position,
+			...initialState.factors.Project,
+		},
+		Quality: {
+			subject: state.factors.Quality.subject,
+			data: state.factors.Quality.data,
+			isUsed: state.factors.Quality.isUsed,
+			position: state.factors.Quality.position,
+			...initialState.factors.Quality,
+		},
+		Results: {
+			data: state.factors.Results.data,
+			isUsed: state.factors.Results.isUsed,
+			position: state.factors.Results.position,
+			...initialState.factors.Results,
+		},
+		Surface: {
+			data: state.factors.Surface.data,
+			isUsed: state.factors.Surface.isUsed,
+			position: state.factors.Surface.position,
+			root: state.factors.Surface.root,
+			...initialState.factors.Surface,
+		},
+		Topography: {
+			subject: state.factors.Topography.subject,
+			data: state.factors.Topography.data,
+			isUsed: state.factors.Topography.isUsed,
+			position: state.factors.Topography.position,
+			...initialState.factors.Topography,
+		},
+		TypeForm: {
+			subject: state.factors.TypeForm.subject,
+			data: state.factors.TypeForm.data,
+			isUsed: state.factors.TypeForm.isUsed,
+			position: state.factors.TypeForm.position,
+			...initialState.factors.TypeForm,
+		},
+		Usage: {
+			subject: state.factors.Usage.subject,
+			data: state.factors.Usage.data,
+			isUsed: state.factors.Usage.isUsed,
+			position: state.factors.Usage.position,
+			...initialState.factors.Usage,
+		},
+		Zone: {
+			subject: state.factors.Zone.subject,
+			data: state.factors.Zone.data,
+			results: state.factors.Zone.results,
+			isUsed: state.factors.Zone.isUsed,
+			position: state.factors.Zone.position,
+			...initialState.factors.Zone,
+		},
+	},
+	documentation: {
+		Area: {
+			averageLotArea: state.documentation.Area.averageLotArea,
+			subject: state.documentation.Area.subject,
+			data: state.documentation.Area.data,
+			...initialState.documentation.Area,
+		},
+		Indiviso: state.documentation.Indiviso,
+		ReFactor: {
+			surface: state.documentation.ReFactor.surface,
+			form: state.documentation.ReFactor.form,
+			result: state.documentation.ReFactor.result,
+			root: state.documentation.ReFactor.root,
+			isUsed: state.documentation.ReFactor.isUsed,
+			...initialState.documentation.ReFactor,
+		},
+		SalesCost: {
+			averageUnitCost: state.documentation.SalesCost.averageUnitCost,
+			data: state.documentation.SalesCost.data,
+			results: state.documentation.SalesCost.results,
+			...initialState.documentation.SalesCost,
+		},
+		WeightingPercentage: {
+			total: state.documentation.WeightingPercentage.total,
+			data: state.documentation.WeightingPercentage.data,
+			...initialState.documentation.WeightingPercentage,
+		},
+	},
+	...initialState,
+	record: {
+		...initialState.record,
+		homologacion: {
+			id: state.id,
+			type: state.type,
+			appraisalPurpose: state.appraisalPurpose,
+			status: "exists",
+		},
+	},
+});

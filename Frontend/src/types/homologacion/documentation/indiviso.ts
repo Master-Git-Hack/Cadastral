@@ -13,7 +13,6 @@ const operation = (indiviso: any, subject: number) => {
 		indiviso: indivisoResult,
 		result: indivisoResult * subject,
 	};
-	console.log(state);
 	return state;
 };
 export const indivisoState = (type: string) => {

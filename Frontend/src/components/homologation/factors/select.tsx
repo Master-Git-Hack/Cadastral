@@ -10,14 +10,22 @@ export const SelectFactorsComponent = () => {
 	const dispatch = useAppDispatch();
 	const { type } = record.homologacion;
 	const [positions, setPositions] = useState(
-		Array.from({ length: 11 }, (v, i) => i + (!type.includes("TERRENO") ? 3 : 2)),
+		Array.from({ length: 10 }, (v, i) => i + (!type.includes("TERRENO") ? 3 : 2)),
 	);
+	const [selected, setSelected] = useState<Array<number>>([]);
 
-	const addFactor = (position: number = 0) =>
-		setPositions(
-			[position === 0 ? positions[0] - 1 : position, ...positions].sort((a, b) => a - b),
-		);
-	const removeFactor = () => setPositions(positions.slice(1));
+	const addFactor = () => {
+		const position = selected[0];
+		setSelected(selected.slice(1));
+		const newPosition = [...positions, position].sort((a, b) => a - b);
+		setPositions(newPosition);
+	};
+	const removeFactor = () => {
+		const position = positions[0];
+		const newSelected = [...selected, position].sort((a, b) => a - b);
+		setSelected(newSelected);
+		setPositions(positions.slice(1));
+	};
 	const ListOfFactors = () => {
 		const list: any = [];
 		for (const key in factors) {
@@ -32,6 +40,7 @@ export const SelectFactorsComponent = () => {
 		}
 		return list;
 	};
+	console.log(positions, "=>", selected);
 	return (
 		<div className="container container-fluid">
 			<h2>
@@ -87,7 +96,7 @@ export const SelectFactorsComponent = () => {
 								factors[key].position === 0
 									? positions[0] + 1
 									: factors[key].position;
-							addFactor(position);
+							addFactor();
 							dispatch(
 								setVisibilityOrderFactors({
 									key,
@@ -105,7 +114,7 @@ export const SelectFactorsComponent = () => {
 					status={true}
 					default={true}
 					item={factors.Commercial.name}
-					position={positions[positions.length - 1] - positions.length + 1}
+					position={selected.length + 3}
 					onClickAdd={() => {}}
 					onClickDelete={() => {}}
 				/>

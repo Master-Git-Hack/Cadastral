@@ -4,7 +4,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { consume } from "../../api/api.config";
 import { initialState } from "../../types/homologacion/storage";
-import { handlerAddRow, handlerRemoveRow, handleUpdateOperationValues } from "./handlers";
+import {
+	handlerAddRow,
+	handlerRemoveRow,
+	handleUpdateOperationValues,
+	handleRequest,
+	handleGetRequest,
+} from "./handlers";
 export const slice = createSlice({
 	name: "homologation",
 	initialState,
@@ -13,7 +19,7 @@ export const slice = createSlice({
 			state = handleUpdateOperationValues(state);
 		},
 		setIndiviso(state, action: PayloadAction<any>) {
-			state.record.homologacion.hasIndiviso = action.payload;
+			state.documentation.ReFactor.isUsed = action.payload;
 		},
 		addRow(state) {
 			const result = handlerAddRow(state);
@@ -161,8 +167,75 @@ export const slice = createSlice({
 			state = handleUpdateOperationValues(state);
 		},
 	},
-	extraReducers: (builder) => {},
+	extraReducers: (builder) => {
+		builder
+			.addCase(request.get.pending, (state) => {
+				state.status = "loading";
+			})
+			.addCase(request.post.pending, (state) => {
+				state.status = "loading";
+			})
+			.addCase(request.patch.pending, (state) => {
+				state.status = "loading";
+			})
+			.addCase(request.post.fulfilled, (state, action) => {
+				const { response } = action.payload;
+				if (response !== -1 && response !== null) {
+					state.status = "complete";
+				} else {
+					state.status = "failed";
+				}
+			})
+			.addCase(request.patch.fulfilled, (state, action) => {
+				const { response } = action.payload;
+				if (response !== -1 && response !== null) {
+					state.status = "complete";
+				} else {
+					state.status = "failed";
+				}
+			})
+			.addCase(request.get.fulfilled, (state, action) => {
+				const { response } = action.payload;
+				if (response !== -1 && response !== null) {
+				} else {
+					state.status = "failed";
+				}
+			});
+	},
 });
+export const request = {
+	get: createAsyncThunk("homologation/get", async (action: any) => {
+		const { url } = action;
+		try {
+			return await (
+				await consume("json").patch(url)
+			).data;
+		} catch (err: any) {
+			return null;
+		}
+	}),
+	post: createAsyncThunk("homologation/post", async (action: any) => {
+		const { url, responseType, payload } = action;
+		try {
+			return await (
+				await consume(responseType).patch(url, payload)
+			).data;
+		} catch (err: any) {
+			return null;
+		}
+	}),
+	patch: createAsyncThunk("homologation/patch", async (action: any) => {
+		const { url, responseType, payload } = action;
+		try {
+			return await (
+				await consume(responseType).patch(url, payload)
+			).data;
+		} catch (err: any) {
+			return null;
+		}
+	}),
+};
+
 export const {
 	UpdateOperationValues,
 	addRow,

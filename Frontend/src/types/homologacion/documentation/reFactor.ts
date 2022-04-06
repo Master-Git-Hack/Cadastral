@@ -33,5 +33,5 @@ export const reFactorState = (type: string): reFactorStateProperties => {
 					value: 1,
 				},
 		  };
-	return { ...state, root: 8, operation };
+	return { ...state, root: 8, operation, isUsed: true };
 };

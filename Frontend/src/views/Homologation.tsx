@@ -10,10 +10,12 @@ import Factors, {
 import Area from "../components/homologation/documentation/area";
 import BigPicture from "../components/homologation/bigPicture";
 import ReFactor from "../components/homologation/documentation/reFactor";
+import { SaveButton } from "../components/homologation/save";
 export default function Homologation() {
 	const dispatch = useAppDispatch();
-	const state = useAppSelector(getState);
-	const { type, hasIndiviso } = state.record.homologacion;
+	const { record, documentation, status } = useAppSelector(getState);
+	const { isUsed } = documentation.ReFactor;
+	const { type } = record.homologacion;
 	const [visibility, setVisibility] = useState({
 		factors: true,
 		location: false,
@@ -22,82 +24,103 @@ export default function Homologation() {
 		bigPicture: false,
 		reFactor: false,
 	});
-	console.log(state);
+
 	return (
 		<div className="mx-5 px-5">
-			Homologación de tipo: <strong>{type}</strong>
-			<Container
-				previous=""
-				current="factors"
-				target="location"
-				hasIndiviso={true}
-				visibility={visibility}
-				setVisibility={setVisibility}
-			>
-				<Factors />
-			</Container>
-			<Container
-				previous="factors"
-				current="location"
-				target="documentation"
-				hasIndiviso={true}
-				visibility={visibility}
-				setVisibility={setVisibility}
-			>
-				<LocationZoneFactor />
-			</Container>
-			<Container
-				previous="location"
-				current="documentation"
-				target="selection"
-				hasIndiviso={true}
-				visibility={visibility}
-				setVisibility={setVisibility}
-			>
-				<AgeFactor />
-				<Area />
-			</Container>
-			<Container
-				previous="documentation"
-				current="selection"
-				target="bigPicture"
-				hasIndiviso={true}
-				visibility={visibility}
-				setVisibility={setVisibility}
-			>
-				<SelectFactors />
-			</Container>
-			<Container
-				previous="selection"
-				current="bigPicture"
-				target={hasIndiviso ? "reFactor" : ""}
-				hasIndiviso={hasIndiviso}
-				visibility={visibility}
-				setVisibility={setVisibility}
-			>
-				{type.includes("TERRENO") ? (
-					<div className="form-check form-switch form-check-sm form-switch-sm mb-3">
-						<input
-							className="form-check-input form-check-input-sm "
-							type="checkbox"
-							checked={hasIndiviso}
-							onChange={(event: any) => dispatch(setIndiviso(event.target.checked))}
-						/>
-						Realizar Proceso de Indiviso
+			<div className="row my-auto">
+				<div className="col my-auto">
+					<h5>
+						Homologación de tipo: <strong>{type}</strong>
+					</h5>
+				</div>
+				<div className="col my-auto">
+					{!status.includes("loading") ? <SaveButton /> : null}
+				</div>
+			</div>
+			{!status.includes("loading") ? (
+				<>
+					<Container
+						previous=""
+						current="factors"
+						target="location"
+						hasIndiviso={true}
+						visibility={visibility}
+						setVisibility={setVisibility}
+					>
+						<Factors />
+					</Container>
+					<Container
+						previous="factors"
+						current="location"
+						target="documentation"
+						hasIndiviso={true}
+						visibility={visibility}
+						setVisibility={setVisibility}
+					>
+						<LocationZoneFactor />
+					</Container>
+					<Container
+						previous="location"
+						current="documentation"
+						target="selection"
+						hasIndiviso={true}
+						visibility={visibility}
+						setVisibility={setVisibility}
+					>
+						<AgeFactor />
+						<Area />
+					</Container>
+					<Container
+						previous="documentation"
+						current="selection"
+						target="bigPicture"
+						hasIndiviso={true}
+						visibility={visibility}
+						setVisibility={setVisibility}
+					>
+						<SelectFactors />
+					</Container>
+					<Container
+						previous="selection"
+						current="bigPicture"
+						target={isUsed ? "reFactor" : ""}
+						hasIndiviso={isUsed}
+						visibility={visibility}
+						setVisibility={setVisibility}
+					>
+						{type.includes("TERRENO") ? (
+							<div className="form-check form-switch form-check-sm form-switch-sm mb-3">
+								<input
+									className="form-check-input form-check-input-sm "
+									type="checkbox"
+									checked={isUsed}
+									onChange={(event: any) =>
+										dispatch(setIndiviso(event.target.checked))
+									}
+								/>
+								Realizar Proceso de Indiviso
+							</div>
+						) : null}
+						<BigPicture />
+					</Container>
+					<Container
+						previous="bigPicture"
+						current="reFactor"
+						target=""
+						hasIndiviso={false}
+						visibility={visibility}
+						setVisibility={setVisibility}
+					>
+						<ReFactor />
+					</Container>
+				</>
+			) : (
+				<div className="d-flex justify-content-center">
+					<div className="spinner-border" role="status">
+						<span className="visually-hidden">Loading...</span>
 					</div>
-				) : null}
-				<BigPicture />
-			</Container>
-			<Container
-				previous="bigPicture"
-				current="reFactor"
-				target=""
-				hasIndiviso={false}
-				visibility={visibility}
-				setVisibility={setVisibility}
-			>
-				<ReFactor />
-			</Container>
+				</div>
+			)}
 		</div>
 	);
 }
