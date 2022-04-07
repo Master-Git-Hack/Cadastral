@@ -22,7 +22,7 @@ export const WithNavigation: FC = () => (
 export const SinglePages: FC = () => (
 	<Routes>
 		<Route path="/homologaciones/" element={<Homologation />} />
-		<Route path="/homologaciones/Obras-Complementarias" element={<SupplementaryWorks />} />
+		<Route path="/homologaciones/OC" element={<SupplementaryWorks />} />
 		<Route path="*" element={<ErrorPage />} />
 	</Routes>
 );

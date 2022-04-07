@@ -179,37 +179,51 @@ export const slice = createSlice({
 				state.status = "loading";
 			})
 			.addCase(request.post.fulfilled, (state, action) => {
-				const { response } = action.payload;
-				if (response !== -1 && response !== null) {
-					state.status = "complete";
-				} else {
-					state.status = "failed";
+				if(action.payload!==null)
+				{
+					const { response } = action.payload;
+				state.status = (response !== -1 && response !== null) ? "complete" : "failed";
 				}
+				else
+				state.status = "failed";
 			})
 			.addCase(request.patch.fulfilled, (state, action) => {
-				const { response } = action.payload;
-				if (response !== -1 && response !== null) {
-					state.status = "complete";
-				} else {
-					state.status = "failed";
+				
+				if(action.payload!==null)
+				{
+					const { response } = action.payload;
+				state.status = (response !== -1 && response !== null) ? "complete" : "failed";
 				}
+				else
+				state.status = "failed";
+				
 			})
 			.addCase(request.get.fulfilled, (state, action) => {
-				const { response } = action.payload;
-				if (response !== -1 && response !== null) {
-				} else {
-					state.status = "failed";
+				if(action.payload!==null)
+				{
+					const { response, type } = action.payload;
+					state.status = (response.response !== -1 && response.response !== null) ? "complete" : "failed";
+					if(type.includes("/"))
+					return 
+					if(type.includes("OC"))
+					return
+
 				}
+				else
+				state.status = "failed";
 			});
 	},
 });
 export const request = {
 	get: createAsyncThunk("homologation/get", async (action: any) => {
-		const { url } = action;
+		const { url,type } = action;
 		try {
-			return await (
-				await consume("json").patch(url)
-			).data;
+			return {
+				response:await (
+					await consume("json").patch(url)
+				).data,
+				type
+			};
 		} catch (err: any) {
 			return null;
 		}

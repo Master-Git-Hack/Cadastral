@@ -8,11 +8,11 @@ export const SaveButton = () => {
 	const { status } = useAppSelector(getState);
 	const sendRequest = () => {
 		const path = window.location.pathname.split("/homologaciones/");
-		let url = `/HOMOLOGATION/j-appreciation`;
+		let url = `/HOMOLOGATION`;
 		if (path[1] !== "") {
 			url = `${url}/${path[1]}`;
 		}
-		url = `${url}/`;
+		url = `${url}`;
 	};
 	return (
 		<div className="row text-end">
