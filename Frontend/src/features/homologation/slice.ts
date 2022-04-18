@@ -11,6 +11,7 @@ import {
 	handleRequest,
 	handleGetRequest,
 } from "./handlers";
+
 export const slice = createSlice({
 	name: "homologation",
 	initialState,
@@ -179,50 +180,62 @@ export const slice = createSlice({
 				state.status = "loading";
 			})
 			.addCase(request.post.fulfilled, (state, action) => {
-				if(action.payload!==null)
-				{
+				if (action.payload !== null) {
 					const { response } = action.payload;
-				state.status = (response !== -1 && response !== null) ? "complete" : "failed";
-				}
-				else
-				state.status = "failed";
+					state.status = response !== -1 && response !== null ? "complete" : "failed";
+				} else state.status = "failed";
 			})
 			.addCase(request.patch.fulfilled, (state, action) => {
-				
-				if(action.payload!==null)
-				{
+				if (action.payload !== null) {
 					const { response } = action.payload;
-				state.status = (response !== -1 && response !== null) ? "complete" : "failed";
-				}
-				else
-				state.status = "failed";
-				
+					state.status = response !== -1 && response !== null ? "complete" : "failed";
+				} else state.status = "failed";
 			})
 			.addCase(request.get.fulfilled, (state, action) => {
-				if(action.payload!==null)
-				{
+				if (action.payload !== null) {
 					const { response, type } = action.payload;
-					state.status = (response.response !== -1 && response.response !== null) ? "complete" : "failed";
-					if(type.includes("/"))
-					return 
-					if(type.includes("OC"))
-					return
-
-				}
-				else
-				state.status = "failed";
+					state.status =
+						response.response !== -1 && response.response !== null
+							? "complete"
+							: "failed";
+					if (type.includes("/")) {
+						const {status} = response.response.record.homologacion;
+						if(status.includes("exists")){
+							const record = handleGetRequest(response.response,state)
+							state.factors = record.factors;
+							console.log(record.factors.Location.subject,initialState.factors.Location.subject)
+							state.documentation = record.documentation;
+							state.record = record.record;
+							
+						}
+							
+						
+						else{
+							const {documentation,factors,record} = response.response
+							state.documentation.Area.options = documentation.Area.options;
+							state.documentation.Area.subject.value = documentation.Area.subject.value;
+							state.documentation.ReFactor.surface.value = documentation.ReFactor.surface.value;
+							state.factors.Age.subject = factors.Age.subject;
+							state.record.justipreciacion = record.justipreciacion
+							state.record.homologacion.status = record.homologacion.status;
+							state.record.homologacion.type = record.homologacion.type;
+							state.status="working";
+						}
+						
+						
+					};
+					if (type.includes("OC")) return;
+				} else state.status = "failed";
 			});
 	},
 });
 export const request = {
 	get: createAsyncThunk("homologation/get", async (action: any) => {
-		const { url,type } = action;
+		const { url, type } = action;
 		try {
 			return {
-				response:await (
-					await consume("json").patch(url)
-				).data,
-				type
+				response: await (await consume("json").get(url)).data,
+				type,
 			};
 		} catch (err: any) {
 			return null;
@@ -232,7 +245,7 @@ export const request = {
 		const { url, responseType, payload } = action;
 		try {
 			return await (
-				await consume(responseType).patch(url, payload)
+				await consume(responseType).post(url, payload)
 			).data;
 		} catch (err: any) {
 			return null;

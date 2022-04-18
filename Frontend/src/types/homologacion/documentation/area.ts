@@ -62,8 +62,8 @@ const handleDataFactors = (subject: any, data: any, zoneFactor: any) => {
 			? zoneFactor[index].value
 			: value ** (1 / root);
 
-		item.factorResult1 = extras.factor1 * extras.factor2;
-		item.factorResult2 = item.factorResult1 * zoneFactor[index].value;
+		item.factorResult1 = isNaN(extras.factor1 * extras.factor2)?1:extras.factor1 * extras.factor2;
+		item.factorResult2 = isNaN(item.factorResult1 * zoneFactor[index].value)?1:item.factorResult1 * zoneFactor[index].value;
 		return item;
 	});
 	return data;
@@ -73,8 +73,8 @@ export const areaState = (type: string): areaStateProperties => ({
 	tag: type.includes("TERRENO") ? "Área de Lote Moda" : "Superficie del sujeto",
 	averageLotArea: {
 		name: type.includes("TERRENO") ? "SUPERFICIE LOTE MODA" : "SUPERFICIE DEL COMPARABLE",
-		value: 0,
-		surface: 0,
+		value: 1,
+		surface: 1,
 		operation: operationAverageLotArea,
 	},
 	subject: {

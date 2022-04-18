@@ -10,10 +10,7 @@ from Cadastral.config import (
     DBPASSWORD,
     DBHOST,
     DBPORT,
-    IMAGES_PATH,
-    TEMPLATE_PATH,
-    TEMPORARY_PATH,
-    API_URL,
+    CORSSRC,
 )
 
 
@@ -23,11 +20,7 @@ app.config[
     "SQLALCHEMY_DATABASE_URI"
 ] = f"{DBENGINE}://{DBUSER}:{DBPASSWORD}@{DBHOST}:{DBPORT}/{DBNAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["IMAGES_PATH"] = join(app.root_path, IMAGES_PATH)
-app.config["TEMPLATE_PATH"] = join(app.root_path, TEMPLATE_PATH)
-app.config["TEMPORARY_PATH"] = join(app.root_path, TEMPORARY_PATH)
-app.config["API_URL"] = API_URL
-
+cors = CORS(app, resources=CORSSRC)
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 

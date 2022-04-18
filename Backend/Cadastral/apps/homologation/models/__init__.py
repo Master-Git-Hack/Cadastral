@@ -16,12 +16,12 @@ class Homologation(db.Model):
     tipo_servicio = Column(String())
 
     def __init__(self, collection):
-        self.tipo = collection["tipo"]
+        self.tipo = collection["tipo"].lower()
         self.factores = collection["factores"]
         self.resultado = collection["resultado"]
         self.valor_unitario = collection["valor_unitario"]
         self.registro = collection["registro"]
-        self.tipo_registro = collection["tipo_registro"]
+        self.tipo_servicio = collection["tipo_servicio"].lower()
 
 
 db.create_all()
@@ -36,7 +36,7 @@ class HomologationSchema(ma.Schema):
             "resultado",
             "valor_unitario",
             "registro",
-            "tipo_registro",
+            "tipo_servicio",
         )
 
 

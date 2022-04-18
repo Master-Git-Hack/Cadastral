@@ -12,11 +12,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { RenderRoutes } from "./routes/routes";
 ReactDOM.render(
 	<React.StrictMode>
-		<Router>
-			<Provider store={store}>
+		<Provider store={store}>
+			<Router>
 				<RenderRoutes />
-			</Provider>
-		</Router>
+			</Router>
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById("root"),
 );

@@ -59,6 +59,7 @@ interface Documentation extends properties {
 interface Record extends properties {
 	justipreciacion: {
 		id: number;
+		register: string;
 	};
 	homologacion: {
 		id: number;
@@ -106,6 +107,7 @@ export const initialState: Storage = {
 	record: {
 		justipreciacion: {
 			id: Number(getParams("id")),
+			register:""
 		},
 		homologacion: {
 			id: 0,

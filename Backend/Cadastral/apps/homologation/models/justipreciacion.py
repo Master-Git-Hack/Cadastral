@@ -412,3 +412,4 @@ class JustipreciacionSchema(ma.Schema):
 
 
 justipreciacionSchema = JustipreciacionSchema()
+session = db.session

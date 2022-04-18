@@ -18,20 +18,25 @@ const templateResults = (id: number) => ({ id, value: 1 });
 const operation = (data: any, areas: any) =>
 	data.map((item: any, index: number) => {
 		const { value } = item;
-		item.unitaryCost = value / areas[index].value;
+		const unitaryCost = value / areas[index].value;
+		item.unitaryCost = isNaN(unitaryCost) ? 1 : unitaryCost;
 		return item;
 	});
 const operationResults = (salesCost: any, factors: any) =>
 	salesCost.results.map((item: any, index: number) => {
-		item.value = factors[index].value * salesCost.data[index].unitaryCost;
+		const value = factors[index].value * salesCost.data[index].unitaryCost
+		item.value = isNaN(value) ? 1 : value;
 		return item;
 	});
 const calculateAverageUnitCostValue = (data: any, percentages: any) =>
-	data.reduce(
-		(previous: number, current: any, index: number) =>
-			previous + Number(current.value * (percentages[index].value / 100)),
-		0,
-	);
+	{
+		const result = data.reduce(
+			(previous: number, current: any, index: number) =>
+				previous + Number(current.value * (percentages[index].value / 100)),
+			0,
+		)
+		return isNaN(result) ? 1 : result;
+	}
 
 const handleAverageUnitCostValue = (value: number, factor: number = 1) => {
 	const roundedValue = roundToTenth(value, 1);

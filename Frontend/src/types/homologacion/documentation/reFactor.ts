@@ -5,7 +5,6 @@ import { properties } from "../state";
 export interface reFactorStateProperties extends properties {}
 
 const operation = (average: number, subject: number, root: number) => {
-	console.log(average, subject, root);
 	return Number((average / subject) ** (1 / root));
 };
 

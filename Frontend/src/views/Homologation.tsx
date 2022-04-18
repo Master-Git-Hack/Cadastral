@@ -1,7 +1,7 @@
 /** @format */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
-import { getState, setIndiviso } from "../features/homologation/slice";
+import { getState, setIndiviso, request } from "../features/homologation/slice";
 import Factors, {
 	LocationZoneFactor,
 	SelectFactors,
@@ -15,6 +15,7 @@ export default function Homologation() {
 	const dispatch = useAppDispatch();
 	const { record, documentation, status } = useAppSelector(getState);
 	const { isUsed } = documentation.ReFactor;
+	const { id } = record.justipreciacion;
 	const { type } = record.homologacion;
 	const [visibility, setVisibility] = useState({
 		factors: true,
@@ -24,7 +25,10 @@ export default function Homologation() {
 		bigPicture: false,
 		reFactor: false,
 	});
-
+	useEffect(() => {
+		dispatch(request.get({ url: `/HOMOLOGATION/${type}/${id}`, type: "/" }));
+	}, []);
+	console.log(useAppSelector(getState));
 	return (
 		<div className="mx-5 px-5">
 			<div className="row my-auto">
