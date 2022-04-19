@@ -36,15 +36,16 @@ def patchHomologation(
 
 
 def create(id, type):
+
     record = getJustipreciacion(id)
     if record is not None:
-        if type == "TERRENO":
+        if type.upper() == "TERRENO":
             areaSubject = record.sp1_superficie
             item = record.sp1_factor
         else:
             areaSubject = record.cna_superficie
-            item = record.cna_factor
-
+            item = record.cna_edad
+        print("item: ", item)
         areaSubject = areaSubject if areaSubject is not None else 1
         item = item if item is not None else 1
 
@@ -70,13 +71,17 @@ def create(id, type):
             }
         else:
             return {
-                "factors": {"Age": {"subject": {"value": item}}},
+                "factors": {
+                    "Age": {
+                        "subject": {"value": item if type.upper() != "TERRENO" else 1}
+                    }
+                },
                 "documentation": {
                     "Area": {
                         "subject": {"value": areaSubject},
                         "options": getIndicadoresMunicipales(),
                     },
-                    "ReFactor": {"surface": item},
+                    "ReFactor": {"surface": item if type.upper() == "TERRENO" else 1},
                 },
                 "record": {
                     "justipreciacion": {
@@ -105,7 +110,6 @@ def insert(id, type, data):
 
 
 def update(id, type, data):
-    id = data["id"]
     tipo = data["tipo"].lower()
     factores = data["factores"]
     resultado = data["resultado"]
@@ -113,10 +117,12 @@ def update(id, type, data):
     registro = data["registro"]
     tipo_servicio = data["tipo_servicio"].lower()
     response = patchHomologation(
-        id, tipo, factores, resultado, valor_unitario, registro, tipo_servicio
+        data["id"], tipo, factores, resultado, valor_unitario, registro, tipo_servicio
     )
     if response is not None and bool(response):
-        if bool(patchJustipreciacion(id, type, data)):
+        response = patchJustipreciacion(id, type, data)
+
+        if bool(response):
             return True
         else:
             return None

@@ -92,6 +92,7 @@ export const slice = createSlice({
 
 			const { operation, data, subject } = state.factors[key];
 			state.factors[key].data = operation(data, subject);
+
 			state = handleUpdateOperationValues(state);
 		},
 		updateFactorStateCommon(state, action: PayloadAction<any>) {
@@ -148,6 +149,14 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
+		updateDocumentationStateRoundedTo(state, action: PayloadAction<any>) {
+			const { key, value } = action.payload;
+			if (key !== undefined && value !== undefined) {
+				console.log(key, value);
+				state.documentation.SalesCost.averageUnitCost[key] = value;
+				state = handleUpdateOperationValues(state);
+			}
+		},
 		updateDocumentationStateWeightingPercentage(state, action: PayloadAction<any>) {
 			const { key, object, index, value } = action.payload;
 			if (index !== undefined && object !== "data") {
@@ -199,31 +208,29 @@ export const slice = createSlice({
 							? "complete"
 							: "failed";
 					if (type.includes("/")) {
-						const {status} = response.response.record.homologacion;
-						if(status.includes("exists")){
-							const record = handleGetRequest(response.response,state)
+						const { status } = response.response.record.homologacion;
+						if (status.includes("exists")) {
+							const record = handleGetRequest(response.response, state);
 							state.factors = record.factors;
-							console.log(record.factors.Location.subject,initialState.factors.Location.subject)
+
 							state.documentation = record.documentation;
+
 							state.record = record.record;
-							
-						}
-							
-						
-						else{
-							const {documentation,factors,record} = response.response
+						} else {
+							const { documentation, factors, record } = response.response;
+							console.log(response.response);
 							state.documentation.Area.options = documentation.Area.options;
-							state.documentation.Area.subject.value = documentation.Area.subject.value;
-							state.documentation.ReFactor.surface.value = documentation.ReFactor.surface.value;
-							state.factors.Age.subject = factors.Age.subject;
-							state.record.justipreciacion = record.justipreciacion
+							state.documentation.Area.subject.value =
+								documentation.Area.subject.value;
+							state.documentation.ReFactor.surface.value =
+								documentation.ReFactor.surface.value;
+							state.factors.Age.subject.value = factors.Age.subject.value;
+							state.record.justipreciacion = record.justipreciacion;
 							state.record.homologacion.status = record.homologacion.status;
 							state.record.homologacion.type = record.homologacion.type;
-							state.status="working";
+							state.status = "working";
 						}
-						
-						
-					};
+					}
 					if (type.includes("OC")) return;
 				} else state.status = "failed";
 			});
@@ -278,6 +285,7 @@ export const {
 	updateFactorStateAge,
 	updateFactorStateCommon,
 	setVisibilityOrderFactors,
+	updateDocumentationStateRoundedTo,
 	updateFactorStateLocationZone,
 	updateDocumentationStateArea,
 	updateDocumentationStateSalesCost,

@@ -442,6 +442,7 @@ export const AreaDocumentation = () => {
 						</td>
 						<td>
 							<textarea
+								rows={1}
 								className="form-control form-control-sm"
 								value={item.address.extras.reference}
 								onChange={(event: any) =>

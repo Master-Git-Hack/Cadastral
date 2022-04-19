@@ -5,7 +5,9 @@ import { properties } from "../state";
 export interface reFactorStateProperties extends properties {}
 
 const operation = (average: number, subject: number, root: number) => {
-	return Number((average / subject) ** (1 / root));
+	const response = Number((average / subject) ** (1 / root));
+	console.log(average, subject, root, average / subject);
+	return isNaN(response) ? 1 : response;
 };
 
 const handleResult = (surface: number, form: number) => surface * form;

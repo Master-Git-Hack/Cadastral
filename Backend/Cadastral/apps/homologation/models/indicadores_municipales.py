@@ -1,6 +1,5 @@
-from Cadastral import app, db, ma
+from Cadastral import db, ma
 from sqlalchemy import Column, Integer, Text, Float
-from sqlalchemy.dialects import postgresql as psql
 
 
 class IndicadoresMunicipales(db.Model):
@@ -44,3 +43,4 @@ class IndicadoresMunicipalesSchema(ma.Schema):
 
 
 indicadoresMunicipalesSchema = IndicadoresMunicipalesSchema(many=True)
+session = db.session

@@ -5,7 +5,7 @@ import { getState, UpdateOperationValues } from "../../features/homologation/sli
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { toFancyNumber } from "../../utils/utils";
 import { Body, Footer, Header, Table } from "../table/Table";
-
+import { RoundedTo } from "./documentation/roundedTo";
 export default function BigPicture() {
 	const dispatch = useAppDispatch();
 	const { factors, documentation, record } = useAppSelector(getState);
@@ -94,11 +94,11 @@ export default function BigPicture() {
 					<td rowSpan={2}>
 						{toFancyNumber(Number(documentation.Area.averageLotArea.value.toFixed(2)))}
 					</td>
-					<td className="text-start" colSpan={footerLength} rowSpan={2}>
+					<td className="text-start" colSpan={footerLength - 1} rowSpan={2}>
 						m<sup>2</sup>
 					</td>
-					<td colSpan={6} className="text-end">
-						Valor Unitario Promedio
+					<td colSpan={7} className="text-end">
+						<RoundedTo /> Valor Unitario Promedio
 					</td>
 					<td>
 						{toFancyNumber(
@@ -108,7 +108,7 @@ export default function BigPicture() {
 					</td>
 				</tr>
 				<tr>
-					<td colSpan={6} className="text-end">
+					<td colSpan={7} className="text-end">
 						Valor Unitario Aplicable en Números Redondos
 					</td>
 					<td>

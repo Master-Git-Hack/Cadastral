@@ -24,29 +24,35 @@ const operation = (data: any, areas: any) =>
 	});
 const operationResults = (salesCost: any, factors: any) =>
 	salesCost.results.map((item: any, index: number) => {
-		const value = factors[index].value * salesCost.data[index].unitaryCost
+		const value = factors[index].value * salesCost.data[index].unitaryCost;
 		item.value = isNaN(value) ? 1 : value;
 		return item;
 	});
 const calculateAverageUnitCostValue = (data: any, percentages: any) =>
-	{
-		const result = data.reduce(
-			(previous: number, current: any, index: number) =>
-				previous + Number(current.value * (percentages[index].value / 100)),
-			0,
-		)
-		return isNaN(result) ? 1 : result;
-	}
-
-const handleAverageUnitCostValue = (value: number, factor: number = 1) => {
-	const roundedValue = roundToTenth(value, 1);
+	data.reduce(
+		(previous: number, current: any, index: number) =>
+			previous + Number(current.value * (percentages[index].value / 100)),
+		0,
+	);
+const handleAverageUnitCostValue = (value: number, factor: number = 1, roundedTo: any) => {
+	const roundedValue =
+		roundedTo.value !== 0 ? roundToTenth(value, roundedTo.value) : Number(value.toFixed(2));
 	const result = roundedValue * factor;
-	const adjustedValue = roundToTenth(result, 1);
+	const adjustedValue =
+		roundedTo.value !== 0 ? roundToTenth(result, roundedTo.value) : Number(result.toFixed(2));
+	console.log({
+		value,
+		roundedValue,
+		result,
+		adjustedValue,
+		roundedTo,
+	});
 	return {
 		value,
 		roundedValue,
 		result,
 		adjustedValue,
+		roundedTo,
 	};
 };
 export const salesCostState = (type: string): salesCostStateProperties => ({
@@ -58,6 +64,11 @@ export const salesCostState = (type: string): salesCostStateProperties => ({
 		roundedValue: 1,
 		result: 1,
 		adjustedValue: 1,
+		roundedTo: {
+			value: 1,
+			enabled: false,
+			observations: "",
+		},
 	},
 	template: templateData,
 	templateResults,

@@ -18,4 +18,9 @@
         "--max-line-length=180"
     ], 
     "python.pythonPath": "env/bin/python",
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#0D3511",
+        "titleBar.activeBackground": "#124A18",
+        "titleBar.activeForeground": "#F5FDF6"
+    },
 }

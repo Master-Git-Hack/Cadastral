@@ -1,5 +1,4 @@
 /** @format */
-import { roundToTenth } from "../../utils/utils";
 export const handlerAddRow = (state: any) => {
 	const { factors, documentation } = state;
 	for (const key in factors) {
@@ -106,6 +105,7 @@ const handleSalesCost = (
 	SalesCost.averageUnitCost = handleAverageUnitCostValue(
 		calculateAverageUnitCostValue(results, WeightingPercentage),
 		factor,
+		SalesCost.averageUnitCost.roundedTo,
 	);
 	return SalesCost;
 };
@@ -138,7 +138,7 @@ export const handleUpdateOperationValues = (state: any) => {
 	//refactor
 	ReFactor.surface.value = ReFactor.operation(
 		Area.averageLotArea.value,
-		Area.averageLotArea.surface,
+		type.includes("TERRENO") ? Area.averageLotArea.surface : Area.subject.value,
 		ReFactor.root,
 	);
 
@@ -159,7 +159,7 @@ export const handleUpdateOperationValues = (state: any) => {
 	if (type.includes("TERRENO")) {
 		documentation.Indiviso = Indiviso.operation(Indiviso, Area.subject.value);
 	}
-
+	state.errors = handleErrors(state);
 	return state;
 };
 
@@ -195,8 +195,8 @@ export const handleRequest = (state: any) => ({
 			position: state.factors.Level.position,
 		},
 		Location: {
-			subject: state.factors.Location.subject.map((item:any)=>{
-				const {insertion,...filtered} = item
+			subject: state.factors.Location.subject.map((item: any) => {
+				const { insertion, ...filtered } = item;
 				return filtered;
 			}),
 			data: state.factors.Location.data,
@@ -244,8 +244,8 @@ export const handleRequest = (state: any) => ({
 			position: state.factors.Usage.position,
 		},
 		Zone: {
-			subject: state.factors.Zone.subject.map((item:any)=>{
-				const {insertion,...filtered} = item
+			subject: state.factors.Zone.subject.map((item: any) => {
+				const { insertion, ...filtered } = item;
 				return filtered;
 			}),
 			data: state.factors.Zone.data,
@@ -257,19 +257,22 @@ export const handleRequest = (state: any) => ({
 	resultado: {
 		Area: {
 			averageLotArea: {
-				name:state.documentation.Area.averageLotArea.name,
-				surface:state.documentation.Area.averageLotArea.surface,
-				value:state.documentation.Area.averageLotArea.value,
+				name: state.documentation.Area.averageLotArea.name,
+				surface: state.documentation.Area.averageLotArea.surface,
+				value: state.documentation.Area.averageLotArea.value,
+				roundedTo: state.documentation.Area.averageLotArea.roundedTo,
 			},
 			subject: state.documentation.Area.subject,
 			data: state.documentation.Area.data,
 		},
-		Indiviso: state.record.homologacion.type.includes("TERRENO")?({
-			surface:state.documentation.Indiviso.surface,
-			building:state.documentation.Indiviso.building,
-			indiviso:state.documentation.Indiviso.indiviso,
-			result:state.documentation.Indiviso.result
-		}):({}),
+		Indiviso: state.record.homologacion.type.includes("TERRENO")
+			? {
+					surface: state.documentation.Indiviso.surface,
+					building: state.documentation.Indiviso.building,
+					indiviso: state.documentation.Indiviso.indiviso,
+					result: state.documentation.Indiviso.result,
+			  }
+			: {},
 		ReFactor: {
 			surface: state.documentation.ReFactor.surface,
 			form: state.documentation.ReFactor.form,
@@ -287,26 +290,28 @@ export const handleRequest = (state: any) => ({
 			data: state.documentation.WeightingPercentage.data,
 		},
 	},
-	valor_unitario: ((state.documentation.ReFactor.isUsed)
-	? state.documentation.SalesCost.averageUnitCost.adjustedValue
-	: state.documentation.SalesCost.averageUnitCost.roundedValue),
+	valor_unitario: state.documentation.ReFactor.isUsed
+		? state.documentation.SalesCost.averageUnitCost.adjustedValue
+		: state.documentation.SalesCost.averageUnitCost.roundedValue,
 	tipo_servicio: state.record.homologacion.appraisalPurpose,
-	tipo:state.record.homologacion.type,
-	registro:state.record.justipreciacion.register,
-	id:state.record.homologacion.id
+	tipo: state.record.homologacion.type,
+	registro: state.record.justipreciacion.register,
+	id: state.record.homologacion.id,
 });
 export const handleGetRequest = (state: any, initialState: any) => {
-	const payload=({
+	const payload = {
 		...initialState,
 		record: state.record,
 		factors: {
 			Age: {
 				...initialState.factors.Age,
-				subject: state.factors.Age.subject,
+				subject: {
+					operator: initialState.factors.Age.subject.operator,
+					value: state.factors.Age.subject.value,
+				},
 				data: state.factors.Age.data,
 				isUsed: state.factors.Age.isUsed,
 				position: state.factors.Age.position,
-				
 			},
 			Building: {
 				...initialState.factors.Building,
@@ -314,7 +319,6 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				data: state.factors.Building.data,
 				isUsed: state.factors.Building.isUsed,
 				position: state.factors.Building.position,
-				
 			},
 			Classification: {
 				...initialState.factors.Classification,
@@ -322,14 +326,12 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				data: state.factors.Classification.data,
 				isUsed: state.factors.Classification.isUsed,
 				position: state.factors.Classification.position,
-				
 			},
 			Commercial: {
 				...initialState.factors.Commercial,
 				data: state.factors.Commercial.data,
 				isUsed: state.factors.Commercial.isUsed,
 				position: state.factors.Commercial.position,
-				
 			},
 			Level: {
 				...initialState.factors.Level,
@@ -337,17 +339,18 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				data: state.factors.Level.data,
 				isUsed: state.factors.Level.isUsed,
 				position: state.factors.Level.position,
-				
 			},
 			Location: {
 				...initialState.factors.Location,
-				subject: state.factors.Location.subject.map((item:any)=>{
-					return {...item,insertion:initialState.factors.Location.subject[0].insertion}
+				subject: state.factors.Location.subject.map((item: any) => {
+					return {
+						...item,
+						insertion: initialState.factors.Location.subject[0].insertion,
+					};
 				}),
 				data: state.factors.Location.data,
 				isUsed: state.factors.Location.isUsed,
 				position: state.factors.Location.position,
-				
 			},
 			Project: {
 				...initialState.factors.Project,
@@ -355,7 +358,6 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				data: state.factors.Project.data,
 				isUsed: state.factors.Project.isUsed,
 				position: state.factors.Project.position,
-				
 			},
 			Quality: {
 				...initialState.factors.Quality,
@@ -363,14 +365,12 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				data: state.factors.Quality.data,
 				isUsed: state.factors.Quality.isUsed,
 				position: state.factors.Quality.position,
-				
 			},
 			Results: {
 				...initialState.factors.Results,
 				data: state.factors.Results.data,
 				isUsed: state.factors.Results.isUsed,
 				position: state.factors.Results.position,
-				
 			},
 			Surface: {
 				...initialState.factors.Surface,
@@ -378,7 +378,6 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				isUsed: state.factors.Surface.isUsed,
 				position: state.factors.Surface.position,
 				root: state.factors.Surface.root,
-				
 			},
 			Topography: {
 				...initialState.factors.Topography,
@@ -386,7 +385,6 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				data: state.factors.Topography.data,
 				isUsed: state.factors.Topography.isUsed,
 				position: state.factors.Topography.position,
-				
 			},
 			TypeForm: {
 				...initialState.factors.TypeForm,
@@ -394,7 +392,6 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				data: state.factors.TypeForm.data,
 				isUsed: state.factors.TypeForm.isUsed,
 				position: state.factors.TypeForm.position,
-				
 			},
 			Usage: {
 				...initialState.factors.Usage,
@@ -402,18 +399,16 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				data: state.factors.Usage.data,
 				isUsed: state.factors.Usage.isUsed,
 				position: state.factors.Usage.position,
-				
 			},
 			Zone: {
 				...initialState.factors.Zone,
-				subject: state.factors.Zone.subject.map((item:any)=>{
-					return {...item,insertion:initialState.factors.Zone.subject[0].insertion}
+				subject: state.factors.Zone.subject.map((item: any) => {
+					return { ...item, insertion: initialState.factors.Zone.subject[0].insertion };
 				}),
 				data: state.factors.Zone.data,
 				results: state.factors.Zone.results,
 				isUsed: state.factors.Zone.isUsed,
 				position: state.factors.Zone.position,
-				
 			},
 		},
 		documentation: {
@@ -421,14 +416,13 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				...initialState.documentation.Area,
 				averageLotArea: {
 					...initialState.documentation.Area.averageLotArea,
-					name:state.documentation.Area.averageLotArea.name,
-					surface:state.documentation.Area.averageLotArea.surface,
-					value:state.documentation.Area.averageLotArea.value,
+					name: state.documentation.Area.averageLotArea.name,
+					surface: state.documentation.Area.averageLotArea.surface,
+					value: state.documentation.Area.averageLotArea.value,
 				},
 				subject: state.documentation.Area.subject,
 				data: state.documentation.Area.data,
-				options:state?.areaOptions,
-				
+				options: state?.areaOptions,
 			},
 			Indiviso: {
 				...state.documentation.Indiviso,
@@ -447,16 +441,112 @@ export const handleGetRequest = (state: any, initialState: any) => {
 				averageUnitCost: state.documentation.SalesCost.averageUnitCost,
 				data: state.documentation.SalesCost.data,
 				results: state.documentation.SalesCost.results,
-				
 			},
 			WeightingPercentage: {
 				...initialState.documentation.WeightingPercentage,
 				total: state.documentation.WeightingPercentage.total,
 				data: state.documentation.WeightingPercentage.data,
-				
 			},
 		},
-	
-	});
-	return payload
-}
+	};
+	console.log(payload);
+	return payload;
+};
+
+export const handleErrors = (state: any) => {
+	const errors=[]
+	const {  factors, documentation } = state;
+	const { Location, Zone, Surface } = factors;
+	const { data } = documentation.Area;
+	const { root } = Surface;
+	const {roundedTo} = documentation.SalesCost.averageUnitCost;
+	for(let i=0;i<data.length;i++){
+		const {address} = data[i]
+		const list = {} as any
+		if(Location.subject[i]!==undefined){
+			
+			if(Location.subject[i].observations.trim()==="")
+			list["Location"]={
+				name: "Factor de Ubicación",
+				message:"El campo esta vacio",
+				reference:`C${i+1}`
+			}
+		}
+		if(Zone.subject.length[i]!==undefined){
+			if(Zone.subject[i].observations.trim()==="")
+				list["Zone"]={
+					name: "Factor de Zona",
+					message:"El campo esta vacio",
+					reference:`C${i+1}`
+				}
+		}
+		if(address.colony.trim()==="")
+			list["Area"]={
+				...list["Area"],
+				colony:{
+					name: "Apartado de Colonia",
+					message:"El campo esta vacio",
+					reference:`C${i+1}`
+				}
+			}
+		if(address.colony.trim()==="")
+			list["Area"]={
+				...list["Area"],
+				street:{
+					name: "Apartado de Dirección",
+					message:"El campo esta vacio",
+					reference:`C${i+1}`
+				}
+			}
+		if(address.streetNumber===0 && address.hasNoStreetNumber === false)
+			list["Area"]={
+				...list["Area"],
+				streetNumber:{
+					name: "Apartado de numero",
+					message:"El campo esta vacio, si no tiene número de calle presione el switch para indicarlo",
+					reference:`C${i+1}`
+				}
+			}
+		if(address.extras.observations.trim()==="")
+			list["Area"]={
+				...list["Area"],
+				observations:{
+					name: "Apartado de Caracteristicas",
+					message:"El campo esta vacio",
+					reference:`C${i+1}`
+				}
+			}
+		if(address.extras.reference.trim()==="")
+			list["Area"]={
+				...list["Area"],
+				reference:{
+					name: "Apartado de Consulta",
+					message:"El campo esta vacio",
+					reference:`C${i+1}`
+				}
+			}
+		if(Object.keys(list).length > 0)
+			errors.push(list)
+	}
+	if(root.enabled && root.observations.trim()===""){
+		errors.push({
+			Surface:{
+				observations:{
+					name: "Factor de Superficie",
+					message:"El campo fue activado para cambiar el valor predeterminado de la raiz aplicada, favor de justificar el motivo del cambio.",
+				}
+			}
+		})
+	}
+	if(roundedTo.enabled && roundedTo.observations.trim()===""){
+		errors.push({
+			SalesCost:{
+				observations:{
+					name: "Factor de Superficie",
+					message:"El campo fue activado para cambiar el valor predeterminado de la raiz aplicada, favor de justificar el motivo del cambio.",
+				}
+			}
+		})
+	}
+	return errors;
+};

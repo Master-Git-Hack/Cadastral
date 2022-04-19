@@ -18,7 +18,9 @@ const template = (id: number) => ({
 });
 const operation = (data: any, subject: any) =>
 	data.map((item: any) => {
-		item.result = 1 - (subject.value - item.value) * subject.operator;
+		const result = 1 - (subject.value - item.value) * subject.operator;
+		console.log(result, item.value, subject.value, subject.operator);
+		item.result = isNaN(result) ? 1 : result;
 		return item;
 	});
 const insertion = (data: any) => {

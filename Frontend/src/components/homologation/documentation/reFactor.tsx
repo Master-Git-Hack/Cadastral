@@ -10,7 +10,6 @@ import { toFancyNumber } from "../../../utils/utils";
 import { FancyInput } from "../../inputs/fancyInput";
 import { Body, Footer, Header, Table } from "../../table/Table";
 export default function ReFactor() {
-	const { type } = useAppSelector(getState).record.homologacion;
 	return (
 		<div className="d-flex justify-content-center px-5 my-3 mx-5">
 			<div className="col mx-2">
@@ -31,7 +30,6 @@ export const ReFactorComponent = () => {
 	const { SalesCost, Area, ReFactor } = documentation;
 	const { surface, value } = Area.averageLotArea;
 	const { type } = record.homologacion;
-	const { result } = SalesCost.averageUnitCost;
 	return (
 		<Table>
 			<Header>

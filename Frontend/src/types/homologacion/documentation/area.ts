@@ -62,8 +62,12 @@ const handleDataFactors = (subject: any, data: any, zoneFactor: any) => {
 			? zoneFactor[index].value
 			: value ** (1 / root);
 
-		item.factorResult1 = isNaN(extras.factor1 * extras.factor2)?1:extras.factor1 * extras.factor2;
-		item.factorResult2 = isNaN(item.factorResult1 * zoneFactor[index].value)?1:item.factorResult1 * zoneFactor[index].value;
+		item.factorResult1 = isNaN(extras.factor1 * extras.factor2)
+			? 1
+			: extras.factor1 * extras.factor2;
+		item.factorResult2 = isNaN(item.factorResult1 * zoneFactor[index].value)
+			? 1
+			: item.factorResult1 * zoneFactor[index].value;
 		return item;
 	});
 	return data;

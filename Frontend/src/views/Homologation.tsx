@@ -27,6 +27,16 @@ export default function Homologation() {
 	});
 	useEffect(() => {
 		dispatch(request.get({ url: `/HOMOLOGATION/${type}/${id}`, type: "/" }));
+		if (record.homologacion.status === "exists") {
+			setVisibility({
+				factors: false,
+				location: false,
+				documentation: false,
+				selection: false,
+				bigPicture: true,
+				reFactor: false,
+			});
+		}
 	}, []);
 	console.log(useAppSelector(getState));
 	return (
@@ -178,13 +188,18 @@ const Container = (props: {
 	visibility: { [key: string]: boolean };
 	setVisibility: Function;
 	children: any;
-}) =>
-	props.visibility[props.current] ? (
+}) => {
+	useEffect(() => {
+		if (props.visibility[props.current]) window.scrollTo(0, 0);
+	}, [props.visibility[props.current]]);
+	return props.visibility[props.current] ? (
 		<div className="container container-fluid py-4 px-auto">
 			{props.children}
 			<NavigationButton {...props} />
 		</div>
 	) : null;
+};
+
 /*
 import { SelectFactor } from "../components/homologation/selectFactor";
 import { FactorsCompilation, Location, Zone, Age } from "../components/homologation/factors";

@@ -107,7 +107,7 @@ export const initialState: Storage = {
 	record: {
 		justipreciacion: {
 			id: Number(getParams("id")),
-			register:""
+			register: "",
 		},
 		homologacion: {
 			id: 0,
