@@ -96,7 +96,6 @@ const HandleRoundedTo = (props: {
 export const RoundedTo = () => {
 	const [show, setShow] = useState(false);
 	const dispatch = useAppDispatch();
-	console.log(useAppSelector(getState).documentation.SalesCost.averageUnitCost.roundedTo);
 	const { value, enabled, observations } =
 		useAppSelector(getState).documentation.SalesCost.averageUnitCost.roundedTo;
 	const props = {

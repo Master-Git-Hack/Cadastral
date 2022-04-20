@@ -40,13 +40,7 @@ const handleAverageUnitCostValue = (value: number, factor: number = 1, roundedTo
 	const result = roundedValue * factor;
 	const adjustedValue =
 		roundedTo.value !== 0 ? roundToTenth(result, roundedTo.value) : Number(result.toFixed(2));
-	console.log({
-		value,
-		roundedValue,
-		result,
-		adjustedValue,
-		roundedTo,
-	});
+
 	return {
 		value,
 		roundedValue,

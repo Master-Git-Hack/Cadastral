@@ -88,4 +88,5 @@ export const supplementaryWorksState: supplementaryWorksStateProperties = {
 	operation,
 	options,
 	getTotal,
+	errors: [],
 };

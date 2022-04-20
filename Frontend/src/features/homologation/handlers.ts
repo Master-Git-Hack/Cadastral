@@ -454,99 +454,124 @@ export const handleGetRequest = (state: any, initialState: any) => {
 };
 
 export const handleErrors = (state: any) => {
-	const errors=[]
-	const {  factors, documentation } = state;
+	const errors = [];
+	const { factors, documentation } = state;
 	const { Location, Zone, Surface } = factors;
 	const { data } = documentation.Area;
 	const { root } = Surface;
-	const {roundedTo} = documentation.SalesCost.averageUnitCost;
-	for(let i=0;i<data.length;i++){
-		const {address} = data[i]
-		const list = {} as any
-		if(Location.subject[i]!==undefined){
-			
-			if(Location.subject[i].observations.trim()==="")
-			list["Location"]={
-				name: "Factor de Ubicación",
-				message:"El campo esta vacio",
-				reference:`C${i+1}`
-			}
+	const { roundedTo } = documentation.SalesCost.averageUnitCost;
+	for (let i = 0; i < data.length; i++) {
+		const { address } = data[i];
+		const list = {} as any;
+		if (Location.subject[i] !== undefined) {
+			if (Location.subject[i].observations.trim() === "")
+				list["Location"] = {
+					name: "Factor de Ubicación",
+					message: "El campo esta vacio",
+					reference: `la fila ${i + 1}`,
+				};
 		}
-		if(Zone.subject.length[i]!==undefined){
-			if(Zone.subject[i].observations.trim()==="")
-				list["Zone"]={
+		if (Zone.subject[i] !== undefined) {
+			if (Zone.subject[i].observations.trim() === "")
+				list["Zone"] = {
 					name: "Factor de Zona",
-					message:"El campo esta vacio",
-					reference:`C${i+1}`
-				}
+					message: "El campo esta vacio",
+					reference: `la fila ${i + 1}`,
+				};
 		}
-		if(address.colony.trim()==="")
-			list["Area"]={
+		if (address.colony.trim() === "")
+			list["Area"] = {
 				...list["Area"],
-				colony:{
+				colony: {
 					name: "Apartado de Colonia",
-					message:"El campo esta vacio",
-					reference:`C${i+1}`
-				}
-			}
-		if(address.colony.trim()==="")
-			list["Area"]={
+					message: "El campo esta vacio",
+					reference: `C${i + 1}`,
+				},
+			};
+		if (address.street.trim() === "")
+			list["Area"] = {
 				...list["Area"],
-				street:{
+				street: {
 					name: "Apartado de Dirección",
-					message:"El campo esta vacio",
-					reference:`C${i+1}`
-				}
-			}
-		if(address.streetNumber===0 && address.hasNoStreetNumber === false)
-			list["Area"]={
+					message: "El campo esta vacio",
+					reference: `C${i + 1}`,
+				},
+			};
+		if (address.streetNumber === 0 && address.hasNoStreetNumber === false)
+			list["Area"] = {
 				...list["Area"],
-				streetNumber:{
+				streetNumber: {
 					name: "Apartado de numero",
-					message:"El campo esta vacio, si no tiene número de calle presione el switch para indicarlo",
-					reference:`C${i+1}`
-				}
-			}
-		if(address.extras.observations.trim()==="")
-			list["Area"]={
+					message:
+						"El campo esta vacio, si no tiene número de calle presione el switch para indicarlo",
+					reference: `C${i + 1}`,
+				},
+			};
+		if (address.extras.observations.trim() === "")
+			list["Area"] = {
 				...list["Area"],
-				observations:{
+				observations: {
 					name: "Apartado de Caracteristicas",
-					message:"El campo esta vacio",
-					reference:`C${i+1}`
-				}
-			}
-		if(address.extras.reference.trim()==="")
-			list["Area"]={
+					message: "El campo esta vacio",
+					reference: `C${i + 1}`,
+				},
+			};
+		if (address.extras.reference.trim() === "")
+			list["Area"] = {
 				...list["Area"],
-				reference:{
+				references: {
 					name: "Apartado de Consulta",
-					message:"El campo esta vacio",
-					reference:`C${i+1}`
-				}
-			}
-		if(Object.keys(list).length > 0)
-			errors.push(list)
+					message: "El campo esta vacio",
+					reference: `C${i + 1}`,
+				},
+			};
+		if (Object.keys(list).length > 0) errors.push(list);
 	}
-	if(root.enabled && root.observations.trim()===""){
+	if (root.enabled && root.observations.trim() === "") {
 		errors.push({
-			Surface:{
-				observations:{
+			Surface: {
+				observations: {
 					name: "Factor de Superficie",
-					message:"El campo fue activado para cambiar el valor predeterminado de la raiz aplicada, favor de justificar el motivo del cambio.",
-				}
-			}
-		})
+					message:
+						"El campo fue activado para cambiar el valor predeterminado de la raiz aplicada, favor de justificar el motivo del cambio.",
+				},
+			},
+		});
 	}
-	if(roundedTo.enabled && roundedTo.observations.trim()===""){
+	if (roundedTo.enabled && roundedTo.observations.trim() === "") {
 		errors.push({
-			SalesCost:{
-				observations:{
+			SalesCost: {
+				observations: {
 					name: "Factor de Superficie",
-					message:"El campo fue activado para cambiar el valor predeterminado de la raiz aplicada, favor de justificar el motivo del cambio.",
-				}
-			}
-		})
+					message:
+						"El campo fue activado para cambiar el valor predeterminado de la raiz aplicada, favor de justificar el motivo del cambio.",
+				},
+			},
+		});
+	}
+	if (Location.subject.length > data.length) {
+		for (let i = data.length; i < Location.subject.length; i++) {
+			const list = {} as any;
+			if (Location.subject[i].observations.trim() === "")
+				list["Location"] = {
+					name: "Factor de Ubicación",
+					message: "El campo esta vacio",
+					reference: `la fila ${i + 1}`,
+				};
+			if (Object.keys(list).length > 0) errors.push(list);
+		}
+	}
+	if (Zone.subject.length > data.length) {
+		for (let i = data.length; i < Zone.subject.length; i++) {
+			const list = {} as any;
+			if (Zone.subject[i].observations.trim() === "")
+				list["Zone"] = {
+					name: "Factor de Zona",
+					message: "El campo esta vacio",
+					reference: `la fila ${i + 1}`,
+				};
+			if (Object.keys(list).length > 0) errors.push(list);
+		}
 	}
 	return errors;
 };

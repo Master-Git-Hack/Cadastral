@@ -25,8 +25,12 @@ export default function Homologation() {
 		bigPicture: false,
 		reFactor: false,
 	});
+
 	useEffect(() => {
 		dispatch(request.get({ url: `/HOMOLOGATION/${type}/${id}`, type: "/" }));
+	}, []);
+
+	useEffect(() => {
 		if (record.homologacion.status === "exists") {
 			setVisibility({
 				factors: false,
@@ -37,20 +41,12 @@ export default function Homologation() {
 				reFactor: false,
 			});
 		}
-	}, []);
+	}, [record.homologacion.status]);
+
 	console.log(useAppSelector(getState));
 	return (
 		<div className="mx-5 px-5">
-			<div className="row my-auto">
-				<div className="col my-auto">
-					<h5>
-						Homologación de tipo: <strong>{type}</strong>
-					</h5>
-				</div>
-				<div className="col my-auto">
-					{!status.includes("loading") ? <SaveButton /> : null}
-				</div>
-			</div>
+			<SaveButton />
 			{!status.includes("loading") ? (
 				<>
 					<Container

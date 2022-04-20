@@ -1,7 +1,9 @@
+/** @format */
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { consume } from "./api.config";
 
-export const request = (component:string)=>({
+export const request = (component: string) => ({
 	get: createAsyncThunk(`${component}/get`, async (action: any) => {
 		const { url, type } = action;
 		try {

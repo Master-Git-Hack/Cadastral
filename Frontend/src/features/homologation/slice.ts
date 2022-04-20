@@ -232,6 +232,7 @@ export const slice = createSlice({
 						}
 					}
 					if (type.includes("OC")) return;
+					state = handleUpdateOperationValues(state);
 				} else state.status = "failed";
 			});
 	},

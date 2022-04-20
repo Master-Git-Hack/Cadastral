@@ -1,7 +1,4 @@
-SELECT c.*, 
-    CONCAT('A.'||c.muros,', B.'||c.cnb_muros,', C.'||c.cnc_muros,', D.'||c.cnd_muros,'.') muros,
-    CONCAT('A.'||c.estructura ,', B.'||c.cnb_estructura ,', C.'||c.cnc_estructura ,', D.'||c.cnd_estructura,'.') estructura,
-    CONCAT('A.'||c.entrepisos ,', B.'||c.cnb_entrepisos ,', C.'||c.cnc_entrepisos ,', D.'||c.cnd_entrepisos,'.') entrepisos,
+SELECT c.*
     CONCAT('A.'||c.techos ,', B.'||c.cnb_techos ,', C.'||c.cnc_techos ,', D.'||c.cnd_techos,'.') techos,
     CONCAT('A.'||c.pisos ,', B.'||c.cnb_pisos ,', C.'||c.cnc_pisos ,', D.'||c.cnd_pisos,'.') pisos,
     CONCAT('A.'||c.puertas ,', B.'||c.cnb_puertas ,', C.'||c.cnc_puertas ,', D.'||c.cnd_puertas,'.') puertas,

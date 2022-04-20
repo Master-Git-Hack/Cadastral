@@ -44,6 +44,7 @@ export default function BigPicture() {
 	useEffect(() => {
 		dispatch(UpdateOperationValues());
 		countFactorsUsed();
+		window.resizeTo(1250, 500);
 	}, []);
 	const footerLength = factorsUsed - (!type.includes("TERRENO") ? 4 : 3);
 
@@ -94,7 +95,11 @@ export default function BigPicture() {
 					<td rowSpan={2}>
 						{toFancyNumber(Number(documentation.Area.averageLotArea.value.toFixed(2)))}
 					</td>
-					<td className="text-start" colSpan={footerLength - 1} rowSpan={2}>
+					<td
+						className="text-start"
+						colSpan={footerLength - (type.includes("TERRENO") ? 1 : 0)}
+						rowSpan={2}
+					>
 						m<sup>2</sup>
 					</td>
 					<td colSpan={7} className="text-end">

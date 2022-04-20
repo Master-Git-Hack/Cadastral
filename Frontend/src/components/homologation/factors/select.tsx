@@ -40,7 +40,6 @@ export const SelectFactorsComponent = () => {
 		}
 		return list;
 	};
-	console.log(positions, "=>", selected);
 	return (
 		<div className="container container-fluid">
 			<h2>

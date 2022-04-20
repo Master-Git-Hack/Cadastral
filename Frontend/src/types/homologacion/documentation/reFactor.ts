@@ -6,7 +6,7 @@ export interface reFactorStateProperties extends properties {}
 
 const operation = (average: number, subject: number, root: number) => {
 	const response = Number((average / subject) ** (1 / root));
-	console.log(average, subject, root, average / subject);
+
 	return isNaN(response) ? 1 : response;
 };
 

@@ -73,7 +73,7 @@ export interface Storage extends properties {
 	factors: Factors;
 	documentation: Documentation;
 	supplementaryWorks: supplementaryWorksStateProperties;
-	errors: Array<string>;
+	errors: Array<Object>;
 	record: Record;
 }
 const type = (getParams("tipo") !== "" ? getParams("tipo")?.toUpperCase() : "TERRENO") as string;
