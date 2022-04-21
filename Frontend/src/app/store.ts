@@ -2,10 +2,13 @@
 
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import homologationReducer from "../features/homologation/slice";
+import supplementaryWorksReducer from "../features/homologation/supplementaryWorks/slice";
 import reportsReducer from "../features/handleReports/slice";
+
 export const store = configureStore({
 	reducer: {
 		homologation: homologationReducer,
+		supplementaryWorks: supplementaryWorksReducer,
 		reports: reportsReducer,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),

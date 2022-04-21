@@ -122,18 +122,18 @@ export const UsageFactor = () => (
 );
 
 export const LocationFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+	<div className="row justify-content-center my-3 mx-auto">
 		<SymbolsTable id={9} name="Location" />
 	</div>
 );
 export const ZoneFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+	<div className="row justify-content-center my-3 mx-auto">
 		<SymbolsTable id={10} name="Zone" />
 	</div>
 );
 
 export const LocationZoneFactor = () => (
-	<div className="col justify-content-center px-5 my-3 mx-5">
+	<div className="container-xxl mx-auto">
 		<LocationFactor />
 		<ZoneExtraInformationTable />
 		<ZoneFactor />

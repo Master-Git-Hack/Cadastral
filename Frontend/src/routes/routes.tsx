@@ -1,5 +1,5 @@
 /** @format */
-
+import { getParams } from "../utils/utils";
 import { FC, Fragment } from "react";
 import { Routes, Route } from "react-router-dom";
 import { NavigationBar } from "../components/navigation/navbar";
@@ -26,6 +26,6 @@ export const SinglePages: FC = () => (
 		<Route path="*" element={<ErrorPage />} />
 	</Routes>
 );
-const params = new URLSearchParams(window.location.search).get("key");
+const params = getParams("key");
 export const RenderRoutes: FC = () =>
 	params !== undefined && params !== null ? <SinglePages /> : <WithNavigation />;

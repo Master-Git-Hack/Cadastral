@@ -1,6 +1,6 @@
 /** @format */
 
-import { properties } from "./state";
+import { getParams } from "../../../utils/utils";
 const options = [
 	{
 		id: 1,
@@ -48,6 +48,9 @@ const options = [
 		type: "DESECHO",
 	},
 ];
+interface properties {
+	[key: string]: any;
+}
 export interface supplementaryWorksStateProperties extends properties {
 	data: Array<properties>;
 }
@@ -56,6 +59,7 @@ const operation = (data: any) =>
 		const { age, vut, unitCost, stateOfConservationFactor, quantity } = item;
 		age.factor = 1 - (age.value / vut) ** 1.4;
 		unitCost.net = stateOfConservationFactor.value * age.factor * unitCost.value;
+		console.log(unitCost.net, quantity.value, unitCost.net * quantity.value);
 		unitCost.result = unitCost.net * quantity.value;
 		return item;
 	});
@@ -81,12 +85,19 @@ const template = (id: number) => ({
 		result: 1,
 	},
 });
-export const supplementaryWorksState: supplementaryWorksStateProperties = {
+export const initialState: supplementaryWorksStateProperties = {
 	data: [template(1)],
 	total: 1,
 	template,
 	operation,
 	options,
 	getTotal,
-	errors: [],
+	status: "working",
+	id: getParams("id"),
+	record: {
+		id: 0,
+		register: "",
+		appraisalPurpose: getParams("tipo_servicio"),
+		type: "newOne",
+	},
 };

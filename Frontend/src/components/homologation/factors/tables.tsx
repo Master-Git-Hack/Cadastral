@@ -422,12 +422,12 @@ const ZoneExtra = () => {
 };
 export const SymbolsTable = (props: { id: number; name: string }) =>
 	props.name === "Zone" ? (
-		<div className="d-flex">
-			<div className="col-11 col-sm-11 ">
+		<div className="row">
+			<div className="col-10">
 				<SymbolsComponent {...props} />
 			</div>
 
-			<div className="col-1 col-sm-1">
+			<div className="col">
 				<ZoneExtra />
 			</div>
 		</div>

@@ -1,16 +1,17 @@
 /** @format */
 
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import { consume } from "../../api/api.config";
+import { request } from "../../api/request";
 import { initialState } from "../../types/homologacion/storage";
 import {
 	handlerAddRow,
 	handlerRemoveRow,
 	handleUpdateOperationValues,
-	handleRequest,
 	handleGetRequest,
 } from "./handlers";
+
+export const consume = request("homologation");
 
 export const slice = createSlice({
 	name: "homologation",
@@ -34,11 +35,6 @@ export const slice = createSlice({
 			state.factors[key].subject = insertionSubject(subject);
 			state = handleUpdateOperationValues(state);
 		},
-		addRowSupplementary(state) {
-			const { template, data } = state.supplementaryWorks;
-			const id = data.length + 1;
-			state.supplementaryWorks.data.push(template(id));
-		},
 		setVisibilityOrderFactors(state, action: PayloadAction<any>) {
 			const { key, value } = action.payload;
 			const data = state.factors[key];
@@ -54,12 +50,6 @@ export const slice = createSlice({
 			state.documentation = result.documentation;
 			state = handleUpdateOperationValues(state);
 		},
-		removeRowSupplementary(state) {
-			const { data } = state.supplementaryWorks;
-			if (data.length > 1) {
-				state.supplementaryWorks.data.pop();
-			}
-		},
 		removeRowLocationZone(state, action: PayloadAction<any>) {
 			const { key } = action.payload;
 			const length = state.factors[key].subject.length;
@@ -71,19 +61,7 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
-		updateSupplementary(state, action: PayloadAction<any>) {
-			const { index, key, value, object } = action.payload;
-			if (object !== undefined) {
-				state.supplementaryWorks.data[index][key][object] = value;
-			} else {
-				state.supplementaryWorks.data[index][key] = value;
-			}
-			if (key.includes("state")) {
-			}
-			const { getTotal, operation, data } = state.supplementaryWorks;
-			state.supplementaryWorks.data = operation(data);
-			state.supplementaryWorks.total = getTotal(data);
-		},
+
 		updateFactorStateAge(state, action: PayloadAction<any>) {
 			const { key, object, index, value } = action.payload;
 			if (index !== undefined && object !== "subject")
@@ -179,97 +157,58 @@ export const slice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(request.get.pending, (state) => {
+			.addCase(consume.get.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(request.post.pending, (state) => {
+			.addCase(consume.post.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(request.patch.pending, (state) => {
+			.addCase(consume.patch.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(request.post.fulfilled, (state, action) => {
+			.addCase(consume.post.fulfilled, (state, action) => {
 				if (action.payload !== null) {
 					const { response } = action.payload;
 					state.status = response !== -1 && response !== null ? "complete" : "failed";
 				} else state.status = "failed";
 			})
-			.addCase(request.patch.fulfilled, (state, action) => {
+			.addCase(consume.patch.fulfilled, (state, action) => {
 				if (action.payload !== null) {
 					const { response } = action.payload;
 					state.status = response !== -1 && response !== null ? "complete" : "failed";
 				} else state.status = "failed";
 			})
-			.addCase(request.get.fulfilled, (state, action) => {
+			.addCase(consume.get.fulfilled, (state, action) => {
 				if (action.payload !== null) {
-					const { response, type } = action.payload;
-					state.status =
-						response.response !== -1 && response.response !== null
-							? "complete"
-							: "failed";
-					if (type.includes("/")) {
-						const { status } = response.response.record.homologacion;
-						if (status.includes("exists")) {
-							const record = handleGetRequest(response.response, state);
-							state.factors = record.factors;
+					const { response } = action.payload;
 
-							state.documentation = record.documentation;
+					state.status = response !== -1 && response !== null ? "complete" : "failed";
+					const { status } = response.record.homologacion;
+					if (status.includes("exists")) {
+						const record = handleGetRequest(response, state);
+						state.factors = record.factors;
 
-							state.record = record.record;
-						} else {
-							const { documentation, factors, record } = response.response;
-							console.log(response.response);
-							state.documentation.Area.options = documentation.Area.options;
-							state.documentation.Area.subject.value =
-								documentation.Area.subject.value;
-							state.documentation.ReFactor.surface.value =
-								documentation.ReFactor.surface.value;
-							state.factors.Age.subject.value = factors.Age.subject.value;
-							state.record.justipreciacion = record.justipreciacion;
-							state.record.homologacion.status = record.homologacion.status;
-							state.record.homologacion.type = record.homologacion.type;
-							state.status = "working";
-						}
+						state.documentation = record.documentation;
+
+						state.record = record.record;
+					} else {
+						const { documentation, factors, record } = response;
+						console.log(response.response);
+						state.documentation.Area.options = documentation.Area.options;
+						state.documentation.Area.subject.value = documentation.Area.subject.value;
+						state.documentation.ReFactor.surface.value =
+							documentation.ReFactor.surface.value;
+						state.factors.Age.subject.value = factors.Age.subject.value;
+						state.record.justipreciacion = record.justipreciacion;
+						state.record.homologacion.status = record.homologacion.status;
+						state.record.homologacion.type = record.homologacion.type;
+						state.status = "working";
 					}
-					if (type.includes("OC")) return;
 					state = handleUpdateOperationValues(state);
 				} else state.status = "failed";
 			});
 	},
 });
-export const request = {
-	get: createAsyncThunk("homologation/get", async (action: any) => {
-		const { url, type } = action;
-		try {
-			return {
-				response: await (await consume("json").get(url)).data,
-				type,
-			};
-		} catch (err: any) {
-			return null;
-		}
-	}),
-	post: createAsyncThunk("homologation/post", async (action: any) => {
-		const { url, responseType, payload } = action;
-		try {
-			return await (
-				await consume(responseType).post(url, payload)
-			).data;
-		} catch (err: any) {
-			return null;
-		}
-	}),
-	patch: createAsyncThunk("homologation/patch", async (action: any) => {
-		const { url, responseType, payload } = action;
-		try {
-			return await (
-				await consume(responseType).patch(url, payload)
-			).data;
-		} catch (err: any) {
-			return null;
-		}
-	}),
-};
 
 export const {
 	UpdateOperationValues,
@@ -277,9 +216,6 @@ export const {
 	setIndiviso,
 	updateReFactor,
 	addRowLocationZone,
-	addRowSupplementary,
-	removeRowSupplementary,
-	updateSupplementary,
 	removeRow,
 	updateIndiviso,
 	removeRowLocationZone,

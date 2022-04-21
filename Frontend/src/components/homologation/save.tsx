@@ -1,7 +1,7 @@
 /** @format */
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
-import { getState, request } from "../../features/homologation/slice";
+import { getState, consume } from "../../features/homologation/slice";
 import { handleRequest } from "../../features/homologation/handlers";
 
 export const SaveButton = () => {
@@ -12,20 +12,29 @@ export const SaveButton = () => {
 	const { type, status } = record.homologacion;
 	const [show, setShow] = useState(false);
 	const sendRequest = () => {
-		const payload = handleRequest(state);
 		const properties = {
 			url: `/HOMOLOGATION/${type}/${id}`,
 			responseType: "json",
-			payload,
+			payload: handleRequest(state),
 		};
 		if (errors.length === 0) {
-			if (status.includes("exists")) dispatch(request.patch(properties));
-			if (status.includes("newOne")) dispatch(request.post(properties));
-			alert("Registro guardado exitosamente");
-			window.opener = null;
-			window.open("about:blank", "_self", "");
-			window.close();
-			setShow(false);
+			try {
+				if (status.includes("exists")) dispatch(consume.patch(properties));
+				if (status.includes("newOne")) dispatch(consume.post(properties));
+			} catch (e) {
+				alert("Error al guardar");
+			} finally {
+				if (state.status.includes("complete")) {
+					setShow(false);
+					alert("Registro guardado exitosamente");
+					window.opener = null;
+					window.open("about:blank", "_self", "");
+					window.close();
+				}
+				if (state.status.includes("failed")) {
+					alert("Algo fallo, favor de intentar más tarde");
+				}
+			}
 		} else {
 			alert("Favor de revisar los campos vacios");
 			setShow(true);

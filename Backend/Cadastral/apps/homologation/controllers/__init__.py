@@ -45,7 +45,6 @@ def create(id, type):
         else:
             areaSubject = record.cna_superficie
             item = record.cna_edad
-        print("item: ", item)
         areaSubject = areaSubject if areaSubject is not None else 1
         item = item if item is not None else 1
 

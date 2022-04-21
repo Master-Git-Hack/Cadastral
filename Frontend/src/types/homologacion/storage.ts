@@ -27,7 +27,7 @@ import {
 import { reFactorStateProperties, reFactorState } from "./documentation/reFactor";
 import { indivisoStateProperties, indivisoState } from "./documentation/indiviso";
 //supplementary workspace
-import { supplementaryWorksStateProperties, supplementaryWorksState } from "./supplementaryWorks";
+
 interface Factors extends properties {
 	[key: string]:
 		| properties
@@ -72,7 +72,6 @@ export interface Storage extends properties {
 	status: "complete" | "loading" | "working" | "failed" | "exists";
 	factors: Factors;
 	documentation: Documentation;
-	supplementaryWorks: supplementaryWorksStateProperties;
 	errors: Array<Object>;
 	record: Record;
 }
@@ -102,7 +101,6 @@ export const initialState: Storage = {
 		ReFactor: reFactorState(type),
 		Indiviso: indivisoState(type),
 	},
-	supplementaryWorks: supplementaryWorksState,
 	errors: [],
 	record: {
 		justipreciacion: {

@@ -1,7 +1,7 @@
 /** @format */
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/store";
-import { getState, setIndiviso, request } from "../features/homologation/slice";
+import { getState, setIndiviso, consume } from "../features/homologation/slice";
 import Factors, {
 	LocationZoneFactor,
 	SelectFactors,
@@ -11,6 +11,7 @@ import Area from "../components/homologation/documentation/area";
 import BigPicture from "../components/homologation/bigPicture";
 import ReFactor from "../components/homologation/documentation/reFactor";
 import { SaveButton } from "../components/homologation/save";
+import { Spinner } from "../components/spinner/spinner";
 export default function Homologation() {
 	const dispatch = useAppDispatch();
 	const { record, documentation, status } = useAppSelector(getState);
@@ -27,7 +28,7 @@ export default function Homologation() {
 	});
 
 	useEffect(() => {
-		dispatch(request.get({ url: `/HOMOLOGATION/${type}/${id}`, type: "/" }));
+		dispatch(consume.get({ url: `/HOMOLOGATION/${type}/${id}`, type: "/" }));
 	}, []);
 
 	useEffect(() => {
@@ -125,11 +126,7 @@ export default function Homologation() {
 					</Container>
 				</>
 			) : (
-				<div className="d-flex justify-content-center">
-					<div className="spinner-border" role="status">
-						<span className="visually-hidden">Loading...</span>
-					</div>
-				</div>
+				<Spinner />
 			)}
 		</div>
 	);
@@ -189,7 +186,7 @@ const Container = (props: {
 		if (props.visibility[props.current]) window.scrollTo(0, 0);
 	}, [props.visibility[props.current]]);
 	return props.visibility[props.current] ? (
-		<div className="container container-fluid py-4 px-auto">
+		<div className="row py-4">
 			{props.children}
 			<NavigationButton {...props} />
 		</div>

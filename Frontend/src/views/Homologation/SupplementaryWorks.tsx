@@ -2,7 +2,7 @@
 import SupplementaryWorksComponent from "../../components/homologation/supplementaryWorks/supplementaryWorks";
 export default function SupplementaryWorks() {
 	return (
-		<div className="container container-fluid py-4 px-auto">
+		<div className="row py-4 px-5">
 			<SupplementaryWorksComponent />
 		</div>
 	);

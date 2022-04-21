@@ -1,7 +1,6 @@
 from Cadastral import app
 from Cadastral.config import API_URL
 from flask import request, jsonify
-from json import dumps
 from Cadastral.apps.homologation.controllers import create, insert, update
 
 

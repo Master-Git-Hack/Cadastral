@@ -5,12 +5,11 @@ import { consume } from "./api.config";
 
 export const request = (component: string) => ({
 	get: createAsyncThunk(`${component}/get`, async (action: any) => {
-		const { url, type } = action;
+		const { url } = action;
 		try {
-			return {
-				response: await (await consume("json").get(url)).data,
-				type,
-			};
+			return await (
+				await consume("json").get(url)
+			).data;
 		} catch (err: any) {
 			return null;
 		}

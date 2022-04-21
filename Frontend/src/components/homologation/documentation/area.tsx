@@ -1,5 +1,5 @@
 /** @format */
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import {
 	getState,
 	updateFactorStateCommon,
@@ -16,11 +16,11 @@ import ReactTooltip from "react-tooltip";
 import FileSaver from "file-saver";
 export default function Area() {
 	return (
-		<div className="row">
-			<div className="col d-flex justify-content-center px-5 my-3 mx-auto">
+		<div className="container-xxl container-fluid">
+			<div className="row justify-content-center  my-3">
 				<AreaDocumentation />
 			</div>
-			<div className="col d-flex justify-content-center px-5 my-3 mx-auto">
+			<div className="row justify-content-center my-3 ">
 				<AreaCalculation />
 			</div>
 		</div>
@@ -230,17 +230,23 @@ export const AreaDocumentation = () => {
 		<Table>
 			<Header>
 				<tr>
-					<th>Oferta</th>
-					<th>Calle</th>
-					<th>Numero</th>
-					<th>Colonia</th>
-					<th>Municipio</th>
-					{type === "TERRENO" ? <th>Uso de Suelo</th> : null}
-					{type !== "TERRENO" ? <th>Precio de Renta</th> : null}
-					<th>Fecha</th>
-					{type !== "TERRENO" ? <th>Tipo de Construcción</th> : null}
-					<th>Caracteristicas</th>
-					<th>Consulta</th>
+					<th className="text-truncate text-wrap">Oferta</th>
+					<th className="text-truncate text-wrap">Calle</th>
+					<th className="text-truncate text-wrap">Numero</th>
+					<th className="text-truncate text-wrap">Colonia</th>
+					<th className="text-truncate text-wrap">Municipio</th>
+					{type === "TERRENO" ? (
+						<th className="text-truncate text-wrap">Uso de Suelo</th>
+					) : null}
+					{type !== "TERRENO" ? (
+						<th className="text-truncate text-wrap">Precio de Renta</th>
+					) : null}
+					<th className="text-truncate text-wrap">Fecha</th>
+					{type !== "TERRENO" ? (
+						<th className="text-truncate text-wrap">Tipo de Construcción</th>
+					) : null}
+					<th className="text-truncate text-wrap">Caracteristicas</th>
+					<th className="text-truncate text-wrap">Consulta</th>
 				</tr>
 			</Header>
 			<Body>
@@ -329,7 +335,7 @@ export const AreaDocumentation = () => {
 								}
 							/>
 						</td>
-						<td>{item.address.zone.name}</td>
+						<td className="text-truncate text-wrap">{item.address.zone.name}</td>
 						{type.includes("TERRENO") ? (
 							<td style={{ minWidth: 180 }}>
 								<SelectTypeOption
@@ -419,7 +425,7 @@ export const AreaDocumentation = () => {
 								/>
 							</td>
 						) : null}
-						<td>
+						<td className="flex-wrap">
 							<textarea
 								rows={1}
 								className="form-control form-control-sm"
@@ -443,7 +449,7 @@ export const AreaDocumentation = () => {
 						<td>
 							<textarea
 								rows={1}
-								className="form-control form-control-sm"
+								className="form-control form-control-sm me-1"
 								value={item.address.extras.reference}
 								onChange={(event: any) =>
 									dispatch(
@@ -460,12 +466,13 @@ export const AreaDocumentation = () => {
 									)
 								}
 							/>
-							{/*
-							<HandleDocuments 
-								index={index} 
-								extras={item.address.extras} 
+							<HandleDocuments
+								index={index}
+								extras={item.address.extras}
 								dispatch={dispatch}
-							/> 
+							/>
+							{/*
+							
 							*/}
 						</td>
 					</tr>
@@ -474,43 +481,78 @@ export const AreaDocumentation = () => {
 		</Table>
 	);
 };
-const HandleDocuments = (props: { index: number; extras: any; dispatch: Function }) => (
-	<div className="mt-2">
-		<input
-			className="form-control form-control-sm"
-			id={`formFileSm-${props.index}`}
-			type="file"
-			onChange={async (event: any) => {
-				const dataFile = await toBase64(event.target.files[0]);
-				props.dispatch(
-					updateDocumentationStateArea({
-						key: "data",
-						index: props.index,
-						object: "address",
-						item: "extras",
-						value: {
-							...props.extras,
-							document: {
-								filename: event.target.files[0].name,
-								data: dataFile,
+const HandleDocuments = (props: { index: number; extras: any; dispatch: Function }) => {
+	const [file, setFile] = useState(undefined);
+	return (
+		<div className="input-group input-group-sm mt-2">
+			<input
+				className="form-control form-control-sm"
+				id={`formFileSm-${props.index}`}
+				type="file"
+				name={props.extras.document.filename}
+				disabled={props.extras.document.data !== null ? true : false}
+				onChange={async (event: any) => {
+					setFile(event.target.value);
+					const dataFile = await toBase64(event.target.files[0]);
+					props.dispatch(
+						updateDocumentationStateArea({
+							key: "data",
+							index: props.index,
+							object: "address",
+							item: "extras",
+							value: {
+								...props.extras,
+								document: {
+									filename: event.target.files[0].name,
+									data: dataFile,
+								},
 							},
-						},
-					}),
-				);
-			}}
-		/>
-		{props.extras.document.data ? (
-			<button
-				className="btn btn-link"
-				onClick={() =>
-					FileSaver.saveAs(props.extras.document.data, props.extras.document.filename)
-				}
-			>
-				Descargar
-			</button>
-		) : null}
-	</div>
-);
+						}),
+					);
+				}}
+			/>
+
+			{props.extras.document.data ? (
+				<>
+					<button
+						className="btn btn-sm btn-success opacity-75"
+						onClick={() =>
+							FileSaver.saveAs(
+								props.extras.document.data,
+								props.extras.document.filename,
+							)
+						}
+					>
+						Descargar
+					</button>
+					<button
+						className="btn btn-sm btn-outline-danger"
+						onClick={() => {
+							setFile(undefined);
+							props.dispatch(
+								updateDocumentationStateArea({
+									key: "data",
+									index: props.index,
+									object: "address",
+									item: "extras",
+									value: {
+										...props.extras,
+										document: {
+											filename: "",
+											data: null,
+										},
+									},
+								}),
+							);
+						}}
+					>
+						Eliminar
+					</button>
+				</>
+			) : null}
+		</div>
+	);
+};
 const SelectTypeOption = (props: { options: any; value: string; onChange: any; name: string }) => (
 	<select className="form-select form-select-sm" value={props.value} onChange={props.onChange}>
 		{props.options.map((item: any, index: number) => (
@@ -525,7 +567,7 @@ export const ZoneExtraInformationTable = () => {
 	const { subject, data, options, findLocation } = useAppSelector(getState).documentation.Area;
 	const { Zone } = useAppSelector(getState).factors;
 	return (
-		<div className="col d-flex justify-content-center">
+		<div className="row justify-content-center mx-auto">
 			<Table>
 				<HeaderZone
 					subject={subject}
