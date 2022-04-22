@@ -27,5 +27,4 @@ export const SinglePages: FC = () => (
 	</Routes>
 );
 const params = getParams("key");
-export const RenderRoutes: FC = () =>
-	params !== undefined && params !== null ? <SinglePages /> : <WithNavigation />;
+export const RenderRoutes: FC = () => (params !== "" ? <SinglePages /> : <WithNavigation />);

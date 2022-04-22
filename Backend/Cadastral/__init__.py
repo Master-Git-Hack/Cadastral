@@ -16,6 +16,7 @@ from Cadastral.config import (
 
 app = Flask(__name__)
 
+app.config["JSON_AS_ASCII"] = False
 app.config[
     "SQLALCHEMY_DATABASE_URI"
 ] = f"{DBENGINE}://{DBUSER}:{DBPASSWORD}@{DBHOST}:{DBPORT}/{DBNAME}"
