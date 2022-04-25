@@ -97,7 +97,6 @@ export const initialState: supplementaryWorksStateProperties = {
 	record: {
 		id: 0,
 		register: "",
-		appraisalPurpose: getParams("tipo_servicio"),
 		type: "newOne",
 	},
 };

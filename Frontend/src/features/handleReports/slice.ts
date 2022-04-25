@@ -20,7 +20,7 @@ export const slice = createSlice({
 		addDocument(state) {
 			const id = state.reports.length + 1;
 			state.reports[id - 2].showHide = false;
-			state.reports.push({ ...initialStateReports, id, showHide: false });
+			state.reports.push({ ...initialStateReports, id, showHide: false, filename:`report_${new Date().toISOString()}_temp.pdf` });
 		},
 		removeDocument(state) {
 			if (state.reports.length > 1) {
@@ -86,8 +86,9 @@ export const getReport = createAsyncThunk(
 	async (report: any, { rejectWithValue }) => {
 		const { id, limits, collection, year, zoom, watermark, filename, moreProperties } =
 			report.report;
+		console.log(id, limits, collection, year, zoom, watermark, filename, moreProperties );
 		report.dispatch(changeStatus({ id: id - 1, status: "loading" }));
-		const url = `APPRAISAL/Reports/${filename}`;
+		const url = `/REPORTS/APPRAISAL/${filename}`;
 		const payload = {
 			id,
 			limits,
@@ -112,15 +113,15 @@ export const getReport = createAsyncThunk(
 export const getReportsJoined = createAsyncThunk(
 	"reports/getReportsJoined",
 	async (state: any, { rejectWithValue }) => {
-		const url = "APPRAISAL/Reports/MERGE";
+		const url = "/REPORTS/APPRAISAL/MERGE";
 		const payload = {
 			files: [] as Array<string>,
 		};
 		state.reports.map((item: any) => {
-			payload.files.push(item.filename);
+			const filename = item.filename.split(".pdf")[0]
+			payload.files.push(filename);
 			return item;
 		});
-
 		try {
 			const response = await consume("blob").post(url, payload);
 			return response.data;

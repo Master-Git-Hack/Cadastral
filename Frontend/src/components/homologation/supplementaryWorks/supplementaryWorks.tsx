@@ -43,27 +43,20 @@ export default function SupplementaryWorksComponent() {
 				record: record,
 			},
 		};
-		if (errors.length === 0) {
-			try {
-				if (record.type.includes("exists")) dispatch(consume.patch(properties));
-				if (record.type.includes("newOne")) dispatch(consume.post(properties));
-			} catch (e) {
-				alert("Error al guardar");
-			} finally {
-				if (status.includes("success")) {
-					alert("Registro guardado exitosamente");
-					window.opener = null;
-					window.open("about:blank", "_self", "");
-					window.close();
-				} else {
-					alert("Algo fallo, favor de intentar más tarde");
-				}
+		try {
+			if (record.type.includes("exists")) dispatch(consume.patch(properties));
+			if (record.type.includes("newOne")) dispatch(consume.post(properties));
+		} catch (e) {
+			alert("Error al guardar");
+		} finally {
+			if (status.includes("success")) {
+				alert("Registro guardado exitosamente");
+				window.opener = null;
+				window.open("about:blank", "_self", "");
+				window.close();
+			} else {
+				alert("Algo fallo, favor de intentar más tarde");
 			}
-
-			//setShow(false);
-		} else {
-			alert("Favor de revisar los campos vacios");
-			//setShow(true);
 		}
 	};
 	return (
