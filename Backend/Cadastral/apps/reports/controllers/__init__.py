@@ -33,9 +33,10 @@ def create(data):
     }
     return createPDF(data)
 
-def merge(data):
 
-    return
+def merge(files):
+    return mergePDF(files)
+
 
 coordinates = ["x_utm", "y_utm"]
 servicios = [
@@ -88,6 +89,10 @@ tipo = ["cna_tipo", "cnb_tipo", "cnc_tipo", "cnd_tipo"]
 
 
 def check(collection, begin, end, year):
+    if begin < 10:
+        begin = f"0{begin}"
+    if end < 10:
+        end = f"0{end}"
     return manyCatastralSchema.dump(
         Catastral.query.filter(Catastral.estatus != 0)
         .filter(
@@ -109,6 +114,7 @@ def get(data):
     )
     payload = []
     for record in records:
+        print(record["id"])
         query = (
             session.query(Catastral, Municipios.nombre_utf, DepSolicitante.secretaria)
             .join(DepSolicitante, Catastral.solicitante == DepSolicitante.descripcion)

@@ -1,26 +1,16 @@
 from Cadastral import app
 from Cadastral.config import API_URL, TEMPORARY_PATH, TEMPLATE_PATH
-from flask import request, jsonify, send_file
-from Cadastral.apps.reports.controllers import create
+from flask import request, send_file, after_this_request
+from Cadastral.apps.reports.controllers import create, merge
+from os.path import exists
+from os import remove
 
 
-@app.route(f"{API_URL}/REPORTS/APPRAISAL/<string:filename>", methods=["GET"])
+@app.route(f"{API_URL}/REPORTS/APPRAISAL/<string:filename>", methods=["POST"])
 def getAppraisal(filename):
-    response = create(
-        {
-            "collection": "0003",
-            "limits": {"min": "01", "max": "03"},
-            "year": "22",
-            "zoom": 1,
-            "moreProperties": {
-                "pageSize": "A4",
-                "margins": {"top": 10, "bottom": 10, "left": 10, "right": 10},
-                "dpi": 300,
-            },
-            "watermark": False,
-            "filename": f"{app.root_path}{TEMPORARY_PATH}/{filename}",
-        }
-    )
+    data = request.get_json()
+    data["filename"] = f"{app.root_path}{TEMPORARY_PATH}/{filename}"
+    response = create(data)
 
     if response is not None:
         return (
@@ -47,12 +37,26 @@ def getAppraisal(filename):
 
 @app.route(f"{API_URL}/REPORTS/APPRAISAL/MERGE", methods=["POST"])
 def mergeReports():
+    @after_this_request
+    def cleanup(response):
+        for _file in data:
+            _File = f"{app.root_path}{TEMPORARY_PATH}/{_file}"
+            if exists(_File):
+                remove(_File)
+            remove(file)
+        return response
+
     data = request.get_json()
-    response = create(data)
-    if response is not None:
+    files = []
+    for current in data["files"]:
+        files.append(f"{app.root_path}{TEMPORARY_PATH}/{current}")
+
+    file = merge(files)
+
+    if file is not None:
         return (
             send_file(
-                response,
+                file,
                 mimetype="application/pdf",
                 as_attachment=True,
                 attachment_filename="merge.pdf",

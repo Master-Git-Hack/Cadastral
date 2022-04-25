@@ -13,7 +13,6 @@ except:
 def withDecimals(value=0, decimals=2):
     value = value or 0
     if value != 0:
-
         return format_string(f"%10.{decimals}f", float(value), grouping=True) or ""
     else:
         return ""

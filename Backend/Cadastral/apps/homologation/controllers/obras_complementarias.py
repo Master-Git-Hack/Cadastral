@@ -29,7 +29,6 @@ def create(id):
             return {
                 "record": {
                     "id": result["id"],
-                    "appraisalPurpose": result["tipo_servicio"],
                     "register": result["registro"],
                     "type": "exists",
                 },
@@ -68,7 +67,6 @@ def update(id, data):
         record.datos = data["datos"]
         record.valor_unitario = data["valor_unitario"]
         record.registro = data["record"]["register"]
-        record.tipo_servicio = data["record"]["type"].lower()
         session.commit()
         response = obrasComplementariasSchema.dump(record)
         if bool(patchJustipreciacion(id, type, data)):

@@ -3,6 +3,7 @@ from Cadastral.config import TEMPORARY_PATH, TEMPLATE_PATH, IMAGES_PATH
 from Cadastral import app
 from jinja2 import Template
 from Cadastral.utils.pdf import PDF
+from os.path import exists
 
 
 def createPDF(data):
@@ -31,7 +32,7 @@ def createPDF(data):
     if watermark is not None:
         pdf.watermarkIt()
     return pdf.merge(outputFile=filename)
-
+    
 
 def mergePDF(files):
 

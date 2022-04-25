@@ -10,13 +10,11 @@ class ObrasComplementarias(db.Model):
     datos = Column(psql.JSON())
     valor_unitario = Column(Float)
     registro = Column(String())
-    tipo_servicio = Column(String())
 
     def __init__(self, collection):
         self.datos = collection["datos"]
         self.valor_unitario = collection["valor_unitario"]
         self.registro = collection["record"]["register"]
-        self.tipo_servicio = collection["record"]["appraisalPurpose"].lower()
 
 
 db.create_all()
@@ -29,7 +27,6 @@ class ObrasComplementariasSchema(ma.Schema):
             "datos",
             "valor_unitario",
             "registro",
-            "tipo_servicio",
         )
 
 
