@@ -1,1 +1,0 @@
-select * from indicadores_municipales

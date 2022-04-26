@@ -20,7 +20,12 @@ export const slice = createSlice({
 		addDocument(state) {
 			const id = state.reports.length + 1;
 			state.reports[id - 2].showHide = false;
-			state.reports.push({ ...initialStateReports, id, showHide: false, filename:`report_${new Date().toISOString()}_temp.pdf` });
+			state.reports.push({
+				...initialStateReports,
+				id,
+				showHide: false,
+				filename: `report_${new Date().toISOString()}_temp.pdf`,
+			});
 		},
 		removeDocument(state) {
 			if (state.reports.length > 1) {
@@ -86,7 +91,7 @@ export const getReport = createAsyncThunk(
 	async (report: any, { rejectWithValue }) => {
 		const { id, limits, collection, year, zoom, watermark, filename, moreProperties } =
 			report.report;
-		console.log(id, limits, collection, year, zoom, watermark, filename, moreProperties );
+		console.log(id, limits, collection, year, zoom, watermark, filename, moreProperties);
 		report.dispatch(changeStatus({ id: id - 1, status: "loading" }));
 		const url = `/REPORTS/APPRAISAL/${filename}`;
 		const payload = {
@@ -118,7 +123,7 @@ export const getReportsJoined = createAsyncThunk(
 			files: [] as Array<string>,
 		};
 		state.reports.map((item: any) => {
-			const filename = item.filename.split(".pdf")[0]
+			const filename = item.filename.split(".pdf")[0];
 			payload.files.push(filename);
 			return item;
 		});

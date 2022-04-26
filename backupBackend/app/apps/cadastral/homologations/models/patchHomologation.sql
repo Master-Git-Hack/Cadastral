@@ -1,1 +1,0 @@
-UPDATE homologacion SET tipo = '{{TIPO}}', factores = '{{FACTORES}}', resultado = '{{RESULTADO}}', valor_unitario = '{{VALOR_UNITARIO}}', registro = '{{REGISTRO}}', tipo_servicio = '{{TIPO_SERVICIO}}' WHERE id = {{ID}};

@@ -15,5 +15,10 @@
         "Serna",
         "TERRENO",
         "Valdivia"
-    ]
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#432431",
+        "titleBar.activeBackground": "#5D3345",
+        "titleBar.activeForeground": "#FCF9FA"
+    }
 }

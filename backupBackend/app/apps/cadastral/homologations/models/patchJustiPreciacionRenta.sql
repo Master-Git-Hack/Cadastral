@@ -1,1 +1,0 @@
-UPDATE justipreciacion SET comparativo_mercado='{{COMPARATIVO_MERCADO}}' WHERE id={{ID}}

@@ -193,7 +193,7 @@ export const slice = createSlice({
 						state.record = record.record;
 					} else {
 						const { documentation, factors, record } = response;
-						console.log(response.response);
+
 						state.documentation.Area.options = documentation.Area.options;
 						state.documentation.Area.subject.value = documentation.Area.subject.value;
 						state.documentation.ReFactor.surface.value =
