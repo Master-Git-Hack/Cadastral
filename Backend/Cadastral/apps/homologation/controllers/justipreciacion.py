@@ -3,7 +3,7 @@ from Cadastral.apps.homologation.models.justipreciacion import (
     justipreciacionSchema,
     session,
 )
-from Cadastral.utils.locale import withDecimals
+from Cadastral.utils.local import withDecimals
 
 
 def getJustipreciacion(id):
@@ -18,7 +18,9 @@ def patchJustipreciacion(id, type, data):
         OBRAS_COMPLEMENTARIAS:"OC"
     """
     record = getJustipreciacion(id)
-    value = withDecimals(data["valor_unitario"])
+    
+    value = float(f'{data["valor_unitario"]:.2f}')
+    
     if record is not None and bool(record):
         if type.upper() == "TERRENO":
             record.sp1_vu = value
