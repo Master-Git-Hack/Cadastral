@@ -22,5 +22,4 @@
 
     - Inside of each project is the following file:
 
-        - start.sh
-        - execute the file and wait
+        - start.sh for each folder project and wait.
