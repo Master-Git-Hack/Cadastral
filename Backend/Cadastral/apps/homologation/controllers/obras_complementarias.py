@@ -1,9 +1,9 @@
-from Cadastral.apps.homologation.models.obras_complementarias import (
+from ..models.obras_complementarias import (
     ObrasComplementarias,
     obrasComplementariasSchema,
     session,
 )
-from Cadastral.apps.homologation.controllers.justipreciacion import (
+from ..controllers.justipreciacion import (
     getJustipreciacion,
     patchJustipreciacion,
 )

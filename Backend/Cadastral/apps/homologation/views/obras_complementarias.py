@@ -1,4 +1,4 @@
-from flask_restx import Resource, Namespace, Model,fields
+from flask_restx import Resource, Namespace,fields
 from flask import request, jsonify
 
 from Cadastral import api
@@ -28,7 +28,7 @@ expected = ns.model("Obras Complementarias", {
     doc=getDocumentation({
         "id":"Id del registro de Justipreciación"
         }, 
-        "HOMOLOGATION/TERRENO/188"
+        "HOMOLOGATION/OC/188"
     )
 )
 class ObrasComplementarias(Resource):

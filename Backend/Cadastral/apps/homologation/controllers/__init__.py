@@ -1,4 +1,4 @@
-from Cadastral.apps.homologation.models import Homologation, homologationSchema, session
+from ..models import Homologation, homologationSchema, session
 from Cadastral.apps.homologation.controllers.indicadores_municipales import (
     getIndicadoresMunicipales,
 )

@@ -1,9 +1,8 @@
-from Cadastral.apps.homologation.models.justipreciacion import (
+from ..models.justipreciacion import (
     Justipreciacion,
     justipreciacionSchema,
     session,
 )
-from Cadastral.utils.local import withDecimals
 
 
 def getJustipreciacion(id):

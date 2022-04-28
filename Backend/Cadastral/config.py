@@ -67,3 +67,13 @@ if getenv("IMAGES_PATH"):
     IMAGES_PATH = getenv("IMAGES_PATH")
 else:
     IMAGES_PATH = None
+
+if getenv("DOCS_PATH"):
+    DOCS_PATH = getenv("DOCS_PATH")
+else:
+    DOCS_PATH = None
+
+if getenv("CSS_PATH"):
+    CSS_PATH = getenv("CSS_PATH")
+else:
+    CSS_PATH = None

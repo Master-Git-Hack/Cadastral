@@ -1,4 +1,4 @@
-from Cadastral.apps.homologation.models.indicadores_municipales import (
+from..models.indicadores_municipales import (
     IndicadoresMunicipales,
 )
 

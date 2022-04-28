@@ -91,9 +91,8 @@ export const getReport = createAsyncThunk(
 	async (report: any, { rejectWithValue }) => {
 		const { id, limits, collection, year, zoom, watermark, filename, moreProperties } =
 			report.report;
-		console.log(id, limits, collection, year, zoom, watermark, filename, moreProperties);
 		report.dispatch(changeStatus({ id: id - 1, status: "loading" }));
-		const url = `/REPORTS/APPRAISAL/${filename}`;
+		const url = `/REPORTS/APPRAISAL/GET/${filename}`;
 		const payload = {
 			id,
 			limits,
@@ -118,7 +117,7 @@ export const getReport = createAsyncThunk(
 export const getReportsJoined = createAsyncThunk(
 	"reports/getReportsJoined",
 	async (state: any, { rejectWithValue }) => {
-		const url = "/REPORTS/APPRAISAL/MERGE";
+		const url = `/REPORTS/APPRAISAL/MERGE/${new Date().toISOString()}`;
 		const payload = {
 			files: [] as Array<string>,
 		};
