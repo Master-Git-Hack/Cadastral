@@ -20,7 +20,6 @@ def create(data):
     zoom = data["zoom"]
     moreProperties = data["moreProperties"]
     watermark = data["watermark"]
-
     data = get(data)
     data = {
         "data": data,

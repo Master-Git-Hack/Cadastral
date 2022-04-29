@@ -1,14 +1,7 @@
-import Cadastral.apps.reports.views
+from Cadastral import app
 import Cadastral.apps.homologation.views
 import Cadastral.apps.homologation.views.obras_complementarias
-
-from Cadastral import app
-
-
-@app.after_request
-def after_request(response):
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    return response
+import Cadastral.apps.reports.views
 
 
 # model = api.model('Model', {

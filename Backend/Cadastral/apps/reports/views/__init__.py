@@ -4,8 +4,8 @@ from os.path import exists
 from os import remove
 
 from Cadastral.utils.api_documentation import getDocumentation, DictItem
-from Cadastral.apps.reports.controllers import create, merge
-from Cadastral.config import TEMPORARY_PATH, TEMPLATE_PATH
+from Cadastral.config import TEMPORARY_PATH
+from ..controllers import create, merge
 from Cadastral import app, api
 
 
@@ -41,17 +41,23 @@ expected = ns.model(
     doc=getDocumentation(
         {"type": "Accion a realizar", "filename": "Nombre del archivo"},
         "REPORTS/GET/example",
-    ),
+    )
 )
 class APPRAISAL(Resource):
+    @ns.produces(["application/pdf"])
+    def get(self, type, filename):
+        return f"{type} - {filename}"
+
     @ns.expect(expected)
     @ns.produces(["application/pdf"])
     def post(self, type, filename):
         data = request.get_json()
+        print(data, type, filename)
         file = None
         if type == "GET":
             data["filename"] = f"{app.root_path}{TEMPORARY_PATH}/{filename}"
             file = create(data)
+            return handleSendFile(file, filename)
         if type == "MERGE":
 
             @after_this_request
@@ -69,19 +75,16 @@ class APPRAISAL(Resource):
                     for current in data["files"]
                 ]
             )
+            return handleSendFile(file, filename)
 
-        if file is not None:
-            return send_file(
-                file,
-                mimetype="application/pdf",
-                as_attachment=True,
-                download_name=filename,
-            )
-        else:
-            path = f"{app.root_path}{TEMPLATE_PATH}"
-            return send_file(
-                f"{path}/_blank.pdf",
-                mimetype="application/pdf",
-                as_attachment=True,
-                download_name="_blank.pdf",
-            )
+
+def handleSendFile(file=None, filename=None):
+    if file is not None:
+        return send_file(
+            file,
+            mimetype="application/pdf",
+            as_attachment=True,
+            download_name=filename,
+        )
+    else:
+        api.abort(401, "Something went wrong")

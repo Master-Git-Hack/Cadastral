@@ -43,7 +43,7 @@ endobj
 /CSp /DeviceRGB
 /CSpg /DeviceGray
 >>
-/ProcSet [ /ImageB /ImageC /ImageI /Text /PDF ]
+/ProcSet [ /ImageC /ImageB /Text /PDF /ImageI ]
 >>
 /Annots [ ]
 /MediaBox [ 0 0 595 842 ]
@@ -79,7 +79,7 @@ endobj
 /CSp /DeviceRGB
 /CSpg /DeviceGray
 >>
-/ProcSet [ /ImageB /ImageC /ImageI /Text /PDF ]
+/ProcSet [ /ImageC /ImageB /Text /PDF /ImageI ]
 >>
 /Annots [ ]
 /MediaBox [ 0 0 595 842 ]
@@ -115,7 +115,7 @@ endobj
 /CSp /DeviceRGB
 /CSpg /DeviceGray
 >>
-/ProcSet [ /ImageB /ImageC /ImageI /Text /PDF ]
+/ProcSet [ /ImageC /ImageB /Text /PDF /ImageI ]
 >>
 /Annots [ ]
 /MediaBox [ 0 0 595 842 ]
