@@ -61,7 +61,7 @@ class APPRAISAL(Resource):
                     file,
                     mimetype="application/pdf",
                     as_attachment=True,
-                    attachment_filename=filename,
+                    download_name=filename,
                 )
         else:
             path = f"{app.root_path}{TEMPLATE_PATH}"
@@ -69,5 +69,5 @@ class APPRAISAL(Resource):
                     f"{path}/_blank.pdf",
                     mimetype="application/pdf",
                     as_attachment=True,
-                    attachment_filename="_blank.pdf",
+                    download_name="_blank.pdf",
                 )

@@ -1,9 +1,11 @@
+from reportlab.lib.pagesizes import letter, A4
 from reportlab.pdfgen import canvas
-from Cadastral.config import TEMPORARY_PATH, TEMPLATE_PATH, IMAGES_PATH
-from Cadastral import app
 from jinja2 import Template
-from Cadastral.utils.pdf import PDF
 from os.path import exists
+
+from Cadastral.config import TEMPORARY_PATH, TEMPLATE_PATH, IMAGES_PATH
+from Cadastral.utils.pdf import PDF
+from Cadastral import app
 
 
 def createPDF(data):
@@ -176,8 +178,8 @@ def waterMark():
     if exists(watermark):
         return watermark
     else:
-        gtoLogo = f"{app.root_path}{IMAGES_PATH}/gto_logo.png"
-        glLogo = f"{app.root_path}{IMAGES_PATH}/gl_logo.png"
+        gtoLogo = f"{app.root_path}{IMAGES_PATH}/logo.png"
+        glLogo = f"{app.root_path}{IMAGES_PATH}/gl.png"
         secretaryInformation = f"{app.root_path}{IMAGES_PATH}/Sec.png"
         board = canvas.Canvas(filename=watermark, pagesize=A4)
         # draw images into the board

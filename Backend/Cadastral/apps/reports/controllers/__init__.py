@@ -114,7 +114,6 @@ def get(data):
     )
     payload = []
     for record in records:
-        print(record["id"])
         query = (
             session.query(Catastral, Municipios.nombre_utf, DepSolicitante.secretaria)
             .join(DepSolicitante, Catastral.solicitante == DepSolicitante.descripcion)
