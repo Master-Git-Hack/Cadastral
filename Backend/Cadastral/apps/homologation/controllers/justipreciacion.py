@@ -17,9 +17,9 @@ def patchJustipreciacion(id, type, data):
         OBRAS_COMPLEMENTARIAS:"OC"
     """
     record = getJustipreciacion(id)
-    
+
     value = float(f'{data["valor_unitario"]:.2f}')
-    
+
     if record is not None and bool(record):
         if type.upper() == "TERRENO":
             record.sp1_vu = value

@@ -34,7 +34,7 @@ def createPDF(data):
     if watermark is not None:
         pdf.watermarkIt()
     return pdf.merge(outputFile=filename)
-    
+
 
 def mergePDF(files):
 
