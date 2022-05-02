@@ -15,7 +15,7 @@ from Cadastral.utils.local import (
 from Cadastral.apps.reports.controllers.template import createPDF, mergePDF
 
 
-def create(data):
+def create(data: dict):
     filename = data["filename"]
     zoom = data["zoom"]
     moreProperties = data["moreProperties"]

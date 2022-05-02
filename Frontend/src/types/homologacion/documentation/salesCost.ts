@@ -3,17 +3,26 @@
 import { roundToTenth } from "../../../utils/utils";
 import { properties } from "../state";
 
+/* Defining the interface for the salesCostStateProperties. */
 export interface salesCostStateProperties extends properties {
 	data: Array<properties>;
 	results: Array<properties>;
 	averageUnitCost: Object;
 	tag: string;
 }
+/**
+ * It takes an id and returns an object with the id, value and unitaryCost properties
+ * @param {number} id - The id of the item to be added to the cart.
+ */
 const templateData = (id: number) => ({
 	id,
 	value: 1,
 	unitaryCost: 1,
 });
+/**
+ * Given an id, return an object with an id and value property.
+ * @param {number} id - number - The id of the result.
+ */
 const templateResults = (id: number) => ({ id, value: 1 });
 const operation = (data: any, areas: any) =>
 	data.map((item: any, index: number) => {

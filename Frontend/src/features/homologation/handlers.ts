@@ -1,6 +1,13 @@
 /** @format */
+/**
+ * It adds a row to the table
+ * @param {any} state - any
+ * @returns The factors and documentation objects are being returned.
+ */
+
 export const handlerAddRow = (state: any) => {
 	const { factors, documentation } = state;
+	
 	for (const key in factors) {
 		const id = factors[key].data.length + 1;
 		if (key !== "Location" && key !== "Zone") {
@@ -39,6 +46,11 @@ export const handlerAddRow = (state: any) => {
 		documentation,
 	};
 };
+/**
+ * It removes the last row of the factors and documentation objects
+ * @param {any} state - the current state of the application
+ * @returns an object with the factors and documentation properties.
+ */
 export const handlerRemoveRow = (state: any) => {
 	const { factors, documentation } = state;
 	for (const key in factors) {
@@ -79,6 +91,17 @@ export const handlerRemoveRow = (state: any) => {
 		documentation,
 	};
 };
+/**
+ * It takes in a SalesCost object, an Area object, a Results object, a WeightingPercentage object, and
+ * a factor, and returns a SalesCost object.
+ * @param {any} SalesCost - any,
+ * @param {any} Area - The Area object
+ * @param {any} Results - The results of the previous calculation.
+ * @param {any} WeightingPercentage - This is the percentage of the total sales that each product
+ * represents.
+ * @param {number} [factor=1] - number = 1,
+ * @returns SalesCost
+ */
 const handleSalesCost = (
 	SalesCost: any,
 	Area: any,
@@ -109,6 +132,11 @@ const handleSalesCost = (
 	);
 	return SalesCost;
 };
+/**
+ * It updates the values of the factors and documentation objects
+ * @param {any} state - the state of the application
+ * @returns The state of the application.
+ */
 export const handleUpdateOperationValues = (state: any) => {
 	const { factors, documentation, record } = state;
 	const { type } = record.homologacion;
@@ -162,6 +190,11 @@ export const handleUpdateOperationValues = (state: any) => {
 	state.errors = handleErrors(state);
 	return state;
 };
+/**
+ * It takes a state object and returns a new object with the same structure but with the insertion
+ * property removed from the subject property of the Location and Zone factors
+ * @param {any} state - any
+ */
 
 export const handleRequest = (state: any) => ({
 	factores: {
@@ -298,6 +331,15 @@ export const handleRequest = (state: any) => ({
 	registro: state.record.justipreciacion.register,
 	id: state.record.homologacion.id,
 });
+
+/**
+ * It takes the state from the database and the initial state from the reducer and returns a new
+ * state that is a combination of the two
+ * @param {any} state - the state of the application
+ * @param {any} initialState - the initial state of the application
+ * @returns The payload is being returned.
+ */
+
 export const handleGetRequest = (state: any, initialState: any) => {
 	const payload = {
 		...initialState,
@@ -452,6 +494,11 @@ export const handleGetRequest = (state: any, initialState: any) => {
 	console.log(payload);
 	return payload;
 };
+/**
+ * It takes a state object and returns an array of objects that contain errors
+ * @param {any} state - the state of the application
+ * @returns An array of objects.
+ */
 
 export const handleErrors = (state: any) => {
 	const errors = [];

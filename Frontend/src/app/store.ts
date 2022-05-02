@@ -5,6 +5,7 @@ import homologationReducer from "../features/homologation/slice";
 import supplementaryWorksReducer from "../features/homologation/supplementaryWorks/slice";
 import reportsReducer from "../features/handleReports/slice";
 
+/* Creating a store with the reducers and middleware. */
 export const store = configureStore({
 	reducer: {
 		homologation: homologationReducer,

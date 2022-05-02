@@ -17,24 +17,48 @@ export const slice = createSlice({
 	name: "homologation",
 	initialState,
 	reducers: {
+		/**
+		 * It updates the operation values.
+		 * @param state - The state object that is passed to the reducer.
+		 */
 		UpdateOperationValues(state) {
 			state = handleUpdateOperationValues(state);
 		},
+		/**
+		 * The function takes in a state and an action, and then sets the state's documentation's ReFactor's
+		 * isUsed property to the action's payload
+		 * @param state - The state of the reducer.
+		 * @param action - PayloadAction<any>
+		 */
 		setIndiviso(state, action: PayloadAction<any>) {
 			state.documentation.ReFactor.isUsed = action.payload;
 		},
+		/**
+		 * It adds a row to the table
+		 * @param state - The state object that is passed to the function.
+		 */
 		addRow(state) {
 			const result = handlerAddRow(state);
 			state.factors = result.factors;
 			state.documentation = result.documentation;
 			state = handleUpdateOperationValues(state);
 		},
+		/**
+		 * It adds a row to the subject of the factor with the key passed in the payload
+		 * @param state - The current state of the reducer.
+		 * @param action - PayloadAction<any>
+		 */
 		addRowLocationZone(state, action: PayloadAction<any>) {
 			const { key } = action.payload;
 			const { insertionSubject, subject } = state.factors[key];
 			state.factors[key].subject = insertionSubject(subject);
 			state = handleUpdateOperationValues(state);
 		},
+		/**
+		 * It takes a key and a value, and then updates the state with the new value
+		 * @param state - The current state of the store.
+		 * @param action - PayloadAction<any>
+		 */
 		setVisibilityOrderFactors(state, action: PayloadAction<any>) {
 			const { key, value } = action.payload;
 			const data = state.factors[key];
@@ -44,12 +68,21 @@ export const slice = createSlice({
 			};
 			state = handleUpdateOperationValues(state);
 		},
+		/**
+		 * It removes the last row from the factors table and updates the documentation table
+		 * @param state - The state object that is passed to the store.
+		 */
 		removeRow(state) {
 			const result = handlerRemoveRow(state);
 			state.factors = result.factors;
 			state.documentation = result.documentation;
 			state = handleUpdateOperationValues(state);
 		},
+		/**
+		 * It removes a row from the table and updates the percentage values of the remaining rows
+		 * @param state - The current state of the store.
+		 * @param action - PayloadAction<any>
+		 */
 		removeRowLocationZone(state, action: PayloadAction<any>) {
 			const { key } = action.payload;
 			const length = state.factors[key].subject.length;
@@ -62,6 +95,11 @@ export const slice = createSlice({
 			}
 		},
 
+		/**
+		 * It takes the state and an action, and updates the state based on the action
+		 * @param state - The current state of the store.
+		 * @param action - PayloadAction<any>
+		 */
 		updateFactorStateAge(state, action: PayloadAction<any>) {
 			const { key, object, index, value } = action.payload;
 			if (index !== undefined && object !== "subject")
@@ -73,6 +111,7 @@ export const slice = createSlice({
 
 			state = handleUpdateOperationValues(state);
 		},
+		/* Updating the state of the store. */
 		updateFactorStateCommon(state, action: PayloadAction<any>) {
 			const { key, object, index, value } = action.payload;
 			if (index !== undefined && object !== "subject") {
@@ -94,6 +133,11 @@ export const slice = createSlice({
 			}
 			state = handleUpdateOperationValues(state);
 		},
+		/**
+		 * It updates the state of the factor object with the new value of the input field
+		 * @param state - The current state of the reducer.
+		 * @param action - PayloadAction<any>
+		 */
 		updateFactorStateLocationZone(state, action: PayloadAction<any>) {
 			const { key, object, index, value, item } = action.payload;
 			if (index !== undefined && object === "subject") {
@@ -103,6 +147,7 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
+		/* Updating the state of the documentation object. */
 		updateDocumentationStateArea(state, action: PayloadAction<any>) {
 			const { key, object, index, item, value } = action.payload;
 			if (key.includes("subject") || key.includes("averageLotArea")) {
@@ -120,6 +165,11 @@ export const slice = createSlice({
 			}
 			state = handleUpdateOperationValues(state);
 		},
+		/**
+		 * It updates the state of the documentation object with the value of the payload
+		 * @param state - the current state of the store
+		 * @param action - PayloadAction<any>
+		 */
 		updateDocumentationStateSalesCost(state, action: PayloadAction<any>) {
 			const { key, object, index, value } = action.payload;
 			if (index !== undefined && object !== "data") {
@@ -127,6 +177,12 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
+		/**
+		 * It takes a state and an action, and if the action has a payload with a key and a value, it updates
+		 * the state with the key and value
+		 * @param state - The current state of the store.
+		 * @param action - PayloadAction<any>
+		 */
 		updateDocumentationStateRoundedTo(state, action: PayloadAction<any>) {
 			const { key, value } = action.payload;
 			if (key !== undefined && value !== undefined) {
@@ -135,6 +191,11 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
+		/**
+		 * It updates the state of the documentation object with the value of the payload action
+		 * @param state - The current state of the store.
+		 * @param action - PayloadAction<any>
+		 */
 		updateDocumentationStateWeightingPercentage(state, action: PayloadAction<any>) {
 			const { key, object, index, value } = action.payload;
 			if (index !== undefined && object !== "data") {
@@ -144,11 +205,21 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
+		/**
+		 * It takes the state, and an action, and then updates the state with the value of the action
+		 * @param state - The current state of the store.
+		 * @param action - PayloadAction<any>
+		 */
 		updateReFactor(state, action: PayloadAction<any>) {
 			const { key, object, value } = action.payload;
 			state.documentation.ReFactor[key][object] = value;
 			state = handleUpdateOperationValues(state);
 		},
+		/**
+		 * It updates the state of the Indiviso object in the documentation object
+		 * @param state - The current state of the reducer.
+		 * @param action - PayloadAction<any>
+		 */
 		updateIndiviso(state, action: PayloadAction<any>) {
 			const { key, value } = action.payload;
 			state.documentation.Indiviso[key] = value;
@@ -156,6 +227,7 @@ export const slice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
+		/* A reducer that is handling the state of the application. */
 		builder
 			.addCase(consume.get.pending, (state) => {
 				state.status = "loading";

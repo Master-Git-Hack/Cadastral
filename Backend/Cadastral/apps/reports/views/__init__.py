@@ -41,18 +41,13 @@ expected = ns.model(
     doc=getDocumentation(
         {"type": "Accion a realizar", "filename": "Nombre del archivo"},
         "REPORTS/GET/example",
-    )
+    ),
 )
 class APPRAISAL(Resource):
-    @ns.produces(["application/pdf"])
-    def get(self, type, filename):
-        return f"{type} - {filename}"
-
     @ns.expect(expected)
     @ns.produces(["application/pdf"])
-    def post(self, type, filename):
+    def post(self, type: str, filename: str):
         data = request.get_json()
-        print(data, type, filename)
         file = None
         if type == "GET":
             data["filename"] = f"{app.root_path}{TEMPORARY_PATH}/{filename}"

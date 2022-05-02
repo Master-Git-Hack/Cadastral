@@ -11,6 +11,11 @@ export const slice = createSlice({
 	name: "SupplementaryWorks",
 	initialState,
 	reducers: {
+		/**
+		 * It adds a new row to the data array, then runs the operation function on the data array, and then
+		 * sets the total to the result of the getTotal function
+		 * @param state - The state object that is passed to the component.
+		 */
 		addRow(state) {
 			const { template, getTotal, operation, data } = state;
 			const id = data.length + 1;
@@ -18,6 +23,11 @@ export const slice = createSlice({
 			state.data = operation(data);
 			state.total = getTotal(data);
 		},
+		/**
+		 * It removes the last row from the data array, then it runs the operation function on the data
+		 * array, and then it sets the total to the result of the getTotal function
+		 * @param state - The state object that is passed to the component.
+		 */
 		removeRow(state) {
 			const { data, getTotal, operation } = state;
 			if (data.length > 1) {
@@ -26,6 +36,11 @@ export const slice = createSlice({
 				state.total = getTotal(data);
 			}
 		},
+		/**
+		 * It updates the state of the data in the table
+		 * @param state - The state of the reducer
+		 * @param action - PayloadAction<any>
+		 */
 		update(state, action: PayloadAction<any>) {
 			const { index, key, value, object } = action.payload;
 			if (object !== undefined) {
@@ -39,6 +54,7 @@ export const slice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
+		/* A way to add extra reducers to the reducer. */
 		builder
 			.addCase(consume.get.pending, (state) => {
 				state.status = "loading";

@@ -1,10 +1,15 @@
 from locale import setlocale, LC_ALL, currency, format_string
 from backports.zoneinfo import ZoneInfo
 from dateparser import parse
+from warnings import filterwarnings
+
+filterwarnings(
+    "ignore",
+    message="The localize method is no longer necessary, as this time zone supports the fold attribute",
+)
 
 tzInfo = ZoneInfo("America/Mexico_City")
 try:
-
     setlocale(LC_ALL, "es_MX.UTF-8")
 except:
     setlocale(LC_ALL, "en_US.UTF-8")

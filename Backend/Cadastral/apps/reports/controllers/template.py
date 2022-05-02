@@ -8,7 +8,7 @@ from Cadastral.utils.pdf import PDF
 from Cadastral import app
 
 
-def createPDF(data):
+def createPDF(data: dict):
     zoom = data["zoom"]
     pageSize = data["pageSize"]
     margins = data["margins"]
@@ -43,7 +43,7 @@ def mergePDF(files):
     return pdf.merge()
 
 
-def renderTemplates(data):
+def renderTemplates(data: dict):
     template = Template(
         open(f"{app.root_path}{TEMPLATE_PATH}/avaluo_catastral_template.html").read()
     )

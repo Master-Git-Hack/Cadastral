@@ -6,6 +6,7 @@ import { consume } from "../../api/api.config";
 import { Storage } from "../../types/handleReports/storage";
 import { initialStateReports, recommendedProperties } from "../../types/handleReports/state";
 
+/* Creating the initial state of the store. */
 const initialState: Storage = {
 	status: "working",
 	filename: `report_${new Date().toISOString()}.pdf`,
@@ -13,10 +14,15 @@ const initialState: Storage = {
 	document: "",
 };
 
+/* Creating a slice of the store. */
 export const slice = createSlice({
 	name: "reports",
 	initialState,
 	reducers: {
+		/**
+		 * It adds a new report to the reports array
+		 * @param state - The state object
+		 */
 		addDocument(state) {
 			const id = state.reports.length + 1;
 			state.reports[id - 2].showHide = false;
@@ -27,15 +33,30 @@ export const slice = createSlice({
 				filename: `report_${new Date().toISOString()}_temp.pdf`,
 			});
 		},
+		/**
+		 * If the reports array has more than one item, remove the last item
+		 * @param state - The state object that is passed to the mutation.
+		 */
 		removeDocument(state) {
 			if (state.reports.length > 1) {
 				state.reports.pop();
 			}
 		},
+		/**
+		 * It takes the state and an action as parameters, and then it changes the status of the report with
+		 * the id that was passed in the action
+		 * @param state - The current state of the reducer.
+		 * @param action - PayloadAction<any>
+		 */
 		changeStatus(state, action: PayloadAction<any>) {
 			const { id, status } = action.payload;
 			state.reports[id].status = status;
 		},
+		/**
+		 * It takes the payload from the action and uses it to update the state
+		 * @param state - The state of the store.
+		 * @param actions - PayloadAction<any>
+		 */
 		handleProperties(state, actions: PayloadAction<any>) {
 			const { itemName, itemID, value } = actions.payload;
 			if (itemName !== undefined && itemID !== undefined && value !== undefined) {
@@ -50,6 +71,12 @@ export const slice = createSlice({
 				state.reports[itemID].showProperties = true;
 			}
 		},
+		/**
+		 * It takes the payload from the action, and then uses the itemName, itemID, and value to update the
+		 * moreProperties object in the reports object
+		 * @param state - The state of the store.
+		 * @param actions - PayloadAction<any>
+		 */
 		handleMoreProperties(state, actions: PayloadAction<any>) {
 			const { itemName, itemID, value } = actions.payload;
 			if (itemName !== undefined && itemID !== undefined && value !== undefined) {
@@ -61,6 +88,7 @@ export const slice = createSlice({
 			}
 		},
 	},
+	/* A way to add extra reducers to the reducer. */
 	extraReducers: (builder) => {
 		builder
 			.addCase(getReport.fulfilled, (state, action) => {
@@ -86,6 +114,7 @@ export const { addDocument, removeDocument, handleProperties, handleMoreProperti
 	slice.actions;
 export const getState = (state: RootState) => state.reports;
 
+/* Creating a thunk that will be used to get the reports. */
 export const getReport = createAsyncThunk(
 	"reports/GetReports",
 	async (report: any, { rejectWithValue }) => {
@@ -114,6 +143,7 @@ export const getReport = createAsyncThunk(
 	},
 );
 
+/* Creating a thunk that will be used to get the reports joined. */
 export const getReportsJoined = createAsyncThunk(
 	"reports/getReportsJoined",
 	async (state: any, { rejectWithValue }) => {

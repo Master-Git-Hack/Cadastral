@@ -1,8 +1,8 @@
 from flask_restx import fields
+from typing import Optional
 
-
-def getDocumentation(params, example):
-    return {
+def getDocumentation(params: dict, example: Optional[str] = None):
+    response: dict = {
         "params": params,
         "responses": {
             201: "Regresa la respuesta esperada del cliente",
@@ -10,6 +10,7 @@ def getDocumentation(params, example):
         },
         "example": example,
     }
+    return response
 
 
 class DictItem(fields.Raw):

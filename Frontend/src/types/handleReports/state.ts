@@ -1,8 +1,10 @@
 /** @format */
 import moment from "moment";
+/* A way to define a dynamic interface. */
 interface StateProps {
 	[key: string | number]: number | string | boolean | Object;
 }
+/* Defining an interface that extends another interface. */
 export interface State extends StateProps {
 	id: number;
 	filename: string;
@@ -30,6 +32,7 @@ export interface State extends StateProps {
 		};
 	};
 }
+/* Defining the initial state of the reports. */
 export const initialStateReports: State = {
 	id: 1,
 	filename: `report_${new Date().toISOString()}_temp.pdf`,
@@ -57,6 +60,7 @@ export const initialStateReports: State = {
 		},
 	},
 };
+/* Defining the recommended properties for the reports. */
 export const recommendedProperties: StateProps = {
 	zoom: 1.05,
 	moreProperties: {

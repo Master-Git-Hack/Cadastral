@@ -9,13 +9,13 @@ from Cadastral.utils.temporaryFilename import tmpFilename
 class PDF:
     def __init__(
         self,
-        zoom=1,
-        pageSize="A4",
-        margins={"top": 15, "bottom": None, "left": None, "right": None},
-        dpi=300,
-        templates=None,
-        watermark=None,
-        files=None,
+        zoom: float = 1,
+        pageSize: str = "A4",
+        margins: dict = {"top": 15, "bottom": None, "left": None, "right": None},
+        dpi: int = 300,
+        templates: str = None,
+        watermark: str = None,
+        files: list = None,
     ):
         if templates is not None:
             self.cmd = [
@@ -84,7 +84,7 @@ class PDF:
                         outputFile.write(outputStream)
                 remove(filename)
 
-    def merge(self, outputFile=tmpFilename(extension="pdf")):
+    def merge(self, outputFile: str = tmpFilename(extension="pdf")):
         merger = PdfFileMerger()
 
         for file in self.files:
