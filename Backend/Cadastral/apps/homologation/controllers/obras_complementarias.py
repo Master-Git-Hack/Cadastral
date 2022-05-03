@@ -1,11 +1,8 @@
+from ..controllers.justipreciacion import getJustipreciacion, patchJustipreciacion
 from ..models.obras_complementarias import (
     ObrasComplementarias,
     obrasComplementariasSchema,
     session,
-)
-from ..controllers.justipreciacion import (
-    getJustipreciacion,
-    patchJustipreciacion,
 )
 
 type = "OC"

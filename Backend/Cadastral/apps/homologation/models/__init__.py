@@ -1,5 +1,5 @@
 from Cadastral import app, db, ma
-from sqlalchemy import Column, BigInteger, String, Float
+from sqlalchemy import BigInteger, Column, Float, String
 from sqlalchemy.dialects import postgresql as psql
 
 

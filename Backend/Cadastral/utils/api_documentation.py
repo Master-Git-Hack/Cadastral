@@ -1,5 +1,7 @@
-from flask_restx import fields
 from typing import Optional
+
+from flask_restx import fields
+
 
 def getDocumentation(params: dict, example: Optional[str] = None):
     response: dict = {

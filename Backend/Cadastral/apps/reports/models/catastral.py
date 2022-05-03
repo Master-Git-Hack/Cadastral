@@ -1,7 +1,7 @@
-from marshmallow import post_dump, pre_dump
 from Cadastral import db, ma
-from sqlalchemy import Column, BigInteger, Integer, Text, Float, Date
 from geoalchemy2.types import Geography
+from marshmallow import post_dump, pre_dump
+from sqlalchemy import BigInteger, Column, Date, Float, Integer, Text
 
 
 class Catastral(db.Model):

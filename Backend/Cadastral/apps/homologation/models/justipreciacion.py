@@ -1,7 +1,7 @@
 from Cadastral import app, db, ma
-from sqlalchemy import Column, BigInteger, Integer, Text, Float, Date
-from sqlalchemy.dialects import postgresql as psql
 from geoalchemy2.types import Geography
+from sqlalchemy import BigInteger, Column, Date, Float, Integer, Text
+from sqlalchemy.dialects import postgresql as psql
 
 
 class Justipreciacion(db.Model):

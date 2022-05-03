@@ -1,5 +1,5 @@
 from Cadastral import db
-from sqlalchemy import Column, BigInteger, Text
+from sqlalchemy import BigInteger, Column, Text
 
 
 class DepSolicitante(db.Model):

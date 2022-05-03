@@ -1,8 +1,7 @@
-from Cadastral import app
 import Cadastral.apps.homologation.views
 import Cadastral.apps.homologation.views.obras_complementarias
 import Cadastral.apps.reports.views
-
+from Cadastral import app
 
 # model = api.model('Model', {
 #    'name': fields.String,

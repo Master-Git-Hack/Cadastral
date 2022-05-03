@@ -1,9 +1,10 @@
-from PyPDF2 import PdfFileWriter, PdfFileReader, PdfFileMerger
-from reportlab.lib.pagesizes import letter, A4
 from os import remove, rename
-from subprocess import PIPE, Popen
 from os.path import exists
+from subprocess import PIPE, Popen
+
 from Cadastral.utils.temporaryFilename import tmpFilename
+from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
+from reportlab.lib.pagesizes import A4, letter
 
 
 class PDF:

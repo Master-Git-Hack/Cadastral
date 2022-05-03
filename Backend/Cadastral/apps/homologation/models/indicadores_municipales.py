@@ -1,5 +1,5 @@
 from Cadastral import db, ma
-from sqlalchemy import Column, Integer, Text, Float
+from sqlalchemy import Column, Float, Integer, Text
 
 
 class IndicadoresMunicipales(db.Model):

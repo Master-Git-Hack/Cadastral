@@ -1,13 +1,12 @@
-from flask_restx import Resource, Namespace, fields
-from flask import request, jsonify
-
 from Cadastral import api
 from Cadastral.apps.homologation.controllers.obras_complementarias import (
     create,
     insert,
     update,
 )
-from Cadastral.utils.api_documentation import getDocumentation, DictItem
+from Cadastral.utils.api_documentation import DictItem, getDocumentation
+from flask import jsonify, request
+from flask_restx import Namespace, Resource, fields
 
 ns = Namespace(
     "Obras Complementarias",

@@ -1,8 +1,4 @@
-from ..models.justipreciacion import (
-    Justipreciacion,
-    justipreciacionSchema,
-    session,
-)
+from ..models.justipreciacion import Justipreciacion, justipreciacionSchema, session
 
 
 def getJustipreciacion(id):

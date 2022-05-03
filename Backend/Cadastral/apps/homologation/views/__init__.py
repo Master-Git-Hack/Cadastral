@@ -1,9 +1,8 @@
-from flask_restx import Resource, Namespace
-from flask import request, jsonify
-
 from Cadastral import api
-from Cadastral.utils.api_documentation import getDocumentation
 from Cadastral.apps.homologation.controllers import create, insert, update
+from Cadastral.utils.api_documentation import getDocumentation
+from flask import jsonify, request
+from flask_restx import Namespace, Resource
 
 ns = Namespace(
     "Homologacón",

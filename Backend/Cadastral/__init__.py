@@ -1,21 +1,20 @@
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_restx import Api
-from flask_cors import CORS
-from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 from Cadastral.config import (
-    DBENGINE,
-    DBNAME,
-    DBUSER,
-    DBPASSWORD,
-    DBHOST,
-    DBPORT,
-    CORSSRC,
     API_URL,
+    CORSSRC,
+    DBENGINE,
+    DBHOST,
+    DBNAME,
+    DBPASSWORD,
+    DBPORT,
+    DBUSER,
     TEMPLATE_PATH,
 )
-
 
 app = Flask(__name__)
 app.template_folder = f"{app.root_path}/{TEMPLATE_PATH}"

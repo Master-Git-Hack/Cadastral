@@ -1,13 +1,13 @@
-from flask import request, send_file, after_this_request
-from flask_restx import Resource, Namespace, fields
-from os.path import exists
 from os import remove
+from os.path import exists
 
-from Cadastral.utils.api_documentation import getDocumentation, DictItem
+from Cadastral import api, app
 from Cadastral.config import TEMPORARY_PATH
-from ..controllers import create, merge
-from Cadastral import app, api
+from Cadastral.utils.api_documentation import DictItem, getDocumentation
+from flask import after_this_request, request, send_file
+from flask_restx import Namespace, Resource, fields
 
+from ..controllers import create, merge
 
 ns = Namespace(
     "Reportes", description="API para la generación de reportes", path="/REPORTS"

@@ -1,3 +1,4 @@
+from Cadastral.apps.reports.controllers.template import createPDF, mergePDF
 from Cadastral.apps.reports.models.catastral import (
     Catastral,
     catastralSchema,
@@ -6,13 +7,7 @@ from Cadastral.apps.reports.models.catastral import (
 )
 from Cadastral.apps.reports.models.dep_solicitante import DepSolicitante
 from Cadastral.apps.reports.models.municipios import Municipios
-from Cadastral.utils.local import (
-    asCompleteDate,
-    asCurrency,
-    asPercentage,
-    withDecimals,
-)
-from Cadastral.apps.reports.controllers.template import createPDF, mergePDF
+from Cadastral.utils.local import asCompleteDate, asCurrency, asPercentage, withDecimals
 
 
 def create(data: dict):

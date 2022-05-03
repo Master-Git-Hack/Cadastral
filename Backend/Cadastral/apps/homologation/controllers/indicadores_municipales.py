@@ -1,6 +1,4 @@
-from ..models.indicadores_municipales import (
-    IndicadoresMunicipales,
-)
+from ..models.indicadores_municipales import IndicadoresMunicipales
 
 
 def getIndicadoresMunicipales():

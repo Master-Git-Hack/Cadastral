@@ -1,7 +1,8 @@
-from locale import setlocale, LC_ALL, currency, format_string
+from locale import LC_ALL, currency, format_string, setlocale
+from warnings import filterwarnings
+
 from backports.zoneinfo import ZoneInfo
 from dateparser import parse
-from warnings import filterwarnings
 
 filterwarnings(
     "ignore",

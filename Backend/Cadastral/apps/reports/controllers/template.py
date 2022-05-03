@@ -1,11 +1,11 @@
-from reportlab.lib.pagesizes import letter, A4
-from reportlab.pdfgen import canvas
-from jinja2 import Template
 from os.path import exists
 
-from Cadastral.config import TEMPORARY_PATH, TEMPLATE_PATH, IMAGES_PATH
-from Cadastral.utils.pdf import PDF
 from Cadastral import app
+from Cadastral.config import IMAGES_PATH, TEMPLATE_PATH, TEMPORARY_PATH
+from Cadastral.utils.pdf import PDF
+from jinja2 import Template
+from reportlab.lib.pagesizes import A4, letter
+from reportlab.pdfgen import canvas
 
 
 def createPDF(data: dict):

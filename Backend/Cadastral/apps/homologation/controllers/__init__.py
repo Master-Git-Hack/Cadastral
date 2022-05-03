@@ -1,4 +1,3 @@
-from ..models import Homologation, homologationSchema, session
 from Cadastral.apps.homologation.controllers.indicadores_municipales import (
     getIndicadoresMunicipales,
 )
@@ -6,6 +5,8 @@ from Cadastral.apps.homologation.controllers.justipreciacion import (
     getJustipreciacion,
     patchJustipreciacion,
 )
+
+from ..models import Homologation, homologationSchema, session
 
 
 def getHomologation(register, type):
