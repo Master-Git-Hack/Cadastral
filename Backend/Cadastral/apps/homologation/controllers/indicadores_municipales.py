@@ -2,6 +2,9 @@ from ..models.indicadores_municipales import IndicadoresMunicipales
 
 
 def getIndicadoresMunicipales():
+    """
+    Get Indicadores Municipales
+    :return: Indicadores Municipales as JSON Object"""
     records = IndicadoresMunicipales.query.all()
     return [
         {

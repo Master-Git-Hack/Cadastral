@@ -4,6 +4,12 @@ from flask_restx import fields
 
 
 def getDocumentation(params: dict, example: Optional[str] = None):
+    """
+    Generates documentation for a given endpoint.
+    :param params: Dictionary with the parameters of the endpoint.
+    :param example: Example of the endpoint.
+    :return: Dictionary with the documentation of the endpoint.
+    """
     response: dict = {
         "params": params,
         "responses": {
@@ -16,6 +22,9 @@ def getDocumentation(params: dict, example: Optional[str] = None):
 
 
 class DictItem(fields.Raw):
+    """
+    This class is used to generate a json structure for documentation.
+    """
     def output(self, key, obj, *args, **kwargs):
         try:
             dct = getattr(obj, self.attribute)

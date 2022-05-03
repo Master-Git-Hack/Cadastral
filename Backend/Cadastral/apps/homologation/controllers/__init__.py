@@ -1,21 +1,28 @@
-from Cadastral.apps.homologation.controllers.indicadores_municipales import (
-    getIndicadoresMunicipales,
-)
+from Cadastral.apps.homologation.controllers.indicadores_municipales import \
+    getIndicadoresMunicipales
 from Cadastral.apps.homologation.controllers.justipreciacion import (
-    getJustipreciacion,
-    patchJustipreciacion,
-)
+    getJustipreciacion, patchJustipreciacion)
 
 from ..models import Homologation, homologationSchema, session
 
 
 def getHomologation(register, type):
+    """
+    Get Homologation
+    :param register: Register
+    :param type: Type
+    :return: Homologation Object to work with"""
     return homologationSchema.dump(
         session.query(Homologation).filter_by(registro=register, tipo=type).first()
     )
 
 
 def postHomologation(collection):
+    """
+    Create Homologation
+    :param collection: data to create Homologation
+    :return: Homologation Object Serialized as result of operation
+    """
     homologation = Homologation(collection)
     session.add(homologation)
     session.commit()
@@ -25,6 +32,17 @@ def postHomologation(collection):
 def patchHomologation(
     id, tipo, factores, resultado, valor_unitario, registro, tipo_servicio
 ):
+    """
+    Update Homologation
+    :param id: Homologation ID
+    :param tipo: Type
+    :param factores: Factors
+    :param resultado: Result
+    :param valor_unitario: Unit Value
+    :param registro: Register
+    :param tipo_servicio: Appraisal Purpose
+    :return: Homologation Object Serialized as result of operation
+    """
     homologation = Homologation.query.get(id)
     homologation.tipo = tipo
     homologation.factores = factores
@@ -37,7 +55,12 @@ def patchHomologation(
 
 
 def create(id, type):
-
+    """
+    Create Homologation JSON Object
+    :param id: ID
+    :param type: Type
+    :return: Homologation JSON Object with all elements required to create Homologation or update it
+    """
     record = getJustipreciacion(id)
     if record is not None:
         if type.upper() == "TERRENO":
@@ -99,6 +122,13 @@ def create(id, type):
 
 
 def insert(id, type, data):
+    """
+    Insert Homologation and update Justipreciacion Operation
+    :param id: ID
+    :param type: Type
+    :param data: Data
+    :return: Homologation Object Serialized as result of operation
+    """
     response = postHomologation(data)
     if response is not None and bool(response):
         if bool(patchJustipreciacion(id, type, data)):
@@ -110,6 +140,13 @@ def insert(id, type, data):
 
 
 def update(id, type, data):
+    """
+    Update Homologation and update Justipreciacion Operation
+    :param id: ID
+    :param type: Type
+    :param data: Data
+    :return: Homologation Object Serialized as result of operation
+    """
     tipo = data["tipo"].lower()
     factores = data["factores"]
     resultado = data["resultado"]

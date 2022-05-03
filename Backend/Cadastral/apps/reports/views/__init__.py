@@ -44,9 +44,18 @@ expected = ns.model(
     ),
 )
 class APPRAISAL(Resource):
+    """
+    API para la generación de reportes
+    """
     @ns.expect(expected)
     @ns.produces(["application/pdf"])
     def post(self, type: str, filename: str):
+        """
+        Genera un reporte de acuerdo a los parámetros enviados
+        :param type: Tipo de acción a realizar
+        :param filename: Nombre del archivo
+        :return: Archivo PDF
+        """
         data = request.get_json()
         file = None
         if type == "GET":
@@ -74,6 +83,12 @@ class APPRAISAL(Resource):
 
 
 def handleSendFile(file=None, filename=None):
+    """
+    Maneja el envío del archivo
+    :param file: Archivo a enviar
+    :param filename: Nombre del archivo
+    :return: Archivo PDF
+    """
     if file is not None:
         return send_file(
             file,

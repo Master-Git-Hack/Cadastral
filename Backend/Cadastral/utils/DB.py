@@ -1,10 +1,14 @@
-from Cadastral.config import DBENGINE, DBHOST, DBNAME, DBPASSWORD, DBPORT, DBUSER
+from Cadastral.config import (DBENGINE, DBHOST, DBNAME, DBPASSWORD, DBPORT,
+                              DBUSER)
 from psycopg2 import DatabaseError, connect, extensions
 from psycopg2.extras import RealDictCursor
 
 
 def checkPollStatus(connection):
     """
+    Check the transaction status
+    :param connection (psycopg2.extensions.connection): connection to the database
+    return (int): status of the transaction \n
     extensions.POLL_ERROR == -1 \n
     extensions.POLL_OK == 0 \n
     extensions.POLL_READ == 1 \n
@@ -21,6 +25,11 @@ def checkPollStatus(connection):
 
 
 def get(query):
+    """
+    Get data from the database
+    :param query (str): query to be executed
+    :return (list): list of dictionaries with the data requested
+    """
     try:
         with connect(
             host=DBHOST, port=DBPORT, dbname=DBNAME, user=DBUSER, password=DBPASSWORD
@@ -40,6 +49,11 @@ def get(query):
 
 
 def set(query):
+    """
+    Set data in the database
+    :param query (str): query to be executed
+    :return (int): status of the transaction \n
+    """
     try:
         with connect(
             host=DBHOST, port=DBPORT, dbname=DBNAME, user=DBUSER, password=DBPASSWORD

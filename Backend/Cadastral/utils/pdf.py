@@ -8,6 +8,9 @@ from reportlab.lib.pagesizes import A4, letter
 
 
 class PDF:
+    """
+    PDF is a class to generate PDF files from HTML templates, using wkhtmltopdf with reportlab and PyPDF2, and optionally watermarking them, for complete use of wkhtmltopdf, its used with subprocess.
+    """
     def __init__(
         self,
         zoom: float = 1,
@@ -18,6 +21,20 @@ class PDF:
         watermark: str = None,
         files: list = None,
     ):
+        """
+        Initialize the PDF class.
+        :param zoom: Zoom factor.
+        :param pageSize: Page size.
+        :param margins: {top,bottom,left,right}.
+        :param dpi: DPI.
+        :param templates: Templates.
+        :param watermark: Watermark.
+        :param files: Files.\n
+        If files is not None, then templates must be None.
+        with files not None, we can merge multiple PDFs into one.\n
+        If files is None, then templates must be not None.
+        with templates not None, we can render multiple templates into one PDF.
+        """
         if templates is not None:
             self.cmd = [
                 "wkhtmltopdf",
@@ -53,6 +70,10 @@ class PDF:
             self.files = files
 
     def render(self):
+        """
+        Render the templates to HTML, and then to PDF.\n
+        :update files as: A List of PDF files.
+        """
         files = []
         for file in self.templates:
             inputFile = f"{file}.html"
@@ -69,6 +90,11 @@ class PDF:
         self.files = files
 
     def watermarkIt(self):
+        """
+        Watermark the PDF.
+        verify if the watermark exists.
+        and if it does, then watermark the PDF.
+        """
         if self.watermark is not None:
             watermark = PdfFileReader(open(self.watermark, "rb"))
             for file in self.files:
@@ -86,6 +112,11 @@ class PDF:
                 remove(filename)
 
     def merge(self, outputFile: str = tmpFilename(extension="pdf")):
+        """
+        Merge the PDFs.
+        :param outputFile: Output filename.
+        return the output filename.
+        """
         merger = PdfFileMerger()
 
         for file in self.files:

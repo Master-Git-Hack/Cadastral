@@ -5,6 +5,9 @@ from sqlalchemy import BigInteger, Column, Date, Float, Integer, Text
 
 
 class Catastral(db.Model):
+    """
+    Modelo para la tabla catastral
+    """
     __tablename__ = "catastral"
 
     id = Column(BigInteger, primary_key=True)
@@ -238,6 +241,10 @@ class Catastral(db.Model):
     folio_real = Column(Text)
 
     def __init__(self, collection):
+        """
+        Constructor
+        :param collection: json with all the data
+        """
         self.registro = collection["registro"]
         self.solicitante = collection["solicitante"]
         self.oficio_solicitud = collection["oficio_solicitud"]
@@ -472,6 +479,10 @@ db.create_all()
 
 
 class CatastralSchema(ma.Schema):
+    """
+    Catastral Schema
+    genereate a json serializable object from the Catastral model
+    """
     # geom = fields.Method("geom_to_dict")
 
     # @staticmethod
@@ -480,6 +491,9 @@ class CatastralSchema(ma.Schema):
     #    return {"type": "Point", "coordinates": {"lat": point.y, "lon": point.x}}
 
     class Meta:
+        """
+        Meta class
+        """
         # exclude = "geom"
         fields = (
             "id",

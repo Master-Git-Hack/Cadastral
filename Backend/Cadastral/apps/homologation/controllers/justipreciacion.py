@@ -2,15 +2,21 @@ from ..models.justipreciacion import Justipreciacion, justipreciacionSchema, ses
 
 
 def getJustipreciacion(id):
+    """
+    Get Justipreciacion
+    :param id: ID
+    :return: Justipreciacion Object to work with
+    """
     return Justipreciacion.query.get(id)
 
 
 def patchJustipreciacion(id, type, data):
     """
-    (function) patchJustipreciacion: (id: Number, type: String, data: Dict) -> (Dict | None)\n
-    type:
-        HOMOLOGATION:"TERRENO" or "RENTA"
-        OBRAS_COMPLEMENTARIAS:"OC"
+    Update Justipreciacion
+    :param id: ID
+    :param type: Type
+    :param data: Data
+    :return: Justipreciacion Object Serialized as result of operation
     """
     record = getJustipreciacion(id)
 
