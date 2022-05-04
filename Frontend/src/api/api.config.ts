@@ -21,7 +21,7 @@ export const consume = (responseType: "blob" | "json") =>
 			"Access-Control-Allow-Credentials": true,
 			Pragma: "no-cache",
 			"Content-Type": "application/json",
-			Accept: responseType.includes("json")?"application/json":"application/pdf",
+			Accept: responseType.includes("json") ? "application/json" : "application/pdf",
 		},
 		responseType,
 		paramsSerializer: (params: PathLike) =>

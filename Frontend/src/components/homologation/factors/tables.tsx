@@ -12,7 +12,6 @@ import { searchByType, toFancyNumber } from "../../../utils/utils";
 import { Selector } from "../../inputs/selector";
 import { Header, Table, Body, Footer } from "../../table/Table";
 import { FancyInput } from "../../inputs/fancyInput";
-import { Fragment } from "react";
 const Title = (props: { title: string; colSpan?: number }) => (
 	<tr>
 		<th colSpan={props.colSpan ? props.colSpan : 6}>FACTOR POR {props.title.toUpperCase()}</th>

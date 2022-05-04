@@ -16,31 +16,31 @@ export interface areaStateProperties extends properties {
 }
 /**
  * It returns an object with the following properties:
- * 
+ *
  * - id: number
  * - value: number
  * - surface: number
  * - address: object
  * - factorResult1: number
  * - factorResult2: number
- * 
+ *
  * The address property is an object with the following properties:
- * 
+ *
  * - street: string
  * - streetNumber: number
  * - hasNoStreetNumber: boolean
  * - colony: string
  * - zone: object
  * - extras: object
- * 
+ *
  * The zone property is an object with the following properties:
- * 
+ *
  * - id: number
  * - name: string
  * - value: number
- * 
+ *
  * The extras property is an object with the following properties:
- * 
+ *
  * - factor1: number
  * - factor2: number
  * - type: string
@@ -48,9 +48,9 @@ export interface areaStateProperties extends properties {
  * - observations: string
  * - reference: string
  * - document: object
- * 
+ *
  * The document property is an object with the following properties:
- * 
+ *
  * - filename: string
  * - data: object
  * @param {number} id - The id of the property.
@@ -134,17 +134,17 @@ const handleDataFactors = (subject: any, data: any, zoneFactor: any) => {
 };
 /**
  * It returns an object with the following properties:
- * 
+ *
  * name: A string that is either "Áreas " or "Sup. Const "
  * tag: A string that is either "Área de Lote Moda" or "Superficie del sujeto"
  * averageLotArea: An object with the following properties:
- * 
+ *
  * name: A string that is either "SUPERFICIE LOTE MODA" or "SUPERFICIE DEL COMPARABLE"
  * value: A number with the value of 1
  * surface: A number with the value of 1
  * operation: A function that returns a number with the value of 1
  * subject: An object with the following properties:
- * 
+ *
  * name: A string that is either "SUPERFICIE TOTAL DEL TERRENO" or "SUPERFICIE DEL SUJETO"
  * value: A number with the value of 1
  * zone: An object with the following

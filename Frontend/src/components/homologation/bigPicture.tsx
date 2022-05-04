@@ -45,6 +45,7 @@ export default function BigPicture() {
 		dispatch(UpdateOperationValues());
 		countFactorsUsed();
 		window.resizeTo(1250, 500);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	const footerLength = factorsUsed - (!type.includes("TERRENO") ? 4 : 3);
 

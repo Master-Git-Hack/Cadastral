@@ -1,5 +1,5 @@
 /** @format */
-import { Fragment, useState } from "react";
+import { Fragment, useEffect } from "react";
 import {
 	getState,
 	updateFactorStateCommon,
@@ -15,6 +15,9 @@ import { Table, Body, Header, Footer } from "../../table/Table";
 import ReactTooltip from "react-tooltip";
 import FileSaver from "file-saver";
 export default function Area() {
+	useEffect(() => {
+		window.resizeTo(1250, 500);
+	}, []);
 	return (
 		<div className="container-xxl container-fluid">
 			<div className="row justify-content-center  my-3">
@@ -482,7 +485,6 @@ export const AreaDocumentation = () => {
 	);
 };
 const HandleDocuments = (props: { index: number; extras: any; dispatch: Function }) => {
-	const [file, setFile] = useState(undefined);
 	return (
 		<div className="input-group input-group-sm mt-2">
 			<input
@@ -491,9 +493,7 @@ const HandleDocuments = (props: { index: number; extras: any; dispatch: Function
 				type="file"
 				name={props.extras.document.filename}
 				disabled={props.extras.document.data !== null ? true : false}
-				onChange={async (event: any) => {
-					setFile(event.target.value);
-					const dataFile = await toBase64(event.target.files[0]);
+				onChange={async (event: any) =>
 					props.dispatch(
 						updateDocumentationStateArea({
 							key: "data",
@@ -504,12 +504,12 @@ const HandleDocuments = (props: { index: number; extras: any; dispatch: Function
 								...props.extras,
 								document: {
 									filename: event.target.files[0].name,
-									data: dataFile,
+									data: await toBase64(event.target.files[0]),
 								},
 							},
 						}),
-					);
-				}}
+					)
+				}
 			/>
 
 			{props.extras.document.data ? (
@@ -527,8 +527,7 @@ const HandleDocuments = (props: { index: number; extras: any; dispatch: Function
 					</button>
 					<button
 						className="btn btn-sm btn-outline-danger"
-						onClick={() => {
-							setFile(undefined);
+						onClick={() =>
 							props.dispatch(
 								updateDocumentationStateArea({
 									key: "data",
@@ -543,8 +542,8 @@ const HandleDocuments = (props: { index: number; extras: any; dispatch: Function
 										},
 									},
 								}),
-							);
-						}}
+							)
+						}
 					>
 						Eliminar
 					</button>

@@ -49,12 +49,12 @@ export const toFancyNumber: Function = (
  * @returns A function that takes two parameters, value and decimals, and returns a number.
  */
 export const roundToTenth = (value: number, decimals: number = 1): number => {
-/**
- * It rounds a number to the nearest tenth
- * @param {number} value - The number to be rounded.
- * @param {number} [decimals=1] - The number of decimals to round to.
- * @returns A function that takes two parameters, value and decimals, and returns a number.
- */
+	/**
+	 * It rounds a number to the nearest tenth
+	 * @param {number} value - The number to be rounded.
+	 * @param {number} [decimals=1] - The number of decimals to round to.
+	 * @returns A function that takes two parameters, value and decimals, and returns a number.
+	 */
 	const aux = (value / 10).toString().split(".");
 	if (aux.length === 1) return Math.round(value);
 	else
@@ -79,7 +79,7 @@ export const getParams = (key: string) => {
  * @param {any} value - The value to set the key to.
  * @returns A string
  */
-export const setParams = (key: string,value:any) => {
+export const setParams = (key: string, value: any) => {
 	const params = new URLSearchParams();
 	params.set(key, value);
 	return params.toString();

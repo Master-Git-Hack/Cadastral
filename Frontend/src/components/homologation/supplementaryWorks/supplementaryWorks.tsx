@@ -14,14 +14,14 @@ import ReactTooltip from "react-tooltip";
 import { useEffect, useRef } from "react";
 import { Spinner } from "../../spinner/spinner";
 export default function SupplementaryWorksComponent() {
-	const { status, data, total, options, errors, id, record } = useAppSelector(getState);
-	console.log(useAppSelector(getState));
+	const { status, data, total, options, id, record } = useAppSelector(getState);
 	const dispatch = useAppDispatch();
 	const pageReference = useRef<HTMLDivElement>(null);
 	const scrollToBottom = () => pageReference.current?.scrollIntoView(false);
 
 	useEffect(() => {
 		dispatch(consume.get({ url: `/HOMOLOGATION/OC/${id}`, type: "/OC" }));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {

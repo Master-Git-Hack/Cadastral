@@ -1,5 +1,5 @@
 /** @format */
-import { Header, Body, SingleColumnInARow, Footer, Table } from "../table/Table";
+import { Header, Body, SingleColumnInARow, Table } from "../table/Table";
 import { ZoneExtraInformationTable } from "./documentation/area";
 import { AgeTable, CommonTable, SymbolsTable } from "./factors/tables";
 import { SelectFactorsComponent } from "./factors/select";

@@ -7,7 +7,7 @@
 
 export const handlerAddRow = (state: any) => {
 	const { factors, documentation } = state;
-	
+
 	for (const key in factors) {
 		const id = factors[key].data.length + 1;
 		if (key !== "Location" && key !== "Zone") {

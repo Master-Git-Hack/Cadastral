@@ -85,12 +85,14 @@ export const slice = createSlice({
 			.addCase(consume.post.fulfilled, (state, action) => {
 				if (action.payload !== null) {
 					const { response } = action.payload;
+					console.log(response);
 					state.status = response !== -1 && response !== null ? "success" : "failed";
 				} else state.status = "failed";
 			})
 			.addCase(consume.patch.fulfilled, (state, action) => {
 				if (action.payload !== null) {
 					const { response } = action.payload;
+					console.log(response);
 					state.status = response !== -1 && response !== null ? "success" : "failed";
 				} else state.status = "failed";
 			});
