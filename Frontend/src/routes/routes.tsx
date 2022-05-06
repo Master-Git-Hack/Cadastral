@@ -11,15 +11,15 @@ import HandleReports from "../views/HandleReports";
 
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
+import Docs from "../views/Docs";
 const baseURL = process.env.REACT_APP_API_URL;
-
 export const WithNavigation: FC = () => (
 	<Fragment>
 		<NavigationBar />
 		<Routes>
 			<Route path="/" element={<Index />} />
 			<Route path="/Reportes" element={<HandleReports />} />
-			<Route path="/Docs/Frontend" element={<>En construccion</>} />
+			<Route path="/Docs/Frontend" element={<Docs />} />
 			{/*<Route path="/Docs/Backend" element={<SwaggerUI url={`${baseURL}/swagger.json`} />} />*/}
 			<Route path="*" element={<ErrorPage />} />
 		</Routes>

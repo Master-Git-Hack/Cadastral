@@ -264,14 +264,14 @@ export default function SupplementaryWorksComponent() {
 										isCurrency={true}
 									/>
 								</td>
-								<td>{toFancyNumber(Number(item.age.factor.toFixed(2)))}</td>
+								<td>{toFancyNumber(Number(item.age.factor.toFixed(3)))}</td>
 								<td>
 									<span
 										data-tip
 										data-for={`state of conservation factor value explain ${index}`}
 									>
 										{toFancyNumber(
-											Number(item.stateOfConservationFactor.value.toFixed(2)),
+											Number(item.stateOfConservationFactor.value.toFixed(3)),
 										)}
 									</span>
 									<ReactTooltip
@@ -283,9 +283,9 @@ export default function SupplementaryWorksComponent() {
 										<span>{item.stateOfConservationFactor.type}</span>
 									</ReactTooltip>
 								</td>
-								<td>{toFancyNumber(Number(item.unitCost.net.toFixed(2)), true)}</td>
+								<td>{toFancyNumber(Number(item.unitCost.net.toFixed(3)), true)}</td>
 								<td>
-									{toFancyNumber(Number(item.unitCost.result.toFixed(2)), true)}
+									{toFancyNumber(Number(item.unitCost.result.toFixed(3)), true)}
 								</td>
 							</tr>
 						))}

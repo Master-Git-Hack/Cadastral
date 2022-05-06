@@ -59,7 +59,6 @@ const operation = (data: any) =>
 		const { age, vut, unitCost, stateOfConservationFactor, quantity } = item;
 		age.factor = 1 - (age.value / vut) ** 1.4;
 		unitCost.net = stateOfConservationFactor.value * age.factor * unitCost.value;
-		console.log(unitCost.net, quantity.value, unitCost.net * quantity.value);
 		unitCost.result = unitCost.net * quantity.value;
 		return item;
 	});
