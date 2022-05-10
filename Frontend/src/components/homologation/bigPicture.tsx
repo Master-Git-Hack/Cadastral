@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/store";
 import { toFancyNumber } from "../../utils/utils";
 import { Body, Footer, Header, Table } from "../table/Table";
 import { RoundedTo } from "./documentation/roundedTo";
+import ReactTooltip from "react-tooltip";
+const decimals = 3;
 export default function BigPicture() {
 	const dispatch = useAppDispatch();
 	const { factors, documentation, record } = useAppSelector(getState);
@@ -146,6 +148,7 @@ const Show = (props: {
 	isArea?: boolean;
 	rowSpan?: number;
 	isFixed?: boolean;
+	name?: string;
 }) => {
 	const show = (
 		value: number,
@@ -155,18 +158,34 @@ const Show = (props: {
 		isArea: boolean = false,
 	) => (
 		<td id={props.id} className="text-center" rowSpan={props.rowSpan}>
-			{toFancyNumber(Number(value.toFixed(2)), isCurrency, isPercentage, decimals)}{" "}
-			{isArea ? (
-				<>
-					m<sup>2</sup>
-				</>
+			<span data-tip data-for={`${props.id} ${props.name} Factor real value`}>
+				{toFancyNumber(Number(value.toFixed(2)), isCurrency, isPercentage, decimals)}{" "}
+				{isArea ? (
+					<>
+						m<sup>2</sup>
+					</>
+				) : null}
+			</span>
+			{props.name !== undefined ? (
+				<ReactTooltip
+					id={`${props.id} ${props.name} Factor real value`}
+					place="bottom"
+					type="light"
+					effect="float"
+				>
+					<span>{value}</span>
+				</ReactTooltip>
 			) : null}
 		</td>
 	);
 	return (
 		<>
 			{show(
-				Number(props.isFixed !== undefined ? Number(props.value).toFixed(3) : props.value),
+				Number(
+					props.isFixed !== undefined
+						? Number(props.value).toFixed(decimals)
+						: props.value,
+				),
 				props.isCurrency !== undefined ? props.isCurrency : false,
 				props.isPercentage !== undefined ? props.isPercentage : false,
 				props.decimals !== undefined ? props.decimals : 2,
@@ -209,9 +228,19 @@ const BodyBigPicture = (props: {
 						isCurrency={true}
 					/>
 					{!type.includes("TERRENO") ? (
-						<Show id={`${row}-Age Factor`} value={Age.data[index].result} />
+						<Show
+							id={`${row}-Age Factor`}
+							value={Age.data[index].result}
+							decimals={decimals}
+							name={`Age`}
+						/>
 					) : null}
-					<Show id={`${row}-Surface Factor`} value={Surface.data[index].value} />
+					<Show
+						id={`${row}-Surface Factor`}
+						value={Surface.data[index].value}
+						decimals={decimals}
+						name={`Surface`}
+					/>
 					{order.map((key: string) => (
 						<Show
 							key={`column ${key} for row ${row}`}
@@ -223,12 +252,24 @@ const BodyBigPicture = (props: {
 									? factors[key].data[index].value
 									: factors[key].results[index].factor1
 							}
+							decimals={decimals}
+							name={`${key}`}
 						/>
 					))}
-					<Show id={`${row}-Commercial Factor`} value={Commercial.data[index].value} />
-					<Show id={`${row}-Commercial Factor`} value={Results.data[index].value} />
 					<Show
 						id={`${row}-Commercial Factor`}
+						value={Commercial.data[index].value}
+						decimals={decimals}
+						name={`Commercial`}
+					/>
+					<Show
+						id={`${row}-Resultant Factor`}
+						value={Results.data[index].value}
+						decimals={decimals}
+						name={`Resultant`}
+					/>
+					<Show
+						id={`${row}-WeightingPercentage`}
 						value={WeightingPercentage.data[index].value}
 						isPercentage={true}
 					/>

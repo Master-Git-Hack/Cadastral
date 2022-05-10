@@ -16,7 +16,7 @@ const HandleRoundedTo = (props: {
 	return (
 		<Modal id={`modal for handle rounded value application`} show={show} onHide={onHide}>
 			<Modal.Header closeButton>
-				<Modal.Title>Edicion de Raíz</Modal.Title>
+				<Modal.Title>Edicion de Redondeo Aplicado</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				Valor actual:{" "}

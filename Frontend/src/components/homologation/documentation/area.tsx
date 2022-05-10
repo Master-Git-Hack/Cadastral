@@ -14,6 +14,7 @@ import { FancyInput } from "../../inputs/fancyInput";
 import { Table, Body, Header, Footer } from "../../table/Table";
 import ReactTooltip from "react-tooltip";
 import FileSaver from "file-saver";
+
 export default function Area() {
 	useEffect(() => {
 		window.resizeTo(1250, 500);
@@ -142,13 +143,17 @@ export const AreaCalculation = () => {
 							<span data-tip data-for={`fancyInput-displayed-${index}-surface`}>
 								{toFancyNumber(Number(Surface.data[index].value.toFixed(2)))}
 							</span>
+
 							<ReactTooltip
 								id={`fancyInput-displayed-${index}-surface`}
 								place="bottom"
 								type="dark"
 								effect="solid"
 							>
-								{`(${item.value} / ${Area.averageLotArea.value}) ^ (1 / ${Surface.root.value})`}{" "}
+								<sup>{Surface.root.value}</sup>&radic;
+								<small style={{ textDecoration: "overline" }}>
+									{`(${item.value}`}&divide;{`${Area.averageLotArea.value})`}
+								</small>
 							</ReactTooltip>
 						</td>
 						<td style={{ maxWidth: 130 }}>
@@ -803,7 +808,7 @@ const RootOptions = (props: { name: string; initialValue: number }) => {
 		<>
 			{options.map((item: any) => (
 				<option key={`root selection for ${props.name} ${item}`} value={item}>
-					&#x221A;{item} (Raíz)
+					{item}&#x221A; (Raíz {item})
 				</option>
 			))}
 		</>

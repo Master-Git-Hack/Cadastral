@@ -1,7 +1,7 @@
 /** @format */
 
 import moment from "moment";
-
+import { getParams } from "../../../utils/utils";
 import { properties, zoneInformation } from "../state";
 import { options as building } from "../factors/building";
 import { options as usage } from "../factors/usage";
@@ -161,7 +161,12 @@ export const areaState = (type: string): areaStateProperties => ({
 	},
 	subject: {
 		name: type.includes("TERRENO") ? "SUPERFICIE TOTAL DEL TERRENO" : "SUPERFICIE DEL SUJETO",
-		value: 1,
+		value:
+			Number(
+				type.includes("TERRENO")
+					? getParams("sp1_superficie")
+					: getParams("cna_superficie"),
+			) || 1,
 		zone: zoneInformation[0],
 		factors: [
 			{ id: 1, type: "totalPopulation", root: 12 },

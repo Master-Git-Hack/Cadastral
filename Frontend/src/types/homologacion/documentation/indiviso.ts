@@ -1,5 +1,5 @@
 /** @format */
-
+import { getParams } from "../../../utils/utils";
 import { properties } from "../state";
 
 export interface indivisoStateProperties extends properties {}
@@ -32,7 +32,7 @@ export const indivisoState = (type: string) => {
 		? {
 				surface: 1,
 				building: 1,
-				indiviso: 1,
+				indiviso: Number(getParams("sp1_factor")) || 1,
 				result: 1,
 				operation,
 		  }

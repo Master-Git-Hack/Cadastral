@@ -4,6 +4,7 @@ import {
 	addRow,
 	removeRow,
 	update,
+	isLoading,
 	consume,
 } from "../../../features/homologation/supplementaryWorks/slice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
@@ -13,7 +14,9 @@ import { Table, Header, Body, Footer } from "../../table/Table";
 import ReactTooltip from "react-tooltip";
 import { useEffect, useRef } from "react";
 import { Spinner } from "../../spinner/spinner";
+
 export default function SupplementaryWorksComponent() {
+	const toFix: number = 3;
 	const { status, data, total, options, id, record } = useAppSelector(getState);
 	const dispatch = useAppDispatch();
 	const pageReference = useRef<HTMLDivElement>(null);
@@ -25,7 +28,7 @@ export default function SupplementaryWorksComponent() {
 	}, []);
 
 	useEffect(() => {
-		window.resizeTo(1250, 500);
+		window.resizeTo(1260, 500);
 	}, []);
 
 	useEffect(() => {
@@ -44,21 +47,24 @@ export default function SupplementaryWorksComponent() {
 			},
 		};
 		try {
+			dispatch(isLoading());
 			if (record.type.includes("exists")) dispatch(consume.patch(properties));
 			if (record.type.includes("newOne")) dispatch(consume.post(properties));
 		} catch (e) {
 			alert("Error al guardar");
-		} finally {
-			if (status.includes("success")) {
-				alert("Registro guardado exitosamente");
-				window.opener = null;
-				window.open("about:blank", "_self", "");
-				window.close();
-			} else {
-				alert("Algo fallo, favor de intentar más tarde");
-			}
 		}
 	};
+	useEffect(() => {
+		if (status.includes("success")) {
+			alert("Registro guardado exitosamente");
+			window.opener = null;
+			window.open("about:blank", "_self", "");
+			window.close();
+		}
+		if (status.includes("failed")) {
+			alert("Algo fallo, favor de intentar más tarde");
+		}
+	}, [status]);
 	return (
 		<div className="container-xxl container-fluid" ref={pageReference}>
 			<div className="row my-auto mb-3">
@@ -66,7 +72,7 @@ export default function SupplementaryWorksComponent() {
 					<h5>Obras complementarias</h5>
 				</div>
 				<div className="col my-auto">
-					{!status.includes("loading") ? (
+					{!status.includes("loading") && (
 						<div className="row text-end">
 							<div className="col pt-3  ">
 								<button className="btn btn-success" onClick={sendRequest}>
@@ -75,11 +81,20 @@ export default function SupplementaryWorksComponent() {
 							</div>
 							<br />
 						</div>
-					) : null}
+					)}
 				</div>
 			</div>
 			{!status.includes("loading") ? (
 				<Table>
+					<caption className="fw-light">
+						<small>
+							Los valores motrados en los campos de: <strong>Factor de edad</strong>{" "}
+							estan representados a 3 decimales para una mejor comprensión, pero puede
+							que no concuerde al replicar los calculos realizados, debido a la
+							representación mostrada, posicione el mouse para visualizar el valor
+							completo.
+						</small>
+					</caption>
 					<Header>
 						<tr>
 							<th className="text-truncate text-wrap">Descripción</th>
@@ -264,28 +279,52 @@ export default function SupplementaryWorksComponent() {
 										isCurrency={true}
 									/>
 								</td>
-								<td>{toFancyNumber(Number(item.age.factor.toFixed(3)))}</td>
+								<td>
+									<span data-tip data-for={`age factor real value ${index}`}>
+										{toFancyNumber(
+											Number(item.age.factor.toFixed(toFix)),
+											false,
+											false,
+											toFix,
+										)}
+									</span>
+									<ReactTooltip
+										id={`age factor real value ${index}`}
+										place="bottom"
+										type="light"
+										effect="float"
+									>
+										<span>{item.age.factor}</span>
+									</ReactTooltip>
+								</td>
 								<td>
 									<span
 										data-tip
 										data-for={`state of conservation factor value explain ${index}`}
 									>
 										{toFancyNumber(
-											Number(item.stateOfConservationFactor.value.toFixed(3)),
+											Number(
+												item.stateOfConservationFactor.value.toFixed(toFix),
+											),
 										)}
 									</span>
 									<ReactTooltip
 										id={`state of conservation factor value explain ${index}`}
 										place="bottom"
 										type="light"
-										effect="solid"
+										effect="float"
 									>
 										<span>{item.stateOfConservationFactor.type}</span>
 									</ReactTooltip>
 								</td>
-								<td>{toFancyNumber(Number(item.unitCost.net.toFixed(3)), true)}</td>
 								<td>
-									{toFancyNumber(Number(item.unitCost.result.toFixed(3)), true)}
+									{toFancyNumber(Number(item.unitCost.net.toFixed(toFix)), true)}
+								</td>
+								<td>
+									{toFancyNumber(
+										Number(item.unitCost.result.toFixed(toFix)),
+										true,
+									)}
 								</td>
 							</tr>
 						))}
@@ -308,14 +347,14 @@ export default function SupplementaryWorksComponent() {
 								</button>
 							</td>
 							<td colSpan={6} className="text-end">
-								{data.length > 1 ? (
+								{data.length > 1 && (
 									<button
 										className="btn btn-sm btn-outline-danger"
 										onClick={() => dispatch(removeRow())}
 									>
 										Remover ultima fila
 									</button>
-								) : null}
+								)}
 							</td>
 						</tr>
 					</Footer>

@@ -225,6 +225,9 @@ export const slice = createSlice({
 			state.documentation.Indiviso[key] = value;
 			state = handleUpdateOperationValues(state);
 		},
+		isLoading(state) {
+			state.status = "loading";
+		},
 	},
 	extraReducers: (builder) => {
 		/* A reducer that is handling the state of the application. */
@@ -254,7 +257,7 @@ export const slice = createSlice({
 				if (action.payload !== null) {
 					const { response } = action.payload;
 
-					state.status = response !== -1 && response !== null ? "complete" : "failed";
+					state.status = response !== -1 && response !== null ? "working" : "failed";
 					const { status } = response.record.homologacion;
 					if (status.includes("exists")) {
 						const record = handleGetRequest(response, state);
@@ -264,14 +267,18 @@ export const slice = createSlice({
 
 						state.record = record.record;
 					} else {
-						const { documentation, factors, record } = response;
+						const { documentation, record } = response;
 
 						state.documentation.Area.options = documentation.Area.options;
-						state.documentation.Area.subject.value = documentation.Area.subject.value;
-						state.documentation.ReFactor.surface.value =
-							documentation.ReFactor.surface.value;
-						state.factors.Age.subject.value = factors.Age.subject.value;
-						state.record.justipreciacion = record.justipreciacion;
+						/* change method to get the following params, it was getting from db, but to avoid many refreshes it is getting from URL
+						* - Area
+							state.documentation.Area.subject.value = documentation.Area.subject.value;
+						* - ReFactor
+							state.documentation.ReFactor.surface.value =
+								documentation.ReFactor.surface.value;
+						* - Age
+							state.factors.Age.subject.value = factors.Age.subject.value;
+						*/ state.record.justipreciacion = record.justipreciacion;
 						state.record.homologacion.status = record.homologacion.status;
 						state.record.homologacion.type = record.homologacion.type;
 						state.status = "working";
@@ -299,6 +306,7 @@ export const {
 	updateDocumentationStateArea,
 	updateDocumentationStateSalesCost,
 	updateDocumentationStateWeightingPercentage,
+	isLoading,
 } = slice.actions;
 export const getState = (state: RootState) => state.homologation;
 export default slice.reducer;

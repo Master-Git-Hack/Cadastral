@@ -330,6 +330,10 @@ export const handleRequest = (state: any) => ({
 	tipo: state.record.homologacion.type,
 	registro: state.record.justipreciacion.register,
 	id: state.record.homologacion.id,
+	sp1_factor: state.documentation.ReFactor.form.value,
+	sp1_superficie: state.documentation.Area.subject.value,
+	cna_edad: state.factors.Age.subject.value,
+	cna_superficie: state.documentation.Area.subject.value,
 });
 
 /**

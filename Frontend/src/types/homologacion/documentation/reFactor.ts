@@ -1,5 +1,6 @@
 /** @format */
 
+import { getParams } from "../../../utils/utils";
 import { properties } from "../state";
 
 export interface reFactorStateProperties extends properties {}
@@ -39,7 +40,7 @@ export const reFactorState = (type: string): reFactorStateProperties => {
 				},
 				form: {
 					name: "FACTOR DE FORMA",
-					value: 1,
+					value: Number(getParams("sp1_factor")) || 1,
 				},
 				result: {
 					name: "FACTOR DE RESULTANTE",

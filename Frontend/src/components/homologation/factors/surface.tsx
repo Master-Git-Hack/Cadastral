@@ -19,7 +19,16 @@ const SurfaceRoot = (props: {
 				<Modal.Title>Edicion de Raíz</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				Valor actual: <strong>{value}</strong>
+				<span>
+					Valor actual: Raíz {value} (
+					<small>
+						<strong>
+							<sup>{value}</sup>&radic;{" "}
+							<span style={{ textDecoration: "overline" }}>x</span>{" "}
+						</strong>
+					</small>
+					)
+				</span>
 				<div className="form-check form-switch form-check-sm form-switch-sm">
 					<input
 						className="form-check-input form-check-input-sm "

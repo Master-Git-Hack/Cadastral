@@ -1,7 +1,7 @@
 /** @format */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
-import { getState, consume } from "../../features/homologation/slice";
+import { getState, consume, isLoading } from "../../features/homologation/slice";
 import { handleRequest } from "../../features/homologation/handlers";
 
 export const SaveButton = () => {
@@ -11,6 +11,7 @@ export const SaveButton = () => {
 	const { id } = record.justipreciacion;
 	const { type, status } = record.homologacion;
 	const [show, setShow] = useState(false);
+	console.log(state);
 	const sendRequest = () => {
 		const properties = {
 			url: `/HOMOLOGATION/${type}/${id}`,
@@ -19,28 +20,29 @@ export const SaveButton = () => {
 		};
 		if (errors.length === 0) {
 			try {
+				dispatch(isLoading());
 				if (status.includes("exists")) dispatch(consume.patch(properties));
 				if (status.includes("newOne")) dispatch(consume.post(properties));
 			} catch (e) {
 				alert("Error al guardar");
-			} finally {
-				if (state.status.includes("complete")) {
-					setShow(false);
-					alert("Registro guardado exitosamente");
-					window.opener = null;
-					window.open("about:blank", "_self", "");
-					window.close();
-				}
-				if (state.status.includes("failed")) {
-					alert("Algo fallo, favor de intentar más tarde");
-				}
 			}
 		} else {
 			alert("Favor de revisar los campos vacios");
 			setShow(true);
 		}
 	};
-
+	useEffect(() => {
+		if (state.status.includes("complete")) {
+			setShow(false);
+			alert("Registro guardado exitosamente");
+			window.opener = null;
+			window.open("about:blank", "_self", "");
+			window.close();
+		}
+		if (state.status.includes("failed")) {
+			alert("Algo fallo, favor de intentar más tarde");
+		}
+	}, [state.status]);
 	return (
 		<div className="container container-fluid">
 			<div className="row my-auto">

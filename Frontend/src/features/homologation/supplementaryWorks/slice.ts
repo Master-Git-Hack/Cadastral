@@ -52,6 +52,9 @@ export const slice = createSlice({
 			state.data = operation(data);
 			state.total = getTotal(data);
 		},
+		isLoading(state) {
+			state.status = "loading";
+		},
 	},
 	extraReducers: (builder) => {
 		/* A way to add extra reducers to the reducer. */
@@ -67,8 +70,8 @@ export const slice = createSlice({
 			})
 			.addCase(consume.get.fulfilled, (state, action) => {
 				if (action.payload !== null) {
+					state.status = "complete";
 					const { response } = action.payload;
-					state.status = response !== undefined ? "success" : "error";
 					const { record } = response;
 					if (record.type.includes("exists")) {
 						const { data, total } = response;
@@ -85,20 +88,20 @@ export const slice = createSlice({
 			.addCase(consume.post.fulfilled, (state, action) => {
 				if (action.payload !== null) {
 					const { response } = action.payload;
-					console.log(response);
+
 					state.status = response !== -1 && response !== null ? "success" : "failed";
 				} else state.status = "failed";
 			})
 			.addCase(consume.patch.fulfilled, (state, action) => {
 				if (action.payload !== null) {
 					const { response } = action.payload;
-					console.log(response);
+
 					state.status = response !== -1 && response !== null ? "success" : "failed";
 				} else state.status = "failed";
 			});
 	},
 });
 
-export const { addRow, removeRow, update } = slice.actions;
+export const { addRow, removeRow, update, isLoading } = slice.actions;
 export const getState = (state: RootState) => state.supplementaryWorks;
 export default slice.reducer;

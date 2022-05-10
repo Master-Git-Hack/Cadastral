@@ -1,5 +1,5 @@
 /** @format */
-
+import { getParams } from "../../../utils/utils";
 import { properties } from "../state";
 
 export interface ageStateProperties extends properties {
@@ -33,7 +33,7 @@ export const ageState: ageStateProperties = {
 	isUsed: true,
 	position: 0,
 	subject: {
-		value: 1,
+		value: Number(getParams("cna_edad")) || 1,
 		operator: 0.01,
 	},
 	data: [template(1)],
