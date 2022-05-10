@@ -18,12 +18,14 @@ def tmpFilename(
     :param extension: Extension ['pdf','html',...etc].
     :param path: root path.
     :return: Filename.
-    
+
     example: tmpFilename(suffix="_tmp", extension="pdf")
     return: "example_tmp.pdf"\n
     @deprecated:
     return f"{app.root_path}{TEMPORARY_PATH}/{prefix}_{next(_get_candidate_names())}{suffix}.{extension}"
     """
-    with NamedTemporaryFile(suffix=suffix,prefix=prefix,dir=path, delete=True) as temp:
+    with NamedTemporaryFile(
+        suffix=suffix, prefix=prefix, dir=path, delete=True
+    ) as temp:
         return f"{temp.name}.{extension}"
     #

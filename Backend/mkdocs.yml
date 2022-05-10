@@ -1,0 +1,12 @@
+site_name: Dirección de Catastro
+
+theme:
+    name: 'rtd-dropdown'
+    highlightjs: true
+    collapse_by_default: false
+    analytics:
+        gtag: G-ABC123
+    hljs_languages:
+        - yaml
+        - flask
+

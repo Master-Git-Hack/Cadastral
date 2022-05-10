@@ -1,3 +1,7 @@
+"""
+Just basic configuration for the project.
+"""
+
 from os import getenv
 
 if getenv("API_VERSION"):

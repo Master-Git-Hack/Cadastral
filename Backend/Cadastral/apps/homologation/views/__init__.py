@@ -37,6 +37,7 @@ class HOMOLOGATION(Resource):
 
     def patch(self, type, id):
         data = request.get_json()
+
         response = update(id, type.lower(), data)
         if response is not None:
             return jsonify({"response": response})

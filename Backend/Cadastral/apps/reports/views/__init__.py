@@ -47,6 +47,7 @@ class APPRAISAL(Resource):
     """
     API para la generación de reportes
     """
+
     @ns.expect(expected)
     @ns.produces(["application/pdf"])
     def post(self, type: str, filename: str):

@@ -8,6 +8,7 @@ class Catastral(db.Model):
     """
     Modelo para la tabla catastral
     """
+
     __tablename__ = "catastral"
 
     id = Column(BigInteger, primary_key=True)
@@ -483,6 +484,7 @@ class CatastralSchema(ma.Schema):
     Catastral Schema
     genereate a json serializable object from the Catastral model
     """
+
     # geom = fields.Method("geom_to_dict")
 
     # @staticmethod
@@ -494,6 +496,7 @@ class CatastralSchema(ma.Schema):
         """
         Meta class
         """
+
         # exclude = "geom"
         fields = (
             "id",

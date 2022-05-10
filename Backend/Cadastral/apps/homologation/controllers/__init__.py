@@ -1,16 +1,17 @@
-from Cadastral.apps.homologation.controllers.indicadores_municipales import \
-    getIndicadoresMunicipales
-from Cadastral.apps.homologation.controllers.justipreciacion import (
-    getJustipreciacion, patchJustipreciacion)
+from typing import Dict
 
 from ..models import Homologation, homologationSchema, session
+from .indicadores_municipales import getIndicadoresMunicipales
+from .justipreciacion import getJustipreciacion, patchJustipreciacion
 
 
 def getHomologation(register, type):
     """
     Get Homologation
     :param register: Register
+    :type register: str
     :param type: Type
+    :type type: str
     :return: Homologation Object to work with"""
     return homologationSchema.dump(
         session.query(Homologation).filter_by(registro=register, tipo=type).first()
@@ -54,7 +55,7 @@ def patchHomologation(
     return homologationSchema.dump(homologation)
 
 
-def create(id, type):
+def create(id: int, type: str) -> Dict[str, Dict]:
     """
     Create Homologation JSON Object
     :param id: ID
@@ -94,17 +95,18 @@ def create(id, type):
             }
         else:
             return {
-                "factors": {
-                    "Age": {
-                        "subject": {"value": item if type.upper() != "TERRENO" else 1}
-                    }
-                },
+                # The following instructions were commented because params are given by the user to prevent many refreshes
+                # "factors": {
+                #    "Age": {
+                #        "subject": {"value": item if type.upper() != "TERRENO" else 1}
+                #    }
+                # },
                 "documentation": {
                     "Area": {
-                        "subject": {"value": areaSubject},
+                        # "subject": {"value": areaSubject},
                         "options": getIndicadoresMunicipales(),
                     },
-                    "ReFactor": {"surface": item if type.upper() == "TERRENO" else 1},
+                    # "ReFactor": {"surface": item if type.upper() == "TERRENO" else 1},
                 },
                 "record": {
                     "justipreciacion": {

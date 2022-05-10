@@ -1,5 +1,4 @@
-from Cadastral.config import (DBENGINE, DBHOST, DBNAME, DBPASSWORD, DBPORT,
-                              DBUSER)
+from Cadastral.config import DBENGINE, DBHOST, DBNAME, DBPASSWORD, DBPORT, DBUSER
 from psycopg2 import DatabaseError, connect, extensions
 from psycopg2.extras import RealDictCursor
 

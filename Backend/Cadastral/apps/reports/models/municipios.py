@@ -6,6 +6,7 @@ class Municipios(db.Model):
     """
     Municipios Model
     """
+
     __tablename__ = "municipios"
 
     id = Column(Integer, primary_key=True)

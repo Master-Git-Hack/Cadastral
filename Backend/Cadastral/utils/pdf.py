@@ -11,6 +11,7 @@ class PDF:
     """
     PDF is a class to generate PDF files from HTML templates, using wkhtmltopdf with reportlab and PyPDF2, and optionally watermarking them, for complete use of wkhtmltopdf, its used with subprocess.
     """
+
     def __init__(
         self,
         zoom: float = 1,

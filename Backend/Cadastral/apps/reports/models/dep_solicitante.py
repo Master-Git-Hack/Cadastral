@@ -7,6 +7,7 @@ class DepSolicitante(db.Model):
     Departamentos Solicitantes
     Clase para la tabla dep_solicitante
     """
+
     __tablename__ = "dep_solicitante"
 
     id = Column(BigInteger, primary_key=True)
