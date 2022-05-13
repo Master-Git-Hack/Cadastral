@@ -12,6 +12,7 @@ import { searchByType, toFancyNumber } from "../../../utils/utils";
 import { Selector } from "../../inputs/selector";
 import { Header, Table, Body, Footer } from "../../table/Table";
 import { FancyInput } from "../../inputs/fancyInput";
+import { useEffect } from "react";
 const Title = (props: { title: string; colSpan?: number }) => (
 	<tr>
 		<th colSpan={props.colSpan ? props.colSpan : 6}>FACTOR POR {props.title.toUpperCase()}</th>
@@ -393,6 +394,9 @@ const SymbolsFooter = (props: { results: any; name: string }) => (
 const ZoneExtra = () => {
 	const { data } = useAppSelector(getState).documentation.Area;
 	const { results } = useAppSelector(getState).factors.Zone;
+	useEffect(() => {
+		window.resizeTo(945, 500);
+	}, []);
 	const headers = Object.keys(results[0])
 		.filter((name: string) => name.includes("factor"))
 		.slice(1);

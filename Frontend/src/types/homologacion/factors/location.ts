@@ -52,7 +52,7 @@ const insertionSubject = (data: any) => {
 		newRow = newRow.insertion(`C${i}`, newRow);
 	}
 	data.push(newRow);
-	data.map((item: any) => (item.percentage = 10 / id));
+	data.map((item: any) => (item.percentage = Number((10 / id).toFixed(4))));
 	return data;
 };
 const insertionData = (id: number) => ({

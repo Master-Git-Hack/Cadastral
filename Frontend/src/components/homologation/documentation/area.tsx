@@ -36,6 +36,9 @@ export const AreaCalculation = () => {
 	const { data, subject } = Area;
 	const { Surface, Commercial } = useAppSelector(getState).factors;
 	const { type } = useAppSelector(getState).record.homologacion;
+	useEffect(() => {
+		window.resizeTo(1250, 500);
+	}, []);
 	const percentage = WeightingPercentage.total;
 	return (
 		<Table>

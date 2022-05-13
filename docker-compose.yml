@@ -8,7 +8,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./Frontend:/usr/src/Frontend
-      - /usr/src/Frontend/node_modules
     ports:
       - 80:80
     networks:
