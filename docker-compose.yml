@@ -6,6 +6,7 @@ services:
     build:
       context: ./Frontend/
       dockerfile: Dockerfile
+    restart: always
     volumes:
       - ./Frontend:/usr/src/Frontend
     ports:
