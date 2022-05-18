@@ -2,7 +2,7 @@
 
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import homologationReducer from "../features/homologation/slice";
-import supplementaryWorksReducer from "../features/homologation/supplementaryWorks/slice";
+import supplementaryWorksReducer from "../features/homologation/supplementaryWorks/slice2";
 import reportsReducer from "../features/handleReports/slice";
 
 /* Creating a store with the reducers and middleware. */

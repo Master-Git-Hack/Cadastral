@@ -68,9 +68,9 @@ export const roundToTenth = (value: number, decimals: number = 1): number => {
  * @param {string} key - The key of the parameter you want to get.
  * @returns A function that takes a string as a parameter and returns a string.
  */
-export const getParams = (key: string) => {
+export const getParams = (key: string): string => {
 	const params = new URLSearchParams(window.location.search);
-	return params.get(key) !== null && params.get(key) !== undefined ? params.get(key) : "";
+	return params.get(key) || "";
 };
 /**
  * It takes a key and a value, creates a new URLSearchParams object, sets the key and value on that
