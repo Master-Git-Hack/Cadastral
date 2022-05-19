@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import SupplementaryWorksComponent from "../../components/homologation/supplementaryWorks/supplementaryWorks";
 import DataView from "../../components/homologation/supplementaryWorks/dataView";
+import BigPicture from "../../components/homologation/supplementaryWorks/bigPicture";
+import { SaveButton } from "../../components/homologation/supplementaryWorks/save";
 export default function SupplementaryWorks() {
 	const [visibility, setVisibility] = useState({
 		steps: true,
@@ -9,27 +11,30 @@ export default function SupplementaryWorks() {
 	});
 
 	return (
-		<div className="row py-4 px-5">
-			{/* <SupplementaryWorksComponent />*/}
-			<Container
-				previous=""
-				current="steps"
-				target="bigPicture"
-				visibility={visibility}
-				setVisibility={setVisibility}
-			>
-				<DataView />
-			</Container>
-			<Container
-				previous="steps"
-				current="bigPicture"
-				target=""
-				visibility={visibility}
-				setVisibility={setVisibility}
-			>
-				<>test</>
-			</Container>
-		</div>
+		<>
+			<SaveButton />
+			<div className="row py-4 px-5">
+				{/* <SupplementaryWorksComponent />*/}
+				<Container
+					previous=""
+					current="steps"
+					target="bigPicture"
+					visibility={visibility}
+					setVisibility={setVisibility}
+				>
+					<DataView />
+				</Container>
+				<Container
+					previous="steps"
+					current="bigPicture"
+					target=""
+					visibility={visibility}
+					setVisibility={setVisibility}
+				>
+					<BigPicture />
+				</Container>
+			</div>
+		</>
 	);
 }
 

@@ -156,7 +156,7 @@ const NavigationButton = (props: {
 						className="btn btn-sm btn-link"
 						onClick={() => handleVisibility(props.previous)}
 					>
-						Atras
+						{"< "}Atras
 					</button>
 				) : null}
 			</div>
@@ -166,7 +166,7 @@ const NavigationButton = (props: {
 						className="btn btn-sm btn-outline-info"
 						onClick={() => handleVisibility(props.target)}
 					>
-						Siguiente
+						Siguiente{" >"}
 					</button>
 				) : null}
 			</div>

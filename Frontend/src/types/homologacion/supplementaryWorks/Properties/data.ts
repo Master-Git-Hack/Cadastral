@@ -1,6 +1,6 @@
 /** @format */
-interface Properties{
-    [key: string | number]: any;
+interface Properties {
+	[key: string | number]: any;
 }
 interface AreaProperties {
 	description?: string;
@@ -8,7 +8,7 @@ interface AreaProperties {
 	unity: string;
 	getResult?: Function;
 }
-const getResult = (value: number, total: number): number => value / total;
+const getResult = (value: number, total: number): number => total / value;
 interface CalculationProperties extends Properties {
 	id: number;
 	quantity: AreaProperties;
@@ -30,7 +30,7 @@ interface ValueProperties {
 	gtoFactor: number;
 	result: AreaProperties;
 	getSubTotal: Function;
-	getTotal: Function;
+	getFinalTotal: Function;
 }
 const getSubTotal = (data: Array<CalculationProperties>) =>
 	data.reduce(
@@ -38,7 +38,7 @@ const getSubTotal = (data: Array<CalculationProperties>) =>
 			previous + Number(current.value.total),
 		0,
 	);
-export interface DataProperties extends Properties{
+export interface DataProperties extends Properties {
 	id: number;
 	name: string;
 	area: AreaProperties;
@@ -88,7 +88,7 @@ export const dataTemplate = (id: number): DataProperties => ({
 			getResult,
 		},
 		getSubTotal,
-		getTotal: (factor: number, subTotal: number): number => subTotal * factor,
+		getFinalTotal: (factor: number, subTotal: number): number => subTotal * factor,
 	},
 	appendCalculationTemplate,
 });

@@ -161,7 +161,17 @@ const DataView = (props: any) => {
 							<HandleUnities
 								name={`row ${index} quantity unity ${id}`}
 								value={item.quantity.unity}
-								onChange={(event: any) => {}}
+								onChange={(event: any) =>
+									dispatch(
+										updateDataCalculation({
+											index: id - 1,
+											id: index,
+											key: "quantity",
+											subKey: "unity",
+											value: event.target.value,
+										}),
+									)
+								}
 							/>
 						</td>
 						<td colSpan={1}>
@@ -169,7 +179,17 @@ const DataView = (props: any) => {
 								index={index}
 								name={`row ${index} quantity value ${id}`}
 								value={item.quantity.value}
-								onChange={(event: any) => {}}
+								onChange={(event: any) =>
+									dispatch(
+										updateDataCalculation({
+											index: id - 1,
+											id: index,
+											key: "quantity",
+											subKey: "value",
+											value: Number(event.target.value),
+										}),
+									)
+								}
 								style={`text-center`}
 							/>
 						</td>
@@ -178,29 +198,42 @@ const DataView = (props: any) => {
 								index={index}
 								name={`row ${index} value unit ${id}`}
 								value={item.value.unitary}
-								onChange={(event: any) => {}}
+								onChange={(event: any) =>
+									dispatch(
+										updateDataCalculation({
+											index: id - 1,
+											id: index,
+											key: "value",
+											subKey: "unitary",
+											value: Number(event.target.value),
+										}),
+									)
+								}
 								isCurrency={true}
 								style={`text-center`}
 							/>
 							{toFancyNumber(Number(item.value.ind.unitary.toFixed(2)), true)}
 						</td>
 						<td colSpan={2}>
-							<FancyInput
-								index={index}
-								name={`row ${index} value total ${id}`}
-								value={item.value.total}
-								onChange={(event: any) => {}}
-								isCurrency={true}
-								style={`text-center`}
-							/>
+							{toFancyNumber(Number(item.value.total.toFixed(2)), true)}
 						</td>
 						<td colSpan={1}>
 							<FancyInput
 								index={index}
 								name={`row ${index} value ind value ${id}`}
 								value={item.value.ind.value}
-								onChange={(event: any) => {}}
-								isCurrency={true}
+								onChange={(event: any) =>
+									dispatch(
+										updateDataCalculation({
+											index: id - 1,
+											id: index,
+											key: "value",
+											subKey: "ind",
+											subSubKey: "value",
+											value: Number(event.target.value),
+										}),
+									)
+								}
 								style={`text-center`}
 							/>
 						</td>
@@ -229,6 +262,14 @@ const DataView = (props: any) => {
 								checked={showFactor}
 								onChange={(event) => {
 									setShowFactor(!showFactor);
+									dispatch(
+										updateData({
+											index: id - 1,
+											key: "value",
+											subKey: "gtoFactor",
+											value: !showFactor ? 0.935 : 1,
+										}),
+									);
 								}}
 							/>
 							<label className="form-check-label" htmlFor="factorGto">
@@ -243,13 +284,7 @@ const DataView = (props: any) => {
 							Factor Gto:
 						</td>
 						<td colSpan={2}>
-							<FancyInput
-								index={id}
-								name={`value factor gto ${id}`}
-								value={gtoFactor}
-								onChange={(event) => {}}
-								style={`text-center`}
-							/>
+							{toFancyNumber(Number(gtoFactor.toFixed(3)), false, false, 3)}
 						</td>
 						<td colSpan={1} />
 					</tr>
@@ -259,7 +294,7 @@ const DataView = (props: any) => {
 					<td colSpan={9} className="text-end">
 						{result.unity}
 					</td>
-					<td colSpan={2}>{toFancyNumber(Number(result.value.toFixed(2)), true)}</td>
+					<td colSpan={2}>{toFancyNumber(Number(result.value.toFixed(0)), true)}</td>
 					<td colSpan={1} />
 				</tr>
 				<tr>

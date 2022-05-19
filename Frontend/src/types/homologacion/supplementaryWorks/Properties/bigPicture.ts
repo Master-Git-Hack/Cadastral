@@ -1,5 +1,7 @@
 /** @format */
-
+interface Properties {
+	[key: string | number]: any;
+}
 export const stateOfConservation: Array<StateOfConservationProperties> = [
 	{
 		id: 1,
@@ -47,17 +49,17 @@ export const stateOfConservation: Array<StateOfConservationProperties> = [
 		type: "DESECHO",
 	},
 ];
-export interface StateOfConservationProperties {
+export interface StateOfConservationProperties extends Properties {
 	id: number;
 	value: number;
 	type: string;
 }
-interface AgeProperties {
+interface AgeProperties extends Properties {
 	value: number;
 	factor: number;
 	getFactor: Function;
 }
-export interface BigPictureProperties {
+export interface BigPictureProperties extends Properties {
 	id: number;
 	type: string;
 	stateOfConservation: StateOfConservationProperties;
