@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.config &mdash; documentación de Application - 1.0.0</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Application
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Application</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Código de módulo</a> &raquo;</li>
+      <li>src.config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para src.config</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">config file for the project</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getenv</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span>
+
+<span class="n">root_path</span> <span class="o">=</span> <span class="n">abspath</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../index.html#src.config.Config">[documentos]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base configuration.&quot;&quot;&quot;</span>
+
+    <span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;secret-key&quot;</span>
+    <span class="n">ENV</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;FLASK_ENV&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;dev&quot;</span>
+    <span class="n">VERSION</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;VERSION&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;1&quot;</span>
+    <span class="n">API_URL</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;API_URL&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;/api/v</span><span class="si">{</span><span class="n">VERSION</span><span class="si">}</span><span class="s2">/&quot;</span>
+    <span class="n">TITLE</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TITLE&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;API DEV&quot;</span>
+    <span class="n">CORS</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;CORS&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;*&quot;</span>
+    <span class="n">CORS_ORIGIN</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;CORS_ORIGIN&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;*&quot;</span>
+    <span class="n">TEMPORARY_PATH</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TEMPORARY_PATH&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;tmp&quot;</span></div>
+
+
+<div class="viewcode-block" id="Paths"><a class="viewcode-back" href="../../index.html#src.config.Paths">[documentos]</a><span class="k">class</span> <span class="nc">Paths</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Paths configuration.&quot;&quot;&quot;</span>
+
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">root_path</span><span class="p">,</span> <span class="n">Config</span><span class="o">.</span><span class="n">TEMPORARY_PATH</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DevelopmentConfig"><a class="viewcode-back" href="../../index.html#src.config.DevelopmentConfig">[documentos]</a><span class="k">class</span> <span class="nc">DevelopmentConfig</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Development configuration.&quot;&quot;&quot;</span>
+
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL_DEV&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">root_path</span><span class="si">}</span><span class="s2">/db.sqlite&quot;</span>
+    <span class="p">)</span>
+    <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="TestingConfig"><a class="viewcode-back" href="../../index.html#src.config.TestingConfig">[documentos]</a><span class="k">class</span> <span class="nc">TestingConfig</span><span class="p">(</span><span class="n">Config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Testing configuration.&quot;&quot;&quot;</span>
+
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">TESTING</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL_TEST&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">root_path</span><span class="si">}</span><span class="s2">/db.sqlite&quot;</span>
+    <span class="p">)</span>
+    <span class="n">PRESERVE_CONTEXT_ON_EXCEPTION</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">SQLALCHEMY_TRACK_MODIFICATIONS</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="ProductionConfig"><a class="viewcode-back" href="../../index.html#src.config.ProductionConfig">[documentos]</a><span class="k">class</span> <span class="nc">ProductionConfig</span><span class="p">(</span><span class="n">Config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Production configuration.&quot;&quot;&quot;</span>
+
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">SQLALCHEMY_DATABASE_URI</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">)</span></div>
+
+
+<span class="n">config_by_name</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dev</span><span class="o">=</span><span class="n">DevelopmentConfig</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="n">TestingConfig</span><span class="p">,</span> <span class="n">prod</span><span class="o">=</span><span class="n">ProductionConfig</span><span class="p">)</span>
+<span class="n">config_API</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">title</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">TITLE</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">VERSION</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">API_URL</span><span class="p">,</span>
+    <span class="n">authorizations</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">api_key</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;api_key&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">:</span> <span class="s2">&quot;header&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Authorization&quot;</span><span class="p">}</span>
+    <span class="p">),</span>
+    <span class="n">docs_path</span><span class="o">=</span><span class="s2">&quot;/docs&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">SECRET_KEY</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">ENV</span>
+<span class="n">cors_src</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">Config</span><span class="o">.</span><span class="n">API_URL</span><span class="si">}{</span><span class="n">Config</span><span class="o">.</span><span class="n">CORS</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">CORS_ORIGIN</span><span class="p">)}</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Einar Jhordany Serna Valdivia.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

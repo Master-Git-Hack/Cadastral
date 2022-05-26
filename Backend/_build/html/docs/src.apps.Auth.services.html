@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.apps.Auth.services package &mdash; documentación de Application - 1.0.0</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Application
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">src.apps.Auth.services package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-src.apps.Auth.services.blacklist">src.apps.Auth.services.blacklist module</a></li>
+<li><a class="reference internal" href="#module-src.apps.Auth.services">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Application</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>src.apps.Auth.services package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/docs/src.apps.Auth.services.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="src-apps-auth-services-package">
+<h1>src.apps.Auth.services package<a class="headerlink" href="#src-apps-auth-services-package" title="Enlazar permanentemente con este título"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Enlazar permanentemente con este título"></a></h2>
+</section>
+<section id="module-src.apps.Auth.services.blacklist">
+<span id="src-apps-auth-services-blacklist-module"></span><h2>src.apps.Auth.services.blacklist module<a class="headerlink" href="#module-src.apps.Auth.services.blacklist" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.apps.Auth.services.blacklist.save_token">
+<span class="sig-prename descclassname"><span class="pre">src.apps.Auth.services.blacklist.</span></span><span class="sig-name descname"><span class="pre">save_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/src/apps/Auth/services/blacklist.html#save_token"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.services.blacklist.save_token" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method logs out the user
+:param token: token to be blacklisted
+:type token: str</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>response to the request
+status_code (int): status code of the response</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto</dt>
+<dd class="field-even"><p>response (dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-src.apps.Auth.services">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src.apps.Auth.services" title="Enlazar permanentemente con este título"></a></h2>
+<p>File to handle user services</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.apps.Auth.services.generate_token">
+<span class="sig-prename descclassname"><span class="pre">src.apps.Auth.services.</span></span><span class="sig-name descname"><span class="pre">generate_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.apps.Auth.models.html#src.apps.Auth.models.User" title="src.apps.Auth.models.User"><span class="pre">src.apps.Auth.models.User</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/src/apps/Auth/services.html#generate_token"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.services.generate_token" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method generates a token for the user
+:param user: user object
+:type user: User</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>response to the request
+status_code (int): status code of the response</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto</dt>
+<dd class="field-even"><p>response (dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.apps.Auth.services.get_all_users">
+<span class="sig-prename descclassname"><span class="pre">src.apps.Auth.services.</span></span><span class="sig-name descname"><span class="pre">get_all_users</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/apps/Auth/services.html#get_all_users"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.services.get_all_users" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method returns all users
+:returns: list of users
+:rtype: users (User)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.apps.Auth.services.get_user">
+<span class="sig-prename descclassname"><span class="pre">src.apps.Auth.services.</span></span><span class="sig-name descname"><span class="pre">get_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/apps/Auth/services.html#get_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.services.get_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><dl class="simple">
+<dt>This method returns a user given its identifier    Args:</dt><dd><p>public_id (str): public id of the user</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>user object</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto</dt>
+<dd class="field-even"><p>user (<a class="reference internal" href="src.apps.Auth.api.routes.html#src.apps.Auth.api.routes.user.User" title="src.apps.Auth.api.routes.user.User">User</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.apps.Auth.services.save_changes">
+<span class="sig-prename descclassname"><span class="pre">src.apps.Auth.services.</span></span><span class="sig-name descname"><span class="pre">save_changes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.apps.Auth.models.html#src.apps.Auth.models.User" title="src.apps.Auth.models.User"><span class="pre">src.apps.Auth.models.User</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/apps/Auth/services.html#save_changes"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.services.save_changes" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method saves the changes to the database</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.apps.Auth.services.save_new_user">
+<span class="sig-prename descclassname"><span class="pre">src.apps.Auth.services.</span></span><span class="sig-name descname"><span class="pre">save_new_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/src/apps/Auth/services.html#save_new_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.services.save_new_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method creates a new user
+:param data: from request, recovered from json
+:type data: dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>response to the request
+status_code (int): status code of the response</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto</dt>
+<dd class="field-even"><p>response (dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2022, Einar Jhordany Serna Valdivia.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
