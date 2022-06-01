@@ -17,6 +17,24 @@ from .indicadores_municales import *
 from .obras_complementarias import *
 
 homologacion = Namespaces.homologacion
+js = Namespaces.justipreciacion
+
+
+@js.route("/<int:justipreciacion>")
+class RegistroJustipreciacion(Resource):
+    """
+    Class to handle Justipreciacion endpoint to get Registro data
+    """
+
+    def get(self, justipreciacion: int) -> Tuple[Dict, int]:
+        """
+        Method to get justipreciacion data
+        Returns a tuple with the data and the status code
+        Returns:
+            response: dict with the data
+            status_code: int with the status code
+        """
+        return get_registro_justipreciacion(justipreciacion)
 
 
 @homologacion.route("/Justipreciacion/<string:tipo>/<int:justipreciacion>")

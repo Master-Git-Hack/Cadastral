@@ -79,12 +79,7 @@ def get_required_data_for_homologation(_id: int) -> Tuple[Dict, int]:
         # area_subject = area_subject if area_subject is not None else 1
         # item = item if item is not None else 1
         return Response.success(
-            data=dict(
-                justipreciacion=dict(
-                    id=justipreciacion.id,
-                    register=justipreciacion.registro,
-                )
-            ),
+            data=dict(id=justipreciacion.id, register=justipreciacion.registro),
             message="Datos obtenidos exitosamente",
             operation="HOMOLOGACION/Justipreciacion",
         )

@@ -4,3 +4,4 @@ from .models import Namespaces
 from .routes import *
 
 api.add_namespace(homologacion)
+api.add_namespace(js)
