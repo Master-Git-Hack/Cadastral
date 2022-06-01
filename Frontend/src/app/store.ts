@@ -1,16 +1,18 @@
 /** @format */
 
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import homologationReducer from "../features/homologation/slice";
-import supplementaryWorksReducer from "../features/homologation/supplementaryWorks/slice2";
-import reportsReducer from "../features/handleReports/slice";
+import homologacionReducer from "../features/justipreciacion/homologacionSlice";
+import obrasComplementariasReducer from "../features/justipreciacion/obrasComplementariasSlice";
+import avaluosCatastralesReducer from "../features/catastral/avaluosSlice";
+import justipreciacionReducer from "../features/justipreciacion/justipreciacionSlice";
 
 /* Creating a store with the reducers and middleware. */
 export const store = configureStore({
 	reducer: {
-		homologation: homologationReducer,
-		supplementaryWorks: supplementaryWorksReducer,
-		reports: reportsReducer,
+		homologacion: homologacionReducer,
+		obrasComplementarias: obrasComplementariasReducer,
+		justipreciacion: justipreciacionReducer,
+		avaluosCatastrales: avaluosCatastralesReducer,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });

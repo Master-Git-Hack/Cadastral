@@ -11,15 +11,17 @@ export const NavigationBar: FC = () => {
 			variant="light"
 			className="bg-navbar mb-3 align-self-middle align-middle"
 		>
-			<Container className="d-flex">
+			<Container className="d-flex flex-row">
 				<Navbar.Brand href="/">
-					<img
-						alt="logo GTO"
-						src={logoGTO}
-						width="250"
-						className="d-inline-block align-middle"
-					/>{" "}
-					Sistema
+					<div className="d-flex">
+						<img
+							alt="logo GTO"
+							src={logoGTO}
+							width="250"
+							className="d-inline-block align-middle"
+						/>
+						<p className="ms-4 align-self-center">Sistema</p>
+					</div>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				<Navbar.Collapse id="responsive-navbar-nav">

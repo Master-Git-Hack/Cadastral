@@ -1,0 +1,1 @@
+import {defaultFactorStorage} from "../../properties";
