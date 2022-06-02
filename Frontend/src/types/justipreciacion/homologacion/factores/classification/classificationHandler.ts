@@ -1,3 +1,5 @@
+/** @format */
+
 import { operation, insertion, defaultFactorStorage } from "../../properties";
 const options = [
 	{
@@ -30,11 +32,10 @@ const initialState: defaultFactorStorage = {
 	position: 0,
 	subject: options[0],
 	data: [template(1)],
-
 };
 export const classificationHandler = {
-    template,
-    operation,
-    insertion,
-    initialState
-}
+	template,
+	operation,
+	insertion,
+	initialState,
+};

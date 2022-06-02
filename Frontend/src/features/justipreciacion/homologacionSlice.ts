@@ -1,21 +1,21 @@
+import { getParams } from './../../utils/utils';
 /** @format */
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { request } from "../../api/request";
 import { initialState, Storage } from "../../types/justipreciacion/homologacion/storage";
-import {
-
-} from "./homologacionHandlers";
+import {} from "./homologacionHandlers";
 const name = "Homologacion";
 export const consumeHomologacion = request(name);
 
 export const slice = createSlice({
 	name,
-	initialState,
-	reducers: {
-		
-	},
+	initialState: initialState((getParams("tipo") !== "" ? getParams("tipo")?.toUpperCase() : "TERRENO"),
+		(getParams("tipo_servicio") !== ""
+	? getParams("tipo_servicio")?.toUpperCase()
+	: "justipreciacion")),
+	reducers: {},
 	extraReducers: (builder) => {
 		//get method
 		builder
@@ -102,23 +102,7 @@ export const slice = createSlice({
 });
 
 export const {
-	UpdateOperationValues,
-	addRow,
-	setIndiviso,
-	updateReFactor,
-	addRowLocationZone,
-	removeRow,
-	updateIndiviso,
-	removeRowLocationZone,
-	updateFactorStateAge,
-	updateFactorStateCommon,
-	setVisibilityOrderFactors,
-	updateDocumentationStateRoundedTo,
-	updateFactorStateLocationZone,
-	updateDocumentationStateArea,
-	updateDocumentationStateSalesCost,
-	updateDocumentationStateWeightingPercentage,
-	isLoading,
+	
 } = slice.actions;
 export const getHomologacion = (state: RootState) => state.homologacion;
 export default slice.reducer;

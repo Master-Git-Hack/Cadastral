@@ -1,5 +1,6 @@
+/** @format */
 
-import { insertion,operation,defaultFactorStorage } from "../../properties";
+import { insertion, operation, defaultFactorStorage } from "../../properties";
 const options = [
 	{
 		type: "SOTANO 1",
@@ -23,7 +24,7 @@ const template = (id: number) => ({
 	...options[0],
 	result: 1,
 });
-export const initialState: defaultFactorStorage = {
+const initialState: defaultFactorStorage = {
 	name: "Nivel",
 	tag: "FNiv.",
 	isUsed: false,
@@ -32,8 +33,9 @@ export const initialState: defaultFactorStorage = {
 	data: [template(1)],
 };
 export const levelHandler = {
-    template,
-    operation,
-    options,
-    insertion
-}
+	template,
+	operation,
+	options,
+	insertion,
+	initialState
+};

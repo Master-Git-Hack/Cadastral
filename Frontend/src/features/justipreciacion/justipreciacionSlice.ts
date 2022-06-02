@@ -3,31 +3,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { request } from "../../api/request";
-import { initialState, State } from "../../types/justipreciacion/storage";
 
 const name = "Justipreaciacion";
 export const consumeJusti = request(name);
 
 export const slice = createSlice({
 	name,
-	initialState,
+	initialState: {
+		status: "",
+		message: "",
+		registro:""
+	},
 	reducers: {
-		terreno(state: State, action: PayloadAction<any>) {},
-		renta(state: State, action: PayloadAction<any>) {},
-		obrasComplementarias(state: State, action: PayloadAction<any>) {},
+		terreno(state, action: PayloadAction<any>) {},
+		renta(state, action: PayloadAction<any>) {},
+		obrasComplementarias(state, action: PayloadAction<any>) {},
 	},
 	extraReducers: (builder) => {
 		//get method
 		builder
-			.addCase(consumeJusti.get.rejected, (state: State) => {
+			.addCase(consumeJusti.get.rejected, (state) => {
 				state.status = "fail";
 				state.message =
 					"Error al solicitar datos al servidor, intente nuevamente y verifique si tiene conexión";
 			})
-			.addCase(consumeJusti.get.pending, (state: State) => {
+			.addCase(consumeJusti.get.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(consumeJusti.get.fulfilled, (state: State, action: PayloadAction<any>) => {
+			.addCase(consumeJusti.get.fulfilled, (state, action: PayloadAction<any>) => {
 				const { status, operation, message, data } = action.payload;
 				state.status = status;
 				state.message = message;
@@ -43,15 +46,15 @@ export const slice = createSlice({
 			});
 		//post method
 		builder
-			.addCase(consumeJusti.post.rejected, (state: State) => {
+			.addCase(consumeJusti.post.rejected, (state) => {
 				state.status = "fail";
 				state.message =
 					"Error al solicitar datos al servidor, intente nuevamente y verifique si tiene conexión";
 			})
-			.addCase(consumeJusti.post.pending, (state: State) => {
+			.addCase(consumeJusti.post.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(consumeJusti.post.fulfilled, (state: State, action: PayloadAction<any>) => {
+			.addCase(consumeJusti.post.fulfilled, (state, action: PayloadAction<any>) => {
 				const { status, operation, message, data } = action.payload;
 				state.status = status;
 				state.message = message;
@@ -68,15 +71,15 @@ export const slice = createSlice({
 
 		//patch method
 		builder
-			.addCase(consumeJusti.patch.rejected, (state: State) => {
+			.addCase(consumeJusti.patch.rejected, (state) => {
 				state.status = "fail";
 				state.message =
 					"Error al solicitar datos al servidor, intente nuevamente y verifique si tiene conexión";
 			})
-			.addCase(consumeJusti.patch.pending, (state: State) => {
+			.addCase(consumeJusti.patch.pending, (state) => {
 				state.status = "loading";
 			})
-			.addCase(consumeJusti.patch.fulfilled, (state: State, action: PayloadAction<any>) => {
+			.addCase(consumeJusti.patch.fulfilled, (state, action: PayloadAction<any>) => {
 				const { status, operation, message, data } = action.payload;
 				state.status = status;
 				state.message = message;

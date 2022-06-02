@@ -3,7 +3,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { request } from "../../api/request";
-import { initialState } from "../../types/justipreciacion/homologacion/storage";
+import { initialState } from "../../types/catastral/avaluos/storage";
 
 const name = "avaluosCatastrales";
 export const consume = request(name);

@@ -1,4 +1,6 @@
-import { locationStorage } from './locationStorage';
+/** @format */
+
+import { locationStorage } from "./locationStorage";
 import { symbolsOptions as options } from "../../properties";
 
 const operation = (items: any) => {
@@ -49,21 +51,21 @@ const insertionData = (id: number) => ({
 	value: 1,
 });
 
-const initialState: locationStorage = ({
-    name: "Ubicación",
+const initialState: locationStorage = {
+	name: "Ubicación",
 	tag: "FUbic.",
 	isUsed: false,
 	position: 0,
 	subject: [templateSubject(1)],
 	data: [templateData(1)],
-})
+};
 
 export const locationHandler = {
-    initialState,
-    operation,
+	initialState,
+	operation,
 	insertionSubject,
 	insertionData,
 	templateSubject,
 	templateData,
-	options
+	options,
 };

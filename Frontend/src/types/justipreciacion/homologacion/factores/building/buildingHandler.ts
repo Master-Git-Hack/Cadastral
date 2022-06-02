@@ -1,4 +1,6 @@
-import { operation,insertion, defaultFactorStorage } from "../../properties";
+/** @format */
+
+import { operation, insertion, defaultFactorStorage } from "../../properties";
 export const options = [
 	{
 		type: "RESIDENCIAL PLUS",
@@ -50,17 +52,17 @@ const template = (id: number) => ({
 	...options[0],
 	result: 1,
 });
-const initialState: defaultFactorStorage = ({
+const initialState: defaultFactorStorage = {
 	name: "Construcción",
 	tag: "FCons.",
 	isUsed: false,
 	position: 0,
 	subject: options[0],
 	data: [template(1)],
-});
+};
 export const buildingHandler = {
-    template,
-    operation,
-    insertion,
-    initialState
-}
+	template,
+	operation,
+	insertion,
+	initialState,
+};

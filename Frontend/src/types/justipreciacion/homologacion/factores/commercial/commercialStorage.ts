@@ -1,4 +1,6 @@
-import {properties} from "../../properties";
+/** @format */
+
+import { properties } from "../../properties";
 export interface commercialStorage extends properties {
 	name: string;
 	tag: string;

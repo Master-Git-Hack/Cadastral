@@ -1,4 +1,6 @@
-import { commercialStorage } from './commercialStorage';
+/** @format */
+
+import { commercialStorage } from "./commercialStorage";
 import { insertion } from "../../properties";
 const template = (id: number) => ({
 	id,
@@ -13,8 +15,8 @@ const initialState: commercialStorage = {
 	data: [template(1)],
 };
 
-export const commercialHandler = ({
-    template,
-    insertion,
-    initialState,
-})
+export const commercialHandler = {
+	template,
+	insertion,
+	initialState,
+};

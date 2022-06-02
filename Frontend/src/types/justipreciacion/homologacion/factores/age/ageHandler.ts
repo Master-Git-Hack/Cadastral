@@ -1,5 +1,6 @@
+/** @format */
 
-import {insertion, defaultFactorStorage} from "../../properties"
+import { insertion, defaultFactorStorage } from "../../properties";
 const template = (id: number) => ({
 	id,
 	value: 1,
@@ -12,8 +13,8 @@ const operation = (data: any, subject: any) =>
 		return item;
 	});
 
-const initialState:defaultFactorStorage = ({
-    name: "Edad",
+const initialState: defaultFactorStorage = {
+	name: "Edad",
 	tag: "FEd.",
 	isUsed: true,
 	position: 0,
@@ -21,11 +22,11 @@ const initialState:defaultFactorStorage = ({
 		value: 1,
 		operator: 0.01,
 	},
-	data: [template(1)]
-})
+	data: [template(1)],
+};
 export const ageHandler = {
-    template,
-    operation,
-    insertion,
-    initialState
-}
+	template,
+	operation,
+	insertion,
+	initialState,
+};
