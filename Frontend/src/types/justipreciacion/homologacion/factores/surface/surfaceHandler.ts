@@ -13,9 +13,9 @@ const operation = (area: any, surface: any) =>
 			(area.data[index].value / area.averageLotArea.value) ** (1 / surface.root.value);
 
 		return item;
-    });
+	});
 const initialState: surfaceStorage = {
-    name: "Superficie",
+	name: "Superficie",
 	tag: "FSup.",
 	isUsed: true,
 	position: 1,
@@ -25,10 +25,10 @@ const initialState: surfaceStorage = {
 		observations: "",
 	},
 	data: [template(1)],
-}
+};
 export const surfaceHandler = {
-    template,
-    operation,
-    insertion,
-    initialState
-}
+	template,
+	operation,
+	insertion,
+	initialState,
+};

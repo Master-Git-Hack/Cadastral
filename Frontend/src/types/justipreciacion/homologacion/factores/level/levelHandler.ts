@@ -37,5 +37,5 @@ export const levelHandler = {
 	operation,
 	options,
 	insertion,
-	initialState
+	initialState,
 };

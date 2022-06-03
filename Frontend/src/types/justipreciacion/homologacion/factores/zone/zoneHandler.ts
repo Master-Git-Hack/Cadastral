@@ -57,25 +57,26 @@ const handleResults = (area: any) =>
 		id: item.id,
 		factor1: item.factorResult1,
 		factor2: item.factorResult2,
-    }));
+	}));
 
 const initialState: zoneStorage = {
-    name: "Zona",
+	name: "Zona",
 	tag: "FZon.",
 	isUsed: false,
 	position: 0,
 	subject: [templateSubject(1)],
 	data: [templateData(1)],
 	results: [templateResults(1)],
-}
+};
 export const zoneHandler = {
-    operation,
-    insertionSubject,
-    insertionData,
-    insertColumn,
-    handleResults,
-    initialState,
-    templateData,
-    templateSubject,
-    templateResults,
-}
+	operation,
+	options,
+	insertionSubject,
+	insertionData,
+	insertColumn,
+	handleResults,
+	initialState,
+	templateData,
+	templateSubject,
+	templateResults,
+};

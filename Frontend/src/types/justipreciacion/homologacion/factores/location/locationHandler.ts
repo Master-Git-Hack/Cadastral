@@ -63,6 +63,7 @@ const initialState: locationStorage = {
 export const locationHandler = {
 	initialState,
 	operation,
+	insertColumn,
 	insertionSubject,
 	insertionData,
 	templateSubject,

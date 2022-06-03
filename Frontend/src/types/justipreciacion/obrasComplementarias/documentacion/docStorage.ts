@@ -1,3 +1,5 @@
+/** @format */
+
 import { properties } from "../properties";
 
 /** @format */
@@ -16,7 +18,6 @@ export interface CalculationProperties extends properties {
 			unitary: number;
 		};
 		total: number;
-
 	};
 }
 export interface ValueProperties {

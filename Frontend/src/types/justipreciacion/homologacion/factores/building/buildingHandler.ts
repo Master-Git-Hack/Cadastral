@@ -61,6 +61,7 @@ const initialState: defaultFactorStorage = {
 	data: [template(1)],
 };
 export const buildingHandler = {
+	options,
 	template,
 	operation,
 	insertion,

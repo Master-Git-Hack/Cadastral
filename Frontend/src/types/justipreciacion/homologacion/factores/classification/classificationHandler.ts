@@ -34,6 +34,7 @@ const initialState: defaultFactorStorage = {
 	data: [template(1)],
 };
 export const classificationHandler = {
+	options,
 	template,
 	operation,
 	insertion,

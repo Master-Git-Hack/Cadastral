@@ -11,14 +11,13 @@ const insertion = (data: any) => {
 const calculation = (data: any) =>
 	data.reduce((total: number, item: any) => (total += Number(item.value)), 0);
 
-export const initialState: weightingPercentageStorage= {
+export const initialState: weightingPercentageStorage = {
 	total: 100,
 	data: [template(1)],
-	
 };
 export const weightingPercentageHandler = {
-    template,
+	template,
 	insertion,
-    calculation,
-    initialState
-}
+	calculation,
+	initialState,
+};

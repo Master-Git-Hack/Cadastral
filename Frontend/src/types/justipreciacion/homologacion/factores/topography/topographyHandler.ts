@@ -1,5 +1,5 @@
 /** @format */
-import { insertion, defaultFactorStorage } from "../../properties";
+import { insertion, defaultFactorStorage, operation } from "../../properties";
 const options = [
 	{
 		type: "PLANA",
@@ -24,16 +24,17 @@ const template = (id: number) => ({
 	result: 1,
 });
 const initialState: defaultFactorStorage = {
-    name: "Topografía",
+	name: "Topografía",
 	tag: "FTop.",
 	isUsed: false,
 	position: 0,
 	subject: options[0],
 	data: [template(1)],
-} 
+};
 export const topographyHandler = {
-    template,
-    options,
-    insertion,
-    initialState
-}
+	template,
+	operation,
+	options,
+	insertion,
+	initialState,
+};

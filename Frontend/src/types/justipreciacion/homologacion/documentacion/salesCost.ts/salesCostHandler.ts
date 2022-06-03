@@ -1,6 +1,6 @@
 /** @format */
-import { salesCostStorage } from './salesCostStorage';
-import { roundToTenth } from '../../../../../utils/utils';
+import { salesCostStorage } from "./salesCostStorage";
+import { roundToTenth } from "../../../../../utils/utils";
 
 const templateData = (id: number) => ({
 	id,
@@ -14,7 +14,7 @@ const operation = (data: any, areas: any) =>
 		const unitaryCost = value / areas[index].value;
 		item.unitaryCost = isNaN(unitaryCost) ? 1 : unitaryCost;
 		return item;
-    });
+	});
 const operationResults = (salesCost: any, factors: any) =>
 	salesCost.results.map((item: any, index: number) => {
 		const value = factors[index].value * salesCost.data[index].unitaryCost;
@@ -26,22 +26,22 @@ const calculateAverageUnitCostValue = (data: any, percentages: any) =>
 		(previous: number, current: any, index: number) =>
 			previous + Number(current.value * (percentages[index].value / 100)),
 		0,
-    );
+	);
 
 const handleAverageUnitCostValue = (value: number, factor: number = 1, roundedTo: any) => {
-        const roundedValue =
-            roundedTo.value !== 0 ? roundToTenth(value, roundedTo.value) : Number(value.toFixed(2));
-        const result = roundedValue * factor;
-        const adjustedValue =
-            roundedTo.value !== 0 ? roundToTenth(result, roundedTo.value) : Number(result.toFixed(2));
-    
-        return {
-            value,
-            roundedValue,
-            result,
-            adjustedValue,
-            roundedTo,
-        };
+	const roundedValue =
+		roundedTo.value !== 0 ? roundToTenth(value, roundedTo.value) : Number(value.toFixed(2));
+	const result = roundedValue * factor;
+	const adjustedValue =
+		roundedTo.value !== 0 ? roundToTenth(result, roundedTo.value) : Number(result.toFixed(2));
+
+	return {
+		value,
+		roundedValue,
+		result,
+		adjustedValue,
+		roundedTo,
+	};
 };
 
 const initialState = (type: string): salesCostStorage => ({
@@ -61,11 +61,11 @@ const initialState = (type: string): salesCostStorage => ({
 	},
 });
 export const salesCostHandler = {
-    template: templateData,
+	template: templateData,
 	templateResults,
 	operation,
 	operationResults,
 	calculateAverageUnitCostValue,
-    handleAverageUnitCostValue,
-    initialState
-}
+	handleAverageUnitCostValue,
+	initialState,
+};

@@ -1,1 +1,2 @@
 /** @format */
+export const Documentacion = () => <></>;

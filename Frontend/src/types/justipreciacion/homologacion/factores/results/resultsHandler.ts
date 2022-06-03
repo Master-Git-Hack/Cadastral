@@ -33,16 +33,16 @@ const operation = (data: any, factors: any) =>
 			}
 		}
 		return item;
-    });
+	});
 const initialState: resultsStorage = {
-    name: "Homologación Resultante",
+	name: "Homologación Resultante",
 	tag: "F.Ho.Re.",
 	isUsed: false,
 	data: [template(1)],
-}
+};
 export const resultsHandler = {
-    template,
-    operation,
-    insertion,
-    initialState
-}
+	template,
+	operation,
+	insertion,
+	initialState,
+};

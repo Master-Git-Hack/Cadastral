@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { NavigationBar } from "../components/navigation/navbar";
 import Index from "../views/Index";
 import ErrorPage from "../views/ErrorPage";
-
+import Homologacion from "../views/Justipreciacion/Homologacion";
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
 import Docs from "../views/Docs";
@@ -26,7 +26,7 @@ export const WithNavigation: FC = () => (
 
 export const SinglePages: FC = () => (
 	<Routes>
-		<Route path="/homologaciones/" element={<></>} />
+		<Route path="/homologaciones/" element={<Homologacion />} />
 		<Route path="/homologaciones/OC" element={<></>} />
 
 		<Route path="*" element={<ErrorPage />} />

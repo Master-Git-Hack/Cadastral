@@ -46,17 +46,17 @@ const template = (id: number) => ({
 	result: 1,
 });
 const initialState: defaultFactorStorage = {
-    name: "Proyecto",
+	name: "Proyecto",
 	tag: "FProy.",
 	isUsed: false,
 	position: 0,
 	subject: options[0],
 	data: [template(1)],
-}
+};
 export const projectHandler = {
-    template,
-    operation,
-    options,
-    insertion,
-    initialState
-}
+	template,
+	operation,
+	options,
+	insertion,
+	initialState,
+};

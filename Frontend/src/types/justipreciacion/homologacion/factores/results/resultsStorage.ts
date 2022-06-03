@@ -1,3 +1,5 @@
+/** @format */
+
 import { properties } from "../../properties";
 
 /** @format */

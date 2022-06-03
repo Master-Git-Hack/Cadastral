@@ -28,6 +28,7 @@ import { ReactElement, useEffect, useState } from "react";
 export const Container = (props: {
 	Title: ReactElement<any, any> | string;
 	Errors: Array<any>;
+	startAt: number;
 	showErrors: boolean;
 	dataLimit: number;
 	data: Array<any>;
@@ -41,6 +42,7 @@ export const Container = (props: {
 		Title,
 		dataLimit,
 		data,
+		startAt,
 		pageLimit,
 		SaveButton,
 		Errors,
@@ -51,8 +53,8 @@ export const Container = (props: {
 	} = props;
 	const [pages] = useState(Math.round(data.length / dataLimit));
 
-	const [currentPage, setCurrentPage] = useState(1);
-	const goToNextPage = () => setCurrentPage((page) => page + 1);
+	const [currentPage, setCurrentPage] = useState(startAt);
+	const goToNextPage = () => setCurrentPage((page) => (page < pages ? page + 1 : page));
 
 	const goToPreviousPage = () => setCurrentPage((page) => page - 1);
 	const changePage = (event: any) => setCurrentPage(Number(event.target.textContent));
@@ -121,8 +123,11 @@ export const Container = (props: {
 
 					{/* show page numbers */}
 					{getPaginationGroup().map((item, index) => (
-						<li className={`page-item ${currentPage === item ? "active" : null}`}>
-							<button key={index} onClick={changePage} className={`page-link `}>
+						<li
+							className={`page-item ${currentPage === item ? "active" : null}`}
+							key={index}
+						>
+							<button onClick={changePage} className={`page-link `}>
 								<span>{item}</span>
 							</button>
 						</li>

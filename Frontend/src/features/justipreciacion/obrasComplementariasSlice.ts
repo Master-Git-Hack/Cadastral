@@ -11,9 +11,7 @@ export const consumeOC = request(name);
 export const slice = createSlice({
 	name,
 	initialState,
-	reducers: {
-		
-	},
+	reducers: {},
 	extraReducers: (builder) => {
 		//get method
 		builder
@@ -90,8 +88,6 @@ export const slice = createSlice({
 	},
 });
 
-export const {
-	
-} = slice.actions;
+export const {} = slice.actions;
 export const getOC = (state: RootState) => state.obrasComplementarias;
 export default slice.reducer;

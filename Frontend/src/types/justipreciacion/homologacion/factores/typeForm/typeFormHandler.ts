@@ -1,5 +1,5 @@
 /** @format */
-import { insertion, defaultFactorStorage,operation } from "../../properties";
+import { insertion, defaultFactorStorage, operation } from "../../properties";
 const options = [
 	{
 		type: "REGULAR",
@@ -33,16 +33,17 @@ const template = (id: number) => ({
 	result: 1,
 });
 const initialState: defaultFactorStorage = {
-    name: "Forma",
+	name: "Forma",
 	tag: "FFo.",
 	isUsed: false,
 	position: 0,
 	subject: options[0],
 	data: [template(1)],
-}
+};
 export const typeFormHandler = {
-    template,
-    options,
-    insertion,
-    initialState,
-}
+	template,
+	operation,
+	options,
+	insertion,
+	initialState,
+};

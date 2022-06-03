@@ -1,5 +1,6 @@
-import { properties } from "../../properties";
+/** @format */
 
+import { properties } from "../../properties";
 
 export interface weightingPercentageStorage {
 	total: number;

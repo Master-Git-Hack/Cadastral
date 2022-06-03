@@ -41,17 +41,17 @@ const template = (id: number) => ({
 	result: 1,
 });
 const initialState: defaultFactorStorage = {
-    name: "Calidad",
+	name: "Calidad",
 	tag: "FCal.",
 	isUsed: false,
 	position: 0,
 	subject: options[0],
 	data: [template(1)],
-}
+};
 export const qualityHandler = {
-    template,
-    operation,
-    options,
-    insertion,
-    initialState
-}
+	template,
+	operation,
+	options,
+	insertion,
+	initialState,
+};

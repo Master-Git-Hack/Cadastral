@@ -6,40 +6,34 @@
  */
 
 export const handlerAddRow = (state: any) => {
-	const { factors, documentation } = state;
+	const { factors, documentation, record, handlers } = state;
 
 	for (const key in factors) {
-		const id = factors[key].data.length + 1;
-		if (key !== "Location" && key !== "Zone") {
-			factors[key].data.push(factors[key].template(id));
-		}
+		const { subject, data, results } = factors[key];
+		const { template, insertColumn, templateData, templateResults } = handlers[key];
+		const id = data.length + 1;
+		key !== "Location" && key !== "Zone" && data.push(template(id));
 		if (key === "Location" || key === "Zone") {
-			factors[key].subject.map((item: any) => {
-				item = item.insertion(`C${id}`, item);
+			subject.map((item: any) => {
+				item = insertColumn(`C${id}`, item);
 				return item;
 			});
-			factors[key].data.push(factors[key].templateData(id));
-			if (key === "Zone") {
-				factors[key].results.push(factors[key].templateResults(id));
-			}
+			data.push(templateData(id));
+			key === "Zone" && results.push(templateResults(id));
 		}
 	}
 	for (const key in documentation) {
-		const id =
-			!key.includes("ReFactor") && !key.includes("Indiviso")
-				? documentation[key]?.data.length + 1
-				: 0;
+		const { data, results } = documentation[key];
+		const length = data !== undefined ? data.length : 0;
+		const { template, templateResults } = handlers[key];
+		const id = !key.includes("ReFactor") && !key.includes("Indiviso") ? length + 1 : 0;
 		if (key.includes("Area") || key.includes("WeightingPercentage")) {
-			const { type } = state.record.homologacion;
-			documentation[key].data.push(documentation[key].template(id, type));
-			if (key.includes("WeightingPercentage")) {
-				documentation[key].data.map((item: any) => (item.value = 100 / id));
-			}
+			const { type } = record;
+			data.push(template(id, type));
+
+			key.includes("WeightingPercentage") && data.map((item: any) => (item.value = 100 / id));
 		}
-		if (key.includes("SalesCost")) {
-			documentation[key].data.push(documentation[key].template(id));
-			documentation[key].results.push(documentation[key].templateResults(id));
-		}
+		key.includes("SalesCost") && data.push(template(id)) && results.push(templateResults(id));
 	}
 	return {
 		factors,
@@ -54,37 +48,28 @@ export const handlerAddRow = (state: any) => {
 export const handlerRemoveRow = (state: any) => {
 	const { factors, documentation } = state;
 	for (const key in factors) {
-		const length = factors[key].data.length;
+		const { data, subject } = factors[key];
+		const { length } = data;
 		if (length > 1) {
-			if (key !== "Location" && key !== "Zone") {
-				factors[key].data.pop();
-			}
+			key !== "Location" && key !== "Zone" && data.pop();
 			if (key === "Location") {
-				const id = factors[key].data.length;
-				factors[key].subject.map((item: any) => {
+				const id = length;
+				subject.map((item: any) => {
 					delete item[`C${id}`];
 					return item;
 				});
-				factors[key].data.pop();
+				data.pop();
 			}
 		}
 	}
 	for (const key in documentation) {
-		const id =
-			!key.includes("ReFactor") && !key.includes("Indiviso")
-				? documentation[key]?.data.length
-				: 0;
+		const { data, results } = documentation[key];
+		const length = data !== undefined ? data.length : 0;
+		const id = !key.includes("ReFactor") && !key.includes("Indiviso") ? length : 0;
 		if (key.includes("Area") || key.includes("WeightingPercentage")) {
-			if (id > 1) {
-				documentation[key].data.pop();
-			}
+			id > 1 && data.pop();
 		}
-		if (key.includes("SalesCost")) {
-			if (id > 1) {
-				documentation[key].data.pop();
-				documentation[key].results.pop();
-			}
-		}
+		key.includes("SalesCost") && id > 1 && data.pop() && results.pop();
 	}
 	return {
 		factors,
@@ -108,6 +93,7 @@ const handleSalesCost = (
 	Results: any,
 	WeightingPercentage: any,
 	factor: number = 1,
+	handlers: any,
 ) => {
 	/*SalesCost.data = SalesCost.operation(SalesCost.data, Area.data);
 	SalesCost.results = SalesCost.operationResults(SalesCost, Results.data);
@@ -115,18 +101,11 @@ const handleSalesCost = (
 		SalesCost.results,
 		WeightingPercentage.data,
 	))*/
-	const {
-		operation,
-		operationResults,
-		handleAverageUnitCostValue,
-		calculateAverageUnitCostValue,
-		results,
-		data,
-	} = SalesCost;
-	SalesCost.data = operation(data, Area);
-	SalesCost.results = operationResults(SalesCost, Results);
-	SalesCost.averageUnitCost = handleAverageUnitCostValue(
-		calculateAverageUnitCostValue(results, WeightingPercentage),
+	const { results, data } = SalesCost;
+	SalesCost.data = handlers.SalesCost.operation(data, Area);
+	SalesCost.results = handlers.SalesCost.operationResults(SalesCost, Results);
+	SalesCost.averageUnitCost = handlers.SalesCost.handleAverageUnitCostValue(
+		handlers.SalesCost.calculateAverageUnitCostValue(results, WeightingPercentage),
 		factor,
 		SalesCost.averageUnitCost.roundedTo,
 	);
@@ -138,14 +117,14 @@ const handleSalesCost = (
  * @returns The state of the application.
  */
 export const handleUpdateOperationValues = (state: any) => {
-	const { factors, documentation, record } = state;
-	const { type } = record.homologacion;
+	const { factors, documentation, record, handlers } = state;
+	const { type } = record;
 	const { Area, SalesCost, WeightingPercentage, ReFactor, Indiviso } = documentation;
 	const { Zone, Results, Surface } = factors;
 	let resultReFactor = 1;
-	Area.data = Area.handleDataFactors(Area.subject, Area.data, Zone.data);
-	Zone.results = Zone.handleResults(Area.data);
-	Results.data = Results.operation(Results.data, factors);
+	Area.data = handlers.Area.handleDataFactors(Area.subject, Area.data, Zone.data);
+	Zone.results = handlers.Zone.handleResults(Area.data);
+	Results.data = handlers.Results.operation(Results.data, factors);
 
 	documentation.SalesCost = handleSalesCost(
 		SalesCost,
@@ -153,25 +132,29 @@ export const handleUpdateOperationValues = (state: any) => {
 		Results.data,
 		WeightingPercentage.data,
 		resultReFactor,
+		handlers,
 	);
 
-	WeightingPercentage.total = WeightingPercentage.calculation(WeightingPercentage.data);
+	WeightingPercentage.total = handlers.WeightingPercentage.calculation(WeightingPercentage.data);
 
-	Area.averageLotArea.value = Area.averageLotArea.operation(Area.data);
+	Area.averageLotArea.value = handlers.Area.operationAverageLotArea(Area.data);
 
-	Surface.data = Surface.operation(Area, Surface);
+	Surface.data = handlers.Surface.operation(Area, Surface);
 
-	Results.data = Results.operation(Results.data, factors);
+	Results.data = handlers.Results.operation(Results.data, factors);
 
 	//refactor
-	ReFactor.surface.value = ReFactor.operation(
+	ReFactor.surface.value = handlers.ReFactor.operation(
 		Area.averageLotArea.value,
 		type.includes("TERRENO") ? Area.averageLotArea.surface : Area.subject.value,
 		ReFactor.root,
 	);
 
 	if (type.includes("TERRENO")) {
-		ReFactor.result.value = ReFactor.handleResult(ReFactor.surface.value, ReFactor.form.value);
+		ReFactor.result.value = handlers.ReFactor.handleResult(
+			ReFactor.surface.value,
+			ReFactor.form.value,
+		);
 		resultReFactor = ReFactor.result.value;
 	} else resultReFactor = ReFactor.surface.value;
 
@@ -181,11 +164,12 @@ export const handleUpdateOperationValues = (state: any) => {
 		Results.data,
 		WeightingPercentage.data,
 		resultReFactor,
+		handlers,
 	);
 
 	//indiviso
 	if (type.includes("TERRENO")) {
-		documentation.Indiviso = Indiviso.operation(Indiviso, Area.subject.value);
+		documentation.Indiviso = handlers.Indiviso.operation(Indiviso, Area.subject.value);
 	}
 	state.errors = handleErrors(state);
 	return state;

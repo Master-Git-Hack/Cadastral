@@ -36,17 +36,17 @@ const template = (id: number) => ({
 	result: 1,
 });
 const initialState: defaultFactorStorage = {
-    name: "Uso",
+	name: "Uso",
 	tag: "FUso.",
 	isUsed: false,
 	position: 0,
 	subject: options[0],
 	data: [template(1)],
-}
+};
 export const usageHandler = {
-    template,
-    operation,
-    options,
-    insertion,
-    initialState
-}
+	template,
+	operation,
+	options,
+	insertion,
+	initialState,
+};

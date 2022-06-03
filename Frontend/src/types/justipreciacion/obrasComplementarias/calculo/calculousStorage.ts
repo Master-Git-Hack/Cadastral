@@ -1,3 +1,5 @@
+/** @format */
+
 import { properties } from "../properties";
 
 /** @format */
@@ -10,8 +12,8 @@ export interface AgeProperties extends properties {
 	value: number;
 	factor: number;
 }
-export interface calculousStorage extends properties { 
-    id: number;
+export interface calculousStorage extends properties {
+	id: number;
 	type: string;
 	stateOfConservation: StateOfConservationProperties;
 	vut: number;

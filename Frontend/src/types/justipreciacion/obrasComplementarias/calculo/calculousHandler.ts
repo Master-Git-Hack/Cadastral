@@ -1,5 +1,5 @@
 /** @format */
-import { calculousStorage,StateOfConservationProperties } from "./calculousStorage";
+import { calculousStorage, StateOfConservationProperties } from "./calculousStorage";
 
 const options: Array<StateOfConservationProperties> = [
 	{
@@ -48,24 +48,23 @@ const options: Array<StateOfConservationProperties> = [
 		type: "DESECHO",
 	},
 ];
-const template =(id:number): calculousStorage => ({
-    id,
+const template = (id: number): calculousStorage => ({
+	id,
 	type: "IE - Instalaciones Especiales",
 	stateOfConservation: options[0],
 	vut: 1,
 	age: {
 		value: 1,
 		factor: 1,
-		
 	},
 	subTotal: 0,
 	total: 0,
-})
+});
 export const calculousHandler = {
-    template,
-    options,
-    getFactor: (age: number, vut: number): number => 1 - (age / vut) ** 1.4,
-    getSubTotal: (ageFactor: number, stateOfConservation: number, unitaryCost: number): number =>
+	template,
+	options,
+	getFactor: (age: number, vut: number): number => 1 - (age / vut) ** 1.4,
+	getSubTotal: (ageFactor: number, stateOfConservation: number, unitaryCost: number): number =>
 		ageFactor * stateOfConservation * unitaryCost,
 	getTotal: (subTotal: number, quantity: number): number => subTotal * quantity,
-}
+};

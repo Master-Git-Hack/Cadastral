@@ -7,26 +7,26 @@ const getSubTotal = (data: Array<CalculationProperties>) =>
 		(previous: number, current: CalculationProperties) =>
 			previous + Number(current.value.total),
 		0,
-    );
+	);
 
 const calculationTemplate = (id: number): CalculationProperties => ({
-    id,
-    quantity: {
-        description: "",
-        value: 1,
-        unity: "m2",
-    },
-    value: {
-        unitary: 1,
-        ind: {
-            value: 1,
-            unitary: 1,
-        },
-        total: 1,
-        
-    },
+	id,
+	quantity: {
+		description: "",
+		value: 1,
+		unity: "m2",
+	},
+	value: {
+		unitary: 1,
+		ind: {
+			value: 1,
+			unitary: 1,
+		},
+		total: 1,
+	},
 });
-const appendCalculationTemplate = (data: Array<CalculationProperties>) => data.push(calculationTemplate(data.length + 1));
+const appendCalculationTemplate = (data: Array<CalculationProperties>) =>
+	data.push(calculationTemplate(data.length + 1));
 const template = (id: number): dataStorage => ({
 	id,
 	name: "",
@@ -43,16 +43,15 @@ const template = (id: number): dataStorage => ({
 		result: {
 			value: 1,
 			unity: "m2",
-			
 		},
 	},
 });
 export const docHandler = {
-    template,
-    calculationTemplate,
-    appendCalculationTemplate,
-    getResult,
-    getUnitaryInd,
-    getSubTotal,
-    getFinalTotal: (factor: number, subTotal: number): number => subTotal * factor,
-}
+	template,
+	calculationTemplate,
+	appendCalculationTemplate,
+	getResult,
+	getUnitaryInd,
+	getSubTotal,
+	getFinalTotal: (factor: number, subTotal: number): number => subTotal * factor,
+};

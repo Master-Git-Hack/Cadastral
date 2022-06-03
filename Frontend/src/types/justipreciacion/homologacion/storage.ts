@@ -1,12 +1,9 @@
-
 /** @format */
 
-import { ageHandler
-} from "./factores/age/ageHandler";
+import { ageHandler } from "./factores/age/ageHandler";
 import { buildingHandler } from "./factores/building/buildingHandler";
 import { classificationHandler } from "./factores/classification/classificationHandler";
-import { commercialHandler
-} from "./factores/commercial/commercialHandler";
+import { commercialHandler } from "./factores/commercial/commercialHandler";
 import { levelHandler } from "./factores/level/levelHandler";
 import { locationHandler } from "./factores/location/locationHandler";
 import { projectHandler } from "./factores/project/projectHandler";
@@ -15,32 +12,31 @@ import { resultsHandler } from "./factores/results/resultsHandler";
 import { surfaceHandler } from "./factores/surface/surfaceHandler";
 import { topographyHandler } from "./factores/topography/topographyHandler";
 import { typeFormHandler } from "./factores/typeForm/typeFormHandler";
-import { usageHandler 
-} from "./factores/usage/usageHandler";
+import { usageHandler } from "./factores/usage/usageHandler";
 import { zoneHandler } from "./factores/zone/zoneHandler";
-import { indivisoHandler } from './documentacion/indiviso/indivisoHandler';
-import { reFactorHandler } from './documentacion/reFactor/reFactorHandler';
-import { salesCostHandler } from './documentacion/salesCost.ts/salesCostHandler';
-import { areaHandler } from './documentacion/area/areaHandler';
-import { weightingPercentageHandler } from './documentacion/weightingPercentage/weightingPercentageHandler';
+import { indivisoHandler } from "./documentacion/indiviso/indivisoHandler";
+import { reFactorHandler } from "./documentacion/reFactor/reFactorHandler";
+import { salesCostHandler } from "./documentacion/salesCost.ts/salesCostHandler";
+import { areaHandler } from "./documentacion/area/areaHandler";
+import { weightingPercentageHandler } from "./documentacion/weightingPercentage/weightingPercentageHandler";
 import { sortFactorsHandler } from "./documentacion/sortFactors/sortFactorsStorage";
 import { properties } from "./properties";
 
 interface recordStorage {
-    id: number;
-    type: string;
-    appraisalPurpose: string;
-    status: "exists" | "newOne"
+	id: number;
+	type: string;
+	appraisalPurpose: string;
+	status: "exists" | "newOne";
 }
 export interface Storage extends properties {
-    status: "success" | "loading" | "working" | "fail";
+	status: "success" | "loading" | "working" | "fail";
 	factors: properties;
 	documentation: properties;
 	errors: Array<Object>;
-    record: recordStorage;
-    handlers: properties;
+	record: recordStorage;
+	handlers: properties;
 }
-export const initialState=(type:string, appraisalPurpose:string): Storage=>  ({
+export const initialState = (type: string, appraisalPurpose: string): Storage => ({
 	status: "working",
 	factors: {
 		Age: ageHandler.initialState,
@@ -63,18 +59,18 @@ export const initialState=(type:string, appraisalPurpose:string): Storage=>  ({
 		SalesCost: salesCostHandler.initialState(type),
 		WeightingPercentage: weightingPercentageHandler.initialState,
 		ReFactor: reFactorHandler.initialState(type),
-        Indiviso: indivisoHandler.initialState(type),
-        sortFactors:sortFactorsHandler.initialState(type),
+		Indiviso: indivisoHandler.initialState(type),
+		sortFactors: sortFactorsHandler.initialState(type),
 	},
 	errors: [],
 	record: {
 		id: 0,
-        type,
-        appraisalPurpose,
-        status: "newOne",
-    },
-    handlers: {
-        Age: ageHandler,
+		type,
+		appraisalPurpose,
+		status: "newOne",
+	},
+	handlers: {
+		Age: ageHandler,
 		Building: buildingHandler,
 		Classification: classificationHandler,
 		Commercial: commercialHandler,
@@ -87,12 +83,12 @@ export const initialState=(type:string, appraisalPurpose:string): Storage=>  ({
 		TypeForm: typeFormHandler,
 		Usage: usageHandler,
 		Location: locationHandler,
-        Zone: zoneHandler,
-        Area: areaHandler,
+		Zone: zoneHandler,
+		Area: areaHandler,
 		SalesCost: salesCostHandler,
 		WeightingPercentage: weightingPercentageHandler,
 		ReFactor: reFactorHandler,
-        Indiviso: indivisoHandler,
-        sortFactors:sortFactorsHandler
-    }
+		Indiviso: indivisoHandler,
+		sortFactors: sortFactorsHandler,
+	},
 });
