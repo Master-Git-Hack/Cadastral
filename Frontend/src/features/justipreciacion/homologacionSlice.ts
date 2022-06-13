@@ -31,7 +31,7 @@ export const slice = createSlice({
 			factors[key].subject = insertionSubject(subject);
 			state = handleUpdateOperationValues(state);
 		},
-		getErrors: (state) => { 
+		getErrors: (state) => {
 			state.errors = handleErrors(state);
 		},
 		updateFactorStateAgee: (state, action: PayloadAction<any>) => {
@@ -329,7 +329,7 @@ export const {
 	updateIndiviso,
 	setIndiviso,
 	updateDocumentationStateRoundedTo,
-	getErrors
+	getErrors,
 } = slice.actions;
 export const getHomologacion = (state: RootState) => state.homologacion;
 export default slice.reducer;
