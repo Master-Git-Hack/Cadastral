@@ -1,6 +1,8 @@
 """File to handle responses of user services"""
 from typing import Dict, Optional, Tuple
 
+from flask import make_response
+
 
 class Response:
     """
@@ -25,15 +27,22 @@ class Response:
             response (dict): response to the request
             status_code (int): status code of the response
         """
-        return (
-            dict(
-                status="success",
-                message=message,
-                operation=operation,
-                data=data,
-            ),
-            status_code or 201,
+        status = "success"
+        status_code = status_code or 201
+        data_response = dict(
+            status=status,
+            message=message,
+            operation=operation,
+            data=data,
         )
+        response = make_response(data_response)
+        response.status_code = status_code
+        response.headers = dict(
+            status=status,
+            message=message,
+        )
+        response.headers["Content-Type"] = "application/json"
+        return response
 
     @staticmethod
     def bad_request(
@@ -51,14 +60,24 @@ class Response:
             response (dict): response to the request
             status_code (int): status code of the response
         """
-        return (
-            dict(
-                status="fail",
-                message=message,
-                operation=operation,
-            ),
-            status_code or 401,
+        status = "fail"
+        status_code = status_code or 401
+        data_response = dict(
+            status=status,
+            message=message,
+            operation=operation,
+            data=None,
+            status_code=status_code,
         )
+        response = make_response(data_response)
+        response.status_code = status_code
+        response.headers = dict(
+            status=status,
+            message=message,
+            status_code=status_code,
+        )
+        response.headers["Content-Type"] = "application/json"
+        return response
 
     @staticmethod
     def error(
@@ -76,14 +95,22 @@ class Response:
             response (dict): response to the request
             status_code (int): status code of the response
         """
-        return (
-            dict(
-                status="fail",
-                message=message,
-                operation=operation,
-            ),
-            status_code or 500,
+        status = "fail"
+        status_code = status_code or 501
+        data_response = dict(
+            status=status,
+            message=message,
+            operation=operation,
+            data=None,
         )
+        response = make_response(data_response)
+        response.status_code = status_code
+        response.headers = dict(
+            status=status,
+            message=message,
+        )
+        response.headers["Content-Type"] = "application/json"
+        return response
 
     @staticmethod
     def teapot() -> Tuple[Dict, int]:
@@ -94,10 +121,18 @@ class Response:
             response (dict): response to the request
             status_code (int): 418 of the response
         """
-        return (
-            dict(
-                status="418 I'm a teapot",
-                message="The requested entity body is short and stout.",
-            ),
-            418,
+        status = "418 I'm a teapot"
+        message = "The requested entity body is short and stout."
+        data_response = dict(
+            status=status,
+            message=message,
+            data=None,
         )
+        response = make_response(data_response)
+        response.status_code = 418
+        response.headers = dict(
+            status=status,
+            message=message,
+        )
+        response.headers["Content-Type"] = "application/json"
+        return response

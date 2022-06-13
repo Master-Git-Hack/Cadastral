@@ -1,0 +1,8 @@
+node_modules/*
+.vcode/*
+.gitignore
+.prettierignore
+ci.yml
+README.md
+start.sh
+yarn*

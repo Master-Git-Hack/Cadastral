@@ -6,6 +6,11 @@ import {
 	UpdateOperationValues,
 } from "../../../../features/justipreciacion/homologacionSlice";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/store";
+import {
+	getJustipreciacion,
+	terreno,
+	renta,
+} from "../../../../features/justipreciacion/justipreciacionSlice";
 import { toFancyNumber } from "../../../../utils/utils";
 import { Body, Footer, Header, Table } from "../../../table/Table";
 import { RoundedTo } from "../documentacion/roundedTo/roundedTo";
@@ -15,6 +20,9 @@ export default function BigPicture() {
 	const dispatch = useAppDispatch();
 	const { factors, documentation, record } = useAppSelector(getState);
 	const { type } = record;
+	const { roundedValue, value } = documentation.SalesCost.averageUnitCost;
+	const averageLotArea = documentation.Area.averageLotArea.value;
+	const subjectArea = documentation.Area.subject.value;
 	const [order, setOrder] = useState([
 		"Building",
 		"Classification",
@@ -52,6 +60,13 @@ export default function BigPicture() {
 		window.resizeTo(1250, 500);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+	useEffect(() => {
+		if (type.includes("TERRENO")) {
+			dispatch(terreno(roundedValue));
+		} else {
+			dispatch(renta(roundedValue));
+		}
+	}, [roundedValue]);
 	const footerLength = factorsUsed - (!type.includes("TERRENO") ? 4 : 3);
 
 	return (
@@ -94,13 +109,9 @@ export default function BigPicture() {
 						SUJETO
 					</td>
 					{!type.includes("TERRENO") ? (
-						<td rowSpan={2}>
-							{toFancyNumber(Number(documentation.Area.subject.value.toFixed(2)))}
-						</td>
+						<td rowSpan={2}>{toFancyNumber(Number(subjectArea.toFixed(2)))}</td>
 					) : null}
-					<td rowSpan={2}>
-						{toFancyNumber(Number(documentation.Area.averageLotArea.value.toFixed(2)))}
-					</td>
+					<td rowSpan={2}>{toFancyNumber(Number(averageLotArea.toFixed(2)))}</td>
 					<td
 						className="text-start"
 						colSpan={footerLength - (type.includes("TERRENO") ? 1 : 0)}
@@ -111,20 +122,13 @@ export default function BigPicture() {
 					<td colSpan={7} className="text-end">
 						<RoundedTo /> Valor Unitario Promedio
 					</td>
-					<td>
-						{toFancyNumber(
-							Number(documentation.SalesCost.averageUnitCost.value.toFixed(2)),
-							true,
-						)}
-					</td>
+					<td>{toFancyNumber(Number(value.toFixed(2)), true)}</td>
 				</tr>
 				<tr>
 					<td colSpan={7} className="text-end">
 						Valor Unitario Aplicable en Números Redondos
 					</td>
-					<td>
-						{toFancyNumber(documentation.SalesCost.averageUnitCost.roundedValue, true)}
-					</td>
+					<td>{toFancyNumber(roundedValue, true)}</td>
 				</tr>
 			</Footer>
 		</Table>

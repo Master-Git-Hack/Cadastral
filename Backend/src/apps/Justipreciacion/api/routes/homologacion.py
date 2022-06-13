@@ -1,5 +1,6 @@
 """File for Homologacion endpoints"""
-from typing import Dict, Tuple
+from email import message
+from typing import Dict, Optional, Tuple
 
 from flask import request
 from flask_restx import Resource
@@ -30,7 +31,9 @@ class HOMOLOGACION(Resource):
         """
         return get_homologation(justiprecicacion, tipo.lower())
 
-    def post(self) -> Tuple[Dict, int]:
+    def post(
+        self, tipo: Optional[str], justiprecicacion: Optional[int]
+    ) -> Tuple[Dict, int]:
         """
         Creates a new homologacion
         Returns:
@@ -39,7 +42,9 @@ class HOMOLOGACION(Resource):
         """
         return post_homologation(collection=request.json)
 
-    def patch(self) -> Tuple[Dict, int]:
+    def patch(
+        self, tipo: Optional[str], justiprecicacion: Optional[int]
+    ) -> Tuple[Dict, int]:
         """
         Updates the data of the homologacion given the tipo and justipreciacion, if not found returns 404
         Returns:

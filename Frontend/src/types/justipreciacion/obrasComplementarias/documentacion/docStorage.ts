@@ -28,8 +28,13 @@ export interface ValueProperties {
 }
 export interface dataStorage extends properties {
 	id: number;
+	show: boolean;
 	name: string;
-	area: AreaProperties;
+	area: {
+		data: Array<AreaProperties>;
+		total: number;
+		unity: string;
+	};
 	calculation: Array<CalculationProperties>;
 	value: ValueProperties;
 }

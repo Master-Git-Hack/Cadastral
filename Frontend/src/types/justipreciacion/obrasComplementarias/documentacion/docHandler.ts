@@ -25,14 +25,34 @@ const calculationTemplate = (id: number): CalculationProperties => ({
 		total: 1,
 	},
 });
-const appendCalculationTemplate = (data: Array<CalculationProperties>) =>
+const appendCalculationTemplate = (data: Array<CalculationProperties>) => {
 	data.push(calculationTemplate(data.length + 1));
+	return data;
+};
+const areaTemplate = {
+	data: [
+		{
+			description: "",
+			value: 1,
+			unity: "m2",
+		},
+	],
+	total: 1,
+	unity: "m2",
+};
 const template = (id: number): dataStorage => ({
 	id,
 	name: "",
+	show: true,
 	area: {
-		description: "",
-		value: 1,
+		data: [
+			{
+				description: "",
+				value: 1,
+				unity: "m2",
+			},
+		],
+		total: 1,
 		unity: "m2",
 	},
 	calculation: [calculationTemplate(1)],
@@ -48,6 +68,7 @@ const template = (id: number): dataStorage => ({
 });
 export const docHandler = {
 	template,
+	areaTemplate,
 	calculationTemplate,
 	appendCalculationTemplate,
 	getResult,

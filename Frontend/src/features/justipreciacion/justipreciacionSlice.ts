@@ -13,34 +13,27 @@ export const slice = createSlice({
 	name,
 	initialState,
 	reducers: {
-		setID(state: Storage, action: PayloadAction<number>) {
+		setID: (state: Storage, action: PayloadAction<number>) => {
 			state.id = action.payload;
 		},
-		terreno(state: Storage, action: PayloadAction<any>) {
-			const { sp1_vu, sp1_factor, sp1_superficie } = action.payload;
-			if (sp1_vu !== undefined && sp1_factor !== undefined && sp1_superficie !== undefined) {
-				state.sp1_vu = sp1_vu;
-				state.sp1_factor = sp1_factor;
-				state.sp1_superficie = sp1_superficie;
+		setInitialState: (state: Storage, action: PayloadAction<any>) => {
+			const { type, sp1_factor, sp1_superficie, cna_edad, cna_superficie } = action.payload;
+			if (type.includes("TERRENO")) {
+				state.sp1_factor = sp1_factor || 1;
+				state.sp1_superficie = sp1_superficie || 1;
+			} else {
+				state.cna_edad = cna_edad || 1;
+				state.cna_superficie = cna_superficie || 1;
 			}
 		},
-		renta(state: Storage, action: PayloadAction<any>) {
-			const { comparativo_mercado, cna_edad, cna_superficie } = action.payload;
-			if (
-				comparativo_mercado !== undefined &&
-				cna_edad !== undefined &&
-				cna_superficie !== undefined
-			) {
-				state.comparativo_mercado = comparativo_mercado;
-				state.cna_edad = cna_edad;
-				state.cna_superficie = cna_superficie;
-			}
+		terreno: (state: Storage, action: PayloadAction<number>) => {
+			state.sp1_vu = action.payload || 1;
 		},
-		obrasComplementarias(state: Storage, action: PayloadAction<any>) {
-			const { valor_total_obras_comp } = action.payload;
-			if (valor_total_obras_comp !== undefined) {
-				state.valor_total_obras_comp = valor_total_obras_comp;
-			}
+		renta: (state: Storage, action: PayloadAction<number>) => {
+			state.comparativo_mercado = action.payload || 1;
+		},
+		obrasComplementarias: (state: Storage, action: PayloadAction<number>) => {
+			state.valor_total_obras_comp = action.payload || 1;
 		},
 	},
 	extraReducers: (builder) => {
@@ -119,6 +112,6 @@ export const slice = createSlice({
 	},
 });
 
-export const { setID, terreno, renta, obrasComplementarias } = slice.actions;
+export const { setID, setInitialState, terreno, renta, obrasComplementarias } = slice.actions;
 export const getJustipreciacion = (state: RootState) => state.justipreciacion;
 export default slice.reducer;

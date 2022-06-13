@@ -10,36 +10,42 @@ import { consume } from "./api.config";
  */
 export const request = (component: string) => ({
 	/* Creating a thunk that can be used to make a get request to the server. */
-	get: createAsyncThunk(`${component}/get`, async (action: any) => {
-		const { url } = action;
-		try {
-			return await (
-				await consume("json").get(url)
-			).data;
-		} catch (err: any) {
-			return null;
-		}
-	}),
+	get: createAsyncThunk(
+		`${component}/get`,
+		async (action: any, { rejectWithValue, fulfillWithValue }) => {
+			const { url } = action;
+			const response = await consume("json").get(url);
+			try {
+				return fulfillWithValue(response.data);
+			} catch (err: any) {
+				return rejectWithValue(err.response.data);
+			}
+		},
+	),
 	/* Creating a thunk that can be used to make a post request to the server. */
-	post: createAsyncThunk(`${component}/post`, async (action: any) => {
-		const { url, responseType, payload } = action;
-		try {
-			return await (
-				await consume(responseType).post(url, payload)
-			).data;
-		} catch (err: any) {
-			return null;
-		}
-	}),
+	post: createAsyncThunk(
+		`${component}/post`,
+		async (action: any, { rejectWithValue, fulfillWithValue }) => {
+			const { url, responseType, payload } = action;
+			const response = await consume(responseType).post(url, payload);
+			try {
+				return fulfillWithValue(response.data);
+			} catch (err: any) {
+				return rejectWithValue(err.response.data);
+			}
+		},
+	),
 	/* Creating a thunk that can be used to make a patch request to the server. */
-	patch: createAsyncThunk(`${component}/patch`, async (action: any) => {
-		const { url, responseType, payload } = action;
-		try {
-			return await (
-				await consume(responseType).patch(url, payload)
-			).data;
-		} catch (err: any) {
-			return null;
-		}
-	}),
+	patch: createAsyncThunk(
+		`${component}/patch`,
+		async (action: any, { rejectWithValue, fulfillWithValue }) => {
+			const { url, responseType, payload } = action;
+			const response = await consume(responseType).patch(url, payload);
+			try {
+				return fulfillWithValue(response.data);
+			} catch (err: any) {
+				return rejectWithValue(err.response.data);
+			}
+		},
+	),
 });

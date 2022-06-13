@@ -60,7 +60,6 @@ export const initialState = (type: string, appraisalPurpose: string): Storage =>
 		WeightingPercentage: weightingPercentageHandler.initialState,
 		ReFactor: reFactorHandler.initialState(type),
 		Indiviso: indivisoHandler.initialState(type),
-		sortFactors: sortFactorsHandler.initialState(type),
 	},
 	errors: [],
 	record: {
@@ -89,6 +88,5 @@ export const initialState = (type: string, appraisalPurpose: string): Storage =>
 		WeightingPercentage: weightingPercentageHandler,
 		ReFactor: reFactorHandler,
 		Indiviso: indivisoHandler,
-		sortFactors: sortFactorsHandler,
 	},
 });

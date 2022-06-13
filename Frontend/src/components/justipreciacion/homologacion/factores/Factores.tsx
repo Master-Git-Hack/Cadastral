@@ -9,139 +9,78 @@ import { addRow, removeRow } from "../../../../features/justipreciacion/homologa
 export default function Factores() {
 	const dispatch = useAppDispatch();
 	return (
-		<Table>
-			<Header>
-				<tr>
-					<th className="text-start">
-						<button
-							className="btn btn-sm btn-primary"
-							onClick={() => dispatch(addRow())}
-						>
-							Agregar Fila
-						</button>
-					</th>
-					<th className="text-end">
-						<button
-							className="btn btn-sm btn-outline-danger"
-							onClick={() => dispatch(removeRow())}
-						>
-							Remover Fila
-						</button>
-					</th>
-				</tr>
-			</Header>
-			<Body>
-				{/*<SingleColumnInARow colSpan={2}>
-					<AgeFactor />
-				</SingleColumnInARow> */}
-				<SingleColumnInARow colSpan={2}>
+		<>
+			<div className="d-flex flex-row justify-content-between my-2">
+				<button
+					className="btn btn-sm btn-outline-success"
+					onClick={() => dispatch(addRow())}
+				>
+					Insertar un Nuevo Comparable a la Fila
+				</button>
+				<button
+					className="btn btn-sm btn-link text-danger"
+					onClick={() => dispatch(removeRow())}
+				>
+					Remover el Ultimo Comparable Insertado
+				</button>
+			</div>
+			<div className="d-flex flex-row justify-content-xxl-between flex-wrap">
+				<div style={{ width: 600 }} className="d-flex flex-column flex-fill mx-1">
 					<ClassificationFactor />
-				</SingleColumnInARow>
-
-				<SingleColumnInARow colSpan={2}>
+				</div>
+				<div style={{ width: 600 }} className="d-flex flex-column flex-fill mx-1">
 					<TypeFormFactor />
-				</SingleColumnInARow>
-
-				<SingleColumnInARow colSpan={2}>
+				</div>
+			</div>
+			<div className="d-flex flex-row justify-content-xxl-between flex-wrap">
+				<LocationFactor />
+			</div>
+			<div className="d-flex flex-row justify-content-xxl-between flex-wrap">
+				<div style={{ width: 600 }} className="d-flex flex-column flex-fill mx-1">
 					<UsageFactor />
-				</SingleColumnInARow>
-
-				<SingleColumnInARow colSpan={2}>
+				</div>
+				<div style={{ width: 600 }} className="d-flex flex-column flex-fill mx-1">
 					<TopographyFactor />
-				</SingleColumnInARow>
-
-				<SingleColumnInARow colSpan={2}>
+				</div>
+			</div>
+			<div className="d-flex flex-row justify-content-xxl-between flex-wrap">
+				<div style={{ width: 600 }} className="d-flex flex-column flex-fill mx-1">
 					<LevelFactor />
-				</SingleColumnInARow>
-
-				<SingleColumnInARow colSpan={2}>
+				</div>
+				<div style={{ width: 600 }} className="d-flex flex-column flex-fill mx-1">
 					<QualityFactor />
-				</SingleColumnInARow>
-
-				<SingleColumnInARow colSpan={2}>
+				</div>
+			</div>
+			<div className="d-flex flex-row justify-content-xxl-between flex-wrap hover">
+				<div style={{ width: 600 }} className="d-flex flex-column flex-fill mx-1">
 					<ProjectFactor />
-				</SingleColumnInARow>
-
-				<SingleColumnInARow colSpan={2}>
+				</div>
+				<div style={{ width: 600 }} className="d-flex flex-column flex-fill mx-1">
 					<BuildingFactor />
-				</SingleColumnInARow>
-			</Body>
-		</Table>
+				</div>
+			</div>
+		</>
 	);
 }
 
 export const AgeFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
+	<div className="container d-flex flex-row justify-content-xxl-center text-center ">
 		<AgeTable />
 	</div>
 );
-export const BuildingFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
-		<CommonTable id={1} name="Building" />
-	</div>
-);
-export const ClassificationFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
-		<CommonTable id={2} name="Classification" />
-	</div>
-);
-
-export const LevelFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
-		<CommonTable id={3} name="Level" />
-	</div>
-);
-
-export const ProjectFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
-		<CommonTable id={4} name="Project" />
-	</div>
-);
-
-export const QualityFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
-		<CommonTable id={5} name="Quality" />
-	</div>
-);
-
-export const TopographyFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
-		<CommonTable id={6} name="Topography" />
-	</div>
-);
-
-export const TypeFormFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
-		<CommonTable id={7} name="TypeForm" />
-	</div>
-);
-
-export const UsageFactor = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
-		<CommonTable id={8} name="Usage" />
-	</div>
-);
-
-export const LocationFactor = () => (
-	<div className="row justify-content-center my-3 mx-auto">
-		<SymbolsTable id={9} name="Location" />
-	</div>
-);
+export const BuildingFactor = () => <CommonTable id={1} name="Building" />;
+export const ClassificationFactor = () => <CommonTable id={2} name="Classification" />;
+export const LevelFactor = () => <CommonTable id={3} name="Level" />;
+export const ProjectFactor = () => <CommonTable id={4} name="Project" />;
+export const QualityFactor = () => <CommonTable id={5} name="Quality" />;
+export const TopographyFactor = () => <CommonTable id={6} name="Topography" />;
+export const TypeFormFactor = () => <CommonTable id={7} name="TypeForm" />;
+export const UsageFactor = () => <CommonTable id={8} name="Usage" />;
+export const LocationFactor = () => <SymbolsTable id={9} name="Location" />;
 export const ZoneFactor = () => (
-	<div className="row justify-content-center my-3 mx-auto">
-		<SymbolsTable id={10} name="Zone" />
-	</div>
-);
-
-export const LocationZoneFactor = () => (
-	<div className="container-xxl mx-auto">
-		<LocationFactor />
+	<>
 		<ZoneExtraInformationTable />
-		<ZoneFactor />
-	</div>
+		<SymbolsTable id={10} name="Zone" />
+	</>
 );
-export const SelectFactors = () => (
-	<div className="col d-flex justify-content-center px-5 my-3 mx-5">
-		<SelectFactorsComponent />
-	</div>
-);
+export const SelectFactors = () => <SelectFactorsComponent />;

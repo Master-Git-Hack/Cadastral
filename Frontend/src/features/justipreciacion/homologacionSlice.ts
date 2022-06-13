@@ -1,13 +1,12 @@
 /** @format */
 
 import { getParams } from "./../../utils/utils";
-/** @format */
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { request } from "../../api/request";
 import { initialState, Storage } from "../../types/justipreciacion/homologacion/storage";
 import {
+	handleErrors,
 	handlerAddRow,
 	handlerRemoveRow,
 	handleUpdateOperationValues,
@@ -24,7 +23,7 @@ export const slice = createSlice({
 			: "justipreciacion",
 	),
 	reducers: {
-		addRowLocationZone(state, action: PayloadAction<any>) {
+		addRowLocationZone: (state, action: PayloadAction<any>) => {
 			const { key } = action.payload;
 			const { factors, handlers } = state;
 			const { insertionSubject } = handlers[key];
@@ -32,7 +31,10 @@ export const slice = createSlice({
 			factors[key].subject = insertionSubject(subject);
 			state = handleUpdateOperationValues(state);
 		},
-		updateFactorStateAgee(state, action: PayloadAction<any>) {
+		getErrors: (state) => { 
+			state.errors = handleErrors(state);
+		},
+		updateFactorStateAgee: (state, action: PayloadAction<any>) => {
 			const { factors, handlers } = state;
 			const { key, object, index } = action.payload;
 			const newValue = action.payload.value;
@@ -47,7 +49,7 @@ export const slice = createSlice({
 
 			state = handleUpdateOperationValues(state);
 		},
-		removeRowLocationZone(state, action: PayloadAction<any>) {
+		removeRowLocationZone: (state, action: PayloadAction<any>) => {
 			const { key } = action.payload;
 			const { factors, handlers } = state;
 			const { subject } = factors[key];
@@ -60,7 +62,7 @@ export const slice = createSlice({
 			}
 		},
 
-		updateFactorStateCommon(state, action: PayloadAction<any>) {
+		updateFactorStateCommon: (state, action: PayloadAction<any>) => {
 			const { key, object, index, value } = action.payload;
 			const { factors, handlers } = state;
 			if (index !== undefined && object !== "subject") {
@@ -83,7 +85,7 @@ export const slice = createSlice({
 			}
 			state = handleUpdateOperationValues(state);
 		},
-		updateFactorStateLocationZone(state, action: PayloadAction<any>) {
+		updateFactorStateLocationZone: (state, action: PayloadAction<any>) => {
 			const { factors, handlers } = state;
 			const { key, object, index, value, item } = action.payload;
 			if (index !== undefined && object === "subject") {
@@ -94,7 +96,7 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
-		updateFactorStateAge(state, action: PayloadAction<any>) {
+		updateFactorStateAge: (state, action: PayloadAction<any>) => {
 			const { key, object, index } = action.payload;
 			const newValue = action.payload.value;
 			const { factors, handlers } = state;
@@ -109,7 +111,7 @@ export const slice = createSlice({
 
 			state = handleUpdateOperationValues(state);
 		},
-		setVisibilityOrderFactors(state, action: PayloadAction<any>) {
+		setVisibilityOrderFactors: (state, action: PayloadAction<any>) => {
 			const { key, value } = action.payload;
 			const { factors } = state;
 			const data = factors[key];
@@ -119,7 +121,7 @@ export const slice = createSlice({
 			};
 			state = handleUpdateOperationValues(state);
 		},
-		updateDocumentationStateArea(state, action: PayloadAction<any>) {
+		updateDocumentationStateArea: (state, action: PayloadAction<any>) => {
 			const { key, object, index, item, value } = action.payload;
 			const { Area } = state.documentation;
 
@@ -140,7 +142,7 @@ export const slice = createSlice({
 			}
 			state = handleUpdateOperationValues(state);
 		},
-		updateDocumentationStateSalesCost(state, action: PayloadAction<any>) {
+		updateDocumentationStateSalesCost: (state, action: PayloadAction<any>) => {
 			const { key, object, index, value } = action.payload;
 			if (index !== undefined && object !== "data") {
 				const { SalesCost } = state.documentation;
@@ -148,56 +150,101 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
-		updateDocumentationStateWeightingPercentage(state, action: PayloadAction<any>) {
+		updateDocumentationStateWeightingPercentage: (state, action: PayloadAction<any>) => {
 			const { key, object, index, value } = action.payload;
 			if (index !== undefined && object !== "data") {
 				const { WeightingPercentage } = state.documentation;
+				const { calculation } = state.handlers.WeightingPercentage;
 				WeightingPercentage[key][index][object] = value;
-				const { calculation, data } = WeightingPercentage;
+				const { data } = WeightingPercentage;
 				WeightingPercentage.total = calculation(data);
 				state = handleUpdateOperationValues(state);
 			}
 		},
-		addRow(state) {
+		addRow: (state) => {
 			const result = handlerAddRow(state);
 			state.factors = result.factors;
 			state.documentation = result.documentation;
 			state = handleUpdateOperationValues(state);
 		},
-		removeRow(state) {
+		removeRow: (state) => {
 			const result = handlerRemoveRow(state);
 			state.factors = result.factors;
 			state.documentation = result.documentation;
 			state = handleUpdateOperationValues(state);
 		},
-		UpdateOperationValues(state) {
+		UpdateOperationValues: (state) => {
 			state = handleUpdateOperationValues(state);
+		},
+		updateReFactor: (state, action: PayloadAction<any>) => {
+			const { key, object, value } = action.payload;
+			const { ReFactor } = state.documentation;
+			ReFactor[key][object] = value;
+			state = handleUpdateOperationValues(state);
+		},
+		updateIndiviso: (state, action: PayloadAction<any>) => {
+			const { key, value } = action.payload;
+			const { Indiviso } = state.documentation;
+			Indiviso[key] = value;
+			state = handleUpdateOperationValues(state);
+		},
+		setIndiviso: (state, action: PayloadAction<any>) => {
+			const { ReFactor } = state.documentation;
+			ReFactor.isUsed = action.payload;
+		},
+		updateDocumentationStateRoundedTo: (state, action: PayloadAction<any>) => {
+			const { key, value } = action.payload;
+			if (key !== undefined && value !== undefined) {
+				const { averageUnitCost } = state.documentation.SalesCost;
+				averageUnitCost[key] = value;
+				state = handleUpdateOperationValues(state);
+			}
 		},
 	},
 	extraReducers: (builder) => {
 		//get method
 		builder
-			.addCase(consumeHomologacion.get.rejected, (state: Storage) => {
-				state.status = "fail";
-				state.message =
-					"Error al solicitar datos al servidor, intente nuevamente y verifique si tiene conexión";
-			})
+			.addCase(
+				consumeHomologacion.get.rejected,
+				(state: Storage, action: PayloadAction<any>) => {
+					const { status, message } = action.payload;
+					state.status = status || "fail";
+					state.message = message || "No fue posible establer conexión con el servidor";
+					state.record.status = "newOne";
+				},
+			)
 			.addCase(consumeHomologacion.get.pending, (state: Storage) => {
 				state.status = "loading";
 			})
 			.addCase(
 				consumeHomologacion.get.fulfilled,
 				(state: Storage, action: PayloadAction<any>) => {
-					const { status, operation, message, data } = action.payload;
-					state.status = status;
-					state.message = message;
-					if (status.includes("success")) {
+					const { operation, message, data } = action.payload;
+
+					state.status = action.payload.status || "fail";
+					state.message = message || "Error de Conexión";
+					if (action.payload.status.includes("success")) {
 						switch (operation) {
 							case "HOMOLOGACION/IndicadoresMunicipales":
 								break;
 							case "HOMOLOGACION/Justipreciacion":
 								break;
 							case "HOMOLOGACION":
+								const { factors, documentation, record } = data;
+								/*console.log(factors.Building)
+								state.factors.Age = {
+									name:state.factors.Age.name,
+									tag:state.factors.Age.tag,
+									...state.factors.Age
+								};
+								state.factors.Building = {
+									name: state.factors.Building.name,
+									tag: state.factors.Building.tag,
+									...factors.Building
+								}*/
+								state.factors = factors;
+								state.documentation = documentation;
+								state.record = record;
 								break;
 						}
 					}
@@ -205,16 +252,22 @@ export const slice = createSlice({
 			);
 		//post method
 		builder
-			.addCase(consumeHomologacion.post.rejected, (state: Storage) => {
-				state.status = "fail";
-				state.message =
-					"Error al solicitar datos al servidor, intente nuevamente y verifique si tiene conexión";
-			})
+			.addCase(
+				consumeHomologacion.post.rejected,
+				(state: Storage, action: PayloadAction<any>) => {
+					const { status, message } = action.payload;
+					state.status = status || "fail";
+					state.message = message || "No fue posible establer conexión con el servidor";
+					state.record.status = "newOne";
+				},
+			)
 			.addCase(consumeHomologacion.post.pending, (state: Storage) => {
 				state.status = "loading";
 			})
 			.addCase(consumeHomologacion.post.fulfilled, (state, action: PayloadAction<any>) => {
+				console.log(action.payload);
 				const { status, operation, message, data } = action.payload;
+
 				state.status = status;
 				state.message = message;
 
@@ -272,6 +325,11 @@ export const {
 	addRow,
 	removeRow,
 	UpdateOperationValues,
+	updateReFactor,
+	updateIndiviso,
+	setIndiviso,
+	updateDocumentationStateRoundedTo,
+	getErrors
 } = slice.actions;
 export const getHomologacion = (state: RootState) => state.homologacion;
 export default slice.reducer;

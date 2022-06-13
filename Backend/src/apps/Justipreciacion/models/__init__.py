@@ -142,7 +142,7 @@ class Justipreciacion(db.Model):
     long = Column(Float)
     croquis = Column(Text)
     foto = Column(Text)
-    geom = Column(Geography(geometry_type="POINT", srid=32614))
+    geom = Column(Geography(geometry_type="POINT", srid=32614, management=True))
     google = Column(Text)
     firmante = Column(Text)
     puesto = Column(Text)

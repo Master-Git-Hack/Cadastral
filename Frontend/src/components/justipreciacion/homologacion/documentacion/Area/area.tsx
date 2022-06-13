@@ -15,17 +15,17 @@ import { FancyInput } from "../../../../inputs/fancyInput";
 import { Table, Body, Header, Footer } from "../../../../table/Table";
 import ReactTooltip from "react-tooltip";
 import FileSaver from "file-saver";
-
+import { ModalComponent } from "../../../../../components/views/Modal";
 export default function Area() {
 	useEffect(() => {
 		window.resizeTo(1250, 500);
 	}, []);
 	return (
-		<div className="container-xxl container-fluid">
-			<div className="row justify-content-center  my-3">
+		<div className="d-flex flex-column justify-content-center">
+			<div className="my-1 d-flex flex-column justify-content-center">
 				<AreaDocumentation />
 			</div>
-			<div className="row justify-content-center my-3 ">
+			<div className="my-1 d-flex flex-column justify-content-center">
 				<AreaCalculation />
 			</div>
 		</div>
@@ -244,23 +244,17 @@ export const AreaDocumentation = () => {
 		<Table>
 			<Header>
 				<tr>
-					<th className="text-truncate text-wrap">Oferta</th>
-					<th className="text-truncate text-wrap">Calle</th>
-					<th className="text-truncate text-wrap">Numero</th>
-					<th className="text-truncate text-wrap">Colonia</th>
-					<th className="text-truncate text-wrap">Municipio</th>
-					{type === "TERRENO" ? (
-						<th className="text-truncate text-wrap">Uso de Suelo</th>
-					) : null}
-					{type !== "TERRENO" ? (
-						<th className="text-truncate text-wrap">Precio de Renta</th>
-					) : null}
-					<th className="text-truncate text-wrap">Fecha</th>
-					{type !== "TERRENO" ? (
-						<th className="text-truncate text-wrap">Tipo de Construcción</th>
-					) : null}
-					<th className="text-truncate text-wrap">Caracteristicas</th>
-					<th className="text-truncate text-wrap">Consulta</th>
+					<th>#</th>
+					<th>Calle</th>
+					<th>Numero</th>
+					<th>Colonia</th>
+					<th>Municipio</th>
+					{type === "TERRENO" ? <th>Uso de Suelo</th> : null}
+					{type !== "TERRENO" ? <th>Precio de Renta</th> : null}
+					<th>Fecha</th>
+					{type !== "TERRENO" ? <th>Tipo de Construcción</th> : null}
+					<th>Caracteristicas</th>
+					<th>Consulta</th>
 				</tr>
 			</Header>
 			<Body>
@@ -269,7 +263,7 @@ export const AreaDocumentation = () => {
 						<td>C{item.id}</td>
 						<td style={{ minWidth: 150 }}>
 							<textarea
-								rows={1}
+								rows={1.5}
 								className="form-control form-control-sm"
 								value={item.address.street}
 								onChange={(event: any) =>
@@ -285,51 +279,54 @@ export const AreaDocumentation = () => {
 								}
 							/>
 						</td>
-						<td>
+						<td className="d-flex flex-row input-group flex-fill justify-content-center">
 							<div
-								className="mx-2"
-								style={{ minWidth: !item.address.hasNoStreetNumber ? 125 : 50 }}
+								className="btn-group"
+								role="group"
+								aria-label="Basic checkbox toggle button group"
 							>
-								{!item.address.hasNoStreetNumber ? (
-									<div className="mb-2">
-										<input
-											type="number"
-											className="form-control form-control-sm"
-											value={item.address.streetNumber}
-											onChange={(event: any) =>
-												dispatch(
-													updateDocumentationStateArea({
-														key: "data",
-														index,
-														object: "address",
-														item: "streetNumber",
-														value: Number(event.target.value),
-													}),
-												)
-											}
-										/>
-									</div>
-								) : null}
-								<div className="form-check form-switch form-check-sm form-switch-sm">
-									<input
-										className="form-check-input form-check-input-sm"
-										type="checkbox"
-										checked={item.address.hasNoStreetNumber}
-										onChange={(event: any) =>
-											dispatch(
-												updateDocumentationStateArea({
-													key: "data",
-													index,
-													object: "address",
-													item: "hasNoStreetNumber",
-													value: event.target.checked,
-												}),
-											)
-										}
-									/>
-									{!item.address.hasNoStreetNumber ? "Sin Numero" : "S/N"}
-								</div>
+								<input
+									id={`btncheck${index}`}
+									className="btn-check btn-sm"
+									type="checkbox"
+									checked={item.address.hasNoStreetNumber}
+									onClick={(event: any) =>
+										dispatch(
+											updateDocumentationStateArea({
+												key: "data",
+												index,
+												object: "address",
+												item: "hasNoStreetNumber",
+												value: event.target.checked,
+											}),
+										)
+									}
+								/>
+								<label
+									htmlFor={`btncheck${index}`}
+									className="btn btn-outline-primary 	"
+								>
+									{item.address.hasNoStreetNumber ? "Sin Numero" : "S/N"}
+								</label>
 							</div>
+							{!item.address.hasNoStreetNumber && (
+								<input
+									type="number"
+									className="form-control form-control-sm"
+									value={item.address.streetNumber}
+									onChange={(event: any) =>
+										dispatch(
+											updateDocumentationStateArea({
+												key: "data",
+												index,
+												object: "address",
+												item: "streetNumber",
+												value: Number(event.target.value),
+											}),
+										)
+									}
+								/>
+							)}
 						</td>
 						<td style={{ minWidth: 100 }}>
 							<textarea
@@ -349,7 +346,7 @@ export const AreaDocumentation = () => {
 								}
 							/>
 						</td>
-						<td className="text-truncate text-wrap">{item.address.zone.name}</td>
+						<td>{item.address.zone.name}</td>
 						{type.includes("TERRENO") ? (
 							<td style={{ minWidth: 180 }}>
 								<SelectTypeOption
@@ -461,30 +458,40 @@ export const AreaDocumentation = () => {
 							/>
 						</td>
 						<td>
-							<textarea
-								rows={1}
-								className="form-control form-control-sm me-1"
-								value={item.address.extras.reference}
-								onChange={(event: any) =>
-									dispatch(
-										updateDocumentationStateArea({
-											key: "data",
-											index,
-											object: "address",
-											item: "extras",
-											value: {
-												...item.address.extras,
-												reference: event.target.value,
-											},
-										}),
-									)
+							<ModalComponent
+								Header={`Consulta C${index + 1}`}
+								actionToDo={`Consulta C${item.id}`}
+								Body={
+									<div className="d-flex flex-column flex-fill justify-content-center">
+										<textarea
+											rows={1}
+											className="form-control form-control-sm me-1"
+											value={item.address.extras.reference}
+											placeholder="Link o Información Complementaria"
+											onChange={(event: any) =>
+												dispatch(
+													updateDocumentationStateArea({
+														key: "data",
+														index,
+														object: "address",
+														item: "extras",
+														value: {
+															...item.address.extras,
+															reference: event.target.value,
+														},
+													}),
+												)
+											}
+										/>
+										<HandleDocuments
+											index={index}
+											extras={item.address.extras}
+											dispatch={dispatch}
+										/>
+									</div>
 								}
 							/>
-							<HandleDocuments
-								index={index}
-								extras={item.address.extras}
-								dispatch={dispatch}
-							/>
+
 							{/*
 							
 							*/}
@@ -574,10 +581,12 @@ const SelectTypeOption = (props: { options: any; value: string; onChange: any; n
 );
 export const ZoneExtraInformationTable = () => {
 	const dispatch = useAppDispatch();
-	const { subject, data, options, findLocation } = useAppSelector(getState).documentation.Area;
-	const { Zone } = useAppSelector(getState).factors;
+	const { factors, documentation, handlers } = useAppSelector(getState);
+	const { subject, data } = documentation.Area;
+	const { options, findLocation } = handlers.Area;
+	const { Zone } = factors;
 	return (
-		<div className="row justify-content-center mx-auto">
+		<div className="d-flex flex-row justify-content-center my-1 mx-1 align-self-center flex-fill">
 			<Table>
 				<HeaderZone
 					subject={subject}
@@ -704,8 +713,7 @@ const HeaderZone = (props: {
 				))}
 			</tr>
 			<tr>
-				<th colSpan={4} />
-				<th colSpan={3}>
+				<th colSpan={7}>
 					<SelectFactorsHeader
 						value={props.subject.factors[0].type}
 						onChange={(event: any) =>

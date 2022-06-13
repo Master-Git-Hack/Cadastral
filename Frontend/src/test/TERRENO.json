@@ -17,7 +17,7 @@
 					"result": 1
 				}
 			],
-			"isUsed": false
+			"isUsed": False
 		},
 		"buildings": {
 			"name": "Construccion",
@@ -52,7 +52,7 @@
 					"result": 1
 				}
 			],
-			"isUsed": true
+			"isUsed": True
 		},
 		"classification": {
 			"name": "Clasificacion",
@@ -87,7 +87,7 @@
 					"result": 1
 				}
 			],
-			"isUsed": true
+			"isUsed": True
 		},
 		"commercial": {
 			"name": "Comercial",
@@ -110,7 +110,7 @@
 					"value": 0.95
 				}
 			],
-			"isUsed": true
+			"isUsed": True
 		},
 		"level": {
 			"name": "Nivel",
@@ -127,7 +127,7 @@
 					"result": 1
 				}
 			],
-			"isUsed": false
+			"isUsed": False
 		},
 		"location": {
 			"name": "Ubicación",
@@ -215,7 +215,7 @@
 					"value": 1.07
 				}
 			],
-			"isUsed": true
+			"isUsed": True
 		},
 		"project": {
 			"name": "Proyecto",
@@ -232,7 +232,7 @@
 					"result": 1
 				}
 			],
-			"isUsed": false
+			"isUsed": False
 		},
 		"quality": {
 			"name": "Calidad",
@@ -249,7 +249,7 @@
 					"result": 1
 				}
 			],
-			"isUsed": false
+			"isUsed": False
 		},
 		"surface": {
 			"name": "Superficie",
@@ -272,7 +272,7 @@
 					"value": 1.017877379290319
 				}
 			],
-			"isUsed": true
+			"isUsed": True
 		},
 		"topography": {
 			"name": "Topografía",
@@ -307,7 +307,7 @@
 					"result": 1
 				}
 			],
-			"isUsed": true
+			"isUsed": True
 		},
 		"typeForm": {
 			"name": "Forma",
@@ -342,7 +342,7 @@
 					"result": 0.93
 				}
 			],
-			"isUsed": true
+			"isUsed": True
 		},
 		"usage": {
 			"name": "Uso",
@@ -377,7 +377,7 @@
 					"result": 1
 				}
 			],
-			"isUsed": true
+			"isUsed": True
 		},
 		"zone": {
 			"name": "Zona",
@@ -423,7 +423,7 @@
 					}
 				}
 			],
-			"isUsed": true
+			"isUsed": True
 		},
 		"results": {
 			"name": "Homologación Resultante",
@@ -446,7 +446,7 @@
 					"value": 0.9622452911252067
 				}
 			],
-			"isUsed": false
+			"isUsed": False
 		}
 	},
 	"homologation": {

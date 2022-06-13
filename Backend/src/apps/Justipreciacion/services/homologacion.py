@@ -21,6 +21,7 @@ def get_homologation(_id: int, tipo: str) -> Tuple[Dict, int]:
         return Response.bad_request(
             message="No existe la justipreciacion a la cual desea aplicar la homologacion",
             operation="HOMOLOGACION",
+            status_code=404,
         )
     else:
         record = Homologation.query.filter_by(
@@ -32,25 +33,18 @@ def get_homologation(_id: int, tipo: str) -> Tuple[Dict, int]:
                 se va a proceder como uno nuevo, en caso de que si exista,\
                 favor de intentar mas tarde, gracias",
                 operation="HOMOLOGACION",
-                status_code=404,
+                status_code=200,
             )
         else:
             data = dict(
                 factors=record.factores,
-                resultado=record.resultado,
+                documentation=record.resultado,
                 record=dict(
-                    justipreciacion=dict(
-                        id=justipreciacion.id,
-                        register=justipreciacion.registro.upper(),
-                    ),
-                    homologacion=dict(
-                        id=record.id,
-                        type=record.tipo,
-                        appraisalPurpose=record.tipo_servicio,
-                        status="existing",
-                    ),
+                    id=record.id,
+                    type=record.tipo.upper(),
+                    appraisalPurpose=record.tipo_servicio,
+                    status="exists",
                 ),
-                areaOptions=get_data_indicadores_municipales(),
             )
             return Response.success(
                 data=data,

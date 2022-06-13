@@ -1,5 +1,7 @@
 /** @format */
 
+import FileSaver from "file-saver";
+
 /**
  * It takes two numbers and returns a number.
  * @param {number} subject - The first number in the operation.
@@ -96,3 +98,13 @@ export const toBase64 = (file: any) =>
 		reader.onload = () => resolve(reader.result);
 		reader.onerror = (error) => reject(error);
 	});
+export const exportDataAtFail = async (payload: any, url: string) =>
+	window.confirm("Desea descargar el registro realizado?") &&
+	FileSaver.saveAs(
+		URL.createObjectURL(
+			new Blob([JSON.stringify(payload)], {
+				type: "application/json",
+			}),
+		),
+		`${url}.json`,
+	);

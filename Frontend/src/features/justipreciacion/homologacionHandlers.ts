@@ -1,4 +1,7 @@
 /** @format */
+
+import { initialState } from "./../../types/catastral/avaluos/storage";
+/** @format */
 /**
  * It adds a row to the table
  * @param {any} state - any

@@ -42,7 +42,7 @@ export const FancyInput: FC<{
 					<input
 						id={`fancyInput-displayed-${props.name}-${props.index}`}
 						type="string"
-						className={`form-control form-control-sm mx-auto ${
+						className={`form-control form-control-sm mx-auto bg-light ${
 							props.style !== undefined ? props.style : "text-start"
 						}`}
 						name={`displayed-${props.name}-${props.index}`}

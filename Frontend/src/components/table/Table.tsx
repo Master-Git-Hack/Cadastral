@@ -1,17 +1,19 @@
 /** @format */
 
 const className =
-	"align-self-middle align-middle justify-content-center justify-content-sm-center text-center";
+	"align-self-middle align-middle justify-content-center align-items-center justify-content-sm-center text-center";
 
 export const Table = (props: { children: any; style?: string }) => (
 	<table
-		className={`table table-sm table-responsive table-responsive-sm table-striped table-bordered table-hover align-self-middle align-middle justify-content-center justify-content-sm-center text-center ${props.style}`}
+		className={`table table-sm table-responsive table-responsive-sm table-striped table-bordered table-hover align-self-middle align-middle justify-content-center justify-content-sm-center text-center align-items-center ${props.style}`}
 	>
 		{props.children}
 	</table>
 );
-export const Header = (props: { children: any }) => (
-	<thead className={`table-light ${className}`}>{props.children}</thead>
+export const Header = (props: { children: any; style?: string }) => (
+	<thead className={`table-${props.style === undefined ? "light" : props.style} ${className}`}>
+		{props.children}
+	</thead>
 );
 
 export const Body = (props: { children: any }) => (

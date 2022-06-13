@@ -4,6 +4,8 @@ config file for the project
 from os import getenv
 from os.path import abspath, dirname, join
 
+from jinja2 import Environment, FileSystemLoader
+
 root_path = abspath(dirname(__file__))
 
 
@@ -19,6 +21,10 @@ class Config:
     CORS_ORIGIN = getenv("CORS_ORIGIN") or "*"
     TEMPORARY_PATH = getenv("TEMPORARY_PATH") or "tmp"
     STATIC_PATH = getenv("STATIC_PATH") or "static"
+    JINJA_ENV = Environment(
+        loader=FileSystemLoader(join(root_path.split("/src")[0], "_build/html")),
+        autoescape=False,
+    )
 
 
 class Paths:
@@ -29,12 +35,14 @@ class Paths:
     templates = join(static, "templates")
     images = join(static, "images")
     fonts = join(static, "fonts")
+    docs = Config.JINJA_ENV
 
 
 class DevelopmentConfig:
     """Development configuration."""
 
     DEBUG = True
+    JSON_AS_ASCII = False
     SQLALCHEMY_DATABASE_URI = (
         getenv("DATABASE_URL_DEV") or f"sqlite:///{root_path}/db.sqlite"
     )
@@ -45,6 +53,7 @@ class TestingConfig(Config):
     """Testing configuration."""
 
     DEBUG = True
+    JSON_AS_ASCII = False
     TESTING = True
     SQLALCHEMY_DATABASE_URI = (
         getenv("DATABASE_URL_TEST") or f"sqlite:///{root_path}/db.sqlite"
@@ -57,6 +66,7 @@ class ProductionConfig(Config):
     """Production configuration."""
 
     DEBUG = False
+    JSON_AS_ASCII = False
     SQLALCHEMY_DATABASE_URI = getenv("DATABASE_URL")
 
 

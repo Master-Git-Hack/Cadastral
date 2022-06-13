@@ -59,7 +59,9 @@ export const AgeTable = () => {
 			<Body>
 				<tr>
 					<td>#</td>
-					<td colSpan={4}>{name.toUpperCase()}</td>
+					<td colSpan={4} className="bg-warning">
+						<strong>{name.toUpperCase()} </strong>
+					</td>
 					<td colSpan={1} rowSpan={1}>
 						Factores
 					</td>
@@ -134,8 +136,8 @@ export const CommonTable = (props: { id: number; name: string }) => {
 					<td colSpan={1} rowSpan={1}>
 						#
 					</td>
-					<td colSpan={1} rowSpan={1}>
-						{name.toUpperCase()}
+					<td colSpan={1} rowSpan={1} className="bg-warning">
+						<strong>{name.toUpperCase()}</strong>
 					</td>
 					<td colSpan={1} rowSpan={1}>
 						Calificación
@@ -231,27 +233,27 @@ const SymbolsActions = (props: {
 	dispatch: Function;
 	colSpan: number;
 	name: string;
+	tag: string;
 	length: number;
 }) => (
 	<tr>
-		<th colSpan={props.colSpan / 2} className="text-start">
-			<button
-				className="btn btn-sm btn-primary"
-				onClick={() => props.dispatch(addRowLocationZone({ key: props.name }))}
-			>
-				Agregar fila
-			</button>
-		</th>
-
-		<th colSpan={props.colSpan / 2} className="text-end">
-			{props.length > 1 && (
+		<th colSpan={props.colSpan}>
+			<div className="d-flex flex-row justify-content-between">
 				<button
-					className="btn btn-sm btn-outline-danger"
-					onClick={() => props.dispatch(removeRowLocationZone({ key: props.name }))}
+					className="btn btn-sm btn-outline-success"
+					onClick={() => props.dispatch(addRowLocationZone({ key: props.name }))}
 				>
-					Remover fila
+					Agregar Fila a {props.tag}
 				</button>
-			)}
+				{props.length > 1 && (
+					<button
+						className="btn btn-sm btn-link text-danger"
+						onClick={() => props.dispatch(removeRowLocationZone({ key: props.name }))}
+					>
+						Remover la Ultima Fila {props.tag}
+					</button>
+				)}
+			</div>
 		</th>
 	</tr>
 );
@@ -274,29 +276,31 @@ const SymbolsComponent = (props: { id: number; name: string }) => {
 
 	return (
 		<Table>
-			<Header>
+			<Header style={`light`}>
 				<Title title={name} colSpan={colSpan} />
 				<SymbolsActions
 					dispatch={dispatch}
 					colSpan={colSpan}
+					tag={factor.name}
 					name={props.name}
 					length={subject.length}
 				/>
 				<tr>
 					<th>
-						PORCENTAJE
-						<br />
-						<small
-							className={`badge rounded-pill bg-${
-								percentage === 100
-									? "success"
-									: percentage > 100
-									? "danger"
-									: "warning"
-							}`}
-						>
-							{toFancyNumber(percentage, false, true)}
-						</small>
+						<div className="d-flex flex-row justify-content-between">
+							PORCENTAJE
+							<small
+								className={`badge rounded-pill bg-${
+									percentage === 100
+										? "success"
+										: percentage > 100
+										? "danger"
+										: "warning"
+								}`}
+							>
+								{toFancyNumber(percentage, false, true)}
+							</small>
+						</div>
 					</th>
 					<th className="bg-warning">{name.toUpperCase()}</th>
 					<SymbolsHeader name={props.name} columns={columns} />
@@ -401,7 +405,7 @@ const SymbolsBody = (props: {
 	));
 const SymbolsFooter = (props: { results: any; name: string }) => (
 	<tr>
-		<td colSpan={2} />
+		<td colSpan={2}></td>
 		{props.results.map((item: any, index: number) => (
 			<td key={`footer-${props.name}-${item.id}-${index}`}>{toFancyNumber(item.value)}</td>
 		))}
@@ -441,12 +445,10 @@ const ZoneExtra = () => {
 };
 export const SymbolsTable = (props: { id: number; name: string }) =>
 	props.name === "Zone" ? (
-		<div className="row">
-			<div className="col-10">
-				<SymbolsComponent {...props} />
-			</div>
+		<div className="d-flex flex-row justify-content-between my-1 mx-1 ">
+			<SymbolsComponent {...props} />
 
-			<div className="col">
+			<div className="ms-2 my-auto">
 				<ZoneExtra />
 			</div>
 		</div>
