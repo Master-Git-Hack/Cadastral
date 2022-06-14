@@ -20,7 +20,8 @@ export default function BigPicture() {
 	const dispatch = useAppDispatch();
 	const { factors, documentation, record } = useAppSelector(getState);
 	const { type } = record;
-	const { roundedValue, value } = documentation.SalesCost.averageUnitCost;
+	const { isUsed } = documentation.ReFactor;
+	const { roundedValue, value, adjustedValue } = documentation.SalesCost.averageUnitCost;
 	const averageLotArea = documentation.Area.averageLotArea.value;
 	const subjectArea = documentation.Area.subject.value;
 	const [order, setOrder] = useState([
@@ -62,7 +63,7 @@ export default function BigPicture() {
 	}, []);
 	useEffect(() => {
 		if (type.includes("TERRENO")) {
-			dispatch(terreno(roundedValue));
+			dispatch(terreno(isUsed ? adjustedValue : roundedValue));
 		} else {
 			dispatch(renta(roundedValue));
 		}

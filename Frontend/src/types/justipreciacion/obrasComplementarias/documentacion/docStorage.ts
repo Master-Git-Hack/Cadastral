@@ -31,7 +31,7 @@ export interface dataStorage extends properties {
 	show: boolean;
 	name: string;
 	area: {
-		data: Array<AreaProperties>;
+		data: Array<properties>;
 		total: number;
 		unity: string;
 	};

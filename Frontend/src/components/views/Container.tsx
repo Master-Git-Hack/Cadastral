@@ -25,7 +25,8 @@ import { ReactElement, useEffect, useState } from "react";
 			/>
 */
 export const Container = (props: {
-	Title: any;
+	Title: string;
+	titleStrong: string;
 	Errors: Array<any>;
 	startAt: number;
 	showErrors: boolean;
@@ -40,8 +41,10 @@ export const Container = (props: {
 	AddButton?: ReactElement<any, any>;
 	RemoveButton?: ReactElement<any, any>;
 }) => {
+	const [animate, setAnimate] = useState(false);
 	const {
 		Title,
+		titleStrong,
 		dataLimit,
 		data,
 		startAt,
@@ -56,16 +59,20 @@ export const Container = (props: {
 		AddButton,
 		RemoveButton,
 	} = props;
-	const [animate, setAnimate] = useState(false);
-	const CurrentTitle = () =>
-		(typeof Title === "object" && Title) || (typeof Title === "string" && <h1>{Title}</h1>);
 	const [pages] = useState(Math.round(data.length / dataLimit));
 	const [currentPage, setCurrentPage] = useState(startAt);
 	const goToNextPage = () => {
-		setCurrentPage((page) => (page + 1 <= pageLimit ? page + 1 : page));
+		setCurrentPage((page) => {
+			setAnimate(true);
+			return page + 1 <= pageLimit ? page + 1 : page;
+		});
 	};
 
-	const goToPreviousPage = () => setCurrentPage((page) => (page > 0 ? page - 1 : page));
+	const goToPreviousPage = () =>
+		setCurrentPage((page) => {
+			setAnimate(true);
+			return page > 0 ? page - 1 : page;
+		});
 	const changePage = (event: any) => setCurrentPage(Number(event.target.textContent));
 
 	const getPaginatedData = () => {
@@ -77,12 +84,13 @@ export const Container = (props: {
 		let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
 		return new Array(pageLimit).fill(0).map((_, index) => start + index + 1);
 	};
+	console.log(animate);
 	useEffect(() => {
-		setAnimate(true);
-		setTimeout(() => {
-			setAnimate(false);
-		}, 1000);
-	}, [data[currentPage]]);
+		animate &&
+			setTimeout(() => {
+				setAnimate(false);
+			}, 500);
+	}, [animate]);
 
 	useEffect(() => {
 		window.resizeTo(width, height);
@@ -101,7 +109,10 @@ export const Container = (props: {
 								: "d-flex justify-content-center"
 						}`}
 					>
-						<CurrentTitle />
+						<h1>
+							{`${Title} `}
+							<strong>{` ${titleStrong}`}</strong>
+						</h1>
 					</div>
 					{currentPage >= pages - 1 && <div className="float-end">{SaveButton}</div>}
 				</div>

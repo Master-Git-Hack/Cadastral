@@ -111,7 +111,7 @@ def patch_justipreciacion_from_homologacion(
     """
     tipo = tipo.upper()
     record = get_justipreciacion(_id)
-    
+
     value = float(f'{data["valor_unitario"]:.2f}')
     if not record:
         return Response.bad_request(

@@ -1,18 +1,37 @@
 /** @format */
 
 import { useState } from "react";
-import { useAppDispatch } from "../../../../hooks/store";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/store";
 import { dataStorage } from "../../../../types/justipreciacion/obrasComplementarias/documentacion/docStorage";
 import { toFancyNumber } from "../../../../utils/utils";
 import { FancyInput } from "../../../inputs/fancyInput";
 import { Body, Footer, Header, Table } from "../../../table/Table";
 import {
+	getOC as getState,
+	addRowDocumentationAreaData,
+	removeRowDocumentationAreaData,
 	addDocumentationCalculationRow,
 	removeDocumentationCalculationRow,
 	updateDocumentation,
 	updateDocumentationCalculation,
+	updateDocumentationAreaData,
 } from "../../../../features/justipreciacion/obrasComplementariasSlice";
 import { MinMaxView } from "../../../views/MinMax";
+export const DocsView = () => {
+	const { documentation } = useAppSelector(getState);
+	return (
+		<>
+			{documentation.map((item: any, index: number) => (
+				<DocumentationView
+					key={`handle documentation values ${index} ${item.id}`}
+					{...item}
+					id={index}
+				/>
+			))}
+		</>
+	);
+};
+
 const HandleUnities = (props: { name: string; value: string; onChange: any }) => (
 	<select
 		className="form-select form-select-sm"
@@ -51,7 +70,7 @@ export const DocumentationView = (props: any) => {
 								onChange={(event) =>
 									dispatch(
 										updateDocumentation({
-											index: id - 1,
+											index: id,
 											key: "name",
 											value: event.target.value,
 										}),
@@ -80,10 +99,10 @@ export const DocumentationView = (props: any) => {
 												value={item.description}
 												onChange={(event) =>
 													dispatch(
-														updateDocumentation({
-															index: id - 1,
-															key: "area",
-															subKey: "description",
+														updateDocumentationAreaData({
+															id,
+															index,
+															key: "description",
 															value: event.target.value,
 														}),
 													)
@@ -97,10 +116,10 @@ export const DocumentationView = (props: any) => {
 												value={item.value}
 												onChange={(event) =>
 													dispatch(
-														updateDocumentation({
-															index: id - 1,
-															key: "area",
-															subKey: "value",
+														updateDocumentationAreaData({
+															id,
+															index,
+															key: "value",
 															value: Number(event.target.value),
 														}),
 													)
@@ -114,10 +133,10 @@ export const DocumentationView = (props: any) => {
 												value={item.unity}
 												onChange={(event: any) =>
 													dispatch(
-														updateDocumentation({
-															index: id - 1,
-															key: "area",
-															subKey: "unity",
+														updateDocumentationAreaData({
+															id,
+															index,
+															key: "unity",
 															value: event.target.value,
 														}),
 													)
@@ -131,22 +150,32 @@ export const DocumentationView = (props: any) => {
 								<tr>
 									<td>
 										<div className="d-flex flex-row justify-content-between">
-											<button className="btn btn-sm btn-outline-success ">
+											<button
+												className="btn btn-sm btn-outline-success "
+												onClick={() =>
+													dispatch(addRowDocumentationAreaData(id))
+												}
+											>
 												Agregar Producto
 											</button>
 											<input
 												style={{ width: 300 }}
 												type="file"
-												className="form-control form-control-sm invisible"
+												className="form-control form-control-sm "
 											/>
 										</div>
 									</td>
 									<td>
-										<strong>TOTAL DE AREA (): </strong> 0.0
+										<strong>TOTAL DE AREA ({area.unity}): </strong> {area.total}
 									</td>
 									<td>
 										{data.length > 1 && (
-											<button className="btn btn-sm btn-link text-danger">
+											<button
+												className="btn btn-sm btn-link text-danger"
+												onClick={() =>
+													dispatch(removeRowDocumentationAreaData(id))
+												}
+											>
 												Remover Ultimo Producto
 											</button>
 										)}
@@ -155,7 +184,6 @@ export const DocumentationView = (props: any) => {
 							</Footer>
 						</Table>
 					</div>
-					<div className="flex flex-row input-group mb-3"></div>
 
 					<Table style={`mb-2`}>
 						<Header style={`success`}>
@@ -184,7 +212,7 @@ export const DocumentationView = (props: any) => {
 											onChange={(event) =>
 												dispatch(
 													updateDocumentationCalculation({
-														index: id - 1,
+														index: id,
 														id: index,
 														key: "quantity",
 														subKey: "description",
@@ -201,7 +229,7 @@ export const DocumentationView = (props: any) => {
 											onChange={(event: any) =>
 												dispatch(
 													updateDocumentationCalculation({
-														index: id - 1,
+														index: id,
 														id: index,
 														key: "quantity",
 														subKey: "unity",
@@ -219,7 +247,7 @@ export const DocumentationView = (props: any) => {
 											onChange={(event: any) =>
 												dispatch(
 													updateDocumentationCalculation({
-														index: id - 1,
+														index: id,
 														id: index,
 														key: "quantity",
 														subKey: "value",
@@ -245,7 +273,7 @@ export const DocumentationView = (props: any) => {
 												onChange={(event: any) =>
 													dispatch(
 														updateDocumentationCalculation({
-															index: id - 1,
+															index: id,
 															id: index,
 															key: "value",
 															subKey: "unitary",
@@ -269,7 +297,7 @@ export const DocumentationView = (props: any) => {
 											onChange={(event: any) =>
 												dispatch(
 													updateDocumentationCalculation({
-														index: id - 1,
+														index: id,
 														id: index,
 														key: "value",
 														subKey: "ind",
@@ -307,13 +335,14 @@ export const DocumentationView = (props: any) => {
 											type="checkbox"
 											checked={showFactor}
 											onChange={(event) => {
-												setShowFactor(!showFactor);
+												const current = !showFactor;
+												setShowFactor(current);
 												dispatch(
 													updateDocumentation({
-														index: id - 1,
+														index: id,
 														key: "value",
 														subKey: "gtoFactor",
-														value: !showFactor ? 0.935 : 1,
+														value: current ? 0.935 : 1,
 													}),
 												);
 											}}

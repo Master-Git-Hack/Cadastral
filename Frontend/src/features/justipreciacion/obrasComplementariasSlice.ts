@@ -30,6 +30,39 @@ export const slice = createSlice({
 			const { length } = documentation;
 			documentation[length - 1].show = true;
 		},
+		addRowDocumentationAreaData: (state, action: PayloadAction<number>) => {
+			const { documentation, handlers } = state;
+			const { areaDataTemplate, getAreaTotalFromData } = handlers.documentation;
+			const { area } = documentation[action.payload];
+			const { data } = area;
+			data.push(areaDataTemplate);
+			area.total = getAreaTotalFromData(data);
+			area.unity = data[0].unity;
+		},
+		updateDocumentationAreaData: (state, action: PayloadAction<any>) => {
+			const { id, index, key, value } = action.payload;
+			const { documentation, handlers } = state;
+			const { getAreaTotalFromData } = handlers.documentation;
+			if (id !== undefined) {
+				const { area } = documentation[id];
+				const { data } = area;
+				if (index !== undefined && key !== undefined && value !== undefined) {
+					data[index][key] = value;
+				}
+				//data[0]
+				area.total = getAreaTotalFromData(data);
+				area.unity = data[0].unity;
+			}
+		},
+		removeRowDocumentationAreaData: (state, action: PayloadAction<number>) => {
+			const { documentation, handlers } = state;
+			const { getAreaTotalFromData } = handlers.documentation;
+			const { area } = documentation[action.payload];
+			const { data } = area;
+			data.length > 1 && data.pop();
+			area.total = getAreaTotalFromData(data);
+			area.unity = data[0].unity;
+		},
 		setDocumentationShow: (state, action: PayloadAction<any>) => {
 			const { index, value } = action.payload;
 			state.documentation[index].show = value;
@@ -233,6 +266,9 @@ export const slice = createSlice({
 export const {
 	addRow,
 	removeRow,
+	addRowDocumentationAreaData,
+	removeRowDocumentationAreaData,
+	updateDocumentationAreaData,
 	addDocumentationCalculationRow,
 	removeDocumentationCalculationRow,
 	updateDocumentation,

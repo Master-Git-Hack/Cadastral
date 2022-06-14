@@ -9,31 +9,24 @@ import {
 	removeRow,
 } from "../../features/justipreciacion/obrasComplementariasSlice";
 import Calculous from "../../components/justipreciacion/obrasComplementarias/calculous/calculous";
-import { DocumentationView } from "../../components/justipreciacion/obrasComplementarias/documentacion/documentation";
+import { DocsView } from "../../components/justipreciacion/obrasComplementarias/documentacion/documentation";
 
 export default function ObrasComplementarias() {
 	const { documentation } = useAppSelector(getState);
 	const dispatch = useAppDispatch();
-	const DocView = () =>
-		documentation.map((item: any, index: number) => (
-			<DocumentationView key={`handle documentation values ${index}`} {...item} id={index} />
-		));
 
 	return (
 		<>
 			<Container
-				Title={
-					<h1>
-						<strong>Calculo:</strong> Obras Complementarias
-					</h1>
-				}
+				titleStrong="Calculo:"
+				Title="Obras Complementarias"
 				Errors={[]}
 				showErrors={false}
 				fixedTop={false}
 				dataLimit={1}
 				pageLimit={2}
 				hideElement={3}
-				data={[DocView, Calculous]}
+				data={[DocsView, Calculous]}
 				startAt={1}
 				SaveButton={<SaveButton registro={""} actionClick={() => {}} />}
 				width={1200}

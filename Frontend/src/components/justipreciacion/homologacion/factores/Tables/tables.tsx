@@ -13,6 +13,10 @@ import {
 	updateFactorStateCommon,
 	updateFactorStateLocationZone,
 } from "../../../../../features/justipreciacion/homologacionSlice";
+import {
+	getJustipreciacion,
+	setInitialState,
+} from "../../../../../features/justipreciacion/justipreciacionSlice";
 const Title = (props: { title: string; colSpan?: number }) => (
 	<tr>
 		<th colSpan={props.colSpan ? props.colSpan : 6}>FACTOR POR {props.title.toUpperCase()}</th>
@@ -47,10 +51,16 @@ const handleChange = (
 };
 export const AgeTable = () => {
 	const dispatch = useAppDispatch();
-	const { Age } = useAppSelector(getState).factors;
+	const { factors, record } = useAppSelector(getState);
+	const { Age } = factors;
 	const { data, subject, name } = Age;
-	const { type } = useAppSelector(getState).record;
-
+	const { type } = record;
+	const { cna_edad, cna_superficie } = useAppSelector(getJustipreciacion);
+	useEffect(() => {
+		if (subject.value !== cna_edad) {
+			dispatch(setInitialState({ type, cna_edad: subject.value, cna_superficie }));
+		}
+	}, [subject.value]);
 	return !type.includes("TERRENO") ? (
 		<Table>
 			<Header>

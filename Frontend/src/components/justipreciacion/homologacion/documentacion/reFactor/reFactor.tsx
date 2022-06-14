@@ -42,7 +42,7 @@ export const ReFactorComponent = () => {
 		type.includes("TERRENO") &&
 			sp1_factor !== ReFactor.form.value &&
 			dispatch(setInitialState({ type, sp1_superficie, sp1_factor: ReFactor.form.value }));
-	}, [ReFactor.form.value]);
+	}, [type]);
 	return (
 		<Table>
 			<Header>

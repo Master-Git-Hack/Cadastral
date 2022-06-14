@@ -16,6 +16,10 @@ import { Table, Body, Header, Footer } from "../../../../table/Table";
 import ReactTooltip from "react-tooltip";
 import FileSaver from "file-saver";
 import { ModalComponent } from "../../../../../components/views/Modal";
+import {
+	setInitialState,
+	getJustipreciacion,
+} from "../../../../../features/justipreciacion/justipreciacionSlice";
 export default function Area() {
 	useEffect(() => {
 		window.resizeTo(1250, 500);
@@ -33,14 +37,21 @@ export default function Area() {
 }
 export const AreaCalculation = () => {
 	const dispatch = useAppDispatch();
-	const { Area, SalesCost, WeightingPercentage } = useAppSelector(getState).documentation;
+	const { documentation, factors, record } = useAppSelector(getState);
+	const { Area, SalesCost, WeightingPercentage } = documentation;
 	const { data, subject } = Area;
-	const { Surface, Commercial } = useAppSelector(getState).factors;
-	const { type } = useAppSelector(getState).record;
+	const { Surface, Commercial } = factors;
+	const { type } = record;
+	const { cna_edad, cna_superficie } = useAppSelector(getJustipreciacion);
 	useEffect(() => {
 		window.resizeTo(1250, 500);
 	}, []);
 	const percentage = WeightingPercentage.total;
+	useEffect(() => {
+		if (subject.value !== cna_superficie) {
+			dispatch(setInitialState({ type, cna_superficie: subject.value, cna_edad }));
+		}
+	}, [subject.value]);
 	return (
 		<Table>
 			<Header>
@@ -205,7 +216,7 @@ export const AreaCalculation = () => {
 			<Footer>
 				<tr>
 					<td colSpan={type.includes("TERRENO") ? 2 : 1}>SUJETO</td>
-					{!type.includes("TERRENO") ? (
+					{!type.includes("TERRENO") && (
 						<td>
 							<FancyInput
 								index={0}
@@ -222,7 +233,7 @@ export const AreaCalculation = () => {
 								}
 							/>
 						</td>
-					) : null}
+					)}
 					<td>{toFancyNumber(Number(Area.averageLotArea.value.toFixed(2)))}</td>
 					<td className="text-start" colSpan={4}>
 						m<sup>2</sup>
@@ -290,7 +301,7 @@ export const AreaDocumentation = () => {
 									className="btn-check btn-sm"
 									type="checkbox"
 									checked={item.address.hasNoStreetNumber}
-									onClick={(event: any) =>
+									onChange={(event: any) =>
 										dispatch(
 											updateDocumentationStateArea({
 												key: "data",

@@ -9,6 +9,7 @@ import {
 import {
 	getJustipreciacion,
 	consumeJusti,
+	setInitialState,
 } from "../../features/justipreciacion/justipreciacionSlice";
 import BigPicture from "../../components/justipreciacion/homologacion/bigPicture/bigPicture";
 import Area from "../../components/justipreciacion/homologacion/documentacion/Area/area";
@@ -32,7 +33,6 @@ const AgeArea = () => (
 );
 export default function Homologacion() {
 	const dispatch = useAppDispatch();
-
 	const components = [Factores, ZoneFactor, AgeArea, SelectFactors, BigPicture, ReFactor];
 	const { record, documentation, factors, status, message, errors } =
 		useAppSelector(getHomologacion);
@@ -43,31 +43,19 @@ export default function Homologacion() {
 	const [showErrors, setShowErrors] = useState(false);
 
 	useEffect(() => {
-		if (id === 0) {
-			const IDJustipreciacion = Number(getParams("id"));
-			if (justipreciacion.id !== 0) {
-				dispatch(
-					consumeHomologacion.get({
-						url: `HOMOLOGACION/${type}/${justipreciacion.id}`,
-					}),
-				);
-			}
-			if (IDJustipreciacion) {
-				dispatch(
-					consumeHomologacion.get({
-						url: `HOMOLOGACION/${type}/${IDJustipreciacion}`,
-					}),
-				);
-			} else {
-				alert("No se encontró el registro de justipreciación");
-			}
-		}
-	}, [id, justipreciacion.id]);
+		id === 0 &&
+			justipreciacion.id !== 0 &&
+			dispatch(
+				consumeHomologacion.get({
+					url: `HOMOLOGACION/${type}/${justipreciacion.id}`,
+				}),
+			);
+	}, [id, justipreciacion.id, dispatch, type]);
 	useEffect(() => {
 		if (status.includes("fail")) {
 			alert(message);
 		}
-	}, [record.status]);
+	}, [message, status]);
 	const Errors = errors.map((error: any, index) => (
 		<div className="font-monospace" key={`list of errors, row ${index}`}>
 			{error?.Location && (
@@ -195,7 +183,7 @@ export default function Homologacion() {
 		setShowErrors(error);
 		!error &&
 			dispatch(
-				record.type.includes("newOne")
+				record.status.includes("newOne")
 					? consumeHomologacion.post({
 							url,
 							responseType,
@@ -250,19 +238,15 @@ export default function Homologacion() {
 					exportDataAtFail(payload, `${url}.json`);
 				});
 	};
-	const Title = () => (
-		<h1>
-			Homologación de tipo: <strong>{type}</strong>
-		</h1>
-	);
-	return status === "loading" ? (
+	return status.includes("loading") ? (
 		<Spinner />
 	) : (
 		<>
 			<Justipreciacion />
 
 			<Container
-				Title={Title}
+				titleStrong={type}
+				Title="Homologación de tipo:"
 				startAt={record.status.includes("exists") ? 5 : 1}
 				dataLimit={1}
 				pageLimit={isUsed ? 6 : 5}
