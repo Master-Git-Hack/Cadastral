@@ -100,7 +100,7 @@ def patch_justipreciacion_from_homologacion(
     _id: int, tipo: str, data: dict
 ) -> Tuple[Dict, int]:
     """
-    Update Justipreciacion
+    Update Justipreciacion from an homologacion request
     Args:
         _id (int): ID
         tipo (str): type of the data to be updated
@@ -144,7 +144,7 @@ def patch_justipreciacion_from_homologacion(
 
 def patch_justipreciacion_from_oc(_id: int, data: dict) -> Tuple[Dict, int]:
     """
-    Update Justipreciacion
+    Update Justipreciacion from an obras complementarias request
     Args:
         _id (int): ID
         data (dict): data to be updated
@@ -155,7 +155,7 @@ def patch_justipreciacion_from_oc(_id: int, data: dict) -> Tuple[Dict, int]:
 
     record = get_justipreciacion(_id)
 
-    value = float(f'{data["valor_unitario"]:.2f}')
+    value = float(f'{data["valor_total_obras_comp"]:.2f}')
     if not record:
         return Response.bad_request(
             message="Registro de Justipreciacion no encontrado.",

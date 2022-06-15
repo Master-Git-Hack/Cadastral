@@ -26,7 +26,7 @@ class ObrasComplementarias(db.Model):
         self.datos = collection["datos"]
         self.calculo = collection["calculo"]
         self.valor_unitario = collection["valor_unitario"]
-        self.registro = collection["record"]["register"]
+        self.registro = collection["registro"]
 
 
 db.create_all()

@@ -21,7 +21,7 @@ def get_homologation(_id: int, tipo: str) -> Tuple[Dict, int]:
         return Response.bad_request(
             message="No existe la justipreciacion a la cual desea aplicar la homologacion",
             operation="HOMOLOGACION",
-            status_code=404,
+            status_code=200,
         )
     else:
         record = Homologation.query.filter_by(
@@ -82,7 +82,7 @@ def post_homologation(collection: dict) -> Response:
         return Response.error(
             message="Ya existe una homologacion para este registro",
             operation="HOMOLOGACION",
-            status_code=409,
+            status_code=200,
         )
 
 
@@ -112,7 +112,7 @@ def patch_homologation(
         return Response.bad_request(
             message="No se encontro el registro de Homologacion que desea actualizar.",
             operation="HOMOLOGACION",
-            status_code=404,
+            status_code=200,
         )
     else:
         homologation.tipo = tipo.lower()
