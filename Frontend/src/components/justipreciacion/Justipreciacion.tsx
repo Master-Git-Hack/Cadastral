@@ -13,7 +13,7 @@ import { getParams } from "../../utils/utils";
 export const Justipreciacion = () => {
 	const dispatch = useAppDispatch();
 	const { status, id, message, registro } = useAppSelector(getJustipreciacion);
-	console.log(useAppSelector(getJustipreciacion));
+
 	useEffect(() => {
 		const ID = Number(getParams("id"));
 		id !== ID && dispatch(setID(ID));

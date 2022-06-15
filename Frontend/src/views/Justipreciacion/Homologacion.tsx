@@ -182,6 +182,7 @@ export default function Homologacion() {
 		const error = errors.length > 0;
 		setShowErrors(error);
 		!error &&
+			justipreciacion.registro !== "" &&
 			dispatch(
 				record.status.includes("newOne")
 					? consumeHomologacion.post({

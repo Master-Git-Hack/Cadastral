@@ -1,13 +1,16 @@
 /** @format */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export const MinMaxView = (props: {
 	children: any;
 	name: string;
 	id: number;
-	visibility?: boolean;
+	visibility: boolean;
 }) => {
-	const [show, setShow] = useState(props.visibility !== undefined ? props.visibility : true);
+	const [show, setShow] = useState(props.visibility);
+	useEffect(() => {
+		setShow(props.visibility);
+	}, [props.visibility]);
 	return (
 		<div
 			className={` ${

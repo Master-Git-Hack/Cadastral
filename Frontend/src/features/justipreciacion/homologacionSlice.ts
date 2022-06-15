@@ -219,11 +219,11 @@ export const slice = createSlice({
 			.addCase(
 				consumeHomologacion.get.fulfilled,
 				(state: Storage, action: PayloadAction<any>) => {
-					const { operation, message, data } = action.payload;
+					const { operation, message, data, status } = action.payload;
 
-					state.status = action.payload.status || "fail";
-					state.message = message || "Error de Conexión";
-					if (action.payload.status.includes("success")) {
+					state.status = status;
+					state.message = message;
+					if (status.includes("success")) {
 						switch (operation) {
 							case "HOMOLOGACION/IndicadoresMunicipales":
 								break;

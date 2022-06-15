@@ -1,12 +1,10 @@
 /** @format */
 
-import { docHandler } from "./../../types/justipreciacion/obrasComplementarias/documentacion/docHandler";
-/** @format */
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { request } from "../../api/request";
 import { initialState } from "../../types/justipreciacion/obrasComplementarias/store";
+import { checkError } from "./obrasComplementariasHandler";
 
 const name = "SupplementaryWorks";
 export const consumeOC = request(name);
@@ -23,12 +21,14 @@ export const slice = createSlice({
 			const calculousTemplate = handlers.calculous.template;
 			documentation.push(documentationTemplate(length + 1));
 			calculous.push(calculousTemplate(calculous.length + 1));
+			state.errors = checkError(state.documentation);
 		},
 		removeRow: (state) => {
 			const { documentation, calculous } = state;
 			documentation.length > 1 && documentation.pop() && calculous.pop();
 			const { length } = documentation;
 			documentation[length - 1].show = true;
+			state.errors = checkError(state.documentation);
 		},
 		addRowDocumentationAreaData: (state, action: PayloadAction<number>) => {
 			const { documentation, handlers } = state;
@@ -38,11 +38,12 @@ export const slice = createSlice({
 			data.push(areaDataTemplate);
 			area.total = getAreaTotalFromData(data);
 			area.unity = data[0].unity;
+			state.errors = checkError(state.documentation);
 		},
 		updateDocumentationAreaData: (state, action: PayloadAction<any>) => {
 			const { id, index, key, value } = action.payload;
 			const { documentation, handlers } = state;
-			const { getAreaTotalFromData } = handlers.documentation;
+			const { getAreaTotalFromData, getResult } = handlers.documentation;
 			if (id !== undefined) {
 				const { area } = documentation[id];
 				const { data } = area;
@@ -51,7 +52,13 @@ export const slice = createSlice({
 				}
 				//data[0]
 				area.total = getAreaTotalFromData(data);
+				documentation[id].value.result.value = getResult(
+					documentation[index].area.total,
+					documentation[index].value.total,
+				);
+				state.total = documentation[id].value.result.value;
 				area.unity = data[0].unity;
+				state.errors = checkError(state.documentation);
 			}
 		},
 		removeRowDocumentationAreaData: (state, action: PayloadAction<number>) => {
@@ -62,10 +69,12 @@ export const slice = createSlice({
 			data.length > 1 && data.pop();
 			area.total = getAreaTotalFromData(data);
 			area.unity = data[0].unity;
+			state.errors = checkError(state.documentation);
 		},
 		setDocumentationShow: (state, action: PayloadAction<any>) => {
 			const { index, value } = action.payload;
 			state.documentation[index].show = value;
+			state.errors = checkError(state.documentation);
 		},
 		addDocumentationCalculationRow: (state, action: PayloadAction<number>) => {
 			const id = action.payload;
@@ -75,12 +84,14 @@ export const slice = createSlice({
 			const { appendCalculationTemplate } = handlers.documentation;
 
 			documentation[id].calculation = appendCalculationTemplate(calculation);
+			state.errors = checkError(state.documentation);
 		},
 		removeDocumentationCalculationRow: (state, action: PayloadAction<number>) => {
 			const id = action.payload;
 			const { calculation } = state.documentation[id];
 			const { length } = calculation;
 			length > 1 && calculation.pop();
+			state.errors = checkError(state.documentation);
 		},
 		updateDocumentation: (state, action: PayloadAction<any>) => {
 			const { index, key, subKey, value } = action.payload;
@@ -106,6 +117,7 @@ export const slice = createSlice({
 				} else {
 					documentation[index][key] = value;
 				}
+				state.errors = checkError(state.documentation);
 			}
 		},
 		updateDocumentationCalculation: (state, action: PayloadAction<any>) => {
@@ -150,6 +162,8 @@ export const slice = createSlice({
 					documentation[index].area.total,
 					documentation[index].value.total,
 				);
+				state.total = result.value;
+				state.errors = checkError(state.documentation);
 			}
 		},
 		updateCalculous: (state, action: PayloadAction<any>) => {
@@ -184,29 +198,39 @@ export const slice = createSlice({
 					(previous: number, current: any) => previous + Number(current.total),
 					0,
 				);
+				state.errors = checkError(state.documentation);
 			}
+		},
+		checkErrors: (state) => {
+			state.errors = checkError(state.documentation);
 		},
 	},
 	extraReducers: (builder) => {
 		//get method
 		builder
-			.addCase(consumeOC.get.rejected, (state) => {
-				state.status = "fail";
-				state.message =
-					"Error al solicitar datos al servidor, intente nuevamente y verifique si tiene conexión";
+			.addCase(consumeOC.get.rejected, (state, action: PayloadAction<any>) => {
+				console.log("failed", action.payload);
+				const { status, message } = action.payload;
+				state.status = status || "fail";
+				state.message = message || "No fue posible establer conexión con el servidor";
+				state.record.status = "newOne";
 			})
 			.addCase(consumeOC.get.pending, (state) => {
 				state.status = "loading";
 			})
 			.addCase(consumeOC.get.fulfilled, (state, action: PayloadAction<any>) => {
-				const { status, operation, message, documentation } = action.payload;
+				const { status, operation, message, data } = action.payload;
 				state.status = status;
 				state.message = message;
 
 				if (status.includes("success")) {
 					switch (operation) {
-						case "HOMOLOGACION/OC":
-							console.log(documentation);
+						case "HOMOLOGACION/ObrasComplementarias":
+							const { record, documentation, calculous, total } = data;
+							state.record = record;
+							state.documentation = documentation;
+							state.calculous = calculous;
+							state.total = total;
 							break;
 						default:
 							break;
@@ -229,7 +253,7 @@ export const slice = createSlice({
 				state.message = message;
 				if (status.includes("success")) {
 					switch (operation) {
-						case "HOMOLOGACION/":
+						case "HOMOLOGACION/ObrasComplementarias":
 							break;
 						default:
 							break;
@@ -275,6 +299,7 @@ export const {
 	updateDocumentationCalculation,
 	updateCalculous,
 	setDocumentationShow,
+	checkErrors,
 } = slice.actions;
 export const getOC = (state: RootState) => state.obrasComplementarias;
 export default slice.reducer;

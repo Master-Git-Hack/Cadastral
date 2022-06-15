@@ -84,7 +84,7 @@ export const Container = (props: {
 		let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
 		return new Array(pageLimit).fill(0).map((_, index) => start + index + 1);
 	};
-	console.log(animate);
+
 	useEffect(() => {
 		animate &&
 			setTimeout(() => {

@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/store";
 import { dataStorage } from "../../../../types/justipreciacion/obrasComplementarias/documentacion/docStorage";
 import { toFancyNumber } from "../../../../utils/utils";
@@ -51,7 +51,8 @@ export const DocumentationView = (props: any) => {
 	const { data } = area;
 	const { subTotal, total, gtoFactor, result } = value;
 	const dispatch = useAppDispatch();
-	const [showFactor, setShowFactor] = useState(false);
+	const [showFactor, setShowFactor] = useState(gtoFactor === 1 ? false : true);
+
 	return (
 		<MinMaxView
 			id={id + 1}
@@ -222,24 +223,8 @@ export const DocumentationView = (props: any) => {
 											}
 										/>
 									</td>
+
 									<td colSpan={2}>
-										<HandleUnities
-											name={`row ${index} quantity unity ${id}`}
-											value={item.quantity.unity}
-											onChange={(event: any) =>
-												dispatch(
-													updateDocumentationCalculation({
-														index: id,
-														id: index,
-														key: "quantity",
-														subKey: "unity",
-														value: event.target.value,
-													}),
-												)
-											}
-										/>
-									</td>
-									<td colSpan={1}>
 										<FancyInput
 											index={index}
 											name={`row ${index} quantity value ${id}`}
@@ -258,14 +243,25 @@ export const DocumentationView = (props: any) => {
 											style={`text-center`}
 										/>
 									</td>
+									<td colSpan={1}>
+										<HandleUnities
+											name={`row ${index} quantity unity ${id}`}
+											value={item.quantity.unity}
+											onChange={(event: any) =>
+												dispatch(
+													updateDocumentationCalculation({
+														index: id,
+														id: index,
+														key: "quantity",
+														subKey: "unity",
+														value: event.target.value,
+													}),
+												)
+											}
+										/>
+									</td>
 									<td colSpan={2}>
 										<div className="input-group">
-											<span className="input-group-text" id="basic-addon1">
-												{toFancyNumber(
-													Number(item.value.ind.unitary.toFixed(2)),
-													true,
-												)}
-											</span>
 											<FancyInput
 												index={index}
 												name={`row ${index} value unit ${id}`}
@@ -284,6 +280,12 @@ export const DocumentationView = (props: any) => {
 												isCurrency={true}
 												style={`text-center`}
 											/>
+											<span className="input-group-text" id="basic-addon1">
+												{toFancyNumber(
+													Number(item.value.ind.unitary.toFixed(2)),
+													true,
+												)}
+											</span>
 										</div>
 									</td>
 									<td colSpan={2}>
@@ -313,15 +315,17 @@ export const DocumentationView = (props: any) => {
 							))}
 						</Body>
 						<Footer>
-							<tr>
-								<td colSpan={9} className="text-end">
-									Sub Total:
-								</td>
-								<td colSpan={2}>
-									{toFancyNumber(Number(subTotal.toFixed(2)), true)}
-								</td>
-								<td colSpan={1} />
-							</tr>
+							{showFactor && (
+								<tr>
+									<td colSpan={9} className="text-end">
+										Sub Total:
+									</td>
+									<td colSpan={2}>
+										{toFancyNumber(Number(subTotal.toFixed(2)), true)}
+									</td>
+									<td colSpan={1} />
+								</tr>
+							)}
 							<tr>
 								<td colSpan={9} className="text-end">
 									Total:
