@@ -14,7 +14,8 @@ import {
 import { toFancyNumber } from "../../../../utils/utils";
 import { Body, Footer, Header, Table } from "../../../table/Table";
 import { RoundedTo } from "../documentacion/roundedTo/roundedTo";
-import ReactTooltip from "react-tooltip";
+
+import { TooltipComponent } from "../../../tooltip/tooltip";
 const decimals = 3;
 export default function BigPicture() {
 	const dispatch = useAppDispatch();
@@ -166,24 +167,38 @@ const Show = (props: {
 		isArea: boolean = false,
 	) => (
 		<td id={props.id} className="text-center" rowSpan={props.rowSpan}>
-			<span data-tip data-for={`${props.id} ${props.name} Factor real value`}>
-				{toFancyNumber(Number(value.toFixed(2)), isCurrency, isPercentage, decimals)}{" "}
-				{isArea ? (
-					<>
-						m<sup>2</sup>
-					</>
-				) : null}
-			</span>
-			{props.name !== undefined ? (
-				<ReactTooltip
+			{props.name === undefined && (
+				<>
+					{toFancyNumber(Number(value.toFixed(2)), isCurrency, isPercentage, decimals)}{" "}
+					{isArea && (
+						<>
+							m<sup>2</sup>
+						</>
+					)}
+				</>
+			)}
+			{props.name !== undefined && (
+				<TooltipComponent
 					id={`${props.id} ${props.name} Factor real value`}
-					place="bottom"
-					type="light"
-					effect="float"
-				>
-					<span>{value}</span>
-				</ReactTooltip>
-			) : null}
+					placement="bottom"
+					tooltip={value}
+					component={
+						<div id={`${props.id} ${props.name} Factor real value`}>
+							{toFancyNumber(
+								Number(value.toFixed(2)),
+								isCurrency,
+								isPercentage,
+								decimals,
+							)}{" "}
+							{isArea && (
+								<>
+									m<sup>2</sup>
+								</>
+							)}
+						</div>
+					}
+				/>
+			)}
 		</td>
 	);
 	return (

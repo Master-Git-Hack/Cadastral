@@ -1,23 +1,6 @@
 version: '3.8'
 #name: cadastral.app.container.docker
 services:
-  frontend:
-    container_name: cadastral.react.container.docker
-    build:
-      context: ./Frontend/
-      dockerfile: Dockerfile
-    restart: always
-    volumes:
-      - ./Frontend:/usr/src/Frontend
-    ports:
-      - 80:80
-    depends_on:
-      - backend
-    networks:
-      - cadastral_network
-    environment:
-      - REACT_APP_API_URL=cadastral_network:56733/api/v1/
-
   backend:
     container_name: cadastral.flask.container.docker
     build:
@@ -26,24 +9,31 @@ services:
     restart: always
     volumes:
       - ./Backend:/usr/src/Backend
+    expose:
+      - 56733
     ports:
       - 56733:56733
     networks:
       - cadastral_network
+  frontend:
+    container_name: cadastral.react.container.docker
+    build:
+      context: ./Frontend/
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./Frontend:/usr/src/Frontend
+    expose:
+      - 80
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    networks:
+      - cadastral_network
     environment:
-      - FLASK_APP="wsgi.py"
-      - FLASK_RUN_HOST= "0.0.0.0"
-      - FLASK_RUN_PORT=56733
-      - FLASK_ENV="production"
-      - DEBUG=False
-      - SECRET_KEY= "#__ S3c de F&&nanzas, GOBIERNO de gt0 __#"
-      - VERSION=1
-      - API_URL="/api/v1/"
-      - TITLE="API DEV"
-      - CORS="*"
-      - CORS_ORIGIN="*"
-      - TEMPORARY_PATH="tmp"
-      - DATABASE_URL="postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/valuaciones"
+      - REACT_APP_API_URL=backend:56733/api/v1/
+
 #[optional] If the network is not created, docker will create by itself.
 networks:
   cadastral_network: {}

@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../hooks/store";
 import { toBase64, toFancyNumber } from "../../../../../utils/utils";
 import { FancyInput } from "../../../../inputs/fancyInput";
 import { Table, Body, Header, Footer } from "../../../../table/Table";
-import ReactTooltip from "react-tooltip";
+import { TooltipComponent } from "../../../../tooltip/tooltip";
 import FileSaver from "file-saver";
 import { ModalComponent } from "../../../../../components/views/Modal";
 import {
@@ -155,21 +155,26 @@ export const AreaCalculation = () => {
 							)}
 						</td>
 						<td>
-							<span data-tip data-for={`fancyInput-displayed-${index}-surface`}>
-								{toFancyNumber(Number(Surface.data[index].value.toFixed(2)))}
-							</span>
-
-							<ReactTooltip
+							<TooltipComponent
 								id={`fancyInput-displayed-${index}-surface`}
-								place="bottom"
-								type="dark"
-								effect="solid"
-							>
-								<sup>{Surface.root.value}</sup>&radic;
-								<small style={{ textDecoration: "overline" }}>
-									{`(${item.value}`}&divide;{`${Area.averageLotArea.value})`}
-								</small>
-							</ReactTooltip>
+								placement="bottom"
+								tooltip={
+									<>
+										<sup>{Surface.root.value}</sup>&radic;
+										<small style={{ textDecoration: "overline" }}>
+											{`(${item.value}`}&divide;
+											{`${Area.averageLotArea.value})`}
+										</small>
+									</>
+								}
+								component={
+									<div id={`fancyInput-displayed-${index}-surface`}>
+										{toFancyNumber(
+											Number(Surface.data[index].value.toFixed(2)),
+										)}
+									</div>
+								}
+							/>
 						</td>
 						<td style={{ maxWidth: 130 }}>
 							<FancyInput

@@ -1,6 +1,6 @@
 /** @format */
 
-import ReactTooltip from "react-tooltip";
+import { TooltipComponent } from "../../../tooltip/tooltip";
 import {
 	getOC as getState,
 	updateCalculous,
@@ -134,36 +134,35 @@ export default function Calculous() {
 							)}
 						</td>
 						<td>
-							<span
-								documentation-tip
-								documentation-for={`age factor real value ${index}`}
-							>
-								{toFancyNumber(Number(item.age.factor.toFixed(3)), false, false, 3)}
-							</span>
-							<ReactTooltip
+							<TooltipComponent
 								id={`age factor real value ${index}`}
-								place="bottom"
-								type="light"
-								effect="float"
-							>
-								<span>{item.age.factor}</span>
-							</ReactTooltip>
+								placement="bottom"
+								tooltip={item.age.factor}
+								component={
+									<div id={`age factor real value ${index}`}>
+										{toFancyNumber(
+											Number(item.age.factor.toFixed(3)),
+											false,
+											false,
+											3,
+										)}
+									</div>
+								}
+							/>
 						</td>
 						<td>
-							<span
-								documentation-tip
-								documentation-for={`state of conservation factor value explain ${index}`}
-							>
-								{toFancyNumber(Number(item.stateOfConservation.value.toFixed(3)))}
-							</span>
-							<ReactTooltip
+							<TooltipComponent
 								id={`state of conservation factor value explain ${index}`}
-								place="bottom"
-								type="light"
-								effect="float"
-							>
-								<span>{item.stateOfConservation.type}</span>
-							</ReactTooltip>
+								placement="bottom"
+								tooltip={item.stateOfConservation.type}
+								component={
+									<div id={`state of conservation factor value explain ${index}`}>
+										{toFancyNumber(
+											Number(item.stateOfConservation.value.toFixed(3)),
+										)}
+									</div>
+								}
+							/>
 						</td>
 						<td>{toFancyNumber(Number(item.subTotal.toFixed(2)), true)}</td>
 						<td>{toFancyNumber(Number(item.total.toFixed(2)), true)}</td>

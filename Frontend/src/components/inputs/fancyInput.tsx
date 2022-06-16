@@ -2,8 +2,7 @@
 
 import { FC, Fragment, useState, ChangeEventHandler } from "react";
 import { toFancyNumber } from "../../utils/utils";
-import ReactTooltip from "react-tooltip";
-
+import { TooltipComponent } from "../tooltip/tooltip";
 export const FancyInput: FC<{
 	index: number;
 	name: string;
@@ -38,31 +37,29 @@ export const FancyInput: FC<{
 					onBlur={toggleEditing}
 				/>
 			) : (
-				<Fragment>
-					<input
-						id={`fancyInput-displayed-${props.name}-${props.index}`}
-						type="string"
-						className={`form-control form-control-sm mx-auto bg-light ${
-							props.style !== undefined ? props.style : "text-start"
-						}`}
-						name={`displayed-${props.name}-${props.index}`}
-						value={toFancyNumber(props.value, props.isCurrency, props.isPercentage, 2)}
-						onFocus={toggleEditing}
-						readOnly
-						data-tip
-						data-for={`fancyInput-displayed-${props.name}-${props.index}`}
-					/>
-					<ReactTooltip
-						id={`fancyInput-displayed-${props.name}-${props.index}`}
-						place="bottom"
-						type="light"
-						effect="solid"
-					>
-						<span>
-							{toFancyNumber(props.value, props.isCurrency, props.isPercentage, 2)}
-						</span>
-					</ReactTooltip>
-				</Fragment>
+				<TooltipComponent
+					id={`fancyInput-displayed-${props.name}-${props.index}`}
+					placement="bottom"
+					tooltip={toFancyNumber(props.value, props.isCurrency, props.isPercentage, 2)}
+					component={
+						<input
+							id={`fancyInput-displayed-${props.name}-${props.index}`}
+							type="string"
+							className={`form-control form-control-sm mx-auto bg-light ${
+								props.style !== undefined ? props.style : "text-start"
+							}`}
+							name={`displayed-${props.name}-${props.index}`}
+							value={toFancyNumber(
+								props.value,
+								props.isCurrency,
+								props.isPercentage,
+								2,
+							)}
+							onFocus={toggleEditing}
+							readOnly
+						/>
+					}
+				/>
 			)}
 		</Fragment>
 	);
