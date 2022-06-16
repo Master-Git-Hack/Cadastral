@@ -31,7 +31,7 @@ def get_oc(_id: int) -> Tuple[Dict, int]:
         ).first()
         if not obras_c:
             return Response.bad_request(
-                message="No existe el calculo de Obras Complementarias para la justipreciacion, se va a proceder como un registro nuevo, si considera que es un fallo intente más tarde, si persiste comuníquese con el administrador del sistema.",
+                message="No existe registro guardado, se creará uno nuevo.",
                 operation="HOMOLOGACION/ObrasComplementarias",
                 status_code=202,
             )

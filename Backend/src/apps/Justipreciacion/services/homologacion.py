@@ -29,9 +29,7 @@ def get_homologation(_id: int, tipo: str) -> Tuple[Dict, int]:
         ).first()
         if not record:
             return Response.error(
-                message="No existe un registro actual de la Homologacion,\
-                se va a proceder como uno nuevo, en caso de que si exista,\
-                favor de intentar mas tarde, gracias",
+                message="No existe registro guardado, se creará uno nuevo.",
                 operation="HOMOLOGACION",
                 status_code=200,
             )

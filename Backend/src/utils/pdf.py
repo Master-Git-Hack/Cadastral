@@ -18,33 +18,32 @@ class PDF:
     its used with subprocess.
     """
 
+    margins_default = dict(top=15, bottom=None, left=None, right=None)
+
     def __init__(
         self,
         zoom: Optional[float] = 1,
         page_size: Optional[str] = "A4",
-        margins: Optional[dict] = {
-            "top": 15,
-            "bottom": None,
-            "left": None,
-            "right": None,
-        },
+        margins: Optional[dict] = None,
         dpi: Optional[int] = 300,
         templates: str = None,
         watermark: Optional[str] = None,
         files: list = None,
     ) -> None:
         """
-        Initialize the PDF class.
+                Initialize the PDF class.
 
-        Args:
-            zoom (float, optional): _description_. Defaults to 1.
-            pageSize (str, optional): _description_. Defaults to "A4".
-            margins (_type_, optional): _description_. Defaults to {"top": 15, "bottom": None, "left": None, "right": None}.
-            dpi (int, optional): _description_. Defaults to 300.
-            templates (str, optional): _description_. Defaults to None.
-            watermark (str, optional): _description_. Defaults to None.
-            files (list, optional): _description_. Defaults to None.
+                Args:
+                    zoom (float, optional): _description_. Defaults to 1.
+                    pageSize (str, optional): _description_. Defaults to "A4".
+                    margins (_type_, optional): _description_. Defaults to
+        {"top": 15, "bottom": None, "left": None, "right": None}.
+                    dpi (int, optional): _description_. Defaults to 300.
+                    templates (str, optional): _description_. Defaults to None.
+                    watermark (str, optional): _description_. Defaults to None.
+                    files (list, optional): _description_. Defaults to None.
         """
+        margins = margins or self.margins_default
         if templates is not None:
             self.cmd = [
                 "wkhtmltopdf",
@@ -125,7 +124,9 @@ class PDF:
                         output_file.write(output_stream)
                 remove(filename)
 
-    def merge(self, output_file: Optional[str]) -> str or None:
+    def merge(
+        self, output_file: Optional[str] = tmp_filename(extension="pdf")
+    ) -> str or None:
         """merge files into one pdf file, and return the filename.
         if output_file is not None, then the output file will be saved in the specified location.
 
