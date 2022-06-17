@@ -52,6 +52,7 @@ class JustipreciacionByHomologacion(Resource):
         """
         return get_required_data_for_homologation(justipreciacion)
 
+    @homologacion.expect(Models.homologacion)
     def patch(self, justipreciacion: int, tipo: str) -> Tuple[Dict, int]:
         """
         Updates the data of the justipreciacion given the tipo and justipreciacion, if not found returns 404
@@ -79,6 +80,7 @@ class JustipreciacionByHomologacionWithOC(Resource):
         """
         return get_required_data_for_oc(justipreciacion)
 
+    @homologacion.expect(Models.obras_complementarias)
     def patch(self, justipreciacion: int) -> Tuple[Dict, int]:
         """
         Updates the data of the justipreciacion given the tipo and justipreciacion, if not found returns 404

@@ -35,55 +35,63 @@ def merge(files: list) -> str:
     return merge_pdf(files)
 
 
-coordinates = list("x_utm", "y_utm")
+coordinates = list(["x_utm", "y_utm"])
 servicios = list(
-    "agua",
-    "drenaje",
-    "energia_electrica",
-    "telefonia",
-    "tipo_pavimento",
-    "alumbrado_publico",
-    "banqueta",
+    [
+        "agua",
+        "drenaje",
+        "energia_electrica",
+        "telefonia",
+        "tipo_pavimento",
+        "alumbrado_publico",
+        "banqueta",
+    ]
 )
 moneda = list(
-    "incr_esq_vu",
-    "incr_esq_valor_parcial",
-    "valor_total_terreno",
-    "valor_total_construccion",
-    "vt_catastral",
-    "sp1_vu",
-    "sp2_vu",
-    "sp3_vu",
-    "sp4_vu",
-    "sp1_valor_parcial",
-    "sp2_valor_parcial",
-    "sp3_valor_parcial",
-    "sp4_valor_parcial",
-    "cna_vu",
-    "cna_valor_parcial",
-    "cnb_vu",
-    "cnb_valor_parcial",
-    "cnc_vu",
-    "cnc_valor_parcial",
-    "cnd_vu",
-    "cnd_valor_parcial",
+    [
+        "incr_esq_vu",
+        "incr_esq_valor_parcial",
+        "valor_total_terreno",
+        "valor_total_construccion",
+        "vt_catastral",
+        "sp1_vu",
+        "sp2_vu",
+        "sp3_vu",
+        "sp4_vu",
+        "sp1_valor_parcial",
+        "sp2_valor_parcial",
+        "sp3_valor_parcial",
+        "sp4_valor_parcial",
+        "cna_vu",
+        "cna_valor_parcial",
+        "cnb_vu",
+        "cnb_valor_parcial",
+        "cnc_vu",
+        "cnc_valor_parcial",
+        "cnd_vu",
+        "cnd_valor_parcial",
+    ]
 )
 decimales2 = list(
-    "incr_esq_superficie",
-    "sup_total_construccion",
-    "cna_superficie",
-    "cnb_superficie",
-    "cnc_superficie",
-    "cnd_superficie",
+    [
+        "incr_esq_superficie",
+        "sup_total_construccion",
+        "cna_superficie",
+        "cnb_superficie",
+        "cnc_superficie",
+        "cnd_superficie",
+    ]
 )
 decimales3 = list(
-    "sup_total_terreno",
-    "sp1_superficie",
-    "sp2_superficie",
-    "sp3_superficie",
-    "sp4_superficie",
+    [
+        "sup_total_terreno",
+        "sp1_superficie",
+        "sp2_superficie",
+        "sp3_superficie",
+        "sp4_superficie",
+    ]
 )
-tipo = list("cna_tipo", "cnb_tipo", "cnc_tipo", "cnd_tipo")
+tipo = list(["cna_tipo", "cnb_tipo", "cnc_tipo", "cnd_tipo"])
 
 
 def check(collection: list, begin: int, end: int, year: int) -> list:
@@ -100,7 +108,7 @@ def check(collection: list, begin: int, end: int, year: int) -> list:
         begin = f"0{begin}"
     if end < 10:
         end = f"0{end}"
-    return manyCatastralSchema.dump(
+    return many_Catastral_Schema.dump(
         Catastral.query.filter(Catastral.estatus != 0)
         .filter(
             Catastral.registro.between(
@@ -128,7 +136,9 @@ def get(data: dict) -> list:
     payload = []
     for record in records:
         query = (
-            session.query(Catastral, Municipios.nombre_utf, DepSolicitante.secretaria)
+            db.session.query(
+                Catastral, Municipios.nombre_utf, DepSolicitante.secretaria
+            )
             .join(DepSolicitante, Catastral.solicitante == DepSolicitante.descripcion)
             .join(Municipios, Catastral.municipio == Municipios.nombre)
             .filter(Catastral.estatus != 0)

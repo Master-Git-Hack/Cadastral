@@ -2,7 +2,7 @@
 import moment from "moment";
 /* A way to define a dynamic interface. */
 interface StateProps {
-	[key: string | number]: number | string | boolean | Object;
+	[key: string | number]: any;
 }
 /* Defining an interface that extends another interface. */
 export interface State extends StateProps {

@@ -1,6 +1,6 @@
 /** @format */
 
-import { State } from "./storage";
+import { State, initialState as isReports } from "./storage";
 
 /* Creating an interface called StorageProps that has a key of type string and a value of type string,
 Array<State>, or any. */
@@ -13,4 +13,12 @@ export interface Storage extends StorageProps {
 	filename: string;
 	reports: Array<State>;
 	document: any;
+	message: string;
 }
+export const initialState = {
+	status: "working",
+	filename: "",
+	reports: [isReports],
+	document: [],
+	message: "",
+};

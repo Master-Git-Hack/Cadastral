@@ -20,8 +20,7 @@ const initialState: defaultFactorStorage = {
 	isUsed: true,
 	position: 0,
 	subject: {
-		value: Number(getParams("cna_edad") ||1,
-		),
+		value: Number(getParams("cna_edad") || 1),
 		operator: 0.01,
 	},
 	data: [template(1)],

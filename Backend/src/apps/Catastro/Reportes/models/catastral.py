@@ -1,5 +1,5 @@
 """Model File for the Catastro Reportes."""
-from geoalchemy2.types import Geography
+from geoalchemy2.types import Geometry
 from sqlalchemy import BigInteger, Column, Date, Float, Integer, Text
 
 from ..... import db, ma
@@ -143,7 +143,7 @@ class Catastral(db.Model):
     fecha_emision = Column(Date)
     croquis = Column(Text)
     foto = Column(Text)
-    geom = Column(Geography(geometry_type="POINT", srid=32614))
+    geom = Column(Geometry(geometry_type="POINT", srid=32614))
     google = Column(Text)
     firmante = Column(Text)
     puesto = Column(Text)

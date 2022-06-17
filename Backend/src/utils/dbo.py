@@ -5,12 +5,13 @@ def save_changes(data) -> bool:
     """
     This method saves the changes to the database
     """
+    session = db.session
     try:
-        db.session.add(data)
-        db.session.commit()
+        session.add(data)
+        session.commit()
         return True
     except Exception as e:
         print(e)
-        db.session.rollback()
-        db.session.flush()
+        session.rollback()
+        session.flush()
         return False

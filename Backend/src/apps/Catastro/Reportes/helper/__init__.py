@@ -5,7 +5,6 @@ from reportlab.lib.pagesizes import A4, letter
 from reportlab.pdfgen import canvas
 
 from .....config import Paths
-
 from .....utils.pdf import PDF
 
 
@@ -57,7 +56,7 @@ def merge_pdf(files: list) -> str:
     return pdf.merge()
 
 
-def render_templates(data: dict) -> list(str):
+def render_templates(data: dict) -> list:
     """Receive the data to fill the template, to return the complete filename created
 
     Args:
