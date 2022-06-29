@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { request } from "../../api/request";
 import {
+	initialProperties,
 	recommendedProperties,
 	initialState as isReports,
 } from "../../types/catastral/avaluos/storage";
@@ -19,23 +20,77 @@ export const slice = createSlice({
 		 * It adds a new report to the reports array
 		 * @param state - The state object
 		 */
-		addDocument(state) {
-			const id = state.reports.length + 1;
-			state.reports[id - 2].showHide = false;
-			state.reports.push({
-				...isReports,
-				id,
-				showHide: false,
-				filename: `report_${new Date().toISOString()}_temp.pdf`,
-			});
+		addDocument: (state) => {
+			const { reports } = state;
+			reports.length < 15 &&
+				reports.push({
+					...isReports,
+					id: state.reports.length + 1,
+					filename: `report_${new Date().toISOString()}_temp.pdf`,
+				});
 		},
 		/**
 		 * If the reports array has more than one item, remove the last item
 		 * @param state - The state object that is passed to the mutation.
 		 */
-		removeDocument(state) {
-			if (state.reports.length > 1) {
-				state.reports.pop();
+		removeDocument: (state) => {
+			state.reports.length > 1 && state.reports.pop();
+		},
+		setLimits: (state, action: PayloadAction<any>) => {
+			const { id, key, value } = action.payload;
+			if (id !== undefined && key !== undefined && value !== undefined) {
+				const { limits } = state.reports[id];
+				limits[key] = value;
+			}
+		},
+		setLoading: (state, action: PayloadAction<number>) => {
+			const id = action.payload;
+			const { reports } = state;
+			reports[id].status = "loading";
+		},
+		setDocument: (state, action: PayloadAction<any>) => {
+			const { status, message, document, id } = action.payload;
+			const { reports } = state;
+			if (id !== undefined && status !== undefined) {
+				if (status.includes("fail") && message !== undefined) {
+					reports[id].status = status;
+					reports[id].message = message;
+				}
+				if (status.includes("success") && document !== undefined) {
+					reports[id].document = document;
+					reports[id].status = status;
+				}
+			}
+		},
+		setValues: (state, action: PayloadAction<any>) => {
+			const { id, key, value } = action.payload;
+			if (id !== undefined && key !== undefined && value !== undefined) {
+				const { reports } = state;
+				reports[id][key] = value;
+			}
+		},
+		setDefaultProperties: (state, action: PayloadAction<any>) => {
+			const { id, value } = action.payload;
+			if (id !== undefined && value !== undefined) {
+				const { reports } = state;
+				const { zoom, moreProperties } = value ? recommendedProperties : initialProperties;
+
+				reports[id].zoom = zoom;
+				reports[id].moreProperties = moreProperties;
+			}
+		},
+		setMoreProperties: (state, action: PayloadAction<any>) => {
+			const { id, key, value } = action.payload;
+			if (id !== undefined && key !== undefined && value !== undefined) {
+				const { moreProperties } = state.reports[id];
+				moreProperties[key] = value;
+			}
+		},
+		setMargins: (state, action: PayloadAction<any>) => {
+			const { id, key, value } = action.payload;
+			if (id !== undefined && key !== undefined && value !== undefined) {
+				const { margins } = state.reports[id].moreProperties;
+				margins[key] = value <= 20 ? value : 20;
 			}
 		},
 		/**
@@ -46,7 +101,8 @@ export const slice = createSlice({
 		 */
 		changeStatus(state, action: PayloadAction<any>) {
 			const { id, status } = action.payload;
-			state.reports[id].status = status;
+			const { reports } = state;
+			reports[id].status = status;
 		},
 		/**
 		 * It takes the payload from the action and uses it to update the state
@@ -110,61 +166,22 @@ export const slice = createSlice({
 					}
 				}
 			});
-		//post method
-		builder
-			.addCase(consumeReport.post.rejected, (state) => {
-				state.status = "fail";
-				state.message =
-					"Error al solicitar datos al servidor, intente nuevamente y verifique si tiene conexión";
-			})
-			.addCase(consumeReport.post.pending, (state) => {
-				state.status = "loading";
-			})
-			.addCase(consumeReport.post.fulfilled, (state, action: PayloadAction<any>) => {
-				const { status, operation, message, data } = action.payload;
-				state.status = status;
-				state.message = message;
-				if (status.includes("success")) {
-					switch (operation) {
-						case "HOMOLOGACION/IndicadoresMunicipales":
-							break;
-						case "HOMOLOGACION/Justipreciacion":
-							break;
-						case "HOMOLOGACION":
-							break;
-					}
-				}
-			});
-
-		//patch method
-		builder
-			.addCase(consumeReport.patch.rejected, (state) => {
-				state.status = "fail";
-				state.message =
-					"Error al solicitar datos al servidor, intente nuevamente y verifique si tiene conexión";
-			})
-			.addCase(consumeReport.patch.pending, (state) => {
-				state.status = "loading";
-			})
-			.addCase(consumeReport.patch.fulfilled, (state, action: PayloadAction<any>) => {
-				const { status, operation, message, data } = action.payload;
-				state.status = status;
-				state.message = message;
-				if (status.includes("success")) {
-					switch (operation) {
-						case "HOMOLOGACION/IndicadoresMunicipales":
-							break;
-						case "HOMOLOGACION/Justipreciacion":
-							break;
-						case "HOMOLOGACION":
-							break;
-					}
-				}
-			});
 	},
 });
 
-export const { addDocument, removeDocument, handleProperties, handleMoreProperties, changeStatus } =
-	slice.actions;
+export const {
+	addDocument,
+	removeDocument,
+	setLimits,
+	setValues,
+	setDefaultProperties,
+	setMoreProperties,
+	setMargins,
+	setDocument,
+	setLoading,
+	handleProperties,
+	handleMoreProperties,
+	changeStatus,
+} = slice.actions;
 export const getAvaluos = (state: RootState) => state.avaluosCatastrales;
 export default slice.reducer;

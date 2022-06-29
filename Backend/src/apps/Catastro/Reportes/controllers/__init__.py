@@ -104,10 +104,6 @@ def check(collection: list, begin: int, end: int, year: int) -> list:
     Returns:
         list: a list with the records that are in the database
     """
-    if begin < 10:
-        begin = f"0{begin}"
-    if end < 10:
-        end = f"0{end}"
     return many_Catastral_Schema.dump(
         Catastral.query.filter(Catastral.estatus != 0)
         .filter(

@@ -41,7 +41,7 @@ api = Api(
     version=config_API["version"],
     title=config_API["title"],
     docs=config_API["docs_path"],
-    description="API para el maenjo de datos del proyecto en curso, para mayor información contacta a: Einar Jhordany Serna Valdivia <e.serna.1a.43@gmail.com>",
+    description="API para el maenjo de datos del proyecto en curso, para mayor información contacta a: Einar Jhordany Serna Valdivia <eserna@guanajuato.gob.mx>",
     ordered=True,
     contact="Einar Jhordany Serna Valdivia",
 )

@@ -23,7 +23,7 @@ export const NavigationBar: FC = () => {
 						<p className="ms-4 align-self-center">Sistema</p>
 					</div>
 				</Navbar.Brand>
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+				<Navbar.Toggle aria-controls="responsive-navbar-nav align-self-center" />
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav className="me-auto" />
 
@@ -33,7 +33,7 @@ export const NavigationBar: FC = () => {
 						<Nav.Link href="#pricing">Pricing</Nav.Link>
 					</Nav>
                     */}
-					<Nav className="me-2">
+					<Nav className="me-2 text-end">
 						<Nav.Link href="http://172.31.113.151/avaluos/Login.php">SICEG</Nav.Link>
 						<Nav.Link href="/Reportes">Reportes</Nav.Link>
 						<NavDropdown title="Documentación" id="basic-nav-dropdown">

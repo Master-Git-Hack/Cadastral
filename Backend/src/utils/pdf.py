@@ -73,6 +73,7 @@ class PDF:
             self.cmd.append("--zoom")
             self.cmd.append(str(zoom))
             self.cmd.append("--enable-javascript")
+            self.cmd.append(" --resolve-relative-links")
             self.cmd.append("--quiet")
 
         elif files is not None:

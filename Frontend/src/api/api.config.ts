@@ -3,7 +3,6 @@
 import axios from "axios";
 import * as qs from "qs";
 import { PathLike } from "fs";
-const baseURL = process.env.REACT_APP_API_URL;
 
 /**
  * It creates an axios instance with the baseURL, timeout, headers, responseType, and paramsSerializer
@@ -11,7 +10,10 @@ const baseURL = process.env.REACT_APP_API_URL;
  */
 export const consume = (responseType: "blob" | "json") =>
 	axios.create({
-		baseURL,
+		baseURL:
+			process.env.NODE_ENV === "development"
+				? process.env.REACT_APP_DEV_API_URL
+				: process.env.REACT_APP_PROD_API_URL,
 		// withCredentials: true,
 		timeout: 30000,
 		headers: {
@@ -21,7 +23,7 @@ export const consume = (responseType: "blob" | "json") =>
 			"Access-Control-Allow-Credentials": true,
 			Pragma: "no-cache",
 			"Content-Type": "application/json",
-			Accept: responseType.includes("json") ? "application/json" : "application/pdf",
+			Accept: `application/${responseType}`,
 		},
 		responseType,
 		paramsSerializer: (params: PathLike) =>

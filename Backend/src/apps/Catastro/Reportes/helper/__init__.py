@@ -21,10 +21,7 @@ def create_pdf(data: dict) -> str:
     margins = data["margins"]
     dpi = data["dpi"]
     filename = data["filename"]
-    if data["watermark"]:
-        watermark = water_mark()
-    else:
-        watermark = None
+    watermark = water_mark() if data["watermark"] else None
 
     data = render_templates(data["data"])
 
@@ -66,14 +63,16 @@ def render_templates(data: dict) -> list:
         list of filenames (list[str]): a list of filenames just created with the data send it.
     """
     template = Template(
-        open(f"{Paths.templates}/avaluo_catastral_template.html").read()
+        open(
+            f"{Paths.templates}/avaluo_catastral_template.html", encoding="UTF-8"
+        ).read()
     )
 
     payload = []
     for item in data:
         filename = f"{Paths.tmp}/{item['registro']}"
 
-        with open(f"{filename}.html", "w") as file:
+        with open(f"{filename}.html", "w", encoding="UTF-8") as file:
             file.write(
                 template.render(
                     ID=item["id"],
