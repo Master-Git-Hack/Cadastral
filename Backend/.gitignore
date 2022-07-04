@@ -9,6 +9,9 @@ src/apps/Auth/services/__pycache__
 src/apps/Auth/test/__pycache__
 src/apps/Auth/views/__pycache__
 
+scr/apps/tmp/*.pdf
+scr/apps/tmp/*.html
+
 src/apps/routes/__pycache__
 src/apps/test/__pycache__
 src/apps/util/__pycache__
