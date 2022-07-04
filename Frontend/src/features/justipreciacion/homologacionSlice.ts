@@ -200,6 +200,32 @@ export const slice = createSlice({
 				state = handleUpdateOperationValues(state);
 			}
 		},
+		setObservations: (state, action: PayloadAction<string>) => {
+			const observations = action.payload;
+			const { documentation } = state;
+			documentation.observations = observations;
+		},
+		setRootReFactor: (state, action: PayloadAction<any>) => {
+			const { key, value } = action.payload;
+			const { ReFactor } = state.documentation;
+			if (key !== undefined && value !== undefined) {
+				if (key.includes("root")) {
+					ReFactor[key] = !isNaN(value) ? value : 0;
+				} else {
+					ReFactor[key] = value;
+				}
+			}
+
+			state = handleUpdateOperationValues(state);
+		},
+		setRoundedResult: (state, action: PayloadAction<any>) => {
+			const { key, value } = action.payload;
+			const { roundedResult } = state.documentation.SalesCost.averageUnitCost;
+			if (key !== undefined && value !== undefined) {
+				roundedResult[key] = value;
+			}
+			state = handleUpdateOperationValues(state);
+		},
 	},
 	extraReducers: (builder) => {
 		//get method
@@ -245,6 +271,7 @@ export const slice = createSlice({
 								state.factors = factors;
 								state.documentation = documentation;
 								state.record = record;
+
 								break;
 						}
 					}
@@ -330,6 +357,9 @@ export const {
 	setIndiviso,
 	updateDocumentationStateRoundedTo,
 	getErrors,
+	setObservations,
+	setRootReFactor,
+	setRoundedResult,
 } = slice.actions;
 export const getHomologacion = (state: RootState) => state.homologacion;
 export default slice.reducer;

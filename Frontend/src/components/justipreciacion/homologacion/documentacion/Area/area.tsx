@@ -1,6 +1,7 @@
 /** @format */
 
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useRef } from "react";
+import { LinkPreview } from "@dhaiwat10/react-link-preview";
 import {
 	getHomologacion as getState,
 	updateFactorStateCommon,
@@ -10,7 +11,7 @@ import {
 } from "../../../../../features/justipreciacion/homologacionSlice";
 import { HandleSurfaceRoot } from "../../factores/Surface/surface";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks/store";
-import { toBase64, toFancyNumber } from "../../../../../utils/utils";
+import { toBase64, toFancyNumber, isUrlValid } from "../../../../../utils/utils";
 import { FancyInput } from "../../../../inputs/fancyInput";
 import { Table, Body, Header, Footer } from "../../../../table/Table";
 import { TooltipComponent } from "../../../../tooltip/tooltip";
@@ -70,18 +71,18 @@ export const AreaCalculation = () => {
 					<th>
 						{Area.name}(m<sup>2</sup>)
 					</th>
-					<th className=" align-middle">
+					<th className=" align-middle text-brake">
 						Precio Unitario ( $ / m<sup>2</sup> )
 					</th>
-					<th className=" align-middle">
+					<th className=" align-middle text-brake">
 						Factor de Superficie
 						<HandleSurfaceRoot />
 					</th>
 
-					<th className=" align-middle" style={{ maxWidth: 130 }}>
+					<th className=" align-middle text-brake" style={{ maxWidth: 130 }}>
 						Factor de Comercialización
 					</th>
-					<th className=" align-middle">
+					<th className=" align-middle text-brake">
 						Ponderación
 						<br />
 						<small
@@ -251,11 +252,13 @@ export const AreaCalculation = () => {
 
 export const AreaDocumentation = () => {
 	const dispatch = useAppDispatch();
-	const { documentation, handlers, record } = useAppSelector(getState);
+	const { documentation, handlers, record, factors } = useAppSelector(getState);
 	const { Area, SalesCost } = documentation;
 	const { data } = Area;
-	const typeOptions = handlers.Area.typeOptions(record.type);
-	const { type } = useAppSelector(getState).record;
+	const { Usage, Building } = factors;
+	//const typeOptions = handlers.Area.typeOptions(record.type);
+	const { type } = record;
+	const typeOptions = type.includes("TERRENO") ? Usage.data : Building.data;
 	return (
 		<Table>
 			<Header>
@@ -295,54 +298,59 @@ export const AreaDocumentation = () => {
 								}
 							/>
 						</td>
-						<td className="d-flex flex-row input-group flex-fill justify-content-center">
+						<td>
 							<div
-								className="btn-group"
+								className="input-group my-auto"
 								role="group"
 								aria-label="Basic checkbox toggle button group"
 							>
-								<input
-									id={`btncheck${index}`}
-									className="btn-check btn-sm"
-									type="checkbox"
-									checked={item.address.hasNoStreetNumber}
-									onChange={(event: any) =>
-										dispatch(
-											updateDocumentationStateArea({
-												key: "data",
-												index,
-												object: "address",
-												item: "hasNoStreetNumber",
-												value: event.target.checked,
-											}),
-										)
-									}
-								/>
-								<label
-									htmlFor={`btncheck${index}`}
-									className="btn btn-outline-primary 	"
-								>
-									{item.address.hasNoStreetNumber ? "Sin Numero" : "S/N"}
-								</label>
+								<>
+									<input
+										id={`btncheck${index}`}
+										className="btn-check"
+										type="checkbox"
+										checked={item.address.hasNoStreetNumber}
+										onChange={(event: any) =>
+											dispatch(
+												updateDocumentationStateArea({
+													key: "data",
+													index,
+													object: "address",
+													item: "hasNoStreetNumber",
+													value: event.target.checked,
+												}),
+											)
+										}
+									/>
+									<label
+										htmlFor={`btncheck${index}`}
+										className={`btn btn-sm btn-outline-primary mx-auto rounded${
+											!item.address.hasNoStreetNumber ? "-start " : ""
+										}`}
+									>
+										{item.address.hasNoStreetNumber ? "Sin Numero" : "S/N"}
+									</label>
+								</>
+								{!item.address.hasNoStreetNumber && (
+									<input
+										type="number"
+										className="form-control form-control-sm rounded-end"
+										value={item.address.streetNumber}
+										style={{ minWidth: 100 }}
+										onChange={(event: any) =>
+											dispatch(
+												updateDocumentationStateArea({
+													key: "data",
+													index,
+													object: "address",
+													item: "streetNumber",
+													value: Number(event.target.value),
+												}),
+											)
+										}
+									/>
+								)}
 							</div>
-							{!item.address.hasNoStreetNumber && (
-								<input
-									type="number"
-									className="form-control form-control-sm"
-									value={item.address.streetNumber}
-									onChange={(event: any) =>
-										dispatch(
-											updateDocumentationStateArea({
-												key: "data",
-												index,
-												object: "address",
-												item: "streetNumber",
-												value: Number(event.target.value),
-											}),
-										)
-									}
-								/>
-							)}
 						</td>
 						<td style={{ minWidth: 100 }}>
 							<textarea
@@ -363,30 +371,9 @@ export const AreaDocumentation = () => {
 							/>
 						</td>
 						<td>{item.address.zone.name}</td>
-						{type.includes("TERRENO") ? (
-							<td style={{ minWidth: 180 }}>
-								<SelectTypeOption
-									options={typeOptions}
-									value={item.address.extras.type}
-									onChange={(event: any) =>
-										dispatch(
-											updateDocumentationStateArea({
-												key: "data",
-												index,
-												object: "address",
-												item: "extras",
-												value: {
-													...item.address.extras,
-													type: event.target.value,
-												},
-											}),
-										)
-									}
-									name="usageType"
-								/>
-							</td>
-						) : null}
-						{!type.includes("TERRENO") ? (
+
+						{type.includes("TERRENO") && <td>{typeOptions[index].type}</td>}
+						{!type.includes("TERRENO") && (
 							<td style={{ minWidth: 135 }}>
 								<FancyInput
 									index={index}
@@ -407,7 +394,7 @@ export const AreaDocumentation = () => {
 									style={`text-center`}
 								/>
 							</td>
-						) : null}
+						)}
 						<td style={{ maxWidth: 150 }}>
 							<input
 								type="date"
@@ -429,29 +416,7 @@ export const AreaDocumentation = () => {
 								}
 							/>
 						</td>
-						{!type.includes("TERRENO") ? (
-							<td>
-								<SelectTypeOption
-									options={typeOptions}
-									value={item.address.extras.type}
-									onChange={(event: any) =>
-										dispatch(
-											updateDocumentationStateArea({
-												key: "data",
-												index,
-												object: "address",
-												item: "extras",
-												value: {
-													...item.address.extras,
-													type: event.target.value,
-												},
-											}),
-										)
-									}
-									name="usageType"
-								/>
-							</td>
-						) : null}
+						{!type.includes("TERRENO") && <td>{typeOptions[index].type}</td>}
 						<td className="flex-wrap">
 							<textarea
 								rows={1}
@@ -499,6 +464,9 @@ export const AreaDocumentation = () => {
 												)
 											}
 										/>
+										{isUrlValid(item.address.extras.reference) && (
+											<LinkPreview url={item.address.extras.reference} />
+										)}
 										<HandleDocuments
 											index={index}
 											extras={item.address.extras}
@@ -519,11 +487,14 @@ export const AreaDocumentation = () => {
 	);
 };
 const HandleDocuments = (props: { index: number; extras: any; dispatch: Function }) => {
+	const id = `formFileSm-${props.index}`;
+	const currentReference = useRef<any>(null);
 	return (
 		<div className="input-group input-group-sm mt-2">
 			<input
+				ref={currentReference}
 				className="form-control form-control-sm"
-				id={`formFileSm-${props.index}`}
+				id={id}
 				type="file"
 				name={props.extras.document.filename}
 				disabled={props.extras.document.data !== null ? true : false}
@@ -561,7 +532,10 @@ const HandleDocuments = (props: { index: number; extras: any; dispatch: Function
 					</button>
 					<button
 						className="btn btn-sm btn-outline-danger"
-						onClick={() =>
+						onClick={() => {
+							if (currentReference.current) {
+								currentReference.current.value = "";
+							}
 							props.dispatch(
 								updateDocumentationStateArea({
 									key: "data",
@@ -576,8 +550,8 @@ const HandleDocuments = (props: { index: number; extras: any; dispatch: Function
 										},
 									},
 								}),
-							)
-						}
+							);
+						}}
 					>
 						Eliminar
 					</button>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import {
 	getHomologacion as getState,
 	UpdateOperationValues,
+	setObservations,
 } from "../../../../features/justipreciacion/homologacionSlice";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/store";
 import {
@@ -22,6 +23,7 @@ export default function BigPicture() {
 	const { factors, documentation, record } = useAppSelector(getState);
 	const { type } = record;
 	const { isUsed } = documentation.ReFactor;
+	const { observations } = documentation;
 	const { roundedValue, value, adjustedValue } = documentation.SalesCost.averageUnitCost;
 	const averageLotArea = documentation.Area.averageLotArea.value;
 	const subjectArea = documentation.Area.subject.value;
@@ -121,8 +123,11 @@ export default function BigPicture() {
 					>
 						m<sup>2</sup>
 					</td>
-					<td colSpan={7} className="text-end">
-						<RoundedTo /> Valor Unitario Promedio
+					<td colSpan={7}>
+						<div className="d-flex">
+							<RoundedTo />{" "}
+							<div className="ms-auto my-auto">Valor Unitario Promedio</div>
+						</div>
 					</td>
 					<td>{toFancyNumber(Number(value.toFixed(2)), true)}</td>
 				</tr>
@@ -131,6 +136,19 @@ export default function BigPicture() {
 						Valor Unitario Aplicable en Números Redondos
 					</td>
 					<td>{toFancyNumber(roundedValue, true)}</td>
+				</tr>
+				<tr>
+					<td colSpan={2}>Justificación de factores</td>
+					<td colSpan={footerLength + factorsUsed - 1}>
+						<textarea
+							className="form-control"
+							rows={1}
+							value={observations}
+							onChange={(event) =>
+								dispatch(setObservations(event.currentTarget.value))
+							}
+						/>
+					</td>
 				</tr>
 			</Footer>
 		</Table>

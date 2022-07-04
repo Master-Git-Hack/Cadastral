@@ -25,6 +25,7 @@ const initialState = (type: string) =>
 					value: 1,
 				},
 				root: 8,
+				observation: "",
 				isUsed: true,
 		  }
 		: {
@@ -33,6 +34,7 @@ const initialState = (type: string) =>
 					value: 1,
 				},
 				root: 8,
+				observation: "",
 				isUsed: true,
 		  };
 export const reFactorHandler = {

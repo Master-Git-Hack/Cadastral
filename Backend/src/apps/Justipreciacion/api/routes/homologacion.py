@@ -31,6 +31,7 @@ class HOMOLOGACION(Resource):
         """
         return get_homologation(justiprecicacion, tipo.lower())
 
+    @ns.expect(model)
     def post(
         self, tipo: Optional[str], justiprecicacion: Optional[int]
     ) -> Tuple[Dict, int]:
@@ -42,6 +43,7 @@ class HOMOLOGACION(Resource):
         """
         return post_homologation(collection=request.json)
 
+    @ns.expect(model)
     def patch(
         self, tipo: Optional[str], justiprecicacion: Optional[int]
     ) -> Tuple[Dict, int]:

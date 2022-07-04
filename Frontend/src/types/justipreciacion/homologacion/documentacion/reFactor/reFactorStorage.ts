@@ -8,6 +8,7 @@ interface properties {
 export interface reFactorStorage {
 	surface: properties;
 	root: number;
+	observation?: string;
 	isUsed: boolean;
 	form?: properties;
 	result?: properties;

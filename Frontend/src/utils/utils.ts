@@ -108,3 +108,27 @@ export const exportDataAtFail = async (payload: any, url: string) =>
 		),
 		`${url}.json`,
 	);
+
+export const isUrlValid = (url: string): boolean => {
+	let validator;
+	try {
+		validator = new URL(url);
+	} catch (_) {
+		return false;
+	}
+	return validator.protocol === "http:" || validator.protocol === "https:";
+};
+export const checkWords = (text: string) => {};
+
+export const average = (values: number[]) =>
+	values.reduce((a: number, b: number) => a + b, 0) / values.length;
+export const standartDeviation = (values: number[]) => {
+	const avg = average(values);
+	const squareDiffs = values
+		.map((value: number) => {
+			const diff = value - avg;
+			return diff * diff;
+		})
+		.reduce((a, b) => a + b, 0);
+	return Math.sqrt(squareDiffs / (values.length - 1));
+};

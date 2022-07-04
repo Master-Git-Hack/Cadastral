@@ -3,7 +3,12 @@
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 
-export const ModalComponent = (props: { actionToDo: string; Header: string; Body: any }) => {
+export const ModalComponent = (props: {
+	actionToDo: string;
+	Header: string;
+	Body: any;
+	btnType?: string;
+}) => {
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
@@ -11,7 +16,10 @@ export const ModalComponent = (props: { actionToDo: string; Header: string; Body
 
 	return (
 		<>
-			<Button variant="secondary" onClick={handleShow}>
+			<Button
+				variant={props.btnType !== undefined ? props.btnType : "secondary"}
+				onClick={handleShow}
+			>
 				{props.actionToDo}
 			</Button>
 

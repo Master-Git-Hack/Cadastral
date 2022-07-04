@@ -21,7 +21,6 @@ const template = (id: number, type: string) => ({
 		extras: {
 			factor1: 1,
 			factor2: 1,
-			type: type.includes("TERRENO") ? usage[0].type : building[0].type,
 			date: date.format("yyyy-MM-DD"),
 			observations: "",
 			reference: "",
@@ -91,7 +90,7 @@ const initialState = (type: string): areaStorage => ({
 	data: [template(1, type)],
 });
 export const areaHandler = {
-	typeOptions: (type: string) => (type.includes("TERRENO") ? usage : building),
+	//typeOptions: (type: string) => (type.includes("TERRENO") ? usage : building),
 	operationAverageLotArea,
 	template,
 	options: zoneInformation,

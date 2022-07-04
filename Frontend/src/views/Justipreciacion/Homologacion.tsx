@@ -19,6 +19,7 @@ import Factores, {
 	ZoneFactor,
 	SelectFactors,
 } from "../../components/justipreciacion/homologacion/factores/Factores";
+import NaturalValues from "../../components/justipreciacion/homologacion/naturalValues/NaturalValues";
 import { Justipreciacion } from "../../components/justipreciacion/Justipreciacion";
 import { Container } from "../../components/views/Container";
 import { useAppDispatch, useAppSelector } from "../../hooks/store";
@@ -165,6 +166,22 @@ export default function Homologacion() {
 					Body={<p>{error.SalesCost.observations.message}</p>}
 				/>
 			)}
+			{error?.bigPicture && (
+				<AlertComponent
+					variant="danger"
+					Header={`Se encontró, el siguiente error. ${error.bigPicture.observations.name}`}
+					Show={true}
+					Body={<p>{error.bigPicture.observations.message}</p>}
+				/>
+			)}
+			{error?.ReFactor && (
+				<AlertComponent
+					variant="danger"
+					Header={`Se encontró, el siguiente error. ${error.ReFactor.observations.name}`}
+					Show={true}
+					Body={<p>{error.ReFactor.observations.message}</p>}
+				/>
+			)}
 		</div>
 	));
 	const saveAction = () => {
@@ -250,9 +267,9 @@ export default function Homologacion() {
 				Title="Homologación de tipo:"
 				startAt={record.status.includes("exists") ? 5 : 1}
 				dataLimit={1}
-				pageLimit={isUsed ? 6 : 5}
-				hideElement={isUsed ? 6 : 7}
-				data={data.slice(0, isUsed ? 6 : 5)}
+				pageLimit={isUsed ? 7 : 6}
+				hideElement={isUsed ? 6 : 8}
+				data={[...data.slice(0, isUsed ? 6 : 5), NaturalValues]}
 				SaveButton={
 					<>
 						<SaveButton registro={record.status} actionClick={() => saveAction()} />

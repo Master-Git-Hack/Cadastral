@@ -46,7 +46,8 @@ export const slice = createSlice({
 		setLoading: (state, action: PayloadAction<number>) => {
 			const id = action.payload;
 			const { reports } = state;
-			reports[id].status = "loading";
+			if (id !== -1) reports[id].status = "loading";
+			else state.status = "loading";
 		},
 		setDocument: (state, action: PayloadAction<any>) => {
 			const { status, message, document, id } = action.payload;

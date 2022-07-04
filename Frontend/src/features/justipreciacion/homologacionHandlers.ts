@@ -111,6 +111,7 @@ const handleSalesCost = (
 		handlers.SalesCost.calculateAverageUnitCostValue(results, WeightingPercentage),
 		factor,
 		SalesCost.averageUnitCost.roundedTo,
+		SalesCost.averageUnitCost.roundedResult,
 	);
 	return SalesCost;
 };
@@ -499,8 +500,9 @@ export const handleErrors = (state: any) => {
 	const { factors, documentation } = state;
 	const { Location, Zone, Surface } = factors;
 	const { data } = documentation.Area;
+	const { ReFactor, observations } = documentation;
 	const { root } = Surface;
-	const { roundedTo } = documentation.SalesCost.averageUnitCost;
+	const { roundedTo, roundedResult } = documentation.SalesCost.averageUnitCost;
 	for (let i = 0; i < data.length; i++) {
 		const { address } = data[i];
 		const list = {} as any;
@@ -579,13 +581,14 @@ export const handleErrors = (state: any) => {
 			},
 		});
 	}
+
 	if (roundedTo.enabled && roundedTo.observations.trim() === "") {
 		errors.push({
 			SalesCost: {
 				observations: {
 					name: "Factor de Superficie",
 					message:
-						"El campo fue activado para cambiar el valor predeterminado de la raiz aplicada, favor de justificar el motivo del cambio.",
+						"El campo fue activado para cambiar el valor predeterminado de redondeo, favor de justificar el motivo del cambio.",
 				},
 			},
 		});
@@ -613,6 +616,41 @@ export const handleErrors = (state: any) => {
 				};
 			if (Object.keys(list).length > 0) errors.push(list);
 		}
+	}
+	if (observations !== undefined && observations.trim() === "") {
+		errors.push({
+			bigPicture: {
+				observations: {
+					name: "Justificación de Factores",
+					message:
+						"No puede dejar el campo vacio, debe justificar la aplicación de los factores utilizados durante el ejercicio en curso.",
+				},
+			},
+		});
+	}
+	if (ReFactor.root !== 8) {
+		if (ReFactor.observation !== undefined && ReFactor.observation.trim() === "") {
+			errors.push({
+				ReFactor: {
+					observations: {
+						name: `RAÍZ DEL ${ReFactor.surface.name}`,
+						message:
+							"El campo fue activado para cambiar el valor predeterminado de la raiz aplicada, favor de justificar el motivo del cambio.",
+					},
+				},
+			});
+		}
+	}
+	if (roundedResult.enabled && roundedResult.observations.trim() === "") {
+		errors.push({
+			SalesCost: {
+				observations: {
+					name: "Valor Ajustado",
+					message:
+						"El campo fue activado para cambiar el valor predeterminado de redondeo, favor de justificar el motivo del cambio.",
+				},
+			},
+		});
 	}
 	return errors;
 };

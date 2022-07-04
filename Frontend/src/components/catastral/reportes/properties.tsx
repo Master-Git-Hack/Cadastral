@@ -41,7 +41,6 @@ export const DocumentProperties = (props: {
 		zoom,
 		moreProperties,
 	} = props;
-	console.log(props);
 	const dispatch = useAppDispatch();
 	const [showProperties, setShowProperties] = useState(false);
 	const [properties, setProperties] = useState(false);
@@ -79,17 +78,16 @@ export const DocumentProperties = (props: {
 				...props,
 				limits: { min, max },
 				collection: collection.toString().padStart(4, "0"),
-				year: year.toString().slice(2, 4),
+				year: Number(year.toString().slice(2, 4)),
 			};
-			console.log(payload);
 			dispatch(consumeReport.post({ url, responseType: "blob", payload }))
 				.unwrap()
-				.then((response) => {
-					console.log(response);
+				.then((response: any) => {
+					const file = response;
 					dispatch(
 						setDocument({
 							id,
-							document: URL.createObjectURL(response.payload),
+							document: URL.createObjectURL(file),
 							status: "success",
 						}),
 					);
@@ -122,7 +120,7 @@ export const DocumentProperties = (props: {
 						onChange={(event) =>
 							handleCommonChanges(
 								"collection",
-								!isNaN(collection)
+								!isNaN(event.currentTarget.valueAsNumber)
 									? event.currentTarget.valueAsNumber
 											.toString()
 											.slice(0, 4)
@@ -132,7 +130,6 @@ export const DocumentProperties = (props: {
 							)
 						}
 					/>
-					{console.log(width)}
 					<FloatingInput
 						index={id}
 						classNames="col"
@@ -150,7 +147,7 @@ export const DocumentProperties = (props: {
 								setLimits({
 									id,
 									key: "min",
-									value: !isNaN(limits.min)
+									value: !isNaN(event.currentTarget.valueAsNumber)
 										? event.currentTarget.valueAsNumber
 										: 0,
 								}),
@@ -175,9 +172,9 @@ export const DocumentProperties = (props: {
 								setLimits({
 									id,
 									key: "max",
-									value: !isNaN(limits.max)
+									value: !isNaN(event.currentTarget.valueAsNumber)
 										? event.currentTarget.valueAsNumber
-										: 0,
+										: limits.min,
 								}),
 							)
 						}
@@ -201,7 +198,7 @@ export const DocumentProperties = (props: {
 						onChange={(event) =>
 							handleCommonChanges(
 								"year",
-								!isNaN(year)
+								!isNaN(event.currentTarget.valueAsNumber)
 									? event.currentTarget.valueAsNumber.toString().slice(0, 4)
 									: moment().year(),
 							)
@@ -243,7 +240,9 @@ export const DocumentProperties = (props: {
 					/>
 				</div>
 				<div className="col form-check form-switch text-start mb-3">
-					<label className="form-check-label ">Usar Propiedes Recomendadas</label>
+					<label className="form-check-label ">
+						Usar Propiedes Recomendadas (Impresión con Membrete)
+					</label>
 					<input
 						className="form-check-input"
 						type="checkbox"

@@ -73,7 +73,7 @@ class PDF:
             self.cmd.append("--zoom")
             self.cmd.append(str(zoom))
             self.cmd.append("--enable-javascript")
-            self.cmd.append(" --resolve-relative-links")
+            # self.cmd.append(" --resolve-relative-links")deprecated
             self.cmd.append("--quiet")
 
         elif files is not None:
@@ -84,6 +84,7 @@ class PDF:
         Read the templates and render them to pdf, using wkhtmltopdf
         """
         files = []
+
         for file in self.templates:
             input_file = f"{file}.html"
             output_file = f"{file}.pdf"
@@ -95,12 +96,13 @@ class PDF:
                 )
                 _, error = process.communicate()
                 exit_code = process.wait()
-                if exit_code == 0:
+                print(exit_code)
+                if exit_code:
                     self.cmd = self.cmd[:-2]
                     remove(input_file)
                     files.append(file)
                 else:
-                    print(error)
+                    print(f"Rendering Method failed: {error}")
         self.files = files
 
     def watermark_it(self):
@@ -154,3 +156,10 @@ class PDF:
             return output_file
         else:
             return None
+
+    def remove_old_files(self) -> None:
+        """
+        Remove the old files.
+        """
+        # strftime('%Y-%m-%d %H:%M:%S',localtime(getmtime("./start.sh")))
+        return None

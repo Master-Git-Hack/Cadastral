@@ -12,13 +12,13 @@ export interface Storage extends StorageProps {
 	status: "success" | "loading" | "working" | "fail";
 	filename: string;
 	reports: Array<State>;
-	document: any;
+	documents: any;
 	message: string;
 }
 export const initialState = {
 	status: "working",
 	filename: "",
 	reports: [isReports],
-	document: [],
+	documents: [],
 	message: "",
 };

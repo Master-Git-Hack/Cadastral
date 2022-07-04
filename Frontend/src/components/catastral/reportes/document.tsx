@@ -12,7 +12,7 @@ import { SaveButton } from "../../inputs/saveButton";
 import { DocumentProperties } from "./properties";
 export const ContainerDocument = () => {
 	const dispatch = useAppDispatch();
-	const { reports } = useAppSelector(getAvaluos);
+	const { reports, status, message, filename, documents } = useAppSelector(getAvaluos);
 	const [animate, setAnimate] = useState(false);
 
 	const [pages] = useState(reports.length / 5);

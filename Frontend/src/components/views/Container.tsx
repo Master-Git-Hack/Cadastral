@@ -1,5 +1,6 @@
 /** @format */
-import { ReactElement, useEffect, useState } from "react";
+import { forwardRef, ReactElement, useEffect, useState } from "react";
+
 /** 
  * @description Container component
  * @param {ReactElement | string} Title - Title of the container
@@ -24,6 +25,16 @@ import { ReactElement, useEffect, useState } from "react";
 				height=-{1024};
 			/>
 */
+const CustomResizeHandle = forwardRef((props: any, ref) => {
+	const { handleAxis, ...restProps } = props;
+	return (
+		<div
+			className={`custom-handle custom-handle-${handleAxis} custom-resize-handle-component`}
+			ref={ref}
+			{...restProps}
+		></div>
+	);
+});
 export const Container = (props: {
 	Title: string;
 	titleStrong: string;
@@ -95,16 +106,18 @@ export const Container = (props: {
 	useEffect(() => {
 		window.resizeTo(width, height);
 	}, []);
+
 	useEffect(() => {
 		setCurrentPage(startAt);
 	}, [startAt]);
+
 	return (
 		<div className="d-flex flex-column justify-content-center m-1 align-self-center flex-fill shadow-lg p-3 my-4 bg-body rounded h-auto vw-75 ">
 			<div className={fixedTop ? "fixed-top mt-3 px-5" : ""}>
 				<div className="clearfix">
 					<div
 						className={`${
-							currentPage >= pages - 1
+							currentPage >= pages - 2
 								? "float-start"
 								: "d-flex justify-content-center"
 						}`}
@@ -114,10 +127,9 @@ export const Container = (props: {
 							<strong>{` ${titleStrong}`}</strong>
 						</h1>
 					</div>
-					{currentPage >= pages - 1 && <div className="float-end">{SaveButton}</div>}
+					{currentPage >= pages - 2 && <div className="float-end">{SaveButton}</div>}
 				</div>
 			</div>
-
 			<div className={`mx-5 px-5 animate__animated ${animate ? "animate__fadeIn" : null}`}>
 				{getPaginatedData().map(
 					(Element: any, index: number) =>

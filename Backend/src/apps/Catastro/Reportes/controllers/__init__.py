@@ -35,63 +35,59 @@ def merge(files: list) -> str:
     return merge_pdf(files)
 
 
-coordinates = list(["x_utm", "y_utm"])
-servicios = list(
-    [
-        "agua",
-        "drenaje",
-        "energia_electrica",
-        "telefonia",
-        "tipo_pavimento",
-        "alumbrado_publico",
-        "banqueta",
-    ]
-)
-moneda = list(
-    [
-        "incr_esq_vu",
-        "incr_esq_valor_parcial",
-        "valor_total_terreno",
-        "valor_total_construccion",
-        "vt_catastral",
-        "sp1_vu",
-        "sp2_vu",
-        "sp3_vu",
-        "sp4_vu",
-        "sp1_valor_parcial",
-        "sp2_valor_parcial",
-        "sp3_valor_parcial",
-        "sp4_valor_parcial",
-        "cna_vu",
-        "cna_valor_parcial",
-        "cnb_vu",
-        "cnb_valor_parcial",
-        "cnc_vu",
-        "cnc_valor_parcial",
-        "cnd_vu",
-        "cnd_valor_parcial",
-    ]
-)
-decimales2 = list(
-    [
-        "incr_esq_superficie",
-        "sup_total_construccion",
-        "cna_superficie",
-        "cnb_superficie",
-        "cnc_superficie",
-        "cnd_superficie",
-    ]
-)
-decimales3 = list(
-    [
-        "sup_total_terreno",
-        "sp1_superficie",
-        "sp2_superficie",
-        "sp3_superficie",
-        "sp4_superficie",
-    ]
-)
-tipo = list(["cna_tipo", "cnb_tipo", "cnc_tipo", "cnd_tipo"])
+coordinates = ["x_utm", "y_utm"]
+servicios = [
+    "agua",
+    "drenaje",
+    "energia_electrica",
+    "telefonia",
+    "tipo_pavimento",
+    "alumbrado_publico",
+    "banqueta",
+]
+
+moneda = [
+    "incr_esq_vu",
+    "incr_esq_valor_parcial",
+    "valor_total_terreno",
+    "valor_total_construccion",
+    "vt_catastral",
+    "sp1_vu",
+    "sp2_vu",
+    "sp3_vu",
+    "sp4_vu",
+    "sp1_valor_parcial",
+    "sp2_valor_parcial",
+    "sp3_valor_parcial",
+    "sp4_valor_parcial",
+    "cna_vu",
+    "cna_valor_parcial",
+    "cnb_vu",
+    "cnb_valor_parcial",
+    "cnc_vu",
+    "cnc_valor_parcial",
+    "cnd_vu",
+    "cnd_valor_parcial",
+]
+
+decimales2 = [
+    "incr_esq_superficie",
+    "sup_total_construccion",
+    "cna_superficie",
+    "cnb_superficie",
+    "cnc_superficie",
+    "cnd_superficie",
+]
+
+decimales3 = [
+    "sup_total_terreno",
+    "sp1_superficie",
+    "sp2_superficie",
+    "sp3_superficie",
+    "sp4_superficie",
+]
+
+tipo = ["cna_tipo", "cnb_tipo", "cnc_tipo", "cnd_tipo"]
 
 
 def check(collection: list, begin: int, end: int, year: int) -> list:
@@ -159,25 +155,25 @@ def concat(item_a: str, item_b: str, item_c: str, item_d: str) -> str:
         str: the concatenated string
     """
     text = ""
-    lista = list(
+    lista = [
         "A.",
         ", B.",
         ", C.",
         ", D.",
-    )
+    ]
 
     if item_a != "":
         text += f"{lista[0]}{item_a}"
-        list.pop(0)
+        lista.pop(0)
     if item_b != "":
         text += f"{lista[0]}{item_b}"
-        list.pop(0)
+        lista.pop(0)
     if item_c != "":
         text += f"{lista[0]}{item_c}"
-        list.pop(0)
+        lista.pop(0)
     if item_d != "":
         text += f"{lista[0]}{item_d}"
-        list.pop(0)
+        lista.pop(0)
     return f"{text}."
 
 
@@ -202,7 +198,11 @@ def format_response(data: dict) -> dict:
     """
     nombre_utf = data.nombre_utf or ""
     secretaria = data.secretaria or ""
-    data = many_Catastral_Schema.dump(data.Catastral)
+
+    try:
+        data = many_Catastral_Schema.dump(data.Catastral)
+    except Exception as e:
+        data = catastral_schema.dump(data.Catastral)
 
     for key, value in data.items():
         if isinstance(value, str):

@@ -28,12 +28,19 @@ const calculateAverageUnitCostValue = (data: any, percentages: any) =>
 		0,
 	);
 
-const handleAverageUnitCostValue = (value: number, factor: number = 1, roundedTo: any) => {
+const handleAverageUnitCostValue = (
+	value: number,
+	factor: number = 1,
+	roundedTo: any,
+	roundedResult: any,
+) => {
 	const roundedValue =
 		roundedTo.value !== 0 ? roundToTenth(value, roundedTo.value) : Number(value.toFixed(2));
 	const result = roundedValue * factor;
 	const adjustedValue =
-		roundedTo.value !== 0 ? roundToTenth(result, roundedTo.value) : Number(result.toFixed(2));
+		roundedTo.value !== 0
+			? roundToTenth(result, roundedResult.value)
+			: Number(result.toFixed(2));
 
 	return {
 		value,
@@ -41,6 +48,7 @@ const handleAverageUnitCostValue = (value: number, factor: number = 1, roundedTo
 		result,
 		adjustedValue,
 		roundedTo,
+		roundedResult,
 	};
 };
 
@@ -54,6 +62,11 @@ const initialState = (type: string): salesCostStorage => ({
 		result: 1,
 		adjustedValue: 1,
 		roundedTo: {
+			value: 1,
+			enabled: false,
+			observations: "",
+		},
+		roundedResult: {
 			value: 1,
 			enabled: false,
 			observations: "",
