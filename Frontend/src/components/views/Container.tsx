@@ -25,16 +25,7 @@ import { forwardRef, ReactElement, useEffect, useState } from "react";
 				height=-{1024};
 			/>
 */
-const CustomResizeHandle = forwardRef((props: any, ref) => {
-	const { handleAxis, ...restProps } = props;
-	return (
-		<div
-			className={`custom-handle custom-handle-${handleAxis} custom-resize-handle-component`}
-			ref={ref}
-			{...restProps}
-		></div>
-	);
-});
+
 export const Container = (props: {
 	Title: string;
 	titleStrong: string;
@@ -104,8 +95,11 @@ export const Container = (props: {
 	}, [animate]);
 
 	useEffect(() => {
-		window.resizeTo(width, height);
+		window.resizeTo(window.innerWidth, window.innerHeight);
 	}, []);
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [animate]);
 
 	useEffect(() => {
 		setCurrentPage(startAt);

@@ -25,8 +25,51 @@ export const searchByType = (options: any, type: string) =>
 export const searchByValue = (options: any, value: number) =>
 	options.find((option: any) => option.value === value);
 
+export const fixedNumber=(value:number, decimals:number=2) =>Number(value.toFixed(decimals));
 /**
- * It formats a number to a fancy string
+ * It takes a number with optional properties and returns a number with the same properties.
+ * @param {number} value - The value of the number.
+ * @optional {object}  - The properties of the decoration {
+ * @optionsProperties {string} style - "decimal" | "currency" | "percent";
+ * @optionsProperties {boolean} isCurrency - specifies if the number is currency.;
+ * @optionsProperties {boolean} isPercentage - specifies if the number is a percentage.;
+ * @optionsProperties {number}decimals - number of decimals to show}
+**/ 
+export const asFancyNumber: Function = (
+	value: number = 0,
+	options?: {
+		style: "decimal" | "currency" | "percent";
+		isCurrency: boolean;
+		isPercentage: boolean;
+		decimals: number;
+		//unit: "kilometer-per-hour" | "meter" | "kilometer" | "centimeter" | "liter" | "literal" | "hour" | "minute" | "second";
+	},
+): string => {
+	const isCurrency = options?.isCurrency ?? false;
+	const isPercentage = options?.isPercentage ?? false;
+	const style = isCurrency
+		? "currency"
+		: isPercentage
+		? "percent"
+		: options?.style === undefined
+		? "decimal"
+		: options.style;
+	const decimals =
+		options?.decimals ?? (!isPercentage || !String(style).includes("percent")) ? 2 : 0;
+	const currency = isCurrency || String(style).includes("currency") ? "MXN" : undefined;
+	const unit = (isPercentage && !isCurrency) || String(style).includes("percent") ? 100 : 1;
+	const properties = new Intl.NumberFormat("es-MX", {
+		style,
+		minimumFractionDigits: decimals,
+		currency,
+	});
+	const current = value.toFixed(decimals)
+	return options !== undefined
+		? properties.format(Number(current) / unit)
+		: current;
+};
+/**
+ * It formats a number to a fancy string as currency or percentage or just with decimal representation
  * @param {number} value - number: The number to format.
  * @param {boolean} [isCurrency=false] - boolean = false
  * @param {boolean} [isPercentage=false] - If true, the value will be divided by 100 before formatting.
@@ -37,21 +80,43 @@ export const toFancyNumber: Function = (
 	isCurrency: boolean = false,
 	isPercentage: boolean = false,
 	decimals: number = 2,
+	customStyle?: string,
 ): string =>
 	new Intl.NumberFormat("es-MX", {
-		style: isCurrency ? "currency" : isPercentage ? "percent" : "decimal",
+		style:
+			customStyle !== undefined
+				? customStyle
+				: isCurrency
+				? "currency"
+				: isPercentage
+				? "percent"
+				: "decimal",
 		minimumFractionDigits: decimals,
 		currency: isCurrency ? "MXN" : undefined,
-	}).format(isPercentage && !isCurrency ? value / 100 : value);
+	}).format(Number(value.toFixed(decimals)) / (isPercentage && !isCurrency ? 100 : 1));
 
 /**
- * It rounds a number to the nearest tenth
- * @param {number} value - The number to be rounded.
- * @param {number} [decimals=1] - The number of decimals to round to.
- * @returns A function that takes two parameters, value and decimals, and returns a number.
+ * Using 10 power to the rounded value given as parameter to get the first decimal place and round it to the nearest value,
+ * check if the digit is greater than 5, if true, applies a ceiling otherwise floor,
+ * in case decimals not found retrieves value with the default round function.
+ * In case the rounded value given as parameter equals -1,
+ * retrieves the value as a number with 2 decimals using fixed-point notation (toFixed).
+ * @param {number} [decimals=-1] - The number of decimals to round to.
+ * @returns Function takes two parameters, value and decimals, and returns a number.
  */
+export const roundNumber = (value: number, round: number = -1): number => {
+	if (round > -1) {
+		const roundType = 10 ** round;
+		const reducedValue = value / roundType;
+		const decimals = reducedValue.toString().split(".");
+		const action =
+			decimals.length === 1 ? "round" : Number(decimals[1][0]) < 5 ? "floor" : "ceil";
+		return Math[action](reducedValue) * roundType;
+	} else return Number(value.toFixed(2));
+};
 export const roundToTenth = (value: number, decimals: number = 1): number => {
 	/**
+	 * deprecated *
 	 * It rounds a number to the nearest tenth
 	 * @param {number} value - The number to be rounded.
 	 * @param {number} [decimals=1] - The number of decimals to round to.
@@ -60,7 +125,7 @@ export const roundToTenth = (value: number, decimals: number = 1): number => {
 	const aux = (value / 10).toString().split(".");
 	if (aux.length === 1) return Math.round(value);
 	else
-		return Number(aux[1][0]) <= 5
+		return Number(aux[1][0]) < 5
 			? Math.floor(value / Math.pow(10, decimals)) * Math.pow(10, decimals)
 			: Math.ceil(value / Math.pow(10, decimals)) * Math.pow(10, decimals);
 };

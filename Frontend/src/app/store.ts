@@ -5,6 +5,7 @@ import homologacionReducer from "../features/justipreciacion/homologacionSlice";
 import obrasComplementariasReducer from "../features/justipreciacion/obrasComplementariasSlice";
 import avaluosCatastralesReducer from "../features/catastral/avaluosSlice";
 import justipreciacionReducer from "../features/justipreciacion/justipreciacionSlice";
+import costosConstruccionReducer from "../features/justipreciacion/costosConstruccionSlice";
 
 /* Creating a store with the reducers and middleware. */
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
 		obrasComplementarias: obrasComplementariasReducer,
 		justipreciacion: justipreciacionReducer,
 		avaluosCatastrales: avaluosCatastralesReducer,
+		costosConstruccion: costosConstruccionReducer,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });

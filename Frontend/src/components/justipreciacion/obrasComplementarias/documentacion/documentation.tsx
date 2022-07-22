@@ -159,11 +159,12 @@ export const DocumentationView = (props: any) => {
 											>
 												Agregar Producto
 											</button>
-											<input
+											{/*<input
 												style={{ width: 300 }}
 												type="file"
-												className="form-control form-control-sm "
-											/>
+												className="form-control form-control-sm"
+												
+											/> */}
 										</div>
 									</td>
 									<td>

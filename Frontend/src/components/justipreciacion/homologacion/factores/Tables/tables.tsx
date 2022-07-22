@@ -1,7 +1,7 @@
 /** @format */
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks/store";
-import { searchByType, toFancyNumber } from "../../../../../utils/utils";
+import { searchByType, asFancyNumber } from "../../../../../utils/utils";
 import { Selector } from "../../../../inputs/selector";
 import { FancyInput } from "../../../../inputs/fancyInput";
 import { Header, Table, Body, Footer } from "../../../../table/Table";
@@ -17,6 +17,8 @@ import {
 	getJustipreciacion,
 	setInitialState,
 } from "../../../../../features/justipreciacion/justipreciacionSlice";
+import { TableComponent } from "../../../../table/TableComponent";
+import { PillComponent } from "../../../../pill/pill";
 const Title = (props: { title: string; colSpan?: number }) => (
 	<tr>
 		<th colSpan={props.colSpan ? props.colSpan : 6}>FACTOR POR {props.title.toUpperCase()}</th>
@@ -62,48 +64,46 @@ export const AgeTable = () => {
 		}
 	}, [subject.value]);
 	return !type.includes("TERRENO") ? (
-		<Table>
-			<Header>
-				<Title title={name} />
-			</Header>
-			<Body>
-				<tr>
-					<td>#</td>
-					<td colSpan={4} className="bg-warning">
-						<strong>{name.toUpperCase()} </strong>
-					</td>
-					<td colSpan={1} rowSpan={1}>
-						Factores
-					</td>
-				</tr>
-				{data.map((item: any, index: number) => (
-					<tr key={`table for ages, values section ${index}`}>
-						<td>C{item.id}</td>
-						<td colSpan={4}>
-							<FancyInput
-								index={index}
-								name="Ages"
-								value={item.value}
-								onChange={(event) =>
-									handleChange(
-										"Age",
-										"data",
-										"value",
-										Number(event.target.value),
-										dispatch,
-										updateFactorStateAge,
-										false,
-										index,
-									)
-								}
-								style={`text-center`}
-							/>
-						</td>
-						<td>{toFancyNumber(item.result)}</td>
+		<TableComponent
+			name={"Age Table"}
+			header={[]}
+			customHeader={<Title title={name} />}
+			body={[]}
+			customBody={
+				<>
+					<tr>
+						 
 					</tr>
-				))}
-			</Body>
-			<Footer>
+					{data.map((item: any, index: number) => (
+						<tr key={`table for ages, values section ${index}`}>
+							<td>C{item.id}</td>
+							<td colSpan={4}>
+								<FancyInput
+									index={index}
+									name="Ages"
+									value={item.value}
+									onChange={(event) =>
+										handleChange(
+											"Age",
+											"data",
+											"value",
+											Number(event.target.value),
+											dispatch,
+											updateFactorStateAge,
+											false,
+											index,
+										)
+									}
+									style={`text-center`}
+								/>
+							</td>
+							<td>{asFancyNumber(item.result)}</td>
+						</tr>
+					))}
+				</>
+			}
+			hasFooter={true}
+			customFooter={
 				<tr>
 					<td>SUJETO</td>
 					<td colSpan={5}>
@@ -126,8 +126,8 @@ export const AgeTable = () => {
 						/>
 					</td>
 				</tr>
-			</Footer>
-		</Table>
+			}
+		/>
 	) : null;
 };
 export const CommonTable = (props: { id: number; name: string }) => {
@@ -137,106 +137,116 @@ export const CommonTable = (props: { id: number; name: string }) => {
 	const handler = handlers[props.name];
 	const { subject, data, name } = factor;
 	return (
-		<Table>
-			<Header>
-				<Title title={name} />
-			</Header>
-			<Body>
-				<tr>
-					<td colSpan={1} rowSpan={1}>
-						#
-					</td>
-					<td colSpan={1} rowSpan={1} className="bg-warning">
-						<strong>{name.toUpperCase()}</strong>
-					</td>
-					<td colSpan={1} rowSpan={1}>
-						Calificación
-					</td>
-					<td colSpan={1} rowSpan={2}>
-						Factores
-					</td>
-				</tr>
-				<tr>
-					<td colSpan={1} rowSpan={1}>
-						SUJETO
-					</td>
-					<td colSpan={1} rowSpan={1}>
-						<Selector
-							id={props.id}
-							name="subject"
-							subject={subject}
-							selector={handler.options}
-							onChange={(event) => {
-								const value = searchByType(handler.options, event.target.value);
-								handleChange(
-									props.name,
-									"subject",
-									"value",
-									value,
-									dispatch,
-									updateFactorStateCommon,
-									true,
-								);
-							}}
-							style={`bg-warning`}
-						/>
-					</td>
-					<td
-						id={`${props.name}-${props.id}-bodyElementsToUse-subjectValue`}
-						colSpan={1}
-						rowSpan={1}
-					>
-						{toFancyNumber(subject.value)}
-					</td>
-				</tr>
-				{data.map((item: any, index: number) => (
-					<tr
-						id={`table-${name}-${props.name}-${props.id}-body-row-${index}`}
-						key={`table-${name}-${props.name}-${props.id}-bodyElementsToRender-${index}`}
-					>
+		<TableComponent
+			name={name}
+			header={[]}
+			customHeader={<Title title={name} />}
+			body={[]}
+			customBody={
+				<>
+					<tr>
 						<td colSpan={1} rowSpan={1}>
-							C{item.id}
+							#
+						</td>
+						<td
+							colSpan={1}
+							rowSpan={1}
+							className="bg-warning bg-gradient bg-opacity-75"
+						>
+							<strong>{name.toUpperCase()}</strong>
+						</td>
+						<td colSpan={1} rowSpan={1}>
+							Calificación
+						</td>
+						<td colSpan={1} rowSpan={2}>
+							Factores
+						</td>
+					</tr>
+					<tr>
+						<td colSpan={1} rowSpan={1}>
+							SUJETO
 						</td>
 						<td colSpan={1} rowSpan={1}>
 							<Selector
-								id={props.id + index}
-								name={props.name}
-								subject={item}
+								id={props.id}
+								name="subject"
+								subject={subject}
 								selector={handler.options}
 								onChange={(event) => {
 									const value = searchByType(handler.options, event.target.value);
 									handleChange(
 										props.name,
-										"data",
+										"subject",
 										"value",
 										value,
 										dispatch,
 										updateFactorStateCommon,
-										false,
-										index,
+										true,
 									);
 								}}
-								style={`bg-light`}
+								style={`bg-warning bg-opacity-75 text-center`}
 							/>
 						</td>
 						<td
-							id={`${props.name}-${props.id}-body-row-${index}-value`}
+							id={`${props.name}-${props.id}-bodyElementsToUse-subjectValue`}
 							colSpan={1}
 							rowSpan={1}
 						>
-							{toFancyNumber(item.value ? item.value : 0, false, false, 2)}
-						</td>
-						<td
-							id={`${props.name}-${props.id}-body-row-${index}-divisor`}
-							colSpan={1}
-							rowSpan={1}
-						>
-							{toFancyNumber(Number(item.result.toFixed(2)), false, false, 2)}
+							{asFancyNumber(subject.value)}
 						</td>
 					</tr>
-				))}
-			</Body>
-		</Table>
+					{data.map((item: any, index: number) => (
+						<tr
+							id={`table-${name}-${props.name}-${props.id}-body-row-${index}`}
+							key={`table-${name}-${props.name}-${props.id}-bodyElementsToRender-${index}`}
+						>
+							<td colSpan={1} rowSpan={1}>
+								C{item.id}
+							</td>
+							<td colSpan={1} rowSpan={1}>
+								<Selector
+									id={props.id + index}
+									name={props.name}
+									subject={item}
+									selector={handler.options}
+									onChange={(event) => {
+										const value = searchByType(
+											handler.options,
+											event.target.value,
+										);
+										handleChange(
+											props.name,
+											"data",
+											"value",
+											value,
+											dispatch,
+											updateFactorStateCommon,
+											false,
+											index,
+										);
+									}}
+									style={`bg-light`}
+								/>
+							</td>
+							<td
+								id={`${props.name}-${props.id}-body-row-${index}-value`}
+								colSpan={1}
+								rowSpan={1}
+							>
+								{asFancyNumber(!isNaN(item.value) ? item.value : 0)}
+							</td>
+							<td
+								id={`${props.name}-${props.id}-body-row-${index}-divisor`}
+								colSpan={1}
+								rowSpan={1}
+							>
+								{asFancyNumber(item.result)}
+							</td>
+						</tr>
+					))}
+				</>
+			}
+		/>
 	);
 };
 const SymbolsActions = (props: {
@@ -299,20 +309,19 @@ const SymbolsComponent = (props: { id: number; name: string }) => {
 					<th>
 						<div className="d-flex flex-row justify-content-between">
 							PORCENTAJE
-							<small
-								className={`badge rounded-pill bg-${
+							<PillComponent
+								style={
 									percentage === 100
 										? "success"
 										: percentage > 100
 										? "danger"
-										: "warning"
-								}`}
-							>
-								{toFancyNumber(percentage, false, true)}
-							</small>
+										: "warning bg-gradient bg-opacity-75 text-dark"
+								}
+								value={asFancyNumber(percentage, { isPercentage: true })}
+							/>
 						</div>
 					</th>
-					<th className="bg-warning">{name.toUpperCase()}</th>
+					<th className="bg-warning bg-gradient bg-opacity-75">{name.toUpperCase()}</th>
 					<SymbolsHeader name={props.name} columns={columns} />
 				</tr>
 			</Header>
@@ -417,7 +426,7 @@ const SymbolsFooter = (props: { results: any; name: string }) => (
 	<tr>
 		<td colSpan={2}></td>
 		{props.results.map((item: any, index: number) => (
-			<td key={`footer-${props.name}-${item.id}-${index}`}>{toFancyNumber(item.value)}</td>
+			<td key={`footer-${props.name}-${item.id}-${index}`}>{asFancyNumber(item.value)}</td>
 		))}
 	</tr>
 );
@@ -444,7 +453,7 @@ const ZoneExtra = () => {
 						<td>C{item.id}</td>
 						{headers.map((key: string, id: number) => (
 							<td key={`column generator ${index} ${id}`}>
-								{toFancyNumber(Number(results[index][key].toFixed(2)))}
+								{asFancyNumber(results[index][key])}
 							</td>
 						))}
 					</tr>

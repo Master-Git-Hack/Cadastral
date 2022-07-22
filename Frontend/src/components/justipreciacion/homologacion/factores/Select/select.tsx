@@ -47,8 +47,9 @@ export const SelectFactorsComponent = () => {
 				operación.
 			</h2>
 			<ul className="list-group">
-				{!type.includes("TERRENO") ? (
+				{!type.includes("TERRENO") && (
 					<Li
+						style={`bg-success bg-opacity-25 text-dark`}
 						tag="default age"
 						status={true}
 						default={true}
@@ -57,8 +58,9 @@ export const SelectFactorsComponent = () => {
 						onClickAdd={() => {}}
 						onClickDelete={() => {}}
 					/>
-				) : null}
+				)}
 				<Li
+					style={`bg-success bg-opacity-25 text-dark`}
 					tag="default surface"
 					status={true}
 					default={true}
@@ -69,6 +71,7 @@ export const SelectFactorsComponent = () => {
 				/>
 				{ListOfFactors().map((key: string, index: number) => (
 					<Li
+						style={factors[key].isUsed ? `bg-success bg-opacity-25 text-dark` : ""}
 						key={`${key} - ${index}`}
 						tag={`KEY:${key}`}
 						status={factors[key].isUsed}
@@ -109,6 +112,7 @@ export const SelectFactorsComponent = () => {
 					/>
 				))}
 				<Li
+					style={`bg-success bg-opacity-25 text-dark`}
 					tag="default commercial"
 					status={true}
 					default={true}
@@ -125,6 +129,7 @@ export const SelectFactorsComponent = () => {
 	);
 };
 const Li = (props: {
+	style?: string;
 	tag: any;
 	status: boolean;
 	default: boolean;
@@ -134,9 +139,9 @@ const Li = (props: {
 	onClickDelete: any;
 }) => (
 	<li
-		className={`list-group-item d-flex justify-content-between align-items-center ${
+		className={`list-group-item d-flex justify-content-between align-items-center  ${
 			props.default ? "disabled" : ""
-		}`}
+		} ${props.style}`}
 		key={props.tag}
 	>
 		<div className="ms-2 me-auto">

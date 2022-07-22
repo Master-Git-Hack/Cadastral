@@ -14,11 +14,12 @@ import {
 	renta,
 	setInitialState,
 } from "../../../../../features/justipreciacion/justipreciacionSlice";
-import { toFancyNumber } from "../../../../../utils/utils";
+import { asFancyNumber } from "../../../../../utils/utils";
 import { FancyInput } from "../../../../inputs/fancyInput";
 import { Body, Footer, Header, Table } from "../../../../table/Table";
 import { useEffect, useState } from "react";
-import { ModalComponent } from "../../../../views/Modal";
+import { RoundSelection } from "../../../../roundSelection/RoundSelection";
+import { JustifyChange } from "../../../../views/JustifyChange";
 export default function ReFactor() {
 	return (
 		<div className="d-flex flex-row justify-content-center my-1 mx-1 align-self-center flex-fill">
@@ -84,7 +85,7 @@ export const ReFactorComponent = () => {
 							? "SUPERFICIE LOTE MODA"
 							: "SUPERFICIE DEL COMPARABLE"}
 					</td>
-					<td>{toFancyNumber(value)}</td>
+					<td>{asFancyNumber(value)}</td>
 				</tr>
 				{!type.includes("TERRENO") && (
 					<tr>
@@ -111,94 +112,70 @@ export const ReFactorComponent = () => {
 					<td>
 						<div className="d-flex">
 							<div className="me-auto my-auto">{ReFactor.surface.name}</div>
-							<ModalComponent
-								Header={`CAMBIAR RAÍZ DEL ${ReFactor.surface.name}`}
-								Body={
-									<div className="row mx-auto">
-										<div className="d-flex">
-											<span className="mb-4 me-auto">
-												Valor actual: Raíz {ReFactor.root} (
-												<small>
-													<strong>
-														<sup>{ReFactor.root}</sup>&radic;{" "}
-														<span
-															style={{ textDecoration: "overline" }}
-														>
-															x
-														</span>{" "}
-													</strong>
-												</small>
-												)
-											</span>
-											<div className="form-check form-switch form-check-sm form-switch-sm">
-												Habilitar edición
-												<input
-													className="form-check-input form-check-input-sm "
-													type="checkbox"
-													checked={enabled}
-													onChange={(event: any) => {
-														const value = event.currentTarget.checked;
-														setEnabled(value);
-														!value &&
-															dispatch(
-																setRootReFactor({
-																	key: "root",
-																	value: 8,
-																}),
-															) &&
-															dispatch(
-																setRootReFactor({
-																	key: "observation",
-																	value: "",
-																}),
-															);
-													}}
-												/>
-											</div>
-										</div>
-										{enabled && (
-											<>
-												<input
-													type="number"
-													value={ReFactor.root}
-													className="form-control form-control-sm"
-													onChange={(event) =>
-														dispatch(
-															setRootReFactor({
-																key: "root",
-																value: event.currentTarget
-																	.valueAsNumber,
-															}),
-														)
-													}
-												/>
-												<span className="mt-3">
-													Ingrese el motivo por el cual va a cambiar el
-													valor asignado:
-												</span>
-												<textarea
-													rows={2}
-													className="form-control mt-1"
-													value={ReFactor.observation}
-													onChange={(event) =>
-														dispatch(
-															setRootReFactor({
-																key: "observation",
-																value: event.currentTarget.value,
-															}),
-														)
-													}
-												/>
-											</>
-										)}
-									</div>
-								}
-								actionToDo="Cambiar Raíz"
+							<JustifyChange
 								btnType="link"
+								actionToDo="Cambiar Raíz"
+								name={ReFactor.surface.name}
+								enabled={enabled}
+								setEnabled={(event: any) => {
+									const value = event.currentTarget.checked;
+									setEnabled(value);
+									!value &&
+										dispatch(
+											setRootReFactor({
+												key: "root",
+												value: 8,
+											}),
+										) &&
+										dispatch(
+											setRootReFactor({
+												key: "observation",
+												value: "",
+											}),
+										);
+								}}
+								comment={ReFactor.observation}
+								setComment={(event: any) =>
+									dispatch(
+										setRootReFactor({
+											key: "observation",
+											value: event.currentTarget.value,
+										}),
+									)
+								}
+								ComponentToJustify={
+									<>
+										Valor actual: Raíz {ReFactor.root} (
+										<small>
+											<strong>
+												<sup>{ReFactor.root}</sup>&radic;{" "}
+												<span style={{ textDecoration: "overline" }}>
+													x
+												</span>{" "}
+											</strong>
+										</small>
+										)
+										<input
+											type="number"
+											value={ReFactor.root}
+											className="form-control form-control-sm"
+											onChange={(event) =>
+												enabled &&
+												dispatch(
+													setRootReFactor({
+														key: "root",
+														value: event.currentTarget.valueAsNumber,
+													}),
+												)
+											}
+											disabled={!enabled}
+										/>
+									</>
+								}
 							/>
 						</div>
 					</td>
-					<td>{toFancyNumber(Number(ReFactor.surface.value.toFixed(2)))}</td>
+					<td>{asFancyNumber(ReFactor.surface.value)}</td>
 				</tr>
 				{type.includes("TERRENO") && (
 					<>
@@ -214,7 +191,7 @@ export const ReFactorComponent = () => {
 											updateReFactor({
 												key: "form",
 												object: "value",
-												value: Number(event.target.value),
+												value: event.currentTarget.valueAsNumber,
 											}),
 										)
 									}
@@ -223,7 +200,7 @@ export const ReFactorComponent = () => {
 						</tr>
 						<tr>
 							<td>{ReFactor.result.name}</td>
-							<td>{toFancyNumber(Number(ReFactor.result.value.toFixed(2)))}</td>
+							<td>{asFancyNumber(ReFactor.result.value)}</td>
 						</tr>
 					</>
 				)}
@@ -233,10 +210,7 @@ export const ReFactorComponent = () => {
 					<tr>
 						<td>Valor Unitario Aplicable en Números Redondos AL TERRENO</td>
 						<td>
-							{toFancyNumber(
-								Number(SalesCost.averageUnitCost.result.toFixed(2)),
-								true,
-							)}
+							{asFancyNumber(SalesCost.averageUnitCost.result, { isCurrency: true })}
 						</td>
 					</tr>
 				</Footer>
@@ -253,101 +227,44 @@ export const AdjustedValueComponent = () => {
 	useEffect(() => {
 		dispatch(record.type.includes("TERRENO") ? terreno(adjustedValue) : renta(adjustedValue));
 	}, [adjustedValue]);
+	const setValue = (key: string, value: number | string) =>
+		dispatch(
+			setRoundedResult({
+				key,
+				value,
+			}),
+		);
+
 	return (
 		<Table>
 			<Header>
 				<tr>
 					<th>VALOR AJUSTADO</th>
-					<th>{toFancyNumber(Number(adjustedValue.toFixed(0)), true)}</th>
+					<th>{asFancyNumber(adjustedValue, { isCurrency: true })}</th>
 				</tr>
 			</Header>
 			<Body>
 				<tr>
 					<td colSpan={2}>
-						<ModalComponent
-							Header={`CAMBIAR RAÍZ DEL VALOR AJUSTADO`}
-							Body={
-								<div className="row mx-auto">
-									<div className="d-flex">
-										<span className="mb-4 me-auto">
-											Valor actual:{" "}
-											<strong>
-												{value === 0
-													? "Sin Redondeo"
-													: value === 1
-													? "Redondeo a la decena"
-													: "Redondeo a la centena"}
-											</strong>
-										</span>
-										<div className="form-check form-switch form-check-sm form-switch-sm">
-											Habilitar edición
-											<input
-												className="form-check-input form-check-input-sm "
-												type="checkbox"
-												checked={enabled}
-												onChange={(event: any) => {
-													const value = event.currentTarget.checked;
-													dispatch(
-														setRoundedResult({ key: "enabled", value }),
-													);
-													!value &&
-														dispatch(
-															setRoundedResult({
-																key: "value",
-																value: 1,
-															}),
-														) &&
-														dispatch(
-															setRoundedResult({
-																key: "observations",
-																value: "",
-															}),
-														);
-												}}
-											/>
-										</div>
-									</div>
-									{enabled && (
-										<>
-											<select
-												value={value}
-												className="form-select form-select-sm"
-												onChange={(event: any) => {
-													dispatch(
-														setRoundedResult({
-															key: "value",
-															value: event.currentTarget.value,
-														}),
-													);
-												}}
-											>
-												<option value={0}>Sin Redondeo</option>
-												<option value={1}>Redondear a la decena</option>
-												<option value={2}>Redondear a la centena</option>
-											</select>
-											<span className="mt-3">
-												Ingrese el motivo por el cual va a cambiar el valor
-												asignado:
-											</span>
-											<textarea
-												rows={2}
-												className="form-control mt-1"
-												value={observations}
-												onChange={(event) =>
-													dispatch(
-														setRoundedResult({
-															key: "observations",
-															value: event.currentTarget.value,
-														}),
-													)
-												}
-											/>
-										</>
-									)}
-								</div>
+						<RoundSelection
+							type="modal"
+							modalBtnType="link"
+							name="Valor Ajustado"
+							current={value + 1}
+							onClick={(option: any, index: number) =>
+								enabled && setValue("value", index - 1)
 							}
-							actionToDo="Cambiar valor de Redondeo"
-							btnType="link"
+							enabled={enabled}
+							setEnabled={(event: any) =>
+								setValue("enabled", event.currentTarget.checked) &&
+								!value &&
+								setValue("value", 1) &&
+								setValue("observations", "value")
+							}
+							comment={observations}
+							setComment={(event: any) =>
+								setValue("observations", event.currentTarget.value)
+							}
 						/>
 					</td>
 				</tr>
@@ -416,7 +333,7 @@ export const IndivisoComponent = () => {
 				</tr>
 				<tr>
 					<td>INDIVISO</td>
-					<td>{toFancyNumber(indiviso)}</td>
+					<td>{asFancyNumber(indiviso)}</td>
 				</tr>
 				<tr>
 					<td>SUPERFICIE TOTAL DEL TERRENO</td>
@@ -439,7 +356,7 @@ export const IndivisoComponent = () => {
 				</tr>
 				<tr>
 					<td>SUPERFICIE DE TERRENO SEGÚN INDIVISO</td>
-					<td>{toFancyNumber(Number(result.toFixed(2)))}</td>
+					<td>{asFancyNumber(result)}</td>
 				</tr>
 			</Body>
 			<Footer>
@@ -458,7 +375,7 @@ export const IndivisoComponent = () => {
 					<tr>
 						<th style={{ minWidth: 230 }}>VALOR UNITARIO APLICABLE</th>
 						<th className="bg-info">
-							{toFancyNumber(Number(adjustedValue.toFixed(2)))}
+							{asFancyNumber(adjustedValue, { isCurrency: true })}
 						</th>
 					</tr>
 				</Header>

@@ -11,6 +11,7 @@ import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
 import Docs from "../views/Docs";
 import Reportes from "../views/Catastral/Reportes";
+import CConstruccion from "../views/Justipreciacion/CostoConstruccion";
 const baseURL = process.env.REACT_APP_API_URL;
 export const WithNavigation: FC = () => (
 	<Fragment>
@@ -19,7 +20,6 @@ export const WithNavigation: FC = () => (
 			<Route path="/" element={<Index />} />
 			<Route path="/Reportes" element={<Reportes />} />
 			{/*
-			
 			<Route path="/Docs/Frontend" element={<Docs />} />
 			<Route path="/Docs/Backend" element={<SwaggerUI url={`${baseURL}/swagger.json`} />} />*/}
 			<Route path="*" element={<ErrorPage />} />
@@ -31,7 +31,7 @@ export const SinglePages: FC = () => (
 	<Routes>
 		<Route path="/homologaciones/" element={<Homologacion />} />
 		<Route path="/homologaciones/OC" element={<ObrasComplementarias />} />
-
+		<Route path="/homologaciones/CC" element={<CConstruccion />} />
 		<Route path="*" element={<ErrorPage />} />
 	</Routes>
 );

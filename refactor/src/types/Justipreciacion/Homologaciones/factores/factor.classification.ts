@@ -1,0 +1,40 @@
+/** @format */
+
+import { FactorsProps } from "./factor.props";
+const options = [
+	{
+		type: "URBANO",
+		value: 1.1,
+	},
+	{
+		type: "SUBURBANO",
+		value: 1.05,
+	},
+	{
+		type: "RÚSTICO",
+		value: 1.0,
+	},
+	{
+		type: "RURAL",
+		value: 0.95,
+	},
+];
+const template = (id: number) => ({
+	id,
+	...options[0],
+	result: 1,
+});
+
+const initialState: FactorsProps = {
+	name: "Clasificación",
+	tag: "FClas.",
+	isUsed: false,
+	position: 0,
+	subject: options[0],
+	data: [template(1)],
+};
+export const classificationHandler = {
+	options,
+	template,
+	initialState,
+};

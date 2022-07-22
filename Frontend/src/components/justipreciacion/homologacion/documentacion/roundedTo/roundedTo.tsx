@@ -50,7 +50,7 @@ const HandleRoundedTo = (props: {
 					/>
 					Habilitar edición
 				</div>
-				{enabled ? (
+				{enabled && (
 					<div className="mx-2">
 						<select
 							value={value}
@@ -91,7 +91,7 @@ const HandleRoundedTo = (props: {
 							}
 						/>
 					</div>
-				) : null}
+				)}
 			</Modal.Body>
 		</Modal>
 	);

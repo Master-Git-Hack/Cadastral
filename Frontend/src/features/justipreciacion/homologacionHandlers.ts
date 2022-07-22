@@ -28,15 +28,20 @@ export const handlerAddRow = (state: any) => {
 	for (const key in documentation) {
 		const { data, results } = documentation[key];
 		const length = data !== undefined ? data.length : 0;
-		const { template, templateResults } = handlers[key];
-		const id = !key.includes("ReFactor") && !key.includes("Indiviso") ? length + 1 : 0;
-		if (key.includes("Area") || key.includes("WeightingPercentage")) {
-			const { type } = record;
-			data.push(template(id, type));
+		if (Object.hasOwn(handlers[key],"template")) {
+			const { template, templateResults } = handlers[key];
+			const id = !key.includes("ReFactor") && !key.includes("Indiviso") ? length + 1 : 0;
+			if (key.includes("Area") || key.includes("WeightingPercentage")) {
+				const { type } = record;
+				data.push(template(id, type));
 
-			key.includes("WeightingPercentage") && data.map((item: any) => (item.value = 100 / id));
+				key.includes("WeightingPercentage") &&
+					data.map((item: any) => (item.value = 100 / id));
+			}
+			key.includes("SalesCost") &&
+				data.push(template(id)) &&
+				results.push(templateResults(id));
 		}
-		key.includes("SalesCost") && data.push(template(id)) && results.push(templateResults(id));
 	}
 	return {
 		factors,

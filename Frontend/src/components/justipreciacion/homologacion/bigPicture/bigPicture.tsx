@@ -5,6 +5,7 @@ import {
 	getHomologacion as getState,
 	UpdateOperationValues,
 	setObservations,
+	updateDocumentationStateRoundedTo,
 } from "../../../../features/justipreciacion/homologacionSlice";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/store";
 import {
@@ -12,19 +13,20 @@ import {
 	terreno,
 	renta,
 } from "../../../../features/justipreciacion/justipreciacionSlice";
-import { toFancyNumber } from "../../../../utils/utils";
+import { asFancyNumber } from "../../../../utils/utils";
 import { Body, Footer, Header, Table } from "../../../table/Table";
-import { RoundedTo } from "../documentacion/roundedTo/roundedTo";
 
 import { TooltipComponent } from "../../../tooltip/tooltip";
+import { RoundSelection } from "../../../roundSelection/RoundSelection";
+import { TableComponent } from "../../../table/TableComponent";
 const decimals = 3;
 export default function BigPicture() {
 	const dispatch = useAppDispatch();
 	const { factors, documentation, record } = useAppSelector(getState);
 	const { type } = record;
 	const { isUsed } = documentation.ReFactor;
-	const { observations } = documentation;
-	const { roundedValue, value, adjustedValue } = documentation.SalesCost.averageUnitCost;
+	const { observations, SalesCost } = documentation;
+	const { roundedValue, value, adjustedValue, roundedTo } = SalesCost.averageUnitCost;
 	const averageLotArea = documentation.Area.averageLotArea.value;
 	const subjectArea = documentation.Area.subject.value;
 	const [order, setOrder] = useState([
@@ -72,86 +74,142 @@ export default function BigPicture() {
 		}
 	}, [roundedValue]);
 	const footerLength = factorsUsed - (!type.includes("TERRENO") ? 4 : 3);
-
 	return (
-		<Table style={`mb-5`}>
-			<Header>
-				<tr>
-					<th rowSpan={2}>Oferta</th>
-					{type === "TERRENO" ? <th rowSpan={2}>{documentation.SalesCost.tag}</th> : null}
-					{type !== "TERRENO" ? (
+		<TableComponent
+			name="bigPicture"
+			header={[]}
+			customHeader={
+				<>
+					<tr>
+						<th rowSpan={2}>Oferta</th>
+
 						<th rowSpan={2}>
-							Sup. Terreno ( $ / m<sup>2</sup> )
+							{type === "TERRENO" ? (
+								documentation.SalesCost.tag
+							) : (
+								<>
+									Sup. Terreno ( $ / m<sup>2</sup> )
+								</>
+							)}
 						</th>
-					) : null}
-					<th rowSpan={2}>
-						{documentation.Area.name}
-						(m<sup>2</sup>)
-					</th>
-					<th rowSpan={2}>
-						Precio Unitario ($/m<sup>2</sup>){" "}
-					</th>
-					<th colSpan={factorsUsed}>Factores de Homologación</th>
-					<th rowSpan={2}>F.Ho. Re.</th>
-					<th rowSpan={2}>Ponderación</th>
-					<th rowSpan={2}>
-						Valor Unitario Resultante ($/m<sup>2</sup>)
-					</th>
-				</tr>
-				<ResponsiveHeaders order={order} factors={factors} type={type} />
-			</Header>
-			<BodyBigPicture
-				documentation={documentation}
-				rowsLength={rowsLength}
-				order={order}
-				factors={factors}
-				type={type}
-			/>
-			<Footer>
-				<tr>
-					<td rowSpan={2} colSpan={type.includes("TERRENO") ? 2 : 1}>
-						SUJETO
-					</td>
-					{!type.includes("TERRENO") ? (
-						<td rowSpan={2}>{toFancyNumber(Number(subjectArea.toFixed(2)))}</td>
-					) : null}
-					<td rowSpan={2}>{toFancyNumber(Number(averageLotArea.toFixed(2)))}</td>
-					<td
-						className="text-start"
-						colSpan={footerLength - (type.includes("TERRENO") ? 1 : 0)}
-						rowSpan={2}
-					>
-						m<sup>2</sup>
-					</td>
-					<td colSpan={7}>
-						<div className="d-flex">
-							<RoundedTo />{" "}
-							<div className="ms-auto my-auto">Valor Unitario Promedio</div>
-						</div>
-					</td>
-					<td>{toFancyNumber(Number(value.toFixed(2)), true)}</td>
-				</tr>
-				<tr>
-					<td colSpan={7} className="text-end">
-						Valor Unitario Aplicable en Números Redondos
-					</td>
-					<td>{toFancyNumber(roundedValue, true)}</td>
-				</tr>
-				<tr>
-					<td colSpan={2}>Justificación de factores</td>
-					<td colSpan={footerLength + factorsUsed - 1}>
-						<textarea
-							className="form-control"
-							rows={1}
-							value={observations}
-							onChange={(event) =>
-								dispatch(setObservations(event.currentTarget.value))
-							}
-						/>
-					</td>
-				</tr>
-			</Footer>
-		</Table>
+						<th rowSpan={2}>
+							{documentation.Area.name}
+							(m<sup>2</sup>)
+						</th>
+						<th rowSpan={2}>
+							Precio Unitario ($/m<sup>2</sup>){" "}
+						</th>
+						<th colSpan={factorsUsed}>Factores de Homologación</th>
+						<th rowSpan={2}>F.Ho. Re.</th>
+						<th rowSpan={2}>Ponderación</th>
+						<th rowSpan={2}>
+							Valor Unitario Resultante ($/m<sup>2</sup>)
+						</th>
+					</tr>
+					<ResponsiveHeaders order={order} factors={factors} type={type} />
+				</>
+			}
+			body={[]}
+			customBody={
+				<BodyBigPicture
+					documentation={documentation}
+					rowsLength={rowsLength}
+					order={order}
+					factors={factors}
+					type={type}
+				/>
+			}
+			hasFooter={true}
+			customFooter={
+				<>
+					<tr>
+						<td rowSpan={2} colSpan={type.includes("TERRENO") ? 2 : 1}>
+							SUJETO
+						</td>
+						{!type.includes("TERRENO") && (
+							<td rowSpan={2}>{asFancyNumber(subjectArea)}</td>
+						)}
+						<td rowSpan={2}>
+							{`${asFancyNumber(averageLotArea)} `} m<sup>2</sup>
+						</td>
+
+						<td colSpan={footerLength + (type.includes("TERRENO") ? 6 : 7)}>
+							<div className="d-flex">
+								<RoundSelection
+									type="modal"
+									modalBtnType="link"
+									name="Valor Unitario Final"
+									current={roundedTo.value + 1}
+									onClick={(option: any, index: number) =>
+										roundedTo.enabled &&
+										dispatch(
+											updateDocumentationStateRoundedTo({
+												key: "roundedTo",
+												value: {
+													...roundedTo,
+													value: index - 1,
+												},
+											}),
+										)
+									}
+									enabled={roundedTo.enabled}
+									setEnabled={(event: any) => {
+										const enabled = event.currentTarget.checked;
+										dispatch(
+											updateDocumentationStateRoundedTo({
+												key: "roundedTo",
+												value: {
+													value: enabled ? roundedTo.value : 1,
+													enabled,
+													observations: "",
+												},
+											}),
+										);
+									}}
+									comment={roundedTo.observations}
+									setComment={(event: any) =>
+										dispatch(
+											updateDocumentationStateRoundedTo({
+												key: "roundedTo",
+												value: {
+													...roundedTo,
+													observations: event.currentTarget.value,
+												},
+											}),
+										)
+									}
+								/>
+
+								<div className="ms-auto my-auto">Valor Unitario Promedio</div>
+							</div>
+						</td>
+						<td>{asFancyNumber(value, { isCurrency: true })}</td>
+					</tr>
+					<tr>
+						<td
+							colSpan={footerLength + (type.includes("TERRENO") ? 6 : 7)}
+							className="text-end"
+						>
+							Valor Unitario Aplicable en Números Redondos
+						</td>
+						<td>{asFancyNumber(roundedValue, { isCurrency: true })}</td>
+					</tr>
+					<tr className="border border-white">
+						<td colSpan={2}>Justificación de factores</td>
+						<td colSpan={footerLength + factorsUsed - 1}>
+							<textarea
+								className="form-control"
+								rows={1}
+								value={observations}
+								onChange={(event) =>
+									dispatch(setObservations(event.currentTarget.value))
+								}
+							/>
+						</td>
+					</tr>
+				</>
+			}
+		/>
 	);
 }
 const ResponsiveHeaders = (props: { order: Array<string>; factors: any; type: string }) => (
@@ -183,54 +241,45 @@ const Show = (props: {
 		isPercentage: boolean = false,
 		decimals: number = 2,
 		isArea: boolean = false,
-	) => (
-		<td id={props.id} className="text-center" rowSpan={props.rowSpan}>
-			{props.name === undefined && (
-				<>
-					{toFancyNumber(Number(value.toFixed(2)), isCurrency, isPercentage, decimals)}{" "}
-					{isArea && (
-						<>
-							m<sup>2</sup>
-						</>
-					)}
-				</>
-			)}
-			{props.name !== undefined && (
-				<TooltipComponent
-					id={`${props.id} ${props.name} Factor real value`}
-					placement="bottom"
-					tooltip={value}
-					component={
-						<div id={`${props.id} ${props.name} Factor real value`}>
-							{toFancyNumber(
-								Number(value.toFixed(2)),
-								isCurrency,
-								isPercentage,
-								decimals,
-							)}{" "}
-							{isArea && (
-								<>
-									m<sup>2</sup>
-								</>
-							)}
-						</div>
-					}
-				/>
-			)}
-		</td>
-	);
+	) => {
+		const Component = () => (
+			<>
+				{`${asFancyNumber(value, { isCurrency, isPercentage, decimals })} `}
+				{isArea && (
+					<>
+						m<sup>2</sup>
+					</>
+				)}
+			</>
+		);
+
+		return (
+			<td id={props.id} className="text-center" rowSpan={props.rowSpan}>
+				{props.name === undefined ? (
+					<Component />
+				) : (
+					<TooltipComponent
+						id={`${props.id} ${props.name} Factor real value`}
+						placement="bottom"
+						tooltip={value}
+						component={
+							<div id={`${props.id} ${props.name} Factor real value`}>
+								<Component />
+							</div>
+						}
+					/>
+				)}
+			</td>
+		);
+	};
 	return (
 		<>
 			{show(
-				Number(
-					props.isFixed !== undefined
-						? Number(props.value).toFixed(decimals)
-						: props.value,
-				),
-				props.isCurrency !== undefined ? props.isCurrency : false,
-				props.isPercentage !== undefined ? props.isPercentage : false,
-				props.decimals !== undefined ? props.decimals : 2,
-				props.isArea !== undefined ? props.isArea : false,
+				props.value,
+				props?.isCurrency ?? false,
+				props?.isPercentage ?? false,
+				props?.decimals ?? 2,
+				props?.isArea ?? false,
 			)}
 		</>
 	);
@@ -247,7 +296,7 @@ const BodyBigPicture = (props: {
 	const itemsToRender = Array.from({ length: rowsLength }, (_, index) => `C${index + 1}`);
 	const { Age, Commercial, Surface, Results } = factors;
 	return (
-		<Body>
+		<>
 			{itemsToRender.map((row: string, index: number) => (
 				<tr key={`row ${row} for big picture `}>
 					<td>{row}</td>
@@ -261,8 +310,10 @@ const BodyBigPicture = (props: {
 								: Area.data[index].surface
 						}
 						isCurrency={props.type.includes("TERRENO")}
+						isArea={!props.type.includes("TERRENO")}
 					/>
-					<Show id={`${row}-Value Area`} value={Area.data[index].value} />
+
+					<Show id={`${row}-Value Area`} value={Area.data[index].value} isArea={true} />
 					<Show
 						id={`${row}-Unitary Cost SalesCost`}
 						value={SalesCost.data[index].unitaryCost}
@@ -312,6 +363,7 @@ const BodyBigPicture = (props: {
 					<Show
 						id={`${row}-WeightingPercentage`}
 						value={WeightingPercentage.data[index].value}
+						decimals={0}
 						isPercentage={true}
 					/>
 					<Show
@@ -321,6 +373,6 @@ const BodyBigPicture = (props: {
 					/>
 				</tr>
 			))}
-		</Body>
+		</>
 	);
 };

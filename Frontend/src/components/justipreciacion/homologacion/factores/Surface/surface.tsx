@@ -54,7 +54,7 @@ const SurfaceRoot = (props: {
 					/>
 					Habilitar edición
 				</div>
-				{enabled ? (
+				{enabled && (
 					<div className="mx-2">
 						<SelectRootValue
 							initialValue={6}
@@ -94,7 +94,7 @@ const SurfaceRoot = (props: {
 							}
 						/>
 					</div>
-				) : null}
+				)}
 			</Modal.Body>
 		</Modal>
 	);

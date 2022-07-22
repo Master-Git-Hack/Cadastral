@@ -6,7 +6,7 @@ export const FloatingInput: FC<{
 	name: string;
 	tag: string;
 	type: string;
-	value: number;
+	value: any;
 	valueToShow: any;
 	onChange: ChangeEventHandler<HTMLInputElement>;
 	minWidth?: number;

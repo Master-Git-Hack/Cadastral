@@ -1,6 +1,6 @@
 /** @format */
 import { salesCostStorage } from "./salesCostStorage";
-import { roundToTenth } from "../../../../../utils/utils";
+import { roundNumber } from "../../../../../utils/utils";
 
 const templateData = (id: number) => ({
 	id,
@@ -34,13 +34,9 @@ const handleAverageUnitCostValue = (
 	roundedTo: any,
 	roundedResult: any,
 ) => {
-	const roundedValue =
-		roundedTo.value !== 0 ? roundToTenth(value, roundedTo.value) : Number(value.toFixed(2));
+	const roundedValue = roundNumber(value, roundedTo.value);
 	const result = roundedValue * factor;
-	const adjustedValue =
-		roundedTo.value !== 0
-			? roundToTenth(result, roundedResult.value)
-			: Number(result.toFixed(2));
+	const adjustedValue = roundNumber(result, roundedResult.value);
 
 	return {
 		value,
