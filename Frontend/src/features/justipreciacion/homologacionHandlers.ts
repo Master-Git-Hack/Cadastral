@@ -28,7 +28,7 @@ export const handlerAddRow = (state: any) => {
 	for (const key in documentation) {
 		const { data, results } = documentation[key];
 		const length = data !== undefined ? data.length : 0;
-		if (Object.hasOwn(handlers[key],"template")) {
+		if (Object.hasOwn(handlers[key], "template")) {
 			const { template, templateResults } = handlers[key];
 			const id = !key.includes("ReFactor") && !key.includes("Indiviso") ? length + 1 : 0;
 			if (key.includes("Area") || key.includes("WeightingPercentage")) {

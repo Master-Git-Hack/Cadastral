@@ -1,15 +1,17 @@
 /** @format */
 
-import { ButtonProps } from "./Button.types";
+import { ButtonProps, ButtonProps2 } from "./Button.types";
+
 export const Button = (props: ButtonProps): JSX.Element => (
 	<div className="input-group input-group-sm">
 		<button
-			className={`btn btn-sm btn-${props.outline ? "outline-" : ""}${props.type} ${
-				props.className
-			}`}
+			className={`btn btn-sm btn-${props.outline ? "outline-" : ""}${
+				props.type ?? "primary"
+			} ${props.className}`}
 			onClick={props.onClick}
+			name={props.name ?? `btn ${props.type}`}
 		>
-			{props.text}
+			{props.children}
 		</button>
 	</div>
 );

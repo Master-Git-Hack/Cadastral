@@ -153,7 +153,7 @@ export default function ObrasComplementarias() {
 					<Justipreciacion />
 					<Container
 						titleStrong="Obras Complementarias"
-						Title="Calculo:"
+						Title="Cálculo:"
 						Errors={Errors}
 						showErrors={showErrors}
 						fixedTop={false}

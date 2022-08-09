@@ -1,8 +1,6 @@
 /** @format */
-
-import { NextPage } from "next";
 import { useRouter } from "next/router";
-export default function ObrasComplementarias(): NextPage {
+export default function ObrasComplementarias() {
 	const { query } = useRouter();
 	console.log(query);
 	return <>s</>;

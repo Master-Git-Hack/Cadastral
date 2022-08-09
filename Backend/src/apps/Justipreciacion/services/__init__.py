@@ -1,6 +1,7 @@
 """Services file to handle Justipreciacion operations"""
 from typing import Dict, Tuple
 
+from .... import db
 from ....utils.dbo import save_changes
 from ....utils.response import Response
 from ..models import Justipreciacion
@@ -14,7 +15,7 @@ def get_registro_justipreciacion(_id: int) -> str:
     Returns:
         registro (str): registro
     """
-    justipreciacion = Justipreciacion.query.get(_id)
+    justipreciacion = Justipreciacion.query.filter_by(id=_id).first()
     if not justipreciacion:
         return Response.bad_request(
             message="No existe la justipreciacion a la cual desea aplicar la homologacion",
@@ -93,7 +94,7 @@ def get_justipreciacion(_id: int) -> Justipreciacion:
     Returns:
         Justipreciacion Object
     """
-    return Justipreciacion.query.get(_id)
+    return Justipreciacion.query.filter_by(id=_id).first()
 
 
 def patch_justipreciacion_from_homologacion(
@@ -174,4 +175,38 @@ def patch_justipreciacion_from_oc(_id: int, data: dict) -> Tuple[Dict, int]:
             return Response.error(
                 message="Error al actualizar Justipreciacion.",
                 operation="HOMOLOGACION/OC/Justipreciacion",
+            )
+
+
+def patch_justipreaciacion_from_cc(_id: int, data: dict) -> Tuple[Dict, int]:
+    """
+    Update Justipreciacion from an obras complementarias request
+    Args:
+        _id (int): ID
+        data (dict): data to be updated
+    Returns:
+        response (dict): response to the request
+        status_code (int): status code of the response
+    """
+
+    record = get_justipreciacion(_id)
+    value = float(f'{data["cna_vu"]:.2f}')
+    if not record:
+        return Response.bad_request(
+            message="Registro de Justipreciacion no encontrado.",
+            operation="HOMOLOGACION/CC/Justipreciacion",
+            status_code=404,
+        )
+    else:
+        record.cna_vu = value
+        if save_changes(record):
+            return Response.success(
+                data=None,
+                message="Justipreciacion actualizada exitosamente.",
+                operation="HOMOLOGACION/CC/Justipreciacion",
+            )
+        else:
+            return Response.error(
+                message="Error al actualizar Justipreciacion.",
+                operation="HOMOLOGACION/CC/Justipreciacion",
             )

@@ -1,6 +1,4 @@
 /** @format */
-import { ButtonProps } from "./../Button/Button.types";
-
 import { ChangeEventHandler, MouseEventHandler } from "react";
 
 interface Input {

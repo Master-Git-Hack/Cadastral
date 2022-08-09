@@ -50,7 +50,7 @@ export const ContainerDocument = () => {
 			}, 500);
 	}, [animate]);
 
-	return (
+	return (F
 		<div className="d-flex flex-column justify-content-center m-1 align-self-center flex-fill shadow-lg p-3 my-4 bg-body rounded h-auto vw-75 ">
 			<>
 				<div className="clearfix mb-2">

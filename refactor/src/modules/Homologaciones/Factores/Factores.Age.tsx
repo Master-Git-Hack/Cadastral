@@ -1,15 +1,14 @@
 /** @format */
 
 import { Table } from "../../../components/Table/Table";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../../hooks/Redux";
-import { getHomologaciones } from "../../../Slices/Justipreciacion/homologaciones.slice";
+import { useAppSelector, useAppDispatch } from "../../../hooks/Redux";
+import { getHomologaciones } from "../../../Slices/Justipreciacion/Homologacion/homologaciones.slice";
 import { Title } from "./Factores.Common";
 import { useState, useEffect, Fragment } from "react";
 import { Input } from "../../../components/Input/Input";
 import { asFancyNumber } from "../../../utils/utils.number";
 export const Age = (): JSX.Element => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const { factors } = useAppSelector(getHomologaciones);
 	const { data, subject, name } = factors.Age;
 	const Header = () => (

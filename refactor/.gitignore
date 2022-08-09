@@ -4,7 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
-
+/storybook-static
+.jest-test-results.json
 # testing
 /coverage
 

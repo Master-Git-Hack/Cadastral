@@ -1,5 +1,8 @@
 /** @format */
 
+import { dataStorage } from "./../../types/justipreciacion/obrasComplementarias/documentacion/docStorage";
+/** @format */
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { request } from "../../api/request";
@@ -7,7 +10,6 @@ import { initialState } from "../../types/justipreciacion/costosConstruccion/han
 
 const name = "CostosConstruccion";
 export const consumeCC = request(name);
-
 export const slice = createSlice({
 	name,
 	initialState,
@@ -27,8 +29,8 @@ export const slice = createSlice({
 			const { data, handlers } = state;
 			if (key !== undefined && value !== undefined && id !== undefined) {
 				data[id][key] = value;
-				state.data = handlers.totalRows(data);
-				state.total = handlers.getTotal(data);
+				state.data = handlers.totalRows(state.data);
+				state.total = handlers.getTotal(state.data);
 			}
 		},
 		updateTotalData: (state) => {
@@ -53,7 +55,35 @@ export const slice = createSlice({
 			state.total = handlers.getTotal(data);
 		},
 	},
-	extraReducers: (builder) => {},
+	extraReducers: (builder) => {
+		builder
+			.addCase(consumeCC.get.pending, (state) => {
+				state.status = "loading";
+			})
+			.addCase(consumeCC.get.fulfilled, (state, action: PayloadAction<any>) => {
+				const { operation, message, data, status } = action.payload;
+				state.status = status;
+				state.message = message;
+
+				if (status.includes("success")) {
+					switch (operation) {
+						case "CostosConstruccion":
+							const { handlers } = state;
+							const { factorGTO, redondeo, titulo, record } = data;
+							state.titulo = titulo;
+							state.data = handlers.totalRows(data.data);
+							state.total = handlers.getTotal(state.data);
+							state.factorGTO = factorGTO;
+							state.redondeo = redondeo ?? 0;
+							state.record = record;
+							break;
+
+						default:
+							break;
+					}
+				}
+			});
+	},
 });
 
 export const {

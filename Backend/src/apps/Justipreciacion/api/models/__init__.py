@@ -3,6 +3,7 @@ File for Justipreciacion model and namespace """
 from flask_restx import Namespace
 from flask_restx.fields import Float, Integer, Nested, String
 
+from .costos_construccion import CostosConstruccion
 from .homologacion import Homologacion
 from .indicadores_municipales import indicadores_municapales_model as indicadores_mm
 from .obras_complementarias import obras_complementarias_model as obras_cm
@@ -46,6 +47,7 @@ class Models:
     justipreciacion_by_homologacion = Homologacion.ns.model(
         "Modelo de justipreaciacion por Homologacion", dict()
     )
+    costos_construccion = CostosConstruccion.model
 
 
 class Namespaces:
@@ -56,3 +58,4 @@ class Namespaces:
     obras_complementarias = Homologacion.ns
     indicadores_municipales = Homologacion.ns
     justipreaciacion_by_homologacion = Homologacion.ns
+    costos_construccion = CostosConstruccion.ns

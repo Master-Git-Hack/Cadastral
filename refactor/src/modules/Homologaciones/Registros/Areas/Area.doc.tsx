@@ -2,7 +2,7 @@
 
 import { Table } from "../../../../components/Table/Table";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/Redux";
-import { getHomologaciones } from "../../../../Slices/Justipreciacion/homologaciones.slice";
+import { getHomologaciones } from "../../../../Slices/Justipreciacion/Homologacion/homologaciones.slice";
 import { Input } from "../../../../components/Input/Input";
 import { Modal } from "../../../../components/Modal/Modal";
 import { utils } from "../../../../utils/utils";
@@ -170,7 +170,6 @@ const Consults = (props: any) => {
 						const { files } = event.currentTarget;
 						if (files !== null && files.length > 0) {
 							const data = await utils.convert2Base64(files[0]);
-							console.log(data);
 						}
 					}}
 					remove={() => {}}

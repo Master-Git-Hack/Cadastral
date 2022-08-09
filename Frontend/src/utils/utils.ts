@@ -25,7 +25,7 @@ export const searchByType = (options: any, type: string) =>
 export const searchByValue = (options: any, value: number) =>
 	options.find((option: any) => option.value === value);
 
-export const fixedNumber=(value:number, decimals:number=2) =>Number(value.toFixed(decimals));
+export const fixedNumber = (value: number, decimals: number = 2) => Number(value.toFixed(decimals));
 /**
  * It takes a number with optional properties and returns a number with the same properties.
  * @param {number} value - The value of the number.
@@ -34,7 +34,7 @@ export const fixedNumber=(value:number, decimals:number=2) =>Number(value.toFixe
  * @optionsProperties {boolean} isCurrency - specifies if the number is currency.;
  * @optionsProperties {boolean} isPercentage - specifies if the number is a percentage.;
  * @optionsProperties {number}decimals - number of decimals to show}
-**/ 
+ **/
 export const asFancyNumber: Function = (
 	value: number = 0,
 	options?: {
@@ -63,10 +63,8 @@ export const asFancyNumber: Function = (
 		minimumFractionDigits: decimals,
 		currency,
 	});
-	const current = value.toFixed(decimals)
-	return options !== undefined
-		? properties.format(Number(current) / unit)
-		: current;
+	const current = value.toFixed(decimals);
+	return options !== undefined ? properties.format(Number(current) / unit) : current;
 };
 /**
  * It formats a number to a fancy string as currency or percentage or just with decimal representation

@@ -12,6 +12,7 @@ from ...services import (
     patch_justipreciacion_from_oc,
 )
 from ..models import Models, Namespaces
+from .costos_construccion import *
 from .homologacion import *
 from .indicadores_municales import *
 from .obras_complementarias import *
@@ -34,6 +35,7 @@ class RegistroJustipreciacion(Resource):
             response: dict with the data
             status_code: int with the status code
         """
+
         return get_registro_justipreciacion(justipreciacion)
 
 

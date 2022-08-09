@@ -6,7 +6,7 @@ import { Input } from "../../../../components/Input/Input";
 import { Pill } from "../../../../components/Pill/Pill";
 import { Table } from "../../../../components/Table/Table";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/Redux";
-import { getHomologaciones } from "../../../../Slices/Justipreciacion/homologaciones.slice";
+import { getHomologaciones } from "../../../../Slices/Justipreciacion/Homologacion/homologaciones.slice";
 import { asFancyNumber } from "../../../../utils/utils.number";
 import { M2 } from "../../../../components/Decorators/Decorators";
 

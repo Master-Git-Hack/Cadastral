@@ -1,5 +1,8 @@
 /** @format */
 
+import { getParams } from "./../../../utils/utils";
+/** @format */
+
 import { Storage } from "./storage";
 const dataTemplate = (id: number) => ({
 	id,
@@ -39,7 +42,7 @@ export const initialState: Storage = {
 	total: 0,
 	record: {
 		id: 0,
-		register: "",
+		register: getParams(""),
 		status: "newOne",
 	},
 	handlers: {

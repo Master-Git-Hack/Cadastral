@@ -71,9 +71,7 @@ export const AgeTable = () => {
 			body={[]}
 			customBody={
 				<>
-					<tr>
-						 
-					</tr>
+					<tr></tr>
 					{data.map((item: any, index: number) => (
 						<tr key={`table for ages, values section ${index}`}>
 							<td>C{item.id}</td>

@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { Button } from "../../../components/Button/Button";
 import { useAppDispatch, useAppSelector } from "../../../hooks/Redux";
-import { positions } from "../../../Slices/Justipreciacion/homologaciones.handlers";
+import { positions } from "../../../Slices/Justipreciacion/Homologacion/homologaciones.handlers";
 import {
 	getHomologaciones,
 	loadFactors,
 	setEnabledFactors,
-} from "../../../Slices/Justipreciacion/homologaciones.slice";
+} from "../../../Slices/Justipreciacion/Homologacion/homologaciones.slice";
 
 export const Selection = () => {
 	const dispatch = useAppDispatch();
@@ -52,19 +52,21 @@ export const Selection = () => {
 							<div>
 								{!current(key).isUsed ? (
 									<Button
-										text={"Agregar"}
 										type={"success"}
 										outline
 										onClick={() => handlePositions(key, true, index)}
-									/>
+									>
+										Agregar
+									</Button>
 								) : (
 									enabled && (
 										<Button
-											text={"Eliminar"}
 											type={"link"}
 											className="text-danger"
 											onClick={() => handlePositions(key, false, -1)}
-										/>
+										>
+											Eliminar
+										</Button>
 									)
 								)}
 							</div>

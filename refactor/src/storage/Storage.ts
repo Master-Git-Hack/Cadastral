@@ -1,7 +1,7 @@
 /** @format */
 
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import Homologaciones from "../Slices/Justipreciacion/homologaciones.slice";
+import Homologaciones from "../Slices/Justipreciacion/Homologacion/homologaciones.slice";
 /* Creating a store with the reducers and middleware. */
 export const store = configureStore({
 	reducer: {

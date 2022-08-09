@@ -1,0 +1,7 @@
+{
+    "globals": {
+      "test": false,
+      "assert": false
+    },
+    "esversion": 6
+  }

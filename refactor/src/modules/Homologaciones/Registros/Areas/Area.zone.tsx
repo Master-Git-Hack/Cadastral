@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../../../hooks/Redux";
 import {
 	getHomologaciones,
 	updateCommonSubject,
-} from "../../../../Slices/Justipreciacion/homologaciones.slice";
+} from "../../../../Slices/Justipreciacion/Homologacion/homologaciones.slice";
 import { asFancyNumber } from "../../../../utils/utils.number";
 
 const Component = () => {

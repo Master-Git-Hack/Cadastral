@@ -13,7 +13,7 @@ import {
 	rmRowLocZone,
 	updateLocZoneSubject,
 	updateSymbolsData,
-} from "../../../Slices/Justipreciacion/homologaciones.slice";
+} from "../../../Slices/Justipreciacion/Homologacion/homologaciones.slice";
 import { Input } from "../../../components/Input/Input";
 import { asFancyNumber } from "../../../utils/utils.number";
 import { Table } from "../../../components/Table/Table";
@@ -30,18 +30,20 @@ const Actions = (props: LocationZoneActionsProps) => {
 			<th colSpan={colSpan}>
 				<div className="d-flex flex-row justify-content-between">
 					<Button
-						text={`Agregar Fila a ${tag}`}
 						type={"success"}
 						outline
 						onClick={() => dispatch(addRowLocZone({ key }))}
-					/>
+					>
+						Agregar Fila a {tag}
+					</Button>
 					{length > 1 && (
 						<Button
-							text={`Remover Ultima Fila de ${tag}`}
 							type={"link"}
 							className="text-danger ms-auto"
 							onClick={() => dispatch(rmRowLocZone({ key }))}
-						/>
+						>
+							Remover Ultima Fila de {tag}
+						</Button>
 					)}
 				</div>
 			</th>

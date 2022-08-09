@@ -213,7 +213,6 @@ export const File = (props: FileProps): JSX.Element => {
 				className="form-control form-control-sm"
 				value={value}
 				onChange={onChange}
-				disabled={value !== null}
 			/>
 			{value && (
 				<>

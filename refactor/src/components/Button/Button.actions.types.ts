@@ -1,9 +1,10 @@
 /** @format */
 
-import { MouseEventHandler } from "react";
+import { ReactNode, MouseEventHandler } from "react";
 import { ButtonProps } from "./Button.types";
 
 export interface ButtonActionsProps extends ButtonProps {
 	actions?: string[];
-	customActions?: JSX.Element;
+	customActions?: ReactNode | ReactNode[];
+	onClick?: (action: string, index: number) => void | MouseEventHandler<HTMLButtonElement>;
 }

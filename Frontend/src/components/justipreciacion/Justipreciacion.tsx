@@ -32,10 +32,10 @@ export const Justipreciacion = () => {
 					dispatch(
 						setInitialState({
 							type: getParams("tipo").toLocaleUpperCase() || "TERRENO",
-							sp1_factor: Number(getParams("sp1_factor")) || 1,
-							sp1_superficie: Number(getParams("sp1_superficie")) || 1,
-							cna_edad: Number(getParams("cna_edad")) || 1,
-							cna_superficie: Number(getParams("cna_superficie")) || 1,
+							sp1_factor: Number(getParams("sp1_factor")) ?? 1,
+							sp1_superficie: Number(getParams("sp1_superficie")) ?? 1,
+							cna_edad: Number(getParams("cna_edad")) ?? 1,
+							cna_superficie: Number(getParams("cna_superficie")) ?? 1,
 						}),
 					),
 				)

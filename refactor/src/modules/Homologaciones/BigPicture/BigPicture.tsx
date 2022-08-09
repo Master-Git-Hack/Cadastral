@@ -8,8 +8,8 @@ import { Input } from "../../../components/Input/Input";
 import { Table } from "../../../components/Table/Table";
 import { Tooltip } from "../../../components/Tooltip/Tooltip";
 import { useAppDispatch, useAppSelector } from "../../../hooks/Redux";
-import { positions } from "../../../Slices/Justipreciacion/homologaciones.handlers";
-import { getHomologaciones } from "../../../Slices/Justipreciacion/homologaciones.slice";
+import { positions } from "../../../Slices/Justipreciacion/Homologacion/homologaciones.handlers";
+import { getHomologaciones } from "../../../Slices/Justipreciacion/Homologacion/homologaciones.slice";
 import { asFancyNumber } from "../../../utils/utils.number";
 import { BodyProps, ColumnProps, FooterProps, HeaderProps } from "./BigPicture.types";
 

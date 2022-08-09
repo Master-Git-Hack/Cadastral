@@ -10,26 +10,38 @@ import {
 	setFactorGTO,
 	updateTotalData,
 	setRedondeo,
+	consumeCC,
 } from "../../../features/justipreciacion/costosConstruccionSlice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/store";
-import { roundNumber, roundToTenth, asFancyNumber } from "../../../utils/utils";
+import { roundNumber, roundToTenth, asFancyNumber, exportDataAtFail } from "../../../utils/utils";
 import { FancyInput } from "../../inputs/fancyInput";
 import { Table, Body, Footer, Header } from "../../table/Table";
 import { RoundSelection } from "../../roundSelection/RoundSelection";
+import { Justipreciacion } from "../Justipreciacion";
+import { Spinner } from "../../spinner/spinner";
+import {
+	consumeJusti,
+	getJustipreciacion,
+} from "../../../features/justipreciacion/justipreciacionSlice";
 export default function CostosConstruccion() {
 	const dispatch = useAppDispatch();
 
-	const { data, factorGTO, total, titulo, handlers, redondeo } = useAppSelector(getCC);
+	const { data, factorGTO, total, titulo, handlers, redondeo, status } = useAppSelector(getCC);
 	const subTotal = factorGTO.enabled ? total : roundNumber(total, redondeo);
 	const totalCalculado = roundNumber(total * factorGTO.value, redondeo);
 	const handleValues = (id: number, key: string, value: number) =>
 		dispatch(setValues({ id, key, value }));
+
 	useEffect(() => {
 		total !== handlers.getTotal(data) && dispatch(updateTotalData());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [total]);
-	return (
+
+	return status.includes("loading") ? (
+		<Spinner />
+	) : (
 		<>
+			<Justipreciacion />
 			<div className="row mb-2 my-4">
 				<div className="col-1 my-auto text-center">
 					<h3>Titulo:</h3>

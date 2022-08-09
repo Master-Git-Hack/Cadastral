@@ -1,6 +1,6 @@
 /** @format */
-
 import "../public/assets/css/globals.css";
+import "rsuite/dist/rsuite.min.css";
 import "../public/assets/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import { store } from "../src/storage/Storage";

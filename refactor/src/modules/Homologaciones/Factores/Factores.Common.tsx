@@ -7,7 +7,7 @@ import {
 	getHomologaciones,
 	updateCommonData,
 	updateCommonSubject,
-} from "../../../Slices/Justipreciacion/homologaciones.slice";
+} from "../../../Slices/Justipreciacion/Homologacion/homologaciones.slice";
 import { TitleProps, CommonProps } from "./Factores.types";
 import { Fragment } from "react";
 import { Input } from "../../../components/Input/Input";
@@ -32,7 +32,7 @@ export const Common = (props: CommonProps) => {
 		<tr>
 			<td>#</td>
 			<td>
-				<div className="bg-warning bg-opacity-75 text-white">
+				<div className="d-inline p-2 text-bg-dark">
 					<strong>{name.toUpperCase()} </strong>
 				</div>
 			</td>

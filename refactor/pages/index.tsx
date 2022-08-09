@@ -8,6 +8,7 @@ import "animate.css";
 import { Navbar } from "../src/components/Navbar/Navbar";
 import { getURLParams } from "../src/utils/utils.url";
 import { useRouter } from "next/router";
+
 const Home: NextPage = () => {
 	return (
 		<>

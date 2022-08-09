@@ -1,8 +1,12 @@
 /** @format */
+
+import { ReactNode } from "react";
+
+/** @format */
 export interface ModalProps {
 	actionToDo: string;
 	title: string;
-	children: JSX.Element | JSX.Element[] | Element | Element[] | boolean;
+	children: boolean | ReactNode | ReactNode[];
 	btnType?:
 		| "success"
 		| "danger"

@@ -1,0 +1,9 @@
+node_modules/*
+.vcode/*
+.gitignore
+.prettierignore
+ci.yml
+README.md
+.next/*
+start.sh
+
