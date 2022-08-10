@@ -12,8 +12,8 @@ export const api = (component: string) => ({
 	/* Creating a thunk that can be used to make a get request to the server. */
 	get: createAsyncThunk(
 		`${component}/get`,
-		async ({url}: ApiProps, { rejectWithValue, fulfillWithValue }) => {
-			const {data} = await consume("json").get(url);
+		async ({ url }: ApiProps, { rejectWithValue, fulfillWithValue }) => {
+			const { data } = await consume("json").get(url);
 			try {
 				return fulfillWithValue(data);
 			} catch (err: any) {
@@ -25,7 +25,7 @@ export const api = (component: string) => ({
 	post: createAsyncThunk(
 		`${component}/post`,
 		async ({ url, responseType, payload }: ApiProps, { rejectWithValue, fulfillWithValue }) => {
-			const {data} = await consume(responseType).post(url, payload);
+			const { data } = await consume(responseType).post(url, payload);
 			try {
 				return fulfillWithValue(data);
 			} catch (err: any) {
@@ -37,7 +37,7 @@ export const api = (component: string) => ({
 	patch: createAsyncThunk(
 		`${component}/patch`,
 		async ({ url, responseType, payload }: any, { rejectWithValue, fulfillWithValue }) => {
-			const {data} = await consume(responseType).patch(url, payload);
+			const { data } = await consume(responseType).patch(url, payload);
 			try {
 				return fulfillWithValue(data);
 			} catch (err: any) {

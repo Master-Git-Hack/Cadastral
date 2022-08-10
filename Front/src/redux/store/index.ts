@@ -4,9 +4,7 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
 /* Creating a store with the reducers and middleware. */
 export const store = configureStore({
-	reducer: {
-
-	},
+	reducer: {},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
