@@ -4,6 +4,11 @@ import { Input as Component, InputGroup } from "rsuite";
 import EyeIcon from "@rsuite/icons/legacy/Eye";
 import EyeSlashIcon from "@rsuite/icons/legacy/EyeSlash";
 import { TextProps } from "./index.types";
+import { Fancy } from "./Fancy";
+import { Select } from "./Select";
+import { Switch } from "./Switch";
+import { Range } from "./Range";
+import { File } from "./File";
 
 export const Text = ({
 	isArea,
@@ -12,12 +17,14 @@ export const Text = ({
 	placeholder,
 	size,
 	rows,
+	value,
 }: TextProps): JSX.Element => {
 	const [visible, setVisible] = useState(false);
 
 	return (
 		<InputGroup inside size={size}>
 			<Component
+				value={value}
 				size={size}
 				as={isArea ? "textarea" : undefined}
 				onChange={(value: string, event: any) => onChange(value)}
@@ -34,4 +41,13 @@ export const Text = ({
 			)}
 		</InputGroup>
 	);
+};
+
+export const Input = {
+	Text,
+	Fancy,
+	File,
+	Range,
+	Select,
+	Switch,
 };

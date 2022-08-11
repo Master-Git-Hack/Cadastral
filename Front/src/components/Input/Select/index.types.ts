@@ -4,10 +4,10 @@ import { ChangeEventHandler } from "react";
 import { ReactNode } from "react";
 export interface Item {
 	/** The value of the option corresponds to the `valueKey` in the data. **/
-	value: string;
+	value: ReactNode;
 
 	/** The content displayed by the option corresponds to the `labelKey` in the data. **/
-	label: ReactNode;
+	label: string;
 }
 export interface SelectProps {
 	index?: number;

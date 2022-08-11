@@ -1,10 +1,10 @@
 /** @format */
 
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-
+import Homologaciones from "../justipreciacion/homologacion";
 /* Creating a store with the reducers and middleware. */
 export const store = configureStore({
-	reducer: {},
+	reducer: { Homologaciones },
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 

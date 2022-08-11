@@ -11,6 +11,7 @@ export const PaginatedView = ({
 	sidebar,
 	startAt,
 	totalPages,
+	limit,
 }: PaginatedViewProps): JSX.Element => {
 	const [activePage, setActivePage] = useState(startAt ?? 1);
 	useEffect(() => {
@@ -19,7 +20,19 @@ export const PaginatedView = ({
 	return (
 		<Container
 			header={title}
-			footer={<Pagination activePage onChange={setActivePage} totalPages={totalPages} />}
+			footer={
+				<>
+					{footer}
+					<br />
+					<Pagination
+						activePage={activePage}
+						onChange={setActivePage}
+						limit={limit ?? totalPages}
+						totalPages={totalPages}
+					/>
+				</>
+			}
+			sidebar={sidebar}
 		>
 			{children[activePage]}
 		</Container>

@@ -27,13 +27,11 @@ export const Modal = ({
 			>
 				{action}
 			</Button>
-			<Component open={open} onClose={handleOpen} size={size}>
-				{header && <Component.Header>{header}</Component.Header>}
-				{title && (
-					<Component.Header>
-						<Component.Title>{title}</Component.Title>
-					</Component.Header>
-				)}
+			<Component autoFocus enforceFocus keyboard open={open} onClose={handleOpen} size={size}>
+				<Component.Header closeButton>
+					{header}
+					{title && <Component.Title>{title}</Component.Title>}
+				</Component.Header>
 				<Component.Body>{children}</Component.Body>
 				{footer && <Component.Footer>{footer}</Component.Footer>}
 			</Component>

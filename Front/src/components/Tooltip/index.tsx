@@ -12,7 +12,7 @@ export const Tooltip = ({
 	placement,
 }: TooltipProps): JSX.Element => (
 	<Whisper
-		trigger={trigger ?? ["click", "focus"]}
+		trigger={trigger || ["click", "hover"]}
 		placement={placement ?? "auto"}
 		controlId={id}
 		followCursor={followCursor}

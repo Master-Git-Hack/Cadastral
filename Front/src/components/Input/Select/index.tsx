@@ -68,4 +68,7 @@ export const Custom = ({
 		value={value}
 	/>
 );
-export const Select = { Normal, Custom };
+export const Select = {
+	Normal,
+	Custom,
+};

@@ -1,6 +1,4 @@
 /** @format */
-
-import { ReactNode } from "react";
 export interface DropdownProps {
 	items: string[];
 	trigger?: "click" | "hover" | "contextMenu";

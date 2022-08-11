@@ -22,12 +22,12 @@ export const Switch = ({
 			}, 1000);
 	}, [loading]);
 	return (
-		<>
-			{reverse && label}
+		<div className="d-flex my-auto">
+			<span className="me-2 ">{reverse && label}</span>
 			<Toggle
 				checked={checked}
-				checkedChildren={withText ? checkedText : ""}
-				unCheckedChildren={withText ? uncheckedText : ""}
+				checkedChildren={withText ? checkedText ?? "Habilitar" : ""}
+				unCheckedChildren={withText ? uncheckedText ?? "Desabilitar" : ""}
 				loading={loading}
 				onChange={(value: boolean, event: any) => {
 					setLoading(true);
@@ -35,7 +35,7 @@ export const Switch = ({
 				}}
 				size={size}
 			/>
-			{!reverse && label}
-		</>
+			<span className="ms-2 ">{!reverse && label}</span>
+		</div>
 	);
 };

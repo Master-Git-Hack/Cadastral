@@ -1,17 +1,21 @@
 /** @format */
 
-import React from "react";
+/** @format */
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import "rsuite/dist/rsuite.min.css";
+
 import { Button } from ".";
 import { Button as Component } from "rsuite";
-import { colorPicker, appearancePicker } from "../../utils/color";
+
 export default {
 	title: "Components/Button",
 	component: Button,
 	subcomponents: { Component },
 	argTypes: {
-		children: {},
+		children: {
+			control: { type: "text" },
+			type: { name: "string", required: true },
+			defaultValue: "Button",
+		},
 		type: {
 			text: "Type",
 			control: { type: "text" },
@@ -48,7 +52,10 @@ export default {
 			type: { name: "string", required: false },
 			defaultValue: "md",
 		},
-		onClick: {},
+		onClick: {
+			text: "On Click",
+			control: { type: "function" },
+		},
 	},
 } as ComponentMeta<typeof Button>;
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
@@ -67,7 +74,7 @@ Default.args = {
 Primary.args = {
 	children: "Press me",
 	type: "primary",
-	appearance: "default",
+	appearance: "primary",
 };
 Link.args = {
 	children: "Press me",

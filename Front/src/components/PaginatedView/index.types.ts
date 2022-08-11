@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 
 export interface PaginatedViewProps {
-	children: ReactNode[];
+	children: { [key: string | number]: ReactNode | ReactNode[] } | ReactNode[] | ReactNode;
 	title?: ReactNode | ReactNode[];
 	footer?: ReactNode | ReactNode[];
 	sidebar?: {
@@ -13,4 +13,5 @@ export interface PaginatedViewProps {
 	};
 	startAt?: number;
 	totalPages: number;
+	limit?: number;
 }

@@ -3,6 +3,8 @@
 import { Dropdown } from "rsuite";
 import PageIcon from "@rsuite/icons/Page";
 import FileDownloadIcon from "@rsuite/icons/FileDownload";
+import AttachmentIcon from "@rsuite/icons/Attachment";
+import TrashIcon from "@rsuite/icons/Trash";
 import { Tooltip } from "../../Tooltip";
 import { FileProps } from "./index.types";
 import FileSaver from "file-saver";
@@ -19,17 +21,22 @@ export const File = ({ onChange, file, filename, remove }: FileProps): JSX.Eleme
 	return (
 		<Tooltip id={id} tooltip="Solo se puede subir un solo archivo">
 			<Dropdown
-				noCaret={filename ? true : false}
-				title={`Archivo: ${filename}` ?? "Agregar Archivo"}
+				id={id}
+				title={filename === "" ? `Archivo` : `Archivo: ${filename}`}
 				icon={<PageIcon />}
-				onClick={onClick}
+				trigger={["hover", "click"]}
 			>
-				{filename && (
+				<Dropdown.Item icon={<AttachmentIcon />} onClick={onClick} active={filename !== ""}>
+					{filename === "" ? `Agregar` : filename}
+				</Dropdown.Item>
+				{filename !== "" && (
 					<>
-						<Dropdown.Item icon={<FileDownloadIcon />} onClick={saveFile}>
-							Descargar Archivo
+						<Dropdown.Item icon={<FileDownloadIcon color="green" />} onClick={saveFile}>
+							Descargar
 						</Dropdown.Item>
-						<Dropdown.Item onClick={remove}>Eliminar</Dropdown.Item>
+						<Dropdown.Item icon={<TrashIcon color="red" />} onClick={remove}>
+							Eliminar
+						</Dropdown.Item>
 					</>
 				)}
 			</Dropdown>

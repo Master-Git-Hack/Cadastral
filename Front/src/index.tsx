@@ -1,17 +1,24 @@
 /** @format */
 
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import "./assets/css/globals.css";
 import "rsuite/dist/rsuite.min.css";
 import "./assets/css/bootstrap.min.css";
-import App from "./App";
+import { Pages } from "./views";
 import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router } from "react-router-dom";
+import { store } from "./redux/store";
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = createRoot(document.getElementById("root") as HTMLElement);
 root.render(
 	<React.StrictMode>
-		<App />
+		<Provider store={store}>
+			<Router>
+				<Pages />
+			</Router>
+		</Provider>
 	</React.StrictMode>,
 );
 

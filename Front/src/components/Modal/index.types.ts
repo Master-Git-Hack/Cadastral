@@ -1,9 +1,8 @@
 /** @format */
 
-import { ReactNode, MouseEventHandler } from "react";
-import { ButtonProps } from "../Button/index.types";
+import { ReactNode } from "react";
 
-export interface ModalProps extends ButtonProps {
+export interface ModalProps {
 	action: ReactNode | ReactNode[];
 	children: ReactNode | ReactNode[];
 	type?: "danger" | "success" | "warning" | "info" | "primary" | "secondary" | "orange";

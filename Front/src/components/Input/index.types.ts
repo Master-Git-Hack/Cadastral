@@ -10,7 +10,7 @@ export interface Input {
 	className?: string;
 }
 export interface TextProps {
-	isArea: Boolean;
+	isArea?: Boolean;
 	onChange: (value: string) => void;
 	type?:
 		| "text"
@@ -27,6 +27,7 @@ export interface TextProps {
 		| "number"
 		| "color";
 	placeholder?: string;
+	value: string;
 	size?: "lg" | "md" | "sm" | "xs";
 	rows?: number;
 }

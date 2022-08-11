@@ -59,7 +59,9 @@ export const Fancy = ({
 					<input
 						id={id}
 						type="text"
-						className={`rs-input mx-auto ${classNameDecorator ?? "bg-light"}`}
+						className={`rs-input text-center mx-auto ${
+							classNameDecorator ?? "bg-light"
+						}`}
 						value={decoratedValue}
 						onFocus={toggleEditing}
 						readOnly

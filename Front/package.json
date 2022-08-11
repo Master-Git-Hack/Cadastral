@@ -26,25 +26,16 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
-    "storybook": "start-storybook -p 6006 -s public",
+    "storybook": "start-storybook -p 3001",
+    "build-storybook": "build-storybook",
     "storybook-docs": "start-storybook --docs --no-manager-cache",
     "test-storybook": "test-storybook",
-    "build-storybook": "build-storybook -s public"
+    "test:generate-output": "jest --json --outputFile=.jest-test-results.json"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
     ]
   },
   "browserslist": {
@@ -60,17 +51,18 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^6.5.10",
-    "@storybook/addon-actions": "^6.5.10",
-    "@storybook/addon-essentials": "^6.5.10",
-    "@storybook/addon-interactions": "^6.5.10",
-    "@storybook/addon-links": "^6.5.10",
-    "@storybook/addon-postcss": "^3.0.0-alpha.1",
-    "@storybook/builder-webpack4": "^6.5.10",
-    "@storybook/manager-webpack4": "^6.5.10",
-    "@storybook/node-logger": "^6.5.10",
-    "@storybook/preset-create-react-app": "^3.2.0",
-    "@storybook/react": "^6.5.10",
+    "@babel/core": "^7.18.10",
+    "@storybook/addon-actions": "^6.5.9",
+    "@storybook/addon-essentials": "^6.5.9",
+    "@storybook/addon-interactions": "^6.5.9",
+    "@storybook/addon-jest": "^6.5.10",
+    "@storybook/addon-links": "^6.5.9",
+    "@storybook/addon-storyshots": "^6.5.10",
+    "@storybook/addon-storyshots-puppeteer": "^6.5.10",
+    "@storybook/builder-webpack5": "^6.5.9",
+    "@storybook/jest": "^0.0.10",
+    "@storybook/manager-webpack5": "^6.5.9",
+    "@storybook/react": "^6.5.9",
     "@storybook/testing-library": "^0.0.13",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -84,6 +76,8 @@
     "@types/swagger-ui-react": "^4.11.0",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
+    "babel-loader": "^8.2.5",
+    "core-js": "^3.0.1",
     "eslint": "^8.21.0",
     "eslint-config-airbnb-typescript-prettier": "^5.0.0",
     "eslint-config-prettier": "^8.5.0",

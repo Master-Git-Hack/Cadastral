@@ -1,7 +1,5 @@
 /** @format */
-import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import "rsuite/dist/rsuite.min.css";
 import { Alert } from ".";
 import { Message } from "rsuite";
 
