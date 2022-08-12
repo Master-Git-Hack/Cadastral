@@ -20,3 +20,13 @@ export const appearancePicker: {
 	light: "subtle",
 	outline: "ghost",
 };
+export const colorAlert:{[key:string]:string}={success: "#188754",
+danger: "#dc3546",
+warning: "#f39c12",
+info: "#00c0ef",
+primary: "#3c8dbc",
+secondary: "#6c757e",
+light: "#f8f9fb",
+	dark: "#212429"
+}
+export const colorAlertPicker = (key: string): string => colorAlert[key];

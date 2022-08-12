@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Input as Component, InputGroup } from "rsuite";
 import EyeIcon from "@rsuite/icons/legacy/Eye";
 import EyeSlashIcon from "@rsuite/icons/legacy/EyeSlash";
-import { TextProps } from "./index.types";
+import { TextProps } from "./input.types";
 import { Fancy } from "./Fancy";
 import { Select } from "./Select";
 import { Switch } from "./Switch";

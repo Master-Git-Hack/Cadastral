@@ -1,7 +1,7 @@
 /** @format */
 
 import { Container as Component, Header, Content, Footer, Sidebar } from "rsuite";
-import { ContainerProps } from "./index.types";
+import { ContainerProps } from "./container.types";
 
 export const Container = ({ children, header, footer, sidebar }: ContainerProps): JSX.Element => {
 	const SideBar = (): JSX.Element => (

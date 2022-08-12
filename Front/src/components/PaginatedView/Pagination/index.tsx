@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Pagination as Component } from "rsuite";
 
-import { PaginationProps } from "./index.types";
+import { PaginationProps } from "./pagination.types";
 
 export const Pagination = ({
 	activePage,

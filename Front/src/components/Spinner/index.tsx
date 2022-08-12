@@ -1,7 +1,7 @@
 /** @format */
 
 import { Loader } from "rsuite";
-import { SpinnerProps } from "./index.types";
+import { SpinnerProps } from "./spinner.types";
 
 export const Spinner = ({
 	backdrop,

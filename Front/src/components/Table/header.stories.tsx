@@ -17,8 +17,8 @@ export default {
 			defaultValue: "",
 		},
 		type: {
-			control: { type: "text" },
-			type: { name: "string", required: false },
+			control: { type: "select" },
+
 			defaultValue: "light",
 		},
 	},

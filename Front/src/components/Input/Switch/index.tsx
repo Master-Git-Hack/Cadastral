@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Toggle } from "rsuite";
-import { SwitchProps } from "./index.types";
+import { SwitchProps } from "./switch.types";
 
 export const Switch = ({
 	checked,
@@ -31,7 +31,7 @@ export const Switch = ({
 				loading={loading}
 				onChange={(value: boolean, event: any) => {
 					setLoading(true);
-					return onChange(value);
+					onChange(value);
 				}}
 				size={size}
 			/>

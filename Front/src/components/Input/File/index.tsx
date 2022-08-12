@@ -6,7 +6,7 @@ import FileDownloadIcon from "@rsuite/icons/FileDownload";
 import AttachmentIcon from "@rsuite/icons/Attachment";
 import TrashIcon from "@rsuite/icons/Trash";
 import { Tooltip } from "../../Tooltip";
-import { FileProps } from "./index.types";
+import { FileProps } from "./file.types";
 import FileSaver from "file-saver";
 export const File = ({ onChange, file, filename, remove }: FileProps): JSX.Element => {
 	const onClick = () => {

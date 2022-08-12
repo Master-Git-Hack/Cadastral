@@ -1,8 +1,8 @@
 /** @format */
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { consume } from "./index.config";
-import { ApiProps } from "./index.types";
+import { consume } from "./api.config";
+import { ApiProps } from "./api.types";
 /**
  * It creates a set of thunks that can be used to make requests to the server
  * @param {string} component - string - The name of the component that will be used to create the

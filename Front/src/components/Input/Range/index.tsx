@@ -1,7 +1,7 @@
 /** @format */
 
 import { Slider } from "rsuite";
-import { RangeProps } from "./index.types";
+import { RangeProps } from "./range.types";
 export const Range = ({
 	defaultValue,
 	onChange,

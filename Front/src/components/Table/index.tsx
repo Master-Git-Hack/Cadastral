@@ -1,6 +1,6 @@
 /** @format */
 
-import { TableComponent, TableProps } from "./index.types";
+import { TableComponent, TableProps } from "./table.types";
 
 const className = (props: TableProps): string =>
 	`align-self-middle align-middle justify-content-center align-items-center justify-content-sm-center text-center ${

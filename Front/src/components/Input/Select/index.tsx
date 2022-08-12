@@ -1,7 +1,7 @@
 /** @format */
 import { SelectPicker } from "rsuite";
 import { Tooltip } from "../../Tooltip";
-import { SelectProps, Item } from "./index.types";
+import { SelectProps, Item } from "./select.types";
 export const Normal = ({
 	index,
 	className,
@@ -13,17 +13,16 @@ export const Normal = ({
 }: SelectProps): JSX.Element => {
 	const id = `select component for ${label ?? "select"} ${index}`;
 
-	const current = defaultValue.label ?? defaultValue.value ?? 0;
 	return (
 		<div className="d-flex d-flex-row">
 			<label htmlFor={id} className="invisible disabled">
 				{label}
 			</label>
-			<Tooltip id={id} tooltip={current}>
+			<Tooltip id={id} tooltip={value}>
 				<select
 					id={id}
 					onChange={onChange}
-					defaultValue={current}
+					defaultValue={defaultValue}
 					value={value}
 					className={`form-select form-select-sm mx-auto ${className}`}
 				>
@@ -31,7 +30,7 @@ export const Normal = ({
 						<option
 							key={`option for select component ${label} ${index} ${indx}`}
 							className="bg-light"
-							value={item.value ?? index}
+							value={(item.value as any) ?? index}
 						>
 							{item.label}
 						</option>

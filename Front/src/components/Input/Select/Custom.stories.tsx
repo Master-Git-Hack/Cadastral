@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { Select } from ".";
 import { SelectPicker as Component } from "rsuite";
-import { Item } from "./index.types";
+import { Item } from "./select.types";
 export default {
 	title: "Components/Input/Select/Custom",
 	component: Select.Custom,
@@ -40,31 +40,29 @@ export default {
 		},
 		defaultValue: {
 			text: "Default Value",
-			control: { type: "text" | "number" | "any" },
-			type: { name: "string", required: false },
-			defaultValue: "",
+
+			defaultValue: {},
 		},
 		data: {
 			text: "Data",
-			type: { name: "array", required: false },
 			defaultValue: [],
 		},
 
 		value: {
 			text: "Value",
-			type: { name: "array", required: false },
-			defaultValue: "",
+
+			defaultValue: {},
 		},
 		placement: {
 			text: "Placement",
-			control: { type: "text" },
-			type: { name: "string", required: false },
+			control: { type: "select" },
+
 			defaultValue: "bottomStart",
 		},
 		block: {
 			text: "Block",
 			control: { type: "boolean" },
-			type: { name: "boolean", required: false },
+
 			defaultValue: false,
 		},
 		onSelect: {
@@ -73,8 +71,8 @@ export default {
 		},
 		size: {
 			text: "Size",
-			control: { type: "text" },
-			type: { name: "string", required: false },
+			control: { type: "select" },
+
 			defaultValue: "md",
 		},
 		onChange: {
@@ -90,10 +88,8 @@ export const CustomSelect = Custom.bind({});
 
 CustomSelect.args = {
 	label: "Select",
-	defaultValue: {
-		label: "+",
-		value: 1,
-	},
+	defaultValue: 1,
+	value: 1,
 	data: [
 		{
 			label: "+",

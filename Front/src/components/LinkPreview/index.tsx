@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 import { LinkPreview as Component } from "@dhaiwat10/react-link-preview";
-import { LinkPreviewProps } from "./index.types";
+import { LinkPreviewProps } from "./linkPreview.types";
 import { Text } from "../Input";
 import { isURL } from "../../utils/url";
 export const LinkPreview = ({ onChange, value, size }: LinkPreviewProps): JSX.Element => {

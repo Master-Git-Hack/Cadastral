@@ -3,7 +3,7 @@
 import { Pagination } from "./Pagination";
 import { Container } from "../Container";
 import { useState, useEffect } from "react";
-import { PaginatedViewProps } from "./index.types";
+import { PaginatedViewProps } from "./paginatedView.types";
 export const PaginatedView = ({
 	children,
 	title,
@@ -26,7 +26,7 @@ export const PaginatedView = ({
 					<br />
 					<Pagination
 						activePage={activePage}
-						onChange={setActivePage}
+						onChangePage={setActivePage}
 						limit={limit ?? totalPages}
 						totalPages={totalPages}
 					/>

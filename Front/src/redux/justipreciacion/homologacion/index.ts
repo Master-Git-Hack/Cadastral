@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { api } from "../../../api";
 import { getURLParams } from "../../../utils/url";
 import { RootState } from "../../store";
-import { reducers } from "./index.reducer";
-import { initialState as initial } from "./index.types";
+import { reducers } from "./homologacion.reducer";
+import { initialState as initial } from "./homologacion.interface";
 
 const name = "homologacion";
 const tipo: string = getURLParams("tipo")?.toUpperCase() ?? "TERRENO";
@@ -12,7 +12,7 @@ const tipo_servicio: string = getURLParams("tipo_servicio")?.toUpperCase() ?? "j
 const initialState = initial(tipo, tipo_servicio);
 
 export const consumeHomologacion = api(name);
-const { get, post, put } = consumeHomologacion;
+const { get, post, patch } = consumeHomologacion;
 
 const slice = createSlice({ name, initialState, reducers });
 

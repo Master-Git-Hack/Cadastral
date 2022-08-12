@@ -12,15 +12,12 @@ export default {
 			defaultValue: "Table",
 		},
 		header: {
-			type: { name: "array", required: false },
 			defaultValue: [],
 		},
 		body: {
-			type: { name: "array", required: false },
 			defaultValue: [],
 		},
 		footer: {
-			type: { name: "array", required: false },
 			defaultValue: [],
 		},
 		customHeader: {
@@ -40,7 +37,7 @@ export default {
 		},
 		hasFooter: {
 			control: { type: "boolean" },
-			type: { name: "boolean", required: false },
+
 			defaultValue: false,
 		},
 	},

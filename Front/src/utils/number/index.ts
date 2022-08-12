@@ -1,6 +1,6 @@
 /** @format */
 
-import { FancyProps } from "./index.types";
+import { FancyProps } from "./number.types";
 /**
  * It takes a number and returns with the number of decimals given, by default it returns with 3 decimals.
  *

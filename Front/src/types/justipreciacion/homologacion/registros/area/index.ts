@@ -2,7 +2,7 @@
 
 import moment from "moment";
 import { AreaProps } from "..";
-import { zoneInformation } from "../../../../../redux/justipreciacion/homologacion/index.types";
+import { zoneInformation } from "../../../../../redux/justipreciacion/homologacion/homologacion.interface";
 import { getURLParams } from "../../../../../utils/url";
 
 const date = moment().format("yyyy-MM-DD");

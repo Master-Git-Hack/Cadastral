@@ -2,19 +2,8 @@
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { SADefinedProps, SweetAlertProps } from "./index.types";
-
-const color: { [key: string]: string } = {
-	success: "#188754",
-	danger: "#dc3546",
-	warning: "#f39c12",
-	info: "#00c0ef",
-	primary: "#3c8dbc",
-	secondary: "#6c757e",
-	light: "#f8f9fb",
-	dark: "#212429",
-};
-const pickColor = (key: string): string => color[key];
+import { colorAlertPicker } from "../color";
+import { SADefinedProps, SweetAlertProps } from "./alert.types";
 
 const definedProps = {
 	backdrop: false,
@@ -68,8 +57,8 @@ export const Component = (props: SweetAlertProps) => {
 		grow,
 		showConfirmButton: props?.showConfirmButton || true,
 		confirmButtonText: props?.confirmButtonText || "OK",
-		confirmButtonColor: pickColor(confirmButtonColor ?? "primary"),
-		cancelButtonColor: pickColor(cancelButtonColor ?? "secondary"),
+		confirmButtonColor: colorAlertPicker(confirmButtonColor ?? "primary"),
+		cancelButtonColor: colorAlertPicker(cancelButtonColor ?? "secondary"),
 		showDenyButton,
 		denyButtonText: props?.denyButtonText || "Cancel",
 		showCancelButton,
@@ -83,7 +72,7 @@ export const Component = (props: SweetAlertProps) => {
 		html,
 		didOpen: () => {
 			isLoading && Swal.showLoading();
-			didOpen;
+			return didOpen;
 		},
 		...definedProps,
 	});
@@ -109,15 +98,15 @@ const base = (
 };
 
 export const Success = (props: SADefinedProps) =>
-	base(props.title, props.text, "success", pickColor("success"), props.isLoading);
+	base(props.title, props.text, "success", colorAlertPicker("success"), props.isLoading);
 export const Error = (props: SADefinedProps) =>
-	base(props.title, props.text, "error", pickColor("danger"), props.isLoading);
+	base(props.title, props.text, "error", colorAlertPicker("danger"), props.isLoading);
 export const Warning = (props: SADefinedProps) =>
-	base(props.title, props.text, "warning", pickColor("warning"), props.isLoading);
+	base(props.title, props.text, "warning", colorAlertPicker("warning"), props.isLoading);
 export const Info = (props: SADefinedProps) =>
-	base(props.title, props.text, "info", pickColor("info"), props.isLoading);
+	base(props.title, props.text, "info", colorAlertPicker("info"), props.isLoading);
 export const Question = (props: SADefinedProps) =>
-	base(props.title, props.text, "question", pickColor("primary"), props.isLoading);
+	base(props.title, props.text, "question", colorAlertPicker("primary"), props.isLoading);
 export const SimpleMessage = (titleText: string = "", text: string = "") =>
 	Swal.fire({ titleText, text });
 

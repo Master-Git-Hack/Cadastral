@@ -1,0 +1,2 @@
+/** @format */
+export interface Selector{}

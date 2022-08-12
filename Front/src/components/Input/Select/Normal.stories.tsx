@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import { Select } from ".";
 import { SelectPicker as Component } from "rsuite";
-import { Item } from "./index.types";
+import { Item } from "./select.types";
 export default {
 	title: "Components/Input/Select/Normal",
 	component: Select.Normal,
@@ -40,19 +40,18 @@ export default {
 		},
 		defaultValue: {
 			text: "Default Value",
-			control: { type: "text" | "number" | "any" },
-			type: { name: "string", required: false },
-			defaultValue: "",
+			control: { type: "text" },
+			defaultValue: undefined,
 		},
 		data: {
 			text: "Data",
-			type: { name: "array", required: false },
+
 			defaultValue: [],
 		},
 
 		value: {
 			text: "Value",
-			control: { type: "text" | "number" | "any" },
+			control: { type: "text" },
 			type: { name: "string", required: false },
 			defaultValue: "",
 		},

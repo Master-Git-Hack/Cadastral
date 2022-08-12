@@ -1,7 +1,7 @@
 /** @format */
 
 import { Button as Component } from "rsuite";
-import { ButtonProps } from "./index.types";
+import { ButtonProps } from "./button.types";
 import { colorPicker, appearancePicker } from "../../utils/color";
 export const Button = ({
 	children,

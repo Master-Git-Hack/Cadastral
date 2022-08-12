@@ -5,13 +5,14 @@
       "dom",
       "dom.iterable",
       "esnext",
-      "es2022",
+      "es2022"
     ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -19,14 +20,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "incremental": true,
+    "jsx": "preserve",
+    "incremental": true
   },
   "include": [
     "src"
-  ],
+, "src/views/Justipreciacion/Homologacion/homologacion/.stories.tsx"  ],
   "exclude": [
     "node_modules",
-    "dist","lib","lib-amd"
+    "dist",
+    "lib",
+    "lib-amd"
   ]
 }
