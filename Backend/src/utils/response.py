@@ -95,7 +95,7 @@ class Response:
             response (dict): response to the request
             status_code (int): status code of the response
         """
-        status = "fail"
+        status = "warning"
         status_code = status_code or 501
         data_response = dict(
             status=status,

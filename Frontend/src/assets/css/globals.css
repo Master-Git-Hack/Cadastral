@@ -1,0 +1,28 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-navbar {
+	background: rgb(204, 204, 176) !important;
+}
+.text-navbar {
+	color: rgb(16, 162, 162) !important;
+}
+.card {
+	border-radius: 30px !important;
+}
+.text-dark{
+  -webkit-text-stroke: 0.2px black!important;
+}

@@ -31,7 +31,6 @@ class CostosConstruccion(db.Model):
         Returns:
             None
         """
-        print(collection["factor_gto"])
         self.descripcion = collection["descripcion"]
         self.costo_directo = collection["costo_directo"]
         self.indirectos = collection["indirectos"]

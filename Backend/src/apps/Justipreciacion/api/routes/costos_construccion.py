@@ -29,7 +29,6 @@ class CostosConstruccion(Resource):
             response (dict): response to the request
             status_code (int): status code of the response
         """
-        print(justipreciacion)
         return get_costos_construccion(justipreciacion)
 
     @ns.expect(model)

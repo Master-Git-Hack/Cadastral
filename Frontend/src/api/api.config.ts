@@ -8,7 +8,7 @@ import { PathLike } from "fs";
  * It creates an axios instance with the baseURL, timeout, headers, responseType, and paramsSerializer
  * @param {"blob" | "json"} responseType - "blob" | "json"
  */
-export const consume = (responseType: "blob" | "json") =>
+export const consume = (responseType: "blob" | "json" = "json") =>
 	axios.create({
 		baseURL:
 			process.env.NODE_ENV === "development"

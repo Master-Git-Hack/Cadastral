@@ -21,7 +21,7 @@ WORKDIR /usr/share/nginx/html
 # Remove default nginx static assets
 RUN rm -rf ./*
 COPY nginx.conf /etc/nginx/nginx.conf
-EXPOSE 80
+EXPOSE 81
 COPY --from=builder /usr/src/Frontend/build /usr/share/nginx/html
 # Containers run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

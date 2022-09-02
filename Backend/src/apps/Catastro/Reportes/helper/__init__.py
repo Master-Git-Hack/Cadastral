@@ -71,7 +71,6 @@ def render_templates(data: dict) -> list:
     payload = []
     for item in data:
         filename = f"{Paths.tmp}/{item['registro']}"
-        print(filename)
         with open(f"{filename}.html", "w", encoding="UTF-8") as file:
             file.write(
                 template.render(

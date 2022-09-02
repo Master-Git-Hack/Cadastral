@@ -30,7 +30,7 @@ def get_oc(_id: int) -> Tuple[Dict, int]:
             registro=justipreciacion.registro
         ).first()
         if not obras_c:
-            return Response.bad_request(
+            return Response.error(
                 message="No existe registro guardado, se creará uno nuevo.",
                 operation="HOMOLOGACION/ObrasComplementarias",
                 status_code=202,

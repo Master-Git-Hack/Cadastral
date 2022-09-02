@@ -63,7 +63,6 @@ class Auth:
         This method gets the logged in user
         """
         auth_token = new_request.headers.get("Authorization")
-        print(auth_token)
         if auth_token:
             resp = User.decode_auth_token(auth_token)
             if not isinstance(resp, str):

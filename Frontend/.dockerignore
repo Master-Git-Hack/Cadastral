@@ -4,5 +4,6 @@ node_modules/*
 .prettierignore
 ci.yml
 README.md
+.next/*
 start.sh
 

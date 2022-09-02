@@ -4,4 +4,11 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import "@testing-library/jest-dom/extend-expect";
+import React from "react";
+import "@testing-library/jest-dom";
+
+// setupFile.js <-- this will run before the tests in jest.
+import { setGlobalConfig } from "@storybook/testing-react";
+import * as globalStorybookConfig from "../.storybook/preview"; // path of your preview.js file
+
+setGlobalConfig(globalStorybookConfig);
