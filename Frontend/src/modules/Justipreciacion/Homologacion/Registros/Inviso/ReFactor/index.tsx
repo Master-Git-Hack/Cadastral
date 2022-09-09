@@ -11,7 +11,6 @@ import {
 	setAreaSubject,
 	setAreaAverageLotArea,
 	setReFactorRoot,
-	setReFactorSurface,
 	setReFactorForm,
 } from "../../../../../../redux/justipreciacion/homologacion";
 import { asFancyNumber } from "../../../../../../utils/number";
@@ -202,64 +201,4 @@ export const ReFactor = () => {
 			}
 		/>
 	);
-	/**btnType="link"
-	actionToDo="Cambiar Raíz"
-	name={ReFactor.surface.name}
-	enabled={enabled}
-	setEnabled={(event: any) => {
-		/**const value = event.currentTarget.checked;
-		setEnabled(value);
-		!value &&
-			dispatch(
-				setRootReFactor({
-					key: "root",
-					value: 8,
-				}),
-			) &&
-			dispatch(
-				setRootReFactor({
-					key: "observation",
-					value: "",
-				}),
-			); */
-	/*}}
-	comment={ReFactor.observation}
-	setComment={(event: any) => {
-		/**dispatch(
-			setRootReFactor({
-				key: "observation",
-				value: event.currentTarget.value,
-			}),
-		) */
-	/*  }}
-	ComponentToJustify={
-		<>
-			Valor actual: Raíz {ReFactor.root} (
-			<small>
-				<strong>
-					<sup>{ReFactor.root}</sup>&radic;{" "}
-					<span style={{ textDecoration: "overline" }}>
-						x
-					</span>{" "}
-				</strong>
-			</small>
-			)
-			<input
-				type="number"
-				value={ReFactor.root}
-				className="form-control form-control-sm"
-				onChange={(event) => {
-					/**enabled &&
-					dispatch(
-						setRootReFactor({
-							key: "root",
-							value: event.currentTarget
-								.valueAsNumber,
-						}),
-					) */
-	/*   }}
-				disabled={!enabled}
-			/>
-		</>
-	} */
 };

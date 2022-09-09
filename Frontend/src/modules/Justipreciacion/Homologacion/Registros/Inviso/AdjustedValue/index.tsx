@@ -10,6 +10,7 @@ import {
 	setRoundedResult,
 } from "../../../../../../redux/justipreciacion/homologacion";
 import { JustifyChanges } from "../../../../../../components/Custom/JustifyChanges";
+import { renta, terreno } from "../../../../../../redux/justipreciacion";
 
 /** @format */
 export const AdjustedValue = () => {
@@ -20,16 +21,10 @@ export const AdjustedValue = () => {
 	} = documentation.SalesCost.averageUnitCost;
 
 	const dispatch = useAppDispatch();
-	/** useEffect(() => {
+	useEffect(() => {
 		dispatch(record.type.includes("TERRENO") ? terreno(adjustedValue) : renta(adjustedValue));
 	}, [adjustedValue]);
-	const setValue = (key: string, value: number | string) =>
-		dispatch(
-			setRoundedResult({
-				key,
-				value,
-			}),
-		);*/
+
 	const options = ["Sin Redondeo", "A la Unidad", "A la Decena", "A la Centena", "Al Millar"];
 	return (
 		<div className="my-5">

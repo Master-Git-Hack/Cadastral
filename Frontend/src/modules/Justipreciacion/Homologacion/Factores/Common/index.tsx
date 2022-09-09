@@ -14,7 +14,6 @@ import { asFancyNumber, formatNumb } from "../../../../../utils/number";
 import { Title, Header } from "../factores.interface";
 import { Component } from "../../../../../components/Table";
 import { searchByValue } from "../../../../../utils/search";
-import { useEffect } from "react";
 
 const Body = ({ options, data, subject, name, tag }: BodyProps): JSX.Element => {
 	const dispatch = useAppDispatch();

@@ -14,9 +14,6 @@ import {
 import { asFancyNumber } from "../../../../../utils/number";
 import { AdjustedValue } from "./AdjustedValue";
 import { ReFactor } from "./ReFactor";
-//s={24} sm={10} md={10} lg={10} xl={6} xxl={10}
-// xs={24} sm={4} md={4} lg={4} xl={12} xxl={8}
-// xs={24} sm={10} md={10} lg={10} xl={6} xxl={10}
 export const Indiviso = () => {
 	return (
 		<Grid fluid>

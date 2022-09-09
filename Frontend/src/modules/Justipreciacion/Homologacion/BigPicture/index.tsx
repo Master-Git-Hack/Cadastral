@@ -18,7 +18,6 @@ import { positions } from "../../../../redux/justipreciacion/homologacion/homolo
 import { asFancyNumber } from "../../../../utils/number";
 import { JustifyChanges } from "../../../../components/Custom/JustifyChanges";
 import { RoundedSelection } from "../../../../components/Custom/RoundedSelection";
-import { Tooltip } from "../../../../components/Tooltip";
 import { terreno, renta } from "../../../../redux/justipreciacion";
 const { Column, ColumnGroup, HeaderCell, Cell } = Table;
 
@@ -401,50 +400,3 @@ const Footer = ({
 		</div>
 	);
 };
-/**<Table
-			wordWrap="break-word"
-			bordered
-			cellBordered
-			data={[{ id: 1, area: asFancyNumber(averageLotArea), sujeto: "SUJETO" }]}
-			hover
-			loading={loading}
-			autoHeight
-			affixHorizontalScrollbar
-			showHeader={false}
-		>
-			<Column
-				rowSpan={(rowData: any): number => {
-					return 2;
-				}}
-				colSpan={2}
-				align="center"
-				verticalAlign="middle"
-				flexGrow={1}
-				fixed
-			>
-				<HeaderCell>SUJETO</HeaderCell>
-				<Cell dataKey="sujeto" />
-			</Column>
-			<Column
-				rowSpan={(rowData: any): number => {
-					return 2;
-				}}
-				colSpan={2}
-				align="center"
-				verticalAlign="middle"
-				flexGrow={2}
-				fixed
-			>
-				<HeaderCell>SUJETO</HeaderCell>
-				<Cell dataKey="area" />
-			</Column>
-			<Column colSpan={colSpan} align="center" verticalAlign="middle" flexGrow={2} fixed>
-				<HeaderCell>SUJETO</HeaderCell>
-				<Cell dataKey="area" />
-			</Column>
-			<Column colSpan={colSpan} align="center" verticalAlign="middle" flexGrow={2} fixed>
-				<HeaderCell>SUJETO</HeaderCell>
-				<Cell dataKey="area" />
-			</Column>
-		</Table>
-		*/

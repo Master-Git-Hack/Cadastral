@@ -261,14 +261,14 @@ export const Calculation = () => {
 	const type = record.type.includes("TERRENO");
 	const averageLotArea = Area.averageLotArea.value;
 
-	/*
-    const { cna_edad, cna_superficie } = useAppSelector(getJustipreciacion);
+	const { cna_edad, cna_superficie } = useAppSelector(getJustipreciacion);
 	useEffect(() => {
 		if (subject.value !== cna_superficie) {
-			dispatch(setInitialState({ type, cna_superficie: subject.value, cna_edad }));
+			dispatch(
+				setInitialState({ type: record.type, cna_superficie: subject.value, cna_edad }),
+			);
 		}
 	}, [subject.value]);
-    */
 
 	return (
 		<Component

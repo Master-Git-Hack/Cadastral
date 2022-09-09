@@ -14,22 +14,15 @@ import {
 import { asFancyNumber } from "../../../../../../utils/number";
 const Select = SelectComponent.Normal;
 const CustomSelect = SelectComponent.Custom;
-const Component = () => {
-	const dispatch = useAppDispatch();
-	const { factors, documentation, handlers } = useAppSelector(getHomologaciones);
-	const { subject, data } = documentation.Area;
-	const { options, findLocation } = handlers.Area;
-	const { Zone } = factors;
-	return (
-		<Table.Component
-			name="Complement of Zone by Areas"
-			customHeader={<Header />}
-			customBody={<Body />}
-			hasFooter
-			customFooter={<Footer />}
-		/>
-	);
-};
+const Component = () => (
+	<Table.Component
+		name="Complement of Zone by Areas"
+		customHeader={<Header />}
+		customBody={<Body />}
+		hasFooter
+		customFooter={<Footer />}
+	/>
+);
 const objectOptions: { [key: string]: string } = {
 	"Densidad de Población": "populationDensity",
 	"Población Económicamente Activa": "economicallyActivePopulation",
