@@ -2,7 +2,7 @@ version: '3.8'
 #name: cadastral.app.container.docker
 services:
   backend:
-    container_name: cadastral.flask.container.docker
+    container_name: backend_docker
     build:
       context: ./Backend/
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
     networks:
       - cadastral_network
   frontend:
-    container_name: cadastral.react.container.docker
+    container_name: frontend_docker
     build:
       context: ./Frontend/
       dockerfile: Dockerfile
@@ -26,7 +26,8 @@ services:
     expose:
       - 80
     ports:
-      - 80:80
+    #port used for real server : port used in docker
+      - 81:80
     depends_on:
       - backend
     networks:
