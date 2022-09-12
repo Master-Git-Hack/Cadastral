@@ -347,7 +347,7 @@ const Footer = ({
 													}),
 												);
 										}}
-										comment={observations}
+										comment={roundedTo.observations}
 										setComment={(value: string) =>
 											dispatch(
 												setRoundedTo({

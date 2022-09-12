@@ -268,6 +268,7 @@ export const reducers = {
 	setRoundedTo: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
 		const { roundedTo } = state.documentation.SalesCost.averageUnitCost;
 		if (key !== undefined && value !== undefined) roundedTo[key] = value;
+
 		state = updateValuesFN(state);
 	},
 	setRoundedResult: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {

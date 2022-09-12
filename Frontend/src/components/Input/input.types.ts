@@ -27,7 +27,7 @@ export interface TextProps {
 		| "number"
 		| "color";
 	placeholder?: string;
-	value: string;
+	value: string | number;
 	size?: "lg" | "md" | "sm" | "xs";
 	rows?: number;
 	disabled?: boolean;

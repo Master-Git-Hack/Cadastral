@@ -25,7 +25,7 @@ export const Text = ({
 	const [visible, setVisible] = useState(false);
 
 	return (
-		<InputGroup inside size={size}>
+		<InputGroup size={size}>
 			<Component
 				value={value}
 				size={size}

@@ -101,16 +101,18 @@ export const PaginatedView = ({
 						{footer}
 					</div>
 					<div className="d-flex flex-row justify-content-center mb-5 mt-1">
-						<Pagination
-							size="sm"
-							activePage={activePage}
-							onChangePage={(page: number) => {
-								setShowAnimation(false);
-								setActivePage(page);
-							}}
-							limit={limit}
-							totalPages={totalPages}
-						/>
+						{totalPages > 1 && (
+							<Pagination
+								size="sm"
+								activePage={activePage}
+								onChangePage={(page: number) => {
+									setShowAnimation(false);
+									setActivePage(page);
+								}}
+								limit={limit}
+								totalPages={totalPages}
+							/>
+						)}
 					</div>
 				</div>
 			}

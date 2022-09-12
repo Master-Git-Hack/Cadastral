@@ -41,6 +41,7 @@ def get_oc(_id: int) -> Tuple[Dict, int]:
                 documentation=obras_c.datos,
                 calculous=obras_c.calculo,
                 total=obras_c.valor_unitario,
+                isComplete=obras_c.calculo_completo,
             )
             return Response.success(
                 data=data,
@@ -124,6 +125,7 @@ def patch_oc(_id: int, data: Dict) -> Tuple[Dict, int]:
             obras_c.calculo = data["calculo"]
             obras_c.valor_unitario = data["valor_unitario"]
             obras_c.registro = data["registro"]
+            obras_c.calculo_completo = data["calculo_completo"]
             if save_changes(obras_c):
                 return Response.success(
                     data=None,

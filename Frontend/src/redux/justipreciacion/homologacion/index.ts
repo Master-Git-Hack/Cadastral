@@ -2,6 +2,7 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
+import { checkErrors } from "./homologacion.actions";
 
 import { initialState } from "./homologacion.initialState";
 import { name, consume, StateProps } from "./homologacion.interface";
@@ -43,7 +44,8 @@ const slice = createSlice({
 								state.factors = factors;
 								state.documentation = documentation;
 								state.record = record;
-
+								state.errors = checkErrors(state);
+								console.log(documentation);
 								break;
 						}
 					}

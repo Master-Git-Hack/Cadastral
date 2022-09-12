@@ -38,7 +38,13 @@ export const slice = createSlice({
 							case "CostosConstruccion":
 								const { factorGTO, redondeo, titulo, record } = data;
 								state.titulo = titulo;
-								state.data = totalRows(data.data);
+								const result = data.data.map((item: any, index: number) => ({
+									...item,
+									status: null,
+									id: index + 1,
+								}));
+
+								state.data = totalRows(result);
 								state.total = getTotal(state.data);
 								state.factorGTO = factorGTO;
 								state.redondeo = redondeo ?? 0;

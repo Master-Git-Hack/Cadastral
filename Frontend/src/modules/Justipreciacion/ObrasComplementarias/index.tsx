@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Justipreciacion } from "..";
 import { Danger, Save, Success } from "../../../components/Button";
+import { Switch } from "../../../components/Input/Switch";
 import { PaginatedView } from "../../../components/PaginatedView";
 import { Spinner } from "../../../components/Spinner";
 import { useAppDispatch, useAppSelector } from "../../../redux";
@@ -20,18 +21,23 @@ import {
 	post,
 	patch,
 	checkErrors,
+	setIsComplete,
 } from "../../../redux/justipreciacion/obrasComplementarias";
 import { Alert } from "../../../utils/alert";
 import { Calculation } from "./Calculation";
 import { Documentation } from "./Documentation";
+import { PartialCalculation } from "./PartialCalculation";
 
-const Pages = {
-	1: <Documentation />,
-	2: <Calculation />,
-};
+const Pages = (isComplete: boolean = true) =>
+	isComplete
+		? {
+				1: <Documentation />,
+				2: <Calculation />,
+		  }
+		: { 1: <PartialCalculation /> };
 export const ObrasComplementarias = () => {
 	const dispatch = useAppDispatch();
-	const { Calculation, Documentation, total, status, message, errors, record } =
+	const { Calculation, Documentation, total, status, message, errors, record, isComplete } =
 		useAppSelector(getOC);
 	const justipreciacion = useAppSelector(getJustipreciacion);
 	const [showErrors, setShowErrors] = useState(false);
@@ -67,7 +73,7 @@ export const ObrasComplementarias = () => {
 	}, [message, status]);
 
 	const saveAction = () => {
-		dispatch(checkErrors());
+		!isComplete && dispatch(checkErrors());
 		const url = `HOMOLOGACION/ObrasComplementarias/${justipreciacion.id}`;
 		const responseType = "json";
 		const payload = {
@@ -75,6 +81,7 @@ export const ObrasComplementarias = () => {
 			calculo: Calculation,
 			valor_unitario: total,
 			registro: justipreciacion.registro,
+			calculo_completo: isComplete,
 		};
 		const { length } = errors;
 		setShowErrors(length > 0);
@@ -147,10 +154,10 @@ export const ObrasComplementarias = () => {
 							<h1>
 								Cálculo: <strong>Obras Complementarias</strong>
 							</h1>
-							<Save status={"newOne"} onClick={saveAction} />
+							<Save status={record.status} onClick={saveAction} />
 						</>
 					}
-					totalPages={2}
+					totalPages={isComplete ? 2 : 1}
 					actions={{
 						children: (
 							<>
@@ -162,8 +169,19 @@ export const ObrasComplementarias = () => {
 									>
 										Agregar Productos
 									</Success>
-									<div className="text-end">
-										<strong></strong>
+									<div className="ms-4 text-end">
+										<Switch
+											checked={isComplete}
+											label="Realizar Cálculo Completo"
+											reverse
+											withText
+											onChange={(value: boolean) =>
+												setTimeout(
+													() => dispatch(setIsComplete(value)),
+													1000,
+												)
+											}
+										/>
 									</div>
 								</div>
 								<div className="d-flex justify-content-between mx-3 pb-2">
@@ -180,7 +198,7 @@ export const ObrasComplementarias = () => {
 						show: "first",
 					}}
 				>
-					{Pages}
+					{Pages(isComplete)}
 				</PaginatedView>
 			)}
 		</Justipreciacion>

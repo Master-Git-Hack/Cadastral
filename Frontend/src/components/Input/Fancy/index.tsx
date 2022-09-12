@@ -36,7 +36,7 @@ export const Fancy = ({
 		</label>
 	);
 	return (
-		<div className={"d-flex justify-content-center flex-fill"}>
+		<div className={"d-flex justify-content-center"} style={{ maxHeight: "2.4rem" }}>
 			<Label />
 			{isEditing ? (
 				<>

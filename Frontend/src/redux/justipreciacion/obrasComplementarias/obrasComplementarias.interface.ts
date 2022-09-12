@@ -11,12 +11,13 @@ import { DocumentationProps } from "../../../types/justipreciacion/obrasCompleme
 export interface Record {
 	id: number;
 	register: string;
-	status: string;
+	status: "newOne" | "exists";
 }
 export interface StateProps {
 	Documentation: Array<DocumentationProps>;
 	Calculation: Array<CalculationProps>;
 	total: number;
+	isComplete: boolean;
 	message: string;
 	status: string;
 	errors: Array<Properties>;
@@ -41,6 +42,7 @@ export const initialState: StateProps = {
 		register: "",
 		status: "newOne",
 	},
+	isComplete: true,
 	handlers: {
 		documentation,
 		calculo,

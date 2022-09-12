@@ -1,7 +1,11 @@
 /** @format */
 
 import { PayloadAction } from "@reduxjs/toolkit";
-import { checkErrorsFN, updateValuesFN } from "./obrasComplementarias.actions";
+import {
+	checkErrorsFN,
+	updatePartialValuesFN,
+	updateValuesFN,
+} from "./obrasComplementarias.actions";
 import { StateProps } from "./obrasComplementarias.interface";
 
 export const reducers = {
@@ -151,5 +155,53 @@ export const reducers = {
 	},
 	checkErrors: (state: StateProps) => {
 		state.errors = checkErrorsFN(state);
+	},
+	setIsComplete: (state: StateProps, { payload }: PayloadAction<boolean>) => {
+		state.isComplete = payload;
+	},
+	setPartialAge: (state: StateProps, { payload: { index, key, value } }: PayloadAction<any>) => {
+		if (index !== undefined && key !== undefined && value !== undefined) {
+			const { area } = state.Documentation[index];
+			area[key] = value;
+		}
+		const { total, Calculation } = updatePartialValuesFN(state);
+		state.Calculation = Calculation;
+		state.total = total;
+	},
+	setPartialTotalByUnit: (
+		state: StateProps,
+		{ payload: { index, value } }: PayloadAction<any>,
+	) => {
+		if (index !== undefined && value !== undefined) {
+			const { Documentation } = state;
+			Documentation[index].totalByUnit = value;
+		}
+		const { total, Calculation } = updatePartialValuesFN(state);
+		state.Calculation = Calculation;
+		state.total = total;
+	},
+	setPartialCalculation: (
+		state: StateProps,
+		{ payload: { index, key, value } }: PayloadAction<any>,
+	) => {
+		if (index !== undefined && value !== undefined) {
+			const { Calculation } = state;
+			Calculation[index][key] = value;
+		}
+		const { total, Calculation } = updatePartialValuesFN(state);
+		state.Calculation = Calculation;
+		state.total = total;
+	},
+	setPartialAgeFactor: (
+		state: StateProps,
+		{ payload: { index, key, value } }: PayloadAction<any>,
+	) => {
+		if (index !== undefined && key !== undefined && value !== undefined) {
+			const { age } = state.Calculation[index];
+			age[key] = value;
+		}
+		const { total, Calculation } = updatePartialValuesFN(state);
+		state.Calculation = Calculation;
+		state.total = total;
 	},
 };

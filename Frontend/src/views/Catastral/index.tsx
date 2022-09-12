@@ -41,6 +41,14 @@ export default function Catastral() {
 						)}
 					</>
 				}
+				footer={
+					<span className="text-muted">
+						Para finalizar el registro debe posicionarse en la página 6 en donde se
+						encuentra el procesos de indivisos en caso de haber sido utilizado, sino el
+						valor a actualizar en el registro de justipreciación será el calculado en la
+						página 5.
+					</span>
+				}
 				totalPages={length}
 				actions={{
 					children: (
@@ -59,7 +67,7 @@ export default function Catastral() {
 							)}
 						</>
 					),
-					position: "top",
+					position: "bottom",
 					show: "beforeLast",
 				}}
 			>

@@ -184,6 +184,14 @@ export const Homologacion = () => {
 							/>
 						</>
 					}
+					footer={
+						<span className="text-muted fw-lighter">
+							Sí el ejercicio cuenta con proceso de cálculo de indivisos, favor de
+							posicionarse en la página 6 o posterior para actualizar el registro de
+							justipreciación, sino se utilizará el valor resultante mostrado en la
+							página 5.
+						</span>
+					}
 					totalPages={!isUsed ? 6 : 7}
 					actions={{
 						children: (

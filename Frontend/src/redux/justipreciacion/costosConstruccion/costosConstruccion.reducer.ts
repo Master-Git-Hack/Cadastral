@@ -16,6 +16,7 @@ export const reducers = {
 			handlers: { totalRows, getTotal },
 		} = state;
 		if (key !== undefined && value !== undefined && id !== undefined) {
+			console.log(key, value, id);
 			state.data[id][key] = value;
 			state.data = totalRows(state.data);
 			state.total = getTotal(state.data);
