@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Justipreciacion } from "..";
 import { Danger, Save, Success } from "../../../components/Button";
+import { RoundedSelection } from "../../../components/Custom/RoundedSelection";
 import { Switch } from "../../../components/Input/Switch";
 import { PaginatedView } from "../../../components/PaginatedView";
 import { Spinner } from "../../../components/Spinner";
@@ -22,6 +23,7 @@ import {
 	patch,
 	checkErrors,
 	setIsComplete,
+	setRound,
 } from "../../../redux/justipreciacion/obrasComplementarias";
 import { Alert } from "../../../utils/alert";
 import { Calculation } from "./Calculation";
@@ -37,8 +39,17 @@ const Pages = (isComplete: boolean = true) =>
 		: { 1: <PartialCalculation /> };
 export const ObrasComplementarias = () => {
 	const dispatch = useAppDispatch();
-	const { Calculation, Documentation, total, status, message, errors, record, isComplete } =
-		useAppSelector(getOC);
+	const {
+		Calculation,
+		Documentation,
+		total,
+		status,
+		message,
+		errors,
+		record,
+		isComplete,
+		rounded,
+	} = useAppSelector(getOC);
 	const justipreciacion = useAppSelector(getJustipreciacion);
 	const [showErrors, setShowErrors] = useState(false);
 	const [loadingSave, setLoadingSave] = useState(false);
@@ -156,6 +167,13 @@ export const ObrasComplementarias = () => {
 							</h1>
 							<Save status={record.status} onClick={saveAction} />
 						</>
+					}
+					footer={
+						<RoundedSelection
+							currentItem={rounded}
+							onSelect={(currentItem) => dispatch(setRound(currentItem))}
+							placement="rightEnd"
+						/>
 					}
 					totalPages={isComplete ? 2 : 1}
 					actions={{

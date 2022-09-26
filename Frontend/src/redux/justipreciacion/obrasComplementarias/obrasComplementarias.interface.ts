@@ -23,6 +23,7 @@ export interface StateProps {
 	errors: Array<Properties>;
 	record: Record;
 	handlers: Properties;
+	rounded: number;
 }
 const { calculo, documentation } = ObrasComplementarias;
 const { documentationTemplate } = documentation;
@@ -43,6 +44,7 @@ export const initialState: StateProps = {
 		status: "newOne",
 	},
 	isComplete: true,
+	rounded: -1,
 	handlers: {
 		documentation,
 		calculo,

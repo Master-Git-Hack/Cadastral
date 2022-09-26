@@ -134,6 +134,7 @@ export const {
 	setPartialTotalByUnit,
 	setPartialCalculation,
 	setPartialAgeFactor,
+	setRound,
 } = slice.actions;
 export const getOC = (state: RootState) => state.ObrasComplementarias;
 export const getDocumentation = (state: RootState) => state.ObrasComplementarias.Documentation;

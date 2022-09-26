@@ -1,6 +1,7 @@
 /** @format */
 
 import { PayloadAction } from "@reduxjs/toolkit";
+import { roundNumber } from "../../../utils/number";
 import {
 	checkErrorsFN,
 	updatePartialValuesFN,
@@ -203,5 +204,12 @@ export const reducers = {
 		const { total, Calculation } = updatePartialValuesFN(state);
 		state.Calculation = Calculation;
 		state.total = total;
+	},
+	setRound: (state: StateProps, { payload }: PayloadAction<number>) => {
+		if (payload !== undefined) state.rounded = payload;
+		const { total, Calculation } = updatePartialValuesFN(state);
+		state.Calculation = Calculation;
+
+		state.total = roundNumber(total, payload ?? -1);
 	},
 };
