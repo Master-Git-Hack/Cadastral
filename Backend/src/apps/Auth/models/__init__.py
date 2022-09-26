@@ -92,4 +92,4 @@ class User(db.Model):
         return f"<User '{self.username}'>"
 
 
-db.create_all()
+# db.create_all()

@@ -1,5 +1,5 @@
 """Model for the ObrasComplementarias table"""
-from sqlalchemy import JSON, BigInteger, Boolean, Column, Float, String
+from sqlalchemy import JSON, BigInteger, Boolean, Column, Float, SmallInteger, String
 
 from .... import db, ma
 
@@ -15,6 +15,7 @@ class ObrasComplementarias(db.Model):
     valor_unitario = Column(Float)
     registro = Column(String())
     calculo_completo = Column(Boolean)
+    redondeo = Column(SmallInteger)
 
     def __init__(self, collection: dict) -> None:
         """
@@ -29,6 +30,7 @@ class ObrasComplementarias(db.Model):
         self.valor_unitario = collection["valor_unitario"]
         self.registro = collection["registro"]
         self.calculo_completo = collection["calculo_completo"]
+        self.redondeo = collection["redondeo"]
 
 
 db.create_all()
@@ -47,6 +49,7 @@ class ObrasComplementariasSchema(ma.Schema):
             "valor_unitario",
             "registro",
             "calculo_completo",
+            "redondeo",
         )
 
 

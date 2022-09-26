@@ -25,29 +25,27 @@ def get_oc(_id: int) -> Tuple[Dict, int]:
             operation="HOMOLOGACION/ObrasComplementarias",
             status_code=200,
         )
-    else:
-        obras_c = ObrasComplementarias.query.filter_by(
-            registro=justipreciacion.registro
-        ).first()
-        if not obras_c:
-            return Response.error(
-                message="No existe registro guardado, se creará uno nuevo.",
-                operation="HOMOLOGACION/ObrasComplementarias",
-                status_code=202,
-            )
-        else:
-            data = dict(
-                record=dict(id=obras_c.id, register=obras_c.registro, status="exists"),
-                documentation=obras_c.datos,
-                calculous=obras_c.calculo,
-                total=obras_c.valor_unitario,
-                isComplete=obras_c.calculo_completo,
-            )
-            return Response.success(
-                data=data,
-                message="Datos obtenidos exitosamente",
-                operation="HOMOLOGACION/ObrasComplementarias",
-            )
+    obras_c = ObrasComplementarias.query.filter_by(
+        registro=justipreciacion.registro
+    ).first()
+    if not obras_c:
+        return Response.error(
+            message="No existe registro guardado, se creará uno nuevo.",
+            operation="HOMOLOGACION/ObrasComplementarias",
+            status_code=202,
+        )
+    return Response.success(
+        data=dict(
+            record=dict(id=obras_c.id, register=obras_c.registro, status="exists"),
+            documentation=obras_c.datos,
+            calculous=obras_c.calculo,
+            total=obras_c.valor_unitario,
+            isComplete=obras_c.calculo_completo,
+            rounded=obras_c.redondeo,
+        ),
+        message="Datos obtenidos exitosamente",
+        operation="HOMOLOGACION/ObrasComplementarias",
+    )
 
 
 def post_oc(_id: int, data: Dict) -> Tuple[Dict, int]:
@@ -67,30 +65,29 @@ def post_oc(_id: int, data: Dict) -> Tuple[Dict, int]:
             operation="HOMOLOGACION/ObrasComplementarias",
             status_code=200,
         )
-    else:
-        obras_c = ObrasComplementarias.query.filter_by(
-            registro=justipreciacion.registro
-        ).first()
-        if not obras_c:
-            new_oc = ObrasComplementarias(data)
-            if save_changes(new_oc):
-                return Response.success(
-                    data=None,
-                    message="Datos Guardados Exitosamente",
-                    operation="HOMOLOGACION/ObrasComplementarias",
-                )
-            else:
-                return Response.error(
-                    message="Error al guardar los datos",
-                    operation="HOMOLOGACION/ObrasComplementarias",
-                    status_code=200,
-                )
+
+    obras_c = ObrasComplementarias.query.filter_by(
+        registro=justipreciacion.registro
+    ).first()
+    if not obras_c:
+        new_oc = ObrasComplementarias(data)
+        if save_changes(new_oc):
+            return Response.success(
+                data=None,
+                message="Datos Guardados Exitosamente",
+                operation="HOMOLOGACION/ObrasComplementarias",
+            )
         else:
-            return Response.bad_request(
-                message="Ya existe el calculo de Obras Complementarias para la Homologacion actual en este registro de Justipreciacion.",
+            return Response.error(
+                message="Error al guardar los datos",
                 operation="HOMOLOGACION/ObrasComplementarias",
                 status_code=200,
             )
+    return Response.bad_request(
+        message="Ya existe el calculo de Obras Complementarias para la Homologacion actual en este registro de Justipreciacion.",
+        operation="HOMOLOGACION/ObrasComplementarias",
+        status_code=200,
+    )
 
 
 def patch_oc(_id: int, data: Dict) -> Tuple[Dict, int]:
@@ -110,31 +107,30 @@ def patch_oc(_id: int, data: Dict) -> Tuple[Dict, int]:
             operation="HOMOLOGACION/ObrasComplementarias",
             status_code=200,
         )
+    obras_c = ObrasComplementarias.query.filter_by(
+        registro=justipreciacion.registro
+    ).first()
+    if not obras_c:
+        return Response.bad_request(
+            message="No existe el calculo de Obras Complementarias para la justipreciacion.",
+            operation="HOMOLOGACION/ObrasComplementarias",
+            status_code=200,
+        )
+    obras_c.datos = data["datos"]
+    obras_c.calculo = data["calculo"]
+    obras_c.valor_unitario = data["valor_unitario"]
+    obras_c.registro = data["registro"]
+    obras_c.calculo_completo = data["calculo_completo"]
+    obras_c.redondeo = data["redondeo"]
+    if save_changes(obras_c):
+        return Response.success(
+            data=None,
+            message="Datos Guardados Exitosamente",
+            operation="HOMOLOGACION/ObrasComplementarias",
+        )
     else:
-        obras_c = ObrasComplementarias.query.filter_by(
-            registro=justipreciacion.registro
-        ).first()
-        if not obras_c:
-            return Response.bad_request(
-                message="No existe el calculo de Obras Complementarias para la justipreciacion.",
-                operation="HOMOLOGACION/ObrasComplementarias",
-                status_code=200,
-            )
-        else:
-            obras_c.datos = data["datos"]
-            obras_c.calculo = data["calculo"]
-            obras_c.valor_unitario = data["valor_unitario"]
-            obras_c.registro = data["registro"]
-            obras_c.calculo_completo = data["calculo_completo"]
-            if save_changes(obras_c):
-                return Response.success(
-                    data=None,
-                    message="Datos Guardados Exitosamente",
-                    operation="HOMOLOGACION/ObrasComplementarias",
-                )
-            else:
-                return Response.error(
-                    message="Error al guardar los datos",
-                    operation="HOMOLOGACION/ObrasComplementarias",
-                    status_code=200,
-                )
+        return Response.error(
+            message="Error al guardar los datos",
+            operation="HOMOLOGACION/ObrasComplementarias",
+            status_code=200,
+        )

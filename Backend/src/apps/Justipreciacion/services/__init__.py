@@ -29,6 +29,28 @@ def get_registro_justipreciacion(_id: int) -> str:
         )
 
 
+def get_valor_especifico_justipreciacion(_id: int, key: str) -> Tuple[Dict, int]:
+    """
+    Get valor especifico of Justipreciacion
+    Args:
+        _id (int): ID
+    Returns:
+        valor especifico (str): valor especifico
+    """
+    justipreciacion = Justipreciacion.query.filter_by(id=_id).first()
+    if not justipreciacion:
+        return Response.bad_request(
+            message="No existe la justipreciacion a la cual desea aplicar la homologacion",
+            operation="JUSTIPRECIACION",
+        )
+    else:
+        return Response.success(
+            data=justipreciacion.__dict__[key],
+            message="Datos obtenidos exitosamente",
+            operation="JUSTIPRECIACION",
+        )
+
+
 def get_required_data_for_oc(_id: int) -> Tuple[Dict, int]:
     """
     Get required data for oc that it is in Justipreciacion

@@ -8,6 +8,7 @@ from ...services import (
     get_registro_justipreciacion,
     get_required_data_for_homologation,
     get_required_data_for_oc,
+    get_valor_especifico_justipreciacion,
     patch_justipreciacion_from_homologacion,
     patch_justipreciacion_from_oc,
 )
@@ -37,6 +38,23 @@ class RegistroJustipreciacion(Resource):
         """
 
         return get_registro_justipreciacion(justipreciacion)
+
+
+@js.route("/<int:justipreciacion>/<string:key>")
+class ValorEspecificoJustipreciacion(Resource):
+    """
+    Class to handle Justipreciacion endpoint to get Valor Especifico data
+    """
+
+    def get(self, justipreciacion: int, key: str) -> Tuple[Dict, int]:
+        """
+        Method to get justipreciacion data
+        Returns a tuple with the data and the status code
+        Returns:
+            response: dict with the data
+            status_code: int with the status code
+        """
+        return get_valor_especifico_justipreciacion(justipreciacion, key)
 
 
 @homologacion.route("/Justipreciacion/<string:tipo>/<int:justipreciacion>")
