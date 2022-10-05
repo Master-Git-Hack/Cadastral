@@ -25,6 +25,7 @@ class Config:
         loader=FileSystemLoader(join(root_path.split("/src")[0], "_build/html")),
         autoescape=False,
     )
+    ALLOWED_EXTENSIONS = {"csv", "xlsx", "xls"}
 
 
 class Paths:
@@ -41,6 +42,7 @@ class Paths:
 class DevelopmentConfig:
     """Development configuration."""
 
+    UPLOAD_FOLDER = Paths.tmp
     DEBUG = True
     JSON_AS_ASCII = False
     SQLALCHEMY_DATABASE_URI = (

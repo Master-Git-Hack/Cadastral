@@ -1,5 +1,5 @@
 """Model File for the Municipios table."""
-from sqlalchemy import Column, Integer, Text
+from sqlalchemy import BigInteger, Column, String
 
 from ..... import db
 
@@ -11,9 +11,9 @@ class Municipios(db.Model):
 
     __tablename__ = "municipios"
 
-    id = Column(Integer, primary_key=True)
-    nombre = Column(Text)
-    nombre_utf = Column(Text)
+    id = Column(BigInteger, primary_key=True)
+    nombre = Column(String)
+    nombre_utf = Column(String)
 
     def __init__(self, collection) -> None:
         """

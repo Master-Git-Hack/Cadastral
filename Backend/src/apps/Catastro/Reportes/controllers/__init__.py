@@ -1,4 +1,5 @@
 """File to controller functions of the reports module"""
+
 from ..... import db
 from .....utils.local import as_complete_date, as_currency, as_percentage, with_decimals
 from ..helper import create_pdf, merge_pdf
@@ -196,8 +197,8 @@ def format_response(data: dict) -> dict:
     Returns:
         dict: the formatted data
     """
-    nombre_utf = data.nombre_utf or ""
-    secretaria = data.secretaria or ""
+    nombre_utf = data.nombre_utf if data.nombre_utf is not None else ""
+    secretaria = data.secretaria if data.secretaria is not None else ""
 
     try:
         data = many_Catastral_Schema.dump(data.Catastral)

@@ -96,7 +96,6 @@ class PDF:
                 )
                 _, error = process.communicate()
                 exit_code = process.wait()
-                print(exit_code)
                 if exit_code:
                     self.cmd = self.cmd[:-2]
                     remove(input_file)

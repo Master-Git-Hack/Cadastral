@@ -12,3 +12,4 @@ CORS_ORIGIN="*"
 TEMPORARY_PATH="tmp"
 DATABASE_URL_DEV="postgresql://postgres:root@localhost:5432/postgres"
 DATABASE_URL_TEST="postgresql://postgres:root@localhost:5432/postgres"
+DATABASE_URL='postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/valuaciones'

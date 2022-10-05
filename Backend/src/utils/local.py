@@ -2,6 +2,7 @@
 from locale import LC_ALL, currency, format_string, setlocale
 from warnings import filterwarnings
 
+from babel.numbers import format_currency
 from backports.zoneinfo import ZoneInfo
 from dateparser import parse
 
@@ -17,7 +18,7 @@ try:
     setlocale(LC_ALL, "es_MX.UTF-8")
 except Exception as e:
     print(e)
-    setlocale(LC_ALL, "en_US.UTF-8")
+    setlocale(LC_ALL, "es_MX.UTF-8")
 
 
 def with_decimals(value: float = 0, decimals: int = 2) -> str:
@@ -31,7 +32,7 @@ def with_decimals(value: float = 0, decimals: int = 2) -> str:
     """
     value = value or 0
     if value != 0:
-        return format_string(f"%10.{decimals}f", float(value), grouping=True) or ""
+        return format_string(f"%10.{decimals}f", float(value), grouping=True)
     else:
         return ""
 
@@ -61,11 +62,20 @@ def as_currency(value: float = 0) -> str:
         str: string with the value formatted.
     """
     value = value or 0
-    if value != 0:
+    if value == 0:
+        return ""
+    try:
         value = currency(float(value), grouping=True).replace(" ", ",")
         return f"{value[0]} {value[2:]}"
-    else:
-        return ""
+    except Exception as e:
+        print(e, "$ {:,.2f}".format(float(value)))
+        return format_currency(
+            float(value),
+            "MXN",
+            locale="es_MX",
+            currency_digits=True,
+            group_separator=True,
+        )
 
 
 def as_date(date="hoy") -> str:
