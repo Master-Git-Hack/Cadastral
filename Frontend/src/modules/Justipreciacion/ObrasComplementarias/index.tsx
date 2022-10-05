@@ -93,6 +93,7 @@ export const ObrasComplementarias = () => {
 			valor_unitario: total,
 			registro: justipreciacion.registro,
 			calculo_completo: isComplete,
+			redondeo: rounded,
 		};
 		const { length } = errors;
 		setShowErrors(length > 0);

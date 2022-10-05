@@ -22,6 +22,8 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 81
+
 COPY --from=builder /usr/src/Frontend/build /usr/share/nginx/html
 # Containers run nginx with global directives and daemon off
+#ENV REACT_APP_PROD_API_URL=http://$backend:56733/api/v1/
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

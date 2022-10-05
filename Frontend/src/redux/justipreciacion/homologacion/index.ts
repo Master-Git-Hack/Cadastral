@@ -45,7 +45,7 @@ const slice = createSlice({
 								state.documentation = documentation;
 								state.record = record;
 								state.errors = checkErrors(state);
-								console.log(documentation);
+
 								break;
 						}
 					}

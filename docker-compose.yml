@@ -5,7 +5,7 @@ services:
     container_name: backend_docker
     build:
       context: ./Backend/
-      dockerfile: Dockerfile
+      #dockerfile: Dockerfile
     restart: always
     volumes:
       - ./Backend:/usr/src/Backend
@@ -19,7 +19,7 @@ services:
     container_name: frontend_docker
     build:
       context: ./Frontend/
-      dockerfile: Dockerfile
+      #dockerfile: Dockerfile
     restart: always
     volumes:
       - ./Frontend:/usr/src/Frontend
@@ -33,9 +33,10 @@ services:
       - backend
     networks:
       - cadastral_network
-    environment:
-      - REACT_APP_API_URL=backend:56733/api/v1/
+    links:
+      - "backend:backend"
 
 #[optional] If the network is not created, docker will create by itself.
 networks:
-  cadastral_network: {}
+  cadastral_network:
+    driver: bridge

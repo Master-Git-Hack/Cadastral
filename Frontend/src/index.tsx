@@ -13,6 +13,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { store } from "./redux/store";
 
 const root = createRoot(document.getElementById("root") as HTMLElement);
+
 root.render(
 	<Fragment>
 		<Provider store={store}>
