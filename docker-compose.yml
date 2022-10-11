@@ -6,7 +6,7 @@ services:
     build:
       context: ./Backend/
       #dockerfile: Dockerfile
-    restart: always
+    restart: on-failure
     volumes:
       - ./Backend:/usr/src/Backend
     expose:

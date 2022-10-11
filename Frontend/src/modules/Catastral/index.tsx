@@ -56,11 +56,11 @@ export const Catastral = ({
 		: moment().year().toString().slice(2, 4);
 	const DocRangeLabel = () => (
 		<>
-			<strong>{`${collectionLabel}_${minLabel}_${yearLabel}`}</strong>
+			<strong>{`${collectionLabel}-${minLabel}_${yearLabel}`}</strong>
 			{minLabel !== maxLabel && (
 				<>
 					"{" - hasta - "}"
-					<strong>{`${collectionLabel}_${maxLabel}_${yearLabel}`}</strong>
+					<strong>{`${collectionLabel}-${maxLabel}_${yearLabel}`}</strong>
 				</>
 			)}
 		</>

@@ -4,6 +4,38 @@ import { roundNumber } from "../../../utils/number";
 import { StateProps } from "./obrasComplementarias.interface";
 
 /** @format */
+const handleData = (data: any) =>
+	data.map(({ ind, value, quantity, ...item }: any) => ({
+		...item,
+		ind,
+		value,
+		quantity,
+		total: ind * value * quantity,
+	}));
+export const UpdateDocumentation =({
+	Documentation,
+getDataTotal, getTotalByUnit, getGTOFactor, getTotalArea ,
+	
+}:any) => Documentation.map(
+	({ data, total, totalByUnit, factorGTO, area, ...item }: any) => ({
+		...item,
+		area: {
+			...area,
+			unit: area.data[0].unit,
+			total: getTotalArea(area.data),
+		},
+		data: handleData(data),
+		total: getDataTotal(handleData(data)),
+		totalByUnit: roundNumber(
+			getTotalByUnit(
+				getTotalArea(area.data),
+				getDataTotal(handleData(data)) * getGTOFactor(factorGTO),
+			),
+			0,
+		),
+		factorGTO,
+	}),
+)
 export const updateValuesFN = ({
 	Documentation,
 	Calculation,
@@ -13,32 +45,7 @@ export const updateValuesFN = ({
 		getFinalTotal,
 	},
 }: StateProps) => ({
-	Documentation: Documentation.map(
-		({ data, total, totalByUnit, factorGTO, area, ...item }: any) => ({
-			...item,
-			area: {
-				...area,
-				unit: area.data[0].unit,
-				total: getTotalArea(area.data),
-			},
-			data: data.map(({ ind, value, quantity, ...item }: any) => ({
-				...item,
-				ind,
-				value,
-				quantity,
-				total: ind * value * quantity,
-			})),
-			total: getDataTotal(data),
-			totalByUnit: roundNumber(
-				getTotalByUnit(
-					getTotalArea(area.data),
-					getDataTotal(data) * getGTOFactor(factorGTO),
-				),
-				0,
-			),
-			factorGTO,
-		}),
-	),
+	Documentation: UpdateDocumentation({Documentation,getDataTotal, getTotalByUnit, getGTOFactor, getTotalArea}),
 	Calculation: Calculation.map(({ vut, age, conservation, ...item }: any, index: number) => {
 		const { totalByUnit, area } = Documentation[index];
 		const factor = getFactor(age.value, vut);
@@ -52,12 +59,13 @@ export const updatePartialValuesFN = ({
 	Documentation,
 	Calculation,
 	handlers: {
+		documentation: { getDataTotal, getTotalByUnit, getGTOFactor, getTotalArea },
 		calculo: { getFactor },
 		getFinalTotal,
 	},
 }: StateProps) => ({
 	Calculation: Calculation.map(({ vut, age, conservation, ...item }: any, index: number) => {
-		const { totalByUnit, area } = Documentation[index];
+		const { totalByUnit, area } = Documentation[index]
 		const factor = getFactor(age.value, vut);
 		const repositionValue = factor * conservation.value * totalByUnit;
 		const total = repositionValue * area.total;

@@ -1,9 +1,8 @@
 """File to work with locale configuration, as money, date and number formats"""
-from locale import LC_ALL, currency, format_string, setlocale
+from locale import format_string
 from warnings import filterwarnings
 
 from babel.numbers import format_currency
-from backports.zoneinfo import ZoneInfo
 from dateparser import parse
 
 filterwarnings(
@@ -12,14 +11,12 @@ filterwarnings(
     The localize method is no longer necessary, as this time zone supports the fold attribute
     """,
 )
+try:
+    from backports.zoneinfo import ZoneInfo
+except ImportError:
+    from zoneinfo import ZoneInfo
 
 tzInfo = ZoneInfo("America/Mexico_City")
-try:
-    setlocale(LC_ALL, "es_MX.UTF-8")
-except Exception as e:
-    print(e)
-    setlocale(LC_ALL, "es_MX.UTF-8")
-
 
 def with_decimals(value: float = 0, decimals: int = 2) -> str:
     """Return a string with the value in the format dd.dd
@@ -65,17 +62,16 @@ def as_currency(value: float = 0) -> str:
     if value == 0:
         return ""
     try:
-        value = currency(float(value), grouping=True).replace(" ", ",")
-        return f"{value[0]} {value[2:]}"
-    except Exception as e:
-        print(e, "$ {:,.2f}".format(float(value)))
         return format_currency(
-            float(value),
-            "MXN",
-            locale="es_MX",
-            currency_digits=True,
-            group_separator=True,
-        )
+                float(value),
+                "MXN",
+                locale="es_MX",
+                currency_digits=True,
+                group_separator=True,
+            )
+    except Exception as error:
+        print(error)
+        return "$ {:,.2f}".format(float(value))
 
 
 def as_date(date="hoy") -> str:

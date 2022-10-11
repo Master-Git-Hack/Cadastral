@@ -70,6 +70,7 @@ class ProductionConfig(Config):
     DEBUG = False
     JSON_AS_ASCII = False
     SQLALCHEMY_DATABASE_URI = getenv("DATABASE_URL")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 config_by_name = dict(

@@ -1,6 +1,4 @@
 /** @format */
-
-import { ChangeEvent } from "react";
 import { SelectUnit } from "../../../../components/Custom/SelectUnit";
 import { Text } from "../../../../components/Input";
 import { Fancy } from "../../../../components/Input/Fancy";
@@ -27,6 +25,7 @@ export const PartialCalculation = () => {
 		},
 	} = useAppSelector(getOC);
 	const dispatch = useAppDispatch();
+	
 	return (
 		<Component
 			name={"Obras Complementarias"}

@@ -36,8 +36,14 @@ export const slice = createSlice({
 					if (status.includes("success")) {
 						switch (operation) {
 							case "HOMOLOGACION/ObrasComplementarias":
-								const { record, documentation, calculous, total, isComplete,rounded } =
-									data;
+								const {
+									record,
+									documentation,
+									calculous,
+									total,
+									isComplete,
+									rounded,
+								} = data;
 								state.record = record;
 								state.Documentation = documentation;
 								state.Calculation = calculous;
@@ -136,6 +142,7 @@ export const {
 	setPartialCalculation,
 	setPartialAgeFactor,
 	setRound,
+	updateValues
 } = slice.actions;
 export const getOC = (state: RootState) => state.ObrasComplementarias;
 export const getDocumentation = (state: RootState) => state.ObrasComplementarias.Documentation;

@@ -24,6 +24,7 @@ import {
 	checkErrors,
 	setIsComplete,
 	setRound,
+	updateValues,
 } from "../../../redux/justipreciacion/obrasComplementarias";
 import { Alert } from "../../../utils/alert";
 import { Calculation } from "./Calculation";
@@ -67,6 +68,7 @@ export const ObrasComplementarias = () => {
 	}, [id, justipreciacion.id]);
 
 	useEffect(() => {
+		dispatch(updateValues());
 		justipreciacion.valor_total_obras_comp !== total && dispatch(obrasComplementarias(total));
 	}, [total]);
 
