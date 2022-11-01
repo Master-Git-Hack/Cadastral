@@ -22,14 +22,15 @@ import { NaturalValues } from "./ValoresNaturales";
 import { Indiviso } from "./Registros/Inviso";
 import { Justipreciacion } from "..";
 import { consumeJustipreciacion, getJustipreciacion } from "../../../redux/justipreciacion";
+import { ExportComponents } from "./Export";
 const { AgeContainer, Compilation, Selector } = Factores;
 //const { Success, Error, SimpleMessage, Save } = Alert;
 const base = (type: "TERRENO" | "RENTA", key: string = "6") => ({
 	1: <Compilation />,
 	2: <AgeContainer type={type} />,
-	3: <Area.Component />,
+	3: <Area.Component viewAs="usage" />,
 	4: <Selector />,
-	5: <BigPicture />,
+	5: <BigPicture viewAs="usage"/>,
 	[key]: <NaturalValues />,
 });
 const Pages = (type: "TERRENO" | "RENTA", isUsed: boolean) =>
@@ -58,6 +59,7 @@ export const Homologacion = () => {
 	const [startAt, setStartAt] = useState(1);
 	const [loadingSave, setLoadingSave] = useState(false);
 	const [showErrors, setShowErrors] = useState(false);
+
 	useEffect(() => {
 		id === 0 &&
 			justipreciacion.id !== 0 &&
@@ -81,7 +83,7 @@ export const Homologacion = () => {
 		if (status.includes("success") && message !== undefined) {
 			setLoadingPage(false);
 			Alert.Success({ title: "¡Registro encontrado Exitosamente!", text: message });
-			setStartAt(5);
+			setStartAt(3);
 		}
 	}, [message, status]);
 
@@ -177,6 +179,7 @@ export const Homologacion = () => {
 							<h1 className="me-auto">
 								Homologación de tipo: <strong>{type}</strong>
 							</h1>
+							<ExportComponents />
 							<Save
 								status={record.status}
 								loading={loadingSave}

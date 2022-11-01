@@ -18,6 +18,7 @@ except ImportError:
 
 tzInfo = ZoneInfo("America/Mexico_City")
 
+
 def with_decimals(value: float = 0, decimals: int = 2) -> str:
     """Return a string with the value in the format dd.dd
     Args:
@@ -63,12 +64,12 @@ def as_currency(value: float = 0) -> str:
         return ""
     try:
         return format_currency(
-                float(value),
-                "MXN",
-                locale="es_MX",
-                currency_digits=True,
-                group_separator=True,
-            )
+            float(value),
+            "MXN",
+            locale="es_MX",
+            currency_digits=True,
+            group_separator=True,
+        )
     except Exception as error:
         print(error)
         return "$ {:,.2f}".format(float(value))

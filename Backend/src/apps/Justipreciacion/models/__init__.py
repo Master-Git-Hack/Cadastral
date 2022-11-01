@@ -22,7 +22,7 @@ class Justipreciacion(db.Model):
     id = Column(
         Integer,
         primary_key=True,
-        server_default=text("nextval('justipreciacion_id_seq'::regclass)"),
+        # server_default=text("nextval('justipreciacion_id_seq'::regclass)"),
     )
     registro = Column(String, unique=True)
     solicitante = Column(String)

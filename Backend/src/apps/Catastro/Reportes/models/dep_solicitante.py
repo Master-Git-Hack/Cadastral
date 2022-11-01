@@ -15,7 +15,7 @@ class DepSolicitante(db.Model):
     id = Column(
         Integer,
         primary_key=True,
-        server_default=text("nextval('dep_solicitante_id_seq'::regclass)"),
+        # server_default=text("nextval('dep_solicitante_id_seq'::regclass)"),
     )
     descripcion = Column(String)
     nombre_corto = Column(String)
