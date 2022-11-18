@@ -1,0 +1,29 @@
+src.controllers package
+=======================
+
+Submodules
+----------
+
+src.controllers.register module
+-------------------------------
+
+.. automodule:: src.controllers.register
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+src.controllers.user module
+---------------------------
+
+.. automodule:: src.controllers.user
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: src.controllers
+   :members:
+   :undoc-members:
+   :show-inheritance:

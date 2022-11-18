@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.config &mdash; API para apoyo del sistema principal 2.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> API para apoyo del sistema principal
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">API para apoyo del sistema principal</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../src.html">src</a></li>
+      <li class="breadcrumb-item active">src.config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.config</h1><div class="highlight"><pre>
+<span></span><span class="c1"># src/config.py</span>
+<span class="sd">&quot;&quot;&quot; Configuration file for the backend &quot;&quot;&quot;</span>
+<span class="c1"># from datetime import timedelta</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">getenv</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="n">load_dotenv</span><span class="p">()</span>
+
+<span class="n">_root_path</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ROOT_PATH&quot;</span><span class="p">,</span> <span class="n">abspath</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span>
+<span class="n">_ENV</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ENV&quot;</span><span class="p">,</span> <span class="s2">&quot;development&quot;</span><span class="p">)</span>
+<span class="n">_SECRET_KEY</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;secret&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_Base</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Configuration class for the backend&quot;&quot;&quot;</span>
+
+    <span class="n">SERVER_HOST</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SERVER_HOST&quot;</span><span class="p">,</span> <span class="s2">&quot;localhost&quot;</span><span class="p">)</span>
+    <span class="n">PORT</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;PORT&quot;</span><span class="p">,</span> <span class="s2">&quot;5000&quot;</span><span class="p">))</span>
+    <span class="n">SECRET_KEY</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_SECRET_KEY</span>
+    <span class="n">ALLOWED_ORIGINS</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ALLOWED_ORIGINS&quot;</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_ENV</span> <span class="o">==</span> <span class="s2">&quot;production&quot;</span>
+        <span class="k">else</span> <span class="p">[</span>
+            <span class="s2">&quot;http://localhost&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;http://localhost:3000&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;https://localhost&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;https://localhost:3000&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">VERSION</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;VERSION&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">)</span>
+    <span class="n">API_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;API_URL&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;/api/v</span><span class="si">{</span><span class="n">VERSION</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">TITLE</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TITLE&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;API </span><span class="si">{</span><span class="n">_ENV</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">DESCRIPTION</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DESCRIPTION&quot;</span><span class="p">,</span> <span class="s2">&quot;API TEST&quot;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Paths</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Class for paths&quot;&quot;&quot;</span>
+
+        <span class="n">_TEMPORARY</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TEMPORARY_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;tmp&quot;</span><span class="p">)</span>
+        <span class="n">_TEMPLATES</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;TEMPLATES_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;templates&quot;</span><span class="p">)</span>
+        <span class="n">_DOCS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DOCS_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;docs&quot;</span><span class="p">)</span>
+        <span class="n">_STATIC</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;STATIC_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">)</span>
+        <span class="n">_IMAGES</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;IMAGES_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">)</span>
+        <span class="n">_UPLOADS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;UPLOADS_PATH&quot;</span><span class="p">,</span> <span class="s2">&quot;uploads&quot;</span><span class="p">)</span>
+        <span class="n">STATIC</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">_root_path</span><span class="p">,</span> <span class="n">_STATIC</span><span class="p">)</span>
+        <span class="n">TMP</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">_root_path</span><span class="p">,</span> <span class="n">_TEMPORARY</span><span class="p">)</span>
+        <span class="n">TEMPLATES</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">STATIC</span><span class="p">,</span> <span class="n">_TEMPLATES</span><span class="p">)</span>
+        <span class="n">DOCS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">STATIC</span><span class="p">,</span> <span class="n">_DOCS</span><span class="p">)</span>
+        <span class="n">IMAGES</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">STATIC</span><span class="p">,</span> <span class="s2">&quot;images&quot;</span><span class="p">)</span>
+        <span class="n">UPLOADS</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">STATIC</span><span class="p">,</span> <span class="n">_UPLOADS</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_Production</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Production configuration</span>
+<span class="sd">    Args:</span>
+<span class="sd">        _Base (class): Base configuration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SQLALCHEMY_DATABASE_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DATABASE_URL&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">RELOAD</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;RELOAD&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">_Development</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Development configuration</span>
+<span class="sd">    Args:</span>
+<span class="sd">        _Base (class): Base configuration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SQLALCHEMY_DATABASE_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span>
+        <span class="s2">&quot;DATABASE_DEV_URL&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">_root_path</span><span class="si">}</span><span class="s2">/dev.db&quot;</span>
+    <span class="p">)</span>
+    <span class="n">RELOAD</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;RELOAD&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">_Test</span><span class="p">(</span><span class="n">_Base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test configuration</span>
+<span class="sd">    Args:</span>
+<span class="sd">        _Base (class): Base configuration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SQLALCHEMY_DATABASE_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span>
+        <span class="s2">&quot;DATABASE_TEST_URL&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;sqlite:///</span><span class="si">{</span><span class="n">_root_path</span><span class="si">}</span><span class="s2">/test.db&quot;</span>
+    <span class="p">)</span>
+    <span class="n">RELOAD</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;RELOAD&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../src.html#src.config.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">production</span><span class="o">=</span><span class="n">_Production</span><span class="p">,</span> <span class="n">development</span><span class="o">=</span><span class="n">_Development</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="n">_Test</span><span class="p">)[</span><span class="n">_ENV</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;Configuration for the application</span>
+<span class="sd">    Args:</span>
+<span class="sd">        Environment (class): All the configuration for the environment</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Config.Settings"><a class="viewcode-back" href="../../src.html#src.config.Config.Settings">[docs]</a>    <span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;JWT configuration&quot;&quot;&quot;</span>
+
+        <span class="c1"># access_token_expire_minutes: int = 30</span>
+        <span class="c1"># algorithm: str = &quot;HS256&quot;</span>
+        <span class="n">authjwt_algorithm</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;HS256&quot;</span>
+        <span class="n">authjwt_secret_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_SECRET_KEY</span>
+        <span class="n">authjwt_denylist_enabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">authjwt_denylist_token_checks</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;access&quot;</span><span class="p">,</span> <span class="s2">&quot;refresh&quot;</span><span class="p">}</span>
+        <span class="c1"># authjwt_csrf_methods: Tuple = (&quot;POST&quot;, &quot;PUT&quot;, &quot;PATCH&quot;, &quot;DELETE&quot;)</span>
+        <span class="n">access_expires</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">refresh_expires</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Secretaría de Finanzas, Inversión y Administración..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

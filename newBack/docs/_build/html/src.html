@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src package &mdash; API para apoyo del sistema principal 2.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src.api package" href="src.api.html" />
+    <link rel="prev" title="src" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> API para apoyo del sistema principal
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">src package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.api.html">src.api package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.middlewares.html">src.middlewares package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html">src.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html">src.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.config">src.config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.config.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src">Module contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.create_app"><code class="docutils literal notranslate"><span class="pre">create_app()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">API para apoyo del sistema principal</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">src package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/src.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="src-package">
+<h1>src package<a class="headerlink" href="#src-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src.api.html">src.api package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api.catastral">src.api.catastral module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.catastral.get_all"><code class="docutils literal notranslate"><span class="pre">get_all()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.catastral.get_by_id"><code class="docutils literal notranslate"><span class="pre">get_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.catastral.get_key_value"><code class="docutils literal notranslate"><span class="pre">get_key_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.catastral.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api.costos_construccion">src.api.costos_construccion module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.costos_construccion.get_by_id"><code class="docutils literal notranslate"><span class="pre">get_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.costos_construccion.get_key_valuue"><code class="docutils literal notranslate"><span class="pre">get_key_valuue()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.costos_construccion.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api.dep_solicitante">src.api.dep_solicitante module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.dep_solicitante.get_by_id"><code class="docutils literal notranslate"><span class="pre">get_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.dep_solicitante.get_key_value"><code class="docutils literal notranslate"><span class="pre">get_key_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.dep_solicitante.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api.homologacion">src.api.homologacion module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.homologacion.get_by_id"><code class="docutils literal notranslate"><span class="pre">get_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.homologacion.get_key_value"><code class="docutils literal notranslate"><span class="pre">get_key_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.homologacion.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api.indicadores_municipales">src.api.indicadores_municipales module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.indicadores_municipales.get_by_id"><code class="docutils literal notranslate"><span class="pre">get_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.indicadores_municipales.get_key_value"><code class="docutils literal notranslate"><span class="pre">get_key_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.indicadores_municipales.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api.justipreciacion">src.api.justipreciacion module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.justipreciacion.get_by_id"><code class="docutils literal notranslate"><span class="pre">get_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.justipreciacion.get_key_value"><code class="docutils literal notranslate"><span class="pre">get_key_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.justipreciacion.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api.logged_actions">src.api.logged_actions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.logged_actions.LoggedActions"><code class="docutils literal notranslate"><span class="pre">LoggedActions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.logged_actions.get_by_id"><code class="docutils literal notranslate"><span class="pre">get_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.logged_actions.get_key_value"><code class="docutils literal notranslate"><span class="pre">get_key_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api.municipios">src.api.municipios module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.municipios.get_by_id"><code class="docutils literal notranslate"><span class="pre">get_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.municipios.get_key_value"><code class="docutils literal notranslate"><span class="pre">get_key_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.municipios.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api.obras_complementarias">src.api.obras_complementarias module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.obras_complementarias.get_by_id"><code class="docutils literal notranslate"><span class="pre">get_by_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.obras_complementarias.get_key_value"><code class="docutils literal notranslate"><span class="pre">get_key_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.obras_complementarias.update"><code class="docutils literal notranslate"><span class="pre">update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.api.html#module-src.api">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.api.html#src.api.index"><code class="docutils literal notranslate"><span class="pre">index()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.middlewares.html">src.middlewares package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.middlewares.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.middlewares.html#module-src.middlewares.database">src.middlewares.database module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.middlewares.html#module-src.middlewares.responses">src.middlewares.responses module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.middlewares.html#src.middlewares.responses.Response"><code class="docutils literal notranslate"><span class="pre">Response</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.middlewares.html#src.middlewares.responses.Response.custom"><code class="docutils literal notranslate"><span class="pre">Response.custom</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.middlewares.html#src.middlewares.responses.Response.success"><code class="docutils literal notranslate"><span class="pre">Response.success</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.middlewares.html#src.middlewares.responses.Response.error"><code class="docutils literal notranslate"><span class="pre">Response.error</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.middlewares.html#id0"><code class="docutils literal notranslate"><span class="pre">Response.custom()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.middlewares.html#id1"><code class="docutils literal notranslate"><span class="pre">Response.error()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.middlewares.html#id2"><code class="docutils literal notranslate"><span class="pre">Response.success()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.middlewares.html#module-src.middlewares">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.models.html">src.models package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models.catastral">src.models.catastral module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral"><code class="docutils literal notranslate"><span class="pre">Catastral</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral.Table"><code class="docutils literal notranslate"><span class="pre">Catastral.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral.Schema"><code class="docutils literal notranslate"><span class="pre">Catastral.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral.Read"><code class="docutils literal notranslate"><span class="pre">Catastral.Read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral.create"><code class="docutils literal notranslate"><span class="pre">Catastral.create</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral.update"><code class="docutils literal notranslate"><span class="pre">Catastral.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral.delete"><code class="docutils literal notranslate"><span class="pre">Catastral.delete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral.to_dict"><code class="docutils literal notranslate"><span class="pre">Catastral.to_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral.to_list"><code class="docutils literal notranslate"><span class="pre">Catastral.to_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id0"><code class="docutils literal notranslate"><span class="pre">Catastral.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id1"><code class="docutils literal notranslate"><span class="pre">Catastral.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id2"><code class="docutils literal notranslate"><span class="pre">Catastral.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id3"><code class="docutils literal notranslate"><span class="pre">Catastral.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.catastral.Catastral.read"><code class="docutils literal notranslate"><span class="pre">Catastral.read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id4"><code class="docutils literal notranslate"><span class="pre">Catastral.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id5"><code class="docutils literal notranslate"><span class="pre">Catastral.to_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id6"><code class="docutils literal notranslate"><span class="pre">Catastral.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.catastral.GeometryField"><code class="docutils literal notranslate"><span class="pre">GeometryField</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models.costos_construccion">src.models.costos_construccion module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion.Table"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion.Schema"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion.Read"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.Read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion.create"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.create</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion.update"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion.delete"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.delete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion.to_dict"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.to_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion.to_list"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.to_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id7"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id8"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id9"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id10"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.costos_construccion.CostosConstruccion.read"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id11"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id12"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.to_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id13"><code class="docutils literal notranslate"><span class="pre">CostosConstruccion.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models.dep_solicitante">src.models.dep_solicitante module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante"><code class="docutils literal notranslate"><span class="pre">DepSolicitante</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante.Table"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante.Schema"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante.Read"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.Read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante.create"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.create</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante.update"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante.delete"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.delete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante.to_dict"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.to_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante.to_list"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.to_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id14"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id15"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id16"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id17"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.dep_solicitante.DepSolicitante.read"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id18"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id19"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.to_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id20"><code class="docutils literal notranslate"><span class="pre">DepSolicitante.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models.homologacion">src.models.homologacion module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation"><code class="docutils literal notranslate"><span class="pre">Homologation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation.Table"><code class="docutils literal notranslate"><span class="pre">Homologation.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation.Schema"><code class="docutils literal notranslate"><span class="pre">Homologation.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation.Read"><code class="docutils literal notranslate"><span class="pre">Homologation.Read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation.create"><code class="docutils literal notranslate"><span class="pre">Homologation.create</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation.update"><code class="docutils literal notranslate"><span class="pre">Homologation.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation.delete"><code class="docutils literal notranslate"><span class="pre">Homologation.delete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation.to_dict"><code class="docutils literal notranslate"><span class="pre">Homologation.to_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation.to_list"><code class="docutils literal notranslate"><span class="pre">Homologation.to_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id21"><code class="docutils literal notranslate"><span class="pre">Homologation.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id22"><code class="docutils literal notranslate"><span class="pre">Homologation.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id23"><code class="docutils literal notranslate"><span class="pre">Homologation.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id24"><code class="docutils literal notranslate"><span class="pre">Homologation.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.homologacion.Homologation.read"><code class="docutils literal notranslate"><span class="pre">Homologation.read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id25"><code class="docutils literal notranslate"><span class="pre">Homologation.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id26"><code class="docutils literal notranslate"><span class="pre">Homologation.to_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id27"><code class="docutils literal notranslate"><span class="pre">Homologation.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models.indicadores_municipales">src.models.indicadores_municipales module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales.Table"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales.Schema"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales.Read"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.Read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales.create"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.create</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales.update"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales.delete"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.delete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales.to_dict"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.to_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales.to_list"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.to_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id28"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id29"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id30"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id31"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.indicadores_municipales.IndicadoresMunicipales.read"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id32"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id33"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.to_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id34"><code class="docutils literal notranslate"><span class="pre">IndicadoresMunicipales.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models.justipreciacion">src.models.justipreciacion module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion"><code class="docutils literal notranslate"><span class="pre">Justipreciacion</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion.Table"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion.Schema"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion.Read"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.Read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion.create"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.create</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion.update"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion.delete"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.delete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion.to_dict"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.to_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion.to_list"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.to_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id35"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id36"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id37"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id38"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.justipreciacion.Justipreciacion.read"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id39"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id40"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.to_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id41"><code class="docutils literal notranslate"><span class="pre">Justipreciacion.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#src-models-logged-actions-module">src.models.logged_actions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models.municipios">src.models.municipios module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios"><code class="docutils literal notranslate"><span class="pre">Municipios</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios.Table"><code class="docutils literal notranslate"><span class="pre">Municipios.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios.Schema"><code class="docutils literal notranslate"><span class="pre">Municipios.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios.Read"><code class="docutils literal notranslate"><span class="pre">Municipios.Read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios.create"><code class="docutils literal notranslate"><span class="pre">Municipios.create</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios.update"><code class="docutils literal notranslate"><span class="pre">Municipios.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios.delete"><code class="docutils literal notranslate"><span class="pre">Municipios.delete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios.to_dict"><code class="docutils literal notranslate"><span class="pre">Municipios.to_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios.to_list"><code class="docutils literal notranslate"><span class="pre">Municipios.to_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id42"><code class="docutils literal notranslate"><span class="pre">Municipios.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id43"><code class="docutils literal notranslate"><span class="pre">Municipios.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id44"><code class="docutils literal notranslate"><span class="pre">Municipios.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id45"><code class="docutils literal notranslate"><span class="pre">Municipios.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.municipios.Municipios.read"><code class="docutils literal notranslate"><span class="pre">Municipios.read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id46"><code class="docutils literal notranslate"><span class="pre">Municipios.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id47"><code class="docutils literal notranslate"><span class="pre">Municipios.to_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id48"><code class="docutils literal notranslate"><span class="pre">Municipios.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models.obras_complementarias">src.models.obras_complementarias module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias.Table"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias.Schema"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias.Read"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.Read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias.create"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.create</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias.update"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias.delete"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.delete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias.to_dict"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.to_dict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias.to_list"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.to_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id49"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.Schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id50"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.Table</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id51"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id52"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.obras_complementarias.ObrasComplementarias.read"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.read</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id53"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id54"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.to_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id55"><code class="docutils literal notranslate"><span class="pre">ObrasComplementarias.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.Models"><code class="docutils literal notranslate"><span class="pre">Models</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.Models.CostosConstruccion"><code class="docutils literal notranslate"><span class="pre">Models.CostosConstruccion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.Models.DepSolicitante"><code class="docutils literal notranslate"><span class="pre">Models.DepSolicitante</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.Models.Homologacion"><code class="docutils literal notranslate"><span class="pre">Models.Homologacion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.Models.IndicadoresMunicipales"><code class="docutils literal notranslate"><span class="pre">Models.IndicadoresMunicipales</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.Models.Municipios"><code class="docutils literal notranslate"><span class="pre">Models.Municipios</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.Models.ObrasComplementarias"><code class="docutils literal notranslate"><span class="pre">Models.ObrasComplementarias</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.Models.Catastral"><code class="docutils literal notranslate"><span class="pre">Models.Catastral</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id63"><code class="docutils literal notranslate"><span class="pre">Models.CostosConstruccion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id71"><code class="docutils literal notranslate"><span class="pre">Models.DepSolicitante</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id79"><code class="docutils literal notranslate"><span class="pre">Models.Homologacion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id80"><code class="docutils literal notranslate"><span class="pre">Models.IndicadoresMunicipales</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.Models.Justipreciacion"><code class="docutils literal notranslate"><span class="pre">Models.Justipreciacion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id95"><code class="docutils literal notranslate"><span class="pre">Models.Municipios</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#id103"><code class="docutils literal notranslate"><span class="pre">Models.ObrasComplementarias</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.utils.html">src.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#module-src.utils.decimals">src.utils.decimals module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.decimals.DecimalParser"><code class="docutils literal notranslate"><span class="pre">DecimalParser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.decimals.DecimalParser.default"><code class="docutils literal notranslate"><span class="pre">DecimalParser.default</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#id0"><code class="docutils literal notranslate"><span class="pre">DecimalParser.default()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src-utils-local-requirements-module">src.utils.local_requirements module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#module-src.utils.parse_json">src.utils.parse_json module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.parse_json.ParseJSONasObject"><code class="docutils literal notranslate"><span class="pre">ParseJSONasObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.parse_json.ParseJSONasObject.compute_attr_value"><code class="docutils literal notranslate"><span class="pre">ParseJSONasObject.compute_attr_value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#module-src.utils.password">src.utils.password module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.password.Password"><code class="docutils literal notranslate"><span class="pre">Password</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.password.Password._rounds"><code class="docutils literal notranslate"><span class="pre">Password._rounds</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.password.Password._prefix"><code class="docutils literal notranslate"><span class="pre">Password._prefix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.password.Password._as_long_passwords"><code class="docutils literal notranslate"><span class="pre">Password._as_long_passwords</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.password.Password._unicode_to_bytes"><code class="docutils literal notranslate"><span class="pre">Password._unicode_to_bytes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.password.Password.generate_password_hash"><code class="docutils literal notranslate"><span class="pre">Password.generate_password_hash</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.password.Password.check_password_hash"><code class="docutils literal notranslate"><span class="pre">Password.check_password_hash</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#id1"><code class="docutils literal notranslate"><span class="pre">Password.check_password_hash()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#id2"><code class="docutils literal notranslate"><span class="pre">Password.generate_password_hash()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src-utils-pdf-module">src.utils.pdf module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#module-src.utils.temporary_transactions">src.utils.temporary_transactions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.temporary_transactions.name_it"><code class="docutils literal notranslate"><span class="pre">name_it()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#module-src.utils">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.Utils"><code class="docutils literal notranslate"><span class="pre">Utils</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.Utils.DecimalEncoder"><code class="docutils literal notranslate"><span class="pre">Utils.DecimalEncoder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.Utils.DecimalParser"><code class="docutils literal notranslate"><span class="pre">Utils.DecimalParser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html#src.utils.Utils.Password"><code class="docutils literal notranslate"><span class="pre">Utils.Password</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-src.config">
+<span id="src-config-module"></span><h2>src.config module<a class="headerlink" href="#module-src.config" title="Permalink to this heading"></a></h2>
+<p>Configuration file for the backend</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.config.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><a class="reference internal" href="_modules/src/config.html#Config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.config.Config" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Production</span></code></p>
+<p>Configuration for the application
+:param Environment: All the configuration for the environment
+:type Environment: <code class="xref py py-class docutils literal notranslate"><span class="pre">class</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.Config.Settings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authjwt_algorithm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'HS256'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authjwt_secret_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'~&lt;[({#__</span> <span class="pre">¿¡Dirección</span> <span class="pre">de</span> <span class="pre">r3cUrZ0S</span> <span class="pre">MATERIALES,</span> <span class="pre">servicios</span> <span class="pre">G3ÑER4L3S</span> <span class="pre">&amp;y&amp;</span> <span class="pre">c4t4str0</span> <span class="pre">d3</span> <span class="pre">L4</span> <span class="pre">S3cretaria</span> <span class="pre">de</span> <span class="pre">F&amp;y&amp;ñanz&#64;$\\,</span> <span class="pre">&amp;i&amp;nv3rs&amp;i&amp;ón</span> <span class="pre">y</span> <span class="pre">administración,</span> <span class="pre">GOBIERNO</span> <span class="pre">d3</span> <span class="pre">GUANAJUATO!?</span> <span class="pre">%__#})]&gt;~;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authjwt_denylist_enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authjwt_denylist_token_checks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">set</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{'access',</span> <span class="pre">'refresh'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">access_expires</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(seconds=1800)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh_expires</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">datetime.timedelta(seconds=5400)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/config.html#Config.Settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.config.Config.Settings" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>JWT configuration</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.Config.Settings.access_expires">
+<span class="sig-name descname"><span class="pre">access_expires</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.config.Config.Settings.access_expires" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.Config.Settings.authjwt_algorithm">
+<span class="sig-name descname"><span class="pre">authjwt_algorithm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.config.Config.Settings.authjwt_algorithm" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.Config.Settings.authjwt_denylist_enabled">
+<span class="sig-name descname"><span class="pre">authjwt_denylist_enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#src.config.Config.Settings.authjwt_denylist_enabled" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.Config.Settings.authjwt_denylist_token_checks">
+<span class="sig-name descname"><span class="pre">authjwt_denylist_token_checks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span></em><a class="headerlink" href="#src.config.Config.Settings.authjwt_denylist_token_checks" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.Config.Settings.authjwt_secret_key">
+<span class="sig-name descname"><span class="pre">authjwt_secret_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#src.config.Config.Settings.authjwt_secret_key" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.Config.Settings.refresh_expires">
+<span class="sig-name descname"><span class="pre">refresh_expires</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.config.Config.Settings.refresh_expires" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src" title="Permalink to this heading"></a></h2>
+<p>Principal File to handle the app</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.create_app">
+<span class="sig-prename descclassname"><span class="pre">src.</span></span><span class="sig-name descname"><span class="pre">create_app</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">FastAPI</span></span></span><a class="reference internal" href="_modules/src.html#create_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.create_app" title="Permalink to this definition"></a></dt>
+<dd><p>Configure the app</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.api.html" class="btn btn-neutral float-right" title="src.api package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Secretaría de Finanzas, Inversión y Administración..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

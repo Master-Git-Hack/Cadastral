@@ -1,0 +1,37 @@
+src.routes package
+==================
+
+Submodules
+----------
+
+src.routes.auth module
+----------------------
+
+.. automodule:: src.routes.auth
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+src.routes.company module
+-------------------------
+
+.. automodule:: src.routes.company
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+src.routes.user module
+----------------------
+
+.. automodule:: src.routes.user
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: src.routes
+   :members:
+   :undoc-members:
+   :show-inheritance:
