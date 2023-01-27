@@ -43,6 +43,7 @@ class _CostosConstruccion(Base):
     tipo_servicio = Column(String())
     registro = Column(String())
     redondeo = Column(Integer, default=0)
+    edicion = Column(Boolean, default=False, nullable=False)
 
     def __init__(self, data: dict) -> None:
         """Constructor de la tabla para el calculo del valor unitario de construccion.

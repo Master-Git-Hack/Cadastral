@@ -4,8 +4,16 @@ from typing import Optional, Tuple
 from fastapi_sqlalchemy import db
 from geoalchemy2.types import Geometry
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from sqlalchemy import (BigInteger, Column, Date, Float, Integer, SmallInteger,
-                        String, text)
+from sqlalchemy import (
+    BigInteger,
+    Column,
+    Date,
+    Float,
+    Integer,
+    SmallInteger,
+    String,
+    text,
+)
 
 from ..middlewares.database import Base
 
@@ -454,7 +462,7 @@ class _Schema(SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
         include_fk = True
-        excludes =("geom")
+        excludes = "geom"
 
 
 class _Read:

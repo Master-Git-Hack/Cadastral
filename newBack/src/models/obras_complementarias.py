@@ -38,6 +38,7 @@ class _ObrasComplementarias(Base):
     registro = Column(String())
     calculo_completo = Column(Boolean)
     redondeo = Column(SmallInteger)
+    edicion = Column(Boolean, default=False, nullable=False)
 
     def __init__(self, collection: dict) -> None:
         """

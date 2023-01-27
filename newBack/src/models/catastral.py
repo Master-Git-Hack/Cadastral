@@ -14,9 +14,16 @@ from geoalchemy2.types import Geometry
 from marshmallow import ValidationError, fields, post_dump, pre_load
 from marshmallow_sqlalchemy import ModelConverter, SQLAlchemyAutoSchema
 from shapely import geometry
-from sqlalchemy import (BigInteger, Column, Date, Float, Integer, SmallInteger,
-                        String, text)
-
+from sqlalchemy import (
+    BigInteger,
+    Column,
+    Date,
+    Float,
+    Integer,
+    SmallInteger,
+    String,
+    text,
+)
 
 
 from ..middlewares.database import Base
@@ -267,7 +274,7 @@ class _Catastral(Base):
     sub_num_r3 = Column(Integer, server_default=text("0"))
     folio_real = Column(String)
 
-    def __init__(self, data:dict):
+    def __init__(self, data: dict):
         """
         Constructor
         :param collection: json with all the data
@@ -525,6 +532,7 @@ ModelConverter.SQLA_TYPE_MAPPING[Geometry] = GeometryField
 ModelConverter.SQLA_TYPE_MAPPING[Raster] = fields.Raw
 ModelConverter.SQLA_TYPE_MAPPING[RasterElement] = fields.Raw
 
+
 class _Schema(SQLAlchemyAutoSchema):
     """Class for schema.
     Example:
@@ -537,6 +545,7 @@ class _Schema(SQLAlchemyAutoSchema):
     Attributes:
         Meta (class): class for schema.
     """
+
     __geometry_field_name__ = "geom"  # or geom, or shape, or ....
 
     def unwrap_feature(self, data):
@@ -597,7 +606,7 @@ class _Schema(SQLAlchemyAutoSchema):
         include_relationships = True
         load_instance = True
         include_fk = True
-        excludes = ("geom")
+        excludes = "geom"
 
 
 class _Read:
@@ -613,8 +622,14 @@ class _Read:
         by_company_id (method): Return an account by company id.
         by_parent_id (method): Return an account by parent id.
     """
+
     @staticmethod
-    async def all_paged(page:int=0, limit:int=100,to_list: Optional[bool] = False, exclude: Optional[list] = None):
+    async def all_paged(
+        page: int = 0,
+        limit: int = 100,
+        to_list: Optional[bool] = False,
+        exclude: Optional[list] = None,
+    ):
         """Return all records paged.
         Args:
             page (int): The page to return.
@@ -634,6 +649,7 @@ class _Read:
         except (RuntimeError, TypeError, NameError):
             print(RuntimeError)
             return None
+
     @staticmethod
     async def all(
         to_list: Optional[bool] = False, exclude: Optional[list] = None

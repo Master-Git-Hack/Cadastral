@@ -9,7 +9,7 @@ from typing import Optional, Tuple
 
 from fastapi_sqlalchemy import db
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from sqlalchemy import JSON, BigInteger, Column, Float, String
+from sqlalchemy import JSON, BigInteger, Boolean, Column, Float, String
 
 from ..middlewares.database import Base
 
@@ -38,6 +38,7 @@ class _Homologation(Base):
     valor_unitario = Column(Float)
     registro = Column(String())
     tipo_servicio = Column(String())
+    edicion = Column(Boolean, default=False, nullable=False)
 
     def __init__(self, data: dict) -> None:
         """

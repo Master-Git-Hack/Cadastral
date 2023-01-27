@@ -30,7 +30,7 @@ const base = (type: "TERRENO" | "RENTA", key: string = "6") => ({
 	2: <AgeContainer type={type} />,
 	3: <Area.Component viewAs="usage" />,
 	4: <Selector />,
-	5: <BigPicture viewAs="usage"/>,
+	5: <BigPicture viewAs="usage" />,
 	[key]: <NaturalValues />,
 });
 const Pages = (type: "TERRENO" | "RENTA", isUsed: boolean) =>

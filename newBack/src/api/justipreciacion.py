@@ -30,6 +30,7 @@ async def get_key_value(id: int, key: str) -> Any:
     data = await Justipreciacion.read.by_id(id, to_dict=True)
     return response.success(data=data["properties"].get(key, None))
 
+
 @justipreciacion_routes.patch("/{id}")
 async def update(id: int, request: Request) -> Any:
     """Update a Justipreciacion."""
@@ -39,5 +40,3 @@ async def update(id: int, request: Request) -> Any:
     if not result:
         return response.error()
     return response.success(data=data)
-
-
