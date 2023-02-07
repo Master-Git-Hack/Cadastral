@@ -80,7 +80,6 @@ class JustipreciacionByHomologacion(Resource):
             response (dict): response to the request
             status_code (int): status code of the response
         """
-        print(request.json)
         return patch_justipreciacion_from_homologacion(
             justipreciacion, tipo, request.json
         )
