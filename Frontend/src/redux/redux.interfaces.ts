@@ -1,6 +1,6 @@
 /** @format */
 
-export interface updateStateByKeys {
+export interface UpdateStateByKeys {
 	key: string;
 	value: any;
 	index?: number;

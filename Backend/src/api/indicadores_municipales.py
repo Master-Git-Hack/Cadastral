@@ -14,6 +14,13 @@ indicadores_municipales_routes = APIRouter(
 )
 
 
+@indicadores_municipales_routes.get("/all")
+async def get_all() -> Any:
+    response = _Response()
+    data = await IndicadoresMunicipales.read.all(to_list=True)
+    return response.success(data=data)
+
+
 @indicadores_municipales_routes.get("/{id}")
 async def get_by_id(id: int) -> Any:
     """Get all the Indicadores Municipales."""

@@ -3,7 +3,6 @@
 import moment from "moment";
 import { AreaProps } from "..";
 import { getURLParams } from "../../../../utils/url";
-import { zoneInformation } from "../../../../redux/Homologacion/homologacion.interfaces";
 
 const date = moment().format("yyyy-MM-DD");
 const zone = zoneInformation[0];

@@ -8,7 +8,7 @@ export interface Notifications extends NotificationsBase{
     notifications: Array<Notification>;
     count:(notifications:Notification[])=>number;
 }
-export interface updateStateByKeys { 
+export interface UpdateStateByKeys { 
     key: keyof Notifications | keyof Notification;
     value: any;
     index?: number;

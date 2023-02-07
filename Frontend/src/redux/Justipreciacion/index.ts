@@ -7,6 +7,6 @@ const slice = createSlice({
     initialState,
     reducers,
 });
-export const getJustipreciacion = ({ Justipreciacion }: RootState) => Justipreciacion;
+export const getState = ({ Justipreciacion }: RootState) => Justipreciacion;
 export const { load,loadTerreno, add, patch } = slice.actions;
 export default slice.reducer;

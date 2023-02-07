@@ -12,6 +12,7 @@ import {
 } from "./number";
 import { searchByType, searchByValue } from "./search";
 import { getURLParams, isURL } from "./url";
+import {close} from "./window";
 export const Utils = {
 	Alert,
 	colorPicker,
@@ -29,6 +30,7 @@ export const Utils = {
 	searchByValue,
 	getURLParams,
 	isURL,
+	closeWindow: close,
 };
 export default {
 	Alert,
@@ -47,4 +49,5 @@ export default {
 	searchByValue,
 	getURLParams,
 	isURL,
+	closeWindow: close,
 } as Object;

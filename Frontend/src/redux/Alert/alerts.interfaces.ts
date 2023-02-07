@@ -1,9 +1,10 @@
-/** @format */
-
-export interface SweetAlertProps {
-	title: string;
-	text: string;
-	icon?: "success" | "error" | "warning" | "info" | "question";
+export interface StateProps { 
+    status: boolean;
+    type: "Success"|"Error"|"Warning"|"Info"|"Question"|"SimpleMessage"|"Save"|"Ask"|"Custom";
+    title: string;
+    text: string;
+    isLoading: boolean;
+    icon?: "success" | "error" | "warning" | "info" | "question";
 	iconColor?: string;
 	footer?: string;
 	toast?: boolean;
@@ -47,12 +48,4 @@ export interface SweetAlertProps {
 	inputOptions?: { [key: string]: string };
 	html?: any;
 	didOpen?: (isLoading: boolean) => void;
-	isLoading?: boolean;
-}
-export interface SADefinedProps {
-	title: string;
-	text: string;
-	isLoading?: boolean;
-	icon?: "success" | "error" | "warning" | "info" | "question";
-	confirmButtonColor?:string;
 }

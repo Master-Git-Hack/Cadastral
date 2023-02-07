@@ -1,9 +1,9 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 
-import { Notifications ,Notification,updateStateByKeys} from "./notifications.interfaces";
+import { Notifications ,Notification,UpdateStateByKeys} from "./notifications.interfaces";
 
 export const reducers = {
-    updateNotifications: (state: Notifications, { payload: { key, value } }: PayloadAction<updateStateByKeys>) => {
+    updateNotifications: (state: Notifications, { payload: { key, value } }: PayloadAction<UpdateStateByKeys>) => {
         if(key!==undefined && value!==undefined ){
             state[key] = value;
         }
@@ -18,9 +18,9 @@ export const reducers = {
             state.notifications.splice(payload,1);
         }
     },
-    updateNotification: (state: Notifications, { payload: { key, value, index } }: PayloadAction<updateStateByKeys>) => {
+    updateNotification: (state: Notifications, { payload: { key, value, index } }: PayloadAction<UpdateStateByKeys>) => {
         if(key!==undefined && value!==undefined && index!==undefined ){
-            state.notifications[index][key] = value;
+            state.notifications[index][key] = value ;
         }
     }
 }

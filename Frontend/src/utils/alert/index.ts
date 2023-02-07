@@ -23,92 +23,59 @@ const definedProps = {
  */
 export const Component = ({
 	title,
-	text,
-	icon,
-	iconColor,
-	footer,
-	toast,
-	grow,
 	confirmButtonColor,
 	showDenyButton,
 	showCancelButton,
 	showCloseButton,
 	cancelButtonColor,
-	input,
-	inputPlaceholder,
-	inputValue,
-	inputLabel,
-	inputOptions,
-	html,
 	didOpen,
 	...props
-}: SweetAlertProps) => {
-	const Component = withReactContent(Swal);
-	const titleText = title;
-	const isLoading = props?.isLoading ?? false;
-	return Component.fire({
-		titleText,
-		text,
-		icon,
-		iconColor,
-		footer,
-		toast,
-		position: props?.position || "center",
-		grow,
-		showConfirmButton: props?.showConfirmButton || true,
-		confirmButtonText: props?.confirmButtonText || "OK",
+}: SweetAlertProps) => withReactContent(Swal).fire({
+		titleText:title,
+		position: props?.position ?? "center",
+		showConfirmButton: props?.showConfirmButton ?? true,
+		confirmButtonText: props?.confirmButtonText ?? "OK",
 		confirmButtonColor: colorAlertPicker(confirmButtonColor ?? "primary"),
 		cancelButtonColor: colorAlertPicker(cancelButtonColor ?? "secondary"),
-		showDenyButton,
-		denyButtonText: props?.denyButtonText || "Cancel",
-		showCancelButton,
-		cancelButtonText: props?.cancelButtonText || "Cancel",
-		showCloseButton,
-		input,
-		inputPlaceholder,
-		inputValue,
-		inputLabel,
-		inputOptions,
-		html,
+		denyButtonText: props?.denyButtonText ?? "Cancel",
+		cancelButtonText: props?.cancelButtonText ?? "Cancel",
 		didOpen: () => {
-			isLoading && Swal.showLoading();
+			props?.isLoading && Swal.showLoading();
 			return didOpen;
 		},
 		...definedProps,
+		...props
 	});
-};
+
 
 const base = (
-	titleText: string,
-	text: string,
-	icon: "success" | "error" | "warning" | "info" | "question",
-	confirmButtonColor: string,
-	isLoading: boolean = false,
-) => {
-	const Component = withReactContent(Swal);
-	return Component.fire({
+	{title,
+	text,
+	icon,
+	confirmButtonColor,
+	isLoading}:SADefinedProps
+) =>  withReactContent(Swal).fire({
 		...definedProps,
-		titleText,
+		titleText:title,
 		text,
 		icon,
 		confirmButtonText: "Aceptar",
 		confirmButtonColor,
 		didOpen: () => isLoading && Swal.showLoading(),
 	});
-};
 
-export const Success = ({ title, text, isLoading }: SADefinedProps) =>
-	base(title, text, "success", colorAlertPicker("success"), isLoading);
-export const Error = ({ title, text, isLoading }: SADefinedProps) =>
-	base(title, text, "error", colorAlertPicker("danger"), isLoading);
-export const Warning = ({ title, text, isLoading }: SADefinedProps) =>
-	base(title, text, "warning", colorAlertPicker("warning"), isLoading);
-export const Info = ({ title, text, isLoading }: SADefinedProps) =>
-	base(title, text, "info", colorAlertPicker("info"), isLoading);
-export const Question = ({ title, text, isLoading }: SADefinedProps) =>
-	base(title, text, "question", colorAlertPicker("primary"), isLoading);
-export const SimpleMessage = (titleText: string = "", text: string = "") =>
-	Swal.fire({ titleText, text });
+
+export const Success = ({confirmButtonColor,...props }: SADefinedProps) =>
+	base({confirmButtonColor:colorAlertPicker("success"),...props});
+export const Error = ({confirmButtonColor,...props }: SADefinedProps) =>
+base({confirmButtonColor:colorAlertPicker("danger"),...props});
+export const Warning = ({confirmButtonColor,...props }: SADefinedProps) =>
+base({confirmButtonColor:colorAlertPicker("warning"),...props});
+export const Info = ({confirmButtonColor,...props }: SADefinedProps) =>base({confirmButtonColor:colorAlertPicker("info"),...props});
+
+export const Question = ({icon,confirmButtonColor,...props }: SADefinedProps) =>base({confirmButtonColor:colorAlertPicker("primary"),icon:"question",...props});;
+export const SimpleMessage = ({title,text,...props}:SADefinedProps) =>
+	Swal.fire({ titleText:title, text });
 
 export const Save = (props: { title: string; text: string }) =>
 	Component({
