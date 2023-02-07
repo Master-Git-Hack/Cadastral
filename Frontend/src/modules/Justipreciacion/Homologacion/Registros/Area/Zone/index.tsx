@@ -66,7 +66,10 @@ const Header = () => {
 				<th colSpan={3}>
 					<div style={{ padding: 4 }}>
 						<Select
-							defaultValue={factores[0].value}
+							defaultValue={factorsOptions.find(
+									(item: any) =>
+										item.label === invertedObjectOptions[factors[0].type],
+								)?.value}
 							data={factorsOptions.slice(0, 5)}
 							onChange={({ currentTarget: { value } }) => {
 								const selection =
@@ -87,7 +90,10 @@ const Header = () => {
 				<th>Factor 1</th>
 				<th>
 					<Select
-						defaultValue={factores[1].value}
+						defaultValue={factorsOptions.find(
+									(item: any) =>
+										item.label === invertedObjectOptions[factors[1].type],
+								)?.value}
 						data={factorsOptions}
 						onChange={({ currentTarget: { value } }) => {
 							const selection =

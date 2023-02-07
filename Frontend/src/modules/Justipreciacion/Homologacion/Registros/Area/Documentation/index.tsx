@@ -20,8 +20,6 @@ import {
 } from "../../../../../../redux/justipreciacion/homologacion";
 
 import { convert2Base64 } from "../../../../../../utils/file";
-import { asFancyNumber } from "../../../../../../utils/number";
-import { isURL } from "../../../../../../utils/url";
 const { Text, Fancy, EnabledInputNumber, File } = Input;
 const header = (type: boolean) => {
 	const data = ["#", "Calle", "Numero", "Colonia", "Municipio"];
@@ -33,7 +31,7 @@ const header = (type: boolean) => {
 	data.push("Consulta");
 	return data;
 };
-const Body = (type: boolean, options: any, viewAs: any) => {
+const Body = (type: boolean, options: any) => {
 	const dispatch = useAppDispatch();
 	const { documentation, record, factors } = useAppSelector(getHomologaciones);
 	const { Area, SalesCost } = documentation;
@@ -47,130 +45,91 @@ const Body = (type: boolean, options: any, viewAs: any) => {
 			<tr key={`area properties to handle address information ${index}`}>
 				<td>C{item.id}</td>
 				<td>
-					{viewAs === "usage" ? (
-						<Text
-							isArea
-							rows={address.street.length / 29 + 1}
-							value={address.street}
-							onChange={(value) => {
-								dispatch(setAreaAddress({ index, key: "street", value }));
-							}}
-						/>
-					) : (
-						address.street
-					)}
+					<Text
+						isArea
+						value={address.street}
+						onChange={(value) => {
+							dispatch(setAreaAddress({ index, key: "street", value }));
+						}}
+					/>
 				</td>
 				<td style={{ minWidth: 100 }}>
-					{viewAs === "usage" ? (
-						<EnabledInputNumber
-							value={address.streetNumber}
-							onChange={(value: number): void => {
-								dispatch(setAreaAddress({ index, key: "streetNumber", value }));
-							}}
-							checked={address.hasNoStreetNumber}
-							setChecked={(checked: boolean): void => {
-								const value = checked;
+					<EnabledInputNumber
+						value={address.streetNumber}
+						onChange={(value: number): void => {
+							dispatch(setAreaAddress({ index, key: "streetNumber", value }));
+						}}
+						checked={address.hasNoStreetNumber}
+						setChecked={(checked: boolean): void => {
+							const value = checked;
 
-								dispatch(
-									setAreaAddress({
-										index,
-										key: "hasNoStreetNumber",
-										value,
-									}),
-								);
-								!checked &&
-									dispatch(
-										setAreaAddress({ index, key: "streetNumber", value: 0 }),
-									);
-							}}
-						/>
-					) : address.hasNoStreetNumber ? (
-						"S/N"
-					) : (
-						address.streetNumber
-					)}
+							dispatch(
+								setAreaAddress({
+									index,
+									key: "hasNoStreetNumber",
+									value,
+								}),
+							);
+							!checked &&
+								dispatch(setAreaAddress({ index, key: "streetNumber", value: 0 }));
+						}}
+					/>
 				</td>
 
 				<td>
-					{viewAs === "usage" ? (
-						<Text
-							isArea
-							rows={address.colony.length / 29 + 1}
-							value={address.colony}
-							onChange={(value) => {
-								dispatch(setAreaAddress({ index, key: "colony", value }));
-							}}
-						/>
-					) : (
-						address.colony
-					)}
+					<Text
+						isArea
+						value={address.colony}
+						onChange={(value) => {
+							dispatch(setAreaAddress({ index, key: "colony", value }));
+						}}
+					/>
 				</td>
 				<td>{zone.name}</td>
 				{type && <td>{options[index].label}</td>}
 				{!type && (
 					<td>
-						{viewAs === "usage" ? (
-							<Fancy
-								name=""
-								label=""
-								value={SalesCost.data[index].value}
-								onChange={({ currentTarget: { valueAsNumber } }) => {
-									dispatch(
-										setSalesCostData({
-											index,
-											key: "value",
-											value: !isNaN(valueAsNumber) ? valueAsNumber : 0,
-										}),
-									);
-								}}
-								isCurrency
-								classNameDecorator="text-center bg-light"
-							/>
-						) : (
-							asFancyNumber(SalesCost.data[index].value, { isCurrency: true })
-						)}
+						<Fancy
+							name=""
+							label=""
+							value={SalesCost.data[index].value}
+							onChange={({ currentTarget: { valueAsNumber } }) => {
+								dispatch(
+									setSalesCostData({
+										index,
+										key: "value",
+										value: !isNaN(valueAsNumber) ? valueAsNumber : 0,
+									}),
+								);
+							}}
+							isCurrency
+							classNameDecorator="text-center bg-light"
+						/>
 					</td>
 				)}
 				<td>
 					<div className="d-flex flex-row">
 						<label htmlFor={`date ${index}`} className="invisible disabled" />
-						{viewAs === "usage" ? (
-							<Text
-								type="date"
-								value={extras.date}
-								onChange={(value) => {
-									dispatch(setAreaAddressExtra({ index, key: "date", value }));
-								}}
-							/>
-						) : (
-							extras.date
-						)}
+						<Text
+							type="date"
+							value={extras.date}
+							onChange={(value) => {
+								dispatch(setAreaAddressExtra({ index, key: "date", value }));
+							}}
+						/>
 					</div>
 				</td>
 				{!type && <td>{options[index].label}</td>}
 				<td>
-					{viewAs === "usage" ? (
-						<Text
-							isArea
-							rows={extras.observations.length / 29 + 1}
-							value={extras.observations}
-							onChange={(value) => {
-								dispatch(
-									setAreaAddressExtra({ index, key: "observations", value }),
-								);
-							}}
-						/>
-					) : (
-						extras.observations
-					)}
+					<Text
+						isArea
+						value={extras.observations}
+						onChange={(value) => {
+							dispatch(setAreaAddressExtra({ index, key: "observations", value }));
+						}}
+					/>
 				</td>
-				{viewAs === "usage" ? (
-					<Consults index={index} reference={reference} document={document} />
-				) : (
-					<td className="text-break text-justify" style={{ maxWidth: 800 }}>
-						{reference}
-					</td>
-				)}
+				<Consults index={index} reference={reference} document={document} />
 			</tr>
 		);
 	});
@@ -238,7 +197,7 @@ const Consults = (props: any) => {
 	);
 };
 
-export const Documentation = ({ viewAs }: { viewAs: "usage" | "export" }) => {
+export const Documentation = () => {
 	const { record, factors } = useAppSelector(getHomologaciones);
 	const { Usage, Building } = factors;
 	const type = record.type.includes("TERRENO");
@@ -247,7 +206,7 @@ export const Documentation = ({ viewAs }: { viewAs: "usage" | "export" }) => {
 		<Component
 			name="Area Documentation"
 			header={header(type)}
-			customBody={Body(type, options, viewAs)}
+			customBody={Body(type, options)}
 		/>
 	);
 };

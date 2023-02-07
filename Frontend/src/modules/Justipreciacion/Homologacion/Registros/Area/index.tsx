@@ -6,14 +6,14 @@ import { Documentation } from "./Documentation";
 import { Zone } from "./Zone";
 
 /** @format */
-export const Component = ({ viewAs }: { viewAs: "usage" | "export" }) => (
+export const Component = () => (
 	<Grid fluid>
 		<Row>
 			<Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
-				<Documentation viewAs={viewAs} />
+				<Documentation />
 			</Col>
 			<Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
-				<Calculation viewAs={viewAs} />
+				<Calculation />
 			</Col>
 		</Row>
 	</Grid>

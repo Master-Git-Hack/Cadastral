@@ -59,14 +59,13 @@ const Body = ({
 	commercial,
 	percentage,
 	averageLotArea,
-	viewAs
 }: BodyProps) => {
 	const dispatch = useAppDispatch();
 	return data.map(({ id, value, ...item }: any, index: number) => (
 		<tr key={`row of columns to handle area operations ${index}`}>
 			<td>C{id}</td>
 			<td>
-				{viewAs==="usage"?<Fancy
+				<Fancy
 					name=""
 					label=""
 					value={type ? salesCost[index].value : item.surface}
@@ -87,7 +86,7 @@ const Body = ({
 					}}
 					isCurrency={type}
 					classNameDecorator="text-center bg-light"
-				/>:asFancyNumber(type ? salesCost[index].value : item.surface,{isCurrency:type})}
+				/>
 			</td>
 			<td>
 				<Fancy
@@ -161,7 +160,7 @@ const Body = ({
 		</tr>
 	));
 };
-export const Footer = ({ type, subject, surface, averageLotArea,viewAs }: FooterProps) => {
+export const Footer = ({ type, subject, surface, averageLotArea }: FooterProps) => {
 	const dispatch = useAppDispatch();
 	const { cna_edad, cna_superficie } = useAppSelector(getJustipreciacion);
 	useEffect(() => {
@@ -244,7 +243,7 @@ export const Footer = ({ type, subject, surface, averageLotArea,viewAs }: Footer
 		</tr>
 	);
 };
-export const Calculation = ({ viewAs }: { viewAs: "usage" | "export" }) => {
+export const Calculation = () => {
 	const dispatch = useAppDispatch();
 	const {
 		documentation: {
@@ -292,7 +291,6 @@ export const Calculation = ({ viewAs }: { viewAs: "usage" | "export" }) => {
 					commercial={Commercial.data}
 					percentage={WeightingPercentage.data}
 					averageLotArea={averageLotArea}
-					viewAs={viewAs}
 				/>
 			}
 			hasFooter
@@ -302,7 +300,6 @@ export const Calculation = ({ viewAs }: { viewAs: "usage" | "export" }) => {
 					subject={subject.value}
 					averageLotArea={averageLotArea}
 					surface={root}
-					viewAs={viewAs}
 				/>
 			}
 		/>

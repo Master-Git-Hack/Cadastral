@@ -21,8 +21,8 @@ import { RoundedSelection } from "../../../../components/Custom/RoundedSelection
 import { terreno, renta } from "../../../../redux/justipreciacion";
 const { Column, ColumnGroup, HeaderCell, Cell } = Table;
 
-export const BigPicture = ({ viewAs }: { viewAs: "usage" | "export" }) => {
-	const [loading, setLoading] = useState(viewAs === "usage");
+export const BigPicture = () => {
+	const [loading, setLoading] = useState(true);
 	const dispatch = useAppDispatch();
 	const {
 		factors: { Results, ...factors },
@@ -144,17 +144,15 @@ export const BigPicture = ({ viewAs }: { viewAs: "usage" | "export" }) => {
 		<Container
 			header={
 				<div className="d-flex justify-content-end my-1">
-					{viewAs === "usage" && (
-						<Switch
-							checked={isUsed}
-							withText
-							label="Indiviso"
-							reverse
-							onChange={(checked: boolean): void => {
-								dispatch(setIndivisoVisibility(checked));
-							}}
-						/>
-					)}
+					<Switch
+						checked={isUsed}
+						withText
+						label="Indiviso"
+						reverse
+						onChange={(checked: boolean): void => {
+							dispatch(setIndivisoVisibility(checked));
+						}}
+					/>
 				</div>
 			}
 			footer={
@@ -167,7 +165,6 @@ export const BigPicture = ({ viewAs }: { viewAs: "usage" | "export" }) => {
 					roundedTo={roundedTo}
 					value={value}
 					roundedValue={roundedValue}
-					viewAs={viewAs}
 				/>
 			}
 		>
@@ -302,7 +299,6 @@ const Footer = ({
 	roundedValue,
 	observations,
 	roundedTo: { enabled, ...roundedTo },
-	viewAs,
 }: any) => {
 	const dispatch = useAppDispatch();
 	const options = ["Sin Redondeo", "A la Unidad", "A la Decena", "A la Centena", "Al Millar"];
@@ -325,59 +321,55 @@ const Footer = ({
 							</td>
 							<td colSpan={colSpan}>
 								<div className="d-flex flex-row justify-content-between ">
-									{viewAs === "usage" && (
-										<JustifyChanges
-											size="sm"
-											action={`Tipo de redondeo: ${
-												options[roundedTo.value + 1]
-											}`}
-											name="Valor Unitario Final"
-											editable={enabled}
-											setEditable={(checked: boolean) => {
+									<JustifyChanges
+										size="sm"
+										action={`Tipo de redondeo: ${options[roundedTo.value + 1]}`}
+										name="Valor Unitario Final"
+										editable={enabled}
+										setEditable={(checked: boolean) => {
+											dispatch(
+												setRoundedTo({
+													key: "enabled",
+													value: checked,
+												}),
+											);
+											!checked &&
 												dispatch(
 													setRoundedTo({
-														key: "enabled",
-														value: checked,
+														key: "value",
+														value: 1,
 													}),
-												);
-												!checked &&
-													dispatch(
-														setRoundedTo({
-															key: "value",
-															value: 1,
-														}),
-													) &&
-													dispatch(
-														setRoundedTo({
-															key: "observations",
-															value: "",
-														}),
-													);
-											}}
-											comment={roundedTo.observations}
-											setComment={(value: string) =>
+												) &&
 												dispatch(
 													setRoundedTo({
 														key: "observations",
-														value,
+														value: "",
+													}),
+												);
+										}}
+										comment={roundedTo.observations}
+										setComment={(value: string) =>
+											dispatch(
+												setRoundedTo({
+													key: "observations",
+													value,
+												}),
+											)
+										}
+									>
+										<RoundedSelection
+											disabled={!enabled}
+											currentItem={roundedTo.value}
+											onSelect={(currentItem: number) =>
+												dispatch(
+													setRoundedTo({
+														key: "value",
+														value: currentItem,
 													}),
 												)
 											}
-										>
-											<RoundedSelection
-												disabled={!enabled}
-												currentItem={roundedTo.value}
-												onSelect={(currentItem: number) =>
-													dispatch(
-														setRoundedTo({
-															key: "value",
-															value: currentItem,
-														}),
-													)
-												}
-											/>
-										</JustifyChanges>
-									)}
+										/>
+									</JustifyChanges>
 									<span className="ms-auto my-auto">Valor Unitario Promedio</span>
 								</div>
 							</td>
@@ -392,18 +384,14 @@ const Footer = ({
 						<tr>
 							<td colSpan={colSpan + 4} className="text-start">
 								Justificación de Factores
-								{viewAs === "usage" ? (
-									<Text
-										isArea
-										rows={4}
-										value={observations}
-										onChange={(value) => {
-											dispatch(setObservations(value));
-										}}
-									/>
-								) : (
-									<p>{observations}</p>
-								)}
+								<Text
+									isArea
+									rows={4}
+									value={observations}
+									onChange={(value) => {
+										dispatch(setObservations(value));
+									}}
+								/>
 							</td>
 						</tr>
 					</>

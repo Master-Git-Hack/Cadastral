@@ -22,15 +22,14 @@ import { NaturalValues } from "./ValoresNaturales";
 import { Indiviso } from "./Registros/Inviso";
 import { Justipreciacion } from "..";
 import { consumeJustipreciacion, getJustipreciacion } from "../../../redux/justipreciacion";
-import { ExportComponents } from "./Export";
 const { AgeContainer, Compilation, Selector } = Factores;
 //const { Success, Error, SimpleMessage, Save } = Alert;
 const base = (type: "TERRENO" | "RENTA", key: string = "6") => ({
 	1: <Compilation />,
 	2: <AgeContainer type={type} />,
-	3: <Area.Component viewAs="usage" />,
+	3: <Area.Component />,
 	4: <Selector />,
-	5: <BigPicture viewAs="usage" />,
+	5: <BigPicture />,
 	[key]: <NaturalValues />,
 });
 const Pages = (type: "TERRENO" | "RENTA", isUsed: boolean) =>
@@ -59,7 +58,6 @@ export const Homologacion = () => {
 	const [startAt, setStartAt] = useState(1);
 	const [loadingSave, setLoadingSave] = useState(false);
 	const [showErrors, setShowErrors] = useState(false);
-
 	useEffect(() => {
 		id === 0 &&
 			justipreciacion.id !== 0 &&
@@ -90,7 +88,7 @@ export const Homologacion = () => {
 	const saveAction = () => {
 		const url = `HOMOLOGACION/${type}/${justipreciacion.id}`;
 		const { adjustedValue, roundedValue } = documentation.SalesCost.averageUnitCost;
-		const payload = {
+		const payload: any = {
 			factores: factors,
 			resultado: documentation,
 			registro: justipreciacion.registro,
@@ -124,20 +122,24 @@ export const Homologacion = () => {
 							cna_edad,
 							cna_superficie,
 						} = justipreciacion;
-
+						/**const payload = {
+			factores: factors,
+			resultado: documentation,
+			registro: justipreciacion.registro,
+			valor_unitario: isUsed ? adjustedValue : roundedValue,
+			tipo: type.toLowerCase(),
+			tipo_servicio: appraisalPurpose,
+		} */
+						payload["sp1_factor"] = sp1_factor;
+						payload["sp1_vu"] = sp1_vu;
+						payload["sp1_superficie"] = sp1_superficie;
+						payload["cna_edad"] = cna_edad;
+						payload["cna_superficie"] = cna_superficie;
 						dispatch(
 							consumeJustipreciacion.patch({
 								url: `HOMOLOGACION/Justipreciacion/${type}/${justipreciacion.id}`,
 								responseType,
-								payload: {
-									sp1_factor,
-									valor_unitario: type.includes("TERRENO")
-										? sp1_vu
-										: comparativo_mercado,
-									sp1_superficie,
-									cna_edad,
-									cna_superficie,
-								},
+								payload,
 							}),
 						)
 							.unwrap()
@@ -179,7 +181,6 @@ export const Homologacion = () => {
 							<h1 className="me-auto">
 								Homologación de tipo: <strong>{type}</strong>
 							</h1>
-							<ExportComponents />
 							<Save
 								status={record.status}
 								loading={loadingSave}
