@@ -8,7 +8,7 @@ from ..middlewares.responses import Response as _Response
 from ..models.homologacion import Homologation
 
 homologation_routes = APIRouter(
-    prefix="/Homologation",
+    prefix="/homologacion",
     tags=["Homologación"],
     responses={404: {"description": "Not found"}},
 )
@@ -19,6 +19,18 @@ async def get_by_id(id: int) -> Any:
     """Get all the Homologation."""
     response = _Response()
     data = await Homologation.read.by_id(id, to_dict=True)
+    return response.success(data=data)
+
+
+@homologation_routes.get("/{registro}/{tipo_homologacion}")
+async def get_registro_by_tipo_homologacion(registro: str, tipo_homologacion):
+    response = _Response()
+    tipo = tipo_homologacion.lower()
+    data = await Homologation.read.by_registro(
+        registro=registro, tipo=tipo, to_dict=True
+    )
+    if data is None:
+        return response.error()
     return response.success(data=data)
 
 

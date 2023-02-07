@@ -3,7 +3,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { consume } from "./config";
 import { ApiProps } from "./interfaces";
-
+import {all} from "axios";
 export const consumeApi =()=> ({
 	get: async ({ url, responseType,headers }: ApiProps) => {
 		try {
@@ -41,6 +41,13 @@ export const consumeApi =()=> ({
 			throw error;
 		}
 	},
+	all: async (requests: ApiProps[]) => {
+		try {
+			return await all(requests.map(({ url, responseType, headers, payload, method }: ApiProps) => consume(responseType ?? "json", headers)[method](url, payload)))
+		} catch (error) {
+			throw error;
+		}
+	}
 	
 })
 export const api = (entity: string) => ({

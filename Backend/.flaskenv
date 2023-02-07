@@ -1,7 +1,7 @@
 FLASK_APP="wsgi.py"
 FLASK_RUN_HOST= "0.0.0.0"
 FLASK_RUN_PORT=5000
-FLASK_ENV="development"
+FLASK_ENV=development
 DEBUG=True
 SECRET_KEY= "secret"
 VERSION=1
@@ -12,4 +12,4 @@ CORS_ORIGIN="*"
 TEMPORARY_PATH="tmp"
 DATABASE_URL_DEV="postgresql://postgres:root@localhost:5432/postgres"
 DATABASE_URL_TEST="postgresql://postgres:root@localhost:5432/postgres"
-DATABASE_URL='postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/valuaciones'
+DATABASE_URL="postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/valuaciones"

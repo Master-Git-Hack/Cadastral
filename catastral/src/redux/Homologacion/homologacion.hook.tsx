@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../app";
 import { getHomologacion } from ".";
 import { consumeApi } from "../../api";
+import { load as loadHomo } from ".";
 import {
 	getJustipreciacion,
 	load as loadJustiState,
@@ -23,22 +24,19 @@ export const useHomologacion = ({
 	const Justipreciacion = useAppSelector(getJustipreciacion);
 	const state = { ...Justipreciacion };
 	const { factors, documentation } = Homologacion;
-	console.log(documentation.Area.data);
 	const loadJustipreciacion = async () => {
 		if (id !== undefined) {
-			const { data, status } = await consumeApi().get({ url: `/justipreciacion/${id}` });
-			if (status === 200) {
-				dispatch(loadJustiState(data?.data));
-				if (tipo.toUpperCase() === "TERRENO") {
-					dispatch(
-						loadJustiTerreno({
-							sp1_superficie: parseFloat(sp1_superficie),
-							sp1_factor: parseFloat(sp1_factor),
-						}),
-					);
-				} else {
-				}
-			} else {
+			const { data, status } = await consumeApi().all([{ url: `/justipreciacion/${id}`,method:"get" },]);
+			if (status !== 200) alert("Error al cargar la justipreciación");
+			dispatch(loadJustiState(data?.data));
+
+			if (tipo.toUpperCase() === "TERRENO") {
+				dispatch(
+					loadJustiTerreno({
+						sp1_superficie: parseFloat(sp1_superficie),
+						sp1_factor: parseFloat(sp1_factor),
+					}),
+				);
 			}
 		}
 	};
@@ -113,10 +111,22 @@ export const useHomologacion = ({
 		};
 		return { data, results, averageUnitCost: averageUnitCost() };
 	}, [documentation]);
+	const loadHomologacion = async () => {
+		if (Justipreciacion.id !== null) {
+			const { data, status } = await consumeApi().get({
+				url: `/homologacion/${Justipreciacion.registro}/${tipo}`,
+			});
+			if (status !== 200) alert("Error al cargar la homologación");
+		}
+	};
+	const Save = async () => {};
 
 	useEffect(() => {
 		id !== undefined && loadJustipreciacion();
 	}, [id]);
+	useEffect(() => {
+		Justipreciacion.id !== null && loadHomologacion();
+	}, [Justipreciacion.id]);
 	return {
 		state,
 		areaData,

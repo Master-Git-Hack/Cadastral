@@ -40,7 +40,7 @@ class _ObrasComplementarias(Base):
     redondeo = Column(SmallInteger)
     edicion = Column(Boolean, default=False, nullable=False)
 
-    def __init__(self, collection: dict) -> None:
+    def __init__(self, **kwargs) -> None:
         """
         Constructor
         Args:
@@ -48,12 +48,12 @@ class _ObrasComplementarias(Base):
         Returns:
             None
         """
-        self.datos = collection["datos"]
-        self.calculo = collection["calculo"]
-        self.valor_unitario = collection["valor_unitario"]
-        self.registro = collection["registro"]
-        self.calculo_completo = collection["calculo_completo"]
-        self.redondeo = collection["redondeo"]
+        self.datos = kwargs.get("datos")
+        self.calculo = kwargs.get("calculo")
+        self.valor_unitario = kwargs.get("valor_unitario")
+        self.registro = kwargs.get("registro")
+        self.calculo_completo = kwargs.get("calculo_completo")
+        self.redondeo = kwargs.get("redondeo")
 
 
 class _Schema(SQLAlchemyAutoSchema):

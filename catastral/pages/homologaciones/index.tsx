@@ -8,7 +8,7 @@ import { useHomologacion } from "../../src/redux/Homologacion/homologacion.hook"
 export default function Homologaciones() {
 	const { query } = useRouter();
 	const { state, salesCost } = useHomologacion(query);
-	console.log(salesCost());
+	console.log(query);
 	return (
 		<Container
 			header={

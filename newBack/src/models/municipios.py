@@ -35,14 +35,14 @@ class _Municipios(Base):
     nombre = Column(String)
     nombre_utf = Column(String)
 
-    def __init__(self, collection) -> None:
+    def __init__(self, **kwargs) -> None:
         """
         Constructor
         Args:
             collection: Diccionario con los datos de la tabla
         """
-        self.nombre = collection["nombre"]
-        self.nombre_utf = collection["nombre_utf"]
+        self.nombre = kwargs.get("nombre")
+        self.nombre_utf = kwargs.get("nombre_utf")
 
 
 class _Schema(SQLAlchemyAutoSchema):

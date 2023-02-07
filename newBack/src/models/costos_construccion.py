@@ -9,7 +9,7 @@ from typing import Optional, Tuple
 
 from fastapi_sqlalchemy import db
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from sqlalchemy import Boolean, Column, Float, Integer, String, Text
+from sqlalchemy import BigInteger, Boolean, Column, Float, Integer, String, Text
 
 from ..middlewares.database import Base
 
@@ -31,7 +31,7 @@ class _CostosConstruccion(Base):
 
     __tablename__ = "calculo_valor_unitario_construccion"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(BigInteger, primary_key=True)
     descripcion = Column(Text)
     costo_directo = Column(Float)
     indirectos = Column(Float)
@@ -45,7 +45,7 @@ class _CostosConstruccion(Base):
     redondeo = Column(Integer, default=0)
     edicion = Column(Boolean, default=False, nullable=False)
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, **kwargs) -> None:
         """Constructor de la tabla para el calculo del valor unitario de construccion.
 
         Args:
@@ -53,17 +53,17 @@ class _CostosConstruccion(Base):
         Returns:
             None
         """
-        self.descripcion = data.get("descripcion")
-        self.costo_directo = data.get("costo_directo")
-        self.indirectos = data.get("indirectos")
-        self.valor_neto = data.get("valor_neto")
-        self.m2 = data.get("m2")
-        self.factor_gto = data.get("factor_gto")
-        self.valor_resultante = data.get("valor_resultante")
-        self.total = data.get("total")
-        self.tipo_servicio = data.get("tipo_servicio")
-        self.registro = data.get("registro")
-        self.redondeo = data.get("redondeo")
+        self.descripcion = kwargs.get("descripcion")
+        self.costo_directo = kwargs.get("costo_directo")
+        self.indirectos = kwargs.get("indirectos")
+        self.valor_neto = kwargs.get("valor_neto")
+        self.m2 = kwargs.get("m2")
+        self.factor_gto = kwargs.get("factor_gto")
+        self.valor_resultante = kwargs.get("valor_resultante")
+        self.total = kwargs.get("total")
+        self.tipo_servicio = kwargs.get("tipo_servicio")
+        self.registro = kwargs.get("registro")
+        self.redondeo = kwargs.get("redondeo")
 
 
 class _Schema(SQLAlchemyAutoSchema):

@@ -9,7 +9,7 @@ from typing import Optional, Tuple
 
 from fastapi_sqlalchemy import db
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from sqlalchemy import Column, Float, Integer, Text
+from sqlalchemy import Column, Float, Integer, Text, BigInteger
 
 from ..middlewares.database import Base
 
@@ -31,7 +31,7 @@ class _IndicadoresMunicipales(Base):
 
     __tablename__ = "indicadores_municipales"
 
-    id = Column(Integer, primary_key=True)
+    id = Column(BigInteger, primary_key=True)
     municipio = Column(Text)
     poblacion_total = Column(Integer)
     densidad_poblacion = Column(Float)
@@ -40,7 +40,7 @@ class _IndicadoresMunicipales(Base):
     anualidad_censo = Column(Integer)
     porcentaje = Column(Float)
 
-    def __init__(self, collection: dict) -> None:
+    def __init__(self, **kwargs) -> None:
         """
         Constructor
         Args:
@@ -48,13 +48,13 @@ class _IndicadoresMunicipales(Base):
         Returns:
             None
         """
-        self.municipio = collection["municipio"]
-        self.poblacion_total = collection["poblacion_total"]
-        self.densidad_poblacion = collection["densidad_poblacion"]
-        self.pob_econom_activa = collection["pob_econom_activa"]
-        self.viviendas_habitadas = collection["viviendas_habitadas"]
-        self.anualidad_censo = collection["anualidad_censo"]
-        self.porcentaje = collection["porcentaje"]
+        self.municipio = kwargs.get("municipio")
+        self.poblacion_total = kwargs.get("poblacion_total")
+        self.densidad_poblacion = kwargs.get("densidad_poblacion")
+        self.pob_econom_activa = kwargs.get("pob_econom_activa")
+        self.viviendas_habitadas = kwargs.get("viviendas_habitadas")
+        self.anualidad_censo = kwargs.get("anualidad_censo")
+        self.porcentaje = kwargs.get("porcentaje")
 
 
 class _Schema(SQLAlchemyAutoSchema):

@@ -119,6 +119,7 @@ export const getHomologacion = (state: RootState) => state.Homologacion;
 export const getFactors = (state: RootState) => state.Homologacion.factors;
 export const getDocumentation = (state: RootState) => state.Homologacion.documentation;
 export const {
+	load,
 	addRow,
 	rmRow,
 	addRowLocZone,

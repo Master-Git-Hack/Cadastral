@@ -116,6 +116,7 @@ export const Navbar = () => {
 							src={logoGto}
 							alt=" Secretaría de Finanzas, Inversión y Administración de Guanajuato"
 							className="picture"
+							priority={true}
 						/>
 						<Typography
 							sx={{

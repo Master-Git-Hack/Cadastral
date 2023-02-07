@@ -9,7 +9,7 @@ from typing import Optional, Tuple
 
 from fastapi_sqlalchemy import db
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import BigInteger, Boolean, Column, Sequence, String
 
 from ..middlewares.database import Base
 
@@ -34,23 +34,29 @@ class _DepSolicitante(Base):
     __tablename__ = "dep_solicitante"
 
     id = Column(
-        Integer,
+        BigInteger,
+        Sequence("dep_solicitante_id_seq"),
         primary_key=True,
+        nullable=False,
         # server_default=text("nextval('dep_solicitante_id_seq'::regclass)"),
     )
     descripcion = Column(String)
     nombre_corto = Column(String)
     secretaria = Column(String)
+    secretaria_corto = Column(String)
+    estatus = Column(Boolean)
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, **kwargs) -> None:
         """
         Constructor
         Args:
             data (dict): Diccionario con los datos de la tabla
         """
-        self.descripcion = data.get("descripcion")
-        self.nombre_corto = data.get("nombre_corto")
-        self.secretaria = data.get("secretaria")
+        self.descripcion = kwargs.get("descripcion")
+        self.nombre_corto = kwargs.get("nombre_corto")
+        self.secretaria = kwargs.get("secretaria")
+        self.secretaria_corto = kwargs.get("secretaria_corto")
+        self.estatus = kwargs.get("estatus")
 
 
 class _Schema(SQLAlchemyAutoSchema):
@@ -107,6 +113,7 @@ class _Read:
         Returns:
             response (model|dict|None): list of records
         """
+        print(db.session.query(_DepSolicitante).all())
         try:
             response = db.session.query(_DepSolicitante).all()
             if to_list:
@@ -114,8 +121,8 @@ class _Read:
             if exclude is not None:
                 response = _Schema(many=True, exclude=exclude).dump(response)
             return response
-        except (RuntimeError, TypeError, NameError):
-            print(RuntimeError)
+        except Exception as e:
+            print(e)
             return None
 
     @staticmethod
@@ -137,8 +144,8 @@ class _Read:
             if exclude is not None:
                 response = _Schema(exclude=exclude).dump(response)
             return response
-        except (RuntimeError, TypeError, NameError):
-            print(RuntimeError)
+        except Exception as e:
+            print(e)
             return None
 
 

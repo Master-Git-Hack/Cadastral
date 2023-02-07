@@ -20,7 +20,15 @@ dep_solicitantes_routes = APIRouter(
 async def get_by_id(id: int) -> Any:
     """Get all the Departamentos Solicitantes."""
     response = _Response()
-    data = await DepSolicitante.read.by_id(id, to_dict=True)
+    data = await DepSolicitante.read.by_id(id, to_dict=True, exclude=["estatus"])
+    return response.success(data=data)
+
+
+@dep_solicitantes_routes.get("/all")
+async def get_all() -> Any:
+    """Get all the Departamentos Solicitantes."""
+    response = _Response()
+    data = await DepSolicitante.read.all()
     return response.success(data=data)
 
 
@@ -30,7 +38,7 @@ async def get_key_value(id: int, key: str) -> Any:
     response = _Response()
     key = key.lower()
     data = await DepSolicitante.read.by_id(id, to_dict=True)
-    return response.success(data=data["properties"].get(key, None))
+    return response.success(data=data.get(key, None))
 
 
 @dep_solicitantes_routes.patch("/{id}")

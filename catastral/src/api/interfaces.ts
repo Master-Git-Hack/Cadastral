@@ -8,4 +8,5 @@ export interface ApiProps {
 	responseType?: "blob" | "json";
 	payload?: any;
 	headers?: HeaderProps;
+	method?: "get" | "post" | "patch" | "delete";
 }

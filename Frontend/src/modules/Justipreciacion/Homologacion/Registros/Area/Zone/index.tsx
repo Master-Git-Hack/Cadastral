@@ -59,20 +59,29 @@ const Header = () => {
 		value: factor.id,
 		label: invertedObjectOptions[factor.type],
 	}));
-
+	console.log(
+		factors,
+		factorsOptions.find((item: any) => item.label === invertedObjectOptions[factors[0].type]),
+	);
 	return (
 		<>
 			<tr>
 				<th colSpan={3}>
 					<div style={{ padding: 4 }}>
 						<Select
-							defaultValue={factores[0].value}
+							defaultValue={
+								factorsOptions.find(
+									(item: any) =>
+										item.label === invertedObjectOptions[factors[0].type],
+								)?.value
+							}
 							data={factorsOptions.slice(0, 5)}
 							onChange={({ currentTarget: { value } }) => {
 								const selection =
 									factorsOptions.find(
 										(item: any) => item.value === Number(value),
 									) ?? factorsOptions[0];
+								console.log(selection);
 								dispatch(
 									setAreaSubjectFactors({
 										index: 0,
@@ -87,11 +96,16 @@ const Header = () => {
 				<th>Factor 1</th>
 				<th>
 					<Select
-						defaultValue={factores[1].value}
+						defaultValue={
+							factorsOptions.find(
+								(item: any) =>
+									item.label === invertedObjectOptions[factors[1].type],
+							)?.value
+						}
 						data={factorsOptions}
 						onChange={({ currentTarget: { value } }) => {
 							const selection =
-								factorsOptions.find((item) => item.value === Number(value)) ??
+								factorsOptions.find(({ label, ...item }) => label === value) ??
 								factorsOptions[0];
 							dispatch(
 								setAreaSubjectFactors({

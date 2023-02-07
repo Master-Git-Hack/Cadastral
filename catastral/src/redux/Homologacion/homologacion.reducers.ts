@@ -9,6 +9,10 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { StateProps } from "./homologacion.interface";
 
 export const reducers = {
+	load:(state: StateProps, { payload }: PayloadAction<StateProps>) => {
+		if(payload !==undefined)
+		return payload;
+	},
 	addRow: (state: StateProps) => {
 		const { factors, documentation } = addRowFN(state);
 		state.factors = factors;

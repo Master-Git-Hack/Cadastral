@@ -40,7 +40,7 @@ class _Homologation(Base):
     tipo_servicio = Column(String())
     edicion = Column(Boolean, default=False, nullable=False)
 
-    def __init__(self, data: dict) -> None:
+    def __init__(self, **kwargs) -> None:
         """
         Constructor
         Args:
@@ -48,12 +48,12 @@ class _Homologation(Base):
         Returns:
             None
         """
-        self.tipo = data.get("tipo").lower()
-        self.factores = data.get("factores")
-        self.resultado = data.get("resultado")
-        self.valor_unitario = data.get("valor_unitario")
-        self.registro = data.get("registro")
-        self.tipo_servicio = data.get("tipo_servicio").lower()
+        self.tipo = kwargs.get("tipo").lower()
+        self.factores = kwargs.get("factores")
+        self.resultado = kwargs.get("resultado")
+        self.valor_unitario = kwargs.get("valor_unitario")
+        self.registro = kwargs.get("registro")
+        self.tipo_servicio = kwargs.get("tipo_servicio").lower()
 
 
 class _Schema(SQLAlchemyAutoSchema):
@@ -142,6 +142,40 @@ class _Read:
             return response
         except (RuntimeError, TypeError, NameError):
             print(RuntimeError)
+            return None
+
+    @staticmethod
+    async def by_registro(
+        registro: str,
+        tipo: str,
+        to_dict: Optional[bool] = False,
+        exclude: Optional[list] = None,
+    ):
+        """This method select a record from the database by type of registro
+
+        Args:
+            registro (str): registro to identify the record.
+            tipo (str): tipo_homologacion to identify the record.
+            to_dict (Optional[bool], optional): _description_. Defaults to False.
+            exclude (Optional[list], optional): _description_. Defaults to None.
+
+        Returns:
+            record (model|dict|None): model instance
+        """
+        try:
+            response = (
+                db.session.query(_Homologation)
+                .filter_by(registro=registro, tipo=tipo)
+                .first()
+            )
+
+            if to_dict:
+                response = _Schema().dump(response)
+            if exclude is not None:
+                response = _Schema(exclude=exclude).dump(response)
+            return response
+        except Exception as e:
+            print(e)
             return None
 
 

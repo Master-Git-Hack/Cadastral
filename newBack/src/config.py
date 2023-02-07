@@ -61,7 +61,7 @@ class _Production(_Base):
     """
 
     SQLALCHEMY_DATABASE_URL: str = getenv("DATABASE_URL", "")
-    RELOAD = bool(getenv("RELOAD", None))
+    RELOAD = bool(getenv("RELOAD", "1"))
 
 
 class _Development(_Base):
