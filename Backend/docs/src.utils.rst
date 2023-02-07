@@ -4,10 +4,34 @@ src.utils package
 Submodules
 ----------
 
-src.utils.local module
-----------------------
+src.utils.decimals module
+-------------------------
 
-.. automodule:: src.utils.local
+.. automodule:: src.utils.decimals
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+src.utils.local\_requirements module
+------------------------------------
+
+.. automodule:: src.utils.local_requirements
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+src.utils.parse\_json module
+----------------------------
+
+.. automodule:: src.utils.parse_json
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+src.utils.password module
+-------------------------
+
+.. automodule:: src.utils.password
    :members:
    :undoc-members:
    :show-inheritance:
@@ -20,10 +44,10 @@ src.utils.pdf module
    :undoc-members:
    :show-inheritance:
 
-src.utils.tmp module
---------------------
+src.utils.temporary\_transactions module
+----------------------------------------
 
-.. automodule:: src.utils.tmp
+.. automodule:: src.utils.temporary_transactions
    :members:
    :undoc-members:
    :show-inheritance:

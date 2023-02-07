@@ -1,4 +1,4 @@
-Application package
+src package
 ===========
 
 Subpackages
@@ -7,18 +7,18 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   docs.src.apps
-   docs.src.routes
-   docs.src.test
-   docs.src.utils
+   src.api
+   src.middlewares
+   src.models
+   src.utils
 
 Submodules
 ----------
 
-Config File
+src.config module
 -----------------
 
-.. automodule:: docs.src.config
+.. automodule:: src.config
    :members:
    :undoc-members:
    :show-inheritance:
@@ -26,7 +26,7 @@ Config File
 Module contents
 ---------------
 
-.. automodule:: docs.src
+.. automodule:: src
    :members:
    :undoc-members:
    :show-inheritance:

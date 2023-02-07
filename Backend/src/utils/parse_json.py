@@ -1,10 +1,17 @@
-"""Class to parse list or JSON as an Object and work with as in Javascript
+"""
+Handle JSON Operations
 """
 
 
 class ParseJSONasObject(object):
     """
     Class to parse list or JSON as an Object and work with as in Javascript
+    Args:
+        data (list|dict): data to work with
+    Example:
+        >>> data = {"name": "John", "age": 30, "cars": [{"model": "BMW 230", "mpg": 27.5}, {"model": "Ford Edge", "mpg": 24.1}]}
+    Atributes:
+        compute_attr_value (method): compute the value of the attribute
     """
 
     def __init__(self, data=None) -> None:

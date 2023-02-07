@@ -4,8 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-/storybook-static
-.jest-test-results.json
+
 # testing
 /coverage
 
@@ -34,3 +33,4 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+next-env.d.ts

@@ -1,4 +1,5 @@
 {
+  "rootDir": "src",
   "compilerOptions": {
     "target": "es2022",
     "lib": [
@@ -23,13 +24,16 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": [
-    "src"
-, "src/views/Justipreciacion/Homologacion/homologacion/.stories.tsx"  ],
   "exclude": [
     "node_modules",
     "dist",
     "lib",
     "lib-amd"
+  ],
+  "include": [
+    "src",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
   ]
 }

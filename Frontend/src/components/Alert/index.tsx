@@ -1,13 +1,18 @@
 /** @format */
-import React from "react";
 
-import { Message } from "rsuite";
-import { AlertProps } from "./alert.types";
+import { Alert as Component, AlertTitle, Stack } from "@mui/material";
+import { AlertProps } from "./interfaces";
 
-export const Alert = ({ closable, duration, header, type, children }: AlertProps): JSX.Element => (
-	<div>
-		<Message closable={closable} duration={duration} showIcon header={header} type={type}>
+export const Alert = ({ children, title, reference, justifyContent, ...props }: AlertProps) => (
+	<Stack direction="row" justifyContent={justifyContent} alignItems="center" sx={{ m: 1 }}>
+		<Component {...props}>
+			{title && <AlertTitle>{title}</AlertTitle>}
 			{children}
-		</Message>
-	</div>
+			{reference && (
+				<>
+					- <strong>{reference}</strong>
+				</>
+			)}
+		</Component>
+	</Stack>
 );

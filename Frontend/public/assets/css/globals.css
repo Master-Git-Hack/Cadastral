@@ -26,3 +26,7 @@ a {
 .text-dark{
   -webkit-text-stroke: 0.2px black!important;
 }
+.picture{
+  height:20%;
+  width:20%;
+}

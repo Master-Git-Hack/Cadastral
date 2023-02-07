@@ -1,90 +1,108 @@
-"""
-config file for the project
-"""
+# src/config.py
+""" Configuration file for the backend """
+# from datetime import timedelta
+from datetime import timedelta
 from os import getenv
 from os.path import abspath, dirname, join
+from typing import Dict
 
-from jinja2 import Environment, FileSystemLoader
+from dotenv import load_dotenv
+from pydantic import BaseModel
 
-root_path = abspath(dirname(__file__))
+load_dotenv()
+
+_root_path = getenv("ROOT_PATH", abspath(dirname(__file__)))
+_ENV = getenv("ENV", "development")
+_SECRET_KEY = getenv("SECRET_KEY", "secret")
 
 
-class Config:
-    """Base configuration."""
+class _Base:
+    """Configuration class for the backend"""
 
-    SECRET_KEY = getenv("SECRET_KEY") or "secret-key"
-    ENV = getenv("FLASK_ENV") or "production"
-    VERSION = getenv("VERSION") or "1"
-    API_URL = getenv("API_URL") or f"/api/v{VERSION}/"
-    TITLE = getenv("TITLE") or "API DEV"
-    CORS = getenv("CORS") or "*"
-    CORS_ORIGIN = getenv("CORS_ORIGIN") or "*"
-    TEMPORARY_PATH = getenv("TEMPORARY_PATH") or "tmp"
-    STATIC_PATH = getenv("STATIC_PATH") or "static"
-    JINJA_ENV = Environment(
-        loader=FileSystemLoader(join(root_path.split("/src")[0], "_build/html")),
-        autoescape=False,
+    SERVER_HOST: str = getenv("SERVER_HOST", "localhost")
+    PORT: int = int(getenv("PORT", "5000"))
+    SECRET_KEY: str = _SECRET_KEY
+    ALLOWED_ORIGINS = (
+        getenv("ALLOWED_ORIGINS", "*")
+        if _ENV == "production"
+        else [
+            "http://localhost",
+            "http://localhost:3000",
+            "https://localhost",
+            "https://localhost:3000",
+        ]
     )
-    ALLOWED_EXTENSIONS = {"csv", "xlsx", "xls"}
+    VERSION: str = getenv("VERSION", "2")
+    API_URL: str = getenv("API_URL", f"/api/v{VERSION}")
+    TITLE: str = getenv("TITLE", f"API {_ENV.upper()}")
+    DESCRIPTION: str = getenv("DESCRIPTION", "API TEST")
+
+    class Paths:
+        """Class for paths"""
+
+        _TEMPORARY: str = getenv("TEMPORARY_PATH", "tmp")
+        _TEMPLATES: str = getenv("TEMPLATES_PATH", "templates")
+        _DOCS: str = getenv("DOCS_PATH", "docs")
+        _STATIC: str = getenv("STATIC_PATH", "static")
+        _IMAGES: str = getenv("IMAGES_PATH", "images")
+        _UPLOADS: str = getenv("UPLOADS_PATH", "uploads")
+        STATIC: str = join(_root_path, _STATIC)
+        TMP: str = join(_root_path, _TEMPORARY)
+        TEMPLATES: str = join(STATIC, _TEMPLATES)
+        DOCS: str = join(STATIC, _DOCS)
+        IMAGES: str = join(STATIC, "images")
+        UPLOADS: str = join(STATIC, _UPLOADS)
 
 
-class Paths:
-    """Paths configuration."""
+class _Production(_Base):
+    """Production configuration
+    Args:
+        _Base (class): Base configuration
+    """
 
-    tmp = join(root_path, Config.TEMPORARY_PATH)
-    static = join(root_path, Config.STATIC_PATH)
-    templates = join(static, "templates")
-    images = join(static, "images")
-    fonts = join(static, "fonts")
-    docs = Config.JINJA_ENV
+    SQLALCHEMY_DATABASE_URL: str = getenv("DATABASE_URL", "")
+    RELOAD = bool(getenv("RELOAD", "1"))
 
 
-class DevelopmentConfig:
-    """Development configuration."""
+class _Development(_Base):
+    """Development configuration
+    Args:
+        _Base (class): Base configuration
+    """
 
-    UPLOAD_FOLDER = Paths.tmp
-    DEBUG = True
-    JSON_AS_ASCII = False
-    SQLALCHEMY_DATABASE_URI = (
-        getenv("DATABASE_URL_DEV") or f"sqlite:///{root_path}/db.sqlite"
+    SQLALCHEMY_DATABASE_URL: str = getenv(
+        "DATABASE_DEV_URL", f"sqlite:///{_root_path}/dev.db"
     )
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    RELOAD = bool(getenv("RELOAD", "1"))
 
 
-class TestingConfig(Config):
-    """Testing configuration."""
+class _Test(_Base):
+    """Test configuration
+    Args:
+        _Base (class): Base configuration
+    """
 
-    DEBUG = True
-    JSON_AS_ASCII = False
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = (
-        getenv("DATABASE_URL_TEST") or f"sqlite:///{root_path}/db.sqlite"
+    SQLALCHEMY_DATABASE_URL: str = getenv(
+        "DATABASE_TEST_URL", f"sqlite:///{_root_path}/test.db"
     )
-    PRESERVE_CONTEXT_ON_EXCEPTION = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    RELOAD = bool(getenv("RELOAD", "1"))
 
 
-class ProductionConfig(Config):
-    """Production configuration."""
+class Config(dict(production=_Production, development=_Development, test=_Test)[_ENV]):
+    """Configuration for the application
+    Args:
+        Environment (class): All the configuration for the environment
+    """
 
-    DEBUG = False
-    JSON_AS_ASCII = False
-    SQLALCHEMY_DATABASE_URI = getenv("DATABASE_URL")
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    class Settings(BaseModel):
+        """JWT configuration"""
 
-
-config_by_name = dict(
-    development=DevelopmentConfig, testing=TestingConfig, production=ProductionConfig
-)
-config_API = dict(
-    title=Config.TITLE,
-    version=Config.VERSION,
-    prefix=Config.API_URL,
-    authorizations=dict(
-        api_key={"type": "api_key", "in": "header", "name": "Authorization"}
-    ),
-    docs_path="/docs",
-)
-key = Config.SECRET_KEY
-env = Config.ENV
-cors_src = {f"{Config.API_URL}{Config.CORS}": dict(origin=Config.CORS_ORIGIN)}
+        # access_token_expire_minutes: int = 30
+        # algorithm: str = "HS256"
+        authjwt_algorithm: str = "HS256"
+        authjwt_secret_key: str = _SECRET_KEY
+        authjwt_denylist_enabled: bool = True
+        authjwt_denylist_token_checks: set = {"access", "refresh"}
+        # authjwt_csrf_methods: Tuple = ("POST", "PUT", "PATCH", "DELETE")
+        access_expires: int = timedelta(minutes=30)
+        refresh_expires: int = timedelta(minutes=90)

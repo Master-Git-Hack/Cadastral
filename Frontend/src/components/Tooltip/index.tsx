@@ -1,28 +1,14 @@
 /** @format */
+import React from "react";
+import { TooltipProps } from "./tooltip.interfaces";
+import { Tooltip as MuiToolTip } from "@mui/material";
+import Box from "@mui/material/Box";
 
-import { Grid, Col, Row, Tooltip as Component, Whisper } from "rsuite";
-import { TooltipProps } from "./tooltip.types";
-export const Tooltip = ({
-	id,
-	children,
-	tooltip,
-	trigger,
-	delay,
-	followCursor,
-	placement,
-}: TooltipProps): JSX.Element => (
-	<Whisper
-		trigger={trigger ?? ["click", "hover", "focus"]}
-		placement={placement ?? "auto"}
-		controlId={id}
-		followCursor={followCursor}
-		delay={delay}
-		speaker={
-			<Component arrow id={id}>
-				{tooltip}
-			</Component>
-		}
-	>
-		{children}
-	</Whisper>
+export const Tooltip = ({ children, sx, placement, helpText }: TooltipProps) => (
+	<Box sx={sx}>
+		<MuiToolTip title={helpText} placement={placement}>
+			{children}
+		</MuiToolTip>
+	</Box>
 );
+export default Tooltip;

@@ -8,3 +8,4 @@ README.md
 start.sh
 docs/*
 .vscode/*
+env/*

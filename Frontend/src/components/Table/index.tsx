@@ -1,81 +1,88 @@
 /** @format */
 
-import { TableComponent, TableProps } from "./table.types";
+import { AutoTableProps, CustomTableProps } from "./table.interfaces";
 
-const className = (props: TableProps): string =>
-	`align-self-middle align-middle justify-content-center align-items-center justify-content-sm-center text-center ${
-		props.className
-	} table-${props.type ?? "light"}`;
+import {
+	TableBody,
+	Table as Component,
+	TableHead,
+	TableContainer,
+	TablePagination,
+	TableFooter,
+	Paper,
+	Box,
+	Skeleton,
+	Stack,
+} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 
-export const Container = (props: TableProps): JSX.Element => (
-	<table
-		className={`table table-sm table-responsive table-responsive-sm table-striped table-hover align-self-middle align-middle justify-content-center justify-content-sm-center text-center align-items-center ${
-			props.className ?? "table-bordered"
-		}`}
-	>
-		{props.children}
-	</table>
+export const AutoTable = ({ box, ...props }: AutoTableProps) => (
+	<Box {...box}>
+		<DataGrid {...props} />
+	</Box>
 );
-export const Header = (props: TableProps): JSX.Element => (
-	<thead className={className(props)}>{props.children}</thead>
+const LoadingHeaders = () => (
+	<Stack direction="row" spacing={5.5}>
+		{[...Array(3)].map((_, i) => (
+			<Skeleton
+				key={`loading row header ${i}`}
+				variant="text"
+				width={250}
+				height={30}
+				animation="wave"
+			/>
+		))}
+	</Stack>
 );
-export const Body = (props: TableProps): JSX.Element => (
-	<tbody className={className(props)}>{props.children}</tbody>
+const LoadingBody = () => (
+	<Stack direction="column">
+		{[...Array(3)].map((_, i) => (
+			<Stack key={`loading column body ${i}`} direction="row" spacing={3}>
+				{[...Array(6)].map((_, j) => (
+					<Skeleton
+						key={`loading row body ${i}${j}`}
+						variant="text"
+						width={120}
+						height={30}
+						animation="wave"
+					/>
+				))}
+			</Stack>
+		))}
+	</Stack>
 );
-export const Footer = (props: TableProps): JSX.Element => (
-	<tfoot className={className(props)}>{props.children}</tfoot>
-);
-export const Component = ({
-	name,
-	className,
-	header,
-	customHeader,
-	headerClassName,
+export const Table = ({
+	container,
+	table,
+	head,
 	body,
-	customBody,
-	bodyClassName,
 	footer,
-	customFooter,
-	hasFooter,
-	footerClassName,
-}: TableComponent): JSX.Element => (
-	<Container className={className}>
-		<Header className={headerClassName}>
-			{customHeader ?? (
-				<tr>
-					{header &&
-						header.map((item: string, index: number) => (
-							<th key={`table header component for ${name} ${index}`}>{item}</th>
-						))}
-				</tr>
-			)}
-		</Header>
-		<Body className={bodyClassName}>
-			{customBody ??
-				(body &&
-					body.map((item: any, index: number) => (
-						<tr key={`table body component for ${name} ${index}`}>
-							{item.map((subItem: any, indx: number) => (
-								<td key={`table body component for ${name} ${index} ${indx}`}>
-									{subItem}
-								</td>
-							))}
-						</tr>
-					)))}
-		</Body>
-		{hasFooter && (
-			<Footer className={footerClassName}>
-				{customFooter ??
-					(footer && (
-						<tr>
-							{footer.map((item: any, index: number) => (
-								<td key={`table footer component for ${name} ${index}`}>{item}</td>
-							))}
-						</tr>
-					))}
-			</Footer>
-		)}
-	</Container>
+	pagination,
+	children,
+	loading,
+	...props
+}: CustomTableProps) => (
+	<Paper {...props}>
+		<TableContainer {...container}>
+			<Component {...table}>
+				{loading ? <LoadingHeaders /> : head && <TableHead {...head} />}
+				{loading ? (
+					<LoadingBody />
+				) : (
+					<TableBody {...body}>
+						{body?.children}
+						{children}
+					</TableBody>
+				)}
+				{loading ? (
+					<Stack direction="row-reverse">
+						<Skeleton variant="text" width={280} height={30} animation="wave" />
+					</Stack>
+				) : (
+					footer && <TableFooter {...footer} />
+				)}
+			</Component>
+		</TableContainer>
+		{pagination && <TablePagination {...pagination} />}
+	</Paper>
 );
-
-export const Table = { Container, Header, Body, Footer, Component };
