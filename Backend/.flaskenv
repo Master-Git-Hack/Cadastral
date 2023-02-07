@@ -1,7 +1,7 @@
 FLASK_APP="wsgi.py"
 FLASK_RUN_HOST= "0.0.0.0"
 FLASK_RUN_PORT=5000
-FLASK_ENV="development"
+FLASK_ENV=production
 DEBUG=True
 SECRET_KEY= "secret"
 VERSION=1
