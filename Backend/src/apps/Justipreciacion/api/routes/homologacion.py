@@ -54,6 +54,7 @@ class HOMOLOGACION(Resource):
             status_code (int): status code of the response
         """
         data = request.json
+
         return patch_homologation(
             tipo=data["tipo"],
             factores=data["factores"],

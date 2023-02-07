@@ -1,6 +1,7 @@
 """Services file to handle Justipreciacion operations"""
 from typing import Dict, Tuple
 
+from ..models.homologacion import Homologation
 from .... import db
 from ....utils.dbo import save_changes
 from ....utils.response import Response
@@ -132,10 +133,10 @@ def patch_justipreciacion_from_homologacion(
         response (dict): response to the request
         status_code (int): status code of the response
     """
+
     tipo = tipo.upper()
     record = get_justipreciacion(_id)
 
-    value = float(f'{data["valor_unitario"]:.2f}')
     if not record:
         return Response.bad_request(
             message="Registro de Justipreciacion no encontrado.",
@@ -143,6 +144,13 @@ def patch_justipreciacion_from_homologacion(
             status_code=404,
         )
     else:
+        try:
+            value = float(f'{data["valor_unitario"]:.2f}')
+        except:
+            homologacion = Homologation.query.filter_by(
+                registro=record.registro, tipo=tipo
+            ).first()
+            value = float(f"{homologacion.valor_unitario:.2f}")
         if tipo == "TERRENO":
             record.sp1_vu = value
             record.sp1_factor = data["sp1_factor"] or 1

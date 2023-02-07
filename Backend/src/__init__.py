@@ -1,5 +1,4 @@
 """Main file with the app instance"""
-from multiprocessing import cpu_count
 from unittest import TestLoader, TextTestRunner
 
 from flask import Flask

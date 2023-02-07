@@ -18,9 +18,7 @@
         <script src="../_static/translations.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../search.html" />
-    <link rel="next" title="src.utils package" href="src.utils.html" />
-    <link rel="prev" title="src.routes package" href="src.routes.html" /> 
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,18 +36,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="src.html">Application package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.apps.html">src.apps package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.routes.html">src.routes package</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">src.test package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-contents">Module contents</a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">src.test package</a><ul>
+<li><a class="reference internal" href="#module-src.test">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="src.utils.html">src.utils package</a></li>
 </ul>
-
+</div>
         </div>
       </div>
     </nav>
@@ -76,18 +70,48 @@
              
   <section id="src-test-package">
 <h1>src.test package<a class="headerlink" href="#src-test-package" title="Enlazar permanentemente con este título"></a></h1>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Enlazar permanentemente con este título"></a></h2>
+<section id="module-src.test">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src.test" title="Enlazar permanentemente con este título"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.test.BaseTestCase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.test.</span></span><span class="sig-name descname"><span class="pre">BaseTestCase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">methodName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'runTest'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/test.html#BaseTestCase"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.test.BaseTestCase" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_testing.utils.TestCase</span></code></p>
+<p>Class to generate test cases</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.test.BaseTestCase.create_app">
+<span class="sig-name descname"><span class="pre">create_app</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/test.html#BaseTestCase.create_app"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.test.BaseTestCase.create_app" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Create the app instance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Devuelve</dt>
+<dd class="field-odd"><p>The app instance</p>
+</dd>
+<dt class="field-even">Tipo del valor devuelto</dt>
+<dd class="field-even"><p>app</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.test.BaseTestCase.set_up">
+<span class="sig-name descname"><span class="pre">set_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/test.html#BaseTestCase.set_up"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.test.BaseTestCase.set_up" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method is called before each test</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.test.BaseTestCase.tear_down">
+<span class="sig-name descname"><span class="pre">tear_down</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/src/test.html#BaseTestCase.tear_down"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.test.BaseTestCase.tear_down" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method is called after each test</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
-        <a href="src.routes.html" class="btn btn-neutral float-left" title="src.routes package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
-        <a href="src.utils.html" class="btn btn-neutral float-right" title="src.utils package" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

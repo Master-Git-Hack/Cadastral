@@ -24,8 +24,7 @@ class Catastral(db.Model):
     id = Column(
         Integer,
         primary_key=True,
-        # server_default=text("nextval('catastral_id_seq'::regclass)"),
-        # https://docs.sqlalchemy.org/en/13/core/defaults.html#executing-a-sequence-standalone
+        server_default=text("nextval('catastral_id_seq'::regclass)"),
     )
     registro = Column(String, unique=True)
     solicitante = Column(String)

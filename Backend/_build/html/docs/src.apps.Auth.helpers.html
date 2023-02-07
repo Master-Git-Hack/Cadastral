@@ -18,9 +18,7 @@
         <script src="../_static/translations.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Índice" href="../genindex.html" />
-    <link rel="search" title="Búsqueda" href="../search.html" />
-    <link rel="next" title="src.apps.Auth.models package" href="src.apps.Auth.models.html" />
-    <link rel="prev" title="src.apps.Auth.controllers package" href="src.apps.Auth.controllers.html" /> 
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -38,26 +36,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="src.html">Application package</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="src.apps.html">src.apps package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="src.apps.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="src.apps.Auth.html">src.apps.Auth package</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="src.apps.Auth.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.apps.Auth.html#module-contents">Module contents</a></li>
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">src.apps.Auth.helpers package</a><ul>
+<li><a class="reference internal" href="#module-src.apps.Auth.helpers">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="src.apps.html#module-contents">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="src.routes.html">src.routes package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.test.html">src.test package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="src.utils.html">src.utils package</a></li>
-</ul>
-
+</div>
         </div>
       </div>
     </nav>
@@ -72,8 +58,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="src.apps.html">src.apps package</a> &raquo;</li>
-          <li><a href="src.apps.Auth.html">src.apps.Auth package</a> &raquo;</li>
       <li>src.apps.Auth.helpers package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/docs/src.apps.Auth.helpers.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
@@ -86,18 +70,40 @@
              
   <section id="src-apps-auth-helpers-package">
 <h1>src.apps.Auth.helpers package<a class="headerlink" href="#src-apps-auth-helpers-package" title="Enlazar permanentemente con este título"></a></h1>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Enlazar permanentemente con este título"></a></h2>
+<section id="module-src.apps.Auth.helpers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src.apps.Auth.helpers" title="Enlazar permanentemente con este título"></a></h2>
+<p>File used to initialize the Auth module, and handle decorators</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.apps.Auth.helpers.Auth">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.apps.Auth.helpers.</span></span><span class="sig-name descname"><span class="pre">Auth</span></span><a class="reference internal" href="../_modules/src/apps/Auth/helpers.html#Auth"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.helpers.Auth" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.apps.Auth.helpers.Auth.get_logged_in_user">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_logged_in_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/apps/Auth/helpers.html#Auth.get_logged_in_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.helpers.Auth.get_logged_in_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method gets the logged in user</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.apps.Auth.helpers.Auth.login_user">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">login_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/src/apps/Auth/helpers.html#Auth.login_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.helpers.Auth.login_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method login the user and return the access token</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.apps.Auth.helpers.Auth.logout_user">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">logout_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/src/apps/Auth/helpers.html#Auth.logout_user"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#src.apps.Auth.helpers.Auth.logout_user" title="Enlazar permanentemente con esta definición"></a></dt>
+<dd><p>This method logs out the user</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
-        <a href="src.apps.Auth.controllers.html" class="btn btn-neutral float-left" title="src.apps.Auth.controllers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
-        <a href="src.apps.Auth.models.html" class="btn btn-neutral float-right" title="src.apps.Auth.models package" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 

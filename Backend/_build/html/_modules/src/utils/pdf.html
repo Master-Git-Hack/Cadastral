@@ -6,6 +6,7 @@
   <title>src.utils.pdf &mdash; documentación de Application - 1.0.0</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -35,15 +36,8 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../docs/src.html">Application package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../docs/src.apps.html">src.apps package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../docs/src.routes.html">src.routes package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../docs/src.test.html">src.test package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../docs/src.utils.html">src.utils package</a></li>
-</ul>
-
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
         </div>
       </div>
     </nav>
@@ -59,6 +53,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../../index.html">Código de módulo</a> &raquo;</li>
+          <li><a href="../../src.html">src</a> &raquo;</li>
       <li>src.utils.pdf</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -78,7 +73,8 @@
 
 <span class="kn">from</span> <span class="nn">.tmp</span> <span class="kn">import</span> <span class="n">name_it</span> <span class="k">as</span> <span class="n">tmp_filename</span>
 
-<span class="c1"># from reportlab.lib.pagesizes import A4, letter</span>
+<span class="c1">#from reportlab.lib.pagesizes import A4, letter</span>
+
 
 
 <div class="viewcode-block" id="PDF"><a class="viewcode-back" href="../../../docs/src.utils.html#src.utils.pdf.PDF">[documentos]</a><span class="k">class</span> <span class="nc">PDF</span><span class="p">:</span>
@@ -88,33 +84,28 @@
 <span class="sd">    watermarking them, for complete use of wkhtmltopdf,</span>
 <span class="sd">    its used with subprocess.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">margins_default</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">zoom</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">page_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;A4&quot;</span><span class="p">,</span>
-        <span class="n">margins</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">margins</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;top&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
         <span class="n">dpi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
         <span class="n">templates</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">watermark</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">files</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">                Initialize the PDF class.</span>
+<span class="sd">        Initialize the PDF class.</span>
 
-<span class="sd">                Args:</span>
-<span class="sd">                    zoom (float, optional): _description_. Defaults to 1.</span>
-<span class="sd">                    pageSize (str, optional): _description_. Defaults to &quot;A4&quot;.</span>
-<span class="sd">                    margins (_type_, optional): _description_. Defaults to</span>
-<span class="sd">        {&quot;top&quot;: 15, &quot;bottom&quot;: None, &quot;left&quot;: None, &quot;right&quot;: None}.</span>
-<span class="sd">                    dpi (int, optional): _description_. Defaults to 300.</span>
-<span class="sd">                    templates (str, optional): _description_. Defaults to None.</span>
-<span class="sd">                    watermark (str, optional): _description_. Defaults to None.</span>
-<span class="sd">                    files (list, optional): _description_. Defaults to None.</span>
+<span class="sd">        Args:</span>
+<span class="sd">            zoom (float, optional): _description_. Defaults to 1.</span>
+<span class="sd">            pageSize (str, optional): _description_. Defaults to &quot;A4&quot;.</span>
+<span class="sd">            margins (_type_, optional): _description_. Defaults to {&quot;top&quot;: 15, &quot;bottom&quot;: None, &quot;left&quot;: None, &quot;right&quot;: None}.</span>
+<span class="sd">            dpi (int, optional): _description_. Defaults to 300.</span>
+<span class="sd">            templates (str, optional): _description_. Defaults to None.</span>
+<span class="sd">            watermark (str, optional): _description_. Defaults to None.</span>
+<span class="sd">            files (list, optional): _description_. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">margins</span> <span class="o">=</span> <span class="n">margins</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">margins_default</span>
         <span class="k">if</span> <span class="n">templates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="s2">&quot;wkhtmltopdf&quot;</span><span class="p">,</span>
@@ -144,7 +135,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--zoom&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">zoom</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--enable-javascript&quot;</span><span class="p">)</span>
-            <span class="c1"># self.cmd.append(&quot; --resolve-relative-links&quot;)deprecated</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--quiet&quot;</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -155,7 +145,6 @@
 <span class="sd">        Read the templates and render them to pdf, using wkhtmltopdf</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
-
         <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">templates</span><span class="p">:</span>
             <span class="n">input_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">.html&quot;</span>
             <span class="n">output_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">.pdf&quot;</span>
@@ -165,15 +154,14 @@
                 <span class="n">process</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span>
                 <span class="p">)</span>
-                <span class="n">_</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span> <span class="n">communicate</span><span class="p">()</span>
                 <span class="n">exit_code</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">exit_code</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">exit_code</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">exit_code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
                     <span class="n">remove</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
                     <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rendering Method failed: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">files</span></div>
 
 <div class="viewcode-block" id="PDF.watermark_it"><a class="viewcode-back" href="../../../docs/src.utils.html#src.utils.pdf.PDF.watermark_it">[documentos]</a>    <span class="k">def</span> <span class="nf">watermark_it</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -198,9 +186,7 @@
                         <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">output_stream</span><span class="p">)</span>
                 <span class="n">remove</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PDF.merge"><a class="viewcode-back" href="../../../docs/src.utils.html#src.utils.pdf.PDF.merge">[documentos]</a>    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_filename</span><span class="p">(</span><span class="n">extension</span><span class="o">=</span><span class="s2">&quot;pdf&quot;</span><span class="p">)</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="PDF.merge"><a class="viewcode-back" href="../../../docs/src.utils.html#src.utils.pdf.PDF.merge">[documentos]</a>    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_file</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;merge files into one pdf file, and return the filename.</span>
 <span class="sd">        if output_file is not None, then the output file will be saved in the specified location.</span>
 
@@ -226,14 +212,7 @@
 
             <span class="k">return</span> <span class="n">output_file</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
-
-<div class="viewcode-block" id="PDF.remove_old_files"><a class="viewcode-back" href="../../../docs/src.utils.html#src.utils.pdf.PDF.remove_old_files">[documentos]</a>    <span class="k">def</span> <span class="nf">remove_old_files</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Remove the old files.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># strftime(&#39;%Y-%m-%d %H:%M:%S&#39;,localtime(getmtime(&quot;./start.sh&quot;)))</span>
-        <span class="k">return</span> <span class="kc">None</span></div></div>
+            <span class="k">return</span> <span class="kc">None</span></div></div>
 </pre></div>
 
            </div>
