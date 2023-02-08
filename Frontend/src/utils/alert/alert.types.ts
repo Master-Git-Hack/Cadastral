@@ -54,5 +54,5 @@ export interface SADefinedProps {
 	text: string;
 	isLoading?: boolean;
 	icon?: "success" | "error" | "warning" | "info" | "question";
-	confirmButtonColor?:string;
+	confirmButtonColor?: string;
 }

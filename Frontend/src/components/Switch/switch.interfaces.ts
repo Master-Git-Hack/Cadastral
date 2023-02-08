@@ -1,3 +1,5 @@
+/** @format */
+
 export interface SwitchProps {
-    justifyContent?: "flex-start" | "center" | "flex-end";
+	justifyContent?: "flex-start" | "center" | "flex-end";
 }

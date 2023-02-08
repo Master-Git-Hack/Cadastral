@@ -1,12 +1,14 @@
+/** @format */
+
 export interface IndicadoresMunicipales {
-    id?: number,
-    municipio?: string,
-    poblacion_total?: number,
-    densidad_poblacion?: number,
-    pob_econom_activa?: number,
-    viviendas_habitadas?: number,
-    anualidad_censo?: number,
-    porcentaje?: number,
+	id?: number;
+	municipio?: string;
+	poblacion_total?: number;
+	densidad_poblacion?: number;
+	pob_econom_activa?: number;
+	viviendas_habitadas?: number;
+	anualidad_censo?: number;
+	porcentaje?: number;
 }
 export const indicadoresMunicipalesInformacion = [
 	{

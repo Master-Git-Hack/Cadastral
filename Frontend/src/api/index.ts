@@ -2,106 +2,63 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { consume } from "./config";
-import { ApiProps } from "./interfaces";
-import {all} from "axios";
-export const consumeApi =()=> ({
-	get: async ({ url, responseType,headers }: ApiProps) => {
-		try {
-			return await consume(responseType ?? "json",headers).get(
-				url
-			);
-		} catch (error) {
-			throw error;
-		}
-	},
-	post: async ({ url, responseType,headers,payload }: ApiProps) => {
-		try {
-			return await consume(responseType ?? "json",headers).post(
-				url,payload
-			);
-		} catch (error) {
-			throw error;
-		}
-	},
-	patch: async ({ url, responseType,headers,payload }: ApiProps) => {
-		try {
-			return await consume(responseType ?? "json",headers).patch(
-				url,payload
-			);
-		} catch (error) {
-			throw error;
-		}
-	},
-	delete: async ({ url, responseType,headers }: ApiProps) => {
-		try {
-			return await consume(responseType ?? "json",headers).delete(
-				url
-			);
-		} catch (error) {
-			throw error;
-		}
-	},
-	all: async (requests: ApiProps[]) => {
-		try {
-			return await all(requests.map(({ url, responseType, headers, payload, method }: ApiProps) => consume(responseType ?? "json", headers)[method](url, payload)))
-		} catch (error) {
-			throw error;
-		}
-	}
+import { ApiProps, ApiThunkProps } from "./interfaces";
+import { AxiosResponse, all as make } from "axios";
+
+
+export const request = () => (
+	
+	{
+		get: async ({ url, responseType = "json", headers }: ApiProps) => {
+			try {
+			return await consume(responseType, headers).get(url);
+			} catch (error: any) {
+			return error.response;
+			}
+		},
+		post: async ({ url, responseType = "json", headers, payload }: ApiProps) => {
+			try {
+			return await consume(responseType, headers).post(url, payload);
+			} catch (error: any) {
+			return error.response;
+			}
+		},
+	 	patch: async ({ url, responseType = "json", headers, payload }: ApiProps) => {
+			try {
+			return await consume(responseType, headers).patch(url, payload);
+			} catch (error: any) {
+			return error.response;
+			}
+		},
+		delete: async ({ url, responseType = "json", headers }: ApiProps) => {
+			try {
+			return await consume(responseType, headers).delete(url);
+			} catch (error: any) {
+			return error.response;
+			}
+		},
+		all:async (requests: ApiProps[]) =>
+		make(
+			requests.map(async({ url, responseType = "json", headers, payload, method = "get" }: ApiProps) => consume(responseType, headers)[method](url, payload)
+			),
+	)
 	
 })
-export const api = (entity: string) => ({
-	get: createAsyncThunk(
-		`${entity}/get`,
-		async ({ url, responseType, headers }: ApiProps, { rejectWithValue, fulfillWithValue }) => {
-			try {
-				const response = await consume(responseType ?? "json", headers).get(url);
-				return fulfillWithValue(response);
-			} catch (error: any) {
-				return rejectWithValue(error.response);
-			}
-		},
-	),
-	post: createAsyncThunk(
-		`${entity}/post`,
-		async (
-			{ url, responseType, payload, headers }: ApiProps,
-			{ rejectWithValue, fulfillWithValue },
-		) => {
-			try {
-				const response = await consume(responseType ?? "json", headers).post(url, payload);
-				return fulfillWithValue(response);
-			} catch (error: any) {
-				return rejectWithValue(error.response);
-			}
-		},
-	),
-	patch: createAsyncThunk(
-		`${entity}/patch`,
-		async (
-			{ url, responseType, payload, headers }: ApiProps,
-			{ rejectWithValue, fulfillWithValue },
-		) => {
-			if (payload === undefined) throw new Error("Payload is undefined");
 
-			try {
-				const response = await consume(responseType ?? "json", headers).patch(url, payload);
-				return fulfillWithValue(response);
-			} catch (error: any) {
-				return rejectWithValue(error.response);
-			}
-		},
-	),
-	delete: createAsyncThunk(
-		`${entity}/delete`,
-		async ({ url, responseType, headers }: ApiProps, { rejectWithValue, fulfillWithValue }) => {
-			try {
-				const response = await consume(responseType ?? "json", headers).delete(url);
-				return fulfillWithValue(response);
-			} catch (error: any) {
-				return rejectWithValue(error.response);
-			}
-		},
-	),
-});
+export const api = ({
+	entity,
+	method = "get",
+	url,
+	responseType = "json",
+	headers,
+	payload,
+}: ApiThunkProps) =>
+	createAsyncThunk(`${entity}/${method}`, async (_, { rejectWithValue, fulfillWithValue }) => {
+		try {
+			const response = await consume(responseType, headers)[method](url, payload);
+			return fulfillWithValue(response);
+		} catch (error: any) {
+			return rejectWithValue(error.response);
+		}
+	});
 export default api;

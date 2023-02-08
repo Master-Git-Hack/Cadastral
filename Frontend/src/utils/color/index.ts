@@ -1,8 +1,6 @@
 /** @format */
-
-export const colorPicker: {
-	[key: string]: "red" | "orange" | "yellow" | "green" | "cyan" | "blue" | "violet";
-} = {
+import { Color, Appearance } from "./color.interfaces";
+export const colorPicker: Color = {
 	danger: "red",
 	success: "green",
 	warning: "yellow",
@@ -11,16 +9,14 @@ export const colorPicker: {
 	secondary: "violet",
 	orange: "orange",
 };
-export const appearancePicker: {
-	[key: string]: "default" | "primary" | "link" | "subtle" | "ghost";
-} = {
+export const appearancePicker: Appearance = {
 	default: "default",
 	primary: "primary",
 	link: "link",
 	light: "subtle",
 	outline: "ghost",
 };
-export const colorAlert: { [key: string]: string } = {
+export const colorAlertPicker: { [key: string]: string } = {
 	success: "#188754",
 	danger: "#dc3546",
 	warning: "#f39c12",
@@ -30,4 +26,3 @@ export const colorAlert: { [key: string]: string } = {
 	light: "#f8f9fb",
 	dark: "#212429",
 };
-export const colorAlertPicker = (key: string): string => colorAlert[key];

@@ -1,8 +1,7 @@
-
 /** @format */
 
 import { ReactElement, ReactNode } from "react";
-import {ButtonProps} from "../Button/interfaces";
+import { ButtonProps } from "../Button/interfaces";
 export interface TitleProps {
 	children: ReactNode | ReactNode[];
 	sx?: any;

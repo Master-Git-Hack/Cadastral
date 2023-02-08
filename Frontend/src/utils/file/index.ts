@@ -7,21 +7,19 @@ import FileSaver from "file-saver";
  * @param {any} file - The file to be converted to base64
  */
 
-export const convert2Base64 = (file: any) =>
-	new Promise((resolve, reject) => {
+export const convertToBase64 = (file: any): Promise<string> =>
+	new Promise<string>((resolve, reject) => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
-		reader.onload = () => resolve(reader.result);
+		reader.onload = () => resolve(reader.result as string);
 		reader.onerror = (error) => reject(error);
 	});
-export const exportData2JSON = async (payload: any, url: string) =>
-	typeof window !== "undefined" &&
-	window.confirm("Desea descargar el registro realizado?") &&
-	FileSaver.saveAs(
-		URL.createObjectURL(
-			new Blob([JSON.stringify(payload)], {
-				type: "application/json",
-			}),
-		),
-		`${url}.json`,
-	);
+
+export const exportDataAsJSON = async (payload: any, fileName: string) => {
+	const confirmed =
+		typeof window !== "undefined" && window.confirm("Do you want to download the record?");
+	if (confirmed) {
+		const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
+		FileSaver.saveAs(blob, `${fileName}.json`);
+	}
+};

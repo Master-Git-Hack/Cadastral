@@ -1,15 +1,19 @@
+/** @format */
+
 import { AlertProps } from "../../components/Alert/interfaces";
-export interface Notification extends AlertProps { message: string; }
-interface NotificationsBase{
-    [key: string | number]: string | Notification[] | Function;
+export interface Notification extends AlertProps {
+	message: string;
 }
-export interface Notifications extends NotificationsBase{
-    uuid: string;
-    notifications: Array<Notification>;
-    count:(notifications:Notification[])=>number;
+interface NotificationsBase {
+	[key: string | number]: string | Notification[] | Function;
 }
-export interface UpdateStateByKeys { 
-    key: keyof Notifications | keyof Notification;
-    value: any;
-    index?: number;
+export interface Notifications extends NotificationsBase {
+	uuid: string;
+	notifications: Array<Notification>;
+	count: (notifications: Notification[]) => number;
+}
+export interface UpdateStateByKeys {
+	key: keyof Notifications | keyof Notification;
+	value: any;
+	index?: number;
 }

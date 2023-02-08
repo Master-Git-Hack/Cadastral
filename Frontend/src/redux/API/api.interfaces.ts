@@ -1,11 +1,13 @@
-interface Record{
+/** @format */
+
+interface Record {
 	type: "get" | "post" | "patch";
 	message: string;
 	loading: boolean;
 }
-interface Fetch{
+interface Fetch {
 	response: "success" | "error" | "loading";
-		message: string;
+	message: string;
 	loading: boolean;
 	data?: any;
 }
@@ -15,12 +17,12 @@ export interface APIState {
 	fetch: Fetch;
 	message?: string;
 }
-export interface updateStateByKeys{
-    key: keyof APIState;
-    value: any;
+export interface updateStateByKeys {
+	key: keyof APIState;
+	value: any;
 }
-export interface updateStateBySubKeys{
+export interface updateStateBySubKeys {
 	parentKey: keyof APIState;
-    key: keyof Record | keyof Fetch;
-    value: any;
+	key: keyof Record | keyof Fetch;
+	value: any;
 }

@@ -7,15 +7,14 @@
  */
 
 export const getURLParams = (key: string): string | undefined => {
-	if (typeof window !== "undefined") {
-		const params = new URLSearchParams(window.location.search);
-		return params.get(key) ?? undefined;
-	} else return undefined;
+	if (typeof window === "undefined") return undefined;
+	const params = new URLSearchParams(window.location.search);
+	return params.get(key) ?? undefined;
 };
 export const isURL = (url: string): boolean => {
 	try {
 		const { protocol } = new URL(url);
-		return protocol.includes("http:") || protocol.includes("https:");
+		return ["http:", "https:"].includes(protocol);
 	} catch (_) {
 		return false;
 	}

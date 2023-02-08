@@ -6,8 +6,9 @@ import Pages from "../../src/modules/homologacion";
 import { useRouter } from "next/router";
 import { useJustipreciacion } from "../../src/hooks/useJustipreciacion";
 export default function Homologaciones() {
-	const { queries } = useJustipreciacion();
-	console.table(queries);
+	const router = useRouter();
+	const { queries, id } = useJustipreciacion({ router });
+	console.log(id);
 	return (
 		<Container
 			header={

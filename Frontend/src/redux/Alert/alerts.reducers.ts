@@ -1,1 +1,3 @@
-export const reducers = ({})
+/** @format */
+
+export const reducers = {};

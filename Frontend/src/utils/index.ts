@@ -12,7 +12,7 @@ import {
 } from "./number";
 import { searchByType, searchByValue } from "./search";
 import { getURLParams, isURL } from "./url";
-import {close} from "./window";
+import { close } from "./window";
 export const Utils = {
 	Alert,
 	colorPicker,

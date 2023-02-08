@@ -1,10 +1,21 @@
-export interface StateProps { 
-    status: boolean;
-    type: "Success"|"Error"|"Warning"|"Info"|"Question"|"SimpleMessage"|"Save"|"Ask"|"Custom";
-    title: string;
-    text: string;
-    isLoading: boolean;
-    icon?: "success" | "error" | "warning" | "info" | "question";
+/** @format */
+
+export interface StateProps {
+	status: boolean;
+	type:
+		| "Success"
+		| "Error"
+		| "Warning"
+		| "Info"
+		| "Question"
+		| "SimpleMessage"
+		| "Save"
+		| "Ask"
+		| "Custom";
+	title: string;
+	text: string;
+	isLoading: boolean;
+	icon?: "success" | "error" | "warning" | "info" | "question";
 	iconColor?: string;
 	footer?: string;
 	toast?: boolean;

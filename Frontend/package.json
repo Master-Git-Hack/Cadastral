@@ -12,7 +12,7 @@
     "storybook-docs": "start-storybook --docs --no-manager-cache",
     "test-storybook": "test-storybook",
     "test:generate-output": "jest --json --outputFile=.jest-test-results.json",
-    "format": "prettier --write src/**/*.{ts,tsx}"
+    "format": "prettier --write src/**/**/*.{ts,tsx}"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

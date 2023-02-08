@@ -13,7 +13,6 @@ export const store = configureStore({
 		Alerts,
 		Notifications,
 		Justipreciacion,
-		
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });

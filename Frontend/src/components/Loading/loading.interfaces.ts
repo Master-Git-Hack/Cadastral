@@ -1,3 +1,5 @@
-export interface LoadingProps { 
-    loading: boolean;
+/** @format */
+
+export interface LoadingProps {
+	loading: boolean;
 }

@@ -1,12 +1,12 @@
 /** @format */
-export interface HeaderProps {
-	[key: string]: any;
-}
-
+import { AxiosRequestConfig } from "axios";
 export interface ApiProps {
 	url: string;
 	responseType?: "blob" | "json";
 	payload?: any;
-	headers?: HeaderProps;
+	headers?: any;
 	method?: "get" | "post" | "patch" | "delete";
+}
+export interface ApiThunkProps extends ApiProps {
+	entity: string;
 }
