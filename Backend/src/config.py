@@ -58,7 +58,7 @@ class TestingConfig(Config):
     JSON_AS_ASCII = False
     TESTING = True
     SQLALCHEMY_DATABASE_URI = (
-        getenv("DATABASE_URL_TEST") or f"sqlite:///{root_path}/db.sqlite"
+        getenv("DATABASE_TEST_URL") or f"sqlite:///{root_path}/db.sqlite"
     )
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False

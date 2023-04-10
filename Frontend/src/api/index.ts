@@ -12,20 +12,22 @@ export const api = (component: string) => ({
 	/* Creating a thunk that can be used to make a get request to the server. */
 	get: createAsyncThunk(
 		`${component}/get`,
-		async ({ url }: ApiProps, { rejectWithValue, fulfillWithValue }) => {
+		async ({ url, responseType = "json" }: ApiProps, { rejectWithValue, fulfillWithValue }) => {
 			try {
-				const { data } = await consume("json").get(url);
+				const { data } = await consume(responseType).get(url);
 				return fulfillWithValue(data);
 			} catch (err: any) {
 				return rejectWithValue(err.response.data);
-				console.log(err.response.data);
 			}
 		},
 	),
 	/* Creating a thunk that can be used to make a post request to the server. */
 	post: createAsyncThunk(
 		`${component}/post`,
-		async ({ url, responseType, payload }: ApiProps, { rejectWithValue, fulfillWithValue }) => {
+		async (
+			{ url, responseType = "json", payload }: ApiProps,
+			{ rejectWithValue, fulfillWithValue },
+		) => {
 			try {
 				const { data } = await consume(responseType).post(url, payload);
 				return fulfillWithValue(data);
@@ -37,7 +39,10 @@ export const api = (component: string) => ({
 	/* Creating a thunk that can be used to make a patch request to the server. */
 	patch: createAsyncThunk(
 		`${component}/patch`,
-		async ({ url, responseType, payload }: any, { rejectWithValue, fulfillWithValue }) => {
+		async (
+			{ url, responseType = "json", payload }: any,
+			{ rejectWithValue, fulfillWithValue },
+		) => {
 			try {
 				const { data } = await consume(responseType).patch(url, payload);
 				return fulfillWithValue(data);

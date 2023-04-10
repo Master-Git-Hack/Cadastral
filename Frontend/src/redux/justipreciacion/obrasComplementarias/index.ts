@@ -36,8 +36,14 @@ export const slice = createSlice({
 					if (status.includes("success")) {
 						switch (operation) {
 							case "HOMOLOGACION/ObrasComplementarias":
-								const { record, documentation, calculous, total, isComplete,rounded } =
-									data;
+								const {
+									record,
+									documentation,
+									calculous,
+									total,
+									isComplete,
+									rounded,
+								} = data;
 								state.record = record;
 								state.Documentation = documentation;
 								state.Calculation = calculous;
