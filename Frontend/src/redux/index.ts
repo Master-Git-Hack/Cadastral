@@ -6,6 +6,7 @@ import Alerts from "./Alert";
 import Notifications from "./Notifications";
 
 import Justipreciacion from "./Justipreciacion";
+import Homologacion from "./Homologacion";
 /* Creating a store with the reducers and middleware. */
 export const store = configureStore({
 	reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
 		Alerts,
 		Notifications,
 		Justipreciacion,
+		Homologacion
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });

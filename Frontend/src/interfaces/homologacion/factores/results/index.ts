@@ -1,7 +1,7 @@
 /** @format */
 
 import { FactorsProps } from "../";
-const template = (id: number) => ({
+export const template = (id: number) => ({
 	id,
 	value: 1,
 });
@@ -34,12 +34,13 @@ const operation = (data: any, factors: any) =>
 		}
 		return item;
 	});
-const initialState: FactorsProps = {
+export const initialState: FactorsProps = {
 	name: "Homologación Resultante",
 	tag: "F.Ho.Re.",
 	isUsed: true,
 	data: [template(1)],
 };
+export default initialState;
 export const results = {
 	template,
 	operation,

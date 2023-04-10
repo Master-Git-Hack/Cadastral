@@ -1,7 +1,7 @@
 /** @format */
 
 import { FactorsProps } from "../";
-const options = [
+export const options = [
 	{
 		label: "EXCELENTE",
 		value: 1.06,
@@ -39,12 +39,12 @@ const options = [
 		value: 0.88,
 	},
 ];
-const template = (id: number) => ({
+export const template = (id: number) => ({
 	id,
 	...options[0],
 	result: 1,
 });
-const initialState: FactorsProps = {
+export const initialState: FactorsProps = {
 	name: "Proyecto",
 	tag: "FProy.",
 	isUsed: false,
@@ -52,8 +52,4 @@ const initialState: FactorsProps = {
 	subject: options[0],
 	data: [template(1)],
 };
-export const project = {
-	template,
-	options,
-	initialState,
-};
+export default initialState;

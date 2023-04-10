@@ -22,6 +22,16 @@ async def get_by_id(id: int) -> Any:
     return response.success(data=data)
 
 
+@homologation_routes.post("/")
+async def post_homologacion(request: Request):
+    response = _Response()
+    data = await request.json()
+    result, data = await Homologation.create(data, to_dict=True)
+    if not result:
+        return response.error()
+    return response.success(data=data)
+
+
 @homologation_routes.get("/{registro}/{tipo_homologacion}")
 async def get_registro_by_tipo_homologacion(registro: str, tipo_homologacion):
     response = _Response()

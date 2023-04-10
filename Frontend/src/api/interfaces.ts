@@ -6,6 +6,7 @@ export interface ApiProps {
 	payload?: any;
 	headers?: any;
 	method?: "get" | "post" | "patch" | "delete";
+	signal?: AbortSignal;
 }
 export interface ApiThunkProps extends ApiProps {
 	entity: string;

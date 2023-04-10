@@ -2,7 +2,7 @@
 
 import { FactorsProps } from "../";
 
-const options = [
+export const options = [
 	{
 		label: "PRECARIA",
 		value: 0.91,
@@ -36,12 +36,12 @@ const options = [
 		value: 1.12,
 	},
 ];
-const template = (id: number) => ({
+export const template = (id: number) => ({
 	id,
 	...options[0],
 	result: 1,
 });
-const initialState: FactorsProps = {
+export const initialState: FactorsProps = {
 	name: "Calidad",
 	tag: "FCal.",
 	isUsed: false,
@@ -49,8 +49,5 @@ const initialState: FactorsProps = {
 	subject: options[0],
 	data: [template(1)],
 };
-export const quality = {
-	template,
-	options,
-	initialState,
-};
+export default initialState;
+

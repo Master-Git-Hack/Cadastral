@@ -9,30 +9,30 @@ import { AxiosResponse, all as make } from "axios";
 export const request = () => (
 	
 	{
-		get: async ({ url, responseType = "json", headers }: ApiProps) => {
+		get: async ({ url, responseType = "json", headers,signal }: ApiProps) => {
 			try {
-			return await consume(responseType, headers).get(url);
+			return await consume(responseType, headers,signal).get(url);
 			} catch (error: any) {
 			return error.response;
 			}
 		},
-		post: async ({ url, responseType = "json", headers, payload }: ApiProps) => {
+		post: async ({ url, responseType = "json", headers, payload, signal }: ApiProps) => {
 			try {
-			return await consume(responseType, headers).post(url, payload);
+			return await consume(responseType, headers,signal).post(url, payload);
 			} catch (error: any) {
 			return error.response;
 			}
 		},
-	 	patch: async ({ url, responseType = "json", headers, payload }: ApiProps) => {
+	 	patch: async ({ url, responseType = "json", headers, payload,signal }: ApiProps) => {
 			try {
-			return await consume(responseType, headers).patch(url, payload);
+			return await consume(responseType, headers,signal).patch(url, payload);
 			} catch (error: any) {
 			return error.response;
 			}
 		},
-		delete: async ({ url, responseType = "json", headers }: ApiProps) => {
+		delete: async ({ url, responseType = "json", headers,signal }: ApiProps) => {
 			try {
-			return await consume(responseType, headers).delete(url);
+			return await consume(responseType, headers,signal).delete(url);
 			} catch (error: any) {
 			return error.response;
 			}

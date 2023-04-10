@@ -9,15 +9,16 @@ const operation = (indiviso: any, subject: number) => ({
 	result: (indiviso.building / indiviso.surface) * subject,
 });
 
-const initialState = (type: string): IndivisoProps =>
-	type.includes("TERRENO")
+export const initialState = (type: string): IndivisoProps =>
+	type.includes("terreno")
 		? {
 				surface: 1,
 				building: 1,
-				indiviso: Number(getURLParams("sp1_factor") ?? 1),
+				indiviso: 1,
 				result: 1,
 		  }
 		: {};
+export default initialState;
 export const indiviso = {
 	operation,
 	initialState,

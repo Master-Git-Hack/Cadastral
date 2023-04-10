@@ -52,7 +52,7 @@ const template = (id: number) => ({
 	...options[0],
 	result: 1,
 });
-const initialState: FactorsProps = {
+export const initialState: FactorsProps = {
 	name: "Construcción",
 	tag: "FCons.",
 	isUsed: false,
@@ -60,8 +60,5 @@ const initialState: FactorsProps = {
 	subject: options[0],
 	data: [template(1)],
 };
-export const building = {
-	options,
-	template,
-	initialState,
-};
+export default initialState;
+

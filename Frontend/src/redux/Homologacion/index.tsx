@@ -5,10 +5,10 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { reducers } from "./reducers";
 import { initialState } from "./initialState";
 const slice = createSlice({
-	name: "justipreciacion",
+	name: "homologacion",
 	initialState,
 	reducers,
 });
-export const getState = ({ Justipreciacion }: RootState) => Justipreciacion;
-export const { load, loadTerreno, add, patch } = slice.actions;
+export const getState = ({ Homologacion }: RootState) => Homologacion;
+export const { load } = slice.actions;
 export default slice.reducer;

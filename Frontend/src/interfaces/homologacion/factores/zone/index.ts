@@ -18,14 +18,13 @@ const operation = (items: any) => {
 	);
 	return results.map((item: number, index: number) => ({ id: index + 1, value: item }));
 };
-const templateSubject = (id: number) => ({
+export const templateSubject = (id: number) => ({
 	id,
 	C1: options[0],
 	percentage: 10,
 	observations: "",
-	insertion: insertColumn,
 });
-const templateData = (id: number) => ({
+export const templateData = (id: number) => ({
 	id,
 	value: 1.1,
 });
@@ -51,7 +50,7 @@ const insertionData = (id: number) => ({
 	value: 1,
 });
 
-const templateResults = (id: number) => ({ id, factor1: 1, factor2: 1 });
+export const templateResults = (id: number) => ({ id, factor1: 1, factor2: 1 });
 
 const handleResults = (area: any) =>
 	area.map((item: any) => ({
@@ -60,7 +59,7 @@ const handleResults = (area: any) =>
 		factor2: item.factorResult2,
 	}));
 
-const initialState: FactorsProps = {
+export const initialState: FactorsProps = {
 	name: "Zona",
 	tag: "FZon.",
 	isUsed: false,
@@ -69,6 +68,7 @@ const initialState: FactorsProps = {
 	data: [templateData(1)],
 	results: [templateResults(1)],
 };
+export default initialState;
 export const zone = {
 	operation,
 	options,

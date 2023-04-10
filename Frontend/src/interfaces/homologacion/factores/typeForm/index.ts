@@ -1,7 +1,7 @@
 /** @format */
 
 import { FactorsProps } from "../";
-const options = [
+export const options = [
 	{
 		label: "REGULAR",
 		value: 1.0,
@@ -28,12 +28,12 @@ const options = [
 	},
 ];
 
-const template = (id: number) => ({
+export const template = (id: number) => ({
 	id,
 	...options[0],
 	result: 1,
 });
-const initialState: FactorsProps = {
+export const initialState: FactorsProps = {
 	name: "Forma",
 	tag: "FFo.",
 	isUsed: false,
@@ -41,6 +41,7 @@ const initialState: FactorsProps = {
 	subject: options[0],
 	data: [template(1)],
 };
+export default initialState;
 export const typeForm = {
 	template,
 	options,

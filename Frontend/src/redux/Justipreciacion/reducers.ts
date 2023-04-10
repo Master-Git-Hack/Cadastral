@@ -1,7 +1,7 @@
 /** @format */
 
 import { PayloadAction } from "@reduxjs/toolkit";
-import { JustipreciacionState, PayloadByKey } from "./justipreciacion.interfaces";
+import { JustipreciacionState, PayloadByKey } from "./interfaces";
 export const reducers = {
 	load: (state: JustipreciacionState, { payload }: PayloadAction<JustipreciacionState>) => {
 		if (payload !== undefined) {

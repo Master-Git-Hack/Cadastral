@@ -2,7 +2,7 @@
 
 import { FactorsProps } from "../";
 
-const template = (id: number) => ({
+export const template = (id: number) => ({
 	id,
 	value: 1,
 });
@@ -13,7 +13,7 @@ const operation = (area: any, surface: any) =>
 		item.value = !isNaN(value) ? value : 1;
 		return item;
 	});
-const initialState: FactorsProps = {
+export const initialState: FactorsProps = {
 	name: "Superficie",
 	tag: "FSup.",
 	isUsed: true,
@@ -25,6 +25,7 @@ const initialState: FactorsProps = {
 	},
 	data: [template(1)],
 };
+export default initialState;
 export const surface = {
 	template,
 	operation,

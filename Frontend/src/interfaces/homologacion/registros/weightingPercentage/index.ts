@@ -2,7 +2,7 @@
 
 import { WeightingPercentageProps } from "..";
 
-const template = (id: number) => ({ id, value: 100 });
+export const template = (id: number) => ({ id, value: 100 });
 const insertion = (data: any) => {
 	const id = data.length + 1;
 	data.push(template(id));
@@ -15,6 +15,7 @@ export const initialState: WeightingPercentageProps = {
 	total: 100,
 	data: [template(1)],
 };
+export default initialState;
 export const weightingPercentage = {
 	template,
 	insertion,

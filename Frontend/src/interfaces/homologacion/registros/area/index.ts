@@ -5,8 +5,17 @@ import { AreaProps } from "..";
 import { getURLParams } from "../../../../utils/url";
 
 const date = moment().format("yyyy-MM-DD");
-const zone = zoneInformation[0];
-const template = (id: number, type: string) => ({
+const zone ={
+	annualCensus: 2020,
+	name: "Abasolo",
+	economicallyActivePopulation: 42110,
+	id: 1,
+	inhabitedDwellings: 22275,
+	percentage: 45.75,
+	populationDensity: 149.6,
+	totalPopulation: 92040,
+}
+export const template = (id: number) => ({
 	id,
 	value: 1,
 	surface: 1,
@@ -64,30 +73,27 @@ const handleDataFactors = (subject: any, data: any, zoneFactor: any) => {
 	});
 	return data;
 };
-const initialState = (type: string): AreaProps => ({
-	name: type.includes("TERRENO") ? "Áreas " : "Sup. Const ",
-	tag: type.includes("TERRENO") ? "Área de Lote Moda" : "Superficie del sujeto",
+export const initialState = (type: string): AreaProps => ({
+	name: type.includes("terreno") ? "Áreas " : "Sup. Const ",
+	tag: type.includes("terreno") ? "Área de Lote Moda" : "Superficie del sujeto",
 	averageLotArea: {
-		name: type.includes("TERRENO") ? "SUPERFICIE LOTE MODA" : "SUPERFICIE DEL COMPARABLE",
+		name: type.includes("terreno") ? "SUPERFICIE LOTE MODA" : "SUPERFICIE DEL COMPARABLE",
 		value: 1,
 		surface: 1,
 	},
 	subject: {
-		name: type.includes("TERRENO") ? "SUPERFICIE TOTAL DEL TERRENO" : "SUPERFICIE DEL SUJETO",
+		name: type.includes("terreno") ? "SUPERFICIE TOTAL DEL TERRENO" : "SUPERFICIE DEL SUJETO",
 		value:
-			Number(
-				type.includes("TERRENO")
-					? getURLParams("sp1_superficie")
-					: getURLParams("cna_superficie"),
-			) || 1,
+			 1,
 		zone,
 		factors: [
 			{ id: 1, type: "totalPopulation", root: 12 },
 			{ id: 2, type: "totalPopulation", root: 12 },
 		],
 	},
-	data: [template(1, type)],
+	data: [template(1)],
 });
+export default initialState;
 export const area = {
 	operationAverageLotArea,
 	template,

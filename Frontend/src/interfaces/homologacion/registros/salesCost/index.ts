@@ -3,12 +3,12 @@
 import { SalesCostProps } from "..";
 import { roundNumber } from "../../../../utils/number";
 
-const templateData = (id: number) => ({
+export const templateData = (id: number) => ({
 	id,
 	value: 1,
 	unitaryCost: 1,
 });
-const templateResults = (id: number) => ({ id, value: 1 });
+export const templateResults = (id: number) => ({ id, value: 1 });
 const operation = (data: any, areas: any) =>
 	data.map((item: any, index: number) => {
 		const { value } = item;
@@ -49,8 +49,8 @@ const handleAverageUnitCostValue = (
 	};
 };
 
-const initialState = (type: string): SalesCostProps => ({
-	tag: `Precio de ${type === "TERRENO" ? "Venta" : "Renta"}`,
+export const initialState = (type: string): SalesCostProps => ({
+	tag: `Precio de ${type === "terreno" ? "Venta" : "Renta"}`,
 	data: [templateData(1)],
 	results: [templateResults(1)],
 	averageUnitCost: {
@@ -69,6 +69,7 @@ const initialState = (type: string): SalesCostProps => ({
 		},
 	},
 });
+export default initialState;
 export const salesCost = {
 	template: templateData,
 	templateResults,

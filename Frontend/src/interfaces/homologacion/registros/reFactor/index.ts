@@ -9,8 +9,8 @@ const operation = (average: number, subject: number, root: any) => {
 
 	return isNaN(response) ? 1 : response;
 };
-const initialState = (type: string) => ({
-	...(type.includes("TERRENO")
+export const initialState = (type: string) => ({
+	...(type.includes("terreno")
 		? {
 				surface: {
 					name: "FACTOR DE SUPERFICIE",
@@ -18,7 +18,7 @@ const initialState = (type: string) => ({
 				},
 				form: {
 					name: "FACTOR DE FORMA",
-					value: Number(getURLParams("sp1_factor") ?? 1),
+					value: 1,
 				},
 				result: {
 					name: "FACTOR DE RESULTANTE",
@@ -38,6 +38,7 @@ const initialState = (type: string) => ({
 	},
 	isUsed: true,
 });
+export default initialState;
 export const reFactor = {
 	operation,
 	initialState,

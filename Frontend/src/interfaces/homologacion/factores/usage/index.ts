@@ -31,12 +31,12 @@ export const options = [
 		value: 1.04,
 	},
 ];
-const template = (id: number) => ({
+export const template = (id: number) => ({
 	id,
 	...options[0],
 	result: 1,
 });
-const initialState: FactorsProps = {
+export const initialState: FactorsProps = {
 	name: "Uso",
 	tag: "FUso.",
 	isUsed: false,
@@ -44,6 +44,7 @@ const initialState: FactorsProps = {
 	subject: options[0],
 	data: [template(1)],
 };
+export default initialState;
 export const usage = {
 	template,
 	options,

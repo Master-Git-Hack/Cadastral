@@ -17,14 +17,13 @@ const operation = (items: any) => {
 	);
 	return results.map((item: number, index: number) => ({ id: index + 1, value: item }));
 };
-const templateSubject = (id: number) => ({
+export const templateSubject = (id: number) => ({
 	id,
 	C1: options[0],
 	percentage: 10,
 	observations: "",
-	insertion: insertColumn,
 });
-const templateData = (id: number) => ({
+export const templateData = (id: number) => ({
 	id,
 	value: 1.1,
 });
@@ -49,7 +48,7 @@ const insertionData = (id: number) => ({
 	value: 1,
 });
 
-const initialState: FactorsProps = {
+export const initialState: FactorsProps = {
 	name: "Ubicación",
 	tag: "FUbic.",
 	isUsed: false,
@@ -58,13 +57,4 @@ const initialState: FactorsProps = {
 	data: [templateData(1)],
 };
 
-export const location = {
-	initialState,
-	operation,
-	insertColumn,
-	insertionSubject,
-	insertionData,
-	templateSubject,
-	templateData,
-	options,
-};
+export default initialState;

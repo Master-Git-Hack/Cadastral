@@ -1,48 +1,48 @@
 /** @format */
 
-import { age } from "./factores/age";
-import { building } from "./factores/building/index";
-import { classification } from "./factores/classification";
-import { commercial } from "./factores/commercial";
-import { location } from "./factores/location";
-import { level } from "./factores/level";
-import { project } from "./factores/project";
-import { quality } from "./factores/quality";
-import { results } from "./factores/results";
-import { surface } from "./factores/surface";
-import { topography } from "./factores/topography";
-import { typeForm } from "./factores/typeForm";
-import { usage } from "./factores/usage";
-import { zone } from "./factores/zone";
-import { area } from "./registros/area";
-import { indiviso } from "./registros/indiviso";
-import { reFactor } from "./registros/reFactor";
-import { salesCost } from "./registros/salesCost";
-import { weightingPercentage } from "./registros/weightingPercentage";
-import { operation, insertion } from "./factores";
-/** @format */
-export const homologacion = {
+import Age  from "./factores/age";
+import Building  from "./factores/building/index";
+import Classification  from "./factores/classification";
+import Commercial  from "./factores/commercial";
+import Location  from "./factores/location";
+import Level  from "./factores/level";
+import Project  from "./factores/project";
+import Quality  from "./factores/quality";
+import Results  from "./factores/results";
+import Surface  from "./factores/surface";
+import Topography  from "./factores/topography";
+import TypeForm  from "./factores/typeForm";
+import Usage  from "./factores/usage";
+import Zone  from "./factores/zone";
+import Area  from "./registros/area";
+import Indiviso  from "./registros/indiviso";
+import ReFactor  from "./registros/reFactor";
+import SalesCost  from "./registros/salesCost";
+import WeightingPercentage  from "./registros/weightingPercentage";
+
+export const homologacion =(type:string="terreno")=> ({
 	factors: {
-		age,
-		building,
-		classification,
-		commercial,
-		level,
-		location,
-		project,
-		quality,
-		results,
-		surface,
-		topography,
-		typeForm,
-		usage,
-		zone,
+		Age,
+		Building,
+		Classification,
+		Commercial,
+		Level,
+		Location,
+		Project,
+		Quality,
+		Results,
+		Surface,
+		Topography,
+		TypeForm,
+		Usage,
+		Zone,
 	},
 	documentation: {
-		area,
-		indiviso,
-		reFactor,
-		salesCost,
-		weightingPercentage,
+		Area:Area(type),
+		Indiviso:Indiviso(type),
+		ReFactor:ReFactor(type),
+		SalesCost:SalesCost(type),
+		WeightingPercentage,
 	},
-};
+});
+export default homologacion;
