@@ -1,5 +1,10 @@
 import { render } from 'preact'
 import { App } from './app.tsx'
 import './index.css'
-
-render(<App />, document.getElementById('app') as HTMLElement)
+import { Provider } from 'react-redux'
+render(
+  <Provider store={}>
+    <App />
+  </Provider>,
+  document.getElementById('app') as HTMLElement
+)
