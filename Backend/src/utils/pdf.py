@@ -1,116 +1,88 @@
 from os import remove, rename
 from os.path import exists
 from subprocess import PIPE, Popen
-from typing import Optional
+from typing import List, Optional
 
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 
 from .tmp import name_it as tmp_filename
 
-# from reportlab.lib.pagesizes import A4, letter
 
+class PDFMaker:
+    def __enter__(self):
+        return self
 
-class PDF:
-    """
-    PDF is a class to generate PDF files from HTML templates,
-    using wkhtmltopdf with reportlab and PyPDF2, and optionally
-    watermarking them, for complete use of wkhtmltopdf,
-    its used with subprocess.
-    """
+    def __exit__(self, exc_type, exc_value, traceback):
+        ...
 
-    margins_default = dict(top=15, bottom=None, left=None, right=None)
+    __margins_default: dict = dict(top=15, bottom=None, left=None, right=None)
+    __cmd: List[str] = ["wkhtmltopdf"]
+    watermark: bool = False
+    filename: str = tmp_filename(extension="pdf")
+    files: List = []
+    templates: List = []
 
-    def __init__(
-        self,
-        zoom: Optional[float] = 1,
-        page_size: Optional[str] = "A4",
-        margins: Optional[dict] = None,
-        dpi: Optional[int] = 300,
-        templates: str = None,
-        watermark: Optional[str] = None,
-        files: list = None,
-    ) -> None:
-        """
-                Initialize the PDF class.
+    def __init__(self, **kwargs) -> None:
+        if kwargs.get("templates") and not kwargs.get("files"):
+            margins = kwargs.get("margins", self.__margins_default)
+            self.__cmd.append("--dpi")
+            self.__cmd.append(kwargs.get("dpi", "300"))
+            for key, value in margins.items():
+                self.__cmd.append(f"--margin-{key}")
+                self.__cmd.append(value)
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+                if key == "page_size":
+                    self.__cmd.append("--page-size")
+                    self.__cmd.append(value)
+                elif key == "zoom":
+                    self.__cmd.append("--zoom")
+                    self.__cmd.append(str(value))
+            self.__cmd.append("--enable-javascript")
+            self.__cmd.append("--quiet")
+        elif kwargs.get("files") and not kwargs.get("templates"):
+            self.files = kwargs.get("files", [])
+        else:
+            raise ValueError("You must provide either templates or files")
 
-                Args:
-                    zoom (float, optional): _description_. Defaults to 1.
-                    pageSize (str, optional): _description_. Defaults to "A4".
-                    margins (_type_, optional): _description_. Defaults to
-        {"top": 15, "bottom": None, "left": None, "right": None}.
-                    dpi (int, optional): _description_. Defaults to 300.
-                    templates (str, optional): _description_. Defaults to None.
-                    watermark (str, optional): _description_. Defaults to None.
-                    files (list, optional): _description_. Defaults to None.
-        """
-        margins = margins or self.margins_default
-        if templates is not None:
-            self.cmd = [
-                "wkhtmltopdf",
-                "--dpi",
-                str(dpi),
-                "--margin-top",
-                str(margins["top"]),
-            ]
-            self.watermark = watermark
-            self.templates = templates
-            self.page_size = page_size
-            self.margins = margins
-            self.dpi = dpi
-            self.zoom = zoom
-            self.filename = tmp_filename(extension="pdf")
-            if margins["bottom"] is not None:
-                self.cmd.append("--margin-bottom")
-                self.cmd.append(str(margins["bottom"]))
-            if margins["left"] is not None:
-                self.cmd.append("--margin-left")
-                self.cmd.append(str(margins["left"]))
-            if margins["right"] is not None:
-                self.cmd.append("--margin-right")
-                self.cmd.append(str(margins["right"]))
-            self.cmd.append("--page-size")
-            self.cmd.append(page_size)
-            self.cmd.append("--zoom")
-            self.cmd.append(str(zoom))
-            self.cmd.append("--enable-javascript")
-            # self.cmd.append(" --resolve-relative-links")deprecated
-            self.cmd.append("--quiet")
-
-        elif files is not None:
-            self.files = files
-
-    def render(self):
+    def render(self) -> Optional[List[str]]:
         """
         Read the templates and render them to pdf, using wkhtmltopdf
         """
-        files = []
-
+        if len(self.templates) == 0:
+            raise ValueError("You must provide templates")
+        files: List = []
         for file in self.templates:
             input_file = f"{file}.html"
             output_file = f"{file}.pdf"
             if exists(input_file):
-                self.cmd.append(input_file)
-                self.cmd.append(output_file)
+                self.__cmd.append(input_file)
+                self.__cmd.append(output_file)
                 process = Popen(
-                    self.cmd, universal_newlines=True, stdout=PIPE, stderr=PIPE
+                    self.__cmd, univesal_newlines=True, stdout=PIPE, stderr=PIPE
                 )
                 _, error = process.communicate()
                 exit_code = process.wait()
                 if exit_code:
-                    self.cmd = self.cmd[:-2]
+                    self.__cmd = self.__cmd[:-2]
                     remove(input_file)
                     files.append(file)
                 else:
-                    print(f"Rendering Method failed: {error}")
-        self.files = files
+                    raise ValueError(f"Rendering Method failed: {error}")
+        if len(files) > 0:
+            self.files = files
+        else:
+            raise ValueError("No files were rendered")
 
-    def watermark_it(self):
+    def water_mark_it(self) -> None:
         """
         Watermark the PDF.
         verify if the watermark exists.
         and if it does, then watermark the PDF.
         """
-        if self.watermark is not None:
+        if len(self.files) == 0:
+            raise ValueError("You must provide files to work with")
+        if self.watermark:
             watermark = PdfFileReader(open(self.watermark, "rb"))
             for file in self.files:
                 filename = f"{file}_waterUnmarked.pdf"
@@ -126,9 +98,7 @@ class PDF:
                         output_file.write(output_stream)
                 remove(filename)
 
-    def merge(
-        self, output_file: Optional[str] = tmp_filename(extension="pdf")
-    ) -> str or None:
+    def merge(self, output_filename: Optional[str] = None) -> Optional[str]:
         """merge files into one pdf file, and return the filename.
         if output_file is not None, then the output file will be saved in the specified location.
 
@@ -139,26 +109,19 @@ class PDF:
         Returns:
             str or None: return the filename to work with.
         """
-        output_file = output_file or tmp_filename(extension="pdf")
+        if output_filename is not None:
+            self.filename = output_filename
+        if len(self.files) == 0:
+            raise ValueError("You must provide files to work with")
         merger = PdfFileMerger()
-
         for file in self.files:
-            file = file.split(".pdf")[0]
-            merger.append(open(f"{file}.pdf", "rb"))
-
-        with open(output_file, "wb") as output_stream:
+            filename = file
+            if filename.endswith(".pdf"):
+                filename = file.split(".pdf")[0]
+            merger.append(open(f"{filename}.pdf", "rb"))
+        with open(self.filename, "wb") as output_stream:
             merger.write(output_stream)
-        if exists(output_file):
+        if exists(self.filename):
             for file in self.files:
                 remove(f"{file}.pdf")
-
-            return output_file
-        else:
-            return None
-
-    def remove_old_files(self) -> None:
-        """
-        Remove the old files.
-        """
-        # strftime('%Y-%m-%d %H:%M:%S',localtime(getmtime("./start.sh")))
-        return None
+            return self.filename

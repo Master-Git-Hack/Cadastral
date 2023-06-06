@@ -5,7 +5,6 @@ from .... import db, ma
 
 
 class Homologation(db.Model):
-
     __tablename__ = "homologacion"
 
     id = Column(BigInteger, primary_key=True)

@@ -1,4 +1,5 @@
 Babel==2.12.1
+black==23.3.0
 dateparser==1.1.8
 deepmerge==1.1.0
 Flask==2.3.2
@@ -7,11 +8,14 @@ Flask-Cors==3.0.10
 flask-marshmallow==0.15.0
 flask-mongoengine==1.0.0
 Flask-SQLAlchemy==3.0.3
+Flask-WTF==1.1.1
 GeoAlchemy2==0.13.3
-marshmallow-sqlalchemy==0.29.0
-mongoengine==0.27.0
-nested_lookup==0.2.25
+isort==5.12.0
+nested-lookup==0.2.25
 psycopg2==2.9.6
+pylint==2.17.4
 pymongo==4.3.3
 PyPDF2==3.0.1
 reportlab==4.0.4
+Sphinx==6.2.1
+sphinx-rtd-theme==1.2.1

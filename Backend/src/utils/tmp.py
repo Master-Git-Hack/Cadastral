@@ -2,14 +2,14 @@
 from tempfile import NamedTemporaryFile
 from typing import Optional
 
-from ..config import Paths
+from .. import config
 
 
 def name_it(
     suffix: Optional[str] = "",
     prefix: Optional[str] = "",
     extension: Optional[str] = "",
-    path: Optional[str] = Paths.tmp,
+    path: Optional[str] = None,
 ) -> str:
     """
     Generate a temporary filename.
@@ -21,6 +21,8 @@ def name_it(
     Returns:
         str: a temporary filename at the path selected to work with.
     """
+    if path is None:
+        path = config.PATHS.tmp
     with NamedTemporaryFile(
         suffix=suffix, prefix=prefix, dir=path, delete=True
     ) as temp:

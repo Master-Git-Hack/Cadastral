@@ -1,0 +1,926 @@
+{
+    "factores": {
+        "Age": {
+            "name": "Edad",
+            "tag": "FEd.",
+            "isUsed": false,
+            "position": 0,
+            "subject": {
+                "value": 1,
+                "operator": 0.01
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 2,
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 3,
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 4,
+                    "value": 1,
+                    "result": 1
+                }
+            ]
+        },
+        "Building": {
+            "name": "Construcci\u00f3n",
+            "tag": "FCons.",
+            "isUsed": false,
+            "position": 7,
+            "subject": {
+                "label": "MEDIA COM\u00daN",
+                "value": 1
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "label": "MEDIA COM\u00daN",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 2,
+                    "label": "MEDIA COM\u00daN",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 3,
+                    "label": "MEDIA COM\u00daN",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 4,
+                    "label": "MEDIA COM\u00daN",
+                    "value": 1,
+                    "result": 1
+                }
+            ]
+        },
+        "Classification": {
+            "name": "Clasificaci\u00f3n",
+            "tag": "FClas.",
+            "isUsed": true,
+            "position": 0,
+            "subject": {
+                "label": "URBANO",
+                "value": 1.1
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "label": "URBANO",
+                    "value": 1.1,
+                    "result": 1
+                },
+                {
+                    "id": 2,
+                    "label": "URBANO",
+                    "value": 1.1,
+                    "result": 1
+                },
+                {
+                    "id": 3,
+                    "label": "URBANO",
+                    "value": 1.1,
+                    "result": 1
+                },
+                {
+                    "id": 4,
+                    "label": "URBANO",
+                    "value": 1.1,
+                    "result": 1
+                }
+            ]
+        },
+        "Commercial": {
+            "name": "Comercializaci\u00f3n",
+            "tag": "FCom.",
+            "isUsed": true,
+            "position": 13,
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.9
+                },
+                {
+                    "id": 2,
+                    "value": 0.9
+                },
+                {
+                    "id": 3,
+                    "value": 0.9
+                },
+                {
+                    "id": 4,
+                    "value": 0.9
+                }
+            ]
+        },
+        "Level": {
+            "name": "Nivel",
+            "tag": "FNiv.",
+            "isUsed": false,
+            "position": 8,
+            "subject": {
+                "label": "P.B. NIVEL DE CALLE",
+                "value": 1
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "label": "P.B. NIVEL DE CALLE",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 2,
+                    "label": "P.B. NIVEL DE CALLE",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 3,
+                    "label": "P.B. NIVEL DE CALLE",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 4,
+                    "label": "P.B. NIVEL DE CALLE",
+                    "value": 1,
+                    "result": 1
+                }
+            ]
+        },
+        "Project": {
+            "name": "Proyecto",
+            "tag": "FProy.",
+            "isUsed": false,
+            "position": 9,
+            "subject": {
+                "label": "FUNCIONAL",
+                "value": 1
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "label": "FUNCIONAL",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 2,
+                    "label": "FUNCIONAL",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 3,
+                    "label": "FUNCIONAL",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 4,
+                    "label": "FUNCIONAL",
+                    "value": 1,
+                    "result": 1
+                }
+            ]
+        },
+        "Quality": {
+            "name": "Calidad",
+            "tag": "FCal.",
+            "isUsed": false,
+            "position": 10,
+            "subject": {
+                "label": "COMERCIAL",
+                "value": 1
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "label": "MEDIA COM\u00daN",
+                    "value": 1.03,
+                    "result": 0.970873786407767
+                },
+                {
+                    "id": 2,
+                    "label": "MEDIA COM\u00daN",
+                    "value": 1.03,
+                    "result": 0.970873786407767
+                },
+                {
+                    "id": 3,
+                    "label": "MEDIA COM\u00daN",
+                    "value": 1.03,
+                    "result": 0.970873786407767
+                },
+                {
+                    "id": 4,
+                    "label": "MEDIA COM\u00daN",
+                    "value": 1.03,
+                    "result": 0.970873786407767
+                }
+            ]
+        },
+        "Results": {
+            "name": "Homologaci\u00f3n Resultante",
+            "tag": "F.Ho.Re.",
+            "isUsed": true,
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.8756423780664551
+                },
+                {
+                    "id": 2,
+                    "value": 0.9032676802567926
+                },
+                {
+                    "id": 3,
+                    "value": 0.8316412502732535
+                },
+                {
+                    "id": 4,
+                    "value": 0.858744003548765
+                }
+            ]
+        },
+        "Surface": {
+            "name": "Superficie",
+            "tag": "FSup.",
+            "isUsed": true,
+            "position": 1,
+            "root": {
+                "value": 8,
+                "enabled": false,
+                "observations": ""
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "value": 1.0331541003346119
+                },
+                {
+                    "id": 2,
+                    "value": 1.055598691418402
+                },
+                {
+                    "id": 3,
+                    "value": 0.9330171524101226
+                },
+                {
+                    "id": 4,
+                    "value": 0.9353628090308183
+                }
+            ]
+        },
+        "Topography": {
+            "name": "Topograf\u00eda",
+            "tag": "FTop.",
+            "isUsed": true,
+            "position": 5,
+            "subject": {
+                "label": "PLANA",
+                "value": 1
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "label": "PLANA",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 2,
+                    "label": "PLANA",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 3,
+                    "label": "PLANA",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 4,
+                    "label": "PLANA",
+                    "value": 1,
+                    "result": 1
+                }
+            ]
+        },
+        "TypeForm": {
+            "name": "Forma",
+            "tag": "FFo.",
+            "isUsed": true,
+            "position": 2,
+            "subject": {
+                "label": "REGULAR",
+                "value": 1
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "label": "REGULAR",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 2,
+                    "label": "REGULAR",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 3,
+                    "label": "REGULAR",
+                    "value": 1,
+                    "result": 1
+                },
+                {
+                    "id": 4,
+                    "label": "REGULAR",
+                    "value": 1,
+                    "result": 1
+                }
+            ]
+        },
+        "Usage": {
+            "name": "Uso",
+            "tag": "FUso.",
+            "isUsed": true,
+            "position": 3,
+            "subject": {
+                "label": "COMERCIAL",
+                "value": 1.03
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "label": "MIXTO H-C",
+                    "value": 1.05,
+                    "result": 0.9809523809523809
+                },
+                {
+                    "id": 2,
+                    "label": "SERVICIOS",
+                    "value": 1.04,
+                    "result": 0.9903846153846154
+                },
+                {
+                    "id": 3,
+                    "label": "SERVICIOS",
+                    "value": 1.04,
+                    "result": 0.9903846153846154
+                },
+                {
+                    "id": 4,
+                    "label": "SERVICIOS",
+                    "value": 1.04,
+                    "result": 0.9903846153846154
+                }
+            ]
+        },
+        "Location": {
+            "name": "Ubicaci\u00f3n",
+            "tag": "FUbic.",
+            "isUsed": true,
+            "position": 1,
+            "subject": [
+                {
+                    "id": 1,
+                    "C1": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "percentage": 3,
+                    "observations": "MANZANA",
+                    "C2": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "label": "+",
+                        "value": 1
+                    }
+                },
+                {
+                    "id": 2,
+                    "C1": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "percentage": 4,
+                    "observations": "VIALIDAD",
+                    "C2": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "label": "=",
+                        "value": 0
+                    }
+                },
+                {
+                    "id": 3,
+                    "C1": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "percentage": 3,
+                    "observations": "PAVIMENTO",
+                    "C2": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "label": "=",
+                        "value": 0
+                    }
+                }
+            ],
+            "data": [
+                {
+                    "id": 1,
+                    "value": 1
+                },
+                {
+                    "id": 2,
+                    "value": 1
+                },
+                {
+                    "id": 3,
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "value": 1.03
+                }
+            ]
+        },
+        "Zone": {
+            "name": "Zona",
+            "tag": "FZon.",
+            "isUsed": true,
+            "position": 4,
+            "subject": [
+                {
+                    "id": 1,
+                    "C1": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "percentage": 2,
+                    "observations": "EQUIPAMIENTO",
+                    "C2": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "label": "=",
+                        "value": 0
+                    }
+                },
+                {
+                    "id": 2,
+                    "C1": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "percentage": 2,
+                    "observations": "SERVICIOS",
+                    "C2": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "label": "=",
+                        "value": 0
+                    }
+                },
+                {
+                    "id": 3,
+                    "C1": {
+                        "label": "-",
+                        "value": -1
+                    },
+                    "percentage": 4,
+                    "observations": "DESEABILIDAD",
+                    "C2": {
+                        "label": "-",
+                        "value": -1
+                    },
+                    "C3": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "label": "=",
+                        "value": 0
+                    }
+                },
+                {
+                    "id": 4,
+                    "C1": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "percentage": 1,
+                    "observations": "TRANSPORTE",
+                    "C2": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "label": "=",
+                        "value": 0
+                    }
+                },
+                {
+                    "id": 5,
+                    "C1": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "percentage": 2,
+                    "observations": "PERIFERIA",
+                    "C2": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C3": {
+                        "label": "=",
+                        "value": 0
+                    },
+                    "C4": {
+                        "label": "=",
+                        "value": 0
+                    }
+                }
+            ],
+            "data": [
+                {
+                    "id": 1,
+                    "value": 0.96
+                },
+                {
+                    "id": 2,
+                    "value": 0.96
+                },
+                {
+                    "id": 3,
+                    "value": 1
+                },
+                {
+                    "id": 4,
+                    "value": 1
+                }
+            ],
+            "results": [
+                {
+                    "id": 1,
+                    "factor1": 0.96,
+                    "factor2": 0.9216
+                },
+                {
+                    "id": 2,
+                    "factor1": 0.96,
+                    "factor2": 0.9216
+                },
+                {
+                    "id": 3,
+                    "factor1": 1,
+                    "factor2": 1
+                },
+                {
+                    "id": 4,
+                    "factor1": 1,
+                    "factor2": 1
+                }
+            ]
+        }
+    },
+    "resultado": {
+        "Area": {
+            "averageLotArea": {
+                "name": "SUPERFICIE LOTE MODA",
+                "surface": 316.71,
+                "value": 11156.75
+            },
+            "data": [
+                {
+                    "address": {
+                        "colony": "BARRIO DE GUADALUPE",
+                        "extras": {
+                            "date": "2022-03-01",
+                            "document": {
+                                "file": null,
+                                "filename": ""
+                            },
+                            "factor1": 1,
+                            "factor2": 0.96,
+                            "observations": "TERRENO URBANO, EN ESQUINA, FORMA  REGULAR, TOPOGRAF\u00cdA PLANA, USO MIXTO\t\t\t\t\t\t\t\t\t\t",
+                            "reference": "https://www.lamudi.com.mx/terreno-en-venta-sobre-blvd-adolfo-lopez-mateos-en-leon-guanajuato.html"
+                        },
+                        "hasNoStreetNumber": false,
+                        "street": "BLVD. ADOLFO L\u00d3PEZ MATEOS",
+                        "streetNumber": 206,
+                        "zone": {
+                            "annualCensus": 2020,
+                            "economicallyActivePopulation": 900923,
+                            "id": 18,
+                            "inhabitedDwellings": 440662,
+                            "name": "Le\u00f3n",
+                            "percentage": 52.34,
+                            "populationDensity": 1409,
+                            "totalPopulation": 1721215
+                        }
+                    },
+                    "factorResult1": 0.96,
+                    "factorResult2": 0.9216,
+                    "id": 1,
+                    "surface": 1,
+                    "value": 14483
+                },
+                {
+                    "address": {
+                        "colony": "CERRITO DE JEREZ NORTE",
+                        "extras": {
+                            "date": "2022-03-01",
+                            "document": {
+                                "file": null,
+                                "filename": ""
+                            },
+                            "factor1": 1,
+                            "factor2": 0.96,
+                            "observations": "TERRENO URBANO, CABECERA DE MANZANA, REGULAR, USO SERVICIOS INTENCIDAD ALTA, TOPOGRAF\u00cdA PLANA, PAVIMENTACI\u00d3N, CON SERVICIO DE AGUA, DRENAJE, ENERG\u00cdA EL\u00c9CTRICA.\t\t\t\t\t\t\t\t\t\t\n",
+                            "reference": "https://www.inmuebles24.com/propiedades/terreno-en-venta-sobre-blvd.-adolfo-lopez-mateos-ote.-57499303.html\n"
+                        },
+                        "hasNoStreetNumber": true,
+                        "street": "BLVD. ADOLFO L\u00d3PEZ MATEOS",
+                        "streetNumber": 0,
+                        "zone": {
+                            "annualCensus": 2020,
+                            "economicallyActivePopulation": 900923,
+                            "id": 18,
+                            "inhabitedDwellings": 440662,
+                            "name": "Le\u00f3n",
+                            "percentage": 52.34,
+                            "populationDensity": 1409,
+                            "totalPopulation": 1721215
+                        }
+                    },
+                    "factorResult1": 0.96,
+                    "factorResult2": 0.9216,
+                    "id": 2,
+                    "surface": 1,
+                    "value": 17200
+                },
+                {
+                    "address": {
+                        "colony": "LA FLORIDA",
+                        "extras": {
+                            "date": "2022-03-01",
+                            "document": {
+                                "file": null,
+                                "filename": ""
+                            },
+                            "factor1": 1,
+                            "factor2": 1,
+                            "observations": "TERRENO URBANO, ESQUINA, REGULAR, USO SERVICIOS INTENCIDAD MEDIA, TOPOGRAF\u00cdA PLANA, PAVIMENTACI\u00d3N, CON SERVICIO DE AGUA, DRENAJE, ENERG\u00cdA EL\u00c9CTRICA.\t\t\t\t\t\t\t\t\t\t\n",
+                            "reference": "https://www.inmuebles24.com/propiedades/terreno-en-venta-comercial-en-blvd.-campestre-a-solo-59889199.html\n"
+                        },
+                        "hasNoStreetNumber": true,
+                        "street": "BLVD. CAMPESTRE",
+                        "streetNumber": 0,
+                        "zone": {
+                            "annualCensus": 2020,
+                            "economicallyActivePopulation": 900923,
+                            "id": 18,
+                            "inhabitedDwellings": 440662,
+                            "name": "Le\u00f3n",
+                            "percentage": 52.34,
+                            "populationDensity": 1409,
+                            "totalPopulation": 1721215
+                        }
+                    },
+                    "factorResult1": 1,
+                    "factorResult2": 1,
+                    "id": 3,
+                    "surface": 1,
+                    "value": 6407
+                },
+                {
+                    "address": {
+                        "colony": "LA FLORIDA",
+                        "extras": {
+                            "date": "2022-03-01",
+                            "document": {
+                                "file": null,
+                                "filename": ""
+                            },
+                            "factor1": 1,
+                            "factor2": 1,
+                            "observations": "TERRENO URBANO, MEDIANERO, REGULAR, USO SERVICIOS INTENCIDAD MEDIA, TOPOGRAF\u00cdA PLANA, PAVIMENTACI\u00d3N, CON SERVICIO DE AGUA, DRENAJE, ENERG\u00cdA EL\u00c9CTRICA.\t\t\t\t\t\t\t\t\t\t\n",
+                            "reference": "https://www.inmuebles24.com/propiedades/terreno-comercial-en-venta-en-blvd.-campestre-a-59889198.html?labs=I-NOREC-apire-OfflineFallback-_or60&userid=0&itemid=56712675&labs_source=RECOMENDADOS_FICHA_PROPIEDAD_DESKTOP\n"
+                        },
+                        "hasNoStreetNumber": true,
+                        "street": "BLVD. CAMPESTRE",
+                        "streetNumber": 0,
+                        "zone": {
+                            "annualCensus": 2020,
+                            "economicallyActivePopulation": 900923,
+                            "id": 18,
+                            "inhabitedDwellings": 440662,
+                            "name": "Le\u00f3n",
+                            "percentage": 52.34,
+                            "populationDensity": 1409,
+                            "totalPopulation": 1721215
+                        }
+                    },
+                    "factorResult1": 1,
+                    "factorResult2": 1,
+                    "id": 4,
+                    "surface": 1,
+                    "value": 6537
+                }
+            ],
+            "name": "\u00c1reas ",
+            "subject": {
+                "factors": [
+                    {
+                        "id": 1,
+                        "root": 12,
+                        "type": "totalPopulation"
+                    },
+                    {
+                        "id": 2,
+                        "root": 12,
+                        "type": "useZoneResults"
+                    }
+                ],
+                "name": "SUPERFICIE TOTAL DEL TERRENO",
+                "value": 316.71,
+                "zone": {
+                    "annualCensus": 2020,
+                    "economicallyActivePopulation": 900923,
+                    "id": 18,
+                    "inhabitedDwellings": 440662,
+                    "name": "Le\u00f3n",
+                    "percentage": 52.34,
+                    "populationDensity": 1409,
+                    "totalPopulation": 1721215
+                }
+            },
+            "tag": "\u00c1rea de Lote Moda"
+        },
+        "Indiviso": {
+            "building": 39.2,
+            "indiviso": 0.0015928335493004334,
+            "result": 0.5044663133989402,
+            "surface": 24610.23
+        },
+        "ReFactor": {
+            "form": {
+                "name": "FACTOR DE FORMA",
+                "value": 1
+            },
+            "isUsed": false,
+            "result": {
+                "name": "FACTOR DE RESULTANTE",
+                "value": 1.5608439690578855
+            },
+            "root": {
+                "enabled": false,
+                "observations": "",
+                "value": 8
+            },
+            "surface": {
+                "name": "FACTOR DE SUPERFICIE",
+                "value": 1.5608439690578855
+            }
+        },
+        "SalesCost": {
+            "averageUnitCost": {
+                "value": 10204.880530675404,
+                "roundedValue": 10200,
+                "result": 15920.608484390432,
+                "adjustedValue": 15920,
+                "roundedTo": {
+                    "enabled": false,
+                    "observations": "",
+                    "results": 1,
+                    "value": 1
+                },
+                "roundedResult": {
+                    "enabled": true,
+                    "observations": "Aproximacion ejercicio",
+                    "result": 1,
+                    "value": 1
+                }
+            },
+            "data": [
+                {
+                    "id": 1,
+                    "unitaryCost": 8976.040875509218,
+                    "value": 130000000
+                },
+                {
+                    "id": 2,
+                    "unitaryCost": 15000,
+                    "value": 258000000
+                },
+                {
+                    "id": 3,
+                    "unitaryCost": 12498.04900889652,
+                    "value": 80075000
+                },
+                {
+                    "id": 4,
+                    "unitaryCost": 10500,
+                    "value": 68638500
+                }
+            ],
+            "results": [
+                {
+                    "id": 1,
+                    "value": 7859.801777852596
+                },
+                {
+                    "id": 2,
+                    "value": 13549.01520385189
+                },
+                {
+                    "id": 3,
+                    "value": 10393.8931037351
+                },
+                {
+                    "id": 4,
+                    "value": 9016.812037262032
+                }
+            ],
+            "tag": "Precio de Venta"
+        },
+        "WeightingPercentage": {
+            "data": [
+                {
+                    "id": 1,
+                    "value": 25
+                },
+                {
+                    "id": 2,
+                    "value": 25
+                },
+                {
+                    "id": 3,
+                    "value": 25
+                },
+                {
+                    "id": 4,
+                    "value": 25
+                }
+            ],
+            "total": 100
+        },
+        "observations": "Fzo: Se aplica por deseabilidad. Fsup: Se aplica un factor de 1.19 que se obtuvo de la superficie del lote moda entre superficie total del predio. Fuso. Se aplica por cambio de uso de suelo.\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+    }
+}

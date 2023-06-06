@@ -1,138 +1,156 @@
-"""File to handle responses of user services"""
-from typing import Dict, Optional, Tuple
+from json import load
+from typing import Dict, List, Optional
+from typing import Type
+from flask import jsonify
 
-from flask import make_response
+from .. import config
 
 
-class Response:
+def make_response(
+    content: Optional[Dict] = None,
+    data: Optional[Dict or List] = None,
+    status_code: int = 200,
+    headers: Optional[Dict] = None,
+    cookies: Optional[Dict] = None,
+) -> jsonify:
     """
-    This class is a wrapper for success and error responses
+    Returns a response
+
+    Args:
+    content (dict, optional): all the data to send. Defaults to None.
+    data (dict, optional): data inside of content to send. Defaults to None.
+    status__code (int, optional): Status code. Defaults to 200.
+    headers (dict, optional): Headers. Defaults to None.
+    cookies (dict, optional): Cookies. Defaults to None.
+
+    Returns:
+    jsonify: Response
+    status__code: int
+    headers:Dict[str,Any]
+    """
+    if data is None:
+        data: dict = dict()
+    if content is None:
+        content: dict = dict()
+    if "data" not in content:
+        content["data"] = data
+
+    response = jsonify(content)
+    response.status_code = status_code
+    if headers:
+        response.headers |= {key: value for key, value in headers.items()}
+        # for key, value in headers.items():
+        #     response.headers[key] = value
+    if cookies:
+        for key, value in cookies.items():
+            response.set__cookie(key, value)
+
+    return response
+
+
+class Responses:
+    """
+    A class that provides methods to generate success and error response objects.
+
+    Attributes:
+        success (method): A response containing success elements to be included.\n
+        error (method): A response containing error elements to be included.
     """
 
-    @staticmethod
+    __success_messages: dict = {}
+    __errors_messages: dict = {}
+    __path: str = config.PATHS.static
+
+    def __init__(self) -> None:
+        try:
+            with open(f"{self.__path}/success.json", "r", encoding="utf-8") as file:
+                self.__success_messages = load(file)
+            with open(f"{self.__path}/errors.json", "r", encoding="utf-8") as file:
+                self.__errors_messages = load(file)
+        except FileNotFoundError:
+            self.__success_messages = {}
+            self.__errors_messages = {}
+
     def success(
-        data: dict,
-        message: Optional[str] = None,
-        operation: str = None,
-        status_code: Optional[int] = None,
-    ) -> Tuple[Dict, int]:
+        self,
+        content: Optional[Dict] = None,
+        data: Optional[Dict or List] = None,
+        headers: Optional[Dict] = None,
+        status_code: Optional[int] = 200,
+        success_message: Optional[str] = None,
+        cookies: Optional[Dict] = None,
+    ) -> make_response:
         """
-        This method returns a success response (200-299).
-        Args:
-            data (dict): data to be returned
-            message (str, optional): message to be returned
-            operation (str): Endpoint of the request, to recognize the operation at frontend.
-            status_code (int, optional): status code of the response
-        Returns:
-            response (dict): response to the request
-            status_code (int): status code of the response
-        """
-        status = "success"
-        status_code = status_code or 201
-        data_response = dict(
-            status=status,
-            message=message,
-            operation=operation,
-            data=data,
-        )
-        response = make_response(data_response)
-        response.status_code = status_code
-        response.headers = dict(
-            status=status,
-            message=message,
-        )
-        response.headers["Content-Type"] = "application/json"
-        return response
+        A method that returns a success response object.
 
-    @staticmethod
-    def bad_request(
-        message: Optional[str] = None,
-        operation: str = None,
-        status_code: Optional[int] = None,
-    ) -> Tuple[Dict, int]:
-        """
-        This method returns a bad request response (400-499)
-        Args:
-            message (str, optional): message to be returned
-            operation (str): Endpoint of the request, to recognize the operation at frontend.
-            status_code (int, optional): status code of the response
-        Returns:
-            response (dict): response to the request
-            status_code (int): status code of the response
-        """
-        status = "fail"
-        status_code = status_code or 401
-        data_response = dict(
-            status=status,
-            message=message,
-            operation=operation,
-            data=None,
-            status_code=status_code,
-        )
-        response = make_response(data_response)
-        response.status_code = status_code
-        response.headers = dict(
-            status=status,
-            message=message,
-            status_code=status_code,
-        )
-        response.headers["Content-Type"] = "application/json"
-        return response
+        Example:
+        >>> status_code -> 200 OK: Indicates that the request has succeeded and that the response contains the requested data.
+        >>> status_code -> 201 Created: Indicates that a new resource has been successfully created.
+        >>> status_code -> 204 No Content: Indicates that the request was successful, but there is no data to return.
 
-    @staticmethod
+        Args:
+            content (Optional[Dict]): The response body as a dictionary. Defaults to None.
+            data (Optional[Dict or List]): Additional data to include in the response. Defaults to None.
+            headers (Optional[Dict]): A dictionary of additional headers to include in the response. Defaults to None.
+            status_code (Optional[int]): The HTTP status code. Defaults to 400.
+            error_message (Optional[str]): A key for an optional error message in a static json file. Defaults to None.
+
+        Returns:
+            A response object with the given parameters.
+        """
+        if not 200 <= status_code <= 299:
+            raise ValueError("A success status__code must be between 200 and 299")
+        if content is None:
+            content: dict = {}
+        if cookies is None:
+            cookies: dict = {}
+        if success_message is not None:
+            content["message"] = self.__success_messages.get(
+                success_message, "Operation Successfully Completed!"
+            )
+
+        return make_response(content, data, status_code, headers, cookies)
+
     def error(
-        message: Optional[str] = None,
-        operation: str = None,
-        status_code: Optional[int] = None,
-    ) -> Tuple[Dict, int]:
+        self,
+        content: Optional[Dict] = None,
+        data: Optional[Dict or List] = None,
+        headers: Optional[Dict] = None,
+        status_code: Optional[int] = 400,
+        error_message: Optional[str] = None,
+        cookies: Optional[Dict] = None,
+    ) -> make_response:
         """
-        This method returns an error response (500-599)
-        Args:
-            message (str, optional): message to be returned
-            operation (str): Endpoint of the request, to recognize the operation at frontend.
-            status_code (int, optional): status code of the response
-        Returns:
-            response (dict): response to the request
-            status_code (int): status code of the response
-        """
-        status = "warning"
-        status_code = status_code or 501
-        data_response = dict(
-            status=status,
-            message=message,
-            operation=operation,
-            data=None,
-        )
-        response = make_response(data_response)
-        response.status_code = status_code
-        response.headers = dict(
-            status=status,
-            message=message,
-        )
-        response.headers["Content-Type"] = "application/json"
-        return response
+        A method that returns an error response object.
 
-    @staticmethod
-    def teapot() -> Tuple[Dict, int]:
-        """
-        418 Joke
-        Because coffee is international,
+        Example:
+        >>> status_code -> 400 Bad Request: Indicates that the request was malformed or invalid, and the server could not understand it.
+        >>> status_code -> 401 Unauthorized: Indicates that authentication is required and has failed or has not been provided.
+        >>> status_code -> 402 Payment Required: Indicates that the client must pay to access the requested resource.
+        >>> status_code -> 403 Forbidden: Indicates that the server understood the request but refuses to authorize it.
+        >>> status_code -> 404 Not Found: Indicates that the requested resource was not found on the server.
+        >>> status_code -> 409 Conflict: Indicates that the request could not be completed due to a conflict with the current state of the resource.
+        >>> status_code -> 422 Unprocessable Entity: Indicates that the server understands the content type of the request entity, but was unable to process the contained instructions.
+        status_code -> 429 Too Many Requests: Indicates that the user has sent too many requests in a given amount of time.
+
+        Args:
+            content (Optional[Dict]): The response body as a dictionary. Defaults to None.
+            data (Optional[Dict or List]): Additional data to include in the response. Defaults to None.
+            headers (Optional[Dict]): A dictionary of additional headers to include in the response. Defaults to None.
+            status_code (Optional[int]): The HTTP status code. Defaults to 400.
+            error_message (Optional[str]): A key for an optional error message in a static json file. Defaults to None.
+
         Returns:
-            response (dict): response to the request
-            status_code (int): 418 of the response
+            A response object with the given parameters.
         """
-        status = "418 I'm a teapot"
-        message = "The requested entity body is short and stout."
-        data_response = dict(
-            status=status,
-            message=message,
-            data=None,
-        )
-        response = make_response(data_response)
-        response.status_code = 418
-        response.headers = dict(
-            status=status,
-            message=message,
-        )
-        response.headers["Content-Type"] = "application/json"
-        return response
+        if not 400 <= status_code <= 499:
+            raise ValueError("An error status__code must be between 400 and 499")
+        if content is None:
+            content: dict = {}
+        if cookies is None:
+            cookies: dict = {}
+        if error_message is not None:
+            content["message"] = self.__errors_messages.get(
+                error_message, "Operation Unexpectedly Failed!"
+            )
+        return make_response(content, data, status_code, headers, cookies)

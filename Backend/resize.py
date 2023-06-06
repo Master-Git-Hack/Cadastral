@@ -105,7 +105,7 @@ def get_files(src_path: str) -> List[str]:
     images: List[str] = []
     # it could be destructure as dirpath, dirnames, filenames
     # dirnames not used changed for _ character
-    for (dirpath, _, filenames) in walk(src_path):
+    for dirpath, _, filenames in walk(src_path):
         for filename in filenames:
             if filename.endswith(image_type):
                 images.append(join(dirpath, filename))

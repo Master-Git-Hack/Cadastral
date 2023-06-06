@@ -1,90 +1,126 @@
-"""
-config file for the project
-"""
-from os import getenv
+from os import environ
 from os.path import abspath, dirname, join
+from typing import Optional
 
-from jinja2 import Environment, FileSystemLoader
+from dotenv import load_dotenv
+from flask_bcrypt import Bcrypt
+from flask_marshmallow import Marshmallow
+from flask_mongoengine import MongoEngine
+from flask_sqlalchemy import SQLAlchemy
 
-root_path = abspath(dirname(__file__))
-
-
-class Config:
-    """Base configuration."""
-
-    SECRET_KEY = getenv("SECRET_KEY") or "secret-key"
-    ENV = getenv("FLASK_ENV") or "production"
-    VERSION = getenv("VERSION") or "1"
-    API_URL = getenv("API_URL") or f"/api/v{VERSION}/"
-    TITLE = getenv("TITLE") or "API DEV"
-    CORS = getenv("CORS") or "*"
-    CORS_ORIGIN = getenv("CORS_ORIGIN") or "*"
-    TEMPORARY_PATH = getenv("TEMPORARY_PATH") or "tmp"
-    STATIC_PATH = getenv("STATIC_PATH") or "static"
-    JINJA_ENV = Environment(
-        loader=FileSystemLoader(join(root_path.split("/src")[0], "_build/html")),
-        autoescape=False,
-    )
-    ALLOWED_EXTENSIONS = {"csv", "xlsx", "xls"}
+load_dotenv()
 
 
-class Paths:
-    """Paths configuration."""
+class __Base(object):
+    """
+    Clase base de configuración. Define variables compartidas por todos los entornos.
+    """
 
-    tmp = join(root_path, Config.TEMPORARY_PATH)
-    static = join(root_path, Config.STATIC_PATH)
-    templates = join(static, "templates")
-    images = join(static, "images")
-    fonts = join(static, "fonts")
-    docs = Config.JINJA_ENV
-
-
-class DevelopmentConfig:
-    """Development configuration."""
-
-    UPLOAD_FOLDER = Paths.tmp
-    DEBUG = True
-    JSON_AS_ASCII = False
-    SQLALCHEMY_DATABASE_URI = (
-        getenv("DATABASE_URL_DEV") or f"sqlite:///{root_path}/db.sqlite"
-    )
+    HOST: str = environ.get("FLASK_RUN_HOST", "0.0.0.0")
+    PORT: str = environ.get("FLASK_RUN_PORT", "5000")
+    DEBUG: bool = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-
-class TestingConfig(Config):
-    """Testing configuration."""
-
-    DEBUG = True
+    Testing: bool = False
+    CSRF_ENABLED: bool = True
+    SECRET_KEY: str = environ.get("SECRET_KEY")
+    API_VERSION: str = environ.get("API_VERSION", "1.0.0")
+    API_URL_PREFIX: str = f"/api/v{API_VERSION[0]}"
     JSON_AS_ASCII = False
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = (
-        getenv("DATABASE_URL_TEST") or f"sqlite:///{root_path}/db.sqlite"
+    CORS: str = environ.get("CORS", "*")
+    CORS_ORIGIN: str = environ.get("CORS_ORIGIN", "*")
+    CORS_ALLOW_METHODS: str = environ.get("CORS_ALLOW_METHODS", "*")
+    CORS_ALLOW_HEADERS: str = environ.get("CORS_ALLOW_HEADERS", "*")
+    CORS_EXPOSE_HEADERS: str = environ.get("CORS_EXPOSE_HEADERS", "*")
+
+    class PATHS(object):
+        """
+        Objeto para acceder a los diferentes directorios utilizados en la aplicación.
+        """
+
+        __ROOT_DIR: str = abspath(dirname(__file__))
+        __TMP_FOLDERNAME: str = environ.get("TEMPORARY_FOLDER", "tmp")
+        __TEMPLATES_FOLDERNAME: str = environ.get("TEMPLATES_FOLDER", "templates")
+        __STATIC_FOLDERNAME: str = environ.get("STATIC_FOLDER", "static")
+        tmp: str = join(__ROOT_DIR, __TMP_FOLDERNAME)
+        templates: str = join(__ROOT_DIR, __TEMPLATES_FOLDERNAME)
+        static: str = join(__ROOT_DIR, __STATIC_FOLDERNAME)
+
+
+class __Production(__Base):
+    """
+    Configuración específica para el entorno de producción.
+    """
+
+    DEBUG: bool = False
+    MONGO_URI: str = environ.get("MONGO_URI")
+    SQLALCHEMY_DATABASE_URI: str = environ.get("PSQL_URI")
+
+
+class __Development(__Base):
+    """
+    Configuración específica para el entorno de desarrollo.
+    """
+
+    Development: bool = True
+    DEBUG: bool = True
+    MONGO_URI: str = environ.get(
+        "MONGO_URI_DEV", "mongodb://root:toor@localhost:27017/Catastral"
     )
-    PRESERVE_CONTEXT_ON_EXCEPTION = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI: str = environ.get(
+        "PSQL_URI_DEV", f"sqlite:///{abspath(dirname(__file__))}/db.sqlite"
+    )
 
 
-class ProductionConfig(Config):
-    """Production configuration."""
+class __Testing(__Base):
+    """
+    Configuración específica para el entorno de pruebas.
+    """
 
-    DEBUG = False
-    JSON_AS_ASCII = False
-    SQLALCHEMY_DATABASE_URI = getenv("DATABASE_URL")
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    Testing: bool = True
+    MONGO_URI: str = environ.get("MONGO_URI_TEST")
+    SQLALCHEMY_DATABASE_URI: str = environ.get("PSQL_URI_TEST")
 
 
-config_by_name = dict(
-    development=DevelopmentConfig, testing=TestingConfig, production=ProductionConfig
-)
-config_API = dict(
-    title=Config.TITLE,
-    version=Config.VERSION,
-    prefix=Config.API_URL,
-    authorizations=dict(
-        api_key={"type": "api_key", "in": "header", "name": "Authorization"}
-    ),
-    docs_path="/docs",
-)
-key = Config.SECRET_KEY
-env = Config.ENV
-cors_src = {f"{Config.API_URL}{Config.CORS}": dict(origin=Config.CORS_ORIGIN)}
+def __get_config(env: Optional[str] = None) -> __Base:
+    """
+    Función para obtener la configuración en función del entorno.
+    """
+    if env is None:
+        env = environ.get("ENV", "development")
+    envs: dict = {
+        "production": __Production,
+        "testing": __Testing,
+        "development": __Development,
+    }
+    return envs[env.lower()]
+
+
+current_env = __get_config()
+
+
+class Config(current_env):
+    """
+    Objeto con la configuración del entorno de ejecución.
+    Attributes:
+        API_VERSION: str
+        API_URL_PREFIX: str
+        PATHS: object
+            (tmp | static | templates)
+        bcrypt: Bcrypt
+        oauth: OAuth
+        db: MongoEngine
+    """
+
+    MONGODB_SETTINGS: dict = dict(db=current_env.MONGO_URI)
+    CORS_SRC: dict = {
+        f"{current_env.API_URL_PREFIX}/{current_env.CORS}": {
+            "origins": current_env.CORS_ORIGIN,
+            "methods": current_env.CORS_ALLOW_METHODS,
+            "allow_headers": current_env.CORS_ALLOW_HEADERS,
+            "expose_headers": current_env.CORS_EXPOSE_HEADERS,
+        }
+    }
+    bcrypt: Bcrypt = Bcrypt()
+    no_db: MongoEngine = MongoEngine()
+    db: SQLAlchemy = SQLAlchemy()
+    ma: Marshmallow = Marshmallow()
