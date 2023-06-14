@@ -41,9 +41,13 @@ class __Base(object):
         __TMP_FOLDERNAME: str = environ.get("TEMPORARY_FOLDER", "tmp")
         __TEMPLATES_FOLDERNAME: str = environ.get("TEMPLATES_FOLDER", "templates")
         __STATIC_FOLDERNAME: str = environ.get("STATIC_FOLDER", "static")
+        __IMAGES_FOLDERNAME: str = environ.get("IMAGES_FOLDER", "images")
+        __FONTS_FOLDERNAME: str = environ.get("FONTS_FOLDER", "fonts")
         tmp: str = join(__ROOT_DIR, __TMP_FOLDERNAME)
         templates: str = join(__ROOT_DIR, __TEMPLATES_FOLDERNAME)
         static: str = join(__ROOT_DIR, __STATIC_FOLDERNAME)
+        imgs: str = join(static, __IMAGES_FOLDERNAME)
+        fonts: str = join(static, __FONTS_FOLDERNAME)
 
 
 class __Production(__Base):
@@ -107,8 +111,10 @@ class Config(current_env):
         PATHS: object
             (tmp | static | templates)
         bcrypt: Bcrypt
-        oauth: OAuth
-        db: MongoEngine
+        no_db: MongoEngine
+        db: SQLAlchemy
+        ma: Marshmallow
+
     """
 
     MONGODB_SETTINGS: dict = dict(db=current_env.MONGO_URI)
