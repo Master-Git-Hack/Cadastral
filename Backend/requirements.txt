@@ -1,6 +1,7 @@
 Babel==2.12.1
 dateparser==1.1.8
 deepmerge==1.1.0
+flasgger==0.9.7.1
 Flask==2.3.2
 Flask-Bcrypt==1.0.1
 Flask-Cors==3.0.10

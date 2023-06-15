@@ -5,7 +5,8 @@ from typing import Optional
 from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
 from flask_marshmallow import Marshmallow
-from flask_mongoengine import MongoEngine
+
+# from flask_mongoengine import MongoEngine
 from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
@@ -126,7 +127,13 @@ class Config(current_env):
             "expose_headers": current_env.CORS_EXPOSE_HEADERS,
         }
     }
+    SWAGGER: dict = {
+        "title": "API de la Dirección General de Recursos Materiales, Servicios Generales y Catastro",
+        "uiversion": 3,
+        "version": current_env.API_VERSION,
+        "specs_route": "/docs",
+    }
     bcrypt: Bcrypt = Bcrypt()
-    no_db: MongoEngine = MongoEngine()
+    # no_db: MongoEngine = MongoEngine()
     db: SQLAlchemy = SQLAlchemy()
     ma: Marshmallow = Marshmallow()

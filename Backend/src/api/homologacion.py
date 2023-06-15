@@ -20,7 +20,6 @@ def get_homologacion(
 def post_homologacion(
     justipreciacion: int,
     tipo: str = "terreno",
-    data: request = request.json,
     response: Responses = Responses(),
 ) -> Responses:
     if justipreciacion is None:
@@ -32,11 +31,11 @@ def post_homologacion(
 def patch_homologacion(
     justipreciacion: int,
     tipo: str = "terreno",
-    data: request = request.json,
     response: Responses = Responses(),
 ) -> Responses:
     if justipreciacion is None:
         return response.error()
+    data: request = request.json
     return response.success()
 
 
@@ -55,6 +54,7 @@ def post_homologacion_justipreciacion(
 ) -> Responses:
     if justipreciacion is None:
         return response.error()
+    data: request = request.json
     return response.success()
 
 
@@ -64,15 +64,17 @@ def patch_homologacion_justipreciacion(
 ) -> Responses:
     if justipreciacion is None:
         return response.error()
+    data: request = request.json
     return response.success()
 
 
 @homologacion_api.get(
     "/obras-complementarias/justipreciacion/<string:tipo>/<int:justipreciacion>"
 )
-def get_homologacion_justipreciacion(
+def get_homologacion_obras_complementarias(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ) -> Responses:
     if justipreciacion is None:
         return response.error()
+
     return response.success()
