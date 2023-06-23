@@ -1,6 +1,6 @@
 from json import load
-from typing import Dict, List, Optional
-from typing import Type
+from typing import Dict, List, Optional, Type
+
 from flask import jsonify
 
 from .. import config
@@ -75,6 +75,7 @@ class Responses:
         self,
         content: Optional[Dict] = None,
         data: Optional[Dict or List] = None,
+        message: Optional[str] = None,
         headers: Optional[Dict] = None,
         status_code: Optional[int] = 200,
         success_message: Optional[str] = None,
@@ -104,6 +105,8 @@ class Responses:
             content: dict = {}
         if cookies is None:
             cookies: dict = {}
+        if message is not None:
+            content["message"] = message
         if success_message is not None:
             content["message"] = self.__success_messages.get(
                 success_message, "Operation Successfully Completed!"
@@ -115,6 +118,7 @@ class Responses:
         self,
         content: Optional[Dict] = None,
         data: Optional[Dict or List] = None,
+        message: Optional[str] = None,
         headers: Optional[Dict] = None,
         status_code: Optional[int] = 400,
         error_message: Optional[str] = None,
@@ -149,8 +153,11 @@ class Responses:
             content: dict = {}
         if cookies is None:
             cookies: dict = {}
+        if message is not None:
+            content["message"] = message
         if error_message is not None:
             content["message"] = self.__errors_messages.get(
                 error_message, "Operation Unexpectedly Failed!"
             )
+
         return make_response(content, data, status_code, headers, cookies)

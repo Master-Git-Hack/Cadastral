@@ -1,5 +1,7 @@
 """File to controller functions of the reports module"""
 
+from typing import Set
+
 from ..... import db
 from .....utils.local import as_complete_date, as_currency, as_percentage, with_decimals
 from ..helper import create_pdf, merge_pdf
@@ -36,8 +38,8 @@ def merge(files: list) -> str:
     return merge_pdf(files)
 
 
-coordinates = ["x_utm", "y_utm"]
-servicios = [
+coordinates: Set[str] = {"x_utm", "y_utm"}
+servicios: Set[str] = {
     "agua",
     "drenaje",
     "energia_electrica",
@@ -45,9 +47,9 @@ servicios = [
     "tipo_pavimento",
     "alumbrado_publico",
     "banqueta",
-]
+}
 
-moneda = [
+moneda: Set[str] = {
     "incr_esq_vu",
     "incr_esq_valor_parcial",
     "valor_total_terreno",
@@ -69,26 +71,24 @@ moneda = [
     "cnc_valor_parcial",
     "cnd_vu",
     "cnd_valor_parcial",
-]
+}
 
-decimales2 = [
+decimales2: Set[str] = {
     "incr_esq_superficie",
     "sup_total_construccion",
     "cna_superficie",
     "cnb_superficie",
     "cnc_superficie",
-    "cnd_superficie",
-]
-
-decimales3 = [
+}
+decimales3: Set[str] = {
     "sup_total_terreno",
     "sp1_superficie",
     "sp2_superficie",
     "sp3_superficie",
     "sp4_superficie",
-]
+}
 
-tipo = ["cna_tipo", "cnb_tipo", "cnc_tipo", "cnd_tipo"]
+tipo: Set[str] = {"cna_tipo", "cnb_tipo", "cnc_tipo", "cnd_tipo"}
 
 
 def check(collection: list, begin: int, end: int, year: int) -> list:

@@ -50,15 +50,15 @@ def schema(
 
 
 class Base:
-    __model = None
+    __model: object = None
     __schema = None
     __session = None
-    current: Optional[object] = None
+    current: Optional[__model] = None
 
     def __init__(self, model) -> None:
-        self.__session = config.db.session
         self.__model = model
         self.__schema = schema(self.__model)
+        self.__session = config.db.session.query(self.__model)
 
     def __enter__(self):
         if self.__model is None:
@@ -85,10 +85,12 @@ class Base:
         Get a record by id
         Args:
             id (int): The id of the record
+            to_dict (bool): Whether to return a dictionary or an object
+            exclude (list): List of fields to exclude
         Returns:
             object: The record
         """
-        self.current = self.__session.query(self.__model).get(id)
+        self.current = self.__session.get(id)
         if to_dict:
             if exclude is not None:
                 return self.__schema(exclude=exclude).dump(self.current)
@@ -106,7 +108,7 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__session.query(self.__model).filter_by(**kwargs).first()
+        self.current = self.__session.filter_by(**kwargs).first()
         if to_dict:
             if exclude is not None:
                 return self.__schema(exclude=exclude).dump(self.current)
@@ -124,7 +126,7 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__session.query(self.__model).filter_by(**kwargs).all()
+        self.current = self.__session.filter_by(**kwargs).all()
         if to_list:
             if exclude is not None:
                 return self.__schema(exclude=exclude, many=True).dump(self.current)
@@ -142,7 +144,7 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__session.query(self.__model).all()
+        self.current = self.__session.all()
         if to_list:
             if exclude is not None:
                 return self.__schema(exclude=exclude, many=True).dump(self.current)
@@ -161,7 +163,9 @@ class Base:
             object: The record
         """
         record = self.__model(**kwargs)
+        self.__session = config.db.session
         try:
+            self.__session = config.db.session
             self.__session.add(record)
             self.__session.commit()
         except Exception as e:
@@ -170,6 +174,7 @@ class Base:
             self.__session.flush()
             return None
         else:
+            self.__session = config.db.session.query(self.__model)
             self.current = record
             if to_dict:
                 if exclude is not None:
@@ -196,6 +201,7 @@ class Base:
         record = self.__session.query(self.__model).get(id)
         for key, value in kwargs.items():
             setattr(record, key, value)
+        self.__session = config.db.session
         try:
             self.__session.merge(record)
             self.__session.commit()
@@ -204,7 +210,9 @@ class Base:
             print(e)
             self.__session.rollback()
             self.__session.flush()
+            return None
         else:
+            self.__session = config.db.session.query(self.__model)
             self.current = record
             if to_dict:
                 if exclude is not None:
@@ -218,6 +226,8 @@ class Base:
     ) -> Dict:
         if data is not None:
             self.current = data
+        if self.current is None:
+            return {}
         if exclude is not None:
             return self.__schema(exclude=exclude).dump(self.current)
         return self.__schema().dump(self.current)
@@ -227,6 +237,8 @@ class Base:
     ) -> List:
         if data is not None:
             self.current = data
+        if self.current is None:
+            return []
         if exclude is not None:
             return self.__schema(exclude=exclude, many=True).dump(self.current)
         return self.__schema(many=True).dump(self.current)
