@@ -2,6 +2,7 @@ from json import load
 from typing import Dict, List, Optional, Type
 
 from flask import jsonify
+from flask import send_file as response_with_file
 
 from .. import config
 
@@ -161,3 +162,26 @@ class Responses:
             )
 
         return make_response(content, data, status_code, headers, cookies)
+
+    def send_file(
+        self,
+        filename: str,
+        mimetype: str = "application/pdf",
+        path: Optional[str] = None,
+    ):
+        """
+        Send a file as response
+        Args:
+            filename (str): name of the file to send
+            mimetype (str, optional): mimetype of the file. Defaults to "application/pdf".
+            path (str, optional): path of the file. Defaults to None.
+        """
+        if path is None:
+            path = config.PATHS.tmp
+        file = f"{config.PATHS.tmp}/{filename}"
+        return response_with_file(
+            file,
+            mimetype=mimetype,
+            as_attachment=True,
+            download_name=filename,
+        )
