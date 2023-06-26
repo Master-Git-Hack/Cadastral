@@ -22,6 +22,8 @@ from . import Base
 
 __db = config.db
 
+float8 = Float(precision=8)
+
 
 class Model(__db.Model):
     __tablename__ = "dataset"
@@ -397,9 +399,6 @@ class Model(__db.Model):
         kwargs |= {"metadata_xml": metadata_xml}
         for key, value in kwargs.items():
             setattr(self, key, value)
-
-
-__db.create_all()
 
 
 class Catastral(Base):

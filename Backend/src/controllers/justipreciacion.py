@@ -1,6 +1,24 @@
+from functools import wraps
+
 from ..models.homologacion import Homologacion
 from ..models.justipreciacion import Justipreciacion
 from ..utils.response import Responses
+
+
+def get_justipreciacion(method):
+    @wraps(method)
+    def wrapper(*args, **kwargs):
+        response: Responses = Responses()
+        justipreciacion = kwargs.get("justipreciacion")
+        if justipreciacion is None:
+            justipreciacion = response.error(
+                message="No se proporciono el id de justipreciacion"
+            )
+        justipreciacion = get(id=justipreciacion)
+        kwargs |= {"justipreciacion": justipreciacion}
+        return method(*args, **kwargs)
+
+    return wrapper
 
 
 def get(**kwargs) -> Justipreciacion.get:

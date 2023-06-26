@@ -1,11 +1,11 @@
 from typing import Any, Dict, List, Optional, Tuple
 
-from .. import config
+from .. import config, db, ma
 
-schema = config.ma.SQLAlchemyAutoSchema
+schema = ma.SQLAlchemyAutoSchema
 
 
-def schema(
+def create_schema(
     model: object,
     schema_args: Optional[List[Tuple[str, Any]]] = None,
     **meta_kwargs: Optional[Dict[str, Any]],
@@ -44,6 +44,8 @@ def schema(
     Schema.Meta.load_instance = True
     Schema.Meta.include_fk = True
     for key, value in meta_kwargs.items():
+        if "model" in meta_kwargs:
+            continue
         setattr(Schema.Meta, key, value)
 
     return Schema
@@ -57,8 +59,8 @@ class Base:
 
     def __init__(self, model) -> None:
         self.__model = model
-        self.__schema = schema(self.__model)
-        self.__session = config.db.session.query(self.__model)
+        self.__schema = create_schema(model=self.__model)
+        self.__session = db.session
 
     def __enter__(self):
         if self.__model is None:
@@ -90,7 +92,9 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__session.get(id)
+
+        self.current = self.__model.query.get(id)
+        print(self.current)
         if to_dict:
             if exclude is not None:
                 return self.__schema(exclude=exclude).dump(self.current)
@@ -108,7 +112,7 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__session.filter_by(**kwargs).first()
+        self.current = self.__model.query.filter_by(**kwargs).first()
         if to_dict:
             if exclude is not None:
                 return self.__schema(exclude=exclude).dump(self.current)
@@ -126,7 +130,7 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__session.filter_by(**kwargs).all()
+        self.current = self.__model.query.filter_by(**kwargs).all()
         if to_list:
             if exclude is not None:
                 return self.__schema(exclude=exclude, many=True).dump(self.current)
@@ -144,7 +148,7 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__session.all()
+        self.current = self.__model.query.all()
         if to_list:
             if exclude is not None:
                 return self.__schema(exclude=exclude, many=True).dump(self.current)
@@ -163,9 +167,7 @@ class Base:
             object: The record
         """
         record = self.__model(**kwargs)
-        self.__session = config.db.session
         try:
-            self.__session = config.db.session
             self.__session.add(record)
             self.__session.commit()
         except Exception as e:
@@ -174,7 +176,6 @@ class Base:
             self.__session.flush()
             return None
         else:
-            self.__session = config.db.session.query(self.__model)
             self.current = record
             if to_dict:
                 if exclude is not None:
@@ -198,10 +199,9 @@ class Base:
         Returns:
             object: The record
         """
-        record = self.__session.query(self.__model).get(id)
+        record = self.__model.query.get(id)
         for key, value in kwargs.items():
             setattr(record, key, value)
-        self.__session = config.db.session
         try:
             self.__session.merge(record)
             self.__session.commit()
@@ -212,7 +212,6 @@ class Base:
             self.__session.flush()
             return None
         else:
-            self.__session = config.db.session.query(self.__model)
             self.current = record
             if to_dict:
                 if exclude is not None:
@@ -242,3 +241,27 @@ class Base:
         if exclude is not None:
             return self.__schema(exclude=exclude, many=True).dump(self.current)
         return self.__schema(many=True).dump(self.current)
+
+
+from .catastral import Catastral
+from .costos_construccion import CostosConstruccion
+
+# from .dataset import Dataset
+from .departamento_solicitante import DepartamentosSolicitantes
+from .homologacion import Homologacion
+from .indicadores_municipales import IndicadoresMunicipales
+from .justipreciacion import Justipreciacion
+from .municipios import Municipios
+from .obras_complementarias import ObrasComplementarias
+
+
+class Modelos(object):
+    Catastral = Catastral
+    CostosConstruccion = CostosConstruccion
+    # Dataset = Dataset
+    DepartamentosSolicitantes = DepartamentosSolicitantes
+    Homologacion = Homologacion
+    IndicadoresMunicipales = IndicadoresMunicipales
+    Justipreciacion = Justipreciacion
+    Municipios = Municipios
+    ObrasComplementarias = ObrasComplementarias

@@ -1,4 +1,6 @@
 """File to work with temporary files"""
+from os import listdir, remove
+from os.path import isfile, join
 from tempfile import NamedTemporaryFile
 from typing import Optional
 
@@ -28,3 +30,15 @@ def name_it(
     ) as temp:
         return f"{temp.name}.{extension}"
     #
+
+
+def delete_files(path: Optional[str] = None):
+    if path is None or path == "":
+        path = config.PATHS.tmp
+    for filename in listdir(path):
+        file_path = join(path, filename)
+        try:
+            if isfile(file_path):
+                remove(file_path)
+        except Exception as e:
+            print(e)

@@ -1,6 +1,8 @@
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Blueprint
 
 from .. import config
+from ..utils.tmp import delete_files
 
 __static = config.PATHS.static
 api: Blueprint = Blueprint("api", __name__, url_prefix=config.API_URL_PREFIX)
@@ -20,3 +22,10 @@ api.register_blueprint(__im_api)
 api.register_blueprint(__j_api)
 api.register_blueprint(__oc_api)
 api.register_blueprint(__rc_api)
+
+
+@api.before_app_request
+def start_schedule():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(delete_files, "cron", hour=8)  # Programa la tarea para las 8 am
+    scheduler.start()

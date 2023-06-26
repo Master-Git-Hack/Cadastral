@@ -1,0 +1,155 @@
+{
+    "costos_construccion": {
+        "get_costos_construccion": {
+            "tags": [
+                "Costos de Construcción"
+            ],
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Respuesta exitosa",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "titulo": {
+                                "type": "string"
+                            },
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "costoDirecto": {
+                                            "type": "number"
+                                        },
+                                        "indirectos": {
+                                            "type": "number"
+                                        },
+                                        "valorNeto": {
+                                            "type": "number"
+                                        },
+                                        "m2": {
+                                            "type": "number"
+                                        },
+                                        "total": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            },
+                            "factorGTO": {
+                                "type": "object",
+                                "properties": {
+                                    "enabled": {
+                                        "type": "boolean"
+                                    },
+                                    "value": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "total": {
+                                "type": "number"
+                            },
+                            "record": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "register": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "redondeo": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "No encontrado",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "status_code": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "homologacion": {},
+    "indicadores_municipales": {},
+    "justipreciacion": {
+        "get_justipreciacion": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Respuesta exitosa",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object",
+                                "properties": {}
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Solicitud inválida",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Registro no encontrado",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "obras_complementarias": {},
+    "reportes_catastrales": {}
+}

@@ -1,17 +1,34 @@
+from flasgger.utils import swag_from
 from flask import Blueprint, request
 
+from .. import config
+from ..controllers.justipreciacion import (
+    get,
+    get_registro,
+    get_valor_especifico,
+    patch_by_costos_construccion,
+    patch_by_homologacion,
+    patch_by_obras_complementarias,
+)
 from ..utils.response import Responses
 
 justipreciacion_api: Blueprint = Blueprint(
     "Justipreciacion", __name__, url_prefix="/justipreciacion"
 )
 
+__swagger: dict = config.API_MODELS.get("justipreciacion", {})
+
 
 @justipreciacion_api.get("/<int:justipreciacion>")
+@swag_from({**__swagger.get("get_justipreciacion", {})})
 def get_justipreciacion(justipreciacion: int, response: Responses = Responses()):
     if justipreciacion is None:
-        return response.error()
-    return response.success()
+        return response.error(message="No se proporciono un ID")
+    data = get(id=justipreciacion, to_dict=True)
+
+    if data is None:
+        return response.error(message="No se encontro el registro", status_code=404)
+    return response.success(data=data)
 
 
 @justipreciacion_api.get("/<int:justipreciacion>/<string:key>")

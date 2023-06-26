@@ -1,3 +1,4 @@
+from json import load
 from os import environ
 from os.path import abspath, dirname, join
 from typing import Optional
@@ -8,6 +9,7 @@ from flask_marshmallow import Marshmallow
 
 # from flask_mongoengine import MongoEngine
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
 
@@ -26,6 +28,7 @@ class __Base(object):
     SECRET_KEY: str = environ.get("SECRET_KEY")
     API_VERSION: str = environ.get("API_VERSION", "1.0.0")
     API_URL_PREFIX: str = f"/api/v{API_VERSION[0]}"
+    API_MODELS: dict = {}
     JSON_AS_ASCII = False
     CORS: str = environ.get("CORS", "*")
     CORS_ORIGIN: str = environ.get("CORS_ORIGIN", "*")
@@ -97,7 +100,15 @@ def __get_config(env: Optional[str] = None) -> __Base:
         "testing": __Testing,
         "development": __Development,
     }
-    return envs[env.lower()]
+    current = envs[env.lower()]
+    try:
+        with open(
+            f"{current.PATHS.static}/swagger.json", "r", encoding="utf-8"
+        ) as file:
+            current.API_MODELS = load(file)
+    except FileNotFoundError:
+        current.API_MODELS = {}
+    return current
 
 
 current_env = __get_config()

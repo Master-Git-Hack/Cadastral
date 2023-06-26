@@ -2,15 +2,15 @@ from os.path import exists
 from typing import List, Optional, Set
 
 from jinja2 import Template
-from reportlab.lib.pagesizes import A4, letters
+from reportlab.lib.pagesizes import A4, letter
 from reportlab.pdfgen import canvas
 
 from .. import config
 from ..models.catastral import Catastral
-from ..models.departamento_solicitante import DepartamentoSolicitante
+from ..models.departamento_solicitante import DepartamentosSolicitantes
 from ..models.municipios import Municipios
 from ..utils.local import as_complete_date, as_currency, as_percentage, with_decimals
-from ..utils.pdf import PDF
+from ..utils.pdf import PDFMaker as PDF
 from ..utils.tmp import name_it as tmp_filename
 
 __session = config.db.session
@@ -312,7 +312,7 @@ def get(data: dict) -> list:
     )
     catastral = Catastral()
     municipio = Municipios()
-    departamento = DepartamentoSolicitante()
+    departamento = DepartamentosSolicitantes()
     payload: List[dict] = []
     for reporte in reportes:
         if reporte.get("id") is None:

@@ -27,9 +27,6 @@ class Model(__db.Model):
             setattr(self, key, value)
 
 
-__db.create_all()
-
-
 class ObrasComplementarias(Base):
     def __init__(self) -> None:
         super().__init__(Model)

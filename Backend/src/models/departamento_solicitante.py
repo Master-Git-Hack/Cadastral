@@ -1,6 +1,6 @@
 from typing import Any, Dict
 
-from sqlalchemy import Column, Integer, String, text
+from sqlalchemy import Column, Integer, String
 
 from .. import config
 from . import Base
@@ -19,7 +19,6 @@ class Model(__db.Model):
     id = Column(
         Integer,
         primary_key=True,
-        server_default=text("nextval('dep_solicitante_id_seq'::regclass)"),
     )
     descripcion = Column(String)
     nombre_corto = Column(String)
@@ -28,9 +27,6 @@ class Model(__db.Model):
     def __init__(self, **kwargs: Dict[str, Any]) -> None:
         for key, value in kwargs.items():
             setattr(self, key, value)
-
-
-__db.create_all()
 
 
 class DepartamentosSolicitantes(Base):

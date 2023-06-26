@@ -1,51 +1,60 @@
+from flasgger import swag_from
 from flask import Blueprint, request
 
 from .. import config
+from ..controllers.costos_construccion import *
+from ..controllers.justipreciacion import get_justipreciacion
 from ..utils.response import Responses
 
 costos_construccion_api: Blueprint = Blueprint(
     "Costos Construccion", __name__, url_prefix="/costos-construccion"
 )
 
+__swagger: dict = config.API_MODELS.get("costos_construccion", {})
+
 
 @costos_construccion_api.get("/<int:justipreciacion>")
+@swag_from(__swagger.get("get_costos_construccion", {}))
+@get_justipreciacion
 def get_costos_construccion(
     justipreciacion: int, response: Responses = Responses()
 ) -> Responses:
-    # @in Location of the parameter (query, path, body, header, formData).
-    """Return a record of costos construccion by justipreciacion id
-    ---
-    tags:
-        - Costos Construccion
-    parameters:
-      - name: justipreciacion
-        in: path
-        type: string
-        required: true
-    definitions:
-        CostosConstruccion:
-            type: object
-        Response:
-            type: object
-    responses:
-        200:
-            description: A record by xx parameter of justipreciacion
-            schema:
-                $ref: '#/definitions/CostosConstruccion'
-            examples:
-                application/json: {'data':{},'message':'success'}
-        404:
-            description: Not found
-            schema:
-            $ref: '#/definitions/Response'
-            examples:
-                application/json: { 'message': 'Not found'}
-
-
-    """
+    if isinstance(justipreciacion, Responses):
+        return justipreciacion
     if justipreciacion is None:
-        return response.error()
-    return response.success()
+        return response.error(
+            message="No existe el registro de justipreciacion a consulta para la operacion de Costos de Construccion",
+            status_code=404,
+        )
+    c_c = CostosConstruccion()
+    if c_c.filter(registro=justipreciacion.current.registro) is None:
+        return response.error(
+            message="No existe el registro actual de Costos de Construccion",
+            status_code=404,
+        )
+    enabled = c_c.current.factor_gto
+    return response.success(
+        data={
+            "titulo": c_c.current.descripcion,
+            "data": [
+                {
+                    "costoDirecto": c_c.current.costo_directo,
+                    "indirectos": c_c.current.indirectos,
+                    "valorNeto": c_c.current.valor_resultante,
+                    "m2": c_c.current.m2,
+                    "total": 0,
+                }
+            ],
+            "factorGTO": {"enabled": enabled, "value": 0.935 if enabled else 1},
+            "total": c_c.current.total,
+            "record": {
+                "id": c_c.current.id,
+                "register": c_c.current.registro,
+                "status": "exists",
+            },
+            "redondeo": c_c.current.redondeo,
+        }
+    )
 
 
 @costos_construccion_api.post("/<int:justipreciacion>")
@@ -53,40 +62,10 @@ def post_costos_construccion(
     justipreciacion: int,
     response: Responses = Responses(),
 ) -> Responses:
-    """Inserta a new record of costos construccion by justipreciacion id
-    ---
-    tags:
-        - Costos Construccion
-    parameters:
-      - name: data
-        in: body
-        type: object
-        required: true
-    definitions:
-        CostosConstruccion:
-            type: object
-        Response:
-            type: object
-    responses:
-        200:
-            description: A record by xx parameter of justipreciacion
-            schema:
-                $ref: '#/definitions/CostosConstruccion'
-            examples:
-                application/json: {'data':{},'message':'success'}
-        404:
-            description: Not found
-            schema:
-            $ref: '#/definitions/Response'
-            examples:
-                application/json: { 'message': 'Not found'}
-
-
-    """
     if justipreciacion is None:
         return response.error()
     data: request = request.json
-    return response.success()
+    return post(data)
 
 
 @costos_construccion_api.patch("/<int:justipreciacion>")
@@ -94,40 +73,10 @@ def patch_costos_construccion(
     justipreciacion: int,
     response: Responses = Responses(),
 ) -> Responses:
-    """Patch a record of costos construccion by justipreciacion id
-    ---
-    tags:
-        - Costos Construccion
-    parameters:
-       - name: data
-         in: body
-         type: object
-         required: true
-    definitions:
-        CostosConstruccion:
-            type: object
-        Response:
-            type: object
-    responses:
-        200:
-            description: A record by xx parameter of justipreciacion
-            schema:
-                $ref: '#/definitions/CostosConstruccion'
-            examples:
-                application/json: {'data':{},'message':'success'}
-        404:
-            description: Not found
-            schema:
-            $ref: '#/definitions/Response'
-            examples:
-                application/json: { 'message': 'Not found'}
-
-
-    """
     if justipreciacion is None:
         return response.error()
     data: request = request.json
-    return response.success()
+    return patch(data)
 
 
 @costos_construccion_api.patch("/justipreciacion/<int:justipreciacion>")
@@ -135,12 +84,6 @@ def path_justipreciacion(
     justipreciacion: int,
     response: Responses = Responses(),
 ):
-    """
-    Creates a patch CostosConstruccion
-    Returns:
-        response (dict): response to the request
-        status_code (int): status code of the response
-    """
     if justipreciacion is None:
         return response.error()
     data: request = request.json

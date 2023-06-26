@@ -1,3 +1,4 @@
+APScheduler==3.10.1
 Babel==2.12.1
 dateparser==1.1.8
 deepmerge==1.1.0

@@ -8,7 +8,7 @@ from . import Base
 __db = config.db
 
 
-class Model(__db.model):
+class Model(__db.Model):
     __tablename__ = "calculo_valor_unitario_construccion"
 
     id = Column(Integer, primary_key=True)
@@ -27,9 +27,6 @@ class Model(__db.model):
     def __init__(self, **kwargs: Dict[str, Any]) -> None:
         for key, value in kwargs.items():
             setattr(self, key, value)
-
-
-__db.create_all()
 
 
 class CostosConstruccion(Base):

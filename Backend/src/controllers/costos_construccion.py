@@ -6,77 +6,77 @@ from .justipreciacion import get as get_justipreciacion
 def get(id: int) -> Responses:
     response = Responses()
     justipreciacion = get_justipreciacion(id=id)
-    cc = CostosConstruccion()
+    c_c = CostosConstruccion()
     if justipreciacion is None:
         return response.error(
-            message="No existe el registro de justipreciacion a consulta para la operacion de Costos de Construccion",
+            message="No existe el registro de justipreciacion a consulta para la operacion de Costos de Construc_cion",
             status_code=404,
         )
-    if cc.filter(registro=justipreciacion.current.registro) is None:
+    if c_c.filter(registro=justipreciacion.current.registro) is None:
         return response.error(
-            message="No existe el registro actual de Costos de Construccion",
+            message="No existe el registro actual de Costos de Construc_cion",
             status_code=404,
         )
-    enabled = cc.current.factor_gto
+    enabled = c_c.current.factor_gto
     return response.success(
         data={
-            "titulo": cc.current.descripcion,
+            "titulo": c_c.current.descripcion,
             "data": [
                 {
-                    "costoDirecto": cc.current.costo_directo,
-                    "indirectos": cc.current.indirectos,
-                    "valorNeto": cc.current.valor_resultante,
-                    "m2": cc.current.m2,
+                    "costoDirecto": c_c.current.costo_directo,
+                    "indirectos": c_c.current.indirectos,
+                    "valorNeto": c_c.current.valor_resultante,
+                    "m2": c_c.current.m2,
                     "total": 0,
                 }
             ],
             "factorGTO": {"enabled": enabled, "value": 0.935 if enabled else 1},
-            "total": cc.current.total,
+            "total": c_c.current.total,
             "record": {
-                "id": cc.current.id,
-                "register": cc.current.registro,
+                "id": c_c.current.id,
+                "register": c_c.current.registro,
                 "status": "exists",
             },
-            "redondeo": cc.current.redondeo,
+            "redondeo": c_c.current.redondeo,
         }
     )
 
 
 def post(data: dict) -> Responses:
     response = Responses()
-    cc = CostosConstruccion()
+    c_c = CostosConstruccion()
     registro = data.get("registro")
     tipo_servicio = data.get("tipo_servicio")
     if (registro is not None and tipo_servicio is not None) and (
-        cc.filter(registro=registro, tipo_servicio=tipo_servicio) is not None
+        c_c.filter(registro=registro, tipo_servicio=tipo_servicio) is not None
     ):
         return response.error(
-            message=f"Existe ya un registro o no se proporcionaron los parametros adecuados( {registro=} y {tipo_servicio=} ) de Costos de Construccion, verifique su informacion.",
+            message=f"Existe ya un registro o no se proporcionaron los parametros adecuados( {registro=} y {tipo_servicio=} ) de Costos de Construc_cion, verifique su informacion.",
             status_code=409,
         )
-    if cc.create(**data) is None:
+    if c_c.create(**data) is None:
         return response.error(
-            message="No se pudo crear el registro de Costos de Construccion, verifique su informacion.",
+            message="No se pudo crear el registro de Costos de Construc_cion, verifique su informacion.",
             status_code=422,
         )
-    return response.success(data=cc.to_dict())
+    return response.success(data=c_c.to_dict())
 
 
 def patch(data: dict) -> Responses:
     response = Responses()
-    cc = CostosConstruccion()
+    c_c = CostosConstruccion()
     registro = data.get("registro")
     tipo_servicio = data.get("tipo_servicio")
     if (registro is not None and tipo_servicio is not None) and (
-        cc.filter(registro=registro, tipo_servicio=tipo_servicio) is None
+        c_c.filter(registro=registro, tipo_servicio=tipo_servicio) is None
     ):
         return response.error(
-            message=f"No existe un registro o no se proporcionaron los parametros adecuados( {registro=} y {tipo_servicio=} ) de Costos de Construccion, verifique su informacion.",
+            message=f"No existe un registro o no se proporcionaron los parametros adecuados( {registro=} y {tipo_servicio=} ) de Costos de Construc_cion, verifique su informacion.",
             status_code=404,
         )
-    if cc.update(**data) is None:
+    if c_c.update(**data) is None:
         return response.error(
-            message="No se pudo actualizar el registro de Costos de Construccion, verifique su informacion.",
+            message="No se pudo actualizar el registro de Costos de Construc_cion, verifique su informacion.",
             status_code=422,
         )
-    return response.success(data=cc.to_dict())
+    return response.success(data=c_c.to_dict())
