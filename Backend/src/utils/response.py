@@ -1,52 +1,11 @@
 from json import load
-from typing import Dict, List, Optional, Type
+from os.path import exists
+from typing import Dict, List, Optional
 
 from flask import jsonify
 from flask import send_file as response_with_file
 
 from .. import config
-
-
-def make_response(
-    content: Optional[Dict] = None,
-    data: Optional[Dict or List] = None,
-    status_code: int = 200,
-    headers: Optional[Dict] = None,
-    cookies: Optional[Dict] = None,
-) -> jsonify:
-    """
-    Returns a response
-
-    Args:
-    content (dict, optional): all the data to send. Defaults to None.
-    data (dict, optional): data inside of content to send. Defaults to None.
-    status__code (int, optional): Status code. Defaults to 200.
-    headers (dict, optional): Headers. Defaults to None.
-    cookies (dict, optional): Cookies. Defaults to None.
-
-    Returns:
-    jsonify: Response
-    status__code: int
-    headers:Dict[str,Any]
-    """
-    if data is None:
-        data: dict = dict()
-    if content is None:
-        content: dict = dict()
-    if "data" not in content:
-        content["data"] = data
-
-    response = jsonify(content)
-    response.status_code = status_code
-    if headers:
-        response.headers |= {key: value for key, value in headers.items()}
-        # for key, value in headers.items():
-        #     response.headers[key] = value
-    if cookies:
-        for key, value in cookies.items():
-            response.set__cookie(key, value)
-
-    return response
 
 
 class Responses:
@@ -72,6 +31,45 @@ class Responses:
             self.__success_messages = {}
             self.__errors_messages = {}
 
+    def __make_response(
+        self,
+        content: Optional[Dict] = None,
+        data: Optional[Dict or List] = None,
+        status_code: int = 200,
+        headers: Optional[Dict] = None,
+        cookies: Optional[Dict] = None,
+    ) -> jsonify:
+        """
+        Returns a response
+
+        Args:
+        content (dict, optional): all the data to send. Defaults to None.
+        data (dict, optional): data inside of content to send. Defaults to None.
+        status_code (int, optional): Status code. Defaults to 200.
+        headers (dict, optional): Headers. Defaults to None.
+        cookies (dict, optional): Cookies. Defaults to None.
+
+        Returns:
+        jsonify: Response
+        status__code: int
+        headers:Dict[str,Any]
+        """
+        if data is None:
+            data: dict = dict()
+        if content is None:
+            content: dict = dict()
+        if "data" not in content:
+            content["data"] = data
+
+        response = jsonify(content)
+        response.status_code = status_code
+        if headers:
+            response.headers |= {key: value for key, value in headers.items()}
+        if cookies:
+            for key, value in cookies.items():
+                response.set_cookie(key, value, secure=True)
+        return response
+
     def success(
         self,
         content: Optional[Dict] = None,
@@ -81,7 +79,7 @@ class Responses:
         status_code: Optional[int] = 200,
         success_message: Optional[str] = None,
         cookies: Optional[Dict] = None,
-    ) -> make_response:
+    ) -> __make_response:
         """
         A method that returns a success response object.
 
@@ -113,7 +111,7 @@ class Responses:
                 success_message, "Operation Successfully Completed!"
             )
 
-        return make_response(content, data, status_code, headers, cookies)
+        return self.__make_response(content, data, status_code, headers, cookies)
 
     def error(
         self,
@@ -124,7 +122,7 @@ class Responses:
         status_code: Optional[int] = 400,
         error_message: Optional[str] = None,
         cookies: Optional[Dict] = None,
-    ) -> make_response:
+    ) -> __make_response:
         """
         A method that returns an error response object.
 
@@ -161,7 +159,7 @@ class Responses:
                 error_message, "Operation Unexpectedly Failed!"
             )
 
-        return make_response(content, data, status_code, headers, cookies)
+        return self.__make_response(content, data, status_code, headers, cookies)
 
     def send_file(
         self,
@@ -178,9 +176,14 @@ class Responses:
         """
         if path is None:
             path = config.PATHS.tmp
-        file = f"{config.PATHS.tmp}/{filename}"
+        __file = f"{path}/{filename}"
+        if not exists(__file):
+            return self.error(
+                message="No se pudo generar el reporte",
+                status_code=409,
+            )
         return response_with_file(
-            file,
+            __file,
             mimetype=mimetype,
             as_attachment=True,
             download_name=filename,
