@@ -94,7 +94,6 @@ class Base:
         """
 
         self.current = self.__model.query.get(id)
-        print(self.current)
         if to_dict:
             if exclude is not None:
                 return self.__schema(exclude=exclude).dump(self.current)

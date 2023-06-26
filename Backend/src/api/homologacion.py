@@ -1,19 +1,24 @@
+from flasgger.utils import swag_from
 from flask import Blueprint, request
 
+from .. import config
+from ..controllers.homologacion import get
 from ..utils.response import Responses
 
+__swagger: dict = config.API_MODELS.get("homologacion", {})
 homologacion_api: Blueprint = Blueprint(
     "Homologacion de Terreno y de Renta", __name__, url_prefix="/homologacion"
 )
 
 
 @homologacion_api.get("/<string:tipo>/<int:justipreciacion>")
+@swag_from(__swagger.get("get_homologacion", {}))
 def get_homologacion(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ) -> Responses:
     if justipreciacion is None:
         return response.error()
-    return response.success()
+    return get(justipreciacion, tipo.upper())
 
 
 @homologacion_api.post("/<string:tipo>/<int:justipreciacion>")

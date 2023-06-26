@@ -26,7 +26,7 @@ def get_justipreciacion(justipreciacion: int, response: Responses = Responses())
         return response.error(message="No se proporciono un ID")
     data = get(id=justipreciacion, to_dict=True)
 
-    if data is None:
+    if data is None or not data:
         return response.error(message="No se encontro el registro", status_code=404)
     return response.success(data=data)
 

@@ -96,7 +96,76 @@
             }
         }
     },
-    "homologacion": {},
+    "homologacion": {
+        "get_homologacion": {
+            "tags": [
+                "Homologación"
+            ],
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "tipo de homologación: ['TERRENO','RENTA']"
+                },
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Success",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "factors": {
+                                "type": "string",
+                                "description": "The factors"
+                            },
+                            "documentation": {
+                                "type": "string",
+                                "description": "The documentation"
+                            },
+                            "record": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "description": "The record ID"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The record type"
+                                    },
+                                    "appraisalPurpose": {
+                                        "type": "string",
+                                        "description": "The appraisal purpose"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "The status"
+                                    }
+                                },
+                                "description": "The record information"
+                            }
+                        },
+                        "description": "The response data"
+                    }
+                },
+                "404": {
+                    "description": "Not Found",
+                    "schema": {
+                        "$ref": "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    },
     "indicadores_municipales": {},
     "justipreciacion": {
         "get_justipreciacion": {
