@@ -58,6 +58,7 @@ def get_costos_construccion(
 
 
 @costos_construccion_api.post("/<int:justipreciacion>")
+@swag_from(__swagger.get("post_costos_construccion", {}))
 def post_costos_construccion(
     justipreciacion: int,
     response: Responses = Responses(),
@@ -69,6 +70,7 @@ def post_costos_construccion(
 
 
 @costos_construccion_api.patch("/<int:justipreciacion>")
+@swag_from(__swagger.get("patch_costos_construccion", {}))
 def patch_costos_construccion(
     justipreciacion: int,
     response: Responses = Responses(),
@@ -80,6 +82,7 @@ def patch_costos_construccion(
 
 
 @costos_construccion_api.patch("/justipreciacion/<int:justipreciacion>")
+@swag_from(__swagger.get("path_justipreciacion", {}))
 def path_justipreciacion(
     justipreciacion: int,
     response: Responses = Responses(),

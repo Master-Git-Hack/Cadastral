@@ -20,7 +20,7 @@ __swagger: dict = config.API_MODELS.get("justipreciacion", {})
 
 
 @justipreciacion_api.get("/<int:justipreciacion>")
-@swag_from({**__swagger.get("get_justipreciacion", {})})
+@swag_from(__swagger.get("get_justipreciacion", {}))
 def get_justipreciacion(justipreciacion: int, response: Responses = Responses()):
     if justipreciacion is None:
         return response.error(message="No se proporciono un ID")
@@ -32,6 +32,7 @@ def get_justipreciacion(justipreciacion: int, response: Responses = Responses())
 
 
 @justipreciacion_api.get("/<int:justipreciacion>/<string:key>")
+@swag_from(__swagger.get("get_justipreciacion_key", {}))
 def get_justipreciacion_key(justipreciacion: int, response: Responses = Responses()):
     if justipreciacion is None:
         return response.error()
@@ -39,6 +40,7 @@ def get_justipreciacion_key(justipreciacion: int, response: Responses = Response
 
 
 @justipreciacion_api.get("/<int:justipreciacion>/homologacion/<string:tipo>")
+@swag_from(__swagger.get("get_justipreciacion_homologacion", {}))
 def get_justipreciacion_homologacion(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ):
@@ -48,6 +50,7 @@ def get_justipreciacion_homologacion(
 
 
 @justipreciacion_api.patch("/<int:justipreciacion>/homologacion/<string:tipo>")
+@swag_from(__swagger.get("patch_justipreciacion_homologacion", {}))
 def patch_justipreciacion_homologacion(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ):
@@ -58,6 +61,7 @@ def patch_justipreciacion_homologacion(
 
 
 @justipreciacion_api.get("/<int:justipreciacion>/obras-complementarias")
+@swag_from(__swagger.get("get_justipreciacion_obras_complementarias", {}))
 def get_justipreciacion_obras_complementarias(
     justipreciacion: int, response: Responses = Responses()
 ):
@@ -67,6 +71,7 @@ def get_justipreciacion_obras_complementarias(
 
 
 @justipreciacion_api.patch("/<int:justipreciacion>/obras-complementarias")
+@swag_from(__swagger.get("patch_justipreciacion_obras_complementarias", {}))
 def patch_justipreciacion_obras_complementarias(
     justipreciacion: int, response: Responses = Responses()
 ):

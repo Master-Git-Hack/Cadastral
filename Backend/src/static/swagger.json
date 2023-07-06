@@ -6,7 +6,7 @@
             ],
             "parameters": [
                 {
-                    "name": "justipreciacion",
+                    "name": "Justipreciación",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -94,12 +94,81 @@
                     }
                 }
             }
+        },
+        "post_costos_construccion": {
+            "tags": [
+                "Costos de Construcción"
+            ],
+            "description": "Crea los costos de construcción para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_costos_construccion": {
+            "tags": [
+                "Costos de Construcción"
+            ],
+            "description": "Actualiza los costos de construcción para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "path_justipreciacion": {
+            "tags": [
+                "Costos de Construcción"
+            ],
+            "description": "Actualiza la justipreciación para los costos de construcción.",
+            "parameters": [
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
         }
     },
     "homologacion": {
         "get_homologacion": {
             "tags": [
-                "Homologación"
+                "Homologacion de Terreno y de Renta"
             ],
             "parameters": [
                 {
@@ -110,7 +179,7 @@
                     "description": "tipo de homologación: ['TERRENO','RENTA']"
                 },
                 {
-                    "name": "justipreciacion",
+                    "name": "Justipreciación",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -164,17 +233,209 @@
                     }
                 }
             }
+        },
+        "post_homologacion": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Crea la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_homologacion": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Actualiza la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "get_homologacion_justipreciacion": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Obtiene la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "post_homologacion_justipreciacion": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Crea la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_homologacion_justipreciacion": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Actualiza la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "get_homologacion_obras_complementarias": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Obtiene la homologación de obras complementarias para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
         }
     },
-    "indicadores_municipales": {},
-    "justipreciacion": {
+    "indicadores_municipales": {
+        "get_indicadores_municipales": {
+            "tags": [
+                "Indicadores Municipales"
+            ],
+            "description": "Obtiene los indicadores municipales.",
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "Justipreciación": {
         "get_justipreciacion": {
             "tags": [
                 "Justipreciación"
             ],
             "parameters": [
                 {
-                    "name": "justipreciacion",
+                    "name": "Justipreciación",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -217,8 +478,201 @@
                     }
                 }
             }
+        },
+        "get_justipreciacion_key": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Obtiene un valor específico de una justipreciación.",
+            "parameters": [
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                },
+                {
+                    "name": "key",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Clave del valor a obtener."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "get_justipreciacion_homologacion": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Obtiene la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                },
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_justipreciacion_homologacion": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Actualiza la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                },
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "get_justipreciacion_obras_complementarias": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Obtiene las obras complementarias para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_justipreciacion_obras_complementarias": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Actualiza las obras complementarias para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "Justipreciación",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
         }
     },
     "obras_complementarias": {},
-    "reportes_catastrales": {}
+    "reportes_catastrales": {
+        "get": {
+            "tags": [
+                "Reportes Catastrales"
+            ],
+            "description": "Obtiene un archivo PDF de un reporte catastral.",
+            "parameters": [
+                {
+                    "name": "filename",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Nombre del archivo PDF a generar."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK",
+                    "content": {
+                        "application/pdf": {
+                            "schema": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_merged": {
+            "tags": [
+                "Reportes Catastrales"
+            ],
+            "description": "Obtiene un archivo PDF combinado de varios reportes catastrales.",
+            "parameters": [
+                {
+                    "name": "filename",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Nombre del archivo PDF combinado a generar."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK",
+                    "content": {
+                        "application/pdf": {
+                            "schema": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

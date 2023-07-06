@@ -11,7 +11,7 @@ homologacion_api: Blueprint = Blueprint(
 )
 
 
-@homologacion_api.get("/<string:tipo>/<int:justipreciacion>")
+@homologacion_api.get("/<int:justipreciacion>/<string:tipo>")
 @swag_from(__swagger.get("get_homologacion", {}))
 def get_homologacion(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
@@ -21,7 +21,8 @@ def get_homologacion(
     return get(justipreciacion, tipo.upper())
 
 
-@homologacion_api.post("/<string:tipo>/<int:justipreciacion>")
+@homologacion_api.post("/<int:justipreciacion>/<string:tipo>")
+@swag_from(__swagger.get("post_homologacion", {}))
 def post_homologacion(
     justipreciacion: int,
     tipo: str = "terreno",
@@ -32,7 +33,8 @@ def post_homologacion(
     return response.success()
 
 
-@homologacion_api.patch("/<string:tipo>/<int:justipreciacion>")
+@homologacion_api.patch("/<int:justipreciacion>/<string:tipo>")
+@swag_from(__swagger.get("patch_homologacion", {}))
 def patch_homologacion(
     justipreciacion: int,
     tipo: str = "terreno",
@@ -44,7 +46,8 @@ def patch_homologacion(
     return response.success()
 
 
-@homologacion_api.get("/justipreciacion/<string:tipo>/<int:justipreciacion>")
+@homologacion_api.get("/justipreciacion/<int:justipreciacion>/<string:tipo>")
+@swag_from(__swagger.get("get_homologacion_justipreciacion", {}))
 def get_homologacion_justipreciacion(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ) -> Responses:
@@ -53,7 +56,8 @@ def get_homologacion_justipreciacion(
     return response.success()
 
 
-@homologacion_api.post("/justipreciacion/<string:tipo>/<int:justipreciacion>")
+@homologacion_api.post("/justipreciacion/<int:justipreciacion>/<string:tipo>")
+@swag_from(__swagger.get("post_homologacion_justipreciacion", {}))
 def post_homologacion_justipreciacion(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ) -> Responses:
@@ -63,7 +67,8 @@ def post_homologacion_justipreciacion(
     return response.success()
 
 
-@homologacion_api.patch("/justipreciacion/<string:tipo>/<int:justipreciacion>")
+@homologacion_api.patch("/justipreciacion/<int:justipreciacion>/<string:tipo>")
+@swag_from(__swagger.get("patch_homologacion_justipreciacion", {}))
 def patch_homologacion_justipreciacion(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ) -> Responses:
@@ -74,8 +79,9 @@ def patch_homologacion_justipreciacion(
 
 
 @homologacion_api.get(
-    "/obras-complementarias/justipreciacion/<string:tipo>/<int:justipreciacion>"
+    "/obras-complementarias/justipreciacion/<int:justipreciacion>/<string:tipo>"
 )
+@swag_from(__swagger.get("get_homologacion_obras_complementarias", {}))
 def get_homologacion_obras_complementarias(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ) -> Responses:
