@@ -27,7 +27,7 @@ def get_costos_construccion(
             status_code=404,
         )
     c_c = CostosConstruccion()
-    if c_c.filter(registro=justipreciacion.current.registro) is None:
+    if c_c.filter(registro=justipreciacion.registro) is None:
         return response.error(
             message="No existe el registro actual de Costos de Construccion",
             status_code=404,
@@ -82,8 +82,8 @@ def patch_costos_construccion(
 
 
 @costos_construccion_api.patch("/justipreciacion/<int:justipreciacion>")
-@swag_from(__swagger.get("path_justipreciacion", {}))
-def path_justipreciacion(
+@swag_from(__swagger.get("patch_justipreciacion", {}))
+def patch_justipreciacion(
     justipreciacion: int,
     response: Responses = Responses(),
 ):

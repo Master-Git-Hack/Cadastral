@@ -4,6 +4,7 @@ from os.path import abspath, dirname, join
 from typing import Optional
 
 from dotenv import load_dotenv
+from flask_admin import Admin
 from flask_bcrypt import Bcrypt
 from flask_marshmallow import Marshmallow
 
@@ -23,7 +24,7 @@ class __Base(object):
     PORT: str = environ.get("FLASK_RUN_PORT", "5000")
     DEBUG: bool = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    Testing: bool = False
+    TESTING: bool = False
     CSRF_ENABLED: bool = True
     SECRET_KEY: str = environ.get("SECRET_KEY")
     API_VERSION: str = environ.get("API_VERSION", "1.0.0")
@@ -35,6 +36,8 @@ class __Base(object):
     CORS_ALLOW_METHODS: str = environ.get("CORS_ALLOW_METHODS", "*")
     CORS_ALLOW_HEADERS: str = environ.get("CORS_ALLOW_HEADERS", "*")
     CORS_EXPOSE_HEADERS: str = environ.get("CORS_EXPOSE_HEADERS", "*")
+    MAIL_USERNAME = environ.get("MAIL_USERNAME")
+    MAIL_PASSWORD = environ.get("MAIL_PASSWORD")
 
     class PATHS(object):
         """
@@ -84,7 +87,7 @@ class __Testing(__Base):
     Configuración específica para el entorno de pruebas.
     """
 
-    Testing: bool = True
+    TESTING: bool = True
     MONGO_URI: str = environ.get("MONGO_URI_TEST")
     SQLALCHEMY_DATABASE_URI: str = environ.get("PSQL_URI_TEST")
 
@@ -148,3 +151,4 @@ class Config(current_env):
     # no_db: MongoEngine = MongoEngine()
     db: SQLAlchemy = SQLAlchemy()
     ma: Marshmallow = Marshmallow()
+    admin: Admin = Admin(name="Catastro", template_mode="bootstrap4")

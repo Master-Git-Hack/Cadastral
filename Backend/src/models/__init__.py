@@ -1,15 +1,22 @@
 from typing import Any, Dict, List, Optional, Tuple
 
-from .. import config, db, ma
+from flask_admin.contrib.geoa import ModelView
+from marshmallow import ValidationError, post_dump, pre_load
+
+from .. import config, ma
+from ..utils.geom_schema import GeometryField
 
 schema = ma.SQLAlchemyAutoSchema
 
 
 def create_schema(
-    model: object,
+    model,
     schema_args: Optional[List[Tuple[str, Any]]] = None,
     **meta_kwargs: Optional[Dict[str, Any]],
 ) -> object:
+    class Model(model):
+        pass
+
     class Schema(schema):
         """Class for schema.
         Example:
@@ -23,58 +30,108 @@ def create_schema(
             Meta (class): class for schema.
         """
 
-        class Meta:
-            """class to handle the metadata of the schema.
-            Attributes:
-                model (class): The model to use for the schema.
-                load_instance (bool): Whether to load the instance.
-                include_relationships (bool): Whether to include the relationships.
-                include_fk (bool): Whether to include the foreign keys.
-            """
+        __geometry_field_name__ = "geom"  # or geom, or shape, or ....
+        geom = GeometryField()
 
-            pass  # Dejamos Meta vacía por ahora
+        class Meta:
+            model = Model
+            load_instance = True
+            include_relationships = True
+            include_fk = True
+            excludes = "geom"
+
+        def unwrap_feature(self, data):
+            """
+            Unwrap an individual feature object
+            Pull down all the properties field, and then under the geometry
+            field name put in the actual geometry data
+            """
+            if data["type"] != "Feature":
+                raise ValidationError("Expecting a Feature object")
+            flat = data["properties"]
+            flat[self.__geometry_field_name__] = data["geom"]
+            return flat
+
+        @pre_load(pass_many=True)
+        def unwrap_envelope(self, data, many):
+            if "type" not in data:
+                raise ValidationError("GeoJSON type could not be found")
+            if many and data["type"] != "FeatureCollection":
+                raise ValidationError("Expecting a FeatureCollection object")
+
+            if not many:
+                return self.unwrap_feature(data)
+
+            return [self.unwrap_feature(feature) for feature in data["features"]]
+
+        def wrap_feature(self, data):
+            """
+            Wrap the individual feature as a GeoJSON feature object
+            """
+            feature = data
+            if data.get(self.__geometry_field_name__) is not None:
+                feature |= {
+                    "geom": data.pop(self.__geometry_field_name__).get(
+                        "coordinates", [0, 0]
+                    ),
+                }
+
+            return feature
+
+        @post_dump(pass_many=True)
+        def wrap_with_envelope(self, data, many):
+            if not many:
+                return self.wrap_feature(data)
+
+            return {
+                "type": "FeatureCollection",
+                "features": [self.wrap_feature(feature) for feature in data],
+            }
 
     if schema_args is not None:
         for key, value in schema_args:
             setattr(Schema, key, value)
-    # [('key', 'value')]
-    # Asignamos el modelo al atributo model de la clase Meta
-    Schema.Meta.model = model
-    Schema.Meta.include_relationships = True
-    Schema.Meta.load_instance = True
-    Schema.Meta.include_fk = True
+
     for key, value in meta_kwargs.items():
-        if "model" in meta_kwargs:
+        if "model" == key:
             continue
+        if "exclude" == key:
+            value += ["geom"]
+
         setattr(Schema.Meta, key, value)
 
     return Schema
 
 
 class Base:
-    __model: object = None
-    __schema = None
-    __session = None
-    current: Optional[__model] = None
+    model: object = None
+    schema = None
+    current: Optional[object] = None
+    create_schema = create_schema
 
-    def __init__(self, model) -> None:
-        self.__model = model
-        self.__schema = create_schema(model=self.__model)
-        self.__session = db.session
+    def __init__(
+        self, model, schema_args: Optional[List] = [], **schema_kwargs
+    ) -> None:
+        self.model = model
+        self.schema = create_schema(
+            model=self.model, schema_args=schema_args, **schema_kwargs
+        )
+        self.check_attr()
+
+    def check_attr(self):
+        if self.model is None:
+            raise ValueError("Model is not defined")
+        if self.schema is None:
+            self.schema = create_schema(model=self.model)
+        return True
 
     def __enter__(self):
-        if self.__model is None:
-            raise ValueError("Model is not defined")
-        if self.__schema is None:
-            raise ValueError("Schema is not defined")
-        if self.__session is None:
-            raise ValueError("Session is not defined")
-        return self
+        if self.check_attr():
+            return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.__model = None
-        self.__schema = None
-        self.__session = None
+        self.model = None
+        self.schema = None
         self.current = None
 
     def get(
@@ -92,13 +149,10 @@ class Base:
         Returns:
             object: The record
         """
-
-        self.current = self.__model.query.get(id)
-        if to_dict:
-            if exclude is not None:
-                return self.__schema(exclude=exclude).dump(self.current)
-            else:
-                return self.__schema().dump(self.current)
+        self.check_attr()
+        self.current = self.model.query.get(id)
+        if to_dict or exclude is not None and len(exclude) > 0:
+            return self.to_dict(exclude=exclude)
         return self.current
 
     def filter(
@@ -111,12 +165,14 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__model.query.filter_by(**kwargs).first()
-        if to_dict:
-            if exclude is not None:
-                return self.__schema(exclude=exclude).dump(self.current)
-            else:
-                return self.__schema().dump(self.current)
+        self.check_attr()
+        try:
+            self.current = self.model.query.filter_by(**kwargs).one()
+        except Exception as e:
+            print(e)
+            self.current = None
+        if to_dict or exclude is not None and len(exclude) > 0:
+            return self.to_dict(exclude=exclude)
         return self.current
 
     def filter_group(
@@ -129,12 +185,10 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__model.query.filter_by(**kwargs).all()
-        if to_list:
-            if exclude is not None:
-                return self.__schema(exclude=exclude, many=True).dump(self.current)
-            else:
-                return self.__schema(many=True).dump(self.current)
+        self.check_attr()
+        self.current = self.model.query.filter_by(**kwargs).all()
+        if to_list or exclude is not None and len(exclude) > 0:
+            return self.to_list(exclude=exclude)
         return self.current
 
     def all(
@@ -147,12 +201,10 @@ class Base:
         Returns:
             object: The record
         """
-        self.current = self.__model.query.all()
-        if to_list:
-            if exclude is not None:
-                return self.__schema(exclude=exclude, many=True).dump(self.current)
-            else:
-                return self.__schema(many=True).dump(self.current)
+        self.check_attr()
+        self.current = self.model.query.all()
+        if to_list or exclude is not None and len(exclude) > 0:
+            return self.to_list(exclude=exclude)
         return self.current
 
     def create(
@@ -165,27 +217,23 @@ class Base:
         Returns:
             object: The record
         """
-        record = self.__model(**kwargs)
+        self.check_attr()
+        self.current = self.model(**kwargs)
         try:
-            self.__session.add(record)
-            self.__session.commit()
+            self.session.add(self.current)
+            self.session.commit()
         except Exception as e:
             print(e)
-            self.__session.rollback()
-            self.__session.flush()
+            self.session.rollback()
             return None
         else:
-            self.current = record
-            if to_dict:
-                if exclude is not None:
-                    return self.__schema(exclude=exclude).dump(self.current)
-                else:
-                    return self.__schema().dump(self.current)
+            if to_dict or exclude is not None and len(exclude) > 0:
+                return self.to_dict(exclude=exclude)
             return self.current
 
     def update(
         self,
-        id: int,
+        id: Optional[int] = None,
         to_dict: bool = False,
         exclude: Optional[List[str]] = None,
         **kwargs,
@@ -198,48 +246,47 @@ class Base:
         Returns:
             object: The record
         """
-        record = self.__model.query.get(id)
+        self.check_attr()
+        if id is not None:
+            self.current = self.model.query.get(id)
         for key, value in kwargs.items():
-            setattr(record, key, value)
+            setattr(self.current, key, value)
         try:
-            self.__session.merge(record)
-            self.__session.commit()
-            self.__session.refresh(record)
+            self.session.merge(self.current)
+            self.session.commit()
+            self.session.refresh(record)
         except Exception as e:
             print(e)
-            self.__session.rollback()
-            self.__session.flush()
+            self.session.rollback()
             return None
         else:
-            self.current = record
-            if to_dict:
-                if exclude is not None:
-                    return self.__schema(exclude=exclude).dump(self.current)
-                else:
-                    return self.__schema().dump(self.current)
+            if to_dict or exclude is not None and len(exclude) > 0:
+                self.to_dict(exclude=exclude)
             return self.current
 
     def to_dict(
         self, data: Optional[object] = None, exclude: Optional[List[str]] = None
     ) -> Dict:
+        self.check_attr()
         if data is not None:
             self.current = data
         if self.current is None:
             return {}
         if exclude is not None:
-            return self.__schema(exclude=exclude).dump(self.current)
-        return self.__schema().dump(self.current)
+            return self.schema(exclude=exclude).dump(self.current)
+        return self.schema().dump(self.current)
 
     def to_list(
         self, data: Optional[object] = None, exclude: Optional[List[str]] = None
     ) -> List:
+        self.check_attr()
         if data is not None:
             self.current = data
         if self.current is None:
             return []
         if exclude is not None:
-            return self.__schema(exclude=exclude, many=True).dump(self.current)
-        return self.__schema(many=True).dump(self.current)
+            return self.schema(exclude=exclude, many=True).dump(self.current)
+        return self.schema(many=True).dump(self.current)
 
 
 from .catastral import Catastral
@@ -250,6 +297,7 @@ from .departamento_solicitante import DepartamentosSolicitantes
 from .homologacion import Homologacion
 from .indicadores_municipales import IndicadoresMunicipales
 from .justipreciacion import Justipreciacion
+from .logged_actions import LoggedActions
 from .municipios import Municipios
 from .obras_complementarias import ObrasComplementarias
 
@@ -262,5 +310,89 @@ class Modelos(object):
     Homologacion = Homologacion
     IndicadoresMunicipales = IndicadoresMunicipales
     Justipreciacion = Justipreciacion
+    LoggedActions = LoggedActions
     Municipios = Municipios
     ObrasComplementarias = ObrasComplementarias
+
+
+config.admin.add_view(
+    ModelView(
+        Catastral().model,
+        config.db.session,
+        name="Catastral",
+        endpoint="catastral",
+        category="Catastral",
+    )
+)
+config.admin.add_view(
+    ModelView(
+        CostosConstruccion().model,
+        config.db.session,
+        name="Costos Construccion",
+        endpoint="CostosConstruccion",
+        category="Costos Construccion",
+    )
+)
+config.admin.add_view(
+    ModelView(
+        DepartamentosSolicitantes().model,
+        config.db.session,
+        name="Departamentos Solicitantes",
+        endpoint="DepartamentosSolicitantes",
+        category="Departamentos Solicitantes",
+    )
+)
+config.admin.add_view(
+    ModelView(
+        Homologacion().model,
+        config.db.session,
+        name="Homologación de Terrenos y Rentas",
+        endpoint="Homologacion",
+        category="Homologación",
+    )
+)
+config.admin.add_view(
+    ModelView(
+        IndicadoresMunicipales().model,
+        config.db.session,
+        name="Indicadores Municipales",
+        endpoint="IndicadoresMunicipales",
+        category="Indicadores Municipales",
+    )
+)
+config.admin.add_view(
+    ModelView(
+        Justipreciacion().model,
+        config.db.session,
+        name="Justipreciacion",
+        endpoint="justipreciacion",
+        category="Justipreciación",
+    )
+)
+config.admin.add_view(
+    ModelView(
+        LoggedActions().model,
+        config.db.session,
+        name="Logged Actions",
+        endpoint="LoggedActions",
+        category="Registro de Operaciones de Base de Datos",
+    )
+)
+config.admin.add_view(
+    ModelView(
+        Municipios().model,
+        config.db.session,
+        name="Municipios",
+        endpoint="Municipios",
+        category="Municipios",
+    )
+)
+config.admin.add_view(
+    ModelView(
+        ObrasComplementarias().model,
+        config.db.session,
+        name="Obras Complementarias",
+        endpoint="ObrasComplementarias",
+        category="Obras Complementarias",
+    )
+)

@@ -27,18 +27,9 @@ float8 = Float(precision=8)
 
 class Model(__db.Model):
     __tablename__ = "dataset"
-    __table_args__ = (
-        PrimaryKeyConstraint("id", name="dataset_pkey"),
-        UniqueConstraint(
-            "table_name", "schema_name", name="dataset_table_name_schema_name_key"
-        ),
-        UniqueConstraint("uid", name="dataset_uid_key"),
-        Index("dataset_id_idx", "id"),
-        {
-            "comment": "Main table for storing dataset about PostgreSQL vector layers.",
-            "schema": "pgmetadata",
-        },
-    )
+    __table_args__ = {
+        "schema": "pgmetadata",
+    }
 
     id = Column(Integer, comment="Internal automatic integer ID")
     uid = Column(
@@ -410,3 +401,6 @@ class Catastral(Base):
 
     def __exit__(self, exc_type, exc_value, traceback):
         return super().__exit__(exc_type, exc_value, traceback)
+
+
+config.admin.add_view(ModelView(Model, config.db.session, category="Metadata"))

@@ -1,12 +1,13 @@
 {
     "costos_construccion": {
         "get_costos_construccion": {
+            "operationId": "get.costos-construccion/{justipreciacion}",
             "tags": [
                 "Costos de Construcción"
             ],
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -96,13 +97,14 @@
             }
         },
         "post_costos_construccion": {
+            "operationId": "post.costos-construccion/{justipreciacion}",
             "tags": [
                 "Costos de Construcción"
             ],
             "description": "Crea los costos de construcción para una justipreciación específica.",
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -119,13 +121,14 @@
             }
         },
         "patch_costos_construccion": {
+            "operationId": "patch.costos-construccion/{justipreciacion}",
             "tags": [
                 "Costos de Construcción"
             ],
             "description": "Actualiza los costos de construcción para una justipreciación específica.",
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -141,14 +144,15 @@
                 }
             }
         },
-        "path_justipreciacion": {
+        "patch_justipreciacion": {
+            "operationId": "patch.costos-construccion/justipreciacion/{justipreciacion}",
             "tags": [
                 "Costos de Construcción"
             ],
             "description": "Actualiza la justipreciación para los costos de construcción.",
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -165,8 +169,10 @@
             }
         }
     },
+    "dataset": {},
     "homologacion": {
         "get_homologacion": {
+            "operationId": "get.homologacion/{justipreciacion}/{tipo}",
             "tags": [
                 "Homologacion de Terreno y de Renta"
             ],
@@ -179,7 +185,7 @@
                     "description": "tipo de homologación: ['TERRENO','RENTA']"
                 },
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -235,6 +241,7 @@
             }
         },
         "post_homologacion": {
+            "operationId": "post.homologacion/justipreciacion/{justipreciacion}/{tipo}",
             "tags": [
                 "Homologacion de Terreno y de Renta"
             ],
@@ -248,7 +255,7 @@
                     "description": "Tipo de homologación ('terreno' o 'renta')."
                 },
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -265,6 +272,7 @@
             }
         },
         "patch_homologacion": {
+            "operationId": "patch.homologacion/justipreciacion/{justipreciacion}/{tipo}",
             "tags": [
                 "Homologacion de Terreno y de Renta"
             ],
@@ -278,7 +286,7 @@
                     "description": "Tipo de homologación ('terreno' o 'renta')."
                 },
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -308,7 +316,7 @@
                     "description": "Tipo de homologación ('terreno' o 'renta')."
                 },
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -338,7 +346,7 @@
                     "description": "Tipo de homologación ('terreno' o 'renta')."
                 },
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -368,7 +376,7 @@
                     "description": "Tipo de homologación ('terreno' o 'renta')."
                 },
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -398,7 +406,7 @@
                     "description": "Tipo de homologación ('terreno' o 'renta')."
                 },
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -428,14 +436,14 @@
             }
         }
     },
-    "Justipreciación": {
+    "justipreciacion": {
         "get_justipreciacion": {
             "tags": [
                 "Justipreciación"
             ],
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -486,7 +494,7 @@
             "description": "Obtiene un valor específico de una justipreciación.",
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -516,7 +524,7 @@
             "description": "Obtiene la homologación para una justipreciación específica.",
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -546,7 +554,7 @@
             "description": "Actualiza la homologación para una justipreciación específica.",
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -576,7 +584,7 @@
             "description": "Obtiene las obras complementarias para una justipreciación específica.",
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -599,7 +607,7 @@
             "description": "Actualiza las obras complementarias para una justipreciación específica.",
             "parameters": [
                 {
-                    "name": "Justipreciación",
+                    "name": "justipreciacion",
                     "in": "path",
                     "type": "integer",
                     "required": true,
@@ -616,6 +624,106 @@
             }
         }
     },
+    "municipios": {
+        "get_municipios": {
+            "operationId": "get.municipios/",
+            "tags": [
+                "Municipios"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Respuesta exitosa",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nombre": {
+                                            "type": "string"
+                                        },
+                                        "nombre_utf": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "No encontrado",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "status_code": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_municipio": {
+            "operationId": "get.municipio/{nombre}",
+            "tags": [
+                "Municipios"
+            ],
+            "parameters": [
+                {
+                    "name": "nombre",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Nombre del municipio"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Respuesta exitosa",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nombre": {
+                                            "type": "string"
+                                        },
+                                        "nombre_utf": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "No encontrado",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "status_code": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "logged_actions": {},
     "obras_complementarias": {},
     "reportes_catastrales": {
         "get": {

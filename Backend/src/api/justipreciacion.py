@@ -19,24 +19,37 @@ justipreciacion_api: Blueprint = Blueprint(
 __swagger: dict = config.API_MODELS.get("justipreciacion", {})
 
 
-@justipreciacion_api.get("/<int:justipreciacion>")
+@justipreciacion_api.get("/<int:justipreciacion>/")
 @swag_from(__swagger.get("get_justipreciacion", {}))
 def get_justipreciacion(justipreciacion: int, response: Responses = Responses()):
     if justipreciacion is None:
         return response.error(message="No se proporciono un ID")
+
     data = get(id=justipreciacion, to_dict=True)
 
-    if data is None or not data:
-        return response.error(message="No se encontro el registro", status_code=404)
+    if not data:
+        return response.error(message="No se encontro el registro", status_code=409)
     return response.success(data=data)
 
 
 @justipreciacion_api.get("/<int:justipreciacion>/<string:key>")
 @swag_from(__swagger.get("get_justipreciacion_key", {}))
-def get_justipreciacion_key(justipreciacion: int, response: Responses = Responses()):
+def get_justipreciacion_key(
+    justipreciacion: int, key: str, response: Responses = Responses()
+):
     if justipreciacion is None:
-        return response.error()
-    return response.success()
+        return response.error(message="No se proporciono un ID")
+
+    data = get(id=justipreciacion, to_dict=True)
+
+    if not data:
+        return response.error(message="No se encontro el registro", status_code=404)
+    if data.get(key) is None:
+        return response.error(
+            message="No se encontro el campo solicitado en el registro consultado",
+            status_code=404,
+        )
+    return response.success(data=data.get(key, None))
 
 
 @justipreciacion_api.get("/<int:justipreciacion>/homologacion/<string:tipo>")

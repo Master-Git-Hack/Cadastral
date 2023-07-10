@@ -51,7 +51,7 @@ class Responses:
 
         Returns:
         jsonify: Response
-        status__code: int
+        status_code: int
         headers:Dict[str,Any]
         """
         if data is None:

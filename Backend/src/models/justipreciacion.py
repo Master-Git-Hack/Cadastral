@@ -1,6 +1,9 @@
 from typing import Any, Dict
 
+from flask_admin.contrib.geoa import ModelView
+from geoalchemy2.shape import to_shape
 from geoalchemy2.types import Geometry
+from marshmallow_sqlalchemy import fields
 from sqlalchemy import (
     BigInteger,
     Column,
@@ -231,7 +234,9 @@ class Model(__db.Model):
 
 class Justipreciacion(Base):
     def __init__(self) -> None:
-        super().__init__(Model)
+        super().__init__(
+            Model,
+        )
 
     def __enter__(self):
         return super().__enter__()

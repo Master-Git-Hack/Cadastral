@@ -19,5 +19,6 @@ pylint==2.17.4
 pymongo==4.3.3
 PyPDF2==3.0.1
 reportlab==4.0.4
+shapely==2.0.1
 Sphinx==6.2.1
 sphinx-rtd-theme==1.2.1
