@@ -1,6 +1,7 @@
 # from logging import DEBUG, ERROR, INFO, Formatter
 from logging.handlers import SMTPHandler
 
+import flask_monitoringdashboard as dashboard
 from flasgger import Swagger
 from flask import Flask
 from flask_cors import CORS
@@ -38,7 +39,7 @@ def init_app():
 
 
 app: Flask = init_app()
-
+dashboard.bind(app)
 with app.app_context():
     from .models import Modelos
 

@@ -291,8 +291,7 @@ class Base:
 
 from .catastral import Catastral
 from .costos_construccion import CostosConstruccion
-
-# from .dataset import Dataset
+from .dataset import Dataset
 from .departamento_solicitante import DepartamentosSolicitantes
 from .homologacion import Homologacion
 from .indicadores_municipales import IndicadoresMunicipales
@@ -305,7 +304,7 @@ from .obras_complementarias import ObrasComplementarias
 class Modelos(object):
     Catastral = Catastral
     CostosConstruccion = CostosConstruccion
-    # Dataset = Dataset
+    Dataset = Dataset
     DepartamentosSolicitantes = DepartamentosSolicitantes
     Homologacion = Homologacion
     IndicadoresMunicipales = IndicadoresMunicipales
@@ -330,7 +329,7 @@ config.admin.add_view(
         config.db.session,
         name="Costos Construccion",
         endpoint="CostosConstruccion",
-        category="Costos Construccion",
+        category="Valuaciones",
     )
 )
 config.admin.add_view(
@@ -339,7 +338,7 @@ config.admin.add_view(
         config.db.session,
         name="Departamentos Solicitantes",
         endpoint="DepartamentosSolicitantes",
-        category="Departamentos Solicitantes",
+        category="Valuaciones",
     )
 )
 config.admin.add_view(
@@ -348,7 +347,7 @@ config.admin.add_view(
         config.db.session,
         name="Homologación de Terrenos y Rentas",
         endpoint="Homologacion",
-        category="Homologación",
+        category="Valuaciones",
     )
 )
 config.admin.add_view(
@@ -357,7 +356,7 @@ config.admin.add_view(
         config.db.session,
         name="Indicadores Municipales",
         endpoint="IndicadoresMunicipales",
-        category="Indicadores Municipales",
+        category="Valuaciones",
     )
 )
 config.admin.add_view(
@@ -366,7 +365,7 @@ config.admin.add_view(
         config.db.session,
         name="Justipreciacion",
         endpoint="justipreciacion",
-        category="Justipreciación",
+        category="Valuaciones",
     )
 )
 config.admin.add_view(
@@ -384,7 +383,7 @@ config.admin.add_view(
         config.db.session,
         name="Municipios",
         endpoint="Municipios",
-        category="Municipios",
+        category="Valuaciones",
     )
 )
 config.admin.add_view(
@@ -393,6 +392,15 @@ config.admin.add_view(
         config.db.session,
         name="Obras Complementarias",
         endpoint="ObrasComplementarias",
-        category="Obras Complementarias",
+        category="Valuaciones",
+    )
+)
+config.adming.add_view(
+    ModelView(
+        Dataset().model,
+        config.db.session,
+        name="Metadatos",
+        endpoint="Metadatos",
+        category="Metadatos",
     )
 )

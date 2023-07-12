@@ -31,17 +31,15 @@ class Model(__db.Model):
 
     __tablename__ = "logged_actions"
     __table_args__ = {"schema": "audit"}
-    id = Column(BigInteger, primary_key=True)
     schema_name = Column(Text, nullable=False)
     table_name = Column(Text, nullable=False)
     user_name = Column(Text)
-    action_tstamp = (
-        Column(
-            DateTime(True),
-            nullable=False,
-            index=True,
-            server_default=text("CURRENT_TIMESTAMP"),
-        ),
+    action_tstamp = Column(
+        DateTime(True),
+        nullable=False,
+        index=True,
+        server_default=text("CURRENT_TIMESTAMP"),
+        primary_key=True,
     )
     action = Column(Text, nullable=False, index=True)
     original_data = Column(Text)

@@ -31,27 +31,36 @@ class Model(__db.Model):
         "schema": "pgmetadata",
     }
 
-    id = Column(Integer, comment="Internal automatic integer ID")
+    id = Column(Integer, name="id", comment="Internal automatic integer ID")
     uid = Column(
         UUID,
+        name="uid",
         nullable=False,
         server_default=text("uuid_generate_v4()"),
         comment="Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a",
     )
     table_name = Column(
-        Text, nullable=False, comment="Name of the related table in the database"
+        Text,
+        name="table_name",
+        nullable=False,
+        comment="Name of the related table in the database",
     )
     schema_name = Column(
-        Text, nullable=False, comment="Name of the related schema in the database"
+        Text,
+        name="schema_name",
+        nullable=False,
+        comment="Name of the related schema in the database",
     )
     title = Column(
         Text,
+        name="title",
         nullable=False,
         comment="1.1 Título del conjunto de datos espaciales o producto",
     )
-    purpose = Column(Text, comment="1.2 Propósito")
+    purpose = Column(Text, name="purpose", comment="1.2 Propósito")
     abstract = Column(
         Text,
+        name="abstract",
         nullable=False,
         comment="1.3 Descripción del conjunto de datos espaciales o producto",
     )
@@ -72,6 +81,7 @@ class Model(__db.Model):
     )
     keyword = Column(
         Text,
+        name="keywords",
         comment="1.6 Palabra clave  List of keywords separated by comma. Ex: environment, paris, trees",
     )
     presentationForm = Column(
@@ -146,16 +156,22 @@ class Model(__db.Model):
         name="spatialrepresentationtype",
         comment="4.2 Tipo de representación espacial",
     )
-    latres = Column(float8, comment="5.1.1.1 Resolución de latitud")
-    longres = Column(float8, comment="5.1.1.2 Resolución de longitud")
-    geogunit = Column(Text, comment="5.1.1.3 Unidades de coordenadas geográficas")
-    lambertc_stdparll = Column(float8, comment="5.1.2.1.1.1 Paralelo estándar")
+    latres = Column(float8, name="latres", comment="5.1.1.1 Resolución de latitud")
+    longres = Column(float8, name="longres", comment="5.1.1.2 Resolución de longitud")
+    geogunit = Column(
+        Text, name="geounit", comment="5.1.1.3 Unidades de coordenadas geográficas"
+    )
+    lambertc_stdparll = Column(
+        float8, name="lambertc_stdparll", comment="5.1.2.1.1.1 Paralelo estándar"
+    )
     lambertc_longcm = Column(
         float8,
+        name="lambertc_longcm",
         comment="5.1.2.1.1.2|5.1.2.1.2.2|5.1.2.1.3.3|5.1.2.1.4.2|5.1.2.2.1.3 Longitud del meridiano central",
     )
     mercatort_latprjo = Column(
         float8,
+        name="mercatort_latprjo",
         comment="5.1.2.1.1.3|5.1.2.1.2.3|5.1.2.1.4.3|5.1.2.2.1.4 Latitud del origen de proyección",
     )
     mercator_feast = Column(
