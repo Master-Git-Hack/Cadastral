@@ -134,6 +134,9 @@ class Base:
         self.schema = None
         self.current = None
 
+    def __call__(self) -> Any:
+        return self.current
+
     def get(
         self,
         id: int,
@@ -291,7 +294,8 @@ class Base:
 
 from .catastral import Catastral
 from .costos_construccion import CostosConstruccion
-from .dataset import Dataset
+
+# from .dataset import Dataset
 from .departamento_solicitante import DepartamentosSolicitantes
 from .homologacion import Homologacion
 from .indicadores_municipales import IndicadoresMunicipales
@@ -304,7 +308,7 @@ from .obras_complementarias import ObrasComplementarias
 class Modelos(object):
     Catastral = Catastral
     CostosConstruccion = CostosConstruccion
-    Dataset = Dataset
+    #   Dataset = Dataset
     DepartamentosSolicitantes = DepartamentosSolicitantes
     Homologacion = Homologacion
     IndicadoresMunicipales = IndicadoresMunicipales
@@ -395,12 +399,12 @@ config.admin.add_view(
         category="Valuaciones",
     )
 )
-config.adming.add_view(
-    ModelView(
-        Dataset().model,
-        config.db.session,
-        name="Metadatos",
-        endpoint="Metadatos",
-        category="Metadatos",
-    )
-)
+# config.adming.add_view(
+#     ModelView(
+#         Dataset().model,
+#         config.db.session,
+#         name="Metadatos",
+#         endpoint="Metadatos",
+#         category="Metadatos",
+#     )
+# )

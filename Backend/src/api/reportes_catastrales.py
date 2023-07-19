@@ -15,7 +15,7 @@ __swagger: dict = config.API_MODELS.get("reportes_catastrales", {})
 @reportes_catastrales_api.post("/<string:filename>")
 @swag_from(__swagger.get("get", {}))
 def get(
-    filename=str,
+    filename: str,
     reporte: ReportesCatastrales = ReportesCatastrales(),
     response: Responses = Responses(),
 ):
@@ -26,5 +26,11 @@ def get(
 
 @reportes_catastrales_api.post("/merged/<string:filename>")
 @swag_from(__swagger.get("get_merged", {}))
-def get_merged(reporte=()):
-    ...
+def get_merged(
+    filename: str,
+    reporte: ReportesCatastrales = ReportesCatastrales(),
+    response: Responses = Responses(),
+):
+    data = request.get_json()
+    reporte = reporte.merge(data)
+    return response.send_file(filename=filename, data=reporte)

@@ -15,6 +15,11 @@ def get_justipreciacion(method):
                 message="No se proporciono el id de justipreciacion"
             )
         justipreciacion = get(id=justipreciacion)
+        if justipreciacion is None:
+            justipreciacion = response.error(
+                message="No existe el registro de justipreciacion a consulta para la operacion de Costos de Construccion",
+                status_code=404,
+            )
         kwargs |= {"justipreciacion": justipreciacion}
         return method(*args, **kwargs)
 
