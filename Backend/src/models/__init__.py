@@ -103,20 +103,22 @@ def create_schema(
     return Schema
 
 
-class Base:
+class Template:
     model: object = None
     schema = None
     current: Optional[object] = None
     create_schema = create_schema
+    db: object
 
     def __init__(
-        self, model, schema_args: Optional[List] = [], **schema_kwargs
+        self, model, db, schema_args: Optional[List] = [], **schema_kwargs
     ) -> None:
         self.model = model
         self.schema = create_schema(
             model=self.model, schema_args=schema_args, **schema_kwargs
         )
         self.check_attr()
+        self.db = db
 
     def check_attr(self):
         if self.model is None:
@@ -153,7 +155,10 @@ class Base:
             object: The record
         """
         self.check_attr()
-        self.current = self.model.query.get(id)
+        with self.db as db:
+            session = db.create_session()
+            self.current = session.query(self.model).get(id)
+            db.close_session(session)
         if to_dict or exclude is not None and len(exclude) > 0:
             return self.to_dict(exclude=exclude)
         return self.current
@@ -169,11 +174,14 @@ class Base:
             object: The record
         """
         self.check_attr()
-        try:
-            self.current = self.model.query.filter_by(**kwargs).one()
-        except Exception as e:
-            print(e)
-            self.current = None
+        with self.db as db:
+            session = db.create_session()
+            try:
+                self.current = session.query(self.model).filter_by(**kwargs).one()
+            except Exception as e:
+                print(e)
+                self.current = None
+            db.close_session(session)
         if to_dict or exclude is not None and len(exclude) > 0:
             return self.to_dict(exclude=exclude)
         return self.current
@@ -189,7 +197,10 @@ class Base:
             object: The record
         """
         self.check_attr()
-        self.current = self.model.query.filter_by(**kwargs).all()
+        with self.db as db:
+            session = db.create_session()
+            self.current = session.query(self.model).filter_by(**kwargs).all()
+            db.close_session(session)
         if to_list or exclude is not None and len(exclude) > 0:
             return self.to_list(exclude=exclude)
         return self.current
@@ -205,7 +216,10 @@ class Base:
             object: The record
         """
         self.check_attr()
-        self.current = self.model.query.all()
+        with self.db as db:
+            session = db.create_session()
+            self.current = session.query(self.model).all()
+            db.close_session(session)
         if to_list or exclude is not None and len(exclude) > 0:
             return self.to_list(exclude=exclude)
         return self.current
@@ -221,18 +235,22 @@ class Base:
             object: The record
         """
         self.check_attr()
-        self.current = self.model(**kwargs)
-        try:
-            self.session.add(self.current)
-            self.session.commit()
-        except Exception as e:
-            print(e)
-            self.session.rollback()
-            return None
-        else:
-            if to_dict or exclude is not None and len(exclude) > 0:
-                return self.to_dict(exclude=exclude)
-            return self.current
+        with self.db as db:
+            session = db.create_session()
+            self.current = self.model(**kwargs)
+            try:
+                session.add(self.current)
+                session.commit()
+                db.close_session(session)
+            except Exception as e:
+                print(e)
+                session.rollback()
+                db.close_session(session)
+                return None
+            else:
+                if to_dict or exclude is not None and len(exclude) > 0:
+                    return self.to_dict(exclude=exclude)
+                return self.current
 
     def update(
         self,
@@ -250,22 +268,26 @@ class Base:
             object: The record
         """
         self.check_attr()
-        if id is not None:
-            self.current = self.model.query.get(id)
-        for key, value in kwargs.items():
-            setattr(self.current, key, value)
-        try:
-            self.session.merge(self.current)
-            self.session.commit()
-            self.session.refresh(record)
-        except Exception as e:
-            print(e)
-            self.session.rollback()
-            return None
-        else:
-            if to_dict or exclude is not None and len(exclude) > 0:
-                self.to_dict(exclude=exclude)
-            return self.current
+        with self.db as db:
+            session = db.create_session()
+            if id is not None:
+                self.current = session.query(self.model).get(id)
+            for key, value in kwargs.items():
+                setattr(self.current, key, value)
+            try:
+                session.merge(self.current)
+                session.commit()
+                session.refresh(self.current)
+                db.close_session(session)
+            except Exception as e:
+                print(e)
+                session.rollback()
+                db.close_session(session)
+                return None
+            else:
+                if to_dict or exclude is not None and len(exclude) > 0:
+                    self.to_dict(exclude=exclude)
+                return self.current
 
     def to_dict(
         self, data: Optional[object] = None, exclude: Optional[List[str]] = None
@@ -320,7 +342,7 @@ class Modelos(object):
 config.admin.add_view(
     ModelView(
         Catastral().model,
-        config.db.session,
+        config.db.valuaciones.create_session(),
         name="Catastral",
         endpoint="catastral",
         category="Catastral",
@@ -329,7 +351,7 @@ config.admin.add_view(
 config.admin.add_view(
     ModelView(
         CostosConstruccion().model,
-        config.db.session,
+        config.db.valuaciones.create_session(),
         name="Costos Construccion",
         endpoint="CostosConstruccion",
         category="Valuaciones",
@@ -338,7 +360,7 @@ config.admin.add_view(
 config.admin.add_view(
     ModelView(
         DepartamentosSolicitantes().model,
-        config.db.session,
+        config.db.valuaciones.create_session(),
         name="Departamentos Solicitantes",
         endpoint="DepartamentosSolicitantes",
         category="Valuaciones",
@@ -347,7 +369,7 @@ config.admin.add_view(
 config.admin.add_view(
     ModelView(
         Homologacion().model,
-        config.db.session,
+        config.db.valuaciones.create_session(),
         name="Homologación de Terrenos y Rentas",
         endpoint="Homologacion",
         category="Valuaciones",
@@ -356,7 +378,7 @@ config.admin.add_view(
 config.admin.add_view(
     ModelView(
         IndicadoresMunicipales().model,
-        config.db.session,
+        config.db.valuaciones.create_session(),
         name="Indicadores Municipales",
         endpoint="IndicadoresMunicipales",
         category="Valuaciones",
@@ -365,7 +387,7 @@ config.admin.add_view(
 config.admin.add_view(
     ModelView(
         Justipreciacion().model,
-        config.db.session,
+        config.db.valuaciones.create_session(),
         name="Justipreciacion",
         endpoint="justipreciacion",
         category="Valuaciones",
@@ -374,7 +396,7 @@ config.admin.add_view(
 config.admin.add_view(
     ModelView(
         LoggedActions().model,
-        config.db.session,
+        config.db.valuaciones.create_session(),
         name="Logged Actions",
         endpoint="LoggedActions",
         category="Registro de Operaciones de Base de Datos",
@@ -383,7 +405,7 @@ config.admin.add_view(
 config.admin.add_view(
     ModelView(
         Municipios().model,
-        config.db.session,
+        config.db.valuaciones.create_session(),
         name="Municipios",
         endpoint="Municipios",
         category="Valuaciones",
@@ -392,7 +414,7 @@ config.admin.add_view(
 config.admin.add_view(
     ModelView(
         ObrasComplementarias().model,
-        config.db.session,
+        config.db.valuaciones.create_session(),
         name="Obras Complementarias",
         endpoint="ObrasComplementarias",
         category="Valuaciones",
@@ -401,7 +423,7 @@ config.admin.add_view(
 config.admin.add_view(
     ModelView(
         Dataset().model,
-        config.db.session,
+        config.db.catastro_v2.create_session(),
         name="Metadatos",
         endpoint="Metadatos",
         category="Metadatos",

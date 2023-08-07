@@ -3,12 +3,12 @@ from typing import Any, Dict
 from sqlalchemy import Boolean, Column, Float, Integer, String, Text
 
 from .. import config
-from . import Base
+from . import Template
 
-__db = config.db
+db = config.db.valuaciones
 
 
-class Model(__db.Model):
+class Model(db.Model):
     __tablename__ = "calculo_valor_unitario_construccion"
 
     id = Column(Integer, primary_key=True)
@@ -29,9 +29,9 @@ class Model(__db.Model):
             setattr(self, key, value)
 
 
-class CostosConstruccion(Base):
+class CostosConstruccion(Template):
     def __init__(self) -> None:
-        super().__init__(Model)
+        super().__init__(Model, db)
 
     def __enter__(self):
         return super().__enter__()

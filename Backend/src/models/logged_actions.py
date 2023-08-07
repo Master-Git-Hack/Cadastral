@@ -8,14 +8,14 @@ Export the Catastral model.
 from typing import Any, Dict
 
 from .. import config
-from . import Base
+from . import Template
 
-__db = config.db
+db = config.db.valuaciones
 
 from sqlalchemy import BigInteger, Column, DateTime, Text, text
 
 
-class Model(__db.Model):
+class Model(db.Model):
     """Model for LoggedActions.
     Example:
         >>> LoggedActions(data:dict)
@@ -52,9 +52,9 @@ class Model(__db.Model):
             setattr(self, key, value)
 
 
-class LoggedActions(Base):
+class LoggedActions(Template):
     def __init__(self) -> None:
-        super().__init__(Model)
+        super().__init__(Model, db)
 
     def __enter__(self):
         return super().__enter__()

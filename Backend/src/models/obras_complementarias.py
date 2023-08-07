@@ -3,12 +3,12 @@ from typing import Any, Dict
 from sqlalchemy import JSON, BigInteger, Boolean, Column, Float, SmallInteger, String
 
 from .. import config
-from . import Base
+from . import Template
 
-__db = config.db
+db = config.db.valuaciones
 
 
-class Model(__db.Model):
+class Model(db.Model):
 
     """Model for the ObrasComplementarias table"""
 
@@ -27,9 +27,9 @@ class Model(__db.Model):
             setattr(self, key, value)
 
 
-class ObrasComplementarias(Base):
+class ObrasComplementarias(Template):
     def __init__(self) -> None:
-        super().__init__(Model)
+        super().__init__(Model, db)
 
     def __enter__(self):
         return super().__enter__()

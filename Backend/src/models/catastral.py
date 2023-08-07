@@ -2,15 +2,16 @@ from typing import Any, Dict
 
 from geoalchemy2.types import Geometry
 from sqlalchemy import BigInteger, Column, Date, Float, Integer, SmallInteger, String
+from sqlalchemy.orm import Mapped
 
 from .. import config
-from . import Base
+from . import Template
 
-__db = config.db
+db = config.db.valuaciones
 float8 = Float(precision=8)
 
 
-class Model(__db.Model):
+class Model(db.Model):
     __tablename__ = "catastral"
 
     id = Column(
@@ -254,9 +255,9 @@ class Model(__db.Model):
             setattr(self, key, value)
 
 
-class Catastral(Base):
+class Catastral(Template):
     def __init__(self) -> None:
-        super().__init__(Model)
+        super().__init__(Model, db)
 
     def __enter__(self):
         return super().__enter__()

@@ -19,14 +19,12 @@ from sqlalchemy import (
 from sqlalchemy.dialects.postgresql import UUID
 
 from .. import config
-from . import Base
+from . import Template
 
-__uri = config.SQLALCHEMY_DATABASE_URI.replace(config.DBNAMES[0], config.DBNAMES[1])
-__bind = create_engine(__uri)
-__db = config.db._make_declarative_base(bind=__bind)
+db = config.db.catastro_v2
 
 
-class Model(__db):
+class Model(db.Model):
     __tablename__ = "dataset"
     __table_args__ = {"schema": "pgmetadata"}
     id = Column(
@@ -123,9 +121,9 @@ class Model(__db):
         name="ci_responsibleparty_individualname",
         comment="3.1 Nombre de la persona de contacto",
     )
-    ci_responsibleparty_organizationname = Column(
+    ci_responsibleparty_organisationname = Column(
         Text,
-        name="ci_responsibleparty_organizationname",
+        name="ci_responsibleparty_organisationname",
         comment="3.2 Nombre de la Organización",
     )
     ci_responsibleparty_positionname = Column(
@@ -139,9 +137,9 @@ class Model(__db):
     ci_responsibleparty_role = Column(
         Text, name="ci_responsibleparty_role", comment="3.13 Rol"
     )
-    west_boundlongitude = Column(
+    westboundlongitude = Column(
         Float(precision=8),
-        name="west_boundlongitude",
+        name="westboundlongitude",
         comment="4.1.1 Coordenada límite al Oeste",
     )
     eastboundlongitude = Column(
@@ -154,9 +152,9 @@ class Model(__db):
         name="southboundlatitude",
         comment="4.1.3 Coordenada límite al Sur",
     )
-    nortbondlatitude = Column(
+    northboundlatitude = Column(
         Float(precision=8),
-        name="nortbondlatitude",
+        name="northboundlatitude",
         comment="4.1.4 Coordenada límite al Norte",
     )
     spatialrepresentationtype = Column(
@@ -171,7 +169,7 @@ class Model(__db):
         Float(precision=8), name="longres", comment="5.1.1.2 Resolución de longitud"
     )
     geogunit = Column(
-        Text, name="geounit", comment="5.1.1.3 Unidades de coordenadas geográficas"
+        Text, name="geogunit", comment="5.1.1.3 Unidades de coordenadas geográficas"
     )
     lambertc_stdparll = Column(
         Float(precision=8),
@@ -290,9 +288,9 @@ class Model(__db):
         name="temporalaccuracy_measuredescription",
         comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
     )
-    themathicaccuracy_measuredescription = Column(
+    thematicaccuracy_measuredescription = Column(
         Text,
-        name="themathicaccuracy_measuredescription",
+        name="thematicaccuracy_measuredescription",
         comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
     )
     positionalaccuracy_valueunit = Column(
@@ -348,23 +346,23 @@ class Model(__db):
     gridcoordinatessystem = Column(
         Text, comment="5.1.2.3 Plana Local Si 5.1.2.1 o 5.1.2.2 no se capturan"
     )
-    local_planar = Column(
-        Text, comment="5.1.2.3 Plana Local Si 5.1.2.1 o 5.1.2.2 no se capturan"
-    )
+    # local_planar = Column(
+    #     Text, comment="5.1.2.3 Plana Local Si 5.1.2.1 o 5.1.2.2 no se capturan"
+    # )
     coord_repres = Column(
         Text,
         comment="5.1.2.3.4.2|5.1.2.3.4.2.2 Representación de coordenadas Si 5.1.2.4.3 no se captura",
     )
-    distance_and_bearing_repres = Column(
-        Text,
-        comment="5.1.2.4.3 Representación de distancia y rumbo Si 5.1.2.4.2 no se captura",
-    )
-    local_coordinates = Column(
-        Text, comment="5.1.3 Coordenadas Locales Si 5.1.1 o 5.1.2 no se capturan"
-    )
-    denflat = Column(Text, comment="5.1.4.4 Factor de denominador de achatamiento")
-    li_processtep = Column(
-        Text, name="li_processtep", comment="6.3.2 Pasos del proceso"
+    # distance_and_bearing_repres = Column(
+    #     Text,
+    #     comment="5.1.2.4.3 Representación de distancia y rumbo Si 5.1.2.4.2 no se captura",
+    # )
+    # local_coordinates = Column(
+    #     Text, comment="5.1.3 Coordenadas Locales Si 5.1.1 o 5.1.2 no se capturan"
+    # )
+    # denflat = Column(Text, comment="5.1.4.4 Factor de denominador de achatamiento")
+    li_processstep = Column(
+        Text, name="li_processstep", comment="6.3.2 Pasos del proceso"
     )
     li_source = Column(Text, name="li_source", comment="6.3.3 Fuente")
 
@@ -426,9 +424,9 @@ class Model(__db):
             setattr(self, key, value)
 
 
-class Dataset(Base):
+class Dataset(Template):
     def __init__(self) -> None:
-        super().__init__(Model)
+        super().__init__(Model, db)
 
     def __enter__(self):
         return super().__enter__()

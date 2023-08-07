@@ -30,7 +30,7 @@ def init_app():
     context = Flask(__name__)
     context.config.from_object(config)
     config.bcrypt.init_app(context)
-    db.init_app(context)
+    # db.init_app(context)
     ma.init_app(context)
     # config.no_db.init_app(context)
     cors.init_app(context, **config.CORS_SRC)
@@ -40,10 +40,10 @@ def init_app():
 
 app: Flask = init_app()
 dashboard.bind(app)
-with app.app_context():
-    from .models import Modelos
+# with app.app_context():
+#     from .models import Modelos
 
-    db.create_all()
+#     db.create_all()
 
 
 from .api import api

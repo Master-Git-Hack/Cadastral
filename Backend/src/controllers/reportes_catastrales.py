@@ -13,7 +13,7 @@ from ..utils.local import as_complete_date, as_currency, as_percentage, with_dec
 from ..utils.pdf import PDFMaker as PDF
 from ..utils.tmp import name_it as tmp_filename
 
-__session = config.db.session
+__session = config.db.valuaciones.create_session()
 upper_values: Set[str] = {"solicitante", "secretaria", "nombre_utf"}
 rename_keys: dict = dict(
     oficio_solicitud="OFICIO_DE_SOLICITUD",

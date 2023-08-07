@@ -36,7 +36,7 @@ PSQL_URI_DEV = "postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/"
 
 # Testing Database
 MONGO_URI_TEST = "mongodb://root:toor@localhost:27017/Catastral"
-PSQL_URI_TEST = "postgresql://root:toor@localhost:5432/root"
+PSQL_URI_TEST = "postgresql://root:toor@localhost:5432/"
 
 # Databases
 BD_NAME1 = "valuaciones"

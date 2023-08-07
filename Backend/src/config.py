@@ -7,9 +7,11 @@ from dotenv import load_dotenv
 from flask_admin import Admin
 from flask_bcrypt import Bcrypt
 from flask_marshmallow import Marshmallow
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 
 # from flask_mongoengine import MongoEngine
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 load_dotenv()
 
@@ -66,11 +68,14 @@ class __Production(__Base):
 
     DEBUG: bool = False
     MONGO_URI: str = environ.get("MONGO_URI")
-    SQLALCHEMY_DATABASE_URI: str
+    SQLALCHEMY_VALUACIONES_URI: str
+    SQLALCHEMY_CATASTRO_V2_URI: str
 
     def __init__(self):
         super().__init__()
-        self.SQLALCHEMY_DATABASE_URI = environ.get("PSQL_URI") + self.DBNAMES[0]
+        uri = environ.get("PSQL_URI")
+        self.SQLALCHEMY_VALUACIONES_URI = uri + self.DBNAMES[0]
+        self.SQLALCHEMY_CATASTRO_V2_URI = uri + self.DBNAMES[1]
 
 
 class __Development(__Base):
@@ -83,13 +88,20 @@ class __Development(__Base):
     MONGO_URI: str = environ.get(
         "MONGO_URI_DEV", "mongodb://root:toor@localhost:27017/Catastral"
     )
-    SQLALCHEMY_DATABASE_URI: str
+    SQLALCHEMY_VALUACIONES_URI: str
+    SQLALCHEMY_CATASTRO_V2_URI: str
 
     def __init__(self):
         super().__init__()
-        self.SQLALCHEMY_DATABASE_URI = (
-            (environ.get("PSQL_URI_DEV") + self.DBNAMES[0])
-            if environ.get("PSQL_URI_DEV")
+        uri = environ.get("PSQL_URI_DEV")
+        self.SQLALCHEMY_VALUACIONES_URI = (
+            uri + self.DBNAMES[0]
+            if uri
+            else f"sqlite:///{abspath(dirname(__file__))}/db.sqlite"
+        )
+        self.SQLALCHEMY_CATASTRO_V2_URI = (
+            uri + self.DBNAMES[1]
+            if uri
             else f"sqlite:///{abspath(dirname(__file__))}/db.sqlite"
         )
 
@@ -101,13 +113,20 @@ class __Testing(__Base):
 
     TESTING: bool = True
     MONGO_URI: str = environ.get("MONGO_URI_TEST")
-    SQLALCHEMY_DATABASE_URI: str
+    SQLALCHEMY_VALUACIONES_URI: str
+    SQLALCHEMY_CATASTRO_V2_URI: str
 
     def __init__(self):
         super().__init__()
-        self.SQLALCHEMY_DATABASE_URI = (
-            (environ.get("PSQL_URI_TEST") + self.DBNAMES[0])
-            if environ.get("PSQL_URI_TEST")
+        uri = environ.get("PSQL_URI_TEST")
+        self.SQLALCHEMY_VALUACIONES_URI = (
+            uri + self.DBNAMES[0]
+            if uri
+            else f"sqlite:///{abspath(dirname(__file__))}/db.sqlite"
+        )
+        self.SQLALCHEMY_CATASTRO_V2_URI = (
+            uri + self.DBNAMES[1]
+            if uri
             else f"sqlite:///{abspath(dirname(__file__))}/db.sqlite"
         )
 
@@ -135,6 +154,33 @@ def __get_config(env: Optional[str] = None) -> __Base:
 
 
 current_env = __get_config()
+
+
+class DB:
+    def __init__(self, url: str, **kwargs: dict) -> None:
+        self.engine = create_engine(url, **kwargs)
+        self.session_factory = sessionmaker(bind=self.engine)
+        self.Session = scoped_session(self.session_factory)
+        self.Model = declarative_base()
+
+    def create_tables(self) -> None:
+        self.Model.metadata.create_all(self.engine)
+
+    def drop_tables(self) -> None:
+        self.Model.metadata.drop_all(self.engine)
+
+    def create_session(self) -> scoped_session:
+        return self.Session()
+
+    def close_session(self, session) -> None:
+        session.close()
+
+    def __enter__(self):
+        self.current_session = self.create_session()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close_session(self.current_session)
 
 
 class Config(current_env):
@@ -169,9 +215,15 @@ class Config(current_env):
     }
     bcrypt: Bcrypt = Bcrypt()
     # no_db: MongoEngine = MongoEngine()
-    db: SQLAlchemy = SQLAlchemy()
+
     ma: Marshmallow = Marshmallow()
     admin: Admin = Admin(name="Catastro", template_mode="bootstrap4")
 
     def __init__(self):
         super().__init__()
+
+        class Obj(object):
+            valuaciones = DB(self.SQLALCHEMY_VALUACIONES_URI)
+            catastro_v2 = DB(self.SQLALCHEMY_CATASTRO_V2_URI)
+
+        self.db = Obj()

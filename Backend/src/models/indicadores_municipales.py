@@ -3,12 +3,12 @@ from typing import Any, Dict
 from sqlalchemy import Column, Float, Integer, Text
 
 from .. import config
-from . import Base
+from . import Template
 
-__db = config.db
+db = config.db.valuaciones
 
 
-class Model(__db.Model):
+class Model(db.Model):
     __tablename__ = "indicadores_municipales"
 
     id = Column(Integer, primary_key=True)
@@ -25,9 +25,9 @@ class Model(__db.Model):
             setattr(self, key, value)
 
 
-class IndicadoresMunicipales(Base):
+class IndicadoresMunicipales(Template):
     def __init__(self) -> None:
-        super().__init__(Model)
+        super().__init__(Model, db)
 
     def __enter__(self):
         return super().__enter__()
