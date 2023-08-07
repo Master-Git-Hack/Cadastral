@@ -169,7 +169,131 @@
             }
         }
     },
-    "dataset": {},
+    "metadatos": {
+        "get_metadatos": {
+            "tags": [
+                "Metadatos"
+            ],
+            "parameters": [
+                {
+                    "name": "table_name",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the table"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Successful response",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object"
+                                // Add more properties as needed
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Record not found"
+                }
+            }
+        },
+        "post_metadatos": {
+            "tags": [
+                "Metadatos"
+            ],
+            "parameters": [
+                {
+                    "name": "table_name",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the table"
+                }
+            ],
+            "requestBody": {
+                "description": "Request body",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object"
+                            // Add properties for the request body
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Successful response",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object"
+                                // Add more properties as needed
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Record already exists"
+                },
+                "409": {
+                    "description": "Failed to create record"
+                }
+            }
+        },
+        "patch_metadatos": {
+            "tags": [
+                "Metadatos"
+            ],
+            "parameters": [
+                {
+                    "name": "table_name",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the table"
+                }
+            ],
+            "requestBody": {
+                "description": "Request body",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object"
+                            // Add properties for the request body
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Successful response",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object"
+                                // Add more properties as needed
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Record not found"
+                },
+                "409": {
+                    "description": "Failed to update record"
+                }
+            }
+        }
+    },
     "homologacion": {
         "get_homologacion": {
             "operationId": "get.homologacion/{justipreciacion}/{tipo}",
