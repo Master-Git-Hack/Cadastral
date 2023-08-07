@@ -107,7 +107,8 @@
 		padding-left: 250px;
 	}
 
-	.truncate-text {
+	/*
+.truncate-text {
 		width: 400px;
 		line-height: 1.2;
 		max-height: 2.4rem;
@@ -141,6 +142,7 @@
 		white-space: normal;
 		overflow: visible;
 	}
+*/
 </style>
 <script>
 	function toggle(button) {
@@ -182,9 +184,8 @@
 		</tr>
 		<tr>
 			<th class="text">1.3 Descripción del conjunto de datos espaciales o producto.</th>
-			<td>
-				<button class="button" onclick="toggle(this)">Mostrar</button>
-				<p class="text" data="[% abstract %]"><span class="content"></span></p>
+			<td class="truncate-cell">
+				<p class="truncate-text">[% abstract %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -323,7 +324,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ci_responsibleparty_organizationname %]</p>
+				<p class="truncate-text">[% ci_responsibleparty_organisationname %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -372,7 +373,7 @@
 		<tr>
 			<th class="text pl">4.1.1 Coordenada límite al Oeste</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% west_boundlongitude %]</p>
+				<p class="truncate-text">[% westboundlongitude %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -390,7 +391,7 @@
 		<tr>
 			<th class="text pl">4.1.4 Coordenada límite al Norte</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% nortbondlatitude %]</p>
+				<p class="truncate-text">[% northboundlatitude %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -512,7 +513,7 @@
 		<tr>
 			<th class="text pl">5.1.2.2 Sistema de Coordenadas de Cuadrícula.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% %]</p>
+				<p class="truncate-text"></p>
 			</td>
 		</tr>
 		<tr>
@@ -716,7 +717,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% DQ_QuantitativeResult %]</p>
+				<p class="truncate-text">[% dq_quantitativeresult %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -730,7 +731,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% %]</p>
+				<p class="truncate-text">[% dq_completeness_nameofmeasure %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -744,25 +745,12 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% %]</p>
+				<p class="truncate-text">[% dq_completeness_measuredescription %]</p>
 			</td>
 		</tr>
+
 		<tr>
-			<th class="text pl-3">
-				<a href="#" class="toggle-tooltip"
-					>6.2.2.1.3 Resultado.
-					<span class="tooltip"
-						>Revisar tambien los puntos 6.2.3.1.3, 6.2.4.1.3, 6.2.5.1.3 de la Norma Tecnica para
-						la elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
-			<td class="truncate-cell">
-				<p class="truncate-text">[% %]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-4">
+			<th class="text pl-4" colspan="2">
 				<a href="#" class="toggle-tooltip"
 					>6.2.2.1.3.1 Resultado cuantitativo.
 					<span class="tooltip"
@@ -771,9 +759,6 @@
 					></a
 				>
 			</th>
-			<td class="truncate-cell">
-				<p class="truncate-text">[% %]</p>
-			</td>
 		</tr>
 		<tr>
 			<th class="text pl-5">
@@ -786,10 +771,11 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% %]</p>
+				<p class="truncate-text">[% positionalaccuracy_valueunit %]</p>
 			</td>
 		</tr>
-		<tr>
+		<!--
+			<tr>
 			<th class="text pl-5">
 				<a href="#" class="toggle-tooltip"
 					>6.2.2.1.3.1.2 Valor.
@@ -803,6 +789,7 @@
 				<p class="truncate-text">[% %]</p>
 			</td>
 		</tr>
+		-->
 		<tr>
 			<th class="text" colspan="2">6.3 Linaje</th>
 		</tr>
@@ -901,6 +888,7 @@
 		</tr>
 	</table>
 </div>
+<!--
 <div>
 	<h2>Propiedades espaciales</h2>
 	<table class="table table-condensed">
@@ -1026,3 +1014,5 @@
 		</tr>
 	</table>
 </div>
+
+-->

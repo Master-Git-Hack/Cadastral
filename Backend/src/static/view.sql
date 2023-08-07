@@ -108,7 +108,9 @@ AS SELECT ss.id,
        ss.planar,
        ss.mapprojn,
        ss.gridcoordinatessystem,
-       ss.utm_zone
+       ss.utm_zone,
+       ss.li_processstep,
+       ss.li_source
 FROM
   (SELECT s.id,
           s.uid,
@@ -217,7 +219,9 @@ FROM
           (((glossary.dict -> 'dataset.confidentiality'::text) -> s.confidentiality) -> 'label'::text) ->> glossary.locale AS confidentiality,
           s.gridcoordinatessystem,
           (regexp_split_to_array(rs.srtext::text, 'd.'::text))[2] AS projection_name,
-          s.utm_zone
+          s.utm_zone,
+          s.li_processstep,
+          s.li_source
    FROM
      (SELECT COALESCE(current_setting('pgmetadata.locale'::text, true), 'en'::text) AS locale,
              v_glossary.dict
@@ -328,6 +332,8 @@ FROM
              d.mapprojn,
              d.gridcoordinatessystem,
              d.utm_zone,
+             d.li_processstep,
+             d.li_source,
              cat.cat,
              theme.theme
       FROM pgmetadata.dataset d
@@ -440,7 +446,9 @@ GROUP BY ss.id,
          ss.planar,
          ss.mapprojn,
          ss.gridcoordinatessystem,
-         ss.utm_zone;
+         ss.utm_zone,
+         ss.li_processstep,
+         ss.li_source;
 
 
 CREATE OR REPLACE VIEW pgmetadata.v_export_table
@@ -551,6 +559,8 @@ SELECT d.id,
              d.mapprojn,
              d.gridcoordinatessystem,
              d.utm_zone,
+             d.li_processstep,
+             d.li_source,
     string_agg((l.name || ': '::text) || l.url, ', '::text) AS links,
     string_agg(((((c.name || ' ('::text) || c.organisation_name) || ')'::text) || ' - '::text) || c.contact_role, ', '::text) AS contacts
    FROM pgmetadata.v_dataset d
@@ -659,7 +669,8 @@ SELECT d.id,
          d.planar,
          d.mapprojn,
          d.gridcoordinatessystem,
-         d.utm_zone,d.categories, d.themes  ORDER BY d.schema_name, d.table_name;
+         d.utm_zone, d.li_processstep,
+         d.li_source,d.categories, d.themes  ORDER BY d.schema_name, d.table_name;
 
 -- Permissions
 

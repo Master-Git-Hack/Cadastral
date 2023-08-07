@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.bg-navbar{
+    background: rgb(204, 204, 176);
+}
+
+.spinner {
+    width: 200px;
+    height: 200px;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 150px solid #000;
+    border-bottom: 150px solid #000;
+  }

@@ -1,26 +1,18 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-  },
-  extends: ['eslint:all', 'preact', 'prettier'],
-  overrides: [
-    {
-      files: ['**/*.ts', '**/*.tsx'],
-    },
+  root: true,
+  env: { browser: true, es2020: true },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
   ],
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 12,
-    sourceType: 'module',
-  },
+  plugins: ['react-refresh'],
   rules: {
-    'max-lines': 0,
-    'no-magic-numbers': 'off',
-    'no-var': 'error',
-    'one-var': 'off',
+    'react-refresh/only-export-components': [
+      'warn',
+      { allowConstantExport: true },
+    ],
   },
 }

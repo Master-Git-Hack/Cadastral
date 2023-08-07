@@ -1,4 +1,4 @@
-ALTER TABLE root.pgmetadata.v_dataset
+ALTER TABLE root.pgmetadata.dataset
 ADD COLUMN purpose TEXT,
 ADD COLUMN MD_DataIdentification_language TEXT,
 ADD COLUMN topicCategory TEXT,
@@ -80,8 +80,9 @@ ADD COLUMN geographicElement TEXT,
 ADD COLUMN planar TEXT,
 ADD COLUMN mapprojn TEXT,
 ADD COLUMN gridcoordinatessystem text,
-add column utm_zone int4;
-
+ADD COLUMN utm_zone int4,
+ADD COLUMN LI_ProcessStep TEXT,
+ADD COLUMN LI_Source TEXT;
 -- Agrega las restricciones de comprobación
 ALTER TABLE root.pgmetadata.dataset
 ADD CONSTRAINT MD_DataIdentification_language CHECK (

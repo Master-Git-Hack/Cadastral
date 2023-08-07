@@ -26,6 +26,34 @@ def get_justipreciacion(method):
     return wrapper
 
 
+def __justipreciacion(method):
+    @wraps(method)
+    def wrapper(*args, **kwargs):
+        response: Responses = Responses()
+        id = kwargs.get("justipreciacion")
+        error = None
+        if id is None:
+            error = response.error(message="No se proporciono el id de justipreciacion")
+        justipreciacion = Justipreciacion()
+        if justipreciacion.get(id=id) is None:
+            error = response.error(
+                message="No existe el registro de justipreciacion a consulta para la operacion de Costos de Construccion",
+                status_code=404,
+            )
+        kwargs |= {"justipreciacion": justipreciacion.current, "error": error}
+
+        new_data, action, avoid, error = method(*args, **kwargs)
+        if error is not None:
+            return error
+        if avoid or not new_data:
+            return response.error()
+        if justipreciacion.update(**new_data) is None:
+            return response.error(message=f"", status_code=422)
+        return response.success(message=action)
+
+    return wrapper
+
+
 def get(**kwargs) -> Justipreciacion.get:
     """
     Get a record by id

@@ -10,7 +10,6 @@ from flask_marshmallow import Marshmallow
 
 # from flask_mongoengine import MongoEngine
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
 
@@ -38,6 +37,9 @@ class __Base(object):
     CORS_EXPOSE_HEADERS: str = environ.get("CORS_EXPOSE_HEADERS", "*")
     MAIL_USERNAME = environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = environ.get("MAIL_PASSWORD")
+    DBNAMES = [
+        environ.get(f"BD_NAME{i}") for i in range(1, 3) if environ.get(f"BD_NAME{i}")
+    ]
 
     class PATHS(object):
         """
@@ -64,7 +66,11 @@ class __Production(__Base):
 
     DEBUG: bool = False
     MONGO_URI: str = environ.get("MONGO_URI")
-    SQLALCHEMY_DATABASE_URI: str = environ.get("PSQL_URI")
+    SQLALCHEMY_DATABASE_URI: str
+
+    def __init__(self):
+        super().__init__()
+        self.SQLALCHEMY_DATABASE_URI = environ.get("PSQL_URI") + self.DBNAMES[0]
 
 
 class __Development(__Base):
@@ -77,9 +83,15 @@ class __Development(__Base):
     MONGO_URI: str = environ.get(
         "MONGO_URI_DEV", "mongodb://root:toor@localhost:27017/Catastral"
     )
-    SQLALCHEMY_DATABASE_URI: str = environ.get(
-        "PSQL_URI_DEV", f"sqlite:///{abspath(dirname(__file__))}/db.sqlite"
-    )
+    SQLALCHEMY_DATABASE_URI: str
+
+    def __init__(self):
+        super().__init__()
+        self.SQLALCHEMY_DATABASE_URI = (
+            (environ.get("PSQL_URI_DEV") + self.DBNAMES[0])
+            if environ.get("PSQL_URI_DEV")
+            else f"sqlite:///{abspath(dirname(__file__))}/db.sqlite"
+        )
 
 
 class __Testing(__Base):
@@ -89,7 +101,15 @@ class __Testing(__Base):
 
     TESTING: bool = True
     MONGO_URI: str = environ.get("MONGO_URI_TEST")
-    SQLALCHEMY_DATABASE_URI: str = environ.get("PSQL_URI_TEST")
+    SQLALCHEMY_DATABASE_URI: str
+
+    def __init__(self):
+        super().__init__()
+        self.SQLALCHEMY_DATABASE_URI = (
+            (environ.get("PSQL_URI_TEST") + self.DBNAMES[0])
+            if environ.get("PSQL_URI_TEST")
+            else f"sqlite:///{abspath(dirname(__file__))}/db.sqlite"
+        )
 
 
 def __get_config(env: Optional[str] = None) -> __Base:
@@ -152,3 +172,6 @@ class Config(current_env):
     db: SQLAlchemy = SQLAlchemy()
     ma: Marshmallow = Marshmallow()
     admin: Admin = Admin(name="Catastro", template_mode="bootstrap4")
+
+    def __init__(self):
+        super().__init__()

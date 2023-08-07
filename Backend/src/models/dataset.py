@@ -13,6 +13,7 @@ from sqlalchemy import (
     PrimaryKeyConstraint,
     Text,
     UniqueConstraint,
+    create_engine,
     text,
 )
 from sqlalchemy.dialects.postgresql import UUID
@@ -20,18 +21,17 @@ from sqlalchemy.dialects.postgresql import UUID
 from .. import config
 from . import Base
 
-__db = config.db
+__uri = config.SQLALCHEMY_DATABASE_URI.replace(config.DBNAMES[0], config.DBNAMES[1])
+__bind = create_engine(__uri)
+__db = config.db._make_declarative_base(bind=__bind)
 
-float8 = Float(precision=8)
 
-
-class Model(__db.Model):
+class Model(__db):
     __tablename__ = "dataset"
-    __table_args__ = {
-        "schema": "pgmetadata",
-    }
-
-    id = Column(Integer, name="id", comment="Internal automatic integer ID")
+    __table_args__ = {"schema": "pgmetadata"}
+    id = Column(
+        Integer, name="id", primary_key=True, comment="Internal automatic integer ID"
+    )
     uid = Column(
         UUID,
         name="uid",
@@ -64,17 +64,17 @@ class Model(__db.Model):
         nullable=False,
         comment="1.3 Descripción del conjunto de datos espaciales o producto",
     )
-    MD_DataIdentification_language = Column(
+    md_dataidentification_language = Column(
         Text,
         name="md_dataidentification_language",
         comment="1.4 Idioma del conjunto de datos espaciales o producto",
     )
-    topicCategory = Column(
+    topiccategory = Column(
         Text,
         name="topiccategory",
         comment="1.5.1 Tema principal del conjunto de datos espaciales o producto",
     )
-    groupCategory = Column(
+    groupcategory = Column(
         Text,
         name="groupcategory",
         comment="1.5.2 Grupo de datos del conjunto de datos espaciales o producto",
@@ -84,32 +84,32 @@ class Model(__db.Model):
         name="keywords",
         comment="1.6 Palabra clave  List of keywords separated by comma. Ex: environment, paris, trees",
     )
-    presentationForm = Column(
+    presentationform = Column(
         Text,
         name="presentationform",
         comment="1.10 Forma de presentación de los datos espaciales",
     )
-    CI_OnlineResource_linkage = Column(
+    ci_onlineresource_linkage = Column(
         Text, name="ci_onlineresource_linkage", comment="1.11.1 URL del recurso"
     )
-    maintenanceAndUpdateFrequency = Column(
+    maintenanceandupdatefrequency = Column(
         Text,
         name="maintenanceandupdatefrequency",
         comment="1.12 Frecuencia de mantenimiento y actualización",
     )
-    MD_DataIdentification_characterSet = Column(
+    md_dataidentification_characterset = Column(
         Text,
         name="md_dataidentification_characterset",
         comment="1.13 Conjunto de caracteres",
     )
 
     specuse = Column(Text, comment="1.15 Uso específico")
-    dateStamp = Column(
+    datestamp = Column(
         DateTime,
         name="datestamp",
         comment="2.1.1 Fecha de referencia del conjunto de datos espaciales o producto",
     )
-    dateType = Column(
+    datetype = Column(
         Text, name="datetype", comment="2.1.2 Tipo de fecha de referencia"
     )
     date_creation = Column(
@@ -118,72 +118,86 @@ class Model(__db.Model):
         comment="2.2.1 Fecha de creación de los insumos",
     )
     inpname = Column(Text, comment="2.2.4 Nombre del Insumo")
-    CI_ResponsibleParty_individualName = Column(
+    ci_responsibleparty_individualname = Column(
         Text,
         name="ci_responsibleparty_individualname",
         comment="3.1 Nombre de la persona de contacto",
     )
-    CI_ResponsibleParty_organisationName = Column(
+    ci_responsibleparty_organizationname = Column(
         Text,
         name="ci_responsibleparty_organizationname",
         comment="3.2 Nombre de la Organización",
     )
-    CI_ResponsibleParty_positionName = Column(
+    ci_responsibleparty_positionname = Column(
         Text, name="ci_responsibleparty_positionname", comment="3.3 Puesto del contacto"
     )
-    CI_ResponsibleParty_linkage = Column(
+    ci_responsibleparty_linkage = Column(
         Text,
         name="ci_responsibleparty_linkage",
         comment="3.12 Enlace en línea (dirección de Internet de referencia)",
     )
-    CI_ResponsibleParty_role = Column(
+    ci_responsibleparty_role = Column(
         Text, name="ci_responsibleparty_role", comment="3.13 Rol"
     )
-    westBoundLongitude = Column(
-        float8, name="west_boundlongitude", comment="4.1.1 Coordenada límite al Oeste"
+    west_boundlongitude = Column(
+        Float(precision=8),
+        name="west_boundlongitude",
+        comment="4.1.1 Coordenada límite al Oeste",
     )
-    eastBoundLongitude = Column(
-        float8, name="eastboundlongitude", comment="4.1.2 Coordenada límite al Este"
+    eastboundlongitude = Column(
+        Float(precision=8),
+        name="eastboundlongitude",
+        comment="4.1.2 Coordenada límite al Este",
     )
-    southBoundLatitude = Column(
-        float8, name="southboundlatitude", comment="4.1.3 Coordenada límite al Sur"
+    southboundlatitude = Column(
+        Float(precision=8),
+        name="southboundlatitude",
+        comment="4.1.3 Coordenada límite al Sur",
     )
-    northBoundLatitude = Column(
-        float8, name="nortbondlatitude", comment="4.1.4 Coordenada límite al Norte"
+    nortbondlatitude = Column(
+        Float(precision=8),
+        name="nortbondlatitude",
+        comment="4.1.4 Coordenada límite al Norte",
     )
-    spatialRepresentationType = Column(
+    spatialrepresentationtype = Column(
         Text,
         name="spatialrepresentationtype",
         comment="4.2 Tipo de representación espacial",
     )
-    latres = Column(float8, name="latres", comment="5.1.1.1 Resolución de latitud")
-    longres = Column(float8, name="longres", comment="5.1.1.2 Resolución de longitud")
+    latres = Column(
+        Float(precision=8), name="latres", comment="5.1.1.1 Resolución de latitud"
+    )
+    longres = Column(
+        Float(precision=8), name="longres", comment="5.1.1.2 Resolución de longitud"
+    )
     geogunit = Column(
         Text, name="geounit", comment="5.1.1.3 Unidades de coordenadas geográficas"
     )
     lambertc_stdparll = Column(
-        float8, name="lambertc_stdparll", comment="5.1.2.1.1.1 Paralelo estándar"
+        Float(precision=8),
+        name="lambertc_stdparll",
+        comment="5.1.2.1.1.1 Paralelo estándar",
     )
     lambertc_longcm = Column(
-        float8,
+        Float(precision=8),
         name="lambertc_longcm",
         comment="5.1.2.1.1.2|5.1.2.1.2.2|5.1.2.1.3.3|5.1.2.1.4.2|5.1.2.2.1.3 Longitud del meridiano central",
     )
     mercatort_latprjo = Column(
-        float8,
+        Float(precision=8),
         name="mercatort_latprjo",
         comment="5.1.2.1.1.3|5.1.2.1.2.3|5.1.2.1.4.3|5.1.2.2.1.4 Latitud del origen de proyección",
     )
     mercator_feast = Column(
-        float8,
+        Float(precision=8),
         comment="5.1.2.1.1.4|5.1.2.1.2.4|5.1.2.1.3.4|5.1.2.1.4.4|5.1.2.2.1.5 Falso este",
     )
     mercator_fnorth = Column(
-        float8,
+        Float(precision=8),
         comment="5.1.2.1.1.5|5.1.2.1.2.5|5.1.2.1.3.5|5.1.2.1.4.5|5.1.2.2.1.6 Falso norte",
     )
     mercator_sfec = Column(
-        float8,
+        Float(precision=8),
         comment="5.1.2.1.2.1|5.1.2.1.4.1|5.1.2.2.1.2 Factor de escala en el meridiano central",
     )
     local_desc = Column(Text, comment="5.1.2.3.1 Descripción de la Plana Local")
@@ -194,10 +208,14 @@ class Model(__db.Model):
     coord_repres = Column(
         Text, comment="5.1.2.3.4.1|5.1.2.3.4.2.1 Método codificado de coordenada plana"
     )
-    ordres = Column(float8, comment="5.1.2.3.4.2.2.1 Resolución de abscisa")
-    absres = Column(float8, comment="5.1.2.3.4.2.2.2 Resolución de ordenada")
-    distance_res = Column(float8, comment="5.1.2.4.3.1 Resolución de distancia")
-    bearing_res = Column(float8, comment="5.1.2.4.3.2 Resolución de rumbo")
+    ordres = Column(Float(precision=8), comment="5.1.2.3.4.2.2.1 Resolución de abscisa")
+    absres = Column(
+        Float(precision=8), comment="5.1.2.3.4.2.2.2 Resolución de ordenada"
+    )
+    distance_res = Column(
+        Float(precision=8), comment="5.1.2.4.3.1 Resolución de distancia"
+    )
+    bearing_res = Column(Float(precision=8), comment="5.1.2.4.3.2 Resolución de rumbo")
     bearing_uni = Column(Text, comment="5.1.2.4.3.3 Unidades de rumbo")
     ref_bearing_dir = Column(
         Text, comment="5.1.2.4.3.4 Dirección del rumbo de referencia"
@@ -212,82 +230,82 @@ class Model(__db.Model):
     )
     horizdn = Column(Text, comment="5.1.4.1 Nombre del datum horizontal")
     ellips = Column(Text, comment="5.1.4.2 Nombre del elipsoide")
-    semiaxis = Column(float8, comment="5.1.4.3 Semieje mayor")
+    semiaxis = Column(Float(precision=8), comment="5.1.4.3 Semieje mayor")
     altenc = Column(Text, comment="5.2.1.1 Nombre del datum de altitud")
     categories = Column(ARRAY(Text()), comment="List of categories")
-    altres = Column(float8, comment="5.2.1.2 Resolución de altitud")
+    altres = Column(Float(precision=8), comment="5.2.1.2 Resolución de altitud")
     altunits = Column(Text, comment="5.2.1.3 Unidades de distancia de altitud")
     altdatum = Column(Text, comment="5.2.1.4 Método codificado de altitud")
     depthdn = Column(Text, comment="5.2.2.1 Nombre del datum de profundidad")
-    depthres = Column(float8, comment="5.2.2.2 Resolución de profundidad")
+    depthres = Column(Float(precision=8), comment="5.2.2.2 Resolución de profundidad")
     depthdu = Column(Text, comment="5.2.2.3 Unidades de distancia de profundidad")
     level = Column(Text, comment="6.1.1 Nivel")
-    DQ_QuantitativeResult = Column(
+    dq_quantitativeresult = Column(
         Text,
         name="dq_quantitativeresult",
         comment="6.2.1.1|6.2.3.1|6.2.4.1|6.2.5.1 Nombre del subcriterio de calidad evaluado",
     )
-    DQ_Completeness_nameOfMeasure = Column(
+    dq_completeness_nameofmeasure = Column(
         Text,
         name="dq_completeness_nameofmeasure",
         comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
     )
-    DQ_LogicConsistency_nameOfMeasure = Column(
+    dq_logicconsistency_nameofmeasure = Column(
         Text,
         name="dq_logicconsistency_nameofmeasure",
         comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
     )
-    PositionalAccuracy_nameOfMeasure = Column(
+    positionalaccuracy_nameofmeasure = Column(
         Text,
         name="positionalaccuracy_nameofmeasure",
         comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
     )
-    TemporalAccuracy_nameOfMeasure = Column(
+    temporalaccuracy_nameofmeasure = Column(
         Text,
         name="temporalaccuracy_nameofmeasure",
         comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
     )
-    ThematicAccuracy_nameOfMeasure = Column(
+    thematicaccuracy_nameofmeasure = Column(
         Text,
         name="thematicaccuracy_nameofmeasure",
         comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
     )
-    DQ_Completeness_measureDescription = Column(
+    dq_completeness_measuredescription = Column(
         Text,
         name="dq_completeness_measuredescription",
         comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
     )
-    DQ_LogicConsistency_measureDescription = Column(
+    dq_logicconsistency_measuredescription = Column(
         Text,
         name="dq_logicconsistency_measuredescription",
         comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
     )
-    PositionalAccuracy_measureDescription = Column(
+    positionalaccuracy_measuredescription = Column(
         Text,
         name="positionalaccuracy_measuredescription",
         comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
     )
-    TemporalAccuracy_measureDescription = Column(
+    temporalaccuracy_measuredescription = Column(
         Text,
         name="temporalaccuracy_measuredescription",
         comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
     )
-    ThematicAccuracy_measureDescription = Column(
+    themathicaccuracy_measuredescription = Column(
         Text,
         name="themathicaccuracy_measuredescription",
         comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
     )
-    PositionalAccuracy_valueUnit = Column(
+    positionalaccuracy_valueunit = Column(
         Text,
         name="positionalaccuracy_valueunit",
         comment="6.2.2.1.3.1.1|6.2.3.1.3.1.1|6.2.4.1.3.1.1|6.2.5.1.3.1.1 Unidad de valor",
     )
-    TemporalAccuracy_valueUnit = Column(
+    temporalaccuracy_valueunit = Column(
         Text,
         name="temporalaccuracy_valueunit",
         comment="6.2.2.1.3.1.1|6.2.3.1.3.1.1|6.2.4.1.3.1.1|6.2.5.1.3.1.1 Unidad de valor",
     )
-    ThematicAccuracy_valueUnit = Column(
+    thematicaccuracy_valueunit = Column(
         Text,
         name="thematicaccuracy_valueunit",
         comment="6.2.2.1.3.1.1|6.2.3.1.3.1.1|6.2.4.1.3.1.1|6.2.5.1.3.1.1 Unidad de valor",
@@ -299,23 +317,23 @@ class Model(__db.Model):
     graphfilename = Column(
         Text, comment="7.2 Cita del detalle de entidades y atributos"
     )
-    MD_Format = Column(Text, name="", comment="8.4.1 Nombre del formato")
+    md_format = Column(Text, name="md_format", comment="8.4.1 Nombre del formato")
     edition = Column(Text, comment="8.4.2 Versión del formato")
-    metadataStandardName = Column(
+    metadatastandardname = Column(
         Text,
         name="metadatastandardname",
         comment="9.1 Nombre del estándar de metadatos",
     )
-    metadataStandardVersion = Column(
+    metadatastandardversion = Column(
         Text, name="metadatastandardversion", comment="9.3 Idioma de los Metadatos"
     )
     date = Column(DateTime, comment="9.5 Fecha")
-    MD_ReferenceSystem = Column(
+    md_referencesystem = Column(
         Text,
         name="md_referencesystem",
         comment="Sistema de Referencia SI 4.2 es de tipo Vector/Raster/TIN",
     )
-    geographicElement = Column(
+    geographicelement = Column(
         Text,
         name="geographicelement",
         comment="5.1.1 Coordenadas Geográficas Si 5.1.2 o 5.1.3 no se capturan",
@@ -345,10 +363,10 @@ class Model(__db.Model):
         Text, comment="5.1.3 Coordenadas Locales Si 5.1.1 o 5.1.2 no se capturan"
     )
     denflat = Column(Text, comment="5.1.4.4 Factor de denominador de achatamiento")
-    LI_ProcessStep = Column(
+    li_processtep = Column(
         Text, name="li_processtep", comment="6.3.2 Pasos del proceso"
     )
-    LI_Source = Column(Text, name="li_source", comment="6.3.3 Fuente")
+    li_source = Column(Text, name="li_source", comment="6.3.3 Fuente")
 
     spatial_level = Column(
         Text, comment="Spatial level of the data. E.g. city, country, street"
@@ -402,13 +420,13 @@ class Model(__db.Model):
         with open(xml_file, "r", encoding="utf-8") as file:
             metadata_xml = file.read()
         root_xml = fromstring(metadata_xml)
-        kwargs |= {element.tag: element.text for element in root_xml.iter()}
+        kwargs |= {element.tag.lower(): element.text for element in root_xml.iter()}
         kwargs |= {"metadata_xml": metadata_xml}
         for key, value in kwargs.items():
             setattr(self, key, value)
 
 
-class Catastral(Base):
+class Dataset(Base):
     def __init__(self) -> None:
         super().__init__(Model)
 
@@ -417,6 +435,3 @@ class Catastral(Base):
 
     def __exit__(self, exc_type, exc_value, traceback):
         return super().__exit__(exc_type, exc_value, traceback)
-
-
-config.admin.add_view(ModelView(Model, config.db.session, category="Metadata"))

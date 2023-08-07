@@ -27,12 +27,17 @@ FONTS_FOLDERNAME = "fonts"
 
 # Production Database
 MONGO_URI = "mongodb://root:toor@localhost:27017/Catastral"
-PSQL_URI = "postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/valuaciones"
+PSQL_URI = "postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/"
+
 
 # Development Database
 MONGO_URI_DEV = "mongodb://root:toor@localhost:27017/Catastral"
-PSQL_URI_DEV = "postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/valuaciones"
+PSQL_URI_DEV = "postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/"
 
 # Testing Database
 MONGO_URI_TEST = "mongodb://root:toor@localhost:27017/Catastral"
 PSQL_URI_TEST = "postgresql://root:toor@localhost:5432/root"
+
+# Databases
+BD_NAME1 = "valuaciones"
+BD_NAME2 = "catastro_v2"

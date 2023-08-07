@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "ES2022",
+    "target": "ES2020",
     "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable","WebWorker"],
     "module": "ESNext",
-    "lib": ["DOM", "DOM.Iterable"],
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -14,7 +13,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "preact",
 
     /* Linting */
     "strict": true,
@@ -22,9 +20,22 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }],
   "paths":{
     "@/*": ["src/*"],
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "@api/*": ["src/store/api/*"],
+    "@components/*": ["src/components/*"],
+    "@pages/*": ["src/pages/*"],
+    "@utils/*": ["src/lib/utils*"],
+    "@hooks/*": ["src/hooks*"],
+    "@types/*": ["src/lib/types*"],
+    "@context/*": ["src/lib/context*"],
+    "@services/*": ["src/lib/services*"],
+    "@assets/*": ["src/assets/*"],
+    "@features/*": ["src/features/*"],
+    "@redux/*": ["src/store/*"],
+    "@actions/*": ["src/store/actions/*"],
+    "@reducers/*": ["src/store/reducers/*"],
+  }
 }
