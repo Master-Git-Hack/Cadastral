@@ -45,7 +45,6 @@ const translate = ({
 	totalPopulation: poblacion_total,
 });
 export const translateIndicador = (data: IIndicador | IIndicador[]): IIndicator | IIndicator[] => {
-	
 	if (Array.isArray(data)) {
 		return data.map(translate);
 	}
@@ -58,7 +57,7 @@ export interface IDepartamentoSolicitante {
 	secretaria: string;
 }
 
-export const indicadores:IIndicator[] = [
+export const indicadores: IIndicator[] = [
 	{
 		annualCensus: 2020,
 		name: "Abasolo",

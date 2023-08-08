@@ -51,6 +51,8 @@
     "lucide-react": "^0.263.1",
     "match-sorter": "^6.3.1",
     "moment": "^2.29.4",
+    "primeicons": "^6.0.1",
+    "primereact": "^9.6.1",
     "react": "^18.2.0",
     "react-day-picker": "^8.8.0",
     "react-dom": "^18.2.0",
