@@ -7,11 +7,14 @@ import { Provider } from "react-redux";
 import { store } from "@redux/index";
 import router from "@pages/index";
 import "@assets/globals.css";
+import { Flowbite } from "flowbite-react";
 const root = createRoot(document.getElementById("root")! as HTMLElement);
 root.render(
 	<StrictMode>
 		<Provider store={store}>
-			<RouterProvider router={router} />
+			<Flowbite>
+				<RouterProvider router={router} />
+			</Flowbite>
 		</Provider>
 	</StrictMode>,
 );

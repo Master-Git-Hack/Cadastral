@@ -7,12 +7,17 @@ export default function ErrorPage() {
 	console.error(error);
 
 	return (
-		<div id="error-page">
-			<h1>Oops!</h1>
-			<p>¡Lo sentimos, un error inesperado acaba de suceder!</p>
-			<p>
-				<i>{error?.statusText || error?.message}</i>
-			</p>
+		<div
+			id="error-page"
+			className="flex items-center justify-center h-screen bg-gray-100  bg-opacity-20 backdrop-blur rounded drop-shadow-lg"
+		>
+			<div className="z-10 bg-white  p-8 rounded-lg shadow-md text-center">
+				<h1 className="text-4xl font-semibold mb-4">Oops!</h1>
+				<p className="text-red-500 mb-4">
+					¡Lo sentimos, un error inesperado acaba de suceder!
+				</p>
+				<p className="text-gray-600 text-center">{error?.statusText || error?.message}</p>
+			</div>
 		</div>
 	);
 }

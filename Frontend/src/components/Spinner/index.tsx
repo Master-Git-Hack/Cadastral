@@ -19,7 +19,7 @@ export default function Spinner({
 				<svg
 					aria-hidden="true"
 					className={`w-${size} h-${size} mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-${color}`}
-					viewBox="0 0 100 101"
+					viewBox="0 0 100 100"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
 				>
