@@ -170,6 +170,31 @@
         }
     },
     "metadatos": {
+        "get_all_metadatos": {
+            "tags": [
+                "Metadatos"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Successful response",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                    
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Error processing request"
+                }
+            }
+        },
         "get_metadatos": {
             "tags": [
                 "Metadatos"
@@ -191,7 +216,6 @@
                         "properties": {
                             "data": {
                                 "type": "object"
-                                // Add more properties as needed
                             }
                         }
                     }
@@ -221,7 +245,6 @@
                     "application/json": {
                         "schema": {
                             "type": "object"
-                            // Add properties for the request body
                         }
                     }
                 }
@@ -234,7 +257,6 @@
                         "properties": {
                             "data": {
                                 "type": "object"
-                                // Add more properties as needed
                             }
                         }
                     }
@@ -267,7 +289,6 @@
                     "application/json": {
                         "schema": {
                             "type": "object"
-                            // Add properties for the request body
                         }
                     }
                 }
@@ -280,7 +301,6 @@
                         "properties": {
                             "data": {
                                 "type": "object"
-                                // Add more properties as needed
                             }
                         }
                     }

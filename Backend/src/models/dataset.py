@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from xml.etree.ElementTree import fromstring, parse
 
 from geoalchemy2.types import Geometry
@@ -414,12 +414,13 @@ class Model(db.Model):
     themes = Column(ARRAY(Text()), comment="List of themes")
     metadata_xml = Column(Text, comment="XML document containing the entire metadata")
 
-    def __init__(self, xml_file, **kwargs) -> None:
-        with open(xml_file, "r", encoding="utf-8") as file:
-            metadata_xml = file.read()
-        root_xml = fromstring(metadata_xml)
-        kwargs |= {element.tag.lower(): element.text for element in root_xml.iter()}
-        kwargs |= {"metadata_xml": metadata_xml}
+    def __init__(self, xml_file: Optional[str] = None, **kwargs) -> None:
+        if xml_file is not None:
+            with open(xml_file, "r", encoding="utf-8") as file:
+                metadata_xml = file.read()
+            root_xml = fromstring(metadata_xml)
+            kwargs |= {element.tag.lower(): element.text for element in root_xml.iter()}
+            kwargs |= {"metadata_xml": metadata_xml}
         for key, value in kwargs.items():
             setattr(self, key, value)
 

@@ -3,7 +3,7 @@ import { createBrowserRouter, useParams } from "react-router-dom";
 import ErrorPage from "./Error";
 import Home from "./Home";
 import Metadata from "./Meta";
-
+import EditMetadatos from "@features/Metadatos/edit.tsx";
 const RouterPages = createBrowserRouter([
 	{
 		path: "/",
@@ -12,26 +12,14 @@ const RouterPages = createBrowserRouter([
 	},
 	{
 		path: "metadatos",
-
 		element: <Metadata />,
 		children: [
 			{
 				path: "edit/:uid",
-				element: <Child />,
+				element: <EditMetadatos />,
 			},
 		],
 	},
 ]);
 
-function Child() {
-	// We can use the `useParams` hook here to access
-	// the dynamic pieces of the URL.
-	const { uid } = useParams();
-
-	return (
-		<div>
-			<h3>ID: {uid}</h3>
-		</div>
-	);
-}
 export default RouterPages;

@@ -4,7 +4,7 @@ import * as React from "react";
 import { NavLink } from "react-router-dom";
 import { cn } from "@utils/ui";
 import logo from "@assets/logo.png";
-
+import { useLocation } from "react-router-dom";
 import { Navbar as Component, DarkThemeToggle } from "flowbite-react";
 const links = [
 	{
@@ -17,6 +17,7 @@ const links = [
 	},
 ];
 export default function Navbar() {
+	const location = useLocation();
 	return (
 		<Component fluid className="bg-navbar">
 			<Component.Brand href="/">
@@ -37,7 +38,7 @@ export default function Navbar() {
 				<div className="flex items-center md:order-2 mx-auto">
 					{links.map(({ label, href }, index) => (
 						<span className="flex-2 mx-2" key={`${label} - ${index}`}>
-							<Component.Link>
+							<Component.Link active={href === location.pathname}>
 								<NavLink to={href}>{label}</NavLink>
 							</Component.Link>
 						</span>

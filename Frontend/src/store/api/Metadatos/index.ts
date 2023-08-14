@@ -7,11 +7,17 @@ export const MetadatosApi = createApi({
 	reducerPath: "Metadatos",
 	baseQuery,
 	endpoints: (builder) => ({
+		getMetadatosPreview: builder.query<IMetadatos[], null>({
+			query: () => `metadatos/preview`,
+		}),
 		getMetadatos: builder.query<IMetadatos[], null>({
 			query: () => `metadatos`,
 		}),
-		getMetadato: builder.query<IMetadatos, { table_name: string }>({
-			query: ({ table_name }) => `metadatos/${table_name}`,
+		getMetadato: builder.query<IMetadatos, { uid: string }>({
+			query: ({ uid }) => {
+				console.log(uid)
+				return `metadatos/${uid}`;
+			},
 		}),
 
 		postMetadato: builder.mutation<IMetadatos, { data: IMetadatos }>({
@@ -32,6 +38,7 @@ export const MetadatosApi = createApi({
 });
 
 export const {
+	useGetMetadatosPreviewQuery,
 	useGetMetadatosQuery,
 	useGetMetadatoQuery,
 	usePostMetadatoMutation,

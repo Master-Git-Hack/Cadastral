@@ -7,4 +7,3 @@ const prodUrl = import.meta.env.VITE_API_URL_PROD;
 export const baseUrl = currentEnv === "development" ? devUrl : prodUrl;
 export const baseQuery = fetchBaseQuery({ baseUrl });
 export default baseUrl;
-console.log("baseUrl", baseUrl);

@@ -1,98 +1,116 @@
-/** @format */
-
-export const structure = ({ title }: any) => [
-	{
-		id: 1,
-		title: "Identificación del conjunto de datos espaciales o producto",
-
-		data: [],
-	},
-];
-interface MetadataItem {
-	padding: string;
-	hasTooltip?: boolean;
-	tooltip?: string;
-	colSpan?: string;
+export const template = {
+	table_name: "",
+	schema_name: "",
 }
+export const templateNoXML = {
+	table_name: "",
+	schema_name: "",
+	title: "",
+	purpose: "",
+	abstract: "",
+	md_dataidentification_language: "",
+	topiccategory: "",
+	groupcategory: "",
+	keyword: "",
+	presentationform: "",
+	ci_onlineresource_linkage: "",
+	maintenanceandupdatefrequency: "",
+	md_dataidentification_characterset: "",
 
-interface MetadataSection {
-	id: number;
-	title: string;
-	labels?: string[];
-	values?: any;
-	data: MetadataItem[];
+	specuse: "",
+	datestamp: "",
+	datetype: "",
+	date_creation: "",
+	inpname: "",
+	ci_responsibleparty_individualname: "",
+	ci_responsibleparty_organisationname: "",
+	ci_responsibleparty_positionname: "",
+	ci_responsibleparty_linkage: "",
+	ci_responsibleparty_role: "",
+	westboundlongitude: 0,
+	eastboundlongitude: 0,
+	southboundlatitude: 0,
+	northboundlatitude: 0,
+	spatialrepresentationtype: "",
+	latres: 0,
+	longres: 0,
+	geogunit: "",
+	lambertc_stdparll: "",
+	lambertc_longcm: "",
+	mercatort_latprjo: 0,
+	mercator_feast: 0,
+	mercator_fnorth: 0,
+	mercator_sfec: 0,
+
+	ordres: 0,
+	absres: 0,
+	distance_res: 0,
+	bearing_res: 0,
+	bearing_uni: "",
+	ref_bearing_dir: "",
+	ref_bearing_mer: "",
+	plandu: "",
+	local_desc: "",
+	local_geo_inf: "",
+	horizdn: "",
+	ellips: "",
+	semiaxis: 0,
+	altenc: "",
+	categories: [],
+	altres: 0,
+	altunits: "",
+	altdatum: "",
+	depthdn: "",
+	depthres: 0,
+	depthdu: "",
+	level: "",
+	dq_quantitativeresult: "",
+	dq_completeness_nameofmeasure: "",
+	dq_logicconsistency_nameofmeasure: "",
+	positionalaccuracy_nameofmeasure: "",
+	temporalaccuracy_nameofmeasure: "",
+	thematicaccuracy_nameofmeasure: "",
+	dq_completeness_measuredescription: "",
+	dq_logicconsistency_measuredescription: "",
+	positionalaccuracy_measuredescription: "",
+	temporalaccuracy_measuredescription: "",
+	thematicaccuracy_measuredescription: "",
+	positionalaccuracy_valueunit: "",
+	temporalaccuracy_valueunit: "",
+	thematicaccuracy_valueunit: "",
+	statement: "",
+	entity_detail: "",
+	graphfilename: "",
+	md_format: "",
+	edition: "",
+	metadatastandardname: "",
+	metadatastandardversion: "",
+	date: "",
+	md_referencesystem: "",
+	geographicelement: "",
+	planar: "",
+	mapprojn: "",
+	gridcoordinatessystem: "",
+
+	coord_repres: "",
+
+	li_processstep: "",
+	li_source: "",
+	spatial_level: "",
+	minimum_optimal_scale: 0,
+	maximum_optimal_scale: 0,
+	publication_date: "",
+	publication_frequency: "",
+	utm_zone: 0,
+	license: "",
+	confidentiality: "",
+	feature_count: "",
+	geometry_type: "",
+	projection_name: "",
+	projection_authid: "",
+	spatial_extent: "",
+	update_date: "",
+	geom: undefined,
+	data_last_update: "",
+	metadata_xml: "",
 }
-
-export const metadata = ({ title }): MetadataSection[] => [
-	{
-		id: 1,
-		title: "Identificación del conjunto de datos espaciales o producto",
-		data: [
-			{
-				label: "1.1 Título del conjunto de datos espaciales o producto.",
-				value: title,
-				padding: "3",
-				colSpan: "0",
-				hasTooltip: false,
-				tooltip: "",
-			},
-			// Add more data items here as needed...
-		],
-	},
-	{
-		id: 2,
-		title: "Fechas relacionadas con el conjunto de datos espaciales o producto",
-		data: [
-			// Add data items for section 2...
-		],
-	},
-	{
-		id: 3,
-		title: "Unidad del estado responsable del conjunto de datos espaciales o producto",
-		data: [
-			// Add data items for section 3...
-		],
-	},
-	{
-		id: 4,
-		title: "Localización geográfica del conjunto de datos espaciales o producto (Representación espacial)",
-		data: [
-			// Add data items for section 4...
-		],
-	},
-	{
-		id: 5,
-		title: "Sistema de Referencia",
-		data: [
-			// Add data items for section 5...
-		],
-	},
-	{
-		id: 6,
-		title: "Calidad de la información",
-		data: [
-			// Add data items for section 6...
-		],
-	},
-	{
-		id: 7,
-		title: "Entidades y Atributos",
-		data: [
-			// Add data items for section 7...
-		],
-	},
-	{
-		id: 8,
-		title: "Distribución",
-		data: [
-			// Add data items for section 8...
-		],
-	},
-	{
-		id: 9,
-		title: "Información de metadatos",
-		data: [
-			// Add data items for section 9...
-		],
-	},
-];

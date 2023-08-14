@@ -2,7 +2,7 @@
 import { NavLink } from "react-router-dom";
 
 import "primereact/resources/themes/tailwind-light/theme.css";
-import { Table } from "flowbite-react";
+import { Table } from "@components/Table";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { useGetMetadatosQuery } from "@api/Metadatos";
 import { IMetadatos } from "@api/Metadatos/types";
@@ -14,54 +14,69 @@ export default function Metadatos() {
 	if (isLoading) return <Spinner size={20} />;
 
 	return (
-		<div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-			<Table>
-				<Table.Head className="text-center">
-					<Table.HeadCell>Nombre de la Tabla</Table.HeadCell>
-					<Table.HeadCell>Schema de Origen</Table.HeadCell>
-					<Table.HeadCell>Título</Table.HeadCell>
-					<Table.HeadCell>Propósito</Table.HeadCell>
-					<Table.HeadCell>Descripción</Table.HeadCell>
-					<Table.HeadCell>
-						<span className="sr-only">Editar</span>
-					</Table.HeadCell>
-				</Table.Head>
-				<Table.Body className="divide-y">
+		<div className="relative overflow-x-auto shadow-md sm:rounded-lg mx-10">
+			<Table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+				<Table.Header className="text-xs text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+					<Table.Row>
+						<Table.Head scope="col" class="px-6 py-3">
+							Nombre de la Tabla
+						</Table.Head>
+						<Table.Head scope="col" class="px-6 py-3">
+							Schema de Origen
+						</Table.Head>
+						<Table.Head scope="col" class="px-6 py-3">
+							Título
+						</Table.Head>
+						<Table.Head scope="col" class="px-6 py-3">
+							Propósito
+						</Table.Head>
+						<Table.Head scope="col" class="px-6 py-3">
+							Descripción
+						</Table.Head>
+						<Table.Head scope="col" class="px-6 py-3">
+							<span className="sr-only">Editar</span>
+						</Table.Head>
+					</Table.Row>
+				</Table.Header>
+				<Table.Body>
 					{data?.data?.features?.map(
-						({
-							uid,
-							table_name,
-							schema_name,
-							title,
-							purpose,
-							abstract,
-						}: IMetadatos) => (
+						(
+							{ uid, table_name, schema_name, title, purpose, abstract }: IMetadatos,
+							index,
+						) => (
 							<Table.Row
-								className="bg-white dark:border-gray-700 dark:bg-gray-800 min-h-screen"
+								className={`${
+									index % 2 === 0
+										? "bg-gray-100 dark:bg-gray-600"
+										: "bg-white  dark:bg-gray-800"
+								} border-b dark:border-gray-700 hover:bg-blue-100 dark:hover:bg-blue-600`}
 								key={uid}
 							>
-								<Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+								<Table.Cell
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+								>
 									{table_name}
 								</Table.Cell>
 								<Table.Cell>{schema_name}</Table.Cell>
 								<Table.Cell>
 									<p className=" text-justify">{title}</p>
 								</Table.Cell>
-								<Table.Cell className=" w-fit hover:h-52">
+								<Table.Cell className="px-6 py-4 w-fit hover:h-52">
 									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
 										{purpose}
 									</p>
 								</Table.Cell>
 
-								<Table.Cell className=" w-fit hover:h-52">
+								<Table.Cell className="px-6 py-4 w-fit hover:h-52">
 									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
 										{abstract}
 									</p>
 								</Table.Cell>
-								<Table.Cell>
+								<Table.Cell className="px-6 py-4 text-right">
 									<NavLink
-										className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-										to={`/metadatos/edit/${uid}`}
+										className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+										to={`edit/${uid}`}
 									>
 										Edit
 									</NavLink>

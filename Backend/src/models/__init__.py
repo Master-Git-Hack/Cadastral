@@ -290,19 +290,27 @@ class Template:
                 return self.current
 
     def to_dict(
-        self, data: Optional[object] = None, exclude: Optional[List[str]] = None
+        self,
+        data: Optional[object] = None,
+        exclude: Optional[List[str]] = None,
+        **kwargs,
     ) -> Dict:
         self.check_attr()
+        if "many" in kwargs:
+            kwargs.pop("many")
         if data is not None:
             self.current = data
         if self.current is None:
             return {}
         if exclude is not None:
-            return self.schema(exclude=exclude).dump(self.current)
-        return self.schema().dump(self.current)
+            return self.schema(exclude=exclude, **kwargs).dump(self.current)
+        return self.schema(**kwargs).dump(self.current)
 
     def to_list(
-        self, data: Optional[object] = None, exclude: Optional[List[str]] = None
+        self,
+        data: Optional[object] = None,
+        exclude: Optional[List[str]] = None,
+        **kwargs,
     ) -> List:
         self.check_attr()
         if data is not None:
@@ -310,8 +318,8 @@ class Template:
         if self.current is None:
             return []
         if exclude is not None:
-            return self.schema(exclude=exclude, many=True).dump(self.current)
-        return self.schema(many=True).dump(self.current)
+            return self.schema(exclude=exclude, many=True, **kwargs).dump(self.current)
+        return self.schema(many=True, **kwargs).dump(self.current)
 
 
 from .catastral import Catastral

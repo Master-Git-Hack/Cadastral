@@ -13,7 +13,8 @@ from .costos_construccion import costos_construccion_api as __cc_api
 from .homologacion import homologacion_api as __h_api
 from .indicadores_municipales import indicadores_municipales_api as __im_api
 from .justipreciacion import justipreciacion_api as __j_api
-from .municipios import municipios_api as __m_api
+from .metadatos import metadatos_api as __me_api
+from .municipios import municipios_api as __mu_api
 from .obras_complementarias import obras_complementarias_api as __oc_api
 from .reportes_catastrales import reportes_catastrales_api as __rc_api
 
@@ -21,7 +22,8 @@ api.register_blueprint(__cc_api)
 api.register_blueprint(__h_api)
 api.register_blueprint(__im_api)
 api.register_blueprint(__j_api)
-api.register_blueprint(__m_api)
+api.register_blueprint(__me_api)
+api.register_blueprint(__mu_api)
 api.register_blueprint(__oc_api)
 api.register_blueprint(__rc_api)
 
