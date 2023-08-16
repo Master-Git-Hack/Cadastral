@@ -1,7 +1,9 @@
+/** @format */
+
 export const template = {
 	table_name: "",
 	schema_name: "",
-}
+};
 export const templateNoXML = {
 	table_name: "",
 	schema_name: "",
@@ -113,4 +115,4 @@ export const templateNoXML = {
 	geom: undefined,
 	data_last_update: "",
 	metadata_xml: "",
-}
+};

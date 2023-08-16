@@ -15,7 +15,7 @@ export const MetadatosApi = createApi({
 		}),
 		getMetadato: builder.query<IMetadatos, { uid: string }>({
 			query: ({ uid }) => {
-				console.log(uid)
+				console.log(uid);
 				return `metadatos/${uid}`;
 			},
 		}),
