@@ -44,6 +44,7 @@ export const File = forwardRef<HTMLButtonElement, FileButtonProps>(
 			fileType,
 			onChange,
 			currentFile = null,
+			customSaveFile = undefined,
 			...props
 		}: FileButtonProps,
 		ref,
@@ -79,7 +80,7 @@ export const File = forwardRef<HTMLButtonElement, FileButtonProps>(
 						uploadFile();
 					}
 					if (value === 1) {
-						saveFile();
+						customSaveFile(file?.name) ?? saveFile();
 					}
 					if (value === 2) {
 						setFile(null);

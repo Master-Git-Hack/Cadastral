@@ -84,5 +84,6 @@ export interface FileButtonProps extends DropdownButtonProps {
 	useFilename?: boolean;
 	fileType?: string;
 	currentFile?: File | null;
-	onChange(files: File | null): void;
+	onChange?(files: File | null): void;
+	customSaveFile?(filename: string): void;
 }

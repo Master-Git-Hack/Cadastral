@@ -169,6 +169,73 @@
             }
         }
     },
+    "parse_files": {
+        "xml_to_json": {
+            "tags": [
+                "File Converter"
+            ],
+            "parameters": [
+                {
+                    "name": "file",
+                    "in": "formData",
+                    "type": "file",
+                    "required": true,
+                    "description": "XML file to convert to JSON"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Successfully converted XML to JSON",
+                    "schema": {
+                        "type": "object"
+                    }
+                },
+                "400": {
+                    "description": "Bad Request: Invalid file or conversion error"
+                }
+            }
+        },
+        "json_to_xml": {
+            "tags": [
+                "File Converter"
+            ],
+            "parameters": [
+                {
+                    "name": "filename",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Desired filename for the generated XML file"
+                }
+            ],
+            "requestBody": {
+                "description": "JSON data to convert to XML",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object"
+                        },
+                        "example": {
+                            "key1": "value1",
+                            "key2": "value2"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Successfully converted JSON to XML",
+                    "content": {
+                        "application/xml": {}
+                    }
+                },
+                "400": {
+                    "description": "Bad Request: Invalid JSON or conversion error"
+                }
+            }
+        }
+    },
     "metadatos": {
         "get_all_metadatos": {
             "tags": [
@@ -184,7 +251,6 @@
                                 "type": "array",
                                 "items": {
                                     "type": "object"
-                                    
                                 }
                             }
                         }
@@ -563,6 +629,110 @@
                 },
                 "404": {
                     "description": "No encontrado"
+                }
+            }
+        }
+    },
+    "db_info": {
+        "get_schemas": {
+            "tags": [
+                "DB Info"
+            ],
+            "responses": {
+                "200": {
+                    "description": "A list of schema names",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "get_tables_from_schema": {
+            "tags": [
+                "DB Info"
+            ],
+            "parameters": [
+                {
+                    "name": "db",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the database."
+                },
+                {
+                    "name": "schema",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the schema."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Tables from the specified schema.",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "422": {
+                    "description": "Error response.",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_complete_schema": {
+            "tags": [
+                "DB Info"
+            ],
+            "parameters": [
+                {
+                    "name": "db",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the database."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Complete schema information for the specified database.",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "422": {
+                    "description": "Error response.",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         }

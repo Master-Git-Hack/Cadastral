@@ -5,8 +5,8 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { cn } from "@utils/ui";
 const Template = ({
-	titleText="",
-	text="",
+	titleText = "",
+	text = "",
 	icon,
 	iconColor,
 	footer,
@@ -22,10 +22,10 @@ const Template = ({
 	inputOptions,
 	html,
 	isLoading,
-	confirmButtonText= "OK",
+	confirmButtonText = "OK",
 
-	denyButtonText= "Abort",
-	cancelButtonText= "Cancel",
+	denyButtonText = "Abort",
+	cancelButtonText = "Cancel",
 	confirmColor = "default",
 	cancelColor = "danger",
 	didOpen,
@@ -54,14 +54,13 @@ const Template = ({
 		confirmButtonText,
 		denyButtonText,
 		cancelButtonText,
-		confirmButtonColor: variants[confirmColor ],
-		cancelButtonColor: variants[cancelColor ],
+		confirmButtonColor: variants[confirmColor],
+		cancelButtonColor: variants[cancelColor],
 
 		didOpen: () => {
 			isLoading && Alert.showLoading();
 			return didOpen;
 		},
-		
 	});
 };
 
@@ -70,8 +69,8 @@ const Component = ({ titleText, text, icon, isLoading = false, ...props }: Alert
 export const Success = ({
 	icon = "success",
 	confirmColor = "success",
-    isLoading = false,
-    ...props
+	isLoading = false,
+	...props
 }: AlertProps) => Template({ ...props, icon, confirmColor, isLoading });
 
 export const Danger = ({
@@ -130,7 +129,8 @@ export const Ask = ({
 	cancelButtonText = "Cancelar",
 	cancelColor = "danger",
 	...props
-}: AlertProps) => Template({...props, icon, confirmButtonText, confirmColor, cancelButtonText, cancelColor });
+}: AlertProps) =>
+	Template({ ...props, icon, confirmButtonText, confirmColor, cancelButtonText, cancelColor });
 export const Alert = Object.assign(Component, {
 	Success,
 	Danger,

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from flask_admin import Admin
 from flask_bcrypt import Bcrypt
 from flask_marshmallow import Marshmallow
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.ext.declarative import declarative_base
 
 # from flask_mongoengine import MongoEngine
@@ -174,6 +174,39 @@ class DB:
 
     def close_session(self, session) -> None:
         session.close()
+
+    def get_schema_names(
+        self,
+    ) -> list:
+        query = text("SELECT schema_name FROM information_schema.schemata;")
+        try:
+            schemas = self.current_session.execute(query)
+        except Exception as e:
+            session = self.create_session()
+            schemas = session.execute(query)
+            self.close_session(session)
+        finally:
+            return [schema[0] for schema in schemas]
+
+    def get_table_names(self, schema: str) -> list:
+        tables = []
+        try:
+            inspector = inspect(self.current_session.connection())
+            tables = inspector.get_table_names(schema=schema)
+        except Exception as e:
+            session = self.create_session()
+            inspector = inspect(session.connection())
+            tables = inspector.get_table_names(schema=schema)
+            self.close_session(session)
+        finally:
+            return tables
+
+    def get_complete_schema(self) -> dict:
+        schemas = self.get_schema_names()
+        return {
+            "schemas": schemas,
+            "tables": {schema: self.get_table_names(schema) for schema in schemas},
+        }
 
     def __enter__(self):
         self.current_session = self.create_session()

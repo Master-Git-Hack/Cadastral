@@ -1,12 +1,34 @@
 # from logging import DEBUG, ERROR, INFO, Formatter
+from logging.config import dictConfig
 from logging.handlers import SMTPHandler
 
 import flask_monitoringdashboard as dashboard
 from flasgger import Swagger
-from flask import Flask
+from flask import Flask, current_app
 from flask_cors import CORS
+from werkzeug.local import LocalProxy
 
 from .config import Config
+
+dictConfig(
+    {
+        "version": 1,
+        "formatters": {
+            "default": {
+                "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
+            }
+        },
+        "handlers": {
+            "wsgi": {
+                "class": "logging.StreamHandler",
+                "stream": "ext://flask.logging.wsgi_errors_stream",
+                "formatter": "default",
+            }
+        },
+        "root": {"level": "INFO", "handlers": ["wsgi"]},
+    }
+)
+
 
 config = Config()
 cors = CORS()
@@ -44,7 +66,7 @@ dashboard.bind(app)
 #     from .models import Modelos
 
 #     db.create_all()
-
+logger = LocalProxy(lambda: app.logger)
 
 from .api import api
 
