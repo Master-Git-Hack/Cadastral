@@ -1,28 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: var(--font-family);
+}                                        
+ 
 html {
   scroll-behavior: smooth;
 }
 .bg-navbar{
     background: rgb(204, 204, 176);
 }
+.bg-login{
+    background-image:url('./gto.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    filter: blur(px);
 
-.spinner {
-    width: 200px;
-    height: 200px;
-    border-left: 50px solid transparent;
-    border-right: 50px solid transparent;
-    border-top: 150px solid #000;
-    border-bottom: 150px solid #000;
-  }
-  p.truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  .div:hover .hidden {
-    display: block;
-    opacity: 1;
-  }
+}

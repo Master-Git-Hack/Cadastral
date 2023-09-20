@@ -1,19 +1,28 @@
 /** @format */
 
-import React, { StrictMode } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "@redux/index";
 import router from "@pages/index";
-import "@assets/globals.css";
+import { PrimeReactProvider } from "primereact/api";
 import { Flowbite } from "flowbite-react";
+import "@assets/globals.css";
+//theme
+import "primereact/resources/themes/tailwind-light/theme.css";
+import "primeicons/primeicons.css";
+//core
+import "primereact/resources/primereact.min.css";
+
 const root = createRoot(document.getElementById("root")! as HTMLElement);
 root.render(
 	<StrictMode>
 		<Provider store={store}>
 			<Flowbite>
-				<RouterProvider router={router} />
+				<PrimeReactProvider>
+					<RouterProvider router={router} />
+				</PrimeReactProvider>
 			</Flowbite>
 		</Provider>
 	</StrictMode>,

@@ -64,7 +64,7 @@ class Responses:
         response = jsonify(content)
         response.status_code = status_code
         if headers:
-            response.headers |= {key: value for key, value in headers.items()}
+            response.headers.update(headers)
         if cookies:
             for key, value in cookies.items():
                 response.set_cookie(key, value, secure=True)

@@ -13,26 +13,41 @@ import {
 export const MunicipiosApi = createApi({
 	reducerPath: "Municipios",
 	baseQuery,
-	endpoints: (builder) => ({
-		getMunicipios: builder.query<IMunicipio[], null>({
-			query: () => `municipios`,
+	endpoints: ({ query }) => ({
+		getMunicipios: query<IMunicipio[], null>({
+			query: () => ({
+				url: `municipios`,
+				method: "GET",
+			}),
 		}),
-		getMunicipio: builder.query<IMunicipio, { municipio: string }>({
-			query: ({ municipio }) => `municipios/${municipio}`,
+		getMunicipio: query<IMunicipio, { municipio: string }>({
+			query: ({ municipio }) => ({
+				url: `municipios/${municipio}`,
+				method: "GET",
+			}),
 		}),
-		getIndicadores: builder.query<IIndicator[], null>({
-			query: () => `indicadores-municipales`,
+		getIndicadores: query<IIndicator[], null>({
+			query: () => ({
+				url: `indicadores-municipales`,
+				method: "GET",
+			}),
 			transformResponse: ({ data, ...response }: any) => ({
 				data: translateIndicador(data?.features ?? []),
 				...response,
 			}),
 			transformErrorResponse: (error) => ({ data: indicadores, ...error }),
 		}),
-		getRawIndicadores: builder.query<IIndicador[], null>({
-			query: () => `indicadores-municipales`,
+		getRawIndicadores: query<IIndicador[], null>({
+			query: () => ({
+				url: `indicadores-municipales`,
+				method: "GET",
+			}),
 		}),
-		getDepartamentos: builder.query<IDepartamentoSolicitante[], null>({
-			query: () => `departamentos-solicitantes`,
+		getDepartamentos: query<IDepartamentoSolicitante[], null>({
+			query: () => ({
+				url: `departamentos-solicitantes`,
+				method: "GET",
+			}),
 		}),
 	}),
 });

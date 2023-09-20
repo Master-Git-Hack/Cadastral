@@ -1,10 +1,12 @@
 /** @format */
 
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { variants, aligns, DropdownButtonProps } from "./types";
 import { cn } from "@utils/ui";
+import { Button } from "flowbite-react";
 
+import { OverlayPanel } from "primereact/overlaypanel";
 export const Dropdown = forwardRef<HTMLButtonElement, DropdownButtonProps>(
 	(
 		{
@@ -21,34 +23,27 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownButtonProps>(
 		}: DropdownButtonProps,
 		ref,
 	) => {
-		const [isOpen, setIsOpen] = useState(false); // Add state for open/closed
+		const panel = useRef(null);
+		const [isOpen, setIsOpen] = useState(false);
 
-		const toggleDropdown = () => {
-			setIsOpen((prevState) => !prevState && options !== undefined); // Toggle state
-		};
 		return (
 			<div className={cn("grid w-fit h-fit p-1 w-full", aligns({ align }))}>
-				<button
-					id={id}
+				<Button
 					ref={ref}
-					className={cn(
-						variants({ variant, size, rounded, align }),
-						className + " w-fit h-fit rounded-lg",
-					)}
-					data-dropdown-toggle="dropdown"
-					onClick={toggleDropdown}
 					{...props}
+					color="light"
+					pill
+					onClick={(e) => panel.current.toggle(e)}
 				>
 					<div
-						className="flex justify-center justify-between "
+						className="flex  items-center justify-center justify-between "
 						data-dropdown-toggle="dropdown"
 					>
 						<div className="mr-1 capitalize">{children}</div>
 						<div className="fill-current">
 							<svg
-								className={`relative top-[1px] ml-1 h-3 w-3 transform transition-transform duration-300 ${
-									isOpen ? "rotate-180" : ""
-								}`}
+								className={`relative top-[1px] ml-1 h-3 w-3 transform transition-transform duration-300
+								 ${isOpen ? "rotate-180" : ""}`}
 								aria-hidden="true"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -64,18 +59,21 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownButtonProps>(
 							</svg>
 						</div>
 					</div>
-				</button>
-				<div
-					id={`dropdown-${id}`}
-					className={cn(
-						`flex  w-44   bg-white divide-y divide-gray-100 rounded-lg shadow  dark:bg-gray-700 dark:divide-gray-600 ${
-							isOpen ? "block" : "hidden"
-						}`,
-						aligns({ align }),
-					)}
+				</Button>
+				<OverlayPanel
+					onShow={() => setIsOpen(true)}
+					onHide={() => setIsOpen(false)}
+					ref={panel}
+					dismissable
+					pt={{
+						root: {
+							className: "bg-white dark:bg-gray-800",
+						},
+					}}
 				>
 					<ul
-						className="py-2 text-sm text-gray-700 dark:text-gray-200 w-full"
+						role="list"
+						className="pmy-2 text-sm text-gray-700 dark:text-gray-200 w-full divide-y divide-slate-200"
 						aria-labelledby={id}
 					>
 						{options?.map(
@@ -85,10 +83,11 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownButtonProps>(
 							) => (
 								<li
 									key={`id-${index}-${id}`}
-									className="px-3 py-2 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800"
+									className="px-3 py-2 cursor-pointer hover:bg-slate-100 
+									dark:odd:bg-slate-800 dark:even:bg-slate-700
+									dark:text-white dark:hover:bg-slate-200 odd:bg-white even:bg-slate-50 hover:bg-slate-200"
 									onClick={() => {
 										onClick(value);
-										toggleDropdown();
 									}}
 								>
 									<p
@@ -115,7 +114,7 @@ export const Dropdown = forwardRef<HTMLButtonElement, DropdownButtonProps>(
 							),
 						)}
 					</ul>
-				</div>
+				</OverlayPanel>
 			</div>
 		);
 	},

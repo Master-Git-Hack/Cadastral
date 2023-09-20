@@ -6,6 +6,7 @@ from typing import Optional
 from dotenv import load_dotenv
 from flask_admin import Admin
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.ext.declarative import declarative_base
@@ -28,6 +29,9 @@ class __Base(object):
     TESTING: bool = False
     CSRF_ENABLED: bool = True
     SECRET_KEY: str = environ.get("SECRET_KEY")
+    JWT_SECRET_KEY: str = SECRET_KEY.replace("'", '"')
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS = ["access"]
     API_VERSION: str = environ.get("API_VERSION", "1.0.0")
     API_URL_PREFIX: str = f"/api/v{API_VERSION[0]}"
     API_MODELS: dict = {}
@@ -175,6 +179,9 @@ class DB:
     def close_session(self, session) -> None:
         session.close()
 
+    def create_models(self):
+        self.Model.metadata.create_all(bind=self.engine)
+
     def get_schema_names(
         self,
     ) -> list:
@@ -248,7 +255,7 @@ class Config(current_env):
     }
     bcrypt: Bcrypt = Bcrypt()
     # no_db: MongoEngine = MongoEngine()
-
+    auth_manager: JWTManager = JWTManager()
     ma: Marshmallow = Marshmallow()
     admin: Admin = Admin(name="Catastro", template_mode="bootstrap4")
 

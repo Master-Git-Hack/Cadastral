@@ -9,6 +9,8 @@ api: Blueprint = Blueprint("api", __name__, url_prefix=config.API_URL_PREFIX)
 
 # from .module import module
 # api.register_blueprint(module)
+from .auth import auth as __auth
+from .checklist import checklist as __ckl_api
 from .costos_construccion import costos_construccion_api as __cc_api
 from .db_info import db_info as __dbi_api
 from .homologacion import homologacion_api as __h_api
@@ -20,6 +22,7 @@ from .obras_complementarias import obras_complementarias_api as __oc_api
 from .parse import parse_files as __pf_api
 from .reportes_catastrales import reportes_catastrales_api as __rc_api
 
+api.register_blueprint(__auth)
 api.register_blueprint(__cc_api)
 api.register_blueprint(__h_api)
 api.register_blueprint(__im_api)
@@ -30,6 +33,7 @@ api.register_blueprint(__oc_api)
 api.register_blueprint(__rc_api)
 api.register_blueprint(__pf_api)
 api.register_blueprint(__dbi_api)
+api.register_blueprint(__ckl_api)
 
 
 @api.before_app_request

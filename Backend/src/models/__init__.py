@@ -323,6 +323,7 @@ class Template:
 
 
 from .catastral import Catastral
+from .checklist import Checklist
 from .costos_construccion import CostosConstruccion
 from .dataset import Dataset
 from .departamento_solicitante import DepartamentosSolicitantes
@@ -332,6 +333,8 @@ from .justipreciacion import Justipreciacion
 from .logged_actions import LoggedActions
 from .municipios import Municipios
 from .obras_complementarias import ObrasComplementarias
+from .revision_checklist import RevisionChecklist
+from .usuarios import Usuarios
 
 
 class Modelos(object):
@@ -345,6 +348,9 @@ class Modelos(object):
     LoggedActions = LoggedActions
     Municipios = Municipios
     ObrasComplementarias = ObrasComplementarias
+    Usuarios = Usuarios
+    CheckList = Checklist
+    RevisionChecklist = RevisionChecklist
 
 
 config.admin.add_view(

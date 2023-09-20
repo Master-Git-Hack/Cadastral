@@ -1,4 +1,487 @@
 {
+    "auth": {
+        "sign_in": {
+            "tags": [
+                "Authentication"
+            ],
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Basic Authentication header in the format 'Basic base64(username:password)'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "Unauthorized - Invalid credentials or missing Authorization header"
+                },
+                "404": {
+                    "description": "User not found"
+                },
+                "422": {
+                    "description": "Failed to generate token"
+                },
+                "200": {
+                    "description": "Success",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "username": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "reviewer": {
+                                "type": "boolean"
+                            },
+                            "group": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "headers": {
+                        "Authorization": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "checklist": {
+        "get_all": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener todos los checklists",
+            "description": "Este endpoint permite a un usuario obtener todos los checklists asociados a su cuenta.",
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "nombre": {
+                                    "type": "string"
+                                },
+                                "descripcion": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_checklist": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener un checklist por ID",
+            "description": "Este endpoint permite a un usuario obtener un checklist específico por su ID.",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID del checklist a obtener"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "404": {
+                    "description": "Usuario no encontrado"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "patch_checklist": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener todas las revisiones de checklists",
+            "description": "Este endpoint permite a un usuario obtener todas las revisiones de checklists asociadas a su cuenta.",
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id_1": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "nombre": {
+                                        "type": "string"
+                                    },
+                                    "descripcion": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "id_2": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "nombre": {
+                                        "type": "string"
+                                    },
+                                    "descripcion": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_all_revisiones": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener una revisión de checklist por ID",
+            "description": "Este endpoint permite a un usuario obtener una revisión de checklist específica por su ID.",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la revisión a obtener"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "404": {
+                    "description": "Usuario no encontrado"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_revision": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener una revisión de checklist por ID",
+            "description": "Este endpoint permite a un usuario obtener una revisión de checklist específica por su ID.",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la revisión a obtener"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "404": {
+                    "description": "Usuario no encontrado"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "patch_revision": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Actualizar una revisión de checklist por ID",
+            "description": "Este endpoint permite a un usuario actualizar una revisión de checklist específica por su ID.",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la revisión a actualizar"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "attribute1": {
+                                    "type": "string"
+                                },
+                                "attribute2": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "404": {
+                    "description": "Usuario no encontrado"
+                },
+                "500": {
+                    "description": "Error interno del servidor"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "post_revision": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Crear una nueva revisión de checklist",
+            "description": "Este endpoint permite a un usuario crear una nueva revisión de checklist.",
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "attribute1": {
+                                    "type": "string"
+                                },
+                                "attribute2": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "500": {
+                    "description": "Error interno del servidor"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "post_checklist": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Crear un nuevo checklist",
+            "description": "Este endpoint permite a un usuario crear un nuevo checklist.",
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "attribute1": {
+                                    "type": "string"
+                                },
+                                "attribute2": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "500": {
+                    "description": "Error interno del servidor"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
     "costos_construccion": {
         "get_costos_construccion": {
             "operationId": "get.costos-construccion/{justipreciacion}",

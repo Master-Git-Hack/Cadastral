@@ -10,6 +10,7 @@ import { xmlToJson, jsonToXml } from "@utils/xml";
 import { flattenObject } from "@utils/object";
 import { useXml2jsonMutation, useJson2xmlMutation } from "@api/ParseFile";
 import Stepper from "@components/Stepper";
+import { Dropdown } from "primereact/dropdown";
 /*onChange={({ currentTarget: { value } }: ChangeEventHandler<HTMLInputElement>) =>
 setText(value as string)
 }*/
@@ -86,12 +87,6 @@ export default function Create({ onEdit = true, record = undefined }) {
 					</FileButton>
 				</div>
 			</div>
-			<SchemaSelect
-				db="catastro_v2"
-				currentSchema={currentSchema}
-				schema_name={(value) => setSchema(value)}
-				table_name={(value) => console.log(value)}
-			/>
 
 			{form()?.map((item) => item)}
 

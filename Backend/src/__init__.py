@@ -10,24 +10,24 @@ from werkzeug.local import LocalProxy
 
 from .config import Config
 
-dictConfig(
-    {
-        "version": 1,
-        "formatters": {
-            "default": {
-                "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
-            }
-        },
-        "handlers": {
-            "wsgi": {
-                "class": "logging.StreamHandler",
-                "stream": "ext://flask.logging.wsgi_errors_stream",
-                "formatter": "default",
-            }
-        },
-        "root": {"level": "INFO", "handlers": ["wsgi"]},
-    }
-)
+# dictConfig(
+#     {
+#         "version": 1,
+#         "formatters": {
+#             "default": {
+#                 "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
+#             }
+#         },
+#         "handlers": {
+#             "wsgi": {
+#                 "class": "logging.StreamHandler",
+#                 "stream": "ext://flask.logging.wsgi_errors_stream",
+#                 "formatter": "default",
+#             }
+#         },
+#         "root": {"level": "INFO", "handlers": ["wsgi"]},
+#     }
+# )
 
 
 config = Config()
@@ -57,15 +57,17 @@ def init_app():
     # config.no_db.init_app(context)
     cors.init_app(context, **config.CORS_SRC)
     config.admin.init_app(context)
+    config.auth_manager.init_app(context)
     return context
 
 
 app: Flask = init_app()
 dashboard.bind(app)
-# with app.app_context():
-#     from .models import Modelos
+with app.app_context():
+    from .models import Modelos
 
-#     db.create_all()
+    db.catastro_v2.create_models()
+    db.valuaciones.create_models()
 logger = LocalProxy(lambda: app.logger)
 
 from .api import api

@@ -2,7 +2,7 @@ FLASK_APP = "wsgi.py"
 FLASK_RUN_HOST = "0.0.0.0"
 FLASK_RUN_PORT = 5000
 FLASK_ENV = "development"
-SECRET_KEY = "secret"
+SECRET_KEY = "{'#Pl4taformas G3omáticas C4tastrales':[{'@Dirección de Recursos Materiales, Servicios Generales y Catastro!':'($Secretaría de Fiñanzas, Inversión y Administración)%'}]}"
 DEGUG = True
 # API
 API_URL = "/api/v2/"
@@ -15,8 +15,8 @@ MAIL_PASSWORD = "#V0ngolaX_gob"
 CORS = "*"
 CORS_ORIGIN = "*"
 CORS_ALLOW_METHODS = "*"
-CORS_ALLOW_HEADERS = "*"
-CORS_EXPOSE_HEADERS = "*"
+CORS_ALLOW_HEADERS = "Authorization"
+CORS_EXPOSE_HEADERS = "Authorization"
 
 # PATHS
 TMP_FOLDERNAME = "tmp"
