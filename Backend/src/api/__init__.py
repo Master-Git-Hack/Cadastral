@@ -21,8 +21,10 @@ from .municipios import municipios_api as __mu_api
 from .obras_complementarias import obras_complementarias_api as __oc_api
 from .parse import parse_files as __pf_api
 from .reportes_catastrales import reportes_catastrales_api as __rc_api
+from .users import users as __u_api
 
 api.register_blueprint(__auth)
+api.register_blueprint(__u_api)
 api.register_blueprint(__cc_api)
 api.register_blueprint(__h_api)
 api.register_blueprint(__im_api)
