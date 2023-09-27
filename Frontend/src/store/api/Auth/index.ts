@@ -2,6 +2,7 @@
 
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "../baseUrl";
+import ls from "@utils/localstorage";
 import Toast from "@components/Alerts";
 export const AuthApi = createApi({
 	reducerPath: "Auth",
@@ -20,6 +21,7 @@ export const AuthApi = createApi({
 				};
 			},
 			transformResponse: ({ data, message }) => {
+				ls.set("userData", data);
 				Toast({ icon: "success", text: message ?? "Bienvenido!" });
 				return data;
 			},

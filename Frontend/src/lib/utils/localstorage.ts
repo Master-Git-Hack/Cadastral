@@ -2,16 +2,14 @@
 
 export const deleteLSAll = () => typeof localStorage.clear();
 
-export const removeLSItem = (item: string): any => {
-	localStorage.removeItem(item);
-};
+export const removeLSItem = (item: string): any => localStorage.removeItem(item);
 
-export const getLSItem = (item: string): any => {
+export const getLSItem = (item: string, defaultValue: any = undefined): any => {
 	if (typeof window === "undefined") return undefined;
 	try {
 		if (item === "token") return localStorage.getItem(item);
 		const data = localStorage.getItem(item);
-		if (data === null) return undefined;
+		if (data === null) return defaultValue;
 		// Check if data is an object or a string
 		if (/^\{.*\}$/.test(data)) {
 			return JSON.parse(data);
@@ -22,7 +20,7 @@ export const getLSItem = (item: string): any => {
 		}
 	} catch (error) {
 		console.error(`Error getting localStorage item '${item}':`, error);
-		return undefined;
+		return defaultValue;
 	}
 };
 
@@ -40,6 +38,6 @@ export const ls = {
 	get: getLSItem,
 	set: setLSItem,
 	rm: removeLSItem,
-	clean: deleteLSAll,
+	clear: deleteLSAll,
 };
 export default ls;

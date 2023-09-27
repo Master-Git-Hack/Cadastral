@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Label } from "flowbite-react";
 import { useAppDispatch, useAppSelector } from "@redux/provider";
 import { InputText } from "primereact/inputtext";
+import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { useSignInMutation } from "@redux-api/Auth";
 import Spinner from "@components/Spinner";
@@ -31,7 +32,7 @@ export default function Login() {
 	};
 	useEffect(() => {
 		if (token === null && isSuccess) {
-			dispatch(setUser(data));
+			dispatch(setUser());
 			void navigate("/");
 		}
 		if (token) {
@@ -76,11 +77,13 @@ export default function Login() {
 								className="text-gray-600 mb-4"
 								value="Contraseña"
 							/>
-							<InputText
-								id="password"
+							<Password
+								inputId="password"
 								name="password"
-								type="password"
-								className="rounded-full border-gray-300 w-full"
+								toggleMask
+								feedback={false}
+								className="w-full"
+								inputClassName="rounded-full w-full border-gray-300 self-center"
 								placeholder="Ingrese su contraseña"
 								value={formData.password}
 								onChange={handleChange}

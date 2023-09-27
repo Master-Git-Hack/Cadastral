@@ -14,20 +14,20 @@ export default function Layout({ children, className }) {
 	const [idle] = useState(idleTime(lastRequest));
 	useEffect(() => {
 		if (token === null) {
-			ls.clean();
+			ls.clear();
 			void navigate("/sign-in");
 		}
 	}, [token]);
 	useEffect(() => {
 		if (idle) {
-			ls.clean();
+			ls.clear();
 			void navigate("/sign-in");
 		}
 	}, [idle]);
 	return (
-		<main className="w-full h-screen bg-transparent dark:bg-black">
+		<main className="w-full h-screen bg-transparent dark:bg-black antialiased tracking-tight">
 			<Navbar group={group} name={name} username={username} />
-			<div className="container mx-auto px-1 sm:px-1 lg:px-1 py-auto py-2 sm:py-3 lg:py-4 h-max">
+			<div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip m-1">
 				{children}
 			</div>
 		</main>
