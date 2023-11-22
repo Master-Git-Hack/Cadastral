@@ -14,8 +14,10 @@ def create_schema(
     schema_args: Optional[List[Tuple[str, Any]]] = None,
     **meta_kwargs: Optional[Dict[str, Any]],
 ) -> object:
-    class Model(model):
-        pass
+    class Model:
+        ...
+
+    Model = model
 
     class Schema(schema):
         """Class for schema.

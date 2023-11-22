@@ -7,9 +7,6 @@ import ls from "@utils/localstorage";
 
 export const initialState = (): UserState => {
 	const timeStamp = ls.get("timestamp");
-	console.log("timeStamp", timeStamp, idleTime(timeStamp));
-	console.log("token", ls.get("token"));
-	console.log("userData", ls.get("userData"));
 	const DEFAULT_STATE: UserState = {
 		group: 0,
 		name: "Invitado",

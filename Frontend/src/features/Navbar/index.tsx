@@ -17,28 +17,8 @@ import Notify from "../Notify";
 import { getNotifications } from "@reducers/Notifications";
 import { useAppSelector } from "@redux/provider";
 import DarkToggle from "@components/ThemeToggle";
-const links = [
-	{
-		label: "Reportes Catastrales",
-		href: "/reportes-catastrales",
-	},
-	{
-		label: "Homologación",
-		href: "/homologacion",
-	},
-	{
-		label: "Obras Complementarias",
-		href: "/obras-complementarias",
-	},
-	{
-		label: "Metadatos",
-		href: "/metadatos",
-	},
-	{
-		label: "Revisión de Avalúos",
-		href: "/revision-avaluos",
-	},
-];
+import links from "@context/modules";
+
 export default function Navbar({ group, name, username }) {
 	const location = useLocation();
 	const user = useRef(null);

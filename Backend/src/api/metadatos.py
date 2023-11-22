@@ -10,7 +10,7 @@ metadatos_api: Blueprint = Blueprint("Metadatos", __name__, url_prefix="/metadat
 __swagger: dict = config.API_MODELS.get("metadatos", {})
 
 
-@metadatos_api.get("/")
+@metadatos_api.get("/complete")
 @swag_from(__swagger.get("get_all_metadatos", {}))
 def get_all_metadatos(response: Responses = Responses()) -> Responses:
     meta = Dataset()

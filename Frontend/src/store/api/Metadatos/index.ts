@@ -15,7 +15,7 @@ export const MetadatosApi = createApi({
 		}),
 		getMetadatos: query<IMetadatos[], null>({
 			query: () => ({
-				url: `metadatos`,
+				url: `metadatos/complete`,
 				method: "GET",
 			}),
 		}),
