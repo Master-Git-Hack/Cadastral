@@ -55,4 +55,4 @@ class Usuarios(Template):
             self.current = self.filter(usuario=username)
         if self.current is None:
             return None
-        return create_access_token(identity=self.current.id)
+        return create_access_token(identity=self.current)

@@ -5,7 +5,7 @@ from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from .. import config
-from ..controllers.auth import auth_required, remove_token
+from ..controllers.auth import remove_token
 from ..models import Modelos
 from ..models.usuarios import Usuarios
 from ..utils.response import Responses
@@ -17,7 +17,7 @@ __User = Modelos.Usuarios
 
 @users.get("/all")
 @swag_from(__swagger.get("get_all_users", {}))
-@auth_required
+@jwt_required()
 def get_all(user, response=Responses()):
     try:
         __users = __User()

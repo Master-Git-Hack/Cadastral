@@ -1,5 +1,6 @@
 from flasgger.utils import swag_from
 from flask import Blueprint, request
+from flask_jwt_extended import jwt_required
 
 from .. import config
 from ..controllers.justipreciacion import (
@@ -21,6 +22,7 @@ __swagger: dict = config.API_MODELS.get("justipreciacion", {})
 
 @justipreciacion_api.get("/<int:justipreciacion>/")
 @swag_from(__swagger.get("get_justipreciacion", {}))
+@jwt_required()
 def get_justipreciacion(justipreciacion: int, response: Responses = Responses()):
     if justipreciacion is None:
         return response.error(message="No se proporciono un ID")
@@ -34,6 +36,7 @@ def get_justipreciacion(justipreciacion: int, response: Responses = Responses())
 
 @justipreciacion_api.get("/<int:justipreciacion>/<string:key>")
 @swag_from(__swagger.get("get_justipreciacion_key", {}))
+@jwt_required()
 def get_justipreciacion_key(
     justipreciacion: int, key: str, response: Responses = Responses()
 ):
@@ -54,6 +57,7 @@ def get_justipreciacion_key(
 
 @justipreciacion_api.get("/<int:justipreciacion>/homologacion/<string:tipo>")
 @swag_from(__swagger.get("get_justipreciacion_homologacion", {}))
+@jwt_required()
 def get_justipreciacion_homologacion(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ):
@@ -64,6 +68,7 @@ def get_justipreciacion_homologacion(
 
 @justipreciacion_api.patch("/<int:justipreciacion>/homologacion/<string:tipo>")
 @swag_from(__swagger.get("patch_justipreciacion_homologacion", {}))
+@jwt_required()
 def patch_justipreciacion_homologacion(
     justipreciacion: int, tipo: str = "terreno", response: Responses = Responses()
 ):
@@ -75,6 +80,7 @@ def patch_justipreciacion_homologacion(
 
 @justipreciacion_api.get("/<int:justipreciacion>/obras-complementarias")
 @swag_from(__swagger.get("get_justipreciacion_obras_complementarias", {}))
+@jwt_required()
 def get_justipreciacion_obras_complementarias(
     justipreciacion: int, response: Responses = Responses()
 ):
@@ -85,6 +91,7 @@ def get_justipreciacion_obras_complementarias(
 
 @justipreciacion_api.patch("/<int:justipreciacion>/obras-complementarias")
 @swag_from(__swagger.get("patch_justipreciacion_obras_complementarias", {}))
+@jwt_required()
 def patch_justipreciacion_obras_complementarias(
     justipreciacion: int, response: Responses = Responses()
 ):

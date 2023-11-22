@@ -3,7 +3,7 @@ from flask import Blueprint, request
 from flask_jwt_extended import jwt_required
 
 from .. import config
-from ..controllers.auth import auth_required
+
 from ..models import Modelos
 from ..utils.response import Responses
 
@@ -17,7 +17,7 @@ __User = Modelos.Usuarios
 
 @checklist.get("/all")
 @swag_from(__swagger.get("get_all", {}))
-@auth_required
+@jwt_required()
 def get_all(user, response=Responses()):
     try:
         ckl = __Checklist()
@@ -30,7 +30,7 @@ def get_all(user, response=Responses()):
 
 @checklist.get("/<int:id>")
 @swag_from(__swagger.get("get_checklist", {}))
-@auth_required
+@jwt_required()
 def get_checklist(user, id: int, response=Responses()):
     try:
         ckl = __Checklist()
@@ -44,7 +44,7 @@ def get_checklist(user, id: int, response=Responses()):
 # patch para actualizar el estatus de un checklist
 @checklist.post("/create")
 @swag_from(__swagger.get("post_checklist", {}))
-@auth_required
+@jwt_required()
 def post_checklist(user, response=Responses()):
     try:
         ckl = __Checklist()
@@ -59,7 +59,7 @@ def post_checklist(user, response=Responses()):
 # patch para actualizar el estatus de un checklist
 @checklist.patch("/<int:id>")
 @swag_from(__swagger.get("patch_checklist", {}))
-@auth_required
+@jwt_required()
 def patch_checklist(user, id: int, response=Responses()):
     try:
         ckl = __Checklist()
@@ -75,7 +75,7 @@ def patch_checklist(user, id: int, response=Responses()):
 
 @checklist.get("/revisiones/all")
 @swag_from(__swagger.get("get_all_revisiones", {}))
-@auth_required
+@jwt_required()
 def get_all_revisiones(user, response=Responses()):
     try:
         revision = __RevisionChecklist()
@@ -103,7 +103,7 @@ def get_all_revisiones(user, response=Responses()):
 
 @checklist.get("/revisiones/<int:id>")
 @swag_from(__swagger.get("get_revision", {}))
-@auth_required
+@jwt_required()
 def get_revision(user, id: int, response=Responses()):
     try:
         revision = __RevisionChecklist()
@@ -128,7 +128,7 @@ def get_revision(user, id: int, response=Responses()):
 
 @checklist.post("/revisiones/create")
 @swag_from(__swagger.get("post_revision", {}))
-@auth_required
+@jwt_required()
 def post_revision(user, response=Responses()):
     try:
         revision = __RevisionChecklist()
@@ -145,7 +145,7 @@ def post_revision(user, response=Responses()):
 
 @checklist.patch("/revisiones/<int:id>")
 @swag_from(__swagger.get("patch_revision", {}))
-@auth_required
+@jwt_required()
 def patch_revision(user, id: int, response=Responses()):
     try:
         revision = __RevisionChecklist()

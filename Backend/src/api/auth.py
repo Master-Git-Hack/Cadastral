@@ -2,7 +2,7 @@ from base64 import b64decode
 
 from flasgger import swag_from
 from flask import Blueprint, request
-from flask_jwt_extended import get_jwt_identity, jwt_required
+from flask_jwt_extended import get_jwt, jwt_required
 
 from .. import config
 from ..controllers.auth import remove_token
@@ -13,7 +13,7 @@ auth: Blueprint = Blueprint("Auth", __name__, url_prefix="/auth")
 __swagger: dict = config.API_MODELS.get("auth", {})
 
 
-@auth.get("/sign-in")
+@auth.post("/sign-in")
 @swag_from(__swagger.get("sign_in", {}))
 def sign_in(response=Responses()):
     auth_header = request.headers.get("Authorization")
@@ -60,7 +60,7 @@ def sign_in(response=Responses()):
 
 @auth.get("/sign-out")
 @swag_from(__swagger.get("sign_out", {}))
-@jwt_required
-def sign_out(response=Responses()):
-    jti = get_jwt_identity()["jti"]
+@jwt_required()
+def sign_out():
+    jti = get_jwt()["jti"]
     return remove_token(jti)

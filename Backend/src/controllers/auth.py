@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask_jwt_extended import get_jwt_identity, verify_jwt_in_request
+from flask_jwt_extended import current_user, get_jwt_identity, verify_jwt_in_request
 
 from .. import config
 from ..models.usuarios import Usuarios
@@ -9,41 +9,38 @@ from ..utils.response import Responses
 jwt = config.auth_manager
 
 
-def auth_required(func):
-    @wraps(func)
-    def auth_wrapper(
-        *args, **kwargs
-    ):  # Cambia el nombre de la función de vista en el decorador
-        response = Responses()
-        try:
-            user = Usuarios()
-            # Verifica la presencia y validez del token en la solicitud
-            verify_jwt_in_request()
-            if user.get(id=get_jwt_identity()) is None:
-                return response.error(status_code=404, message="Usuario no encontrado")
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.id
 
-            # Llama a la función protegida con el usuario como argumento
-            return func(user.current, *args, **kwargs)
 
-        except Exception as e:
-            # return unknown error
-            return response.error(status_code=500, message=str(e))
-
-    return auth_wrapper  # Cambia el nombre de la función de vista de retorno
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data["sub"]
+    user = Usuarios()
+    return user.get(id=identity)
 
 
 # Lista negra para tokens
 blacklisted_tokens = set()
 
 
+@jwt.expired_token_loader
+def my_expired_token_callback(jwt_header, jwt_payload):
+    response = Responses()
+    return response.error(
+        message="Lo siento, tu sesión ha expirado. Intentalo Nuevamente.",
+        status_code=401,
+    )
+
+
 # Función para agregar tokens a la lista negra
 @jwt.token_in_blocklist_loader
-def is_token_blacklisted(decrypted_token):
-    jti = decrypted_token["jti"]
+def is_token_blacklisted(jwt_header, jwt_payload: dict):
+    jti = jwt_payload["jti"]
     return jti in blacklisted_tokens
 
 
-def remove_token(jti: str):
+def remove_token(jti: str, response=Responses()):
     blacklisted_tokens.add(jti)
-    response = Responses()
     return response.success(message="Token eliminado")

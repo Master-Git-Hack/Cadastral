@@ -1,6 +1,7 @@
 from flasgger.utils import swag_from
 from flasgger_marshmallow import swagger_decorator
 from flask import Blueprint
+from flask_jwt_extended import jwt_required
 
 from .. import config
 from ..models.indicadores_municipales import IndicadoresMunicipales
@@ -14,6 +15,7 @@ __swagger: dict = config.API_MODELS.get("indicadores_municipales", {})
 
 @indicadores_municipales_api.get("/")
 @swag_from(__swagger.get("get_indicadores_municipales", {}))
+@jwt_required()
 def get_indicadores_municipales(
     indicadores=IndicadoresMunicipales(), response: Responses = Responses()
 ) -> Responses:

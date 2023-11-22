@@ -2,6 +2,7 @@ from flasgger import swag_from
 from flask import Blueprint, request
 
 from .. import config
+from flask_jwt_extended import jwt_required
 from ..models.dataset import Dataset
 from ..utils.response import Responses
 
@@ -12,6 +13,7 @@ __swagger: dict = config.API_MODELS.get("metadatos", {})
 
 @metadatos_api.get("/complete")
 @swag_from(__swagger.get("get_all_metadatos", {}))
+@jwt_required()
 def get_all_metadatos(response: Responses = Responses()) -> Responses:
     meta = Dataset()
     if meta.all() is None:
@@ -24,6 +26,7 @@ def get_all_metadatos(response: Responses = Responses()) -> Responses:
 
 @metadatos_api.get("/preview")
 @swag_from(__swagger.get("get_all_metadatos_preview", {}))
+@jwt_required()
 def get_all_metadatos_preview(response: Responses = Responses()) -> Responses:
     meta = Dataset()
     if meta.all() is None:
@@ -41,6 +44,7 @@ def get_all_metadatos_preview(response: Responses = Responses()) -> Responses:
 
 @metadatos_api.get("/<string:uid>")
 @swag_from(__swagger.get("get_metadatos", {}))
+@jwt_required()
 def get_metadatos(uid: str, response: Responses = Responses()) -> Responses:
     meta = Dataset()
     if meta.filter(uid=uid) is None:
@@ -53,6 +57,7 @@ def get_metadatos(uid: str, response: Responses = Responses()) -> Responses:
 
 @metadatos_api.post("/<string:table_name>")
 @swag_from(__swagger.get("post_metadatos", {}))
+@jwt_required()
 def post_metadatos(table_name: str, response: Responses = Responses()) -> Responses:
     meta = Dataset()
     if meta.filter(table_name=table_name) is not None:
@@ -71,6 +76,7 @@ def post_metadatos(table_name: str, response: Responses = Responses()) -> Respon
 
 @metadatos_api.patch("/<string:table_name>")
 @swag_from(__swagger.get("patch_metadatos", {}))
+@jwt_required()
 def patch_metadatos(table_name: str, response: Responses = Responses()) -> Responses:
     meta = Dataset()
     if meta.filter(table_name=table_name) is None:
