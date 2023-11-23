@@ -30,14 +30,14 @@ export const MetadatosApi = createApi({
 			query: ({ data }) => ({
 				url: `metadatos`,
 				method: "POST",
-				body: data,
+				data,
 			}),
 		}),
 		patchMetadato: mutation<IMetadatos, { data: IMetadatos }>({
 			query: ({ data }) => ({
 				url: `metadatos/${data.uid}`,
 				method: "PATCH",
-				body: data,
+				data,
 			}),
 		}),
 	}),

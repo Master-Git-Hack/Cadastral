@@ -32,31 +32,31 @@ export const RevisionesAvaluosApi = createApi({
 			}),
 		}),
 		createChecklist: mutation<unknown, unknown>({
-			query: (body) => ({
+			query: (data) => ({
 				url: `checklist/create`,
 				method: "POST",
-				body,
+				data,
 			}),
 		}),
 		createRevision: mutation<unknown, unknown>({
-			query: (body) => ({
+			query: (data) => ({
 				url: `revisiones/create`,
 				method: "POST",
-				body,
+				data,
 			}),
 		}),
 		updateChecklist: mutation<unknown, unknown>({
-			query: ({ id, body }) => ({
+			query: ({ id, data }) => ({
 				url: `checklist/${id}`,
 				method: "PATCH",
-				body,
+				data,
 			}),
 		}),
 		updateRevision: mutation<unknown, unknown>({
-			query: ({ id, body }) => ({
+			query: ({ id, data }) => ({
 				url: `revisiones/${id}`,
 				method: "PATCH",
-				body,
+				data,
 			}),
 		}),
 	}),

@@ -10,17 +10,17 @@ export const ParseFilesApi = createApi({
 	baseQuery,
 	endpoints: (builder) => ({
 		xml2json: builder.mutation<unknown, FormData>({
-			query: (formData) => ({
+			query: (FormData) => ({
 				url: `parse/xml-to-json`,
 				method: "POST",
-				body: formData,
+				data: FormData,
 			}),
 		}),
 		json2xml: builder.mutation<unknown, FormData>({
-			query: (formData) => ({
+			query: (FormData) => ({
 				url: `parse/json-to-xml`,
 				method: "POST",
-				body: formData,
+				data: FormData,
 				responseType: "blob",
 			}),
 		}),

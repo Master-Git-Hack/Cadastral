@@ -14,7 +14,7 @@ export const AuthApi = createApi({
 				const Authorization = `Basic ${authToken}`;
 				return {
 					url: `auth/sign-in`,
-					method: "GET",
+					method: "POST",
 					headers: {
 						Authorization,
 					},

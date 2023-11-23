@@ -76,9 +76,9 @@ export default function Create({ onEdit = true, record = undefined }) {
 						useFilename
 						fileType="xml"
 						customSaveFile={(filename: string) => jsonToXml(file, filename)}
-						onChange={(f: File) => {
+						onChange={(file: File) => {
 							const formData = new FormData();
-							formData.append("file", f);
+							formData.append("file", file);
 
 							convertXmlToJson(formData);
 						}}

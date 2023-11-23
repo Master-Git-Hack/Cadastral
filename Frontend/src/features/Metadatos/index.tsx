@@ -13,8 +13,7 @@ import Alert from "@components/Alerts";
 import Error from "../Error";
 import { Table, Button } from "flowbite-react";
 export default function Metadatos() {
-	console.log(useGetMetadatosQuery(null));
-	const { data, isLoading, isError, error } = useGetMetadatosQuery(null);
+	const { data, isLoading, isError, error } = useGetMetadatosQuery();
 
 	if (isError) return <Error message={error?.data} />;
 	if (isLoading) return <Spinner size={20} />;

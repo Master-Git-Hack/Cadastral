@@ -8,11 +8,11 @@ export const ReporteCatastralApi = createApi({
 	baseQuery,
 	endpoints: (builder) => ({
 		getReporte: builder.mutation<Blob, { fileName: string }>({
-			query: ({ fileName, ...body }) => ({
+			query: ({ fileName, ...data }) => ({
 				url: `reporte-catastra/${fileName}`,
 				method: "POST",
 				responseType: "blob",
-				body,
+				data,
 			}),
 			transformResponse: async (response: any) => {
 				if (!response.ok) {

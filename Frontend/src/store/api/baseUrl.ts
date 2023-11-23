@@ -27,6 +27,7 @@ const axiosBaseQuery =
 		const timestamp = getNow();
 		ls.set("lastRequest", { url, method, data, params, timestamp });
 		ls.set("timestamp", timestamp);
+		console.log("axios data=>",data)
 		try {
 			if (!headers) headers = {};
 			if (url !== "auth/sign-in") {
@@ -35,9 +36,10 @@ const axiosBaseQuery =
 
 				if (token) {
 					headers["Authorization"] = `Bearer ${token}`;
-					headers["Protected"] = true;
+					//headers["Protected"] = true;
 				}
 			}
+			
 			const result = await axios({ baseURL: baseUrl, url, method, data, params, headers });
 			if (url === "auth/sign-in") {
 				const { authorization } = result.headers;
