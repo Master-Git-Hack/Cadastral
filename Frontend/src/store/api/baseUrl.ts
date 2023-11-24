@@ -9,6 +9,7 @@ const currentEnv = import.meta.env.MODE;
 const devUrl = import.meta.env.VITE_API_URL_DEV;
 const prodUrl = import.meta.env.VITE_API_URL_PROD;
 export const baseUrl = currentEnv === "development" ? devUrl : prodUrl;
+import Toast from "@components/Alerts";
 const axiosBaseQuery =
 	(
 		{ baseUrl }: { baseUrl: string } = { baseUrl: "" },
@@ -27,7 +28,7 @@ const axiosBaseQuery =
 		const timestamp = getNow();
 		ls.set("lastRequest", { url, method, data, params, timestamp });
 		ls.set("timestamp", timestamp);
-		console.log("axios data=>",data)
+		
 		try {
 			if (!headers) headers = {};
 			if (url !== "auth/sign-in") {
@@ -49,7 +50,14 @@ const axiosBaseQuery =
 			return { data: result.data };
 		} catch (axiosError) {
 			const err = axiosError as AxiosError;
-			console.error(err);
+			if (err.response?.status === 401) { 
+				Toast({ icon: "error", text: "Su sesión ha expirado, será redirigido a su página de inicio." }).then(() => {
+					ls.clear();
+					location.href = '/sign-in';
+				}).catch(() => { 	ls.clear();
+					location.href = '/sign-in';});
+			
+			}
 			return {
 				error: {
 					status: err.response?.status,

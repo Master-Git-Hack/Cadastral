@@ -71,34 +71,35 @@ export const File = forwardRef<HTMLButtonElement, FileButtonProps>(
 		};
 		const saveFile = () => FileSaver.saveAs(file, file?.name);
 		return (
-			<Dropdown
-				ref={ref}
-				{...props}
-				options={options}
-				onClick={(value: number) => {
-					if (value === 0) {
-						uploadFile();
-					}
-					if (value === 1) {
-						customSaveFile(file?.name) ?? saveFile();
-					}
-					if (value === 2) {
-						setFile(null);
-						onChange(null);
-					}
-				}}
-			>
-				<p
-					className={`grid grid-rows-1  grid-flow-col justify-items-stretch gap-2 text-inherit`}
+			<span>
+				<Dropdown
+					ref={ref}
+					{...props}
+					options={options}
+					onClick={(value: number) => {
+						if (value === 0) {
+							uploadFile();
+						}
+						if (value === 1) {
+							customSaveFile(file?.name) ?? saveFile();
+						}
+						if (value === 2) {
+							setFile(null);
+							onChange(null);
+						}
+					}}
 				>
-					<span className="justify-self-start">{children ?? "Archivo:"}</span>
-					<span className="justify-self-end underline decoration-1">
-						{useFilename && file?.name}
-					</span>
-				</p>
-			</Dropdown>
+					<p className="flex flex-row flex-wrap justify-center items-center text-inherit gap-2 ">
+						<span className="justify-start">{children ?? "Archivo:"}</span>
+						<span className="justify-end underline decoration-1">
+							{useFilename && file?.name}
+						</span>
+					</p>
+				</Dropdown>
+			</span>
 		);
 	},
 );
 File.displayName = "FileButton";
 export default File;
+//{`grid grid-rows-1  grid-flow-col justify-items-stretch gap-2 text-inherit`}

@@ -24,7 +24,7 @@ export default function DarkToggle({ children, ...props }: ButtonProps) {
 					: `${theme === "light" ? "Habilitar" : "Deshabilitar"} Tema Oscuro`
 			}
 			icon={`me-2 pi ${icon} hover:animate-spin hidden fill-current items-end`}
-			className="rounded-full w-full dark:text-white text-sm"
+			className="rounded-full w-full dark:text-white text-sm text-center flex flex-row justify-center items-center "
 			text
 			severity="secondary"
 			size="small"

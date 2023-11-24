@@ -1,6 +1,6 @@
 /** @format */
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { cn } from "@utils/ui";
 import logo from "@assets/logo.png";
@@ -17,6 +17,7 @@ import Notify from "../Notify";
 import { getNotifications } from "@reducers/Notifications";
 import { useAppSelector } from "@redux/provider";
 import DarkToggle from "@components/ThemeToggle";
+import { DarkThemeToggle as DTToggle } from "flowbite-react";
 import links from "@context/modules";
 
 export default function Navbar({ group, name, username }) {
@@ -26,36 +27,46 @@ export default function Navbar({ group, name, username }) {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { badge } = useAppSelector(getNotifications);
+	const [dark, setDark] = useState(true);
 	return (
 		<Component fluid className="bg-navbar">
-			<Component.Brand href="/">
-				<img
-					src={logo}
-					alt="Gobierno de Guanajuato"
-					width="250"
-					height="90"
-					className="mr-3 h-10 sm:h-24 "
-				/>
-				<span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white hover:text-teal-600">
-					Catastro
-				</span>
+			<Component.Brand>
+				<NavLink to="/" className="flex flex-row">
+					<img
+						src={logo}
+						alt="Gobierno de Guanajuato"
+						width="250"
+						height="90"
+						className="mr-3 h-10 sm:h-24 "
+					/>
+					<span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white hover:text-teal-600">
+						Catastro
+					</span>
+				</NavLink>
 			</Component.Brand>
 
 			<Component.Toggle className="rounded-full" />
 			<Component.Collapse>
-				<div className="flex flex-row flex-wrap items-center md:order-2  mx-auto">
+				<div className="flex flex-row flex-wrap w-full items-center md:order-2  mx-auto">
 					{links.map(({ label, href }, index) => (
 						<span
 							className={`flex-2 mx-2 grow ${
 								href === location.pathname
-									? "text-teal-500 dark:text-teal-400"
-									: "text-black"
-							}`}
+									? "text-teal-500 dark:text-teal-400 "
+									: "text-black dark:text-white "
+							} dark:hover:text-gray-400`}
 							key={`${label} - ${index}`}
 						>
 							<NavLink to={href}>{label}</NavLink>
 						</span>
 					))}
+					{dark && (
+						<ul>
+							<li>
+								<DarkToggle children={" "} />
+							</li>
+						</ul>
+					)}
 					{badge > 0 && (
 						<Avatar
 							icon="pi pi-bell"
@@ -83,6 +94,8 @@ export default function Navbar({ group, name, username }) {
 					<OverlayPanel
 						ref={user}
 						dismissable
+						onHide={() => setDark(true)}
+						onShow={() => setDark(false)}
 						pt={{
 							root: {
 								className: "bg-white dark:bg-gray-800 w-73",

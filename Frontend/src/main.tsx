@@ -18,12 +18,12 @@ import "primereact/resources/primereact.min.css";
 const root = createRoot(document.getElementById("root")! as HTMLElement);
 root.render(
 	<StrictMode>
-		<Provider store={store}>
-			<Flowbite>
+		<Flowbite>
+			<Provider store={store}>
 				<PrimeReactProvider>
 					<RouterProvider router={router} />
 				</PrimeReactProvider>
-			</Flowbite>
-		</Provider>
+			</Provider>
+		</Flowbite>
 	</StrictMode>,
 );
