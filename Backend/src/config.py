@@ -1,3 +1,4 @@
+from datetime import timedelta
 from json import load
 from os import environ
 from os.path import abspath, dirname, join
@@ -32,6 +33,8 @@ class __Base(object):
     JWT_SECRET_KEY: str = SECRET_KEY.replace("'", '"')
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ["access"]
+    JWT_ALGORITHM = "HS512"
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=7)
     API_VERSION: str = environ.get("API_VERSION", "1.0.0")
     API_URL_PREFIX: str = f"/api/v{API_VERSION[0]}"
     API_MODELS: dict = {}
