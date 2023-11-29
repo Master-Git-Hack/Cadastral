@@ -3,56 +3,72 @@
 export const topiccategory = [
 	{
 		label: "Agricultura, Cría y Explotación de Animales",
-		tooltip: "Cultivo de plantas o cría de animales",
+		description: "Cultivo de plantas o cría de animales",
+		code: "1",
 	},
 	{
 		label: "Biodiversidad",
-		tooltip: "Flora y fauna en el medio natural",
+		description: "Flora y fauna en el medio natural",
+		code: "2",
 	},
 	{
 		label: "Atmósfera climatológica, meteorológica",
-		tooltip: "Procesos y fenómenos atmosféricos",
+		description: "Procesos y fenómenos atmosféricos",
+		code: "3",
 	},
 	{
 		label: "Economía",
-		tooltip: "Actividades económicas, condiciones y empleo",
+		description: "Actividades económicas, condiciones y empleo",
+		code: "4",
 	},
 	{
 		label: "Medio ambiente",
-		tooltip: "Recursos medio ambientales, protección y conservación",
+		description: "Recursos medio ambientales, protección y conservación",
+		code: "5",
 	},
 	{
 		label: "Información geocientífica",
-		tooltip: "Información perteneciente a las ciencias de la tierra",
+		description: "Información perteneciente a las ciencias de la tierra",
+		code: "6",
 	},
 	{
 		label: "Salud",
-		tooltip: "Servicios médicos, ecología humana y seguridad",
+		description: "Servicios médicos, ecología humana y seguridad",
+		code: "7",
 	},
 	{
 		label: "Base de imágenes de mapas de la cobertura de la tierra",
-		tooltip: "Mapas base",
+		description: "Mapas base",
+		code: "8",
 	},
 	{
 		label: "Inteligencia militar",
-		tooltip: "Bases militares, estructuras, actividades",
+		description: "Bases militares, estructuras, actividades",
+		code: "9",
 	},
 	{
 		label: "Aguas interiores",
-		tooltip:
+		description:
 			"Características de las aguas interiores, sistema de drenaje y sus características",
+		code: "10",
 	},
-	{ label: "Localización", tooltip: "Información posicional y servicios" },
+	{ label: "Localización", description: "Información posicional y servicios", code: "11" },
 	{
 		label: "Planeamiento catastral",
-		tooltip: "Información utilizada de acciones apropiadas para el uso futuro de la tierra",
+		description: "Información utilizada de acciones apropiadas para el uso futuro de la tierra",
+		code: "12",
 	},
-	{ label: "Sociedad", tooltip: "Características de la sociedad y las culturas" },
-	{ label: "Estructura", tooltip: "Construcciones hechas por el hombre" },
-	{ label: "Transportación", tooltip: "Medios y ayudas para transportar personas o mercancías" },
+	{ label: "Sociedad", description: "Características de la sociedad y las culturas", code: "13" },
+	{ label: "Estructura", description: "Construcciones hechas por el hombre", code: "14" },
+	{
+		label: "Transportación",
+		description: "Medios y ayudas para transportar personas o mercancías",
+		code: "15",
+	},
 	{
 		label: "Comunicación de servicios",
-		tooltip:
+		description:
 			"Energía, agua y sistemas de desecho, infraestructura de comunicaciones y servicios",
+		code: "16",
 	},
 ];

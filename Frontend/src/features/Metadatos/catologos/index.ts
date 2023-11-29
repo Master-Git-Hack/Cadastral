@@ -1,6 +1,6 @@
 /** @format */
 import { ci_responsibleparty_role } from "./ci_responsibleparty_role";
-import { datatype } from "./datatype";
+import { datetype } from "./datetype";
 import { groupcategory } from "./groupcategory";
 import { level } from "./level";
 import { maintenanceandupdatefrequency } from "./maintenanceandupdatefrequency";
@@ -11,7 +11,7 @@ import { spatialrepresentationtype } from "./spatialrepresentationtype";
 import { topiccategory } from "./topiccategory";
 export const catalogo = {
 	ci_responsibleparty_role,
-	datatype,
+	datetype,
 	groupcategory,
 	level,
 	maintenanceandupdatefrequency,

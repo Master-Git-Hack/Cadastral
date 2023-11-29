@@ -12,7 +12,7 @@ const Component = forwardRef<HTMLInputElement, InputProps>(
 			{...props}
 			className={cn(
 				variants({ variant, size, rounded, validation }),
-				className + " w-full rounded-md",
+				className + " w-full rounded-md dark:bg-white",
 			)}
 		/>
 	),

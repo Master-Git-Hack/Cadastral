@@ -3,15 +3,18 @@
 export const datetype = [
 	{
 		label: "Creación",
-		tooltip: "Indicador de la fecha que especifica cuando fue creado el recurso",
+		description: "Indicador de la fecha que especifica cuando fue creado el recurso",
+		code: "1",
 	},
 	{
 		label: "Publicación",
-		tooltip: "Indicador de la fecha que especifica cuando el recurso fue publicado",
+		description: "Indicador de la fecha que especifica cuando el recurso fue publicado",
+		code: "2",
 	},
 	{
 		label: "Revisión",
-		tooltip:
+		description:
 			"Identificador de la fecha que especifica cuando el recurso fue examinado o re-examinado y mejorado o corregido",
+		code: "3",
 	},
 ];

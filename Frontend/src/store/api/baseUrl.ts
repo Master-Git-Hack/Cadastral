@@ -28,7 +28,7 @@ const axiosBaseQuery =
 		const timestamp = getNow();
 		ls.set("lastRequest", { url, method, data, params, timestamp });
 		ls.set("timestamp", timestamp);
-		
+
 		try {
 			if (!headers) headers = {};
 			if (url !== "auth/sign-in") {
@@ -40,7 +40,7 @@ const axiosBaseQuery =
 					//headers["Protected"] = true;
 				}
 			}
-			
+
 			const result = await axios({ baseURL: baseUrl, url, method, data, params, headers });
 			if (url === "auth/sign-in") {
 				const { authorization } = result.headers;
@@ -50,13 +50,19 @@ const axiosBaseQuery =
 			return { data: result.data };
 		} catch (axiosError) {
 			const err = axiosError as AxiosError;
-			if (err.response?.status === 401) { 
-				Toast({ icon: "error", text: "Su sesión ha expirado, será redirigido a su página de inicio." }).then(() => {
-					ls.clear();
-					location.href = '/sign-in';
-				}).catch(() => { 	ls.clear();
-					location.href = '/sign-in';});
-			
+			if (err.response?.status === 401) {
+				Toast({
+					icon: "error",
+					text: "Su sesión ha expirado, será redirigido a su página de inicio.",
+				})
+					.then(() => {
+						ls.clear();
+						location.href = "/sign-in";
+					})
+					.catch(() => {
+						ls.clear();
+						location.href = "/sign-in";
+					});
 			}
 			return {
 				error: {

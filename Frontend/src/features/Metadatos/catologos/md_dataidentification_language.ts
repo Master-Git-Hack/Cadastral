@@ -1,6 +1,6 @@
 /** @format */
 
 export const md_dataidentification_language = [
-	{ tooltip: "Español", label: "ES" },
-	{ tooltip: "Inglés", label: "EN" },
+	{ label: "Español", code: "ES-Español" },
+	{ label: "Inglés", code: "EN-Inglés" },
 ];

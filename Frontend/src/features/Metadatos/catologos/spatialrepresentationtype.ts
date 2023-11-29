@@ -3,22 +3,26 @@
 export const spatialrepresentationtype = [
 	{
 		label: "Vector",
-		tooltip: "Los datos vectoriales se utilizan para representar datos espaciales",
+		description: "Los datos vectoriales se utilizan para representar datos espaciales",
+		code: "1",
 	},
 	{
 		label: "Raster",
-		tooltip:
+		description:
 			"Los datos malla o cuadrícula se utilizan también para representar datos espaciales",
+		code: "2",
 	},
 	{
 		label: "Tabla del texto",
-		tooltip: "Datos de texto o tabulares que se utilizan para representar datos espaciales",
+		description: "Datos de texto o tabulares que se utilizan para representar datos espaciales",
+		code: "3",
 	},
-	{ label: "TIN", tooltip: "Red de triángulos irregulares" },
+	{ label: "TIN", description: "Red de triángulos irregulares", code: "4" },
 	{
 		label: "Modelo estéreo",
-		tooltip:
+		description:
 			"Visión tridimensional formada por la intersección de los rayos homólogos de un solapamiento de un par de imágenes consecutivas",
+		code: "5",
 	},
-	{ label: "Vídeo", tooltip: "Escena de una grabación de vídeo" },
+	{ label: "Vídeo", description: "Escena de una grabación de vídeo", code: "6" },
 ];

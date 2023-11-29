@@ -194,7 +194,8 @@ const comercial = {
 				},
 			],
 			value: 5,
-		},{ label: "Obsolescencias", children: [{label:""},], value: 3 },
+		},
+		{ label: "Obsolescencias", children: [{ label: "" }], value: 3 },
 	],
 };
 //{ label: "", children: [{label:""},], value: 0 },

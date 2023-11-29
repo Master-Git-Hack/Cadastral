@@ -1,28 +1,30 @@
-export const modules =  [
+/** @format */
+
+export const modules = [
 	{
 		label: "Reportes Catastrales",
 		href: "/reportes-catastrales",
-        avatar:"RC"
+		avatar: "RC",
 	},
 	{
 		label: "Homologación",
 		href: "/homologacion",
-        avatar:"Ho"
+		avatar: "Ho",
 	},
 	{
 		label: "Obras Complementarias",
 		href: "/obras-complementarias",
-        avatar:"OC"
+		avatar: "OC",
 	},
 	{
 		label: "Metadatos",
 		href: "/metadatos",
-        avatar:"Me"
+		avatar: "Me",
 	},
 	{
 		label: "Revisión de Avalúos",
 		href: "/revision-avaluos",
-        avatar:"RA"
+		avatar: "RA",
 	},
 ];
 export default modules;

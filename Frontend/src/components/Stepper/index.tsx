@@ -1,11 +1,14 @@
 /** @format */
 import { StepperProps, Items, Label, Icon } from "./types";
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useEffect } from "react";
 import { cn } from "@utils/ui";
 import { Tooltip } from "flowbite-react";
 export const Stepper = forwardRef<HTMLOListElement, StepperProps>(
 	({ items, activeIndex, onClick, className }) => {
 		const [currentIndex, setCurrentIndex] = useState(activeIndex ?? 0);
+		useEffect(() => {
+			setCurrentIndex(activeIndex);
+		}, [activeIndex]);
 		return (
 			<ol className={cn("flex items-center w-full mx-10", className)}>
 				{items.map(({ label: { children: labelChildren }, icon }: Items, index: number) => (

@@ -8,15 +8,15 @@ import { section6 } from "./section6";
 import { section7 } from "./section7";
 import { section8 } from "./section8";
 import { section9 } from "./section9";
-export const sections = {
-	1: section1,
-	2: section2,
-	3: section3,
-	4: section4,
-	5: section5,
-	6: section6,
-	7: section7,
-	8: section8,
-	9: section9,
+export const sections: { [key: number | string]: any } = {
+	0: section1,
+	1: section2,
+	2: section3,
+	3: section4,
+	4: section5,
+	5: section6,
+	6: section7,
+	7: section8,
+	8: section9,
 };
 export default sections;

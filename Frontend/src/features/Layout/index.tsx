@@ -25,7 +25,7 @@ export default function Layout({ children, className }) {
 		}
 	}, [idle]);
 	return (
-		<main className="w-full h-screen bg-transparent dark:bg-black antialiased tracking-tight">
+		<main className="w-full min-h-screen bg-transparent dark:bg-black antialiased tracking-tight">
 			<Navbar group={group} name={name} username={username} />
 			<div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip m-1">
 				{children}
