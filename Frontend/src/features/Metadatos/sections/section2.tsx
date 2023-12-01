@@ -22,7 +22,7 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 		},
 	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
 	const findSelectValue = (name: string) => {
-		const [code] = data[name].split(".");
+		const [code] = String(data[name] ?? "")?.split(".");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 	const findLanguageValue = catalogo.md_dataidentification_language.find(

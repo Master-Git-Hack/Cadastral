@@ -13,14 +13,8 @@ export default function EditMetadatos() {
 	if (!uid) return <Error message="No se ha seleccionado un metadato" />;
 	const { data, isLoading, isError, error } = useGetMetadatoQuery({ uid });
 	if (isLoading) return <Spinner size={20} />;
-
-	return (
-		<>
-			{isError && <Error message={error} />}
-			{isLoading && <Spinner size={20} />}
-			{data && <Edit data={data} />}
-		</>
-	);
+	if (isError) return <Error message={error} />;
+	return <Edit data={data.data} />;
 }
 export const Edit = ({ data }: { data: IMetadatos }) => {
 	const [editData, setEditData] = useState<boolean>(false);

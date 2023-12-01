@@ -4,22 +4,7 @@ import { Table } from "flowbite-react";
 import Input from "@components/Input";
 import { Dropdown } from "primereact/dropdown";
 import catalogo from "../catologos/index";
-/** @format */
 
-// export const section1 = {
-// 	title: "",
-// 	purpose: "",
-// 	abstract: "",
-// 	md_dataidentification_language: "",
-// 	topiccategory: "",
-// 	groupcategory: "",
-// 	keywords: "",
-// 	presentationform: "",
-// 	ci_onlineresource_linkage: "",
-// 	maintenanceandupdatefrequency: "",
-// 	md_dataidentification_characterset: "",
-// 	specuse: "",
-// }
 export const Section1 = ({ data, setData, editable = true }: any) => {
 	const handleInputChange = ({ currentTarget }) =>
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
@@ -30,7 +15,7 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 		},
 	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
 	const findSelectValue = (name: string) => {
-		const [code] = data[name]?.split(".");
+		const [code] = String(data[name] ?? "")?.split(".");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 	const findLanguageValue = catalogo.md_dataidentification_language.find(

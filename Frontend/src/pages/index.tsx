@@ -19,7 +19,7 @@ const RouterPages = createBrowserRouter([
 		errorElement: <ErrorPage />,
 	},
 	{
-		path: "metadatos",
+		path: "metadatos/*",
 		element: <Metadata />,
 		children: [
 			{
@@ -33,7 +33,7 @@ const RouterPages = createBrowserRouter([
 		],
 	},
 	{
-		path: "revision-avaluos",
+		path: "revision-avaluos/*",
 		element: <RevisionAvaluos />,
 		children: [
 			{
@@ -47,7 +47,7 @@ const RouterPages = createBrowserRouter([
 		],
 	},
 	{
-		path: "reportes-catastrales",
+		path: "reportes-catastrales/*",
 		element: <></>,
 	},
 	{
@@ -55,7 +55,7 @@ const RouterPages = createBrowserRouter([
 		element: <></>,
 	},
 	{
-		path: "obras-complementarias",
+		path: "obras-complementarias/*",
 		element: <></>,
 	},
 	{

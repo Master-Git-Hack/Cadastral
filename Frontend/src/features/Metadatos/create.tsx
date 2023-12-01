@@ -34,7 +34,7 @@ export default function Create({ onEdit = true, record = undefined }) {
 	const [convertJsonToXml, jsonToXmlResult] = useJson2xmlMutation();
 	const [currentSchema, setSchema] = useState<string | undefined>(undefined);
 	const [indexPage, setIndexPage] = useState<number>(0);
-
+	console.log(data);
 	useEffect(() => {
 		if (xmlToJsonResult.isSuccess && !imported) {
 			setImported(true);
