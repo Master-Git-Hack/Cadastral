@@ -267,40 +267,19 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 						Unidad de Valor
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
-						<InputNumber
-							value={
-								data.positionalaccuracy_valueunit ??
-								data.temporalaccuracy_valueunit ??
-								data.thematicaccuracy_valueunit ??
-								0
-							}
-							onValueChange={({ target }) =>
-								setData({
-									...data,
-									positionalaccuracy_valueunit: target.value,
-									temporalaccuracy_valueunit: target.value,
-									thematicaccuracy_valueunit: target.value,
-								})
-							}
-							className="w-full md:w-14rem "
-							maxFractionDigits={2}
-							inputClassName="text-gray-900 focus:outline-none dark:bg-white bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
-							buttonLayout="horizontal"
-							decrementButtonClassName="p-button-info"
-							incrementButtonClassName="p-button-info"
-							incrementButtonIcon="pi pi-plus"
-							decrementButtonIcon="pi pi-minus"
-							showButtons
+						<Dropdown
+							name="positionalaccuracy_valueunit"
+							options={catalogo.valueunit}
+							value={findSelectValue("positionalaccuracy_valueunit")}
+							onChange={handleSelectChange}
+							placeholder="Seleccione una Categoria"
+							className="w-full md:w-14rem"
+							disabled={!editable}
 						/>
 
 						<span className="underline me-1">Revisar:</span>
 						<small className="font-xs">
 							6.2.3.1.3.1.1, 6.2.4.1.3.1.1, 6.2.5.1.3.1.1
-						</small>
-						<br />
-						<small>
-							Metros, decímetros, centímetros, milímetros, grados, minutos, segundos,
-							radio, longitud, tiempo, ángulo, área, velocidad, escala, porcentaje.
 						</small>
 					</Table.Cell>
 				</Table.Row>

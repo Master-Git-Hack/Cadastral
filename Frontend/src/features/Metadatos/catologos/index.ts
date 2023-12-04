@@ -9,6 +9,8 @@ import { md_dataidentification_language } from "./md_dataidentification_language
 import { presentationform } from "./presentationform";
 import { spatialrepresentationtype } from "./spatialrepresentationtype";
 import { topiccategory } from "./topiccategory";
+import { geounit } from "./geounit";
+import { valueunit } from "./valueunit";
 export const catalogo = {
 	ci_responsibleparty_role,
 	datetype,
@@ -20,5 +22,8 @@ export const catalogo = {
 	presentationform,
 	spatialrepresentationtype,
 	topiccategory,
+	geounit,
+	valueunit,
+
 };
 export default catalogo;
