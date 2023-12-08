@@ -1,8 +1,8 @@
 from flasgger import swag_from
 from flask import Blueprint, request
+from flask_jwt_extended import jwt_required
 
 from .. import config
-from flask_jwt_extended import jwt_required
 from ..models.dataset import Dataset
 from ..utils.response import Responses
 
@@ -53,6 +53,19 @@ def get_metadatos(uid: str, response: Responses = Responses()) -> Responses:
             status_code=404,
         )
     return response.success(data=meta.to_dict())
+
+
+@metadatos_api.get("/report/<string:uid>")
+@swag_from(__swagger.get("get_file_from_metadatos", {}))
+@jwt_required()
+def get_file_from_metadatos(uid: str, response: Responses = Responses()) -> Responses:
+    meta = Dataset()
+    if meta.filter(uid=uid) is None:
+        return response.error(
+            message="No existe el registro actual de los metadatos a consultar",
+            status_code=404,
+        )
+    return response.send_file(filename=f"{meta.current.title}.pdf", path="")
 
 
 @metadatos_api.post("/<string:table_name>")

@@ -99,6 +99,7 @@ def render(data: List[dict]) -> list:
         with open(f"{filename}.html", "w", encoding="UTF-8") as file:
             file.write(template.render(**template_data))
         files.append(filename)
+    return files
 
 
 def water_mark() -> str:
