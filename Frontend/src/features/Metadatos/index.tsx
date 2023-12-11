@@ -6,7 +6,7 @@ import { NavLink, redirect } from "react-router-dom";
 import "primereact/resources/themes/tailwind-light/theme.css";
 //import { Table } from "@components/Table";
 import { ScrollPanel } from "primereact/scrollpanel";
-import { useGetMetadatosQuery } from "@api/Metadatos";
+import { useGetMetadatosQuery, useGetMetadatoReportMutation } from "@api/Metadatos";
 import { IMetadatos } from "@api/Metadatos/types";
 import Spinner from "@components/Spinner";
 import Alert from "@components/Alerts";
@@ -14,9 +14,17 @@ import Error from "../Error";
 import { Table, Button } from "flowbite-react";
 export default function Metadatos() {
 	const { data, isLoading, isError, error } = useGetMetadatosQuery();
-
-	if (isError) return <Error message={error?.data} />;
-	if (isLoading) return <Spinner size={20} />;
+	const [
+		getMetadatoReport,
+		{
+			data: dataReport,
+			isLoading: isLoadingReport,
+			isError: isErrorReport,
+			error: errorReport,
+		},
+	] = useGetMetadatoReportMutation();
+	if (isError || isErrorReport) return <Error message={error?.data ?? errorReport?.data} />;
+	if (isLoading || isLoadingReport) return <Spinner size={20} />;
 
 	return (
 		<div className="overflow-auto">
@@ -89,6 +97,14 @@ export default function Metadatos() {
 										to={`edit/${uid}`}
 									>
 										Editar
+									</NavLink>
+									/
+									<NavLink
+										className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+										to={`#reporte?=${uid}`}
+										onClick={() => getMetadatoReport(uid)}
+									>
+										Reporte
 									</NavLink>
 								</Table.Cell>
 							</Table.Row>

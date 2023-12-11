@@ -18,6 +18,11 @@ export const MetadatosApi = createApi({
 				url: `metadatos/complete`,
 				method: "GET",
 			}),
+		}),getMetadatoReport: mutation<Blob,  { uid: string }>({
+			query: ({uid}) => ({
+				url: `metadatos/${uid}/report`,
+				method: "GET",
+			}),
 		}),
 		getMetadato: query<IMetadatos, { uid: string }>({
 			query: ({ uid }) => ({
@@ -49,4 +54,5 @@ export const {
 	useGetMetadatoQuery,
 	usePostMetadatoMutation,
 	usePatchMetadatoMutation,
+	useGetMetadatoReportMutation
 } = MetadatosApi;

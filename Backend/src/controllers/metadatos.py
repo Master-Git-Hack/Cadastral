@@ -15,6 +15,7 @@ class ReporteMetadatos:
     def __init__(self, uid):
         if self.__meta.filter(uid=uid) is None:
             raise Exception("No existe el registro actual de los metadatos a consultar")
+        self.filename = self.__meta.current.title
 
     def __enter__(self):
         return self
@@ -31,5 +32,7 @@ class ReporteMetadatos:
             file.write(template.render(**self.__meta.to_dict()))
 
     def create(self):
-        pdf = PDF(templates=self.__render(), **kwargs)
+        self.__render()
+        pdf = PDF(templates=[self.filename])
         pdf.render()
+        return f"{self.filename}.pdf"

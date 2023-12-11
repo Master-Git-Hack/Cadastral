@@ -16,7 +16,7 @@ Flask-WTF==1.1.1
 GeoAlchemy2==0.14.2
 isort==5.12.0
 nested-lookup==0.2.25
-psycopg2==2.9.6
+psycopg2-binary==2.9.6
 pylint==2.17.4
 pymongo==4.3.3
 PyPDF2==3.0.1
