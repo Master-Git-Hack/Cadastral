@@ -9,8 +9,8 @@ export const flattenObject = (obj: any, parentKey = ""): { [key: string]: any } 
 			const newKey = Number.isInteger(parseInt(key))
 				? `${parentKey}_${key}`
 				: key.includes("#text")
-				? parentKey
-				: key;
+					? parentKey
+					: key;
 
 			if (typeof obj[key] === "object" && obj[key] !== null) {
 				const flatChild = flattenObject(obj[key], newKey);

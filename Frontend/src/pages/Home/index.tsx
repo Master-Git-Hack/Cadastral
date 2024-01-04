@@ -16,7 +16,7 @@ export default function Home() {
 
 	return (
 		<Layout>
-			<div className="flex flex-wrap justify-center gap-4 m-4">
+			<div className="flex flex-wrap justify-center gap-4 m-4 ">
 				{links.map(({ label, href, avatar }: any, index: number) => (
 					<Card className="max-w-sm w-11/12" key={href}>
 						<div className="flex flex-col justify-center ">

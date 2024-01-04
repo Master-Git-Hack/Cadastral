@@ -1,7 +1,7 @@
 """File to work with temporary files"""
 from os import listdir, remove
 from os.path import isfile, join
-from tempfile import NamedTemporaryFile
+from tempfile import NamedTemporaryFile, mktemp
 from typing import Optional
 
 from .. import config
@@ -25,11 +25,13 @@ def name_it(
     """
     if path is None:
         path = config.PATHS.tmp
-    with NamedTemporaryFile(
-        suffix=suffix, prefix=prefix, dir=path, delete=True
-    ) as temp:
-        return f"{temp.name}.{extension}"
-    #
+    # with NamedTemporaryFile(
+    #     suffix=suffix, prefix=prefix, dir=path, delete=True
+    # ) as temp:
+    #     temp_filename = f"{temp.name}.{extension}"
+    temp_filename = mktemp(suffix=suffix, prefix=prefix, dir=path)
+    temp_filename += f". {extension}"
+    return temp_filename
 
 
 def delete_files(path: Optional[str] = None):

@@ -62,8 +62,8 @@ class __Base(object):
         __IMAGES_FOLDERNAME: str = environ.get("IMAGES_FOLDER", "images")
         __FONTS_FOLDERNAME: str = environ.get("FONTS_FOLDER", "fonts")
         tmp: str = join(__ROOT_DIR, __TMP_FOLDERNAME)
-        templates: str = join(__ROOT_DIR, __TEMPLATES_FOLDERNAME)
         static: str = join(__ROOT_DIR, __STATIC_FOLDERNAME)
+        templates: str = join(static, __TEMPLATES_FOLDERNAME)
         imgs: str = join(static, __IMAGES_FOLDERNAME)
         fonts: str = join(static, __FONTS_FOLDERNAME)
 

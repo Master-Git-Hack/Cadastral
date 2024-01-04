@@ -1,4 +1,5 @@
 from jinja2 import Template
+from pdfkit import from_file
 from reportlab.lib.pagesizes import A4, letter
 from reportlab.pdfgen import canvas
 
@@ -15,7 +16,8 @@ class ReporteMetadatos:
     def __init__(self, uid):
         if self.__meta.filter(uid=uid) is None:
             raise Exception("No existe el registro actual de los metadatos a consultar")
-        self.filename = self.__meta.current.title
+        self.filename = str(self.__meta.current.title).replace(" ", "_")
+        self.path = config.PATHS.tmp
 
     def __enter__(self):
         return self
@@ -27,12 +29,16 @@ class ReporteMetadatos:
         template: Template = Template(
             open(f"{config.PATHS.templates}/main.html", encoding="UTF-8").read()
         )
-        self.filename = f"{config.PATHS.tmp}/{self.filename}"
-        with open(f"{self.filename}.html", "w", encoding="UTF-8") as file:
-            file.write(template.render(**self.__meta.to_dict()))
+        self.path += f"/{self.filename}"
+        data = {
+            key: value if value is not None else ""
+            for key, value in self.__meta.current.__dict__.items()
+        }
+
+        with open(f"{self.path}.html", "w", encoding="UTF-8") as file:
+            file.write(template.render(**data))
 
     def create(self):
         self.__render()
-        pdf = PDF(templates=[self.filename])
-        pdf.render()
-        return f"{self.filename}.pdf"
+        from_file(f"{self.path}.html", f"{self.path}.pdf")
+        return f"{self.filename}.pdf", config.PATHS.tmp

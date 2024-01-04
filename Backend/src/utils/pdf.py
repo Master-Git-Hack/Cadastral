@@ -24,12 +24,12 @@ class PDFMaker:
 
     def __init__(self, **kwargs) -> None:
         if kwargs.get("templates") and not kwargs.get("files"):
-            margins = kwargs.get("margins", self.__margins_default)
+            # margins = kwargs.get("margins", self.__margins_default)
             self.__cmd.append("--dpi")
             self.__cmd.append(kwargs.get("dpi", "300"))
-            for key, value in margins.items():
-                self.__cmd.append(f"--margin-{key}")
-                self.__cmd.append(value)
+            # for key, value in margins.items():
+            #     self.__cmd.append(f"--margin-{key}")
+            #     self.__cmd.append(value)
             for key, value in kwargs.items():
                 setattr(self, key, value)
                 if key == "page_size":
@@ -52,14 +52,17 @@ class PDFMaker:
         if len(self.templates) == 0:
             raise ValueError("You must provide templates")
         files: List = []
+
         for file in self.templates:
-            input_file = f"{file}.html"
-            output_file = f"{file}.pdf"
-            if exists(input_file):
+            if exists(input_file := f"{file}.html"):
                 self.__cmd.append(input_file)
-                self.__cmd.append(output_file)
+                self.__cmd.append(f".{file}.pdf")
+
                 process = Popen(
-                    self.__cmd, univesal_newlines=True, stdout=PIPE, stderr=PIPE
+                    " ".join(str(arg) for arg in self.__cmd),
+                    stdout=PIPE,
+                    stderr=PIPE,
+                    universal_newlines=True,
                 )
                 _, error = process.communicate()
                 exit_code = process.wait()

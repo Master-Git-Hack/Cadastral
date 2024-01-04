@@ -173,25 +173,25 @@
 		<tr>
 			<th class="text">1.1 Título del conjunto de datos espaciales o producto.</th>
 			<td>
-				<p class="truncate-text">[% title %]</p>
+				<p class="truncate-text">{{title}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.2 Propósito.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% purpose %]</p>
+				<p class="truncate-text">{{purpose}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.3 Descripción del conjunto de datos espaciales o producto.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% abstract %]</p>
+				<p class="truncate-text">{{abstract}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.4 Idioma del conjunto de datos espaciales o producto.</th>
 			<td class="text">
-				<p class="truncate-text">[% md_dataidentification_language %]</p>
+				<p class="truncate-text">{{md_dataidentification_language}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -202,25 +202,25 @@
 		<tr>
 			<th class="text pl">1.5.1 Tema principal del conjunto de datos espaciales o producto.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% topiccategory %]</p>
+				<p class="truncate-text">{{topiccategory}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">1.5.2 Grupo de datos del conjunto de datos espaciales o producto.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% groupcategory %]</p>
+				<p class="truncate-text">{{groupcategory}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.6 Palabra clave.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% keywords %]</p>
+				<p class="truncate-text">{{keywords}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.10 Forma de presentación de los datos espaciales.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% presentationform %]</p>
+				<p class="truncate-text">{{presentationform}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -229,7 +229,7 @@
 		<tr>
 			<th class="text pl">1.11.1 URL del recurso.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ci_onlineresource_linkage %]</p>
+				<p class="truncate-text">{{ci_onlineresource_linkage}}</p>
 			</td>
 		</tr>
 
@@ -243,19 +243,19 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% maintenanceandupdatefrequency %]</p>
+				<p class="truncate-text">{{maintenanceandupdatefrequency}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.13 Conjunto de caracteres.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% md_dataidentification_characterset %]</p>
+				<p class="truncate-text">{{md_dataidentification_characterset}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.15 Uso específico.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% specuse %]</p>
+				<p class="truncate-text">{{specuse}}</p>
 			</td>
 		</tr>
 	</table>
@@ -269,13 +269,13 @@
 		<tr>
 			<th class="text pl">2.1.1 Fecha de referencia del conjunto de datos espaciales o producto.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% datestamp %]</p>
+				<p class="truncate-text">{{datestamp}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">2.1.2 Tipo de fecha.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% datetype %]</p>
+				<p class="truncate-text">{{datetype}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -287,13 +287,13 @@
 		<tr>
 			<th class="text pl">2.2.1 Fecha de creación de los insumos.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% date_creation %]</p>
+				<p class="truncate-text">{{date_creation}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">2.2.4 Nombre del Insumo.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% inpname %]</p>
+				<p class="truncate-text">{{inpname}}</p>
 			</td>
 		</tr>
 	</table>
@@ -311,7 +311,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ci_responsibleparty_individualname %]</p>
+				<p class="truncate-text">{{ci_responsibleparty_individualname}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -324,7 +324,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ci_responsibleparty_organisationname %]</p>
+				<p class="truncate-text">{{ci_responsibleparty_organisationname}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -337,13 +337,13 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ci_responsibleparty_positionname %]</p>
+				<p class="truncate-text">{{ci_responsibleparty_positionname}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">3.12 Enlace en línea (dirección de Internet de referencia).</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ci_responsibleparty_linkage %]</p>
+				<p class="truncate-text">{{ci_responsibleparty_linkage}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -356,7 +356,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ci_responsibleparty_role %]</p>
+				<p class="truncate-text">{{ci_responsibleparty_role}}</p>
 			</td>
 		</tr>
 	</table>
@@ -373,31 +373,31 @@
 		<tr>
 			<th class="text pl">4.1.1 Coordenada límite al Oeste</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% westboundlongitude %]</p>
+				<p class="truncate-text">{{westboundlongitude}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">4.1.2 Coordenada límite al Este</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% eastboundlongitude %]</p>
+				<p class="truncate-text">{{eastboundlongitude}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">4.1.3 Coordenada límite al Sur</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% southboundlatitude %]</p>
+				<p class="truncate-text">{{southboundlatitude}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">4.1.4 Coordenada límite al Norte</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% northboundlatitude %]</p>
+				<p class="truncate-text">{{northboundlatitude}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">4.2 Tipo de representación espacial</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% spatialrepresentationtype %]</p>
+				<p class="truncate-text">{{spatialrepresentationtype}}</p>
 			</td>
 		</tr>
 	</table>
@@ -414,19 +414,19 @@
 		<tr>
 			<th class="text pl">5.1.1.1 Resolución de latitud.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% latres %]</p>
+				<p class="truncate-text">{{latres}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.1.2 Resolución de longitud.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% longres %]</p>
+				<p class="truncate-text">{{longres}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.1.3 Unidades de coordenadas geográficas.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% geogunit %]</p>
+				<p class="truncate-text">{{geogunit}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -438,7 +438,7 @@
 		<tr>
 			<th class="text pl-3">5.1.2.1.1.1 Paralelo estándar.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% lambertc_stdparll %]</p>
+				<p class="truncate-text">{{lambertc_stdparll}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -451,7 +451,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% lambertc_longcm %]</p>
+				<p class="truncate-text">{{lambertc_longcm}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -465,7 +465,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% mercatort_latprjo %]</p>
+				<p class="truncate-text">{{mercatort_latprjo}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -479,7 +479,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% mercator_feast %]</p>
+				<p class="truncate-text">{{mercator_feast}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -493,7 +493,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% mercator_fnorth %]</p>
+				<p class="truncate-text">{{mercator_fnorth}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -507,7 +507,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% mercator_sfec %]</p>
+				<p class="truncate-text">{{mercator_sfec}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -522,7 +522,7 @@
 		<tr>
 			<th class="text pl-3">5.1.2.2.1.1 Número de zona UTM.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% utm_zone %]</p>
+				<p class="truncate-text">{{utm_zone}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -531,13 +531,13 @@
 		<tr>
 			<th class="text pl-2">5.1.2.3.1 Descripción de la Plana Local.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% local_desc %]</p>
+				<p class="truncate-text">{{local_desc}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-2">5.1.2.3.2 Información de Georreferencia de la Plana Local.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% local_geo_inf %]</p>
+				<p class="truncate-text">{{local_geo_inf}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -554,19 +554,19 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% coord_repres %]</p>
+				<p class="truncate-text">{{coord_repres}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-4">5.1.2.3.4.2.2.1 Resolución de abscisa.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ordres %]</p>
+				<p class="truncate-text">{{ordres}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-4">5.1.2.3.4.2.2.2 Resolución de ordenada.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% absres %]</p>
+				<p class="truncate-text">{{absres}}</p>
 			</td>
 		</tr>
 
@@ -576,37 +576,37 @@
 		<tr>
 			<th class="text pl-3">5.1.2.4.3.1 Resolución de distancia.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% distance_res %]</p>
+				<p class="truncate-text">{{distance_res}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-3">5.1.2.4.3.2 Resolución de rumbo.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% bearing_res %]</p>
+				<p class="truncate-text">{{bearing_res}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-3">5.1.2.4.3.3 Unidades de rumbo.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% bearing_uni %]</p>
+				<p class="truncate-text">{{bearing_uni}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-3">5.1.2.4.3.4 Dirección del rumbo de referencia.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ref_bearing_dir %]</p>
+				<p class="truncate-text">{{ref_bearing_dir}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-3">5.1.2.4.3.5 Meridiano del rumbo de referencia.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ref_bearing_mer %]</p>
+				<p class="truncate-text">{{ref_bearing_mer}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-3">5.1.2.4.4 Unidades de distancia plana.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% plandu %]</p>
+				<p class="truncate-text">{{plandu}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -615,31 +615,31 @@
 		<tr>
 			<th class="text pl">5.1.3.1 Descripción Local.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% local_desc %]</p>
+				<p class="truncate-text">{{local_desc}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.3.2 Información de Georreferenciación Local.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% local_geo_inf %]</p>
+				<p class="truncate-text">{{local_geo_inf}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.4.1 Nombre del datum horizontal.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% horizdn %]</p>
+				<p class="truncate-text">{{horizdn}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.4.2 Nombre del elipsoide.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% ellips %]</p>
+				<p class="truncate-text">{{ellips}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.4.3 Semieje mayor.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% semiaxis %]</p>
+				<p class="truncate-text">{{semiaxis}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -652,43 +652,43 @@
 		<tr>
 			<th class="text pl-2">5.2.1.1 Nombre del datum de altitud.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% altenc %]</p>
+				<p class="truncate-text">{{altenc}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-2">5.2.1.2 Resolución de altitud.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% altres %]</p>
+				<p class="truncate-text">{{altres}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-2">5.2.1.3 Unidades de distancia de altitud.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% altunits %]</p>
+				<p class="truncate-text">{{altunits}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-2">5.2.1.4 Método codificado de altitud.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% altdatum %]</p>
+				<p class="truncate-text">{{altdatum}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-2">5.2.2.1 Nombre del datum de profundidad.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% depthdn %]</p>
+				<p class="truncate-text">{{depthdn}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-2">5.2.2.2 Resolución de profundidad.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% depthres %]</p>
+				<p class="truncate-text">{{depthres}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-2">5.2.2.3 Unidades de distancia de profundidad.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% depthdu %]</p>
+				<p class="truncate-text">{{depthdu}}</p>
 			</td>
 		</tr>
 	</table>
@@ -703,7 +703,7 @@
 		<tr>
 			<th class="text pl">6.1.1 Nivel.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% level %]</p>
+				<p class="truncate-text">{{level}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -717,7 +717,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% dq_quantitativeresult %]</p>
+				<p class="truncate-text">{{dq_quantitativeresult}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -731,7 +731,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% dq_completeness_nameofmeasure %]</p>
+				<p class="truncate-text">{{dq_completeness_nameofmeasure}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -745,7 +745,7 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% dq_completeness_measuredescription %]</p>
+				<p class="truncate-text">{{dq_completeness_measuredescription}}</p>
 			</td>
 		</tr>
 
@@ -771,39 +771,23 @@
 				>
 			</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% positionalaccuracy_valueunit %]</p>
+				<p class="truncate-text">{{positionalaccuracy_valueunit}}</p>
 			</td>
 		</tr>
-		<!--
-			<tr>
-			<th class="text pl-5">
-				<a href="#" class="toggle-tooltip"
-					>6.2.2.1.3.1.2 Valor.
-					<span class="tooltip"
-						>Revisar tambien los puntos 6.2.3.1.3.1.2, 6.2.4.1.3.1.2, 6.2.5.1.3.1.2 de la Norma
-						Tecnica para la elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
-			<td class="truncate-cell">
-				<p class="truncate-text">[% %]</p>
-			</td>
-		</tr>
-		-->
 		<tr>
 			<th class="text" colspan="2">6.3 Linaje</th>
 		</tr>
 		<tr>
 			<th class="text pl">6.3.1 Enunciado</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% statement %]</p>
+				<p class="truncate-text">{{statement}}</p>
 			</td>
 		</tr>
 
 		<tr>
 			<th class="text pl">6.3.2 Pasos del proceso</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% li_processstep %]</p>
+				<p class="truncate-text">{{li_processstep}}</p>
 			</td>
 		</tr>
 		<tr>
@@ -820,7 +804,7 @@
 		<tr>
 			<th class="text pl">6.3.3 Fuente.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% li_source %]</p>
+				<p class="truncate-text">{{li_source}}</p>
 			</td>
 		</tr>
 	</table>
@@ -831,13 +815,13 @@
 		<tr>
 			<th class="text">7.1 Descripción general de entidades y atributos.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% entity_detail %]</p>
+				<p class="truncate-text">{{entity_detail}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">7.2 Cita del detalle de entidades y atributos.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% graphfilename %]</p>
+				<p class="truncate-text">{{graphfilename}}</p>
 			</td>
 		</tr>
 	</table>
@@ -848,13 +832,13 @@
 		<tr>
 			<th class="text">8.4.1 Nombre del formato.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% md_format %]</p>
+				<p class="truncate-text">{{md_format}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">8.4.2 Versión del formato.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% edition %]</p>
+				<p class="truncate-text">{{edition}}</p>
 			</td>
 		</tr>
 	</table>
@@ -865,154 +849,20 @@
 		<tr>
 			<th class="text">9.1 Nombre del estándar de metadatos.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% metadatastandardname %]</p>
+				<p class="truncate-text">{{metadatastandardname}}</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">9.3 Idioma de los Metadatos.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% metadatastandardversion %]</p>
+				<p class="truncate-text">{{metadatastandardversion}}</p>
 			</td>
 		</tr>
-		<!--<tr>
-			<th class="text">9.4 Punto de contacto para los Metadatos.</th>
-			<td class="truncate-cell">
-				<p class="truncate-text">[% %]</p>
-			</td>
-		</tr>-->
 		<tr>
 			<th class="text">9.5 Fecha de los metadatos.</th>
 			<td class="truncate-cell">
-				<p class="truncate-text">[% date %]</p>
+				<p class="truncate-text">{{date}}</p>
 			</td>
 		</tr>
 	</table>
 </div>
-<!--
-<div>
-	<h2>Propiedades espaciales</h2>
-	<table class="table table-condensed">
-		<tr>
-			<th>1.12 Frecuencia de mantenimiento y actualización</th>
-			<td>[% maintenanceandupdatefrequency %]</td>
-		</tr>
-		<tr>
-			<th>1.13 Conjunto de caracteres</th>
-			<td>[% md_dataidentification_characterset %]</td>
-		</tr>
-		<tr>
-			<th>1.15 Uso específico</th>
-			<td>[% specuse %]</td>
-		</tr>
-		<tr>
-			<th>Nivel</th>
-			<td>[% spatial_level %]</td>
-		</tr>
-		<tr>
-			<th>Escala mínima</th>
-			<td>[% minimum_optimal_scale %]</td>
-		</tr>
-		<tr>
-			<th>Escala máxima</th>
-			<td>[% maximum_optimal_scale %]</td>
-		</tr>
-		<tr>
-			<th>Cantidad de objetos</th>
-			<td>[% feature_count %]</td>
-		</tr>
-		<tr>
-			<th>Geometría</th>
-			<td>[% geometry_type %]</td>
-		</tr>
-		<tr>
-			<th>Extensíon</th>
-			<td>[% spatial_extent %]</td>
-		</tr>
-		<tr>
-			<th>Proyección</th>
-			<td>[% projection_name %]</td>
-		</tr>
-		<tr>
-			<th>ID de proyección</th>
-			<td>[% projection_authid %]</td>
-		</tr>
-	</table>
-</div>
-
-<div>
-	<h2>Publicación</h2>
-	<table class="table table-condensed">
-		<tr>
-			<th>Fecha</th>
-			<td>[% publication_date %]</td>
-		</tr>
-		<tr>
-			<th>Frecuencia</th>
-			<td>[% publication_frequency %]</td>
-		</tr>
-		<tr>
-			<th>Licencia</th>
-			<td>[% license %]</td>
-		</tr>
-		<tr>
-			<th>Confidencialidad</th>
-			<td>[% confidentiality %]</td>
-		</tr>
-	</table>
-</div>
-
-<div>
-	<h2>Enlaces</h2>
-	<table class="table table-condensed table-striped table-bordered">
-		<tr>
-			<th>Tipo</th>
-			<th>Nombre</th>
-			<th>MIME</th>
-			<th>Formato</th>
-			<th>Tamaño</th>
-		</tr>
-		[% meta_links %]
-	</table>
-</div>
-
-<div>
-	<h2>Contactos</h2>
-	<table class="table table-condensed table-striped table-bordered">
-		<tr>
-			<th>Rol</th>
-			<th>Nombre</th>
-			<th>Organización</th>
-			<th>Correo</th>
-			<th>Teléfono</th>
-		</tr>
-		[% meta_contacts %]
-	</table>
-</div>
-
-<div>
-	<h2>Metadatos</h2>
-	<table class="table table-condensed">
-		<tr>
-			<th>Tabla</th>
-			<td>[% table_name %]</td>
-		</tr>
-		<tr>
-			<th>Esquema</th>
-			<td>[% schema_name %]</td>
-		</tr>
-		<tr>
-			<th>Fecha de creación</th>
-			<td>[% creation_date %]</td>
-		</tr>
-		<tr>
-			<th>Actualización</th>
-			<td>[% update_date %]</td>
-		</tr>
-		<tr>
-			<th>UUID</th>
-			<td>[% uid %]</td>
-		</tr>
-	</table>
-</div>
-
--->

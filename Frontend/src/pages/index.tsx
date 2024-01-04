@@ -8,6 +8,7 @@ import CreateMetadatos from "@features/Metadatos/create.tsx";
 import SignIn from "@features/Login";
 import RevisionAvaluos from "./RevisionAvaluos";
 import CreateRevisionAvaluos from "@features/RevisionAvaluos/create";
+import MetadatosViewer from "@features/Metadatos/viewer";
 const RouterPages = createBrowserRouter([
 	{
 		path: "/sign-in",
@@ -29,6 +30,10 @@ const RouterPages = createBrowserRouter([
 			{
 				path: "crear/",
 				element: <CreateMetadatos />,
+			},
+			{
+				path: "view/:uid",
+				element: <MetadatosViewer />,
 			},
 		],
 	},

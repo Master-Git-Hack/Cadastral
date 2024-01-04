@@ -24,6 +24,5 @@ export const catalogo = {
 	topiccategory,
 	geounit,
 	valueunit,
-
 };
 export default catalogo;

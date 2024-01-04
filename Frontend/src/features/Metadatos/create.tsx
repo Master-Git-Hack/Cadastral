@@ -12,8 +12,9 @@ import { flattenObject } from "@utils/object";
 import { useXml2jsonMutation, useJson2xmlMutation } from "@api/ParseFile";
 import Stepper from "@components/Stepper";
 import { Dropdown } from "primereact/dropdown";
-import { Table, Button } from "flowbite-react";
-
+import { Table, Button, SidebarItems } from "flowbite-react";
+import { usePostMetadatoMutation, usePatchMetadatoMutation } from "@api/Metadatos";
+import { useGetCatastroQuery } from "@api/Schemas";
 import { Section1 } from "./sections/section1";
 import { Section2 } from "./sections/section2";
 import { Section3 } from "./sections/section3";
@@ -24,7 +25,10 @@ import { Section7 } from "./sections/section7";
 import { Section8 } from "./sections/section8";
 import { Section9 } from "./sections/section9";
 import catalogo from "./catologos/index";
+import Spinner from "@components/Spinner";
+import Error from "../Error";
 export default function Create({ onEdit = true, record = undefined }) {
+	const { data: catastro } = useGetCatastroQuery(null);
 	const [data, setData] = useState<IMetadatos>(record ?? template);
 	const [imported, setImported] = useState<boolean>(false);
 	const [withXML, setWithXML] = useState<boolean>(false);
@@ -34,61 +38,47 @@ export default function Create({ onEdit = true, record = undefined }) {
 	const [convertJsonToXml, jsonToXmlResult] = useJson2xmlMutation();
 	const [currentSchema, setSchema] = useState<string | undefined>(undefined);
 	const [indexPage, setIndexPage] = useState<number>(0);
-	console.log(data);
+	const [createRecord, { isLoadingCreate, isErrorCreate, errorMessageCreate }] =
+		usePostMetadatoMutation();
+	const [updateRecord, { isLoadingUpdate, isErrorUpdate, errorMessageUpdate }] =
+		usePatchMetadatoMutation();
 	useEffect(() => {
 		if (xmlToJsonResult.isSuccess && !imported) {
 			setImported(true);
 			setData(xmlToJsonResult.data.data);
 		}
 	}, [xmlToJsonResult]);
-	const handleSelectChange = ({
-		target: {
-			name,
-			value: { code, label, description },
-		},
-	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
-	const findSelectValue = (name: string) => {
-		const [code] = data[name].split(".");
-		return catalogo?.[name]?.find((item) => item.code === code);
+	const handleSelectChange = ({ value }) =>
+		setData({ ...data, table_name: value.label, schema_name: value.parent });
+
+	if (isLoadingCreate || isLoadingUpdate) return <Spinner size={20} />;
+	if (isErrorCreate || isErrorUpdate)
+		return <Error message={errorMessageCreate ?? errorMessageUpdate} />;
+	const groupedItemTemplate = (option) => {
+		return (
+			<div className="flex align-items-center">
+				<div>{option.label}</div>
+			</div>
+		);
 	};
+
 	return (
-		<div className="p-4  max-h-full">
+		<div className="p-4 bg-white dark:bg-black  max-h-full">
 			<Table>
 				<Table.Body>
-					<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-						<Table.Cell
-							scope="row"
-							colSpan={1}
-							className="whitespace-nowrap dark:text-white"
-						/>
-						<Table.Cell colSpan={2} className="text-black dark:text-white">
-							Nombre de la Tabla
-						</Table.Cell>
-						<Table.Cell colSpan={9}>
-							<Dropdown
-								name="table_name"
-								options={[]}
-								value={data.table_name}
-								onChange={handleSelectChange}
-								placeholder="Seleccione una Tabla"
-								className="w-full md:w-14rem"
-								disabled={!onEdit}
-							/>
-						</Table.Cell>
-					</Table.Row>
-					<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					{/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 						<Table.Cell
 							scope="row"
 							colSpan={1}
 							className="whitespace-nowrap dark:text-white"
 						/>
 						<Table.Cell colSpan={2} className="w-3/12 text-black dark:text-white">
-							Nombre del Schema
+							Nombre del Schema de la Base de Datos
 						</Table.Cell>
 						<Table.Cell colSpan={9} className="w-full">
 							<Dropdown
 								name="schema_name"
-								options={[]}
+								options={catastro?.data.schemas}
 								value={data.schema_name}
 								onChange={handleSelectChange}
 								placeholder="Seleccione un Schema"
@@ -96,10 +86,42 @@ export default function Create({ onEdit = true, record = undefined }) {
 								disabled={!onEdit}
 							/>
 						</Table.Cell>
+					</Table.Row> */}
+					<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+						<Table.Cell
+							scope="row"
+							colSpan={1}
+							className="whitespace-nowrap dark:text-white"
+						/>
+						<Table.Cell colSpan={2} className="text-black dark:text-white">
+							Nombre de la Tabla de la Base de Datos
+						</Table.Cell>
+						<Table.Cell colSpan={10}>
+							<Dropdown
+								name="table_name"
+								value={catastro?.data.tables
+									.find(({ label }) => label === data.schema_name)
+									?.items.find(({ label }) => label === data.table_name)}
+								onChange={handleSelectChange}
+								options={catastro?.data.tables}
+								optionLabel="label"
+								optionGroupLabel="label"
+								optionGroupChildren="items"
+								optionGroupTemplate={groupedItemTemplate}
+								className="w-full md:w-14rem"
+								placeholder="Seleccione una Tabla"
+								disabled={!onEdit}
+							/>
+						</Table.Cell>
 					</Table.Row>
+
 					<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 						<Table.Cell scope="row" colSpan={4} />
-						<Table.Cell scope="row" colSpan={9}>
+						<Table.Cell
+							scope="row"
+							className="flex flex-row justify-start items-center "
+							colSpan={8}
+						>
 							<FileButton
 								size="sm"
 								className="w-1/4"
@@ -115,6 +137,46 @@ export default function Create({ onEdit = true, record = undefined }) {
 							>
 								Importar información de archivio XML
 							</FileButton>
+						</Table.Cell>
+						<Table.Cell
+							scope="row"
+							className="flex flex-row justify-end items-center -mt-20"
+							colSpan={1}
+						>
+							<Button
+								pill
+								color="green"
+								onClick={() =>
+									// record !== undefined
+									// 	? updateRecord({ data })
+									// 	: createRecord({ data })
+									{
+										return Alert({
+											titleText: `¿Está seguro de ${
+												record !== undefined ? "actualizar" : "guardar"
+											} el registro?`,
+											showDenyButton: true,
+											showCancelButton: true,
+											confirmButtonText: `${
+												record !== undefined ? "Actualizar" : "Guardar"
+											} Temporalmente`,
+											denyButtonText: `${
+												record !== undefined ? "Actualizar" : "Guardar"
+											}`,
+											denyButtonColor: "#0e948a",
+											cancelButtonColor: "#3085d6",
+											customClass: {
+												actions: "my-actions",
+												cancelButton: "order-1 me-16",
+												confirmButton: "order-2 ",
+												denyButton: "order-3 ",
+											},
+										});
+									}
+								}
+							>
+								Guardar
+							</Button>
 						</Table.Cell>
 					</Table.Row>
 				</Table.Body>

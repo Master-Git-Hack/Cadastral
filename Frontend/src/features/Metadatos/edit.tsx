@@ -14,6 +14,7 @@ export default function EditMetadatos() {
 	const { data, isLoading, isError, error } = useGetMetadatoQuery({ uid });
 	if (isLoading) return <Spinner size={20} />;
 	if (isError) return <Error message={error} />;
+
 	return <Edit data={data.data} />;
 }
 export const Edit = ({ data }: { data: IMetadatos }) => {

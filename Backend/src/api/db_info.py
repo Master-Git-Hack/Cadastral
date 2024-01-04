@@ -28,6 +28,17 @@ def get_schemas(response=Responses()):
         return response.error(message=str(e), status_code=422)
 
 
+@db_info.get("/schemas/catastro")
+@swag_from(__swagger.get("get_schemas", {}))
+def get_schemas_catastro(response=Responses()):
+    try:
+        # Get the list of schema names from the database
+        with __dbs.catastro_v2 as __db:
+            return response.success(data=__db.get_complete_schema())
+    except Exception as e:
+        return response.error(message=str(e), status_code=422)
+
+
 @db_info.get("<string:db>/schemas/<string:schema>/tables")
 @swag_from(__swagger.get("get_tables_from_schema", {}))
 def get_tables_from_schema(db: str, schema: str, response=Responses()):
