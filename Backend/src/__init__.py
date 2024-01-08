@@ -63,11 +63,13 @@ def init_app():
 
 app: Flask = init_app()
 dashboard.bind(app)
-with app.app_context():
-    from .models import Modelos
+# with app.app_context():
+#     from .models import Modelos
 
-    db.catastro_v2.create_models()
-    db.valuaciones.create_models()
+#     db.catastro_v2.create_models()
+#     db.valuaciones.create_models()
+#     # db.catastro_v2.close_session()
+#     # db.valuaciones.close_session()
 logger = LocalProxy(lambda: app.logger)
 
 from .api import api

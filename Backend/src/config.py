@@ -245,9 +245,10 @@ class Config(current_env):
     CORS_SRC: dict = {
         f"{current_env.API_URL_PREFIX}/{current_env.CORS}": {
             "origins": current_env.CORS_ORIGIN,
-            "methods": current_env.CORS_ALLOW_METHODS,
+            # "methods": current_env.CORS_ALLOW_METHODS,
             "allow_headers": current_env.CORS_ALLOW_HEADERS,
             "expose_headers": current_env.CORS_EXPOSE_HEADERS,
+            # "supports_credentials": True,
         }
     }
     SWAGGER: dict = {

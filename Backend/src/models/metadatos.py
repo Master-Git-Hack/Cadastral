@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Any, Dict
 
-from sqlalchemy import JSON, BigInteger, Column, DateTime, Integer, SmallInteger
+from sqlalchemy import JSON, BigInteger, Column, DateTime, Integer, SmallInteger, text
+from sqlalchemy.dialects.postgresql import UUID
 
 from .. import config
 from . import Template
@@ -10,10 +11,14 @@ db = config.db.catastro_v2
 
 
 class Model(db.Model):
-    __tablename__ = "metadatos"
-    # __table_args__ = {"schema": "pgmetadata"}
-    id = Column(
-        Integer, name="id", primary_key=True, comment="Internal automatic integer ID"
+    __tablename__ = "metadatos_temporales"
+    # __table_args__ = {"schema": "public"}
+    uid = Column(
+        UUID,
+        name="uid",
+        primary_key=True,
+        server_default=text("uuid_generate_v4()"),
+        comment="Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a",
     )
     datos = Column(JSON)
     encargado = Column(BigInteger)
@@ -26,6 +31,6 @@ class Model(db.Model):
             setattr(self, key, value)
 
 
-class Metadatos(Template):
+class MetadatosTemporales(Template):
     def __init__(self) -> None:
         super().__init__(Model, db)

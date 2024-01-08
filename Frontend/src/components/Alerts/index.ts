@@ -26,6 +26,7 @@ const Template = ({
 
 	denyButtonText = "Abort",
 	cancelButtonText = "Cancel",
+	denyColor = "warning",
 	confirmColor = "default",
 	cancelColor = "danger",
 	didOpen,
@@ -56,6 +57,7 @@ const Template = ({
 		cancelButtonText,
 		confirmButtonColor: variants[confirmColor],
 		cancelButtonColor: variants[cancelColor],
+		denyButtonColor: variants[denyColor],
 
 		didOpen: () => {
 			isLoading && Alert.showLoading();

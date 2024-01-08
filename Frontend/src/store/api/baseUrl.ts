@@ -37,7 +37,8 @@ const axiosBaseQuery =
 
 				if (token) {
 					headers["Authorization"] = `Bearer ${token}`;
-					//headers["Protected"] = true;
+					headers["Protected"] = true;
+					//headers["withCredentials"] = true;
 				}
 			}
 

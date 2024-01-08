@@ -74,6 +74,46 @@ export const MetadatosApi = createApi({
 				data,
 			}),
 		}),
+		getAllTemporal: query<IMetadatos[], null>({
+			query: () => ({
+				url: `metadatos/temporal`,
+				method: "GET",
+			}),
+		
+		}),
+		getTemporal: query<IMetadatos, { uid: string }>({
+			query: ({ uid }) => ({
+				url: `metadatos/temporal/${uid}`,
+				method: "GET",
+			}),
+			
+		
+		}),
+		postTemporal: mutation<IMetadatos, { data: IMetadatos }>({
+			query: ({ data }) => ({
+				url: `metadatos/temporal/create`,
+				method: "POST",
+				data,
+			}),
+		
+		}),
+		patchTemporal: mutation<IMetadatos, { data: IMetadatos }>({
+			query: ({ data }) => ({
+				url: `metadatos/temporal/${data.uid}`,
+				method: "PATCH",
+				data,
+			}),
+		
+		
+		}),
+		deleteTemporal: mutation<IMetadatos, { uid: string }>({
+			query: ({ uid }) => ({
+				url: `metadatos/temporal/${uid}`,
+				method: "DELETE",
+			}),
+		
+		
+		}),
 	}),
 });
 
@@ -85,4 +125,9 @@ export const {
 	usePatchMetadatoMutation,
 	useGetMetadatoReportMutation,
 	useViewMetadatoReportQuery,
+	useGetAllTemporalQuery,
+	useGetTemporalQuery,
+	usePostTemporalMutation,
+	usePatchTemporalMutation,
+	useDeleteTemporalMutation,
 } = MetadatosApi;

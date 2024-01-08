@@ -14,7 +14,6 @@ MAIL_PASSWORD = "#V0ngolaX_gob"
 # CORS
 CORS = "*"
 CORS_ORIGIN = "*"
-CORS_ALLOW_METHODS = "*"
 CORS_ALLOW_HEADERS = "Authorization"
 CORS_EXPOSE_HEADERS = "Authorization"
 

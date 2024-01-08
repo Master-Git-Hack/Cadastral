@@ -41,7 +41,17 @@ export interface IAlert extends SweetAlertOptions {
 		| "success"
 		| "warning"
 		| "danger"
-		| "info";
+	| "info";
+	denyColor?:| "default"
+	| "primary"
+	| "secondary"
+	| "outline"
+	| "dark"
+	| "light"
+	| "success"
+	| "warning"
+	| "danger"
+| "info";
 }
 export interface AlertProps extends IAlert {}
 

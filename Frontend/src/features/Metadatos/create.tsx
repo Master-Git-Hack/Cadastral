@@ -13,7 +13,12 @@ import { useXml2jsonMutation, useJson2xmlMutation } from "@api/ParseFile";
 import Stepper from "@components/Stepper";
 import { Dropdown } from "primereact/dropdown";
 import { Table, Button, SidebarItems } from "flowbite-react";
-import { usePostMetadatoMutation, usePatchMetadatoMutation } from "@api/Metadatos";
+import {
+	usePostMetadatoMutation,
+	usePatchMetadatoMutation,
+	usePostTemporalMutation,
+	usePatchTemporalMutation,
+} from "@api/Metadatos";
 import { useGetCatastroQuery } from "@api/Schemas";
 import { Section1 } from "./sections/section1";
 import { Section2 } from "./sections/section2";
@@ -27,7 +32,43 @@ import { Section9 } from "./sections/section9";
 import catalogo from "./catologos/index";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
+import { useParams } from "react-router-dom";
+const baseAlert = (record: any, isTmp: boolean): object => {
+	const action = record !== undefined ? "Actualizar" : "Guardar";
+	const alert = {
+		titleText: `¿Está seguro de ${action} el registro?`,
+		showCancelButton: true,
+		confirmButtonText: `${action}`,
+		showDenyButton: true,
+		denyButtonText: `${action} tmp`,
+		confirmColor: "success",
+		denyColor: "secondary",
+		cancelColor: "danger",
+		customClass: {
+			actions: "my-actions",
+			cancelButton: "order-1 me-16",
+			confirmButton: "order-3 ",
+			denyButton: "order-2 ",
+			input: "disabled:opacity-75 border-0 border-transparent outline-transparent ring-transparent text-white placeholder-white",
+		},
+		focusConfirm: true,
+		input: "hidden",
+		inputAttributes: {
+			hidden: true,
+			enabled: false,
+		},
+		returnInputValueOnDeny: true,
+	};
+	if (!isTmp && action === "Actualizar") {
+		//delete deny button and denyButtonText
+		delete alert.showDenyButton;
+		delete alert.denyButtonText;
+	}
+	return alert;
+};
 export default function Create({ onEdit = true, record = undefined }) {
+	const params = useParams();
+	const isTmp = params?.type === "temporal";
 	const { data: catastro } = useGetCatastroQuery(null);
 	const [data, setData] = useState<IMetadatos>(record ?? template);
 	const [imported, setImported] = useState<boolean>(false);
@@ -42,6 +83,10 @@ export default function Create({ onEdit = true, record = undefined }) {
 		usePostMetadatoMutation();
 	const [updateRecord, { isLoadingUpdate, isErrorUpdate, errorMessageUpdate }] =
 		usePatchMetadatoMutation();
+	const [createTemporal, { isLoadingCreateTemporal, isErrorCreateTemporal }] =
+		usePostTemporalMutation();
+	const [updateTemporal, { isLoadingUpdateTemporal, isErrorUpdateTemporal }] =
+		usePatchTemporalMutation();
 	useEffect(() => {
 		if (xmlToJsonResult.isSuccess && !imported) {
 			setImported(true);
@@ -151,26 +196,42 @@ export default function Create({ onEdit = true, record = undefined }) {
 									// 	? updateRecord({ data })
 									// 	: createRecord({ data })
 									{
-										return Alert({
-											titleText: `¿Está seguro de ${
-												record !== undefined ? "actualizar" : "guardar"
-											} el registro?`,
-											showDenyButton: true,
-											showCancelButton: true,
-											confirmButtonText: `${
-												record !== undefined ? "Actualizar" : "Guardar"
-											} Temporalmente`,
-											denyButtonText: `${
-												record !== undefined ? "Actualizar" : "Guardar"
-											}`,
-											denyButtonColor: "#0e948a",
-											cancelButtonColor: "#3085d6",
-											customClass: {
-												actions: "my-actions",
-												cancelButton: "order-1 me-16",
-												confirmButton: "order-2 ",
-												denyButton: "order-3 ",
-											},
+										return Alert(baseAlert(record, isTmp)).then((resp: any) => {
+											if (resp.isConfirmed) {
+												if (record !== undefined) {
+													updateRecord({ data });
+												} else {
+													createRecord({ data });
+												}
+												// Alert({
+												// 	titleText: "Registro guardado con éxito",
+												// 	inputValue,
+												// 	icon: "success",
+												// });
+											} else if (resp.isDenied) {
+												if (record !== undefined) {
+													updateTemporal({
+														data: {
+															uid: data.uid,
+															datos: data,
+														},
+													});
+												} else {
+													createTemporal({
+														data: {
+															uid: data.uid,
+															datos: data,
+														},
+													});
+												}
+												// Alert({
+												// 	titleText:
+												// 		"Registro guardado temporalmente con éxito",
+												// 	inputValue,
+												// 	icon: "info",
+												// });
+											}
+											return resp;
 										});
 									}
 								}

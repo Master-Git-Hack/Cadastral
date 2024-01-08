@@ -5,7 +5,7 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 from .. import config
 from ..controllers.metadatos import ReporteMetadatos
 from ..models.dataset import Dataset
-from ..models.metadatos import Metadatos as TMP
+from ..models.metadatos import MetadatosTemporales as TMP
 from ..utils.response import Responses
 
 metadatos_api: Blueprint = Blueprint("Metadatos", __name__, url_prefix="/metadatos")
@@ -50,11 +50,8 @@ def get_all_metadatos_preview(response: Responses = Responses()) -> Responses:
 def get_all_temporal_metadatos(response: Responses = Responses()) -> Responses:
     meta = TMP()
     encargado = get_jwt_identity()
-    if meta.filter(encargado=encargado, status=1) is None:
-        return response.error(
-            message="Error procesando la solicitud",
-            status_code=404,
-        )
+    if meta.filter(encargado=encargado, estatus=1) is None:
+        response.success(data=[])
 
     return response.success(data=meta.to_list())
 
@@ -115,7 +112,6 @@ def post_metadatos(table_name: str, response: Responses = Responses()) -> Respon
 
 
 @metadatos_api.post("/temporal/create")
-@swag_from(__swagger.get("get_all_metadatos_preview", {}))
 @jwt_required()
 def post_temporal_metadatos(response: Responses = Responses()) -> Responses:
     data = request.json
@@ -149,14 +145,14 @@ def patch_metadatos(uid: str, response: Responses = Responses()) -> Responses:
     return response.success(data=meta.to_dict())
 
 
-@metadatos_api.patch("/temporal/create")
+@metadatos_api.patch("/temporal/<int:id>")
 @swag_from(__swagger.get("get_all_metadatos_preview", {}))
 @jwt_required()
-def patch_temporal_metadatos(response: Responses = Responses()) -> Responses:
+def patch_temporal_metadatos(id: int, response: Responses = Responses()) -> Responses:
     data = request.json
     meta = TMP()
     encargado = get_jwt_identity()
-    if meta.filter(encargado=encargado) is None:
+    if meta.filter(id=id, encargado=encargado) is None:
         return response.error(
             message="Error procesando la solicitud",
             status_code=404,
@@ -181,7 +177,7 @@ def delete_temporal_metadatos(id: int, response: Responses = Responses()) -> Res
             message="Error procesando la solicitud",
             status_code=404,
         )
-    if meta.update(status=0) is None:
+    if meta.update(estatus=0) is None:
         return response.error(
             message="No se pudo actualizar el registro",
             status_code=409,
