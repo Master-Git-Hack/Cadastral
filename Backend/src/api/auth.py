@@ -1,66 +1,53 @@
-from base64 import b64decode
+"""
+Handle AUTH endpoints.
+create a route object to handle the authentication endpoints.
+exports a route object to be used in the main app.
 
-from flasgger import swag_from
-from flask import Blueprint, request
-from flask_jwt_extended import get_jwt, jwt_required
+Methods:
+- sign_in: sign in a user in the system
+- sign_up: sign up a user in the system
+- sign_out: sign out a user in the system
 
-from .. import config
-from ..controllers.auth import remove_token
-from ..models.usuarios import Usuarios
-from ..utils.response import Responses
+Author: Einar Jhordany Serna Valdivia
+Version: 1.0.0
+Date: November 7th, 2022
+"""
+from fastapi import APIRouter, Depends, Request
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-auth: Blueprint = Blueprint("Auth", __name__, url_prefix="/auth")
-__swagger: dict = config.API_MODELS.get("auth", {})
+from ..middlewares import Middlewares as __Middlewares
+from ..middlewares.auth import Auth as __Auth
+from ..models import Models as __Models
 
+__response = __Middlewares.Responses()
 
-@auth.post("/sign-in")
-@swag_from(__swagger.get("sign_in", {}))
-def sign_in(response=Responses()):
-    auth_header = request.headers.get("Authorization")
-    if not auth_header:
-        return response.error(
-            status_code=401, message="No se encontró la autorización requerida"
-        )
+__auth = __Auth()
+__User = __Models.User
+api_auth = APIRouter(
+    prefix="/auth",
+    tags=["Auth"],
+    dependencies=[],
+    responses={404: {"description": "Not found"}},
+)
 
-    # Check if the Authorization header starts with 'Basic '
-    if not auth_header.startswith("Basic "):
-        return response.error(status_code=401, message="Tipo de autorization no válida")
-
-    # Decode the base64 encoded credentials
-    auth_token = auth_header[len("Basic ") :]
-    try:
-        decoded_token = b64decode(auth_token).decode()
-        username, password = decoded_token.split(":", 1)
-    except Exception as e:
-        print(e)
-        return response.error(status_code=401, message="Credenciales Incorrectas")
-
-    user = Usuarios()
-    if user.filter(usuario=username) is None:
-        return response.error(status_code=404, message="Usuario no encontrado")
-    if user.current.estatus == 0:
-        return response.error(status_code=401, message="Usuario inactivo")
-    if not user.check_password(password):
-        return response.error(status_code=401, message="Credenciales Incorrectas")
-    token = user.enconde()
-    if token is None:
-        return response.error(status_code=422, message="No se pudo generar el token")
-
-    return response.success(
-        message=f"Bienvenido {user.current.nombre}!",
-        data={
-            "username": username,
-            "name": user.current.nombre,
-            "reviewer": user.current.revisor,
-            "group": user.current.grupo,
-        },
-        headers={"Authorization": token},
-    )
+# Security dependency for basic authentication
+security = HTTPBasic()
 
 
-@auth.get("/sign-out")
-@swag_from(__swagger.get("sign_out", {}))
-@jwt_required()
-def sign_out():
-    jti = get_jwt()["jti"]
-    return remove_token(jti)
+@api_auth.post("/sign-in")
+async def sign_in(
+    request: Request, credentials: HTTPBasicCredentials = Depends(security)
+):
+    # credentials = await request.json()
+    if "username" not in credentials or "password" not in credentials:
+        return __response.error(error_message="0004")
+
+    return __auth.sign_in(username=credentials.username, password=credentials.password)
+
+
+@api_auth.post("/sign-out")
+async def sing_out(request: Request, user=Depends(__auth.required)):
+    if isinstance(user, dict):
+        return __response.error(**user)
+    data = await request.json()
+    return __auth.sign_out(**data)

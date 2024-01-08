@@ -4,14 +4,13 @@ from typing import Any, Dict, Optional
 from flask_jwt_extended import create_access_token
 from sqlalchemy import BigInteger, Column, Integer, SmallInteger, String, func
 
-from .. import config
+from .. import config, database
 from . import Template
 
-db = config.db.valuaciones
 secure = config.bcrypt
 
 
-class Model(db.Model):
+class Model(database.BASE):
     __tablename__ = "usuarios"
 
     id = Column(BigInteger, primary_key=True)
@@ -29,7 +28,7 @@ class Model(db.Model):
 
 
 class Usuarios(Template):
-    def __init__(self) -> None:
+    def __init__(self, db) -> None:
         super().__init__(Model, db)
 
     def __enter__(self):
@@ -43,11 +42,8 @@ class Usuarios(Template):
             self.current = self.filter(usuario=username)
         if self.current is None:
             return False
-        with self.db as db:
-            session = db.create_session()
-            password = session.query(func.valuaciones.public.sha1(password)).one()
-            db.close_session(session)
-        password, *_ = password
+
+        password, *_ = self.db.query(func.valuaciones.public.sha1(password)).one()
         return self.current.contrasenia == password
 
     def enconde(self, username: Optional[str] = None) -> Optional[str]:

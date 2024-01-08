@@ -1,83 +1,73 @@
-# from logging import DEBUG, ERROR, INFO, Formatter
-from logging.config import dictConfig
-from logging.handlers import SMTPHandler
+"""Principal File to handle the app"""
+import logging
+import sys
 
-import flask_monitoringdashboard as dashboard
-from flasgger import Swagger
-from flask import Flask, current_app
-from flask_cors import CORS
-from werkzeug.local import LocalProxy
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi_jwt_auth import AuthJWT
+
+# from fastapi_pagination import add_pagination
+from loguru import logger
 
 from .config import Config
 
-# dictConfig(
-#     {
-#         "version": 1,
-#         "formatters": {
-#             "default": {
-#                 "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
-#             }
-#         },
-#         "handlers": {
-#             "wsgi": {
-#                 "class": "logging.StreamHandler",
-#                 "stream": "ext://flask.logging.wsgi_errors_stream",
-#                 "formatter": "default",
-#             }
-#         },
-#         "root": {"level": "INFO", "handlers": ["wsgi"]},
-#     }
-# )
+# from fastapi_sqlalchemy import DBSessionMiddleware
 
 
 config = Config()
-cors = CORS()
-db = config.db
-ma = config.ma
 
-# mail_handler = SMTPHandler(
-#     mailhost=("smtp.gmail.com", 587),
-#     fromaddr=config.MAIL_USERNAME,
-#     toaddrs=[config.MAIL_USERNAME],
-#     subject="Error en la aplicación",
-#     credentials=(config.MAIL_USERNAME, config.MAIL_PASSWORD),
-# )
-# mail_handler.setLevel(DEBUG)
-# mail_handler.setFormatter(
-#     Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
-# )
+from .middlewares import Middlewares
+
+Instance = Middlewares.Database.Instance
+database = Instance()
+logs = Middlewares.Logs
 
 
-def init_app():
-    context = Flask(__name__)
-    context.config.from_object(config)
-    config.bcrypt.init_app(context)
-    # db.init_app(context)
-    ma.init_app(context)
-    # config.no_db.init_app(context)
-    cors.init_app(context, **config.CORS_SRC)
-    config.admin.init_app(context)
-    config.auth_manager.init_app(context)
-    return context
+def create_app() -> FastAPI:
+    """Configure the app"""
+    current_app = FastAPI(
+        **config.fastapi_params,
+    )
+    current_app.add_middleware(
+        CORSMiddleware,
+        **config.cors_params,
+    )
+    # current_app.add_middleware(
+    #     DBSessionMiddleware, db_url=config.SQLALCHEMY_DATABASE_URL
+    # )
+    # add_pagination(current_app)
+    return current_app
 
 
-app: Flask = init_app()
-dashboard.bind(app)
-# with app.app_context():
-#     from .models import Modelos
+# Definition of the app
+app = create_app()
+# set loguru format for root logger
+logging.getLogger().handlers = [logs.InterceptHandler()]
 
-#     db.catastro_v2.create_models()
-#     db.valuaciones.create_models()
-#     # db.catastro_v2.close_session()
-#     # db.valuaciones.close_session()
-logger = LocalProxy(lambda: app.logger)
+# set format
+logger.configure(
+    handlers=[
+        {"sink": sys.stdout, "level": logging.DEBUG, "format": logs.format_record}
+    ]
+)
 
-from .api import api
+# Also set loguru handler for uvicorn loger.
+# Default format:
+# INFO:     127.0.0.1:35238 - "GET / HTTP/1.1" 200 OK
+#
+# New format:
+# 2020-04-18 16:33:49.728 | INFO     | uvicorn.protocols.http.httptools_impl:send:447 - 127.0.0.1:35942 - "GET / HTTP/1.1" 200
 
-app.register_blueprint(api)
-swagger = Swagger(app)
+# uvicorn loggers: .error .access .asgi
+# https://github.com/encode/uvicorn/blob/master/uvicorn/config.py#L243
+logging.getLogger("uvicorn.access").handlers = [logs.InterceptHandler()]
 
 
-# app.logger.addHandler(mail_handler)
-# if not app.debug:
-#     ...
+@AuthJWT.load_config
+def get_config():
+    """Load configuration"""
+    return config.Settings()
+
+
+from .api import *
+from .middlewares.warnings import *

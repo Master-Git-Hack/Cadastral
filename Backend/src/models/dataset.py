@@ -18,13 +18,11 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.postgresql import UUID
 
-from .. import config
+from .. import config, database
 from . import Template
 
-db = config.db.catastro_v2
 
-
-class Model(db.Model):
+class Model(database.BASE):
     __tablename__ = "dataset"
     __table_args__ = {"schema": "pgmetadata"}
     id = Column(
@@ -426,7 +424,7 @@ class Model(db.Model):
 
 
 class Dataset(Template):
-    def __init__(self) -> None:
+    def __init__(self, db) -> None:
         super().__init__(Model, db)
 
     def __enter__(self):

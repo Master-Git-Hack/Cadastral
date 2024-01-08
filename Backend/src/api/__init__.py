@@ -1,45 +1,38 @@
-from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Blueprint
+from fastapi import Depends, Request
+from fastapi.responses import RedirectResponse
+from fastapi_jwt_auth.exceptions import AuthJWTException
 
-from .. import config
-from ..utils.tmp import delete_files
+from .. import app, config
 
-__static = config.PATHS.static
-api: Blueprint = Blueprint("api", __name__, url_prefix=config.API_URL_PREFIX)
-
-# from .module import module
-# api.register_blueprint(module)
-from .auth import auth as __auth
-from .checklist import checklist as __ckl_api
-from .costos_construccion import costos_construccion_api as __cc_api
-from .db_info import db_info as __dbi_api
-from .homologacion import homologacion_api as __h_api
-from .indicadores_municipales import indicadores_municipales_api as __im_api
-from .justipreciacion import justipreciacion_api as __j_api
-from .metadatos import metadatos_api as __me_api
-from .municipios import municipios_api as __mu_api
-from .obras_complementarias import obras_complementarias_api as __oc_api
-from .parse import parse_files as __pf_api
-from .reportes_catastrales import reportes_catastrales_api as __rc_api
-from .users import users as __u_api
-
-api.register_blueprint(__auth)
-api.register_blueprint(__u_api)
-api.register_blueprint(__cc_api)
-api.register_blueprint(__h_api)
-api.register_blueprint(__im_api)
-api.register_blueprint(__j_api)
-api.register_blueprint(__me_api)
-api.register_blueprint(__mu_api)
-api.register_blueprint(__oc_api)
-api.register_blueprint(__rc_api)
-api.register_blueprint(__pf_api)
-api.register_blueprint(__dbi_api)
-api.register_blueprint(__ckl_api)
+# from ..middlewares.database import InstanceDB
+from ..middlewares.responses import Responses as __Responses
 
 
-@api.before_app_request
-def start_schedule():
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(delete_files, "cron", hour=8)  # Programa la tarea para las 8 am
-    scheduler.start()
+@app.exception_handler(AuthJWTException)
+def authjwt_exception_handler(request: Request, exc: AuthJWTException):
+    __response = __Responses()
+    return __response.error(
+        status_code=exc.status_code,
+        message=exc.message,
+    )
+
+
+# idb = InstanceDB()
+
+
+@app.get("/")
+def redirect_root_to_docs(
+    # db=Depends(lambda db_name="catastro_v2": idb.get_db(db_name)),
+):
+    # print(
+    #     idb.execute_query(
+    #         "catastro_v2", "SELECT schema_name FROM information_schema.schemata;"
+    #     )
+    # )
+
+    return RedirectResponse(url="/docs", status_code=303)
+
+
+from .auth import api_auth
+
+app.include_router(api_auth, prefix=config.API_URL_PREFIX)

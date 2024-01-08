@@ -15,15 +15,13 @@ from sqlalchemy import (
     text,
 )
 
-from .. import config
+from .. import config, database
 from . import Template
-
-db = config.db.valuaciones
 
 float8 = Float(precision=8)
 
 
-class Model(db.Model):
+class Model(database.BASE):
     """Justipreciacion model"""
 
     __tablename__ = "justipreciacion"
@@ -233,7 +231,7 @@ class Model(db.Model):
 
 
 class Justipreciacion(Template):
-    def __init__(self) -> None:
+    def __init__(self, db) -> None:
         super().__init__(Model, db)
 
     def __enter__(self):

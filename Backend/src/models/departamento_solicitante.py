@@ -2,13 +2,11 @@ from typing import Any, Dict
 
 from sqlalchemy import Column, Integer, String
 
-from .. import config
+from .. import config, database
 from . import Template
 
-db = config.db.valuaciones
 
-
-class Model(db.Model):
+class Model(database.BASE):
     """
     Departamentos Solicitantes
     Clase para la tabla dep_solicitante
@@ -30,7 +28,7 @@ class Model(db.Model):
 
 
 class DepartamentosSolicitantes(Template):
-    def __init__(self) -> None:
+    def __init__(self, db) -> None:
         super().__init__(Model, db)
 
     def __enter__(self):

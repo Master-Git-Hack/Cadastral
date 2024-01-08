@@ -3,13 +3,11 @@ from typing import Any, Dict
 
 from sqlalchemy import JSON, BigInteger, Column, DateTime, Float, ForeignKey, String
 
-from .. import config
+from .. import config, database
 from . import Template
 
-db = config.db.valuaciones
 
-
-class Model(db.Model):
+class Model(database.BASE):
     __tablename__ = "revision_checklist"
 
     id = Column(BigInteger, primary_key=True)
@@ -35,7 +33,7 @@ class Model(db.Model):
 
 
 class RevisionChecklist(Template):
-    def __init__(self) -> None:
+    def __init__(self, db) -> None:
         super().__init__(Model, db)
 
     def __enter__(self):

@@ -7,15 +7,13 @@ Export the Catastral model.
 """
 from typing import Any, Dict
 
-from .. import config
-from . import Template
-
-db = config.db.valuaciones
-
 from sqlalchemy import BigInteger, Column, DateTime, Text, text
 
+from .. import config, database
+from . import Template
 
-class Model(db.Model):
+
+class Model(database.BASE):
     """Model for LoggedActions.
     Example:
         >>> LoggedActions(data:dict)
@@ -53,7 +51,7 @@ class Model(db.Model):
 
 
 class LoggedActions(Template):
-    def __init__(self) -> None:
+    def __init__(self, db) -> None:
         super().__init__(Model, db)
 
     def __enter__(self):
