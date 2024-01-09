@@ -1,6 +1,5 @@
 from typing import Any, Dict
 
-from flask_admin.contrib.geoa import ModelView
 from geoalchemy2.shape import to_shape
 from geoalchemy2.types import Geometry
 from marshmallow_sqlalchemy import fields
@@ -16,7 +15,7 @@ from sqlalchemy import (
 )
 
 from .. import config, database
-from . import Template
+from ..middlewares.database import Template
 
 float8 = Float(precision=8)
 

@@ -4,7 +4,7 @@ from typing import Any, Dict
 from sqlalchemy import JSON, BigInteger, Column, DateTime, Float, ForeignKey, String
 
 from .. import config, database
-from . import Template
+from ..middlewares.database import Template
 
 
 class Model(database.BASE):

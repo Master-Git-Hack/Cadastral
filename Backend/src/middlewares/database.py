@@ -34,6 +34,24 @@ class InstanceDB:
     def get_db(self, db_name: str = "catastro_v2") -> Session:
         __current = self.SESSIONS[db_name]()
         try:
+            return __current
+        finally:
+            __current.close()
+
+    def valuaciones(
+        self,
+    ) -> Session:
+        __current = self.SESSIONS["valuaciones"]()
+        try:
+            yield __current
+        finally:
+            __current.close()
+
+    def catastro_v2(
+        self,
+    ) -> Session:
+        __current = self.SESSIONS["catastro_v2"]()
+        try:
             yield __current
         finally:
             __current.close()

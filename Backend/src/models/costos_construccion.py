@@ -3,7 +3,7 @@ from typing import Any, Dict
 from sqlalchemy import Boolean, Column, Float, Integer, String, Text
 
 from .. import config, database
-from . import Template
+from ..middlewares.database import Template
 
 
 class Model(database.BASE):

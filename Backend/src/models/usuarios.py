@@ -1,13 +1,16 @@
 from base64 import b64decode
+from datetime import timedelta
 from typing import Any, Dict, Optional
 
-from flask_jwt_extended import create_access_token
+from fastapi_jwt_auth import AuthJWT
 from sqlalchemy import BigInteger, Column, Integer, SmallInteger, String, func
+from sqlalchemy.orm import Session
 
 from .. import config, database
-from . import Template
+from ..middlewares.database import Template
+from ..middlewares.security import Security
 
-secure = config.bcrypt
+secure = Security()
 
 
 class Model(database.BASE):
@@ -28,7 +31,7 @@ class Model(database.BASE):
 
 
 class Usuarios(Template):
-    def __init__(self, db) -> None:
+    def __init__(self, db: Session) -> None:
         super().__init__(Model, db)
 
     def __enter__(self):
@@ -44,11 +47,17 @@ class Usuarios(Template):
             return False
 
         password, *_ = self.db.query(func.valuaciones.public.sha1(password)).one()
+        print(password)
         return self.current.contrasenia == password
 
-    def enconde(self, username: Optional[str] = None) -> Optional[str]:
+    def encode(self, username: Optional[str] = None) -> Optional[str]:
         if username is not None:
             self.current = self.filter(usuario=username)
         if self.current is None:
             return None
-        return create_access_token(identity=self.current)
+        return AuthJWT().create_access_token(
+            subject=self.current.id,  # expires_time=timedelta(hours=7)
+        )
+
+    def decode(self, auth: AuthJWT):
+        return self.get(id=int(auth.get_jwt_subject()))

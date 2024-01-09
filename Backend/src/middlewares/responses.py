@@ -3,7 +3,7 @@ from os.path import exists
 from typing import Dict, List, Optional, Union
 
 from fastapi import BackgroundTasks
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 
 from .. import config
 
@@ -157,3 +157,8 @@ class Responses:
             )
 
         return self.__make_response(content, data, status_code, headers, background)
+
+    def send_file(
+        self, filename: str, path: str, media_type: str = "application/pdf"
+    ) -> FileResponse:
+        return FileResponse(path, filename=filename, media_type=media_type)

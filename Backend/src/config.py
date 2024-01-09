@@ -43,10 +43,10 @@ class __Base(object):
     )
     cors_params: Dict = dict(
         allow_origins=environ.get("CORS_ORIGIN", "*").split(","),
-        allow_credentials=environ.get("CORS_ALLOW_CREDENTIALS", "*"),
-        allow_methods=environ.get("CORS_ALLOW_METHODS", "*"),
-        allow_headers=environ.get("CORS_ALLOW_HEADERS", "*"),
-        expose_headers=environ.get("CORS_EXPOSE_HEADERS", ["*"]),
+        allow_credentials=environ.get("CORS_ALLOW_CREDENTIALS", "*").split(","),
+        allow_methods=environ.get("CORS_ALLOW_METHODS", "*").split(","),
+        allow_headers=environ.get("CORS_ALLOW_HEADERS", "*").split(","),
+        expose_headers=environ.get("CORS_EXPOSE_HEADERS", "*").split(","),
     )
 
     SECRETS: Dict = dict(
@@ -65,9 +65,7 @@ class __Base(object):
             "AUTHJWT_DENYLIST_TOKEN_CHECKS", ["access"]
         )
         # authjwt_csrf_methods: Tuple = ("POST", "PUT", "PATCH", "DELETE")
-        authjwt_access_token_expires = timedelta(
-            minutes=environ.get("AUTHJWT_ACCESS_TOKEN_EXPIRES", 90)
-        )
+        authjwt_access_token_expires = timedelta(hours=7)
 
     class PATHS(object):
         """

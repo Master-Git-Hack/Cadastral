@@ -7,7 +7,7 @@ float8 = Float(precision=8)
 
 
 from .. import config, database
-from . import Template
+from ..middlewares.database import Template
 
 
 class Model(database.BASE):

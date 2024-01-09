@@ -19,7 +19,7 @@ from sqlalchemy import (
 from sqlalchemy.dialects.postgresql import UUID
 
 from .. import config, database
-from . import Template
+from ..middlewares.database import Template
 
 
 class Model(database.BASE):

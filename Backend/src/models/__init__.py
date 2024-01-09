@@ -1,4 +1,4 @@
-from .. import config
+# from .. import config
 
 # schema = ma.SQLAlchemyAutoSchema
 
@@ -318,7 +318,7 @@ from .. import config
 #         return self.schema(many=True, **kwargs).dump(self.current)
 
 
-class Modelos(object):
+class Models(object):
     from .catastral import Catastral
     from .checklist import Checklist
     from .costos_construccion import CostosConstruccion

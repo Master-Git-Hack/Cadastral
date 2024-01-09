@@ -10,7 +10,7 @@ from typing import Any, Dict
 from sqlalchemy import BigInteger, Column, DateTime, Text, text
 
 from .. import config, database
-from . import Template
+from ..middlewares.database import Template
 
 
 class Model(database.BASE):
