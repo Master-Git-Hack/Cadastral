@@ -20,10 +20,10 @@ numpy==1.26.0
 openpyxl==3.1.2
 pandas==2.1.1
 pdfkit==1.0.0
-pymongo==4.5.0
-PyMySQL==1.1.0
+PyPDF2==3.0.1
 python-dotenv==1.0.0
 python-multipart==0.0.6
+reportlab==4.0.9
 requests==2.31.0
 shapely==2.0.2
 SQLAlchemy==2.0.21

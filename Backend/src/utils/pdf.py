@@ -15,8 +15,8 @@ class PDFMaker:
     def __exit__(self, exc_type, exc_value, traceback):
         ...
 
-    __margins_default: dict = dict(top=15, bottom=None, left=None, right=None)
-    __cmd: List[str] = ["wkhtmltopdf"]
+    __margins_default: dict = dict(top="15", bottom="0", left="0", right="0")
+    __dpi_default: str = "3000"
     watermark: bool = False
     filename: str = tmp_filename(extension="pdf")
     files: List = []
@@ -24,22 +24,16 @@ class PDFMaker:
 
     def __init__(self, **kwargs) -> None:
         if kwargs.get("templates") and not kwargs.get("files"):
-            # margins = kwargs.get("margins", self.__margins_default)
-            self.__cmd.append("--dpi")
-            self.__cmd.append(kwargs.get("dpi", "300"))
-            # for key, value in margins.items():
-            #     self.__cmd.append(f"--margin-{key}")
-            #     self.__cmd.append(value)
+            self.margins = kwargs.get("margins", self.__margins_default)
+            self.dpi = str(kwargs.get("dpi", self.__dpi_default))
+            self.margins = {key: str(value) for key, value in self.margins.items()}
+            if "margins" in kwargs:
+                del kwargs["margins"]
+            if "dpi" in kwargs:
+                del kwargs["dpi"]
             for key, value in kwargs.items():
                 setattr(self, key, value)
-                if key == "page_size":
-                    self.__cmd.append("--page-size")
-                    self.__cmd.append(value)
-                elif key == "zoom":
-                    self.__cmd.append("--zoom")
-                    self.__cmd.append(str(value))
-            self.__cmd.append("--enable-javascript")
-            self.__cmd.append("--quiet")
+
         elif kwargs.get("files") and not kwargs.get("templates"):
             self.files = kwargs.get("files", [])
         else:
@@ -55,20 +49,33 @@ class PDFMaker:
 
         for file in self.templates:
             if exists(input_file := f"{file}.html"):
-                self.__cmd.append(input_file)
-                self.__cmd.append(f".{file}.pdf")
+                file = f"{file}.pdf"
+                # cmd = " ".join(str(arg) for arg in self.__cmd)
+                cmd = [
+                    "wkhtmltopdf",
+                    "--dpi",
+                    self.dpi,
+                    f"--margin-top {self.margins['top']}",
+                    f"--margin-bottom {self.margins['bottom']}",
+                    f"--margin-left {self.margins['left']}",
+                    f"--margin-right {self.margins['right']}",
+                    "--enable-javascript",
+                    "--quiet",
+                    input_file,
+                    file,
+                ]
 
                 process = Popen(
-                    " ".join(str(arg) for arg in self.__cmd),
+                    cmd,
                     stdout=PIPE,
                     stderr=PIPE,
                     universal_newlines=True,
                 )
                 _, error = process.communicate()
+
                 exit_code = process.wait()
                 if exit_code:
-                    self.__cmd = self.__cmd[:-2]
-                    remove(input_file)
+                    # remove(input_file)
                     files.append(file)
                 else:
                     raise ValueError(f"Rendering Method failed: {error}")

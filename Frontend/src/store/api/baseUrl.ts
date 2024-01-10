@@ -37,11 +37,10 @@ const axiosBaseQuery =
 
 				if (token) {
 					headers["Authorization"] = `Bearer ${token}`;
-					headers["Protected"] = true;
+					//headers["Protected"] = true;
 					//headers["withCredentials"] = true;
 				}
 			}
-
 			const result = await axios({ baseURL: baseUrl, url, method, data, params, headers });
 			if (url === "auth/sign-in") {
 				const { authorization } = result.headers;
@@ -65,7 +64,7 @@ const axiosBaseQuery =
 						location.href = "/sign-in";
 					});
 			}
-			console.log(err)
+			console.log(err);
 			return {
 				error: {
 					status: err.response?.status,

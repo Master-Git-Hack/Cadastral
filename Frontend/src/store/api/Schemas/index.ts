@@ -6,7 +6,7 @@ import { baseQuery } from "../baseUrl";
 export const SchemasApi = createApi({
 	reducerPath: "DBInfo",
 	baseQuery,
-	endpoints: ({query,mutation}) => ({
+	endpoints: ({ query, mutation }) => ({
 		// getSchemas: builder.query<unknown, { db: string }>({
 		// 	query: ({ db }) => `db-info/${db}/schemas`,
 		// 	transformResponse: ({ data: { schemas, tables }, ...response }) => {
@@ -50,24 +50,23 @@ export const SchemasApi = createApi({
 				method: "GET",
 			}),
 			transformResponse: ({ data, ...response }: any) => {
-				
 				const tables = Object.entries(data?.tables).map(([parent, items]: any) => ({
-					label:parent,
-					items: items.map((label: string) => ({ label,parent })),
-					
+					label: parent,
+					items: items.map((label: string) => ({ label, parent })),
 				}));
-				return ({
+				return {
 					data: {
-						schemas: data?.schemas.map((label: string, code: number) => ({ label, code })),
-						tables
+						schemas: data?.schemas.map((label: string, code: number) => ({
+							label,
+							code,
+						})),
+						tables,
 					},
-					...response
-				})
-			}
-			
+					...response,
+				};
+			},
 		}),
-	})
-	
+	}),
 });
 
 export const { useGetCatastroQuery } = SchemasApi;

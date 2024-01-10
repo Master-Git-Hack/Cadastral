@@ -86,6 +86,11 @@ class __Base(object):
         fonts: str = join(static, __FONTS_FOLDERNAME)
         docs: str = join(static, __DOCS_FOLDERNAME)
 
+    class TEMPLATES(object):
+        class METADATA(object):
+            QGIS: str = "main.html"
+            REPORT: str = "metadatos.html"
+
 
 class __Production(__Base):
     """

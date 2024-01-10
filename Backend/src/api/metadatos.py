@@ -26,7 +26,11 @@ async def get_all_metadatos(
         meta = __Dataset(db=db)
         if meta.all() is None:
             return __response.success(data=[])
-        print(meta.to_list())
+        # save data into json
+        from json import dump
+
+        with open("data.json", "w") as file:
+            dump(meta.to_list(), file)
         return __response.success(data=meta.to_list())
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
@@ -69,10 +73,9 @@ async def get_all_temporal_metadatos(
         return __response.error(**user)
     try:
         meta = __TMP(db=db)
-        encargado = user.id
-        if meta.filter(encargado=encargado, estatus=1) is None:
-            __response.success(data=[])
 
+        if meta.filter_group(encargado=user.id) is None:
+            __response.success(data=[])
         return __response.success(data=meta.to_list())
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")

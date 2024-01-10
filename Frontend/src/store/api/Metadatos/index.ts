@@ -22,16 +22,13 @@ export const MetadatosApi = createApi({
 				url: `metadatos/complete`,
 				method: "GET",
 			}),
-			transformResponse: ({ data, ...response }: any) => ({
-				data: data.reduce((acc, obj) => {
-					if (obj.features && Array.isArray(obj.features)) {
-						acc.push(...obj.features);
-						delete obj.features;
-					}
-					return acc;
-				}, []),
-				...response,
-			}),
+			transformResponse: ({ data, ...response }: any) => {
+				console.log(data);
+				return {
+					data: data?.features,
+					...response,
+				};
+			},
 		}),
 		getMetadatoReport: mutation<File, { uid: string }>({
 			query: ({ uid }) => ({
@@ -79,15 +76,16 @@ export const MetadatosApi = createApi({
 				url: `metadatos/temporal`,
 				method: "GET",
 			}),
-		
+			transformResponse: ({ data, ...response }: any) => ({
+				data: data?.features ?? [],
+				...response,
+			}),
 		}),
 		getTemporal: query<IMetadatos, { uid: string }>({
 			query: ({ uid }) => ({
 				url: `metadatos/temporal/${uid}`,
 				method: "GET",
 			}),
-			
-		
 		}),
 		postTemporal: mutation<IMetadatos, { data: IMetadatos }>({
 			query: ({ data }) => ({
@@ -95,7 +93,6 @@ export const MetadatosApi = createApi({
 				method: "POST",
 				data,
 			}),
-		
 		}),
 		patchTemporal: mutation<IMetadatos, { data: IMetadatos }>({
 			query: ({ data }) => ({
@@ -103,16 +100,12 @@ export const MetadatosApi = createApi({
 				method: "PATCH",
 				data,
 			}),
-		
-		
 		}),
 		deleteTemporal: mutation<IMetadatos, { uid: string }>({
 			query: ({ uid }) => ({
 				url: `metadatos/temporal/${uid}`,
 				method: "DELETE",
 			}),
-		
-		
 		}),
 	}),
 });

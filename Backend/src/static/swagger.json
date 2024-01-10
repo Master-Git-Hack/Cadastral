@@ -1,0 +1,1583 @@
+{
+    "auth": {
+        "sign_in": {
+            "tags": [
+                "Authentication"
+            ],
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Basic Authentication header in the format 'Basic base64(username:password)'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "Unauthorized - Invalid credentials or missing Authorization header"
+                },
+                "404": {
+                    "description": "User not found"
+                },
+                "422": {
+                    "description": "Failed to generate token"
+                },
+                "200": {
+                    "description": "Success",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "username": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "reviewer": {
+                                "type": "boolean"
+                            },
+                            "group": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "headers": {
+                        "Authorization": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "checklist": {
+        "get_all": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener todos los checklists",
+            "description": "Este endpoint permite a un usuario obtener todos los checklists asociados a su cuenta.",
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "nombre": {
+                                    "type": "string"
+                                },
+                                "descripcion": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_checklist": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener un checklist por ID",
+            "description": "Este endpoint permite a un usuario obtener un checklist específico por su ID.",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID del checklist a obtener"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "404": {
+                    "description": "Usuario no encontrado"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "patch_checklist": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener todas las revisiones de checklists",
+            "description": "Este endpoint permite a un usuario obtener todas las revisiones de checklists asociadas a su cuenta.",
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id_1": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "nombre": {
+                                        "type": "string"
+                                    },
+                                    "descripcion": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "id_2": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "nombre": {
+                                        "type": "string"
+                                    },
+                                    "descripcion": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_all_revisiones": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener una revisión de checklist por ID",
+            "description": "Este endpoint permite a un usuario obtener una revisión de checklist específica por su ID.",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la revisión a obtener"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "404": {
+                    "description": "Usuario no encontrado"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_revision": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Obtener una revisión de checklist por ID",
+            "description": "Este endpoint permite a un usuario obtener una revisión de checklist específica por su ID.",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la revisión a obtener"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "404": {
+                    "description": "Usuario no encontrado"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "patch_revision": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Actualizar una revisión de checklist por ID",
+            "description": "Este endpoint permite a un usuario actualizar una revisión de checklist específica por su ID.",
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la revisión a actualizar"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "attribute1": {
+                                    "type": "string"
+                                },
+                                "attribute2": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "404": {
+                    "description": "Usuario no encontrado"
+                },
+                "500": {
+                    "description": "Error interno del servidor"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "post_revision": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Crear una nueva revisión de checklist",
+            "description": "Este endpoint permite a un usuario crear una nueva revisión de checklist.",
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "attribute1": {
+                                    "type": "string"
+                                },
+                                "attribute2": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "500": {
+                    "description": "Error interno del servidor"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "post_checklist": {
+            "tags": [
+                "Checklist"
+            ],
+            "summary": "Crear un nuevo checklist",
+            "description": "Este endpoint permite a un usuario crear un nuevo checklist.",
+            "parameters": [
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "type": "string",
+                    "required": true,
+                    "description": "Token de autorización en el formato 'Bearer YOUR_TOKEN'"
+                }
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "attribute1": {
+                                    "type": "string"
+                                },
+                                "attribute2": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "401": {
+                    "description": "No autorizado - Credenciales inválidas o falta el encabezado Authorization"
+                },
+                "500": {
+                    "description": "Error interno del servidor"
+                },
+                "200": {
+                    "description": "Éxito",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "nombre": {
+                                "type": "string"
+                            },
+                            "descripcion": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "costos_construccion": {
+        "get_costos_construccion": {
+            "operationId": "get.costos-construccion/{justipreciacion}",
+            "tags": [
+                "Costos de Construcción"
+            ],
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Respuesta exitosa",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "titulo": {
+                                "type": "string"
+                            },
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "costoDirecto": {
+                                            "type": "number"
+                                        },
+                                        "indirectos": {
+                                            "type": "number"
+                                        },
+                                        "valorNeto": {
+                                            "type": "number"
+                                        },
+                                        "m2": {
+                                            "type": "number"
+                                        },
+                                        "total": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            },
+                            "factorGTO": {
+                                "type": "object",
+                                "properties": {
+                                    "enabled": {
+                                        "type": "boolean"
+                                    },
+                                    "value": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "total": {
+                                "type": "number"
+                            },
+                            "record": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "register": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "redondeo": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "No encontrado",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "status_code": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "post_costos_construccion": {
+            "operationId": "post.costos-construccion/{justipreciacion}",
+            "tags": [
+                "Costos de Construcción"
+            ],
+            "description": "Crea los costos de construcción para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_costos_construccion": {
+            "operationId": "patch.costos-construccion/{justipreciacion}",
+            "tags": [
+                "Costos de Construcción"
+            ],
+            "description": "Actualiza los costos de construcción para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_justipreciacion": {
+            "operationId": "patch.costos-construccion/justipreciacion/{justipreciacion}",
+            "tags": [
+                "Costos de Construcción"
+            ],
+            "description": "Actualiza la justipreciación para los costos de construcción.",
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        }
+    },
+    "parse_files": {
+        "xml_to_json": {
+            "tags": [
+                "File Converter"
+            ],
+            "parameters": [
+                {
+                    "name": "file",
+                    "in": "formData",
+                    "type": "file",
+                    "required": true,
+                    "description": "XML file to convert to JSON"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Successfully converted XML to JSON",
+                    "schema": {
+                        "type": "object"
+                    }
+                },
+                "400": {
+                    "description": "Bad Request: Invalid file or conversion error"
+                }
+            }
+        },
+        "json_to_xml": {
+            "tags": [
+                "File Converter"
+            ],
+            "parameters": [
+                {
+                    "name": "filename",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Desired filename for the generated XML file"
+                }
+            ],
+            "requestBody": {
+                "description": "JSON data to convert to XML",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object"
+                        },
+                        "example": {
+                            "key1": "value1",
+                            "key2": "value2"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Successfully converted JSON to XML",
+                    "content": {
+                        "application/xml": {}
+                    }
+                },
+                "400": {
+                    "description": "Bad Request: Invalid JSON or conversion error"
+                }
+            }
+        }
+    },
+    "metadatos": {
+        "get_all_metadatos": {
+            "tags": [
+                "Metadatos"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Successful response",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Error processing request"
+                }
+            }
+        },
+        "get_metadatos": {
+            "tags": [
+                "Metadatos"
+            ],
+            "parameters": [
+                {
+                    "name": "table_name",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the table"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Successful response",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Record not found"
+                }
+            }
+        },
+        "post_metadatos": {
+            "tags": [
+                "Metadatos"
+            ],
+            "parameters": [
+                {
+                    "name": "table_name",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the table"
+                }
+            ],
+            "requestBody": {
+                "description": "Request body",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Successful response",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Record already exists"
+                },
+                "409": {
+                    "description": "Failed to create record"
+                }
+            }
+        },
+        "patch_metadatos": {
+            "tags": [
+                "Metadatos"
+            ],
+            "parameters": [
+                {
+                    "name": "table_name",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the table"
+                }
+            ],
+            "requestBody": {
+                "description": "Request body",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Successful response",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Record not found"
+                },
+                "409": {
+                    "description": "Failed to update record"
+                }
+            }
+        }
+    },
+    "homologacion": {
+        "get_homologacion": {
+            "operationId": "get.homologacion/{justipreciacion}/{tipo}",
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "tipo de homologación: ['TERRENO','RENTA']"
+                },
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Success",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "factors": {
+                                "type": "string",
+                                "description": "The factors"
+                            },
+                            "documentation": {
+                                "type": "string",
+                                "description": "The documentation"
+                            },
+                            "record": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "description": "The record ID"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The record type"
+                                    },
+                                    "appraisalPurpose": {
+                                        "type": "string",
+                                        "description": "The appraisal purpose"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "description": "The status"
+                                    }
+                                },
+                                "description": "The record information"
+                            }
+                        },
+                        "description": "The response data"
+                    }
+                },
+                "404": {
+                    "description": "Not Found",
+                    "schema": {
+                        "$ref": "#/definitions/Error"
+                    }
+                }
+            }
+        },
+        "post_homologacion": {
+            "operationId": "post.homologacion/justipreciacion/{justipreciacion}/{tipo}",
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Crea la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_homologacion": {
+            "operationId": "patch.homologacion/justipreciacion/{justipreciacion}/{tipo}",
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Actualiza la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "get_homologacion_justipreciacion": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Obtiene la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "post_homologacion_justipreciacion": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Crea la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_homologacion_justipreciacion": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Actualiza la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "get_homologacion_obras_complementarias": {
+            "tags": [
+                "Homologacion de Terreno y de Renta"
+            ],
+            "description": "Obtiene la homologación de obras complementarias para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                },
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        }
+    },
+    "db_info": {
+        "get_schemas": {
+            "tags": [
+                "DB Info"
+            ],
+            "responses": {
+                "200": {
+                    "description": "A list of schema names",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "get_tables_from_schema": {
+            "tags": [
+                "DB Info"
+            ],
+            "parameters": [
+                {
+                    "name": "db",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the database."
+                },
+                {
+                    "name": "schema",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the schema."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Tables from the specified schema.",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "422": {
+                    "description": "Error response.",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_complete_schema": {
+            "tags": [
+                "DB Info"
+            ],
+            "parameters": [
+                {
+                    "name": "db",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Name of the database."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Complete schema information for the specified database.",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "422": {
+                    "description": "Error response.",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "indicadores_municipales": {
+        "get_indicadores_municipales": {
+            "tags": [
+                "Indicadores Municipales"
+            ],
+            "description": "Obtiene los indicadores municipales.",
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "justipreciacion": {
+        "get_justipreciacion": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Respuesta exitosa",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "object",
+                                "properties": {}
+                            }
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Solicitud inválida",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "Registro no encontrado",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_justipreciacion_key": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Obtiene un valor específico de una justipreciación.",
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                },
+                {
+                    "name": "key",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Clave del valor a obtener."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "get_justipreciacion_homologacion": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Obtiene la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                },
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_justipreciacion_homologacion": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Actualiza la homologación para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                },
+                {
+                    "name": "tipo",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Tipo de homologación ('terreno' o 'renta')."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "get_justipreciacion_obras_complementarias": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Obtiene las obras complementarias para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        },
+        "patch_justipreciacion_obras_complementarias": {
+            "tags": [
+                "Justipreciación"
+            ],
+            "description": "Actualiza las obras complementarias para una justipreciación específica.",
+            "parameters": [
+                {
+                    "name": "justipreciacion",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "ID de la justipreciación."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                },
+                "404": {
+                    "description": "No encontrado"
+                }
+            }
+        }
+    },
+    "municipios": {
+        "get_municipios": {
+            "operationId": "get.municipios/",
+            "tags": [
+                "Municipios"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Respuesta exitosa",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nombre": {
+                                            "type": "string"
+                                        },
+                                        "nombre_utf": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "No encontrado",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "status_code": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_municipio": {
+            "operationId": "get.municipio/{nombre}",
+            "tags": [
+                "Municipios"
+            ],
+            "parameters": [
+                {
+                    "name": "nombre",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Nombre del municipio"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Respuesta exitosa",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nombre": {
+                                            "type": "string"
+                                        },
+                                        "nombre_utf": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "404": {
+                    "description": "No encontrado",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "status_code": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "logged_actions": {},
+    "obras_complementarias": {},
+    "reportes_catastrales": {
+        "get": {
+            "tags": [
+                "Reportes Catastrales"
+            ],
+            "description": "Obtiene un archivo PDF de un reporte catastral.",
+            "parameters": [
+                {
+                    "name": "filename",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Nombre del archivo PDF a generar."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK",
+                    "content": {
+                        "application/pdf": {
+                            "schema": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "get_merged": {
+            "tags": [
+                "Reportes Catastrales"
+            ],
+            "description": "Obtiene un archivo PDF combinado de varios reportes catastrales.",
+            "parameters": [
+                {
+                    "name": "filename",
+                    "in": "path",
+                    "type": "string",
+                    "required": true,
+                    "description": "Nombre del archivo PDF combinado a generar."
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK",
+                    "content": {
+                        "application/pdf": {
+                            "schema": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

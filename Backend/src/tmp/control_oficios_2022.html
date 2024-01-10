@@ -1,0 +1,868 @@
+<!-- @format -->
+
+<style>
+	.button {
+		background-color: transparent;
+		/*color: white;*/
+		color: gray;
+		padding: 8px 16px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 14px;
+		transition: background-color 0.3s ease;
+	}
+	.button.txt {
+		text-align: justify;
+		max-height: 100%;
+		display: inline-block;
+	}
+
+	.button:hover {
+		/*background-color: #45a049;*/
+		color: #4caf50;
+	}
+
+	.button.active {
+		/*background-color: #f44336;*/
+		color: #f44336;
+	}
+
+	.text {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.3s ease;
+		text-align: justify;
+	}
+
+	.text .content {
+		display: inline-block;
+		max-width: 100%;
+		white-space: normal;
+	}
+
+	.button.active + .text {
+		max-height: 1000px;
+	}
+	td {
+		display: inline-flex;
+	}
+	tr:nth-child(even) {
+		background-color: #f2f2f2;
+	}
+	.hidden {
+		display: none;
+	}
+	.container {
+		display: flex;
+		justify-content: space-between;
+	}
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+	.tooltip {
+		display: none;
+		position: absolute;
+		background-color: #00e1ff;
+		color: #000;
+		padding: 5px;
+		border-radius: 4px;
+		width: 350px;
+		text-align: justify;
+		z-index: 1;
+	}
+
+	.toggle-tooltip:hover .tooltip {
+		display: block;
+	}
+	.pl {
+		padding-left: 25px;
+	}
+	.pl-2 {
+		padding-left: 50px;
+	}
+	.pl-3 {
+		padding-left: 75px;
+	}
+	.pl-4 {
+		padding-left: 100px;
+	}
+	.pl-5 {
+		padding-left: 125px;
+	}
+	.pl-6 {
+		padding-left: 150px;
+	}
+	.pl-7 {
+		padding-left: 175px;
+	}
+	.pl-8 {
+		padding-left: 200px;
+	}
+	.pl-9 {
+		padding-left: 225px;
+	}
+	.pl-10 {
+		padding-left: 250px;
+	}
+
+	/*
+.truncate-text {
+		width: 400px;
+		line-height: 1.2;
+		max-height: 2.4rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.truncate-text:hover {
+		width: 100%;
+		white-space: normal;
+		overflow: visible;
+		text-align: justify;
+	}
+	.truncate-text:focus {
+		width: 100%;
+		white-space: normal;
+		overflow: visible;
+		text-align: justify;
+	}
+	.truncate-cell {
+		margin-top: 100px;
+		margin-bottom: 100px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.truncate-cell:hover {
+		height: 100px;
+		white-space: normal;
+		overflow: visible;
+	}
+*/
+</style>
+<script>
+	function toggle(button) {
+		button.classList.toggle('active');
+
+		var pTag = button.parentElement.querySelector('.text');
+		var data = pTag.getAttribute('data');
+		var contentSpan = pTag.querySelector('.content');
+		var length = data?.split(' ').length;
+		if (length <= 10) {
+			contentSpan.textContent = data;
+			button.remove();
+		}
+		if (button.classList.contains('active')) {
+			button.textContent = 'Ocultar';
+			pTag.style.maxHeight = pTag.scrollHeight * length + 'px';
+			contentSpan.textContent = data;
+		} else {
+			button.textContent = 'Mostrar';
+			pTag.style.maxHeight = pTag.scrollHeight + 'px';
+			contentSpan.textContent = data.split(' ').slice(0, 10).join(' ') + '...';
+		}
+	}
+</script>
+<div>
+	<h2>1 Identificación del conjunto de datos espaciales o producto</h2>
+	<table class="table table-condensed">
+		<tr>
+			<th class="text">1.1 Título del conjunto de datos espaciales o producto.</th>
+			<td>
+				<p class="truncate-text">control oficios 2022</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.2 Propósito.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text">Proporcionar a las áreas del INEGI responsables de los censos y encuestas institucionales el insumo para la planeación, levantamiento, control de cobertura, organización y publicación de resultados, mediante un sistema geográfico y tabular que organice el territorio nacional en diferentes niveles de desagregación geográfica.</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.3 Descripción del conjunto de datos espaciales o producto.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text">23</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.4 Idioma del conjunto de datos espaciales o producto.</th>
+			<td class="text">
+				<p class="truncate-text">ES-Español </p>
+			</td>
+		</tr>
+		<tr>
+			<th colspan="2" class="text">
+				1.5 Categoría del tema del conjunto de datos espaciales o producto.
+			</th>
+		</tr>
+		<tr>
+			<th class="text pl">1.5.1 Tema principal del conjunto de datos espaciales o producto.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">1.5.2 Grupo de datos del conjunto de datos espaciales o producto.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.6 Palabra clave.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.10 Forma de presentación de los datos espaciales.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th colspan="2" class="text">1.11 Enlace en línea.</th>
+		</tr>
+		<tr>
+			<th class="text pl">1.11.1 URL del recurso.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>1.12 Frecuencia de mantenimiento y actualización.<span class="tooltip"
+						>Revisar tambien el punto 9.6 de la Norma Tecnica para la elaboracion de Metadatos
+						Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.13 Conjunto de caracteres.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.15 Uso específico.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div>
+	<h2>2 Fechas relacionadas con el conjunto de datos espaciales o producto</h2>
+	<table class="table table-condensed">
+		<tr>
+			<th colspan="2" class="text">2.1 Fechas y eventos.</th>
+		</tr>
+		<tr>
+			<th class="text pl">2.1.1 Fecha de referencia del conjunto de datos espaciales o producto.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">2.1.2 Tipo de fecha.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th colspan="2" class="text">
+				2.2 Fechas de los insumos tomados para la elaboración del producto o conjunto de datos
+				espaciales.
+			</th>
+		</tr>
+		<tr>
+			<th class="text pl">2.2.1 Fecha de creación de los insumos.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text">2023-08-07 15:31:53.119710</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">2.2.4 Nombre del Insumo.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div>
+	<h2>3 Unidad del estado responsable del conjunto de datos espaciales o producto</h2>
+	<table class="table table-condensed">
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.1 Nombre de la persona de contacto.<span class="tooltip"
+						>Revisar tambien el punto 9.4.1 de la Norma Tecnica para la elaboracion de Metadatos
+						Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.2 Nombre de la organización.<span class="tooltip"
+						>Revisar tambien el punto 9.4.2 de la Norma Tecnica para la elaboracion de Metadatos
+						Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.3 Puesto del contacto.<span class="tooltip"
+						>Revisar tambien el punto 9.4.3 de la Norma Tecnica para la elaboracion de Metadatos
+						Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">3.12 Enlace en línea (dirección de Internet de referencia).</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.13 Rol.<span class="tooltip"
+						>Revisar tambien el punto 9.4.12 de la Norma Tecnica para la elaboracion de Metadatos
+						Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div>
+	<h2>4 Localización geográfica del conjunto de datos espaciales o producto (Representación espacial)</h2>
+	<table class="table table-condensed">
+		<tr>
+			<th class="text" colspan="2">
+				4.1 Localización geográfica del conjunto de datos espaciales o producto
+			</th>
+			<td></td>
+		</tr>
+		<tr>
+			<th class="text pl">4.1.1 Coordenada límite al Oeste</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">4.1.2 Coordenada límite al Este</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">4.1.3 Coordenada límite al Sur</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">4.1.4 Coordenada límite al Norte</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">4.2 Tipo de representación espacial</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div>
+	<h2>5 Sistema de Referencia</h2>
+	<table class="table table-condensed">
+		<tr>
+			<th class="text" colspan="2">5.1 Sistema de Referencia Horizontal.</th>
+		</tr>
+		<tr>
+			<th class="text" colspan="2">5.1.1 Coordenadas Geográficas.</th>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.1.1 Resolución de latitud.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.1.2 Resolución de longitud.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.1.3 Unidades de coordenadas geográficas.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl" colspan="2">5.1.2 Coordenadas Planas.</th>
+		</tr>
+		<tr>
+			<th class="text pl" colspan="2">5.1.2.1 Proyección Cartográfica.</th>
+		</tr>
+		<tr>
+			<th class="text pl-3">5.1.2.1.1.1 Paralelo estándar.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">
+				<a href="#" class="toggle-tooltip"
+					>5.1.2.1.1.2 Longitud del meridiano central.<span class="tooltip"
+						>Revisar tambien los puntos 5.1.2.1.2.2, 5.1.2.1.3.3, 5.1.2.1.4.2, 5.1.2.2.1.3 de la
+						Norma Tecnica para la elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">
+				<a href="#" class="toggle-tooltip"
+					>5.1.2.1.1.3 Latitud del origen de proyección.
+					<span class="tooltip"
+						>Revisar tambien los puntos 5.1.2.1.2.3, 5.1.2.1.4.3, 5.1.2.2.1.4 de la Norma Tecnica
+						para la elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">
+				<a href="#" class="toggle-tooltip"
+					>5.1.2.1.1.4 Falso este.
+					<span class="tooltip"
+						>Revisar tambien los puntos 5.1.2.1.2.4, 5.1.2.1.3.4, 5.1.2.1.4.4, 5.1.2.2.1.5 de la
+						Norma Tecnica para la elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">
+				<a href="#" class="toggle-tooltip"
+					>5.1.2.1.1.5 Falso norte.
+					<span class="tooltip"
+						>Revisar tambien los puntos 5.1.2.1.2.5, 5.1.2.1.3.5, 5.1.2.1.4.5, 5.1.2.2.1.6 de la
+						Norma Tecnica para la elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">
+				<a href="#" class="toggle-tooltip"
+					>5.1.2.1.2.1 Factor de escala en el meridiano central.
+					<span class="tooltip"
+						>Revisar tambien los puntos 5.1.2.1.4.1, 5.1.2.2.1.2 de la Norma Tecnica para la
+						elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.2.2 Sistema de Coordenadas de Cuadrícula.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2" colspan="2">5.1.2.2.1 Universal Transversa de Mercator.</th>
+		</tr>
+		<tr>
+			<th class="text pl-3">5.1.2.2.1.1 Número de zona UTM.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl" colspan="2">5.1.2.3 Plana Local.</th>
+		</tr>
+		<tr>
+			<th class="text pl-2">5.1.2.3.1 Descripción de la Plana Local.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2">5.1.2.3.2 Información de Georreferencia de la Plana Local.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2" colspan="2">5.1.2.3.4 Información de coordenadas planas.</th>
+		</tr>
+		<tr>
+			<th class="text pl-3">
+				<a href="#" class="toggle-tooltip"
+					>5.1.2.3.4.1 Método codificado de coordenada plana.
+					<span class="tooltip"
+						>Revisar tambien el punto 5.1.2.3.4.2.1 de la Norma Tecnica para la elaboracion de
+						Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-4">5.1.2.3.4.2.2.1 Resolución de abscisa.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-4">5.1.2.3.4.2.2.2 Resolución de ordenada.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+
+		<tr>
+			<th class="text pl-2" colspan="2">5.1.2.4.3 Representación de distancia y rumbo.</th>
+		</tr>
+		<tr>
+			<th class="text pl-3">5.1.2.4.3.1 Resolución de distancia.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">5.1.2.4.3.2 Resolución de rumbo.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">5.1.2.4.3.3 Unidades de rumbo.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">5.1.2.4.3.4 Dirección del rumbo de referencia.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">5.1.2.4.3.5 Meridiano del rumbo de referencia.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">5.1.2.4.4 Unidades de distancia plana.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text" colspan="2">5.1.3 Coordenadas Locales.</th>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.3.1 Descripción Local.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.3.2 Información de Georreferenciación Local.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.4.1 Nombre del datum horizontal.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.4.2 Nombre del elipsoide.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.4.3 Semieje mayor.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl" colspan="2">5.1.4.4 Factor de denominador de achatamiento.</th>
+		</tr>
+
+		<tr>
+			<th class="text" colspan="2">5.2 Sistema de Referencia Vertical.</th>
+		</tr>
+		<tr>
+			<th class="text pl-2">5.2.1.1 Nombre del datum de altitud.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2">5.2.1.2 Resolución de altitud.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2">5.2.1.3 Unidades de distancia de altitud.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2">5.2.1.4 Método codificado de altitud.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2">5.2.2.1 Nombre del datum de profundidad.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2">5.2.2.2 Resolución de profundidad.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2">5.2.2.3 Unidades de distancia de profundidad.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div>
+	<h2>6 Calidad de la información</h2>
+	<table class="table table-condensed">
+		<tr>
+			<th class="text" colspan="2">6.1 Alcance o ámbito</th>
+			<td></td>
+		</tr>
+		<tr>
+			<th class="text pl">6.1.1 Nivel.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2">
+				<a href="#" class="toggle-tooltip"
+					>6.2.1.1 Nombre del subcriterio de calidad evaluado.
+					<span class="tooltip"
+						>Revisar tambien los puntos 6.2.3.1, 6.2.4.1, 6.2.5.1 de la Norma Tecnica para la
+						elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">
+				<a href="#" class="toggle-tooltip"
+					>6.2.2.1.1 Nombre de la prueba.
+					<span class="tooltip"
+						>Revisar tambien los puntos 6.2.3.1.1, 6.2.4.1.1, 6.2.5.1.1 de la Norma Tecnica para
+						la elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-3">
+				<a href="#" class="toggle-tooltip"
+					>6.2.2.1.2 Descripción de la prueba.
+					<span class="tooltip"
+						>Revisar tambien los puntos 6.2.3.1.2, 6.2.4.1.2, 6.2.5.1.2 de la Norma Tecnica para
+						la elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+
+		<tr>
+			<th class="text pl-4" colspan="2">
+				<a href="#" class="toggle-tooltip"
+					>6.2.2.1.3.1 Resultado cuantitativo.
+					<span class="tooltip"
+						>Revisar tambien los puntos 6.2.3.1.3.1, 6.2.4.1.3.1, 6.2.5.1.3.1 de la Norma Tecnica
+						para la elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+		</tr>
+		<tr>
+			<th class="text pl-5">
+				<a href="#" class="toggle-tooltip"
+					>6.2.2.1.3.1.1 Unidad de valor.
+					<span class="tooltip"
+						>Revisar tambien los puntos 6.2.3.1.3.1.1, 6.2.4.1.3.1.1, 6.2.5.1.3.1.1 de la Norma
+						Tecnica para la elaboracion de Metadatos Geograficos.</span
+					></a
+				>
+			</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text" colspan="2">6.3 Linaje</th>
+		</tr>
+		<tr>
+			<th class="text pl">6.3.1 Enunciado</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+
+		<tr>
+			<th class="text pl">6.3.2 Pasos del proceso</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl-2">
+				<a href="#" class="toggle-tooltip"
+					>6.3.2.1 Descripción.
+					<span class="tooltip"
+						>Revisar tambien el punto 6.3.3.1 de la Norma Tecnica para la elaboracion de Metadatos
+						Geograficos.</span
+					></a
+				>
+			</th>
+		</tr>
+		<tr>
+			<th class="text pl">6.3.3 Fuente.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div>
+	<h2>7 Entidades y Atributos</h2>
+	<table class="table table-condensed">
+		<tr>
+			<th class="text">7.1 Descripción general de entidades y atributos.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">7.2 Cita del detalle de entidades y atributos.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div>
+	<h2>8 Distribución</h2>
+	<table class="table table-condensed">
+		<tr>
+			<th class="text">8.4.1 Nombre del formato.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">8.4.2 Versión del formato.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+	</table>
+</div>
+<div>
+	<h2>9 Información de metadatos</h2>
+	<table class="table table-condensed">
+		<tr>
+			<th class="text">9.1 Nombre del estándar de metadatos.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.3 Idioma de los Metadatos.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.5 Fecha de los metadatos.</th>
+			<td class="truncate-cell">
+				<p class="truncate-text"></p>
+			</td>
+		</tr>
+	</table>
+</div>
