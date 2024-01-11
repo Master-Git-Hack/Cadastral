@@ -39,9 +39,7 @@ async def get_schemas_catastro(schema: str, user=Depends(required)):
     if isinstance(user, dict):
         return __response.error(**user)
     try:
-        return __response.success(
-            data=[schema[0] for schema in database.execute_query(schema, __query)]
-        )
+        return __response.success(data=database.inspect_all_schemas(schema))
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))

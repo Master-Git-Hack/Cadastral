@@ -106,7 +106,7 @@ export default function Create({ onEdit = true, record = undefined }) {
 			</div>
 		);
 	};
-
+	console.log(data);
 	return (
 		<div className="p-4 bg-white dark:bg-black  max-h-full">
 			<Table>
@@ -144,11 +144,11 @@ export default function Create({ onEdit = true, record = undefined }) {
 						<Table.Cell colSpan={10}>
 							<Dropdown
 								name="table_name"
-								value={catastro?.data.tables
+								value={catastro?.data
 									.find(({ label }) => label === data.schema_name)
 									?.items.find(({ label }) => label === data.table_name)}
 								onChange={handleSelectChange}
-								options={catastro?.data.tables}
+								options={catastro?.data}
 								optionLabel="label"
 								optionGroupLabel="label"
 								optionGroupChildren="items"

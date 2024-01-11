@@ -46,25 +46,9 @@ export const SchemasApi = createApi({
 		// }),
 		getCatastro: query<unknown, null>({
 			query: () => ({
-				url: `db-info/schemas/catastro`,
+				url: `db-info/schemas/valuaciones`,
 				method: "GET",
 			}),
-			transformResponse: ({ data, ...response }: any) => {
-				const tables = Object.entries(data?.tables).map(([parent, items]: any) => ({
-					label: parent,
-					items: items.map((label: string) => ({ label, parent })),
-				}));
-				return {
-					data: {
-						schemas: data?.schemas.map((label: string, code: number) => ({
-							label,
-							code,
-						})),
-						tables,
-					},
-					...response,
-				};
-			},
 		}),
 	}),
 });

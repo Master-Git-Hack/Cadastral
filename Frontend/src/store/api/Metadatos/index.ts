@@ -38,13 +38,14 @@ export const MetadatosApi = createApi({
 		}),
 		viewMetadatoReport: query<Blob, { uid: string }>({
 			query: ({ uid }) => ({
-				url: `metadatos/${uid}/report`,
+				url: `metadatos/report/${uid}`,
 				method: "GET",
+				responseType: "blob",
 			}),
-			transformResponse: ({ file, ...response }: any) => {
-				saveAs(file, file?.name ?? "reporte.pdf");
-				return { ...response, file };
-			},
+			// transformResponse: (response: any) => {
+
+			// 	return {  file:URL.createObjectURL(response) };
+			// },
 		}),
 		getMetadato: query<IMetadatos, { uid: string }>({
 			query: ({ uid }) => ({

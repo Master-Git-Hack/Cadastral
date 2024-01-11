@@ -13,7 +13,7 @@ export const AuthApi = createApi({
 				const authToken = btoa(`${username.trim()}:${password}`);
 				const Authorization = `Basic ${authToken}`;
 				return {
-					url: `auth/sign-inma`,
+					url: `auth/sign-in`,
 					method: "get",
 					headers: {
 						Authorization,

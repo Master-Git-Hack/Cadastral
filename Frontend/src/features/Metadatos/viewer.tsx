@@ -18,12 +18,12 @@ export const DocumentViewer = ({
 
 	useEffect(() => {
 		if (data !== undefined && template) {
-			setFile(data);
+			setFile(URL.createObjectURL(data));
 			setTemplate(false);
 		}
 	}, [data, template]);
 	if (!uid) return <Error message="No se ha seleccionado un metadato" />;
-	if (isError) return <Error message={error?.data} />;
+	//if (isError) return <Error message={error?.data} />;
 	if (isLoading) return <Spinner size={20} />;
 
 	return (

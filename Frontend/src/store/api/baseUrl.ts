@@ -20,11 +20,12 @@ const axiosBaseQuery =
 			data?: AxiosRequestConfig["data"];
 			params?: AxiosRequestConfig["params"];
 			headers?: AxiosRequestConfig["headers"];
+			responseType?: AxiosRequestConfig["responseType"];
 		},
 		unknown,
 		unknown
 	> =>
-	async ({ url, method, data, params, headers }, { getState }) => {
+	async ({ url, method, data, params, headers, responseType = "json" }, { getState }) => {
 		const timestamp = getNow();
 		ls.set("lastRequest", { url, method, data, params, timestamp });
 		ls.set("timestamp", timestamp);
@@ -41,7 +42,16 @@ const axiosBaseQuery =
 					//headers["withCredentials"] = true;
 				}
 			}
-			const result = await axios({ baseURL: baseUrl, url, method, data, params, headers });
+
+			const result = await axios({
+				baseURL: baseUrl,
+				url,
+				method,
+				data,
+				params,
+				headers,
+				responseType,
+			});
 			if (url === "auth/sign-in") {
 				const { authorization } = result.headers;
 				if (authorization) ls.set("token", authorization);

@@ -11,6 +11,7 @@ import {
 	useGetMetadatosQuery,
 	useGetMetadatoReportMutation,
 	useGetAllTemporalQuery,
+	useDeleteTemporalMutation,
 } from "@api/Metadatos";
 import { IMetadatos } from "@api/Metadatos/types";
 import Spinner from "@components/Spinner";
@@ -20,7 +21,10 @@ import { Table, Button } from "flowbite-react";
 import { saveAs } from "file-saver";
 import { useNavigate } from "react-router";
 import Toast from "@components/Alerts";
+
 export default function Metadatos() {
+	const navigate = useNavigate();
+
 	const { data, isLoading, isError, error } = useGetMetadatosQuery();
 	const {
 		data: temporal,
@@ -28,6 +32,7 @@ export default function Metadatos() {
 		isError: isErrorTemporal,
 		error: errorTemporal,
 	} = useGetAllTemporalQuery();
+	const [deleteTemporal] = useDeleteTemporalMutation();
 	if (isError || isErrorTemporal) return <Error message={error?.data} />;
 	if (isLoading || isLoadingTemporal) return <Spinner size={20} />;
 
@@ -199,20 +204,23 @@ export default function Metadatos() {
 										</NavLink>
 										<span className="mx-2">/</span>
 
-										<NavLink
+										<button
 											className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-											to={`#`}
 											onClick={() =>
 												Alert.Warning({
 													titleText: "Advertencia",
 													messageText:
 														"Esta seguro que desea eliminar este registro",
-													onConfirm: () => {},
-												})
+												}).then(
+													({ isConfirmed }) =>
+														isConfirmed &&
+														deleteTemporal({ uid }) &&
+														navigate(0),
+												)
 											}
 										>
 											Eliminar
-										</NavLink>
+										</button>
 									</Table.Cell>
 								</Table.Row>
 							),

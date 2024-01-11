@@ -10,12 +10,13 @@ import Toggle from "@components/Toggle";
 
 export default function EditMetadatos() {
 	const { uid } = useParams();
-	if (!uid) return <Error message="No se ha seleccionado un metadato" />;
 	const { data, isLoading, isError, error } = useGetMetadatoQuery({ uid });
+	if (!uid) return <Error message="No se ha seleccionado un metadato" />;
+
 	if (isLoading) return <Spinner size={20} />;
 	if (isError) return <Error message={error} />;
 
-	return <Edit data={data.data} />;
+	return <Edit data={data} />;
 }
 export const Edit = ({ data }: { data: IMetadatos }) => {
 	const [editData, setEditData] = useState<boolean>(false);

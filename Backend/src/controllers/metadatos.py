@@ -51,4 +51,4 @@ class ReporteMetadatos:
             margins={"top": "30", "bottom": "10", "left": "10", "right": "10"},
         )
         report.render()
-        return f"{self.filename}.pdf", config.PATHS.tmp
+        return f"{self.filename}.pdf", f"{self.path}.pdf"

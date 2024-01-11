@@ -4,7 +4,9 @@ from subprocess import PIPE, Popen
 from typing import List, Optional
 
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
+from wkhtmltopdf import WKHtmlToPdf
 
+from .. import logger
 from .tmp import name_it as tmp_filename
 
 
@@ -51,31 +53,48 @@ class PDFMaker:
             if exists(input_file := f"{file}.html"):
                 file = f"{file}.pdf"
                 # cmd = " ".join(str(arg) for arg in self.__cmd)
-                cmd = [
-                    "wkhtmltopdf",
-                    "--dpi",
-                    self.dpi,
-                    f"--margin-top {self.margins['top']}",
-                    f"--margin-bottom {self.margins['bottom']}",
-                    f"--margin-left {self.margins['left']}",
-                    f"--margin-right {self.margins['right']}",
-                    "--enable-javascript",
-                    "--quiet",
-                    input_file,
-                    file,
-                ]
+                # try:
+                #     cmd = [
+                #         "wkhtmltopdf",
+                #         "--dpi",
+                #         self.dpi,
+                #         f"--margin-top {self.margins['top']}",
+                #         f"--margin-bottom {self.margins['bottom']}",
+                #         f"--margin-left {self.margins['left']}",
+                #         f"--margin-right {self.margins['right']}",
+                #         "--enable-javascript",
+                #         "--quiet",
+                #         input_file,
+                #         file,
+                #     ]
 
-                process = Popen(
-                    cmd,
-                    stdout=PIPE,
-                    stderr=PIPE,
-                    universal_newlines=True,
+                #     process = Popen(
+                #         cmd,
+                #         stdout=PIPE,
+                #         stderr=PIPE,
+                #         universal_newlines=True,
+                #     )
+                #     _, error = process.communicate()
+                #     exit_code = process.wait()
+                # except Exception as e:
+                #     logger.bind(payload=str(e)).debug(
+                #         f"----------> Unexpected error:\n {str(e)}"
+                #     )
+                output = WKHtmlToPdf(
+                    url=input_file,
+                    output_file=file,
+                    dpi=self.dpi,
+                    margin_bottom=self.margins["bottom"],
+                    margin_left=self.margins["left"],
+                    margin_right=self.margins["right"],
+                    margin_top=self.margins["top"],
+                    enable_javascript=True,
+                    quiet=True,
                 )
-                _, error = process.communicate()
+                output.render()
 
-                exit_code = process.wait()
-                if exit_code:
-                    # remove(input_file)
+                if exists(file):
+                    remove(input_file)
                     files.append(file)
                 else:
                     raise ValueError(f"Rendering Method failed: {error}")

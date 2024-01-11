@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
 from .. import database, logger
+from ..controllers.metadatos import ReporteMetadatos as __ReporteMetadatos
 from ..middlewares import Middlewares as __Middlewares
 from ..middlewares.auth import required
 from ..models.dataset import Dataset as __Dataset
@@ -89,8 +90,8 @@ async def get_id(
     if isinstance(user, dict):
         return __response.error(**user)
     try:
-        meta = __TMP(db=db)
-        if meta.get(uid) is None:
+        meta = __Dataset(db=db)
+        if meta.filter(uid=uid) is None:
             return __response.error(
                 message="Error procesando la solicitud",
                 status_code=404,
@@ -164,9 +165,9 @@ async def post_temporal_metadatos(
     return __response.success(data=meta.to_dict())
 
 
-@metadatos.patch("/temporal/{id}")
+@metadatos.patch("/temporal/{uid}")
 async def patch_temporal_metadatos(
-    id: int,
+    uid: str,
     request: Request,
     user=Depends(required),
     db: Session = Depends(database.catastro_v2),
@@ -176,7 +177,7 @@ async def patch_temporal_metadatos(
     data = await request.json()
     meta = __TMP(db=db)
     encargado = user.id
-    if meta.filter(id=id, encargado=encargado) is None:
+    if meta.filter(uid=uid, encargado=encargado) is None:
         return __response.error(
             message="Error procesando la solicitud",
             status_code=404,
@@ -198,16 +199,16 @@ def get_file(
     if isinstance(user, dict):
         return __response.error(**user)
     try:
-        # __response = ReporteMetadatos(uid, db)
-        # filename, path = __response.create()
-        # return __response.send_file(filename=filename, path=path)
-        ...
+        response = __ReporteMetadatos(uid, db)
+        filename, path = response.create()
+        return __response.send_file(filename=filename, path=path)
+
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
 
 
-@metadatos.delete("temporal/{uid}")
+@metadatos.delete("/temporal/{uid}")
 async def delete_temporal_metadatos(
     uid: str,
     user=Depends(required),

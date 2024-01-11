@@ -9,7 +9,7 @@ export const ReporteCatastralApi = createApi({
 	endpoints: (builder) => ({
 		getReporte: builder.mutation<Blob, { fileName: string }>({
 			query: ({ fileName, ...data }) => ({
-				url: `reporte-catastra/${fileName}`,
+				url: `reporte-catastral/${fileName}`,
 				method: "POST",
 				responseType: "blob",
 				data,

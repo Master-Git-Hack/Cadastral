@@ -4,9 +4,10 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from marshmallow import ValidationError, fields, post_dump, pre_load
 from marshmallow.utils import isoformat, to_iso_date
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
+from sqlalchemy.schema import MetaData
 
 from .. import config, logger
 from ..utils.geom_schema import GeometryField
@@ -64,6 +65,32 @@ class InstanceDB:
                 return result.fetchall()
         else:
             raise ValueError(f"Database '{db_name}' not found.")
+
+    def inspect_all_schemas(self, db_name: str = "valuaciones"):
+        return [
+            {
+                "label": schema,
+                "code": code,
+                "items": [
+                    {"label": table.replace(f"{schema}.", ""), "parent": schema}
+                    for table in self.inspect_me(db_name=db_name, schema=schema)
+                ],
+            }
+            for code, schema in enumerate(self.get_all_schemas(db_name))
+        ]
+
+    def get_all_schemas(self, db_name: str = "valuaciones") -> list:
+        engine = self.ENGINES[db_name]
+        with engine.connect() as connection:
+            sql = "SELECT schema_name FROM information_schema.schemata;"
+            result = connection.execute(text(sql))
+            return [row[0] for row in result.fetchall()]
+
+    def inspect_me(self, db_name: str, schema: str = "valuaciones"):
+        engine = self.ENGINES[db_name]
+        meta = MetaData()
+        meta.reflect(bind=engine, schema=schema)
+        return meta.tables.keys()
 
 
 def create_schema(
