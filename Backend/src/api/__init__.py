@@ -51,3 +51,7 @@ app.include_router(db_info, prefix=config.API_URL_PREFIX)
 from .metadatos import metadatos
 
 app.include_router(metadatos, prefix=config.API_URL_PREFIX)
+
+from .parser import parser
+
+app.include_router(parser, prefix=config.API_URL_PREFIX)

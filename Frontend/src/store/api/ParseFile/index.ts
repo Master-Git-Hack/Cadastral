@@ -8,19 +8,19 @@ import { baseQuery } from "../baseUrl";
 export const ParseFilesApi = createApi({
 	reducerPath: "ParseFiles",
 	baseQuery,
-	endpoints: (builder) => ({
-		xml2json: builder.mutation<unknown, FormData>({
-			query: (FormData) => ({
-				url: `parse/xml-to-json`,
+	endpoints: ({mutation}) => ({
+		xml2json: mutation<unknown, FormData>({
+			query: (data) => ({
+				url: `parser/xml-to-json`,
 				method: "POST",
-				data: FormData,
+				data,
 			}),
 		}),
-		json2xml: builder.mutation<unknown, FormData>({
-			query: (FormData) => ({
-				url: `parse/json-to-xml`,
+		json2xml: mutation<unknown, FormData>({
+			query: (data) => ({
+				url: `parser/json-to-xml`,
 				method: "POST",
-				data: FormData,
+				data,
 				responseType: "blob",
 			}),
 		}),

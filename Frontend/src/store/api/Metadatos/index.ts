@@ -52,15 +52,12 @@ export const MetadatosApi = createApi({
 				url: `metadatos/${uid}`,
 				method: "GET",
 			}),
-			transformResponse: ({ data, ...response }: any) => ({
-				data: data[0],
-				...response,
-			}),
+			
 		}),
 
 		postMetadato: mutation<IMetadatos, { data: IMetadatos }>({
 			query: ({ data }) => ({
-				url: `metadatos/create/${data.table_name}`,
+				url: `metadatos/create`,
 				method: "POST",
 				data,
 			}),

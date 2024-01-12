@@ -31,7 +31,7 @@ export const Edit = ({ data }: { data: IMetadatos }) => {
 			>
 				Editar
 			</Toggle>
-			<Create record={data} onEdit={editData} />
+			<Create record={data.data} onEdit={editData} />
 		</div>
 	);
 };

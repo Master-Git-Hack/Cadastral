@@ -122,9 +122,9 @@ async def create(
         return __response.error(message=str(e))
 
 
-@metadatos.patch("/{uid}")
-async def patch_uid(
-    uid: str,
+@metadatos.patch("/{id}")
+async def patch_id(
+    id: int,
     request: Request,
     user=Depends(required),
     db: Session = Depends(database.catastro_v2),
@@ -132,13 +132,23 @@ async def patch_uid(
     if isinstance(user, dict):
         return __response.error(**user)
     try:
-        meta = __TMP(db=db)
-        if meta.get(uid) is None:
+        meta = __Dataset(db=db)
+        if meta.get(id) is None:
             return __response.error(
                 message="Error procesando la solicitud",
                 status_code=404,
             )
         data = await request.json()
+        if "geom" in data:
+            del data["geom"]
+        for key in {"distance_res", "bearing_res", "altres", "depthres", "utm_zone"}:
+            if key in data and (data[key] is None or data[key] == ""):
+                data[key] = 91.0
+        if "bearing_uni" in data and (
+            data["bearing_uni"] is None or data["bearing_uni"] == ""
+        ):
+            data["distance_res"] = "grados"
+
         if meta.update(**data) is None:
             return __response.error(message="No se pudo actualizar el metadato")
         return __response.success(data=meta.to_dict())

@@ -1,18 +1,16 @@
 /** @format */
 import { useState, useEffect, ChangeEventHandler } from "react";
-import { template, translateTags, typesTags, transformKeys } from "./types";
+import { template } from "./types";
 import { IMetadatos } from "@api/Metadatos/types";
-import Toggle from "@components/Toggle";
-import Input from "@components/Input";
+
 import FileButton from "@components/Button/file";
 
 import Alert from "@components/Alerts";
-import { xmlToJson, jsonToXml } from "@utils/xml";
-import { flattenObject } from "@utils/object";
+import { jsonToXml } from "@utils/xml";
 import { useXml2jsonMutation, useJson2xmlMutation } from "@api/ParseFile";
 import Stepper from "@components/Stepper";
 import { Dropdown } from "primereact/dropdown";
-import { Table, Button, SidebarItems } from "flowbite-react";
+import { Table, Button } from "flowbite-react";
 import {
 	usePostMetadatoMutation,
 	usePatchMetadatoMutation,
@@ -29,7 +27,6 @@ import { Section6 } from "./sections/section6";
 import { Section7 } from "./sections/section7";
 import { Section8 } from "./sections/section8";
 import { Section9 } from "./sections/section9";
-import catalogo from "./catologos/index";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import { useParams } from "react-router-dom";
@@ -69,15 +66,14 @@ const baseAlert = (record: any, isTmp: boolean): object => {
 export default function Create({ onEdit = true, record = undefined }) {
 	const params = useParams();
 	const isTmp = params?.type === "temporal";
+	const { uid } = params;
 	const { data: catastro } = useGetCatastroQuery(null);
 	const [data, setData] = useState<IMetadatos>(record ?? template);
 	const [imported, setImported] = useState<boolean>(false);
-	const [withXML, setWithXML] = useState<boolean>(false);
-	const [text, setText] = useState<string>("");
+
 	const [file, setFile] = useState<File | undefined>(undefined);
 	const [convertXmlToJson, xmlToJsonResult] = useXml2jsonMutation();
-	const [convertJsonToXml, jsonToXmlResult] = useJson2xmlMutation();
-	const [currentSchema, setSchema] = useState<string | undefined>(undefined);
+
 	const [indexPage, setIndexPage] = useState<number>(0);
 	const [createRecord, { isLoadingCreate, isErrorCreate, errorMessageCreate }] =
 		usePostMetadatoMutation();
@@ -90,13 +86,19 @@ export default function Create({ onEdit = true, record = undefined }) {
 	useEffect(() => {
 		if (xmlToJsonResult.isSuccess && !imported) {
 			setImported(true);
-			setData(xmlToJsonResult.data.data);
+			setData({ ...data, ...xmlToJsonResult.data.data });
 		}
 	}, [xmlToJsonResult]);
+	useEffect(() => {
+		if (uid !== undefined && !data.hasOwnProperty("uid")) {
+			setData({ ...data, uid });
+		}
+	}, [uid]);
 	const handleSelectChange = ({ value }) =>
 		setData({ ...data, table_name: value.label, schema_name: value.parent });
 
-	if (isLoadingCreate || isLoadingUpdate) return <Spinner size={20} />;
+	if (isLoadingCreate || isLoadingUpdate || isLoadingCreateTemporal || isLoadingUpdateTemporal)
+		return <Spinner size={20} />;
 	if (isErrorCreate || isErrorUpdate)
 		return <Error message={errorMessageCreate ?? errorMessageUpdate} />;
 	const groupedItemTemplate = (option) => {
@@ -192,48 +194,31 @@ export default function Create({ onEdit = true, record = undefined }) {
 								pill
 								color="green"
 								onClick={() =>
-									// record !== undefined
-									// 	? updateRecord({ data })
-									// 	: createRecord({ data })
-									{
-										return Alert(baseAlert(record, isTmp)).then((resp: any) => {
-											if (resp.isConfirmed) {
-												if (record !== undefined) {
-													updateRecord({ data });
-												} else {
-													createRecord({ data });
-												}
-												// Alert({
-												// 	titleText: "Registro guardado con éxito",
-												// 	inputValue,
-												// 	icon: "success",
-												// });
-											} else if (resp.isDenied) {
-												if (record !== undefined) {
-													updateTemporal({
-														data: {
-															uid: data.uid,
-															datos: data,
-														},
-													});
-												} else {
-													createTemporal({
-														data: {
-															uid: data.uid,
-															datos: data,
-														},
-													});
-												}
-												// Alert({
-												// 	titleText:
-												// 		"Registro guardado temporalmente con éxito",
-												// 	inputValue,
-												// 	icon: "info",
-												// });
+									Alert(baseAlert(record, isTmp)).then((resp: any) => {
+										if (resp.isConfirmed) {
+											if (record !== undefined) {
+												updateRecord({ data, uid: data.uid ?? uid });
+											} else {
+												createRecord({ data });
 											}
-											return resp;
-										});
-									}
+										} else if (resp.isDenied) {
+											if (record !== undefined) {
+												updateTemporal({
+													data: {
+														uid,
+														datos: data,
+													},
+												});
+											} else {
+												createTemporal({
+													data: {
+														datos: data,
+													},
+												});
+											}
+										}
+										return resp;
+									})
 								}
 							>
 								Guardar

@@ -30,7 +30,7 @@ def name_it(
     # ) as temp:
     #     temp_filename = f"{temp.name}.{extension}"
     temp_filename = mktemp(suffix=suffix, prefix=prefix, dir=path)
-    temp_filename += f". {extension}"
+    temp_filename += f".{extension}"
     return temp_filename
 
 
