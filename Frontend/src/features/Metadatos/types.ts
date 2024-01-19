@@ -102,7 +102,7 @@ export const template = {
 	utm_zone: 0,
 	license: "",
 	confidentiality: "",
-	feature_count:0,
+	feature_count: 0,
 	geometry_type: "",
 	projection_name: "",
 	projection_authid: "",

@@ -112,7 +112,14 @@ export default function Create({ onEdit = true, record = undefined }) {
 						base[key] = newData[key];
 					}
 					if (
-						["datestamp", "date_creation","date","publication_date","update_date","data_last_update"].includes(key) &&
+						[
+							"datestamp",
+							"date_creation",
+							"date",
+							"publication_date",
+							"update_date",
+							"data_last_update",
+						].includes(key) &&
 						(newData[key] === undefined || newData[key]?.trim() === "")
 					) {
 						base[key] = moment().format("YYYY-MM-DD").toString();
