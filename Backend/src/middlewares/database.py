@@ -1,10 +1,12 @@
 from typing import Any, Dict, List, Optional, Tuple
+from warnings import catch_warnings, simplefilter
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from marshmallow import ValidationError, fields, post_dump, pre_load
 from marshmallow.utils import isoformat, to_iso_date
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from sqlalchemy import create_engine, inspect, text
+from sqlalchemy.exc import SAWarning
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 from sqlalchemy.schema import MetaData
@@ -87,9 +89,11 @@ class InstanceDB:
             return [row[0] for row in result.fetchall()]
 
     def inspect_me(self, db_name: str, schema: str = "valuaciones"):
-        engine = self.ENGINES[db_name]
-        meta = MetaData()
-        meta.reflect(bind=engine, schema=schema)
+        with catch_warnings():
+            simplefilter("ignore", category=SAWarning)
+            engine = self.ENGINES[db_name]
+            meta = MetaData()
+            meta.reflect(bind=engine, schema=schema)
         return meta.tables.keys()
 
 

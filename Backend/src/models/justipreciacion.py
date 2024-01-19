@@ -18,6 +18,8 @@ from .. import config, database
 from ..middlewares.database import Template
 
 float8 = Float(precision=8)
+float8_30 = Float(precision=30)
+float8_70 = Float(precision=70)
 
 
 class Model(database.BASE):
@@ -219,8 +221,8 @@ class Model(database.BASE):
     obras_comp_descripcion = Column(String)
     oficio_respuesta = Column(String)
     tasa_capitalizacion = Column(float8)
-    pct_indicador_capitalizacion = Column(float8, float8_default=text("30"))
-    pct_indicador_comparativo = Column(float8, float8_default=text("70"))
+    pct_indicador_capitalizacion = Column(float8_30)
+    pct_indicador_comparativo = Column(float8_70)
     planta_arquitectonica = Column(String)
     medidas_reverso = Column(SmallInteger)
 

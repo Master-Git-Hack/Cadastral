@@ -1,3 +1,4 @@
+from dateparser import parse
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
@@ -112,8 +113,25 @@ async def create(
     if isinstance(user, dict):
         return __response.error(**user)
     try:
-        meta = __TMP(db=db)
+        meta = __Dataset(db=db)
         data = await request.json()
+        data = {
+            key: value
+            for key, value in data.items()
+            if value is not None or value != ""
+        }
+
+        data |= {
+            key: parse(data[key])
+            for key in {
+                "datestamp",
+                "date_creation",
+                "date",
+                "publication_date",
+                "update_date",
+                "data_last_update",
+            }
+        }
         if meta.create(**data, encargado=user.id) is None:
             return __response.error(message="No se pudo registrar el metadato")
         return __response.success(data=meta.to_dict())
@@ -139,15 +157,16 @@ async def patch_id(
                 status_code=404,
             )
         data = await request.json()
+
         if "geom" in data:
             del data["geom"]
-        for key in {"distance_res", "bearing_res", "altres", "depthres", "utm_zone"}:
-            if key in data and (data[key] is None or data[key] == ""):
-                data[key] = 91.0
-        if "bearing_uni" in data and (
-            data["bearing_uni"] is None or data["bearing_uni"] == ""
-        ):
-            data["distance_res"] = "grados"
+        # for key in {"distance_res", "bearing_res", "altres", "depthres", "utm_zone"}:
+        #     if key in data and (data[key] is None or data[key] == ""):
+        #         data[key] = 91.0
+        # if "bearing_uni" in data and (
+        #     data["bearing_uni"] is None or data["bearing_uni"] == ""
+        # ):
+        #     data["distance_res"] = "grados"
 
         if meta.update(**data) is None:
             return __response.error(message="No se pudo actualizar el metadato")

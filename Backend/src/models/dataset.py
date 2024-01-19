@@ -401,7 +401,7 @@ class Model(database.BASE):
         comment="Date of update of the dataset item",
     )
     geom = Column(
-        Geometry("POINT", 32614, from_text="ST_GeomFromEWKT", name="geometry"),
+        Geometry("POINT", 32614, name="geometry"),
         index=True,
         comment="Geometry defining the extent of the data. Can be any polygon.",
     )
