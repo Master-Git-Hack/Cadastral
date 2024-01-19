@@ -8,7 +8,7 @@ import { baseQuery } from "../baseUrl";
 export const ParseFilesApi = createApi({
 	reducerPath: "ParseFiles",
 	baseQuery,
-	endpoints: ({mutation}) => ({
+	endpoints: ({ mutation }) => ({
 		xml2json: mutation<unknown, FormData>({
 			query: (data) => ({
 				url: `parser/xml-to-json`,

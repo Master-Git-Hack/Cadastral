@@ -11,6 +11,7 @@ import { useXml2jsonMutation, useJson2xmlMutation } from "@api/ParseFile";
 import Stepper from "@components/Stepper";
 import { Dropdown } from "primereact/dropdown";
 import { Table, Button } from "flowbite-react";
+import moment from "moment";
 import {
 	usePostMetadatoMutation,
 	usePatchMetadatoMutation,
@@ -30,8 +31,11 @@ import { Section9 } from "./sections/section9";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import { useParams } from "react-router-dom";
+import { addNotification, rmNotification, getNotifications } from "@reducers/Notifications";
+import { useAppDispatch, useAppSelector } from "@redux/provider";
 const baseAlert = (record: any, isTmp: boolean): object => {
 	const action = record !== undefined ? "Actualizar" : "Guardar";
+
 	const alert = {
 		titleText: `¿Está seguro de ${action} el registro?`,
 		showCancelButton: true,
@@ -63,10 +67,13 @@ const baseAlert = (record: any, isTmp: boolean): object => {
 	}
 	return alert;
 };
+
 export default function Create({ onEdit = true, record = undefined }) {
 	const params = useParams();
 	const isTmp = params?.type === "temporal";
 	const { uid } = params;
+	const { notifications } = useAppSelector(getNotifications);
+	const dispatch = useAppDispatch();
 	const { data: catastro } = useGetCatastroQuery(null);
 	const [data, setData] = useState<IMetadatos>(record ?? template);
 	const [imported, setImported] = useState<boolean>(false);
@@ -86,7 +93,33 @@ export default function Create({ onEdit = true, record = undefined }) {
 	useEffect(() => {
 		if (xmlToJsonResult.isSuccess && !imported) {
 			setImported(true);
-			setData({ ...data, ...xmlToJsonResult.data.data });
+			const base = data;
+			const newData = xmlToJsonResult.data.data;
+			for (const key in base) {
+				if (base?.hasOwnProperty(key) && newData?.hasOwnProperty(key)) {
+					console.log(
+						key,
+						base[key],
+						newData[key],
+						typeof base[key],
+						typeof newData[key],
+					);
+					// Verificar si el tipo de dato es el mismo
+					if (typeof base[key] === typeof newData[key]) {
+						if (typeof newData[key] === "string" && typeof base[key] === "number") {
+							base[key] = justNumbers(newData[key]);
+						}
+						base[key] = newData[key];
+					}
+					if (
+						["datestamp", "date_creation","date","publication_date","update_date","data_last_update"].includes(key) &&
+						(newData[key] === undefined || newData[key]?.trim() === "")
+					) {
+						base[key] = moment().format("YYYY-MM-DD").toString();
+					}
+				}
+			}
+			setData(base);
 		}
 	}, [xmlToJsonResult]);
 	useEffect(() => {
@@ -94,6 +127,7 @@ export default function Create({ onEdit = true, record = undefined }) {
 			setData({ ...data, uid });
 		}
 	}, [uid]);
+	const justNumbers = (value: string) => parseFloat(value.replace(/[^0-9.]/g, ""));
 	const handleSelectChange = ({ value }) =>
 		setData({ ...data, table_name: value.label, schema_name: value.parent });
 
@@ -108,7 +142,95 @@ export default function Create({ onEdit = true, record = undefined }) {
 			</div>
 		);
 	};
-	console.log(data);
+	const handleNotification = (
+		summary: string,
+		detail: string = "",
+		severity: string = "error",
+	) => {
+		const index = notifications.findIndex(({ summary }: any) => summary === summary);
+		if (index === -1 && detail !== "") {
+			dispatch(
+				addNotification({
+					summary,
+					detail,
+					severity,
+				}),
+			);
+		} else if (notifications[index]?.id !== undefined) {
+			const { id } = notifications[index];
+			dispatch(rmNotification(id));
+		}
+	};
+	const checkProp = (key: string, value: any) => {
+		if (value.toString().trim() === "" || value === undefined || value === null)
+			handleNotification(key, "Este campo es obligatorio");
+		else if (key === "absres" && value < 0)
+			handleNotification(key, "Este campo debe ser mayor a 0");
+		else if (key === "bearing_res" && value < 0)
+			handleNotification(key, "Este campo debe ser mayor a 0");
+		else if (key === "depthres" && value < 0)
+			handleNotification(key, "Este campo debe ser mayor a 0");
+		else if (key === "distance_res" && value < 0)
+			handleNotification(key, "Este campo debe ser mayor a 0");
+		else if (key === "eastboundlongitude" && (value < -180 || value > 180))
+			handleNotification(key, "Este campo debe estar entre -180 y 180");
+		else if (key === "lambertc_longcm" && (value < -180 || value > 180))
+			handleNotification(key, "Este campo debe estar entre -180 y 180");
+		else if (key === "lambertc_stdparll" && (value < -90 || value > 90))
+			handleNotification(key, "Este campo debe estar entre -90 y 90");
+		else if (key === "northboundlatitude" && (value < -90 || value > 90))
+			handleNotification(key, "Este campo debe estar entre -90 y 90");
+		else if (key === "ordres" && value < 0)
+			handleNotification(key, "Este campo debe ser mayor a 0");
+		else if (key === "semiaxis" && value < 0)
+			handleNotification(key, "Este campo debe ser mayor a 0");
+		else if (key === "southboundlatitude" && (value < -90 || value > 90))
+			handleNotification(key, "Este campo debe estar entre -90 y 90");
+		else if (key === "utm_zone" && (value < 1 || value > 60))
+			handleNotification(key, "Este campo debe estar entre 1 y 60");
+		else if (key === "westboundlongitude" && (value < -180 || value > 180))
+			handleNotification(key, "Este campo debe estar entre -180 y 180");
+		// else if (["bearing_uni","geounit","coord_repres","ref_bearing_dir","ref_bearing_mer"].includes(key) && includes_values[key].includes(value)) handleNotification(key, `Este campo debe ser uno de los siguientes valores: ${includes_values[key].join(", ")}`);
+		else handleNotification(key);
+	};
+	const checkData = () => {
+		//iter over data json object to check value o some keys
+
+		const keys = [
+			"absres",
+			"bearing_res",
+			"bearing_uni",
+			"coord_repres",
+			"depthres",
+			"distance_res",
+			"eastboundlongitude",
+			"geounit",
+			"lambertc_longcm",
+			"lambertc_stdparll",
+			"latres",
+			"longres",
+			"mercator_sfec",
+			"mercatort_latprjo",
+			"northboundlatitude",
+			"ordres",
+			"ref_bearing_dir",
+			"ref_bearing_mer",
+			"semiaxis",
+			"southboundlatitude",
+			"utm_zone",
+			"westboundlongitude",
+		];
+
+		//
+		for (const key of keys) {
+			try {
+				checkProp(key, data[key]);
+			} catch (err) {
+				console.error(err);
+			}
+		}
+	};
+
 	return (
 		<div className="p-4 bg-white dark:bg-black  max-h-full">
 			<Table>
@@ -196,11 +318,19 @@ export default function Create({ onEdit = true, record = undefined }) {
 								onClick={() =>
 									Alert(baseAlert(record, isTmp)).then((resp: any) => {
 										if (resp.isConfirmed) {
-											if (record !== undefined) {
-												updateRecord({ data, uid: data.uid ?? uid });
-											} else {
-												createRecord({ data });
-											}
+											//checkData();
+											if (notifications.length === 0) {
+												if (record !== undefined) {
+													updateRecord({ data, uid: data.uid ?? uid });
+												} else {
+													createRecord({ data });
+												}
+											} else
+												Alert({
+													titleText: "Atención",
+													text: "¡Hay errores en el formulario; por favor, revise las notificaciones en la barra de navegacióncd!",
+													icon: "warning",
+												});
 										} else if (resp.isDenied) {
 											if (record !== undefined) {
 												updateTemporal({

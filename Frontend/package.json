@@ -28,6 +28,7 @@
     "localforage": "^1.10.0",
     "lucide-react": "^0.263.1",
     "match-sorter": "^6.3.1",
+    "million": "^2.6.4",
     "moment": "^2.29.4",
     "momentjs": "^2.0.0",
     "primeicons": "^6.0.1",

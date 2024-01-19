@@ -52,7 +52,6 @@ export const MetadatosApi = createApi({
 				url: `metadatos/${uid}`,
 				method: "GET",
 			}),
-			
 		}),
 
 		postMetadato: mutation<IMetadatos, { data: IMetadatos }>({
