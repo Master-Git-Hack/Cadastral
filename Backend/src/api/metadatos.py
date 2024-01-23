@@ -104,6 +104,26 @@ async def get_id(
         return __response.error(message=str(e))
 
 
+@metadatos.get("/temporal/{uid}")
+async def get_temporal_id(
+    uid: str, user=Depends(required), db: Session = Depends(database.catastro_v2)
+):
+    if isinstance(user, dict):
+        return __response.error(**user)
+    try:
+        meta = __TMP(db=db)
+        if meta.filter(uid=uid) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+        data = meta.to_dict()
+        return __response.success(data=data.get("datos", data))
+    except Exception as e:
+        logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))
+
+
 @metadatos.post("/create")
 async def create(
     request: Request,

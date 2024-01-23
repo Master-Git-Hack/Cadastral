@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from dateparser import parse
 from jinja2 import Template
 from pdfkit import from_file
 from reportlab.lib.pagesizes import A4, letter
@@ -39,6 +42,19 @@ class ReporteMetadatos:
         data = {
             key: value if value is not None else ""
             for key, value in self.__meta.current.__dict__.items()
+        }
+        la
+        data |= {
+            key: value.strftime("%Y-%m-%d")
+            for key in {
+                "datestamp",
+                "date_creation",
+                "date",
+                "publication_date",
+                "update_date",
+                "data_last_update",
+            }
+            if isinstance((value := data[key]), datetime)
         }
 
         with open(f"{self.path}.html", "w", encoding="UTF-8") as file:
