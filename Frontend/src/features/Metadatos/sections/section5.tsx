@@ -51,7 +51,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 		spatialrepresentationtype === "Vector" ||
 		spatialrepresentationtype === "Raster" ||
 		spatialrepresentationtype === "TIN";
-	const justNumbers = (value: string) => parseFloat(value.replace(/[^0-9.]/g, ""));
+	const justNumbers = (value: string) => {
+		if (!value) return 0;
+		return parseFloat(value?.replace(/[^0-9.]/g, ""));
+	};
 	return (
 		<>
 			<Table.Head>

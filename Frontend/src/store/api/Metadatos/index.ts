@@ -47,9 +47,9 @@ export const MetadatosApi = createApi({
 			// 	return {  file:URL.createObjectURL(response) };
 			// },
 		}),
-		getMetadato: query<IMetadatos, { uid: string }>({
-			query: ({ uid }) => ({
-				url: `metadatos/${uid}`,
+		getMetadato: query<IMetadatos, { uid: string; isTemporal: boolean }>({
+			query: ({ uid, isTemporal }) => ({
+				url: `metadatos${isTemporal ? "/temporal/" : "/"}${uid}`,
 				method: "GET",
 			}),
 		}),

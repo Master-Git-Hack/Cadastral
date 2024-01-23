@@ -141,19 +141,22 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 					</Table.Cell>
 					<Table.Cell colSpan={9} className="w-9/12">
 						<Calendar
+							autoZIndex
 							value={data.date_creation}
 							dateFormat="yy-mm-dd"
+							visible
 							showButtonBar
 							onChange={(e) =>
 								setData({
 									...data,
-									date_creation: e.value,
+									date_creation: moment(e.value).format("YYYY-MM-DD").toString(),
 								})
 							}
-							className=" w-full md:w-14rem"
+							className=" w-full md:w-14rem text-black"
 							disabled={!editable}
 							inputClassName="text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 w-full md:w-14rem"
 						/>
+						<small className="font-xs">{data.date_creation}</small>
 					</Table.Cell>
 				</Table.Row>
 

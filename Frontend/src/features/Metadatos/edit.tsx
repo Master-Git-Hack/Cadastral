@@ -8,17 +8,22 @@ import Error from "../Error";
 import Create from "./create";
 import Toggle from "@components/Toggle";
 
-export default function EditMetadatos() {
+export default function EditMetadatos({ isTemporal = false }) {
 	const { uid } = useParams();
-	const { data, isLoading, isError, error } = useGetMetadatoQuery({ uid });
+
+	const { data, isLoading, isError, error } = useGetMetadatoQuery({
+		uid,
+		isTemporal,
+	});
+
 	if (!uid) return <Error message="No se ha seleccionado un metadato" />;
 
 	if (isLoading) return <Spinner size={20} />;
 	if (isError) return <Error message={error} />;
 
-	return <Edit data={data} />;
+	return <Edit data={data} isTemporal={isTemporal} />;
 }
-export const Edit = ({ data }: { data: IMetadatos }) => {
+export const Edit = ({ data, isTemporal }: { data: IMetadatos; isTemporal: boolean }) => {
 	const [editData, setEditData] = useState<boolean>(false);
 
 	return (
@@ -31,7 +36,7 @@ export const Edit = ({ data }: { data: IMetadatos }) => {
 			>
 				Editar
 			</Toggle>
-			<Create record={data.data} onEdit={editData} />
+			<Create record={data.data} onEdit={editData} isTemporal={isTemporal} />
 		</div>
 	);
 };

@@ -68,9 +68,9 @@ const baseAlert = (record: any, isTmp: boolean): object => {
 	return alert;
 };
 
-export default function Create({ onEdit = true, record = undefined }) {
+export default function Create({ onEdit = true, record = undefined, isTemporal = false }) {
 	const params = useParams();
-	const isTmp = params?.type === "temporal";
+	const isTmp = isTemporal;
 	const { uid } = params;
 	const { notifications } = useAppSelector(getNotifications);
 	const dispatch = useAppDispatch();

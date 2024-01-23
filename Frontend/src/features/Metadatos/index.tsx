@@ -198,7 +198,7 @@ export default function Metadatos() {
 									<Table.Cell className="px-6 py-4 text-right">
 										<NavLink
 											className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-											to={`edit/${uid}?type=temporal`}
+											to={`temporal/edit/${uid}`}
 										>
 											Editar
 										</NavLink>
