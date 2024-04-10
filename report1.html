@@ -1,0 +1,383 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Document</title>
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0vw 5vw;
+			font-size: 9.5px;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		th,
+		td {
+			text-align: center;
+			padding: 10px;
+			border: 1px solid #ddd;
+			height: fit-content;
+		}
+
+		.text-right {
+			text-align: right;
+		}
+
+		.text-left {
+			text-align: left;
+		}
+
+		.text-justify {
+			text-align: justify;
+		}
+
+		.red {
+			background-color: red;
+			color: white;
+			font-weight: bold;
+		}
+
+		.purple {
+			background-color: purple;
+			color: white;
+			font-weight: bold;
+		}
+
+		.green {
+			background-color: green;
+			color: white;
+			font-weight: bold;
+		}
+
+		.image {
+			width: 75%;
+			height: 75%;
+			object-fit: cover;
+		}
+
+		.cell-03x013 {
+			width: 4.5px;
+			/* 0.3 puntos = 4.5 píxeles */
+			height: 1.95px;
+			/* 0.13 puntos = 1.95 píxeles */
+		}
+
+		.cell-03x085 {
+			width: 4.5px;
+			/* 0.3 puntos = 4.5 píxeles */
+			height: 12.75px;
+			/* 0.85 puntos = 12.75 píxeles */
+		}
+
+		.cell-title {
+			width: 4.5px;
+			/* 0.3 puntos = 4.5 píxeles */
+			height: 6.3px;
+			/* 0.42 puntos = 6.3 píxeles */
+		}
+
+		.cell-016x013 {
+			width: 2.4px;
+			/* 0.16 puntos = 2.4 píxeles */
+			height: 1.95px;
+			/* 0.13 puntos = 1.95 píxeles */
+		}
+
+		.cell-022x013 {
+			width: 3.3px;
+			/* 0.22 puntos = 3.3 píxeles */
+			height: 1.95px;
+			/* 0.13 puntos = 1.95 píxeles */
+		}
+
+		.cell-022x085 {
+			width: 3.3px;
+			/* 0.22 puntos = 3.3 píxeles */
+			height: 12.75px;
+			/* 0.85 puntos = 12.75 píxeles */
+		}
+	</style>
+</head>
+
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th class="cell-title" colspan="17">COMPARABLES DE {{TIPO_COMPARABLE}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+				<!-- {% if valor[0] == 'T' %}
+					<td class="red" colspan="4">{{ID}}</td>
+					{% elif valor[0] == 'R' %}
+					<td class="purple" colspan="4">{{ID}}</td>
+					{%else%} -->
+				<td class="green" colspan="4">{{ID}}</td>
+				<!-- {% endif %} -->
+				<td colspan="3"></td>
+				<td></td>
+				<td colspan="5"></td>
+				<td colspan="2">{{COMERCIAL_FRENTE}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="17"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7">
+					<img class="image" src="./picture1.jpg" />
+				</td>
+				<td></td>
+				<td colspan="7"><img class="image" src="./picture2.jpg" /></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7">COMPARABLE {{COMPARABLE}}</td>
+				<td></td>
+				<td colspan="7">MICROLOCALIZACIÓN</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7" class="text-left"><strong>DATOS DE VERIFICACIÓN</strong></td>
+				<td></td>
+
+				<td colspan="7" class="text-left"><strong>CARACTERÍSTICAS</strong></td>
+
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>FECHA DE CAPTURA:</strong></td>
+				<td class="text-left" colspan="5">{{FECHA_CAPTURA}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>PERIFERIA:</strong></td>
+				<td colspan="5" class="text-left">{{PERIFERIA}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>TIPO DE INMUEBLE:</strong></td>
+				<td class="text-left" colspan="5">{{TIPO_INMUEBLE}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>ZONA ECONÓMICA:</strong></td>
+				<td colspan="5" class="text-left">{{ZONA_ECONOMICA}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>INFORMANTE:</strong></td>
+				<td class="text-left" colspan="5">{{INFORMANTE}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>USO DE SUELO:</strong></td>
+				<td colspan="5" class="text-left">{{USO_SUELO}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>TELEFONO DEL INFORMANTE:</strong></td>
+				<td class="text-left" colspan="5">{{TELEFONO_INFORMANTE}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>ENTRE CALLES:</strong></td>
+				<td colspan="5" class="text-left">{{ENTRE_CALLES}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2" rowspan="2"><strong>URL FUENTE:</strong></td>
+				<td class="text-left" colspan="5" rowspan="2"><i>{{URL_FUENTE}}</i></td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>UBICACIÓN EN LA MZA: </strong></td>
+				<td colspan="5" class="text-left">{{UBICACACION_MZA}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>SUPERFICIE: </strong></td>
+				<td colspan="5" class="text-left">{{SUPERFICIE}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>TIPO DE OPERACIÓN:</strong></td>
+				<td class="text-left" colspan="5">{{TIPO_OPERACION}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>No. DE FRENTES: </strong></td>
+				<td colspan="5" class="text-left">{{NO_FRENTES}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7"></td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>FRENTE ML: </strong></td>
+				<td colspan="5" class="text-left">{{FRENTE_ML}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7" class="text-left"><strong>UBICACIÓN</strong></td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>FRENTE TIPO: </strong></td>
+				<td colspan="2" class="text-left">{{FRENTE_TIPO}}</td>
+				<td class="text-right"><strong>FONDO: </strong></td>
+				<td colspan="2" class="text-left">{{FONDO}}</td>
+
+				<td></td>
+			</tr>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>ESTADO:</strong></td>
+				<td class="text-left" colspan="5">{{ESTADO}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>FORMA: </strong></td>
+				<td colspan="5" class="text-left">{{FORMA}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>MUNICIPIO:</strong></td>
+				<td class="text-left" colspan="5">{{MUNICIPIO}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>TOPOGRAFÍA: </strong></td>
+				<td colspan="5" class="text-left">{{TOPOGRAFIA}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>CIUDAD/POBLACIÓN:</strong></td>
+				<td class="text-left" colspan="5">{{CIUDAD}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>SERVICIOS: </strong></td>
+				<td colspan="5" class="text-left">{{SERVICIOS}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>ASENTAMIENTO:</strong></td>
+				<td class="text-left" colspan="5">{{ASENTAMIENTO}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>RÉGIMEN DE PROPIEDAD: </strong></td>
+				<td colspan="5" class="text-left">{{REGIMEN_PROPIEDAD}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>NOMBRE DE LA VIALIDAD:</strong></td>
+				<td class="text-left" colspan="5">{{NOMBRE_VIALIDAD}}</td>
+				<td></td>
+				<td class="text-right" colspan="7"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>No. EXTERIOR:</strong></td>
+				<td class="text-left" colspan="2">{{NO_EXTERIOR}}</td>
+				<td class="text-right"><strong>No. INTERIOR:</strong></td>
+				<td class="text-left" colspan="2">{{NO_INTERIOR}}</td>
+				<td></td>
+				<td class="text-left" colspan="7"><strong>VALORES:</strong></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>EDIFICIO PREDIO PROTOTIPO:</strong></td>
+				<td class="text-left" colspan="5">{{EDIFICIO_PREDIO_PROTOTIPO}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>PRECIO: </strong></td>
+				<td colspan="5" class="text-right">{{PRECIO}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>COORDENADAS:</strong></td>
+				<td class="text-right">X</td>
+				<td class="text-left">{{COORDENADA_X}}</td>
+				<td class="text-right">Y</td>
+				<td class="text-left" colspan="2">{{COORDENADA_Y}}</td>
+				<td></td>
+				<td class="text-right" colspan="2"><strong>PRECIO UNITARIO:</strong></td>
+				<td colspan="5" class="text-right">{{PRECIO_UNITARIO}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7"></td>
+				<td></td>
+				<td colspan="2"><strong>PRECIO USD:</strong></td>
+				<td></td>
+				<td colspan="4"><strong>PRECIO UNITARIO USD:</strong></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7" class="text-left"><strong>OBSERVACIONES:</strong></td>
+				<td></td>
+				<td colspan="2">{{PRECIO_USD}}</td>
+				<td></td>
+				<td colspan="4">{{PRECIO_UNITARIO_USD}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7" class="text-justify" rowspan="3">{{OBSERVACIONES}}</td>
+				<td></td>
+				<td colspan="2"><strong>INFRAESTRUCTURA</strong></td>
+
+				<td colspan="5">{{INFRAESTRUCTURA}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				
+				<td></td>
+				<td colspan="7" class="text-justify" rowspan="2">{{}}</td>
+				<td></td>
+			</tr>
+			<tr></tr>
+			<tr>
+				<td></td>
+				<td colspan="2"><strong>ELABORÓ</strong></td>
+				<td colspan="5">{{ELABORO}}</td>
+				<td></td>
+				<td colspan="7"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7">
+					<img class="image" src="./picture3.jpg" />
+				</td>
+				<td></td>
+				<td colspan="7"><img class="image" src="./picture4.jpg" /></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="7"><strong>RECORTE DE PANTALLA</strong></td>
+				<td></td>
+				<td colspan="7"><strong>2DO. RECORTE DE PANTALLA, USO DE SUELO O MACROLOCALIZACIÓN</strong></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+
+</html>
