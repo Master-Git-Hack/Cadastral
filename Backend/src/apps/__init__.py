@@ -1,8 +1,10 @@
 """"Append methods to use between apps."""
+
 # from .Auth import admin_token_required, token_required
 # from .Auth.api import *
 from .Catastro import Catastral
 from .Catastro.Reportes.api import *
+from .Comparables.api import *
 from .Justipreciacion.api import *
 
 # class Required:

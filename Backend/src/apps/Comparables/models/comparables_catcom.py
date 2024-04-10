@@ -57,9 +57,9 @@ class ComparablesCatCom(db.Model):
     unidades_rentables = Column(Integer)
     descripcion_espacios = Column(String)
     agua = Column(Integer)
-    dreanaje = Column(Integer)
+    drenaje = Column(Integer)
     energia_electrica = Column(Integer)
-    alumbrado_publico = Column(Integer)
+    alumbrado_pubkico = Column(Integer)
     banqueta = Column(Integer)
     pavimento = Column(Integer)
     telefonia = Column(Integer)
@@ -69,6 +69,7 @@ class ComparablesCatCom(db.Model):
     precio_dolar = Column(Float)
     observaciones = Column(String)
     usuario = Column(String)
+    fh_modificacion = Column(Date, default=datetime.now)
     # descripcion = Column(Text)
     # costo_directo = Column(Float)
     # indirectos = Column(Float)
@@ -81,7 +82,7 @@ class ComparablesCatCom(db.Model):
     # registro = Column(String())
     # redondeo = Column(Integer, default=0)
 
-    def __init__(self, kwargs: dict) -> None:
+    def __init__(self, **kwargs: dict) -> None:
         """Constructor de la tabla para el calculo del valor unitario de construccion.
 
         Args:
@@ -96,7 +97,7 @@ class ComparablesCatCom(db.Model):
 db.create_all()
 
 
-class CostoConstuccionSchema(ma.Schema):
+class ComparablesCatComSchema(ma.Schema):
     """Class for serializing costo constuccion data"""
 
     fields = (
@@ -145,7 +146,7 @@ class CostoConstuccionSchema(ma.Schema):
         "unidades_rentables",
         "descripcion_espacios",
         "agua",
-        "dreanaje",
+        "drenaje",
         "energia_electrica",
         "alumbrado_publico",
         "banqueta",
@@ -159,4 +160,4 @@ class CostoConstuccionSchema(ma.Schema):
     )
 
 
-costoConstuccionSchema = CostoConstuccionSchema()
+comparablesCatComSchema = ComparablesCatComSchema()
