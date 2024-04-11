@@ -1,2 +1,0 @@
-include src/*
-global-exclude *.pyc

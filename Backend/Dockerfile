@@ -1,7 +1,7 @@
-FROM python:3.9.14-slim
-LABEL version="1.0.0"
+FROM python:3.11.9-slim-bullseye
+LABEL version='2.0.0'
 LABEL description="Backend Server's Image"
-LABEL mantenier="Einar Jhordany Serna Valdivia<e.serna.1a.43@gmail.com>"
+LABEL mantenier='Einar Jhordany Serna Valdivia<eserna@guanajuato.gob.mx>'
 WORKDIR /usr/src/Backend
 COPY . /usr/src/Backend
 RUN apt-get update --allow-releaseinfo-change && \
@@ -16,7 +16,11 @@ RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/w
 
 RUN python -m pip install --upgrade pip && \
     pip install reportlab psycopg2-binary==2.9.3 pandas && \
-    pip install --no-cache-dir -r /usr/src/Backend/requirements.txt
+    pip install --no-cache-dir -r /usr/src/Backend/requirements.v1.txt &&\
+    pip install --no-cache-dir -r /usr/src/Backend/requirements.v2.txt 
+
+RUN apt autoclean && apt autoremove && rm -rf /var/lib/apt/lists/*
+RUN chmod +x start.sh
 
 ENV LANG=es_MX.UTF-8
 ENV LC_ALL=es_MX.UTF-8
@@ -34,5 +38,6 @@ ENV CORS_ORIGIN="*"
 ENV TEMPORARY_PATH=tmp
 ENV DATABASE_URL='postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432/valuaciones'
 
-EXPOSE 56733
-CMD ["flask", "run"]
+
+EXPOSE 5000 56733
+CMD ["sh", "./run.dev.sh"]
