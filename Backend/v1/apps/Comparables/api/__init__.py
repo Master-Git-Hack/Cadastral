@@ -33,7 +33,6 @@ class RegistroComparable(Resource):
                 operation="COMPARABLES",
             )
         else:
-
             return Response.success(
                 data=ComparablesCatComSchema().dump(__comparable),
                 message="Datos obtenidos exitosamente",

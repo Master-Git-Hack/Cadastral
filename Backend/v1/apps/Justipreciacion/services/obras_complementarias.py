@@ -1,7 +1,8 @@
 """Services file to handle Obras Complementarias (OC for short) operations"""
+
 from typing import Dict, Tuple
 
-from src.apps.Justipreciacion.models import Justipreciacion
+from v1.apps.Justipreciacion.models import Justipreciacion
 
 from ....utils.dbo import save_changes
 from ....utils.response import Response

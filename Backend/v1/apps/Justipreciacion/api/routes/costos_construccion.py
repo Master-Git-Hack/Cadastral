@@ -3,7 +3,7 @@ from typing import Dict, Optional, Tuple
 from flask import request
 from flask_restx import Resource
 
-from src.apps.Justipreciacion.services import patch_justipreaciacion_from_cc
+from v1.apps.Justipreciacion.services import patch_justipreaciacion_from_cc
 
 from ...services.costos_construccion import (
     get_costos_construccion,
