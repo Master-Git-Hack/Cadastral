@@ -15,7 +15,7 @@ RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/w
     rm wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
 
 RUN python -m pip install --upgrade pip && \
-    pip install reportlab psycopg2-binary pandas && \
+    pip install reportlab psycopg2-binary==2.9.3 pandas && \
     pip install --no-cache-dir -r /usr/src/Backend/requirements.txt
 
 ENV LANG=es_MX.UTF-8

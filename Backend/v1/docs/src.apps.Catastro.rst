@@ -1,5 +1,5 @@
-src.apps package
-================
+src.apps.Catastro package
+=========================
 
 Subpackages
 -----------
@@ -7,12 +7,12 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   src.apps.Auth
+   src.apps.Catastro.Reportes
 
 Module contents
 ---------------
 
-.. automodule:: src.apps
+.. automodule:: src.apps.Catastro
    :members:
    :undoc-members:
    :show-inheritance:
