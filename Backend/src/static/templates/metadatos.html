@@ -1,0 +1,324 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="es-Latn">
+	<head>
+		<title>{{title}}</title>
+		<!-- @format -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<style>
+			body {
+				font-family: 'Times New Roman', Times, serif;
+				line-height: 1.5;
+				margin: 50;
+				padding: 0;
+				font-size: 14px;
+			}
+
+			header {
+				text-align: center;
+				background-color: white;
+				padding: 20px;
+			}
+
+			header h1 {
+				margin: 0;
+			}
+
+			nav ul {
+				list-style-type: none;
+				padding: 0;
+				background-color: #fff; /* Cambiado a blanco */
+				overflow: hidden;
+			}
+
+			nav li {
+				display: block; /* Cambiado a bloque */
+				margin: 0;
+				counter-increment: section;
+			}
+
+			nav a {
+				display: inline;
+				color: #333;
+				text-align: left; /* Cambiado a izquierda */
+				padding: 14px 16px;
+				text-decoration: none;
+			}
+
+			main section {
+				margin-bottom: 30px;
+			}
+
+			main h2,
+			main h3,
+			main h4,
+			main h5,
+			main h6 {
+				color: #333;
+			}
+
+			main h2 {
+				color: #333;
+				text-align: center;
+			}
+			p {
+				text-align: justify;
+			}
+			footer {
+				text-align: center;
+				padding: 10px;
+				background-color: white;
+				color: black;
+			}
+
+			nav li::before {
+				content: counter(section) '. '; /* Agrega el número y el punto antes del texto */
+				color: #555;
+				font-weight: bold;
+				margin-right: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>{{title}}</h1>
+		</header>
+		<nav>
+			<ul>
+				<li><a href="#seccion1">Identificación del conjunto de datos espaciales o producto</a></li>
+				<li>
+					<a href="#seccion2">Fechas relacionadas con el conjunto de datos espaciales o producto</a>
+				</li>
+				<li>
+					<a href="#seccion3"
+						>Unidad del estado responsable del conjunto de datos espaciales o producto</a
+					>
+				</li>
+				<li>
+					<a href="#seccion4"
+						>Localización geográfica del conjunto de datos espaciales o producto (Representación
+						espacial)</a
+					>
+				</li>
+				<li>
+					<a href="#seccion5">Sistema de Referencia</a>
+				</li>
+				<li><a href="#seccion6">Calidad de la información</a></li>
+				<li><a href="#seccion7">Entidades y Atributos</a></li>
+				<li><a href="#seccion8">Distribución</a></li>
+				<li><a href="#seccion9">Información de metadatos</a></li>
+			</ul>
+		</nav>
+		<main>
+			<section id="seccion1">
+				<h2>Identificación del conjunto de datos espaciales o producto</h2>
+				<h3>1.1 Título del conjunto de datos espaciales o producto.</h3>
+				<p>{{title}}</p>
+				<h3>1.2 Propósito.</h3>
+				<p>{{purpose}}</p>
+				<h3>1.3 Descripción del conjunto de datos espaciales o producto.</h3>
+				<p>{{abstract}}</p>
+				<h3>1.4 Idioma del conjunto de datos espaciales o producto.</h3>
+				<p>{{md_dataidentification_language}}</p>
+				<h3>1.5 Categoría del tema del conjunto de datos espaciales o producto.</h3>
+				<h4>1.5.1 Tema principal del conjunto de datos espaciales o producto.</h4>
+				<p>{{topiccategory}}</p>
+				<h4>1.5.2 Grupo de datos del conjunto de datos espaciales o producto.</h4>
+				<p>{{groupcategory}}</p>
+				<h3>1.6 Palabra clave.</h3>
+				<p>{{keywords}}</p>
+				<h3>1.10 Forma de presentación de los datos espaciales.</h3>
+				<p>{{presentationform}}</p>
+				<h3>1.11 Enlace en línea.</h3>
+				<h4>1.11.1 URL del recurso.</h4>
+				<p>{{ci_onlineresource_linkage}}</p>
+				<h3>1.12 Frecuencia de mantenimiento y actualización.</h3>
+				<p>{{maintenanceandupdatefrequency}}</p>
+				<h3>1.13 Conjunto de caracteres.</h3>
+				<p>{{md_dataidentification_characterset}}</p>
+				<h3>1.15 Uso específico.</h3>
+				<p>{{specuse}}</p>
+			</section>
+
+			<section id="seccion2">
+				<h2>Fechas relacionadas con el conjunto de datos espaciales o producto</h2>
+				<h3>2.1 Fechas y eventos.</h3>
+				<h4>2.1.1 Fecha de referencia del conjunto de datos espaciales o producto.</h4>
+				<p>{{datestamp}}</p>
+				<h4>2.1.2 Tipo de fecha.</h4>
+				<p>{{datetype}}</p>
+				<h3>
+					2.2 Fechas de los insumos tomados para la elaboración del producto o conjunto de datos
+					espaciales.
+				</h3>
+				<h4>2.2.1 Fecha de creación de los insumos.</h4>
+				<p>{{date_creation}}</p>
+				<h4>2.2.4 Nombre del Insumo.</h4>
+				<p>{{inpname}}</p>
+			</section>
+			<section id="seccion3">
+				<h2>Unidad del estado responsable del conjunto de datos espaciales o producto</h2>
+				<h3>3.1 Nombre de la persona de contacto.</h3>
+
+				<p>{{ci_responsibleparty_individualname}}</p>
+				<h3>3.2 Nombre de la organización.</h3>
+				<p>{{ci_responsibleparty_organisationname}}</p>
+				<h3>3.3 Puesto del contacto.</h3>
+				<p>{{ci_responsibleparty_positionname}}</p>
+				<h3>3.12 Enlace en línea (dirección de Internet de referencia).</h3>
+				<p>{{ci_responsibleparty_linkage}}</p>
+				<h3>3.13 Rol.</h3>
+				<p>{{ci_responsibleparty_role}}</p>
+			</section>
+			<section id="seccion4">
+				<h2>
+					Localización geográfica del conjunto de datos espaciales o producto (Representación
+					espacial)
+				</h2>
+				<h3>4.1 Localización geográfica del conjunto de datos espaciales o producto</h3>
+				<h4>4.1.1 Coordenada límite al Oeste</h4>
+				<p>{{westboundlongitude}}</p>
+				<h4>4.1.2 Coordenada límite al Este</h4>
+				<p>{{eastboundlongitude}}</p>
+				<h4>4.1.3 Coordenada límite al Sur</h4>
+				<p>{{southboundlatitude}}</p>
+				<h4>4.1.4 Coordenada límite al Norte</h4>
+				<p>{{northboundlatitude}}</p>
+				<h3>4.2 Tipo de representación espacial</h3>
+				<p>{{spatialrepresentationtype}}</p>
+			</section>
+			<section id="seccion5">
+				<h2>Sistema de Referencia</h2>
+				<h3>5.1 Sistema de Referencia Horizontal.</h3>
+				<h4>5.1.1 Coordenadas Geográficas.</h4>
+				<h5>5.1.1.1 Resolución de latitud.</h5>
+				<p>{{latres}}</p>
+				<h5>5.1.1.2 Resolución de longitud.</h5>
+				<p>{{longres}}</p>
+				<h5>5.1.1.3 Unidades de coordenadas geográficas.</h5>
+				<p>{{geogunit}}</p>
+				<h4>5.1.2 Coordenadas Planas.</h4>
+				<h5>5.1.2.1 Proyección Cartográfica.</h5>
+				<h6>5.1.2.1.1.1 Paralelo estándar.</h6>
+				<p>{{lambertc_stdparll}}</p>
+				<h6>5.1.2.1.1.2 Longitud del meridiano central.Revisar tambien los puntos 5.1.2.1.2.2,</h6>
+				<p>{{lambertc_longcm}}</p>
+				<h6>5.1.2.1.1.3 Latitud del origen de proyección.</h6>
+				<p>{{mercatort_latprjo}}</p>
+				<h6>5.1.2.1.1.4 Falso este.</h6>
+				<p>{{mercator_feast}}</p>
+				<h6>5.1.2.1.1.5 Falso norte.</h6>
+				<p>{{mercator_fnorth}}</p>
+				<h6>5.1.2.1.2.1 Factor de escala en el meridiano central.</h6>
+				<p>{{mercator_sfec}}</p>
+				<h5>5.1.2.2 Sistema de Coordenadas de Cuadrícula.</h5>
+				<h6>5.1.2.2.1 Universal Transversa de Mercator.</h6>
+				<h6><i>5.1.2.2.1.1 Número de zona UTM.</i></h6>
+				<p>{{utm_zone}}</p>
+				<h5>5.1.2.3 Plana Local.</h5>
+				<h6>5.1.2.3.1 Descripción de la Plana Local.</h6>
+				<p>{{local_desc}}</p>
+				<h6>5.1.2.3.2 Información de Georreferencia de la Plana Local.</h6>
+				<p>{{local_geo_inf}}</p>
+				<h6>5.1.2.3.4 Información de coordenadas planas.</h6>
+				<h6><i>5.1.2.3.4.1 Método codificado de coordenada plana.</i></h6>
+				<p>{{coord_repres}}</p>
+				<h6><i>5.1.2.3.4.2.2.1 Resolución de abscisa.</i></h6>
+				<p>{{ordres}}</p>
+				<h6><i>5.1.2.3.4.2.2.2 Resolución de ordenada.</i></h6>
+				<p>{{absres}}</p>
+				<h6>5.1.2.4.3 Representación de distancia y rumbo.</h6>
+				<h6><i>5.1.2.4.3.1 Resolución de distancia.</i></h6>
+				<p>{{distance_res}}</p>
+				<h6><i>5.1.2.4.3.2 Resolución de rumbo.</i></h6>
+				<p>{{bearing_res}}</p>
+				<h6><i>5.1.2.4.3.3 Unidades de rumbo.</i></h6>
+				<p>{{bearing_uni}}</p>
+				<h6><i>5.1.2.4.3.4 Dirección del rumbo de referencia.</i></h6>
+				<p>{{ref_bearing_dir}}</p>
+				<h6><i>5.1.2.4.3.5 Meridiano del rumbo de referencia.</i></h6>
+				<p>{{ref_bearing_mer}}</p>
+				<h6><i>5.1.2.4.4 Unidades de distancia plana.</i></h6>
+				<p>{{plandu}}</p>
+				<h4>5.1.3 Coordenadas Locales.</h4>
+				<h5>5.1.3.1 Descripción Local.</h5>
+				<p>{{local_desc}}</p>
+				<h5>5.1.3.2 Información de Georreferenciación Local.</h5>
+				<p>{{local_geo_inf}}</p>
+				<h5>5.1.4.1 Nombre del datum horizontal.</h5>
+				<p>{{horizdn}}</p>
+				<h5>5.1.4.2 Nombre del elipsoide.</h5>
+				<p>{{ellips}}</p>
+				<h5>5.1.4.3 Semieje mayor.</h5>
+				<p>{{semiaxis}}</p>
+				<h3>5.2 Sistema de Referencia Vertical.</h3>
+				<h4>5.2.1.1 Nombre del datum de altitud.</h4>
+				<p>{{altenc}}</p>
+				<h4>5.2.1.2 Resolución de altitud.</h4>
+				<p>{{altres}}</p>
+				<h4>5.2.1.3 Unidades de distancia de altitud.</h4>
+				<p>{{altunits}}</p>
+				<h4>5.2.1.4 Método codificado de altitud.</h4>
+				<p>{{altdatum}}</p>
+				<h4>5.2.2.1 Nombre del datum de profundidad.</h4>
+				<p>{{depthdn}}</p>
+				<h4>5.2.2.2 Resolución de profundidad.</h4>
+				<p>{{depthres}}</p>
+				<h4>5.2.2.3 Unidades de distancia de profundidad.</h4>
+				<p>{{depthdu}}</p>
+			</section>
+			<section id="seccion6">
+				<h2>Calidad de la información</h2>
+				<h3>6.1 Alcance o ámbito</h3>
+				<h4>6.1.1 Nivel.</h4>
+				<p>{{level}}</p>
+				<h5>6.2.1.1 Nombre del subcriterio de calidad evaluado.</h5>
+				<p>{{dq_quantitativeresult}}</p>
+				<h6>6.2.2.1.1 Nombre de la prueba.</h6>
+				<p>{{dq_completeness_nameofmeasure}}</p>
+				<h6>6.2.2.1.2 Descripción de la prueba.</h6>
+				<p>{{dq_completeness_measuredescription}}</p>
+				<h6><i>6.2.2.1.3.1 Resultado cuantitativo.</i></h6>
+				<h6><i>6.2.2.1.3.1.1 Unidad de valor.</i></h6>
+				<p>{{positionalaccuracy_valueunit}}</p>
+				<h3>6.3 Linaje</h3>
+				<h4>6.3.1 Enunciado</h4>
+				<p>{{statement}}</p>
+				<h4>6.3.2 Pasos del proceso.</h4>
+				<p>{{li_processstep}}</p>
+				<h4>6.3.3 Fuente.</h4>
+				<p>{{li_source}}</p>
+			</section>
+			<section id="seccion7">
+				<h2>Entidades y Atributos</h2>
+				<h3>7.1 Descripción general de entidades y atributos.</h3>
+				<p>{{entity_detail}}</p>
+
+				<h3>7.2 Cita del detalle de entidades y atributos.</h3>
+				<p>{{graphfilename}}</p>
+			</section>
+			<section id="seccion8">
+				<h2>Distribución</h2>
+				<h4>8.4.1 Nombre del formato.</h4>
+				<p>{{md_format}}</p>
+
+				<h4>8.4.2 Versión del formato.</h4>
+				<p>{{edition}}</p>
+			</section>
+			<section id="seccion">
+				<h2>Información de metadatos</h2>
+				<h3>9.1 Nombre del estándar de metadatos.</h3>
+				<p>{{metadatastandardname}}</p>
+				<h3>9.3 Idioma de los Metadatos.</h3>
+				<p>{{metadatastandardversion}}</p>
+				<h3>9.5 Fecha de los metadatos.</h3>
+				<p>{{date}}</p>
+			</section>
+		</main>
+		<footer>
+			<p>&copy; Dirección de Catastro</p>
+		</footer>
+	</body>
+</html>
