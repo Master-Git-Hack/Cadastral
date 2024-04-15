@@ -55,3 +55,7 @@ app.include_router(metadatos, prefix=config.API_URL_PREFIX)
 from .parser import parser
 
 app.include_router(parser, prefix=config.API_URL_PREFIX)
+
+from .comparables import comparables
+
+app.include_router(comparables, prefix=config.API_URL_PREFIX)

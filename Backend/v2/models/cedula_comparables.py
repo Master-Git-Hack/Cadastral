@@ -7,12 +7,12 @@ from ..middlewares.database import Template
 class Model(database.BASE):
     """Cedula Comparables model"""
 
-    __tablename__ = "cedula_comparables"
+    __tablename__ = "cedula_comparable"
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     tipo = Column(String)
     id_cedula_mercado = Column(Integer)
-    id_comparables_catcom = Column(Integer)
+    id_comparable_catcom = Column(Integer)
 
     def __init__(self, **kwargs: dict) -> None:
         """Constructor de la tabla para el calculo del valor unitario de construccion.

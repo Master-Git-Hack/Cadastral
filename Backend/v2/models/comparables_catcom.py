@@ -61,7 +61,7 @@ class Model(database.BASE):
     agua = Column(Integer)
     drenaje = Column(Integer)
     energia_electrica = Column(Integer)
-    alumbrado_pubkico = Column(Integer)
+    alumbrado_publico = Column(Integer)
     banqueta = Column(Integer)
     pavimento = Column(Integer)
     telefonia = Column(Integer)

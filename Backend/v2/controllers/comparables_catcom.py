@@ -1,3 +1,13 @@
+from os.path import exists
+from typing import List, Optional, Set
+
+from jinja2 import Template
+from reportlab.lib.pagesizes import A4, letter
+from reportlab.pdfgen import canvas
+
+from .. import config
+from ..models.comparables_catcom import ComparablesCatcom
+from ..utils.local import as_complete_date, as_currency, as_percentage, with_decimals
 from ..utils.pdf import PDFMaker as PDF
 from ..utils.tmp import name_it as tmp_filename
 
@@ -98,3 +108,60 @@ cedulas_mercado_keys: dict = {
     "": "INFRAESTRUCTURA",
     "": "ELABORO",
 }
+
+
+def render(data: List[dict] | dict, type: str = "mercado"):
+    template: Template = Template(open(f"{config.PATHS.templates}/{type}.html").read())
+    files: List[str] = []
+    if type == "mercado":
+        keys = mercado_keys
+    else:
+        keys = cedulas_mercado_keys
+    if isinstance(data, list):
+        for predio in data:
+            with open(f"{(filename:=tmp_filename())}.html", "w", encoding="UTF-8") as f:
+                f.write(
+                    template.render(
+                        **{
+                            keys.get(key, key.upper()): value
+                            for key, value in predio.items()
+                        }
+                    )
+                )
+            files.append(filename)
+    else:
+        with open(f"{(filename:=tmp_filename())}.html", "w", encoding="UTF-8") as f:
+            f.write(
+                template.render(
+                    **{keys.get(key, key.upper()): value for key, value in data.items()}
+                )
+            )
+        files.append(filename)
+    return files
+
+
+def check(**kawrgs):
+    comparables = ComparablesCatcom()
+    if comparables.filter(**kawrgs) is None:
+        return False
+    return comparables.to_dict()
+
+
+class ComparablesCatCom:
+    files: Optional[List[str]] = None
+    merged: Optional[str] = None
+    current: Optional[str] = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.files = None
+        self.merged = None
+        self.current = None
+
+    def create(self, **kwargs):
+        if not (data := check(**kwargs)):
+            return None
+        self.files = render(data)
+        return self.files
