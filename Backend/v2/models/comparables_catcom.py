@@ -3,9 +3,9 @@
 from datetime import datetime
 from typing import Any, Dict
 
-from sqlalchemy import Boolean, Column, Date, Float, Integer, String
+from sqlalchemy import Column, Date, Float, Integer, String
 
-from .. import config, database
+from .. import database
 from ..middlewares.database import Template
 
 
@@ -59,9 +59,9 @@ class Model(database.BASE):
     unidades_rentables = Column(Integer)
     descripcion_espacios = Column(String)
     agua = Column(Integer)
-    dreanaje = Column(Integer)
+    drenaje = Column(Integer)
     energia_electrica = Column(Integer)
-    alumbrado_publico = Column(Integer)
+    alumbrado_pubkico = Column(Integer)
     banqueta = Column(Integer)
     pavimento = Column(Integer)
     telefonia = Column(Integer)
@@ -71,15 +71,10 @@ class Model(database.BASE):
     precio_dolar = Column(Float)
     observaciones = Column(String)
     usuario = Column(String)
+    fh_modificacion = Column(Date, default=datetime.now)
 
     def __init__(self, **kwargs: Dict[str, Any]) -> None:
-        """Constructor de la tabla para el calculo del valor unitario de construccion.
 
-        Args:
-            collection (dict): data array with the values to be added
-        Returns:
-            None
-        """
         for key, value in kwargs.items():
             setattr(self, key, value)
 

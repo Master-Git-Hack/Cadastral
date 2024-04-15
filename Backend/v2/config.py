@@ -3,7 +3,7 @@
 from datetime import timedelta
 from os import environ
 from os.path import abspath, dirname, join
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from uuid import uuid4
 
 from dotenv import load_dotenv
@@ -61,9 +61,9 @@ class __Base(object):
         authjwt_algorithm: str = environ.get("AUTHJWT_ALGORITHM", "HS512")
         authjwt_secret_key: str = str(SECRET_KEY).replace("'", '"')
         authjwt_denylist_enabled: bool = True
-        authjwt_denylist_token_checks: set = environ.get(
-            "AUTHJWT_DENYLIST_TOKEN_CHECKS", ["access"]
-        )
+        # authjwt_denylist_token_checks: set = environ.get(
+        #     "AUTHJWT_DENYLIST_TOKEN_CHECKS", ["access"]
+        # )
         # authjwt_csrf_methods: Tuple = ("POST", "PUT", "PATCH", "DELETE")
         authjwt_access_token_expires = timedelta(hours=7)
 

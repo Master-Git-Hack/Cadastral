@@ -31,6 +31,7 @@ class Model(database.BASE):
         Integer,
         primary_key=True,
     )
+
     registro = Column(String, unique=True)
     solicitante = Column(String)
     oficio_solicitud = Column(String)

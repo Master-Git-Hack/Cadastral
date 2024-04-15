@@ -15,7 +15,7 @@ RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/w
     rm wkhtmltox_0.12.6.1-2.bullseye_amd64.deb
 
 RUN python -m pip install --upgrade pip && \
-    pip install reportlab psycopg2-binary==2.9.3 pandas && \
+    pip install reportlab psycopg2-binary pandas && \
     pip install --no-cache-dir -r /usr/src/Backend/requirements.v1.txt &&\
     pip install --no-cache-dir -r /usr/src/Backend/requirements.v2.txt 
 
@@ -53,9 +53,7 @@ ENV CORS_ALLOW_HEADERS=Authorization
 ENV CORS_EXPOSE_HEADERS=Authorization
 ENV HOST="http://172.31.103.46:3000"
 ENV DB_NAMES="valuaciones,catastro_v2"
-ENV AUTHJWT_TOKEN_LOCATION="headers"
 ENV AUTHJWT_ALGORITHM="HS512"
-ENV AUTHJWT_DENYLIST_TOKEN_CHECKS="access"
 ENV TEMPORARY_PATH="tmp"
 ENV STATIC_PATH="static"
 ENV TEMPLATES="templates"

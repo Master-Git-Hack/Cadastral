@@ -1,4 +1,5 @@
 """Principal File to handle the app"""
+
 import logging
 import sys
 
