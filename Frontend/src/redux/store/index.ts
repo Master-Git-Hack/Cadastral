@@ -1,3 +1,4 @@
+import { Comparable } from './../../views/Comparables/comparable';
 /** @format */
 
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
@@ -6,6 +7,7 @@ import Justipreciacion from "../justipreciacion";
 import CostosConstruccion from "../justipreciacion/costosConstruccion";
 import ObrasComplementarias from "../justipreciacion/obrasComplementarias";
 import AvaluosCatastrales from "../catastral";
+import Comparables from "../comparables";
 /* Creating a store with the reducers and middleware. */
 export const store = configureStore({
 	reducer: {
@@ -14,6 +16,7 @@ export const store = configureStore({
 		CostosConstruccion,
 		ObrasComplementarias,
 		AvaluosCatastrales,
+		Comparables,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });

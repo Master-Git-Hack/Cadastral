@@ -8,7 +8,7 @@ import Homologacion from "./Justipreciacion/Homologacion";
 import ObrasComplementarias from "./Justipreciacion/ObrasComplementarias";
 import CostosConstruccion from "./Justipreciacion/CostosConstruccion";
 import Catastral from "./Catastral";
-
+import Comparables from "./Comparables";
 export const IndexPage = () => (
 	<div className="container container-fluid text-center px-5 my-3">
 		<h1>Bienvenido</h1>
@@ -37,6 +37,7 @@ export const SinglePages = () => (
 		<Route path="/homologaciones/" element={<Homologacion />} />
 		<Route path="/homologaciones/OC" element={<ObrasComplementarias />} />
 		<Route path="/homologaciones/CC" element={<CostosConstruccion />} />
+		<Route path="/comparables" element={<Comparables />} />
 		<Route path="*" element={<ErrorPage />} />
 	</Routes>
 );
