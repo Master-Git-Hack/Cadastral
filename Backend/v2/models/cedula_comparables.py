@@ -1,18 +1,32 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
 from .. import database
 from ..middlewares.database import Template
 
 
-class Model(database.BASE):
+class _CedulaComparables(database.BASE):
     """Cedula Comparables model"""
 
     __tablename__ = "cedula_comparable"
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     tipo = Column(String)
-    id_cedula_mercado = Column(Integer)
-    id_comparable_catcom = Column(Integer)
+    id_cedula_mercado = Column(
+        Integer,
+        # ForeignKey("_CedulaMercado.id"),
+    )
+    id_comparable_catcom = Column(
+        Integer,
+        # ForeignKey("_ComparablesCatCom.id"),
+    )
+    # cedula_mercado = relationship(
+    #     "_CedulaMercado",
+    #     primaryjoin="_CedulaComparables.id_cedula_mercado == _CedulaMercado.id",
+    # )
+    # comparable_catcom = relationship(
+    #     "_ComparablesCatCom", primaryjoin="_ComparablesCatCom.id==_ComparablesCatCom.id"
+    # )
 
     def __init__(self, **kwargs: dict) -> None:
         """Constructor de la tabla para el calculo del valor unitario de construccion.
@@ -28,7 +42,7 @@ class Model(database.BASE):
 
 class CedulaComparables(Template):
     def __init__(self, db) -> None:
-        super().__init__(Model, db)
+        super().__init__(_CedulaComparables, db)
 
     def __enter__(self):
         return super().__enter__()

@@ -4,109 +4,112 @@ from typing import List, Optional, Set
 from jinja2 import Template
 from reportlab.lib.pagesizes import A4, letter
 from reportlab.pdfgen import canvas
+from sqlalchemy.orm import Session
 
 from .. import config
-from ..models.comparables_catcom import ComparablesCatcom
+from ..models.cedula_comparables import CedulaComparables
+from ..models.cedula_mercado import CedulaMercado
+from ..models.comparables_catcom import ComparablesCatCom
 from ..utils.local import as_complete_date, as_currency, as_percentage, with_decimals
 from ..utils.pdf import PDFMaker as PDF
 from ..utils.tmp import name_it as tmp_filename
 
-__session = config.db.valuaciones.create_session()
-mercado_keys: dict = {
-    "": "FOLIO",
-    "": "TIPO_INMUEBLE",
-    "": "TIPO_OPERACION",
-    "": "FECHA_CAPTURA",
-    "": "URL_FUENTE",
-    "": "INFORMANTE",
-    "": "TELEFONO_INFORMANTE",
-    "x_utm": "COORDENADAS_UTM_X",
-    "y_utm": "COORDENADAS_UTM_Y",
-    "": "ESTADO",
-    "": "MUNICIPIO",
-    "": "CIUDAD",
-    "": "COLONIA",
-    "": "CALLE",
-    "": "NO_EXTERIOR",
-    "": "NO_INTERIOR",
-    "": "NOMBRE_EDIFICIO",
-    "": "REGIMEN_PROPIEDAD",
-    "": "CLASIFICACION_PERIFERICA",
-    "": "CLASIFICACION_ECONOMICA",
-    "": "USO_SUELO",
-    "": "ENE_CALLES",
-    "": "UBICACION_MANZANA",
-    "": "NUMERO_FRENTES",
-    "": "SUPERFICIE_TERRENO",
-    "": "FRENTE",
-    "": "FRENTE_TIPO",
-    "": "FONDO",
-    "": "FORMA",
-    "": "TOPOGRAFIA",
-    "": "SUPERFICIE_CONSUCCION",
-    "": "PROYECTO",
-    "": "EDO_CONSERVACION",
-    "": "TIPO_CONSUCCION",
-    "": "CALIDAD",
-    "": "EDAD",
-    "": "NIVELES",
-    "": "UNIDADES_RENTABLES",
-    "": "DESCRIPCION_ESPACIOS",
-    "": "T_C",
-    "": "SERVICIOS",
-    "": "DESCRIPCION_SERVICIOS",
-    "": "PRECIO",
-    "": "PRECIO_UNITARIO",
-    "": "PRECIO_TOTAL_USD",
-    "": "PRECIO_UNITARIO_USD",
-    "": "PRECIO_TOTAL_APLICABLE",
-    "": "PRECIO_UNITARIO_APLICABLE",
-    "": "OBSERVACIONES",
-    "": "HOY",
-    "": "DIAS",
-    # "": "CADUCA_MESES",
-    "usuario": "ELABORO",
+# __session = config.db.valuaciones.create_session()
+mercado_keys: set = {
+    "FOLIO",
+    "TIPO_INMUEBLE",
+    "TIPO_OPERACION",
+    "FECHA_CAPTURA",
+    "URL_FUENTE",
+    "INFORMANTE",
+    "TELEFONO_INFORMANTE",
+    "COORDENADAS_UTM_X",
+    "COORDENADAS_UTM_Y",
+    "ESTADO",
+    "MUNICIPIO",
+    "CIUDAD",
+    "COLONIA",
+    "CALLE",
+    "NO_EXTERIOR",
+    "NO_INTERIOR",
+    "NOMBRE_EDIFICIO",
+    "REGIMEN_PROPIEDAD",
+    "CLASIFICACION_PERIFERICA",
+    "CLASIFICACION_ECONOMICA",
+    "USO_SUELO",
+    "ENE_CALLES",
+    "UBICACION_MANZANA",
+    "NUMERO_FRENTES",
+    "SUPERFICIE_TERRENO",
+    "FRENTE",
+    "FRENTE_TIPO",
+    "FONDO",
+    "FORMA",
+    "TOPOGRAFIA",
+    "SUPERFICIE_CONSUCCION",
+    "PROYECTO",
+    "EDO_CONSERVACION",
+    "TIPO_CONSUCCION",
+    "CALIDAD",
+    "EDAD",
+    "NIVELES",
+    "UNIDADES_RENTABLES",
+    "DESCRIPCION_ESPACIOS",
+    "T_C",
+    "SERVICIOS",
+    "DESCRIPCION_SERVICIOS",
+    "PRECIO",
+    "PRECIO_UNITARIO",
+    "PRECIO_TOTAL_USD",
+    "PRECIO_UNITARIO_USD",
+    "PRECIO_TOTAL_APLICABLE",
+    "PRECIO_UNITARIO_APLICABLE",
+    "OBSERVACIONES",
+    "HOY",
+    "DIAS",
+    "CADUCA_MESES",
+    "ELABORO",
 }
-cedulas_mercado_keys: dict = {
-    "": "COMERCIAL_FRENTE",
-    "": "COMPARABLE",
-    "": "FECHA_CAPTURA",
-    "": "PERIFERIA",
-    "": "TIPO_INMUEBLE",
-    "": "ZONA_ECONOMICA",
-    "": "INFORMANTE",
-    "": "USO_SUELO",
-    "": "TELEFONO_INFORMANTE",
-    "": "ENTRE_CALLES",
-    "": "URL_FUENTE",
-    "": "UBICACACION_MZA",
-    "": "SUPERFICIE",
-    "": "TIPO_OPERACION",
-    "": "NO_FRENTES",
-    "": "FRENTE_ML",
-    "": "FRENTE_TIPO",
-    "": "FONDO",
-    "": "ESTADO",
-    "": "FORMA",
-    "": "MUNICIPIO",
-    "": "TOPOGRAFIA",
-    "": "CIUDAD",
-    "": "SERVICIOS",
-    "": "ASENTAMIENTO",
-    "": "REGIMEN_PROPIEDAD",
-    "": "NOMBRE_VIALIDAD",
-    "": "NO_EXTERIOR",
-    "": "NO_INTERIOR",
-    "": "EDIFICIO_PREDIO_PROTOTIPO",
-    "": "PRECIO",
-    "": "COORDENADA_X",
-    "": "COORDENADA_Y",
-    "": "PRECIO_UNITARIO",
-    "": "PRECIO_USD",
-    "": "PRECIO_UNITARIO_USD",
-    "": "OBSERVACIONES",
-    "": "INFRAESTRUCTURA",
-    "": "ELABORO",
+cedulas_mercado_keys: set = {
+    "COMERCIAL_FRENTE",
+    "COMPARABLE",
+    "FECHA_CAPTURA",
+    "PERIFERIA",
+    "TIPO_INMUEBLE",
+    "ZONA_ECONOMICA",
+    "INFORMANTE",
+    "USO_SUELO",
+    "TELEFONO_INFORMANTE",
+    "ENTRE_CALLES",
+    "URL_FUENTE",
+    "UBICACACION_MZA",
+    "SUPERFICIE",
+    "TIPO_OPERACION",
+    "NO_FRENTES",
+    "FRENTE_ML",
+    "FRENTE_TIPO",
+    "FONDO",
+    "ESTADO",
+    "FORMA",
+    "MUNICIPIO",
+    "TOPOGRAFIA",
+    "CIUDAD",
+    "SERVICIOS",
+    "ASENTAMIENTO",
+    "REGIMEN_PROPIEDAD",
+    "NOMBRE_VIALIDAD",
+    "NO_EXTERIOR",
+    "NO_INTERIOR",
+    "EDIFICIO_PREDIO_PROTOTIPO",
+    "PRECIO",
+    "COORDENADA_X",
+    "COORDENADA_Y",
+    "PRECIO_UNITARIO",
+    "PRECIO_USD",
+    "PRECIO_UNITARIO_USD",
+    "OBSERVACIONES",
+    "INFRAESTRUCTURA",
+    "ELABORO",
 }
 
 
@@ -140,19 +143,38 @@ def render(data: List[dict] | dict, type: str = "mercado"):
     return files
 
 
-def check(**kawrgs):
-    comparables = ComparablesCatcom()
-    if comparables.filter(**kawrgs) is None:
+def check(db: Session, **kwargs):
+    comparables = ComparablesCatCom(db)
+    if comparables.filter(**kwargs) is None:
         return False
-    return comparables.to_dict()
+    return comparables.__dict__
 
 
-class ComparablesCatCom:
+def check2(db: Session, **kwargs):
+    comparables = CedulaComparables(db)
+    mercado = CedulaMercado(db)
+    cat_com = ComparablesCatCom(db)
+    query = (
+        db.query(comparables.model, mercado.model, cat_com.model)
+        .join(cat_com.model, cat_com.model.id == comparables.model.id_comparable_catcom)
+        .join(mercado.model, mercado.model.id == comparables.model.id_cedula_mercado)
+        .filter(**kwargs)
+        .first()
+    )
+    print(query.__dict__)
+
+
+class ComparablesCatComReport:
     files: Optional[List[str]] = None
     merged: Optional[str] = None
     current: Optional[str] = None
+    __db = None
 
-    def __enter__(self):
+    def __init__(self, db) -> None:
+        self.__db = db
+
+    def __enter__(self, db):
+        self.__db = db
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -160,8 +182,39 @@ class ComparablesCatCom:
         self.merged = None
         self.current = None
 
-    def create(self, **kwargs):
-        if not (data := check(**kwargs)):
-            return None
-        self.files = render(data)
+    def check(self, db: Session, **kwargs):
+        comparables = CedulaComparables(db)
+        mercado = CedulaMercado(db)
+        cat_com = ComparablesCatCom(db)
+        query = (
+            db.query(comparables.model, mercado.model, cat_com.model)
+            .join(
+                cat_com.model,
+                cat_com.model.id == comparables.model.id_comparable_catcom,
+            )
+            .join(
+                mercado.model, mercado.model.id == comparables.model.id_cedula_mercado
+            )
+            .all()
+        )
+        # print(query)
+        # query
+
+        for q in query:
+            print(q[0].__dict__)
+            print(q[1].__dict__)
+            print(q[2].__dict__)
+
+    def create(self, type: str = "mercado", *args, **kwargs) -> List[str]:
+        self.files = render(
+            [comp for id in args if (comp := check(db=self.__db, id=id, **kwargs))],
+            type,
+        )
         return self.files
+
+    def merge(self, files: Optional[List[str]] = None) -> str:
+        if files is None:
+            files = self.files
+        pdf = PDF(files=files)
+        self.merged = pdf.merge()
+        return self.merged

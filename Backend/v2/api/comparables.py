@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
 from .. import database, logger
+from ..controllers.comparables_catcom import ComparablesCatComReport
 from ..middlewares import Middlewares as __Middlewares
 from ..models.cedula_comparables import CedulaComparables
 from ..models.cedula_mercado import CedulaMercado
@@ -44,6 +45,75 @@ async def get_comparables_catcom_by_id(
             message="No se encontraron comparables", status_code=404
         )
     return __response.success(data=comp.to_dict())
+
+
+@comparables.post("/catastral_comercial/{cedula_type}/reporte")
+async def get_reporte_catastra_comercial(
+    request: Request,
+    cedula_type: str = "mercado",
+    db: Session = Depends(database.valuaciones),
+):
+    """
+    Get reporte comparables catrastrales/comerciales
+    """
+    # data = await request.json()
+    comp = ComparablesCatComReport(db)
+    # comp.create(type=cedula_type, *data.get("ids", []), **data.get("kwargs", {}))
+    # return __response.send_file(filename=comp.merge())
+    if cedula_type == "mercado":
+        query = {
+            "PRECIO_UNITARIO_APLICABLE",
+            "FOLIO",
+            "UBICACION_MANZANA",
+            "DIAS",
+            "CLASIFICACION_ECONOMICA",
+            "PRECIO_TOTAL_APLICABLE",
+            "NOMBRE_EDIFICIO",
+            "CALLE",
+            "TIPO_CONSUCCION",
+            "NUMERO_FRENTES",
+            "COORDENADAS_UTM_Y",
+            "CLASIFICACION_PERIFERICA",
+            "SUPERFICIE_CONSUCCION",
+            "ENE_CALLES",
+            "COLONIA",
+            "T_C",
+            "HOY",
+            "CADUCA_MESES",
+            "PRECIO_TOTAL_USD",
+            "EDAD",
+            "COORDENADAS_UTM_X",
+            "CALIDAD",
+            "FRENTE",
+            "UNIDADES_RENTABLES",
+            "EDO_CONSERVACION",
+            "DESCRIPCION_SERVICIOS",
+            "NIVELES",
+            "DESCRIPCION_ESPACIOS",
+            "SUPERFICIE_TERRENO",
+            "PROYECTO",
+        }
+    else:
+        query = {
+            "NOMBRE_VIALIDAD",
+            "COMERCIAL_FRENTE",
+            "COMPARABLE",
+            "SUPERFICIE",
+            "FRENTE_ML",
+            "NO_FRENTES",
+            "COORDENADA_X",
+            "ZONA_ECONOMICA",
+            "EDIFICIO_PREDIO_PROTOTIPO",
+            "PRECIO_USD",
+            "ENTRE_CALLES",
+            "INFRAESTRUCTURA",
+            "UBICACACION_MZA",
+            "ASENTAMIENTO",
+            "COORDENADA_Y",
+            "PERIFERIA",
+        }
+    comp.check(db=db)
+    return __response.success()
 
 
 @comparables.get("/cedulas/{cedula_type}")

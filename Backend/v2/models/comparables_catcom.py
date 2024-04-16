@@ -4,12 +4,13 @@ from datetime import datetime
 from typing import Any, Dict
 
 from sqlalchemy import Column, Date, Float, Integer, String
+from sqlalchemy.orm import relationship
 
 from .. import database
 from ..middlewares.database import Template
 
 
-class Model(database.BASE):
+class _ComparablesCatCom(database.BASE):
     """Model for Comparables Catastrales Comerciales"""
 
     __tablename__ = "comparables_catcom"
@@ -73,6 +74,10 @@ class Model(database.BASE):
     usuario = Column(String)
     fh_modificacion = Column(Date, default=datetime.now)
 
+    # cedula_comparables = relationship(
+    #     "_CedulaComparables", back_populates="comparable_catcom"
+    # )
+
     def __init__(self, **kwargs: Dict[str, Any]) -> None:
 
         for key, value in kwargs.items():
@@ -81,4 +86,4 @@ class Model(database.BASE):
 
 class ComparablesCatCom(Template):
     def __init__(self, db) -> None:
-        super().__init__(Model, db)
+        super().__init__(_ComparablesCatCom, db)

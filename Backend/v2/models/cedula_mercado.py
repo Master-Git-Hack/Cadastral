@@ -1,12 +1,13 @@
 from datetime import datetime
 
 from sqlalchemy import Column, Date, Integer, String
+from sqlalchemy.orm import relationship
 
 from .. import database
 from ..middlewares.database import Template
 
 
-class Model(database.BASE):
+class _CedulaMercado(database.BASE):
     """Cedula Mercado model"""
 
     __tablename__ = "cedula_mercado"
@@ -15,6 +16,9 @@ class Model(database.BASE):
     fecha = Column(Date, default=datetime.now)
     registro = Column(String)
     usuario = Column(String)
+    # cedula_comparables = relationship(
+    #     "CedulaComparables", back_populates="cedula_mercado"
+    # )
 
     def __init__(self, **kwargs: dict) -> None:
         """Constructor de la tabla para el calculo del valor unitario de construccion.
@@ -30,7 +34,7 @@ class Model(database.BASE):
 
 class CedulaMercado(Template):
     def __init__(self, db) -> None:
-        super().__init__(Model, db)
+        super().__init__(_CedulaMercado, db)
 
     def __enter__(self):
         return super().__enter__()
