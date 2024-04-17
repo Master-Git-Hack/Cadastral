@@ -4,6 +4,7 @@ LABEL description="Backend Server's Image"
 LABEL mantenier='Einar Jhordany Serna Valdivia<eserna@guanajuato.gob.mx>'
 WORKDIR /usr/src/Backend
 COPY . /usr/src/Backend
+# RUN echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" > /etc/apt/sources.list
 RUN apt-get update --allow-releaseinfo-change && \
     apt-get install -y nano wget fontconfig libfreetype6 \
     libjpeg62-turbo libpng16-16 libx11-6 libxcb1 libxext6 \

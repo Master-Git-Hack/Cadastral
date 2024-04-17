@@ -10,6 +10,7 @@ import { SchemasApi } from "./api/Schemas";
 import { AuthApi } from "./api/Auth";
 import User from "./reducers/User";
 import Notifications from "./reducers/Notifications";
+import { ComparablesApi } from "./api/Comparables";
 /* Creating a store with the reducers and middleware. */
 export const store = configureStore({
 	reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
 		[AuthApi.reducerPath]: AuthApi.reducer,
 		User,
 		Notifications,
+		[ComparablesApi.reducerPath]: ComparablesApi.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }).concat([
@@ -30,6 +32,7 @@ export const store = configureStore({
 			ParseFilesApi.middleware,
 			SchemasApi.middleware,
 			AuthApi.middleware,
+			ComparablesApi.middleware,
 		]),
 });
 setupListeners(store.dispatch);

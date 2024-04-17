@@ -10,7 +10,6 @@ import Error from "../Error";
 export const DocumentViewer = ({
 	width = window.innerWidth,
 	height = window.innerHeight * 0.8,
-	type = "cedula",
 }: any) => {
 	const { uid } = useParams();
 	const [file, setFile] = useState(blankDocument);

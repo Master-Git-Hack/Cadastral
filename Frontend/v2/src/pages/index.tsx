@@ -9,6 +9,7 @@ import SignIn from "@features/Login";
 import RevisionAvaluos from "./RevisionAvaluos";
 import CreateRevisionAvaluos from "@features/RevisionAvaluos/create";
 import MetadatosViewer from "@features/Metadatos/viewer";
+import Comparables from "./Comparables";
 const RouterPages = createBrowserRouter([
 	{
 		path: "/sign-in",
@@ -50,6 +51,20 @@ const RouterPages = createBrowserRouter([
 				element: <CreateRevisionAvaluos />,
 			},
 		],
+	},
+	{
+		path: "comparables",
+		element: <Comparables />,
+		// children: [
+		// 	{
+		// 		path: "tipo/:type",
+		// 		element: <></>,
+		// 	},
+		// 	{
+		// 		path: "view/:id",
+		// 		element: <></>,
+		// 	},
+		// ],
 	},
 	{
 		path: "reportes-catastrales/*",

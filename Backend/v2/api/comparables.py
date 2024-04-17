@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from .. import database, logger
 from ..controllers.comparables_catcom import ComparablesCatComReport
 from ..middlewares import Middlewares as __Middlewares
+from ..middlewares.auth import required
 from ..models.cedula_comparables import CedulaComparables
 from ..models.cedula_mercado import CedulaMercado
 
@@ -20,10 +21,15 @@ comparables = APIRouter(
 
 
 @comparables.get("/catatastrales_comerciales")
-async def get_comparables_catcom(db: Session = Depends(database.valuaciones)):
+async def get_comparables_catcom(
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
     """
     Get comparables catrastrales/comerciales
     """
+    if isinstance(user, dict):
+        return __response.error(**user)
     comp = ComparablesCatCom(db)
     if comp.all() is None:
         return __response.error(
@@ -34,11 +40,15 @@ async def get_comparables_catcom(db: Session = Depends(database.valuaciones)):
 
 @comparables.get("/catatastral_comercial/{id}")
 async def get_comparables_catcom_by_id(
-    id: int, db: Session = Depends(database.valuaciones)
+    id: int,
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
 ):
     """
     Get comparables catrastrales/comerciales by id
     """
+    if isinstance(user, dict):
+        return __response.error(**user)
     comp = ComparablesCatCom(db)
     if comp.get(id) is None:
         return __response.error(
@@ -52,10 +62,13 @@ async def get_reporte_catastra_comercial(
     request: Request,
     cedula_type: str = "mercado",
     db: Session = Depends(database.valuaciones),
+    user=Depends(required),
 ):
     """
     Get reporte comparables catrastrales/comerciales
     """
+    if isinstance(user, dict):
+        return __response.error(**user)
     # data = await request.json()
     comp = ComparablesCatComReport(db)
     # comp.create(type=cedula_type, *data.get("ids", []), **data.get("kwargs", {}))
@@ -116,33 +129,158 @@ async def get_reporte_catastra_comercial(
     return __response.success()
 
 
-@comparables.get("/cedulas/{cedula_type}")
-async def get_cedulas(
-    cedula_type: str = "mercado", db: Session = Depends(database.valuaciones)
+@comparables.get("/cedulas/mercado")
+async def get_cedulas_mercado(
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
 ):
     """
     Get cedulas
     """
-    if cedula_type == "mercado":
-        cedula = CedulaMercado(db)
-    else:
-        cedula = CedulaComparables(db)
+    if isinstance(user, dict):
+        return __response.error(**user)
+
+    cedula = CedulaMercado(db)
+    if cedula.filter_group(usuario=str(user.id)) is None:
+        return __response.error(message="No se encontraron cedulas", status_code=404)
+    return __response.success(data=cedula.to_list())
+
+
+@comparables.get("/cedulas/comparable")
+async def get_cedulas_comparable(
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
+    """
+    Get cedulas
+    """
+    if isinstance(user, dict):
+        return __response.error(**user)
+
+    cedula = CedulaComparables(db)
+
     if cedula.all() is None:
         return __response.error(message="No se encontraron cedulas", status_code=404)
     return __response.success(data=cedula.to_list())
 
 
-@comparables.get("/cedula/{cedula_type}/{id}")
-async def get_cedula_by_id(
-    id: int, cedula_type: str = "mercado", db: Session = Depends(database.valuaciones)
+@comparables.get("/cedula/mercado/{id}")
+async def get_cedula_mercado_by_id(
+    id: int,
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
 ):
     """
     Get cedula by id
     """
-    if cedula_type == "mercado":
-        cedula = CedulaMercado(db)
-    else:
-        cedula = CedulaComparables(db)
+    if isinstance(user, dict):
+        return __response.error(**user)
+
+    cedula = CedulaMercado(db)
+
+    if cedula.filter(id=id, usuario=user.id) is None:
+        return __response.error(message="No se encontraron cedulas", status_code=404)
+    return __response.success(data=cedula.to_dict())
+
+
+@comparables.get("/cedula/comparable/{id}")
+async def get_cedula_comparable_by_id(
+    id: int,
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
+    """
+    Get cedula by id
+    """
+    if isinstance(user, dict):
+        return __response.error(**user)
+    cedula = CedulaComparables(db)
     if cedula.get(id) is None:
         return __response.error(message="No se encontraron cedulas", status_code=404)
     return __response.success(data=cedula.to_dict())
+
+
+@comparables.post("/cedula/mercado")
+async def create_cedula_mercado(
+    request: Request,
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
+    """
+    Create cedula
+    """
+    data = await request.json()
+    if isinstance(user, dict):
+        return __response.error(**user)
+    cedula = CedulaMercado(db)
+    if cedula.create(**data) is None:
+        return __response.error(message="No se pudo crear la cedula", status_code=404)
+    return __response.success(data=cedula.to_dict())
+
+
+@comparables.patch("/cedula/mercado/{id}")
+async def update_cedula_mercado(
+    id: int,
+    request: Request,
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
+    """
+    Update cedula
+    """
+    data = await request.json()
+    if isinstance(user, dict):
+        return __response.error(**user)
+    cedula = CedulaMercado(db)
+    if cedula.update(id, **data) is None:
+        return __response.error(
+            message="No se pudo actualizar la cedula", status_code=404
+        )
+    return __response.success(data=cedula.to_dict())
+
+
+@comparables.delete("/cedula/mercado/{id}")
+async def delete_cedula_mercado(
+    id: int,
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
+    """
+    Delete cedula
+    """
+    if isinstance(user, dict):
+        return __response.error(**user)
+    cedula = CedulaMercado(db)
+    if cedula.delete(id) is None:
+        return __response.error(
+            message="No se pudo eliminar la cedula", status_code=404
+        )
+    return __response.success(data=cedula.to_dict())
+
+
+@comparables.post("/cedulas/mercado/{id}/preview/{comparable}")
+async def preview_cedulas(
+    request: Request,
+    id: int,
+    comparable: int,
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
+    if isinstance(user, dict):
+        return __response.error(**user)
+    mercado = CedulaMercado(db)
+    cedula = CedulaComparables(db)
+    cat_com = ComparablesCatCom(db)
+    data = await request.json()
+    if mercado.filter(id=id, usuario=user.id) is None:
+        return __response.error(message="No se encontraron cedulas", status_code=404)
+    if cat_com.get(comparable) is None:
+        return __response.error(
+            message="No se encontraron comparables", status_code=404
+        )
+    if cedula.filter(id_cedula_mercado=id, id_comparable_catcom=comparable) is None:
+        if cedula.create(tipo=data.get("tipo", "TERRENO")) is None:
+            return __response.error(
+                message="No se pudo crear la cedula", status_code=404
+            )
+    return 
