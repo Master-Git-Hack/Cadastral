@@ -1,42 +1,44 @@
+# @format
+
 version: '3.8'
 #name: cadastral.app.container.docker
 services:
-  backend:
-    container_name: backend_docker
-    build:
-      context: ./Backend/
-      #dockerfile: Dockerfile
-    restart: on-failure
-    volumes:
-      - ./Backend:/usr/src/Backend
-    expose:
-      - 56733
-    ports:
-      - 56733:56733
-    networks:
-      - cadastral_network
-  frontend:
-    container_name: frontend_docker
-    build:
-      context: ./Frontend/
-      #dockerfile: Dockerfile
-    restart: always
-    volumes:
-      - ./Frontend:/usr/src/Frontend
-    expose:
-      - 80
-    ports:
-    #port used for real server : port used in docker
-    #- 81:80
-      - 80:80
-    depends_on:
-      - backend
-    networks:
-      - cadastral_network
-    links:
-      - "backend:backend"
+    backend:
+        container_name: backend_docker
+        build:
+            context: ./Backend/
+            #dockerfile: Dockerfile
+        restart: on-failure
+        volumes:
+            - ./Backend:/usr/src/Backend
+        expose:
+            - 56733
+        ports:
+            - 56733:56733
+        networks:
+            - cadastral_network
+    frontendv1:
+        container_name: frontend_docker
+        build:
+            context: ./Frontend/v1
+            #dockerfile: Dockerfile
+        restart: always
+        volumes:
+            - ./Frontend:/usr/src/Frontend
+        expose:
+            - 80
+        ports:
+            #port used for real server : port used in docker
+            #- 81:80
+            - 80:80
+        depends_on:
+            - backend
+        networks:
+            - cadastral_network
+        links:
+            - 'backend:backend'
 
 #[optional] If the network is not created, docker will create by itself.
 networks:
-  cadastral_network:
-    driver: bridge
+    cadastral_network:
+        driver: bridge
