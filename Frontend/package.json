@@ -4,8 +4,8 @@
     "version": "2.0.0",
     "type": "module",
     "scripts": {
-        "v1": "cd v1 && yarn start",
-        "v2": "cd v2 && yarn dev",
+        "v1": "cd v1 && yarn install --inmutable && yarn start",
+        "v2": "cd v2 && yarn install --inmutable && yarn dev",
         "start": "concurrently \"yarn v2\" \"yarn v1\""
     },
     "devDependencies": {

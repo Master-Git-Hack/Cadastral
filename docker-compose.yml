@@ -13,12 +13,14 @@ services:
             - ./Backend:/usr/src/Backend
         expose:
             - 56733
+            - 5000
         ports:
             - 56733:56733
+            - 5000:5000
         networks:
             - cadastral_network
     frontendv1:
-        container_name: frontend_docker
+        container_name: frontend_v1_docker
         build:
             context: ./Frontend/v1
             #dockerfile: Dockerfile
@@ -29,8 +31,28 @@ services:
             - 80
         ports:
             #port used for real server : port used in docker
-            #- 81:80
-            - 80:80
+            #- 80:80
+            - 81:80
+        depends_on:
+            - backend
+        networks:
+            - cadastral_network
+        links:
+            - 'backend:backend'
+    frontendv2:
+        container_name: frontend_v2_docker
+        build:
+            context: ./Frontend/v2
+            #dockerfile: Dockerfile
+        restart: always
+        volumes:
+            - ./Frontend:/usr/src/Frontend
+        expose:
+            - 80
+        ports:
+            #port used for real server : port used in docker
+            #- 82:80
+            - 82:80
         depends_on:
             - backend
         networks:
