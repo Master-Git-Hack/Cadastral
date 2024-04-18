@@ -12,6 +12,7 @@ Author: Einar Jhordany Serna Valdivia
 Version: 1.0.0
 Date: November 7th, 2022
 """
+
 from fastapi import APIRouter, Depends, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials, HTTPBearer
 from fastapi_jwt_auth import AuthJWT

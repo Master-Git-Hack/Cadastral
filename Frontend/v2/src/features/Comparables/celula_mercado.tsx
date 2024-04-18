@@ -3,13 +3,13 @@ import { useNavigate } from "react-router";
 
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button } from "flowbite-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useGetCedulasMercadoQuery } from "@api/Comparables";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
 export default function Comparables() {
-	// const { uid } = useParams();
+	const { cedula_mercado } = useParams();
 	const navigate = useNavigate();
 	const { data, isLoading, isError, error } = useGetCedulasMercadoQuery();
 	if (isError) return <Error message={error?.data} />;
@@ -20,7 +20,7 @@ export default function Comparables() {
 			<div className="flex flex-row-reverse py-2">
 				<NavLink to={`crear`}>
 					<Button pill color="light">
-						Nuevo Registro
+						Crear Nuevo Comparable
 					</Button>
 				</NavLink>
 			</div>
@@ -54,13 +54,6 @@ export default function Comparables() {
 									to={`preview/${id}`}
 								>
 									Ver
-								</NavLink>
-								<span className="mx-2">/</span>
-								<NavLink
-									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-									to={`tipo/${tipo}`}
-								>
-									Crear Comparables
 								</NavLink>
 								<span className="mx-2">/</span>
 

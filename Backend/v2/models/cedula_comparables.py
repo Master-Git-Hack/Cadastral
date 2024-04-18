@@ -20,6 +20,13 @@ class _CedulaComparables(database.BASE):
         Integer,
         # ForeignKey("_ComparablesCatCom.id"),
     )
+    # zoom = Column(Integer)
+    # margin_left = Column(Integer)
+    # margin_right = Column(Integer)
+    # margin_top = Column(Integer)
+    # margin_bottom = Column(Integer)
+    # dpi = Column(Integer)
+
     # cedula_mercado = relationship(
     #     "_CedulaMercado",
     #     primaryjoin="_CedulaComparables.id_cedula_mercado == _CedulaMercado.id",

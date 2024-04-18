@@ -11,75 +11,111 @@ export const ComparablesApi = createApi({
 	reducerPath: "Comparables",
 	baseQuery,
     endpoints: ({ query, mutation }) => ({
-        getComparables: mutation<IComparables[], null>({
+        
+        getCedulas: query<IComparables[], null>({
             query: () => ({
-                url: `comparables/catastrales_comerciales`,
-                method: "GET",
-            }),
-            
-        }),
-        getComparableId: mutation<IComparables, { id: string }>({
-            query: ({ id }) => ({
-                url: `comparables/catastrales_comerciales/${id}`,
-                method: "GET",
-            }),
-        }),
-        getCedulasMercado: query<IComparables[], null>({
-            query: () => ({
-                url: `comparables/cedulas/mercado`,
+                url: `comparables/cedulas`,
                 method: "GET",
             }),
             transformResponse: ({ data, ...response }: any) => {
-				
-				return {
-					data: data?.features ||[],
-					...response,
-				};
-			},
+                return {
+                    data: data?.features || [],
+                    ...response,
+                };
+            },
         }),
-        getCelulasMercadoId: mutation<IComparables, { id: string }>({
+        getCedula: mutation<IComparables, { id: string }>({
             query: ({ id }) => ({
-                url: `comparables/cedulas/mercado/${id}`,
+                url: `comparables/cedula/${id}`,
                 method: "GET",
             }),
         }),
-        getCelulasComparable: mutation<IComparables[], null>({
-            query: () => ({
-                url: `comparables/cedulas/comparable`,
-                method: "GET",
-            }),
-        }),
-        getCelulasComparableId: mutation<IComparables, { id: string }>({
-            query: ({ id }) => ({
-                url: `comparables/cedulas/comparable/${id}`,
-                method: "GET",
-            }),
-        }),
-        // requestReport: mutation<File, { id: string, data: any }>({
-        //     query: ({ id, ...data }) => ({
-        //         url: `comparables/catastrales_comerciales/${id}/report`,
-        //         method: "POST",
-        //         responseType: "blob",
-		// 		data,
-        //     }),
-        // }),
-        requestReport: mutation<File, { data: any }>({
-            query: ({ type, ...data }) => ({
-                url: `comparables/catastral_comercial/{type}/reporte`,
+        postCedula: mutation<IComparables, { registro: string }>({
+            query: ({ registro }) => ({
+                url: `comparables/cedula/${registro}`,
                 method: "POST",
+            }),
+        }),
+        patchCedula: mutation<IComparables, { id: string, data: any }>({
+            query: ({ id, data }) => ({
+                url: `comparables/cedula/${id}`,
+                method: "PATCH",
+                data ,
+            }),
+        }),
+        deleteCedula: mutation<IComparables, { id: string }>({
+            query: ({ id }) => ({
+                url: `comparables/cedula/${id}`,
+                method: "DELETE",
+            }),
+        }),
+        getComparables: query<IComparables[], {cedula_mercado:number}>({
+            query: ({cedula_mercado}) => ({
+                url: `comparables/${cedula_mercado}`,
+                method: "GET",
+            }),
+            transformResponse: ({ data, ...response }: any) => {
+                return {
+                    data: data?.features || [],
+                    ...response,
+                };
+            },
+        }),
+        getComparable: mutation<IComparables, { id: string }>({
+            query: ({ id }) => ({
+                url: `comparables/comparable/${id}`,
+                method: "GET",
+            }),
+        }),
+        postComparable: mutation<IComparables, { tipo:string,cedula_mercado:number,comparable:number }>({
+            query: ({ tipo,cedula_mercado,comparable,...data }) => ({
+                url: `comparables/comparable/${cedula_mercado}/${tipo}/${comparable}`,
+                method: "POST",
+                data
+            }),
+        }),
+        patchComparable: mutation<IComparables, { id: string, data: any }>({
+            query: ({ id, data }) => ({
+                url: `comparables/comparable/${id}`,
+                method: "PATCH",
+                data ,
+            }),
+        }),
+        deleteComparable: mutation<IComparables, { id: string }>({
+            query: ({ id }) => ({
+                url: `comparables/comparable/${id}`,
+                method: "DELETE",
+            }),
+        }),
+        reports: mutation<File, { cedula_mercado: number }>({
+            query: ({ cedula_mercado }) => ({
+                url: `comparables/reports/${cedula_mercado}`,
+                method: "GET",
                 responseType: "blob",
-                data,
+            }),
+        }),
+        preview: mutation<IComparables, { tipo: string, cedula_mercado: number, comparable: number }>({
+            query: ({ tipo, cedula_mercado, comparable, ...data }) => ({
+                url: `comparables/preview/${cedula_mercado}/${tipo}/${comparable}`,
+                method: "POST",
+                data
             }),
         }),
     }),
 });
 
 export const {
-    useGetComparablesMutation,
-    useGetComparableIdMutation,
-    useGetCedulasMercadoQuery,
-    useGetCelulasMercadoIdMutation,
-    useGetCelulasComparableMutation,
-    useGetCelulasComparableIdMutation,
-    useRequestReportMutation,
+    useGetCedulasQuery,
+    useGetCedulaMutation,
+    usePostCedulaMutation,
+    usePatchCedulaMutation,
+    useDeleteCedulaMutation,
+    useGetComparablesQuery,
+    useGetComparableMutation,
+    usePostComparableMutation,
+    usePatchComparableMutation,
+    useDeleteComparableMutation,
+    useReportsMutation,
+    usePreviewMutation,
+
 } =ComparablesApi;

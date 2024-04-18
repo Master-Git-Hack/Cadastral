@@ -12,12 +12,12 @@ export default function Layout({ children, className }) {
 	const { token, group, name, username } = useAppSelector(getUser);
 	const [lastRequest] = useState(ls.get("timestamp"));
 	const [idle] = useState(idleTime(lastRequest));
-	useEffect(() => {
-		if (token === null) {
-			ls.clear();
-			void navigate("/sign-in");
-		}
-	}, [token]);
+	// useEffect(() => {
+	// 	if (token === null) {
+	// 		ls.clear();
+	// 		void navigate("/sign-in");
+	// 	}
+	// }, [token]);
 	useEffect(() => {
 		if (idle) {
 			ls.clear();

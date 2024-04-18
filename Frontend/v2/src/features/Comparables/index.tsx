@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button } from "flowbite-react";
 import { NavLink } from "react-router-dom";
-import { useGetCedulasMercadoQuery } from "@api/Comparables";
+import { useGetCedulas, deleteCedula } from "@api/Comparables";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
@@ -73,9 +73,9 @@ export default function Comparables() {
 								<span className="mx-2">/</span>
 								<NavLink
 									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-									to={`tipo/${tipo}`}
+									to={`cedula/${id}`}
 								>
-									Crear Comparables
+									Crear Cedula
 								</NavLink>
 								<span className="mx-2">/</span>
 
@@ -88,9 +88,7 @@ export default function Comparables() {
 												"Esta seguro que desea eliminar este registro",
 										}).then(
 											({ isConfirmed }) =>
-												isConfirmed &&
-												// deleteTemporal({ uid }) &&
-												navigate(0),
+												isConfirmed && deleteCedula({ id }) && navigate(0),
 										)
 									}
 								>

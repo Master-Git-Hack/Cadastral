@@ -74,7 +74,7 @@ const axiosBaseQuery =
 						location.href = "/sign-in";
 					});
 			}
-			console.log(err);
+			console.error(err);
 			return {
 				error: {
 					status: err.response?.status,
