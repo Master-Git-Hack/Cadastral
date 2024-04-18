@@ -4,17 +4,29 @@ import { useNavigate } from "react-router";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button } from "flowbite-react";
 import { NavLink } from "react-router-dom";
-import { useGetCedulas, deleteCedula } from "@api/Comparables";
+import {
+	useGetCedulasQuery,
+	useDeleteCedulaMutation,
+	usePostCedulaMutation,
+} from "@api/Comparables";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
+
 export default function Comparables() {
 	// const { uid } = useParams();
 	const navigate = useNavigate();
-	const { data, isLoading, isError, error } = useGetCedulasMercadoQuery();
-	if (isError) return <Error message={error?.data} />;
-	if (isLoading) return <Spinner size={20} />;
-
+	const { data, isLoading, isError, error } = useGetCedulasQuery();
+	const [
+		deleteCedula,
+		{ isLoading: isLoadingDelete, isError: isErrorDeleting, error: errorDelete },
+	] = useDeleteCedulaMutation();
+	const [postCedula, { isLoading: isLoadingPost, isError: isErrorPost, error: errorPost }] =
+		usePostCedulaMutation();
+	if (isError || isErrorDeleting || isErrorPost)
+		return <Error message={error?.data || errorDelete?.data || errorPost?.data} />;
+	if (isLoading || isLoadingDelete || isLoadingPost) return <Spinner size={20} />;
+	console.log(data);
 	return (
 		<div className="overflow-auto">
 			<div className="flex flex-row-reverse py-2">
@@ -29,9 +41,10 @@ export default function Comparables() {
 							confirmButtonText: "Agregar",
 							showCancelButton: true,
 							cancelButtonText: "Cancelar",
+							inputPlaceholder: "registro",
 						}).then(({ isConfirmed, value }) => {
 							if (isConfirmed) {
-								console.log(value);
+								postCedula({ registro: value });
 							}
 						})
 					}
@@ -49,7 +62,7 @@ export default function Comparables() {
 					</Table.HeadCell>
 				</Table.Head>
 				<Table.Body>
-					{data?.data?.forEach(({ id, fecha, registro }, index) => (
+					{data?.data?.map(({ id, fecha, registro }, index) => (
 						<Table.Row
 							className="bg-white dark:border-gray-700 dark:bg-gray-800"
 							key={index}
@@ -66,16 +79,9 @@ export default function Comparables() {
 							<Table.Cell className="px-6 py-4 text-right">
 								<NavLink
 									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-									to={`view/${id}`}
+									to={`cedulas/${id}`}
 								>
-									Ver
-								</NavLink>
-								<span className="mx-2">/</span>
-								<NavLink
-									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-									to={`cedula/${id}`}
-								>
-									Crear Cedula
+									Ver Cédulas
 								</NavLink>
 								<span className="mx-2">/</span>
 
@@ -86,10 +92,15 @@ export default function Comparables() {
 											titleText: "Advertencia",
 											messageText:
 												"Esta seguro que desea eliminar este registro",
-										}).then(
-											({ isConfirmed }) =>
-												isConfirmed && deleteCedula({ id }) && navigate(0),
-										)
+											showCancelButton: true,
+											confirmButtonText: "Eliminar",
+											cancelButtonText: "Cancelar",
+										}).then(({ isConfirmed }) => {
+											if (isConfirmed) {
+												deleteCedula({ id });
+												return navigate(0);
+											}
+										})
 									}
 								>
 									Eliminar

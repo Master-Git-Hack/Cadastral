@@ -20,12 +20,12 @@ class _CedulaComparables(database.BASE):
         Integer,
         # ForeignKey("_ComparablesCatCom.id"),
     )
-    # zoom = Column(Integer)
-    # margin_left = Column(Integer)
-    # margin_right = Column(Integer)
-    # margin_top = Column(Integer)
-    # margin_bottom = Column(Integer)
-    # dpi = Column(Integer)
+    # zoom = Column(Integer, default=1)
+    # margin_left = Column(Integer, default=0)
+    # margin_right = Column(Integer, default=0)
+    # margin_top = Column(Integer, default=0)
+    # margin_bottom = Column(Integer, default=0)
+    # dpi = Column(Integer, default=300)
 
     # cedula_mercado = relationship(
     #     "_CedulaMercado",

@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta
+
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 
 from .. import database, logger
 from ..controllers.comparables_catcom import ComparablesCatComReport
@@ -31,8 +34,16 @@ async def get_cedulas(
         return __response.error(**user)
     cedula = CedulaMercado(db)
     if cedula.filter_group(usuario=user.usuario) is None:
+
         return __response.error(message="No se encontraron cedulas", status_code=404)
-    return __response.success(data=cedula.to_list())
+
+    return __response.success(
+        data=[
+            cedula.to_dict(data)
+            for data in cedula.current
+            if data.fecha + timedelta(days=180) > datetime.now()
+        ]
+    )
 
 
 @comparables.get("/cedula/{id}")
@@ -242,7 +253,7 @@ async def delete_comparable(
 
 
 @comparables.get("/reports/{cedula_mercado}")
-async def preview_cedulas(
+async def report_cedulas(
     cedula_mercado: int,
     db: Session = Depends(database.valuaciones),
     user=Depends(required),
@@ -253,11 +264,12 @@ async def preview_cedulas(
     return __response.send_file()
 
 
-@comparables.post("/preview/{cedula_mercado}/{tipo}/{comparable}")
-async def create_comparable(
+@comparables.post("/preview/{cedula_mercado}/{tipo}/{comparable}/{as_report}")
+async def generate_preview(
     cedula_mercado: int,
-    tipo: str,
     comparable: int,
+    tipo: str,
+    as_report: str,
     request: Request,
     db: Session = Depends(database.valuaciones),
     user=Depends(required),
@@ -265,8 +277,21 @@ async def create_comparable(
     if isinstance(user, dict):
         return __response.error(**user)
     data = await request.json()
-    # dont forget the group of the user
-    return __response.send_file()
+
+    report = ComparablesCatComReport(db)
+    file = report.preview(
+        cedula_mercado, as_report=as_report, comparable=comparable, tipo=tipo, **data
+    )
+    if file is None:
+        return __response.error(
+            message="Comparable no disponible, ya han transcurrido más de 6 meses.",
+            status_code=404,
+        )
+    if not file:
+        return __response.error(
+            message="No se pudo generar el reporte", status_code=421
+        )
+    return __response.send_file(filename=file)
 
 
 # @comparables.get("/catatastrales_comerciales")
@@ -533,4 +558,5 @@ async def create_comparable(
 #             return __response.error(
 #                 message="No se pudo crear la cedula", status_code=404
 #             )
+#     return
 #     return

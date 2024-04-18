@@ -150,13 +150,13 @@
 			<table>
 				<thead>
 					<tr>
-						<!-- {% if valor[0] == 'T' %}
-					<th colspan="57" class="red text-left">{{MERCADO}}</th>
-					{% elif valor[0] == 'R' %}
-					<th colspan="57" class="purple text-left">{{MERCADO}}</th>
-					{%else%} -->
+						{% if valor[0] == 'T' %}
+						<th colspan="57" class="red text-left">{{MERCADO}}</th>
+						{% elif valor[0] == 'R' %}
+						<th colspan="57" class="purple text-left">{{MERCADO}}</th>
+						{%else%}
 						<th colspan="57" class="green text-left">{{MERCADO}}</th>
-						<!-- {% endif %} -->
+						{% endif %}
 					</tr>
 					<tr>
 						<th colspan="7" class="beige">DATOS DE VERIFICACIÓN</th>
@@ -224,7 +224,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<!-- {% for predio in PREDIOS %} -->
+					{% for predio in PREDIOS %}
 					<tr>
 						<td>{{predio.FOLIO}}</td>
 						<td>{{predio.TIPO_INMUEBLE}}</td>
@@ -280,7 +280,7 @@
 						<td>{{predio.CADUCA_MESES}}</td>
 						<td>{{predio.ELABORO}}</td>
 					</tr>
-					<!-- {% endfor %} -->
+					{% endfor %}
 				</tbody>
 			</table>
 		</div>

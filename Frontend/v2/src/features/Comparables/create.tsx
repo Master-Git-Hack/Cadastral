@@ -2,43 +2,85 @@
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import "primereact/resources/themes/tailwind-light/theme.css";
-import { Table, Button } from "flowbite-react";
-import { NavLink } from "react-router-dom";
-import { useGetCedulas, deleteCedula } from "@api/Comparables";
+import { Table, Button, Tooltip } from "flowbite-react";
+import { NavLink, useParams } from "react-router-dom";
+import { usePreviewMutation, usePostComparableMutation } from "@api/Comparables";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
 import Input from "@components/Input";
-import { Toggle } from "@components/toggle";
+import Select from "@components/Input/select";
+import { Toggle } from "@components/Toggle";
+const initialState = (id_cedula_mercado: number) => ({
+	tipo: "TERRENO",
+	id_cedula_mercado,
+	id_comparable_catcom: "",
+	zoom: 1,
+	margins: {
+		left: 0,
+		top: 0,
+		right: 0,
+		bottom: 0,
+	},
+	dpi: 300,
+});
 export default function Create() {
-	const [data, setData] = useState({
-		tipo: "",
-		id_comparable_catcom: "",
-		zoom: 1,
-		margin_left: 0,
-		margin_top: 0,
-		margin_right: 0,
-		margin_bottom: 0,
-		dpi: 300,
-	});
+	const { cedula_mercado } = useParams();
+	const navigate = useNavigate();
+	const [data, setData] = useState(initialState(parseInt(cedula_mercado)));
 	const [enableProperties, setEnableProperties] = useState(false);
+	const [preview, setPreview] = useState({
+		status: false,
+		file: undefined,
+	});
 	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
+	const handleMargins = ({ target }) =>
+		setData({ ...data, margins: { ...data.margins, [target.name]: target.value } });
+	const [
+		postComparable,
+		{ isLoading: isLoadingPost, isError: isErrorPost, error: errorPost, isSuccess },
+	] = usePostComparableMutation();
+	const [
+		getPreview,
+		{ isLoading: isLoadingPreview, isError: isErrorPreview, error: errorPreview, data: file },
+	] = usePreviewMutation();
+	if (isErrorPost || isErrorPreview)
+		return <Error message={errorPost?.data || errorPreview?.data} />;
+	if (isLoadingPost || isLoadingPreview) return <Spinner size={20} />;
 	return (
-		<div className="overflow-auto">
+		<div className="overflow-auto mx-3">
+			<div className="flex flex-row py-2">
+				<NavLink to={-1}>
+					<Button pill color="light">
+						Regresar
+					</Button>
+				</NavLink>
+			</div>
 			<Table striped hoverable>
 				<Table.Body>
 					<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 						<Table.Cell>
-							<strong>tipo</strong>
+							<strong>Tipo</strong>
 						</Table.Cell>
-						<Table.Cell>select</Table.Cell>
+						<Table.Cell>
+							<Select
+								name="tipo"
+								onClick={(tipo: string) => setData({ ...data, tipo })}
+								options={[
+									{ value: "TERRENO", label: "Terreno" },
+									{ value: "RENTA", label: "Renta" },
+									{ value: "VENTA", label: "Venta" },
+								]}
+							/>
+						</Table.Cell>
 					</Table.Row>
 					<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 						<Table.Cell>
-							<strong>id_comparable_catcom</strong>
+							<strong>ID Comparable</strong>
 						</Table.Cell>
 						<Table.Cell>
 							<Input
+								min={1}
 								name="id_comparable_catcom"
 								type="number"
 								variant="outline"
@@ -82,75 +124,80 @@ export default function Create() {
 									/>
 								</Table.Cell>
 							</Table.Row>
+							<Table.Row>
+								<Table.Cell colSpan={2} className="text-center">
+									<strong>Margenes</strong>
+								</Table.Cell>
+							</Table.Row>
 							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 								<Table.Cell>
-									<strong>Margen Izquierdo</strong>
+									<strong>Izquierdo</strong>
 								</Table.Cell>
 								<Table.Cell>
 									<Input
-										name="margin_left"
+										name="left"
 										type="number"
 										variant="outline"
 										min={0}
 										max={20}
 										step={1}
 										size="lg"
-										value={data.margin_left}
-										onChange={handleInputChange}
+										value={data.margins.left}
+										onChange={handleMargins}
 									/>
 								</Table.Cell>
 							</Table.Row>
 							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 								<Table.Cell>
-									<strong>Margen Superior</strong>
+									<strong>Superior</strong>
 								</Table.Cell>
 								<Table.Cell>
 									<Input
-										name="margin_top"
+										name="top"
 										type="number"
 										variant="outline"
 										min={0}
 										max={20}
 										step={1}
 										size="lg"
-										value={data.margin_top}
-										onChange={handleInputChange}
+										value={data.margins.top}
+										onChange={handleMargins}
 									/>
 								</Table.Cell>
 							</Table.Row>
 							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 								<Table.Cell>
-									<strong>Margen Derecho</strong>
+									<strong>Derecho</strong>
 								</Table.Cell>
 								<Table.Cell>
 									<Input
-										name="margin_right"
+										name="right"
 										type="number"
 										variant="outline"
 										min={0}
 										max={20}
 										step={1}
 										size="lg"
-										value={data.margin_right}
-										onChange={handleInputChange}
+										value={data.margins.right}
+										onChange={handleMargins}
 									/>
 								</Table.Cell>
 							</Table.Row>
 							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 								<Table.Cell>
-									<strong>Margen Inferior</strong>
+									<strong>Inferior</strong>
 								</Table.Cell>
 								<Table.Cell>
 									<Input
-										name="margin_bottom"
+										name="bottom"
 										type="number"
 										variant="outline"
 										min={0}
 										max={20}
 										step={1}
 										size="lg"
-										value={data.margin_bottom}
-										onChange={handleInputChange}
+										value={data.margins.bottom}
+										onChange={handleMargins}
 									/>
 								</Table.Cell>
 							</Table.Row>
@@ -158,6 +205,59 @@ export default function Create() {
 					)}
 				</Table.Body>
 			</Table>
+			<div className="flex flex-row-reverse py-2">
+				<Button.Group>
+					<Button pill color="light" disabled={preview.file === undefined}>
+						<Tooltip content="Se habilitara si require una preview de los documentos">
+							{preview.status ? "Ocultar" : "Mostrar"}
+						</Tooltip>
+					</Button>
+
+					<Button pill onClick={() => getPreview({ ...data, as_report: "cedula" })}>
+						<Tooltip content="Previsualizar Documento">Cédula de Mercado</Tooltip>
+					</Button>
+
+					<Button pill onClick={() => getPreview({ ...data, as_report: "mercado" })}>
+						<Tooltip content="Previsualizar Documento">Mercado</Tooltip>
+					</Button>
+
+					<Button
+						pill
+						color="success"
+						onClick={() => {
+							Alert.Question({
+								titleText: "¿Esta seguro de la información?",
+								confirmButtonText: "Guardar",
+								showCancelButton: true,
+								cancelButtonText: "Cancelar",
+							}).then(({ isConfirmed }) => {
+								if (isConfirmed) {
+									postComparable(data);
+									setData(initialState(parseInt(cedula_mercado)));
+									navigate(-1);
+								}
+							});
+						}}
+					>
+						Guardar
+					</Button>
+				</Button.Group>
+			</div>
+			{preview.status && (
+				<div className="flex items-center justify-center h-full">
+					<iframe
+						title="PDF Viewer"
+						className="w-full aspect-video h-full"
+						data-type="application/pdf"
+						width={window.innerWidth}
+						height={window.innerHeight * 0.8}
+						seamless={true}
+						src={`${preview.file}#zoom=${window.innerWidth * 0.05}`}
+						allow="clipboard-write; encrypted-media;"
+						allowFullScreen
+					/>
+				</div>
+			)}
 		</div>
 	);
 }

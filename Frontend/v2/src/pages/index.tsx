@@ -10,6 +10,8 @@ import RevisionAvaluos from "./RevisionAvaluos";
 import CreateRevisionAvaluos from "@features/RevisionAvaluos/create";
 import MetadatosViewer from "@features/Metadatos/viewer";
 import Comparables from "./Comparables";
+import Cedula from "@features/Comparables/cedula_mercado";
+import CreateCedula from "@features/Comparables/create";
 const RouterPages = createBrowserRouter([
 	{
 		path: "/sign-in",
@@ -55,16 +57,18 @@ const RouterPages = createBrowserRouter([
 	{
 		path: "comparables",
 		element: <Comparables />,
-		// children: [
-		// 	{
-		// 		path: "tipo/:type",
-		// 		element: <></>,
-		// 	},
-		// 	{
-		// 		path: "view/:id",
-		// 		element: <></>,
-		// 	},
-		// ],
+		children: [
+			{
+				path: "cedulas/:cedula_mercado",
+				element: <Cedula />,
+				children: [
+					{
+						path: "crear",
+						element: <CreateCedula />,
+					},
+				],
+			},
+		],
 	},
 	{
 		path: "reportes-catastrales/*",

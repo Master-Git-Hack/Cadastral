@@ -5,6 +5,7 @@ from jinja2 import Template
 from reportlab.lib.pagesizes import A4, letter
 from reportlab.pdfgen import canvas
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 
 from .. import config
 from ..models.cedula_comparables import CedulaComparables
@@ -113,13 +114,16 @@ cedulas_mercado_keys: set = {
 }
 
 
-def render(data: List[dict] | dict, type: str = "mercado"):
-    template: Template = Template(open(f"{config.PATHS.templates}/{type}.html").read())
-    files: List[str] = []
-    if type == "mercado":
+def render(data: List[dict] | dict, as_report: str = "mercado"):
+    if as_report == "mercado":
         keys = mercado_keys
+        html = "mercado"
     else:
+        html = "cedulas_mercado"
         keys = cedulas_mercado_keys
+    template: Template = Template(open(f"{config.PATHS.templates}/{html}.html").read())
+    files: List[str] = []
+
     if isinstance(data, list):
         for predio in data:
             with open(f"{(filename:=tmp_filename())}.html", "w", encoding="UTF-8") as f:
@@ -182,39 +186,32 @@ class ComparablesCatComReport:
         self.merged = None
         self.current = None
 
-    def check(self, db: Session, **kwargs):
-        comparables = CedulaComparables(db)
-        mercado = CedulaMercado(db)
-        cat_com = ComparablesCatCom(db)
-        query = (
-            db.query(comparables.model, mercado.model, cat_com.model)
-            .join(
-                cat_com.model,
-                cat_com.model.id == comparables.model.id_comparable_catcom,
-            )
-            .join(
-                mercado.model, mercado.model.id == comparables.model.id_cedula_mercado
-            )
-            .all()
-        )
-        # print(query)
-        # query
+    # results = session.query(ComparablesCatcom).filter(func.DATE_PART('month', func.age(func.current_date(), ComparablesCatcom.fecha_captura)) <= 6).all()
 
-        for q in query:
-            print(q[0].__dict__)
-            print(q[1].__dict__)
-            print(q[2].__dict__)
-
-    def create(self, type: str = "mercado", *args, **kwargs) -> List[str]:
-        self.files = render(
-            [comp for id in args if (comp := check(db=self.__db, id=id, **kwargs))],
-            type,
-        )
-        return self.files
-
-    def merge(self, files: Optional[List[str]] = None) -> str:
-        if files is None:
-            files = self.files
-        pdf = PDF(files=files)
-        self.merged = pdf.merge()
-        return self.merged
+    def preview(
+        self,
+        cedula_mercado: int,
+        comparable: int,
+        as_report: str = "mercado",
+        tipo: str = "TERRENO",
+        **kwargs,
+    ):
+        cedula = CedulaMercado(self.__db)
+        comparables = ComparablesCatCom(self.__db)
+        if cedula.get(cedula_mercado) is None:
+            return False
+        if comparables.filter(id=comparable) is None:
+            return False
+        if comparables.current.fecha_captura + timedelta(days=180) > datetime.now():
+            return None
+        data = cedula.to_dict(["id"]) | comparables.to_dict() | {"tipo": tipo}
+        data = {key.upper(): value for key, value in data.items()}
+        url_base = "http://172.31.113.151/comparables/imagenes"
+        data["CAPTURA_PANTALLA"] = f"{url_base}/{data['CAPTURA_PANTALLA']}"
+        data["IMAGEN_1"] = f"{url_base}/{data['IMAGEN_1']}"
+        data["IMAGEN_2"] = f"{url_base}/{data['IMAGEN_2']}"
+        data["FECHA_CAPTURA"] = as_complete_date(data["FECHA_CAPTURA"])
+        pdf = PDF(templates=render(data=data, as_report=as_report), **kwargs)
+        pdf.render()
+        return pdf.files[0]
+        return pdf.files[0]

@@ -1,5 +1,4 @@
 <!-- @format -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -120,17 +119,17 @@
 		<tbody>
 			<tr>
 				<td></td>
-				<!-- {% if valor[0] == 'T' %}
+				{% if TIPO[0] == 'T' %}
 					<td class="red" colspan="4">{{ID}}</td>
-					{% elif valor[0] == 'R' %}
+					{% elif TIPO[0] == 'R' %}
 					<td class="purple" colspan="4">{{ID}}</td>
-					{%else%} -->
+					{%else%}
 				<td class="green" colspan="4">{{ID}}</td>
-				<!-- {% endif %} -->
+				{% endif %}
 				<td colspan="3"></td>
 				<td></td>
 				<td colspan="5"></td>
-				<td colspan="2">{{COMERCIAL_FRENTE}}</td>
+				<td colspan="2">{{REGISTRO}}</td>
 				<td></td>
 			</tr>
 			<tr>
@@ -139,15 +138,15 @@
 			<tr>
 				<td></td>
 				<td colspan="7">
-					<img class="image" src="./picture1.jpg" />
+					<img class="image" src={{IMAGEN_1}} />
 				</td>
 				<td></td>
-				<td colspan="7"><img class="image" src="./picture2.jpg" /></td>
+				<td colspan="7"><img class="image" src={{IMAGEN_2}} /></td>
 				<td></td>
 			</tr>
 			<tr>
 				<td></td>
-				<td colspan="7">COMPARABLE {{COMPARABLE}}</td>
+				<td colspan="7">COMPARABLE 1</td>
 				<td></td>
 				<td colspan="7">MICROLOCALIZACIÓN</td>
 				<td></td>
@@ -167,7 +166,7 @@
 				<td class="text-left" colspan="5">{{FECHA_CAPTURA}}</td>
 				<td></td>
 				<td class="text-right" colspan="2"><strong>PERIFERIA:</strong></td>
-				<td colspan="5" class="text-left">{{PERIFERIA}}</td>
+				<td colspan="5" class="text-left">{{TIPO_ZONA}}</td>
 				<td></td>
 			</tr>
 			<tr>
@@ -182,7 +181,7 @@
 			<tr>
 				<td></td>
 				<td class="text-right" colspan="2"><strong>INFORMANTE:</strong></td>
-				<td class="text-left" colspan="5">{{INFORMANTE}}</td>
+				<td class="text-left" colspan="5">{{NOMBRE_ANUNCIANTE}}</td>
 				<td></td>
 				<td class="text-right" colspan="2"><strong>USO DE SUELO:</strong></td>
 				<td colspan="5" class="text-left">{{USO_SUELO}}</td>
@@ -191,7 +190,7 @@
 			<tr>
 				<td></td>
 				<td class="text-right" colspan="2"><strong>TELEFONO DEL INFORMANTE:</strong></td>
-				<td class="text-left" colspan="5">{{TELEFONO_INFORMANTE}}</td>
+				<td class="text-left" colspan="5">{{TELEFONO_ANUNCIANTE}}</td>
 				<td></td>
 				<td class="text-right" colspan="2"><strong>ENTRE CALLES:</strong></td>
 				<td colspan="5" class="text-left">{{ENTRE_CALLES}}</td>
@@ -281,7 +280,7 @@
 			<tr>
 				<td></td>
 				<td class="text-right" colspan="2"><strong>NOMBRE DE LA VIALIDAD:</strong></td>
-				<td class="text-left" colspan="5">{{NOMBRE_VIALIDAD}}</td>
+				<td class="text-left" colspan="5">{{TIPO_VIALIDAD}} {{NOMBRE_VIALIDAD}}</td>
 				<td></td>
 				<td class="text-right" colspan="7"></td>
 				<td></td>
@@ -309,9 +308,9 @@
 				<td></td>
 				<td class="text-right" colspan="2"><strong>COORDENADAS:</strong></td>
 				<td class="text-right">X</td>
-				<td class="text-left">{{COORDENADA_X}}</td>
+				<td class="text-left">{{X_UTM}}</td>
 				<td class="text-right">Y</td>
-				<td class="text-left" colspan="2">{{COORDENADA_Y}}</td>
+				<td class="text-left" colspan="2">{{Y_UTM}}</td>
 				<td></td>
 				<td class="text-right" colspan="2"><strong>PRECIO UNITARIO:</strong></td>
 				<td colspan="5" class="text-right">{{PRECIO_UNITARIO}}</td>
@@ -348,7 +347,7 @@
 				<td></td>
 				
 				<td></td>
-				<td colspan="7" class="text-justify" rowspan="2">{{}}</td>
+				<td colspan="7" class="text-justify" rowspan="2"></td>
 				<td></td>
 			</tr>
 			<tr></tr>
@@ -363,10 +362,10 @@
 			<tr>
 				<td></td>
 				<td colspan="7">
-					<img class="image" src="./picture3.jpg" />
+					<img class="image" src={{CAPTURA_PANTALLA}} />
 				</td>
 				<td></td>
-				<td colspan="7"><img class="image" src="./picture4.jpg" /></td>
+				<td colspan="7"><img class="image" src="" /></td>
 				<td></td>
 			</tr>
 			<tr>
