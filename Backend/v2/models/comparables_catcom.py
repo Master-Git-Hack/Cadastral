@@ -3,6 +3,7 @@
 from datetime import datetime
 from typing import Any, Dict
 
+from geoalchemy2.types import Geometry
 from sqlalchemy import Column, Date, Float, Integer, String
 from sqlalchemy.orm import relationship
 
@@ -10,7 +11,7 @@ from .. import database
 from ..middlewares.database import Template
 
 
-class _ComparablesCatCom(database.BASE):
+class Model(database.BASE):
     """Model for Comparables Catastrales Comerciales"""
 
     __tablename__ = "comparables_catcom"
@@ -73,7 +74,12 @@ class _ComparablesCatCom(database.BASE):
     observaciones = Column(String)
     usuario = Column(String)
     fh_modificacion = Column(Date, default=datetime.now)
-
+    zona_utm = Column(Integer)
+    google_maps = Column(String)
+    geom = Column(
+        Geometry("POINT", 32614, name="geometry"),
+        index=True,
+    )
     # cedula_comparables = relationship(
     #     "_CedulaComparables", back_populates="comparable_catcom"
     # )
@@ -86,4 +92,4 @@ class _ComparablesCatCom(database.BASE):
 
 class ComparablesCatCom(Template):
     def __init__(self, db) -> None:
-        super().__init__(_ComparablesCatCom, db)
+        super().__init__(Model, db)

@@ -12,6 +12,7 @@ import MetadatosViewer from "@features/Metadatos/viewer";
 import Comparables from "./Comparables";
 import Cedula from "@features/Comparables/cedula_mercado";
 import CreateCedula from "@features/Comparables/create";
+import ComparableViewer from "@features/Comparables/viewer";
 const RouterPages = createBrowserRouter([
 	{
 		path: "/sign-in",
@@ -65,6 +66,10 @@ const RouterPages = createBrowserRouter([
 					{
 						path: "crear",
 						element: <CreateCedula />,
+					},
+					{
+						path: "view/:id/:as_report",
+						element: <ComparableViewer />,
 					},
 				],
 			},

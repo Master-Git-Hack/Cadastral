@@ -5,7 +5,7 @@ from .. import database
 from ..middlewares.database import Template
 
 
-class _CedulaComparables(database.BASE):
+class Model(database.BASE):
     """Cedula Comparables model"""
 
     __tablename__ = "cedula_comparable"
@@ -29,7 +29,7 @@ class _CedulaComparables(database.BASE):
 
     # cedula_mercado = relationship(
     #     "_CedulaMercado",
-    #     primaryjoin="_CedulaComparables.id_cedula_mercado == _CedulaMercado.id",
+    #     primaryjoin="Model.id_cedula_mercado == _CedulaMercado.id",
     # )
     # comparable_catcom = relationship(
     #     "_ComparablesCatCom", primaryjoin="_ComparablesCatCom.id==_ComparablesCatCom.id"
@@ -49,7 +49,7 @@ class _CedulaComparables(database.BASE):
 
 class CedulaComparables(Template):
     def __init__(self, db) -> None:
-        super().__init__(_CedulaComparables, db)
+        super().__init__(Model, db)
 
     def __enter__(self):
         return super().__enter__()

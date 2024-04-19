@@ -7,7 +7,7 @@ from .. import database
 from ..middlewares.database import Template
 
 
-class _CedulaMercado(database.BASE):
+class Model(database.BASE):
     """Cedula Mercado model"""
 
     __tablename__ = "cedula_mercado"
@@ -34,7 +34,7 @@ class _CedulaMercado(database.BASE):
 
 class CedulaMercado(Template):
     def __init__(self, db) -> None:
-        super().__init__(_CedulaMercado, db)
+        super().__init__(Model, db)
 
     def __enter__(self):
         return super().__enter__()

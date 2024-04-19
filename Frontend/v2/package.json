@@ -41,6 +41,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.2",
     "react-redux": "^8.1.2",
+    "react-router-breadcrumbs-hoc": "^4.1.0",
     "sort-by": "^1.2.0",
     "string-similarity": "^4.0.4",
     "sweetalert2": "^11.7.23",

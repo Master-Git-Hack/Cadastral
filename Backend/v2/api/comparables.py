@@ -61,6 +61,26 @@ async def get_cedula_by_id(
     return __response.success(data=cedula.to_dict())
 
 
+@comparables.post("/cedula/{id}/reporte/{as_report}")
+async def get_cedula_reporte_by_id(
+    id: int,
+    request: Request,
+    as_report: str = "mercado",
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
+    """
+    Get cedula by id
+    """
+    if isinstance(user, dict):
+        return __response.error(**user)
+    data = await request.json()
+    cedula = CedulaMercado(db)
+    if cedula.filter(id=id, usuario=user.usuario) is None:
+        return __response.error(message="No se encontraron cedulas", status_code=404)
+    return __response.success(data=cedula.to_dict())
+
+
 @comparables.post("/cedula/{registro}")
 async def create_cedula(
     registro: str,

@@ -67,6 +67,13 @@ export const ComparablesApi = createApi({
                 method: "GET",
             }),
         }),
+        comparableReport: mutation<IComparables, { id: string; as_report: "mercado" | "cedula";data:any }>({
+            query: ({ id,as_report,data }) => ({
+                url: `comparables/cedula/${id}/reporte/${as_report}`,
+                method: "POST",
+                data
+            }),
+        }),
         postComparable: mutation<IComparables, { tipo:string,id_cedula_mercado:number,id_comparable_catcom:number }>({
             query: ({ tipo,id_cedula_mercado,id_comparable_catcom,...data }) => ({
                 url: `comparables/comparable/${id_cedula_mercado}/${tipo}/${id_comparable_catcom}`,
@@ -117,5 +124,6 @@ export const {
     useDeleteComparableMutation,
     useReportsMutation,
     usePreviewMutation,
+    useComparableReportMutation
 
 } =ComparablesApi;

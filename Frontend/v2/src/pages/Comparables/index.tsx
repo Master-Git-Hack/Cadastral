@@ -4,6 +4,7 @@ import Comparables from "@features/Comparables";
 import Cedulas from "@features/Comparables/cedula_mercado";
 import CrearCedula from "@features/Comparables/create";
 import Layout from "@features/Layout";
+import Viewer from "@features/Comparables/viewer";
 export default function Metadata() {
 	return (
 		<Layout>
@@ -14,7 +15,7 @@ export default function Metadata() {
 				{/* <Route path="edit/:uid" element={<EditMetadatos />} />
 				<Route path="temporal/edit/:uid" element={<EditMetadatos isTemporal={true} />} />
 				<Route path="crear/" element={<CreateMetadatos />} /> */}
-				<Route path="view/:id" element={<></>} />
+				<Route path="cedulas/:cedula_mercado/view/:id/:as_report" element={<Viewer />} />
 			</Routes>
 		</Layout>
 	);
