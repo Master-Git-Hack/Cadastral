@@ -71,6 +71,7 @@ export const ComparablesApi = createApi({
             query: ({ id,as_report,data }) => ({
                 url: `comparables/cedula/${id}/reporte/${as_report}`,
                 method: "POST",
+                responseType: "blob",
                 data
             }),
         }),
@@ -101,10 +102,11 @@ export const ComparablesApi = createApi({
                 responseType: "blob",
             }),
         }),
-        preview: mutation<IComparables, {  id_cedula_mercado: number, id_comparable_catcom: number,as_report:string }>({
-            query: ({ id_cedula_mercado, id_comparable_catcom,as_report, ...data }) => ({
-                url: `comparables/preview/${id_cedula_mercado}/${id_comparable_catcom}/${as_report}`,
+        preview: mutation<IComparables, { id_cedula_mercado: number, tipo: string; id_comparable_catcom: number,as_report:string, data:any }>({
+            query: ({ id_cedula_mercado, id_comparable_catcom,as_report, data,tipo }) => ({
+                url: `comparables/preview/${id_cedula_mercado}/${tipo}/${id_comparable_catcom}/${as_report}`,
                 method: "POST",
+                responseType: "blob",
                 data
             }),
         }),

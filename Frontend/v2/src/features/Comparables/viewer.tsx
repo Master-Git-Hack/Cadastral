@@ -3,7 +3,7 @@
 import Spinner from "@components/Spinner";
 import Alert from "@components/Alerts";
 import blankDocument from "../../assets/blank.pdf";
-import { useComparableReportMutation } from "@api/Comparables";
+import { usePreviewMutation } from "@api/Comparables";
 import { useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import Error from "../Error";
@@ -13,8 +13,7 @@ export const DocumentViewer = ({
 	width = window.innerWidth,
 	height = window.innerHeight * 0.8,
 }: any) => {
-	const { id, as_report } = useParams();
-	console.log(id, as_report);
+	const { id, cedula_mercado, as_report, tipo } = useParams();
 	const [file, setFile] = useState(blankDocument);
 	const [properties, setProperties] = useState({
 		zoom: 1,
@@ -26,41 +25,67 @@ export const DocumentViewer = ({
 		},
 		dpi: 300,
 	});
+
 	const [template, setTemplate] = useState(true);
 	// const { data, isLoading, isError, error } = useViewMetadatoReportQuery({ uid });
-	const [requestFile, { data, isLoading, isError, error }] = useComparableReportMutation();
+	const [requestFile, { data, isLoading, isError, error, isUninitialized, isSuccess }] =
+		usePreviewMutation();
+	// console.log(data);
 	useEffect(() => {
-		// requestFile({ id, as_report });
+		// if (isUninitialized)
+		requestFile({
+			id_cedula_mercado: cedula_mercado,
+			id_comparable_catcom: id,
+			as_report,
+			tipo,
+			data: properties,
+		});
 	}, []);
 	useEffect(() => {
-		if (data !== undefined && template) {
+		if (data !== undefined && template && isSuccess) {
 			setFile(URL.createObjectURL(data));
 			setTemplate(false);
 		}
-	}, [data, template]);
-	if (!id) return <Error message="No se ha seleccionado un metadato" />;
-	if (isError) return <Error message={error?.data} />;
+	}, [data, template, isSuccess]);
+	if (isError) {
+		setFile(blankDocument);
+		setTemplate(true);
+		return <Error message={error?.data} />;
+	}
 	if (isLoading) return <Spinner size={20} />;
 	const handleInputChange = ({ target }) =>
 		setProperties({ ...data, [target.name]: target.value });
 	const handleMargins = ({ target }) =>
 		setProperties({
-			...data,
+			...properties,
 			margins: { ...properties.margins, [target.name]: target.value },
 		});
 	return (
 		<div className="flex-col my-3 items-center justify-center h-full">
 			<div className="flex flex-row justify-between">
-				<NavLink to={`/comparables`}>
+				<NavLink to={`/comparables/cedulas/${cedula_mercado}`}>
 					<Button pill color="light">
 						Atras
 					</Button>
 				</NavLink>
-				<NavLink to={`crear`}>
-					<Button pill color="light">
-						Ajustar Propiedades
-					</Button>
-				</NavLink>
+
+				<Button
+					pill
+					color="light"
+					onClick={(e) => {
+						e.preventDefault();
+						requestFile({
+							id_cedula_mercado: cedula_mercado,
+							id_comparable_catcom: id,
+							as_report,
+							tipo,
+							data: properties,
+						});
+						return 0;
+					}}
+				>
+					Ajustar Propiedades de la Hoja
+				</Button>
 			</div>
 			<Table>
 				<Table.Body>
@@ -79,7 +104,7 @@ export const DocumentViewer = ({
 								size="lg"
 								value={properties.zoom * 100}
 								onChange={({ target }) =>
-									setProperties({ ...data, zoom: target.value / 100 })
+									setProperties({ ...properties, zoom: target.value / 100 })
 								}
 							/>
 						</Table.Cell>

@@ -3,10 +3,11 @@ from os.path import exists
 from subprocess import PIPE, Popen
 from typing import List, Optional
 
+from pdfkit import from_file
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 from wkhtmltopdf import WKHtmlToPdf
 
-from .. import logger
+from .. import config, logger
 from .tmp import name_it as tmp_filename
 
 
@@ -14,11 +15,11 @@ class PDFMaker:
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        ...
+    def __exit__(self, exc_type, exc_value, traceback): ...
 
     __margins_default: dict = dict(top="15", bottom="0", left="0", right="0")
     __dpi_default: str = "3000"
+    __orientation_default: str = "Portrait"
     watermark: bool = False
     filename: str = tmp_filename(extension="pdf")
     files: List = []
@@ -29,6 +30,7 @@ class PDFMaker:
             self.margins = kwargs.get("margins", self.__margins_default)
             self.dpi = str(kwargs.get("dpi", self.__dpi_default))
             self.margins = {key: str(value) for key, value in self.margins.items()}
+            self.orientation = kwargs.get("orientation", self.__orientation_default)
             if "margins" in kwargs:
                 del kwargs["margins"]
             if "dpi" in kwargs:
@@ -80,18 +82,42 @@ class PDFMaker:
                 #     logger.bind(payload=str(e)).debug(
                 #         f"----------> Unexpected error:\n {str(e)}"
                 #     )
-                output = WKHtmlToPdf(
-                    url=input_file,
-                    output_file=file,
-                    dpi=self.dpi,
-                    margin_bottom=self.margins["bottom"],
-                    margin_left=self.margins["left"],
-                    margin_right=self.margins["right"],
-                    margin_top=self.margins["top"],
-                    enable_javascript=True,
-                    quiet=True,
+                from_file(
+                    input=input_file,
+                    output_path=file,
+                    options={
+                        "enable-local-file-access": None,
+                        "orientation": self.orientation,
+                        "page-size": "A4",
+                        "dpi": self.dpi,
+                        "margin-top": self.margins["top"],
+                        "margin-bottom": self.margins["bottom"],
+                        "margin-left": self.margins["left"],
+                        "margin-right": self.margins["right"],
+                        "collate": True,
+                        "enable-external-links": True,
+                        "enable-smart-shrinking": True,
+                        "page-width": "210mm",
+                        "page-height": "297mm",
+                    },
                 )
-                output.render()
+                # output = WKHtmlToPdf(
+                #     url=input_file,
+                #     output_file=file,
+                #     dpi=self.dpi,
+                #     margin_bottom=self.margins["bottom"],
+                #     margin_left=self.margins["left"],
+                #     margin_right=self.margins["right"],
+                #     margin_top=self.margins["top"],
+                #     orientation=self.orientation,
+                #     enable_javascript=True,
+                #     collete=True,
+                #     print_media_type=True,
+                #     page_size="A4",
+                #     quiet=True,
+                # )
+
+                # output.render()
 
                 if exists(file):
                     remove(input_file)

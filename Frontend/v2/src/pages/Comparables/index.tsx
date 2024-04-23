@@ -15,7 +15,7 @@ export default function Metadata() {
 				{/* <Route path="edit/:uid" element={<EditMetadatos />} />
 				<Route path="temporal/edit/:uid" element={<EditMetadatos isTemporal={true} />} />
 				<Route path="crear/" element={<CreateMetadatos />} /> */}
-				<Route path="cedulas/:cedula_mercado/view/:id/:as_report" element={<Viewer />} />
+				<Route path="cedulas/:cedula_mercado/view/:id/:as_report/:tipo" element={<Viewer />} />
 			</Routes>
 		</Layout>
 	);

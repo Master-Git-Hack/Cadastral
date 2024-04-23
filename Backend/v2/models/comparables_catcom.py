@@ -80,12 +80,12 @@ class Model(database.BASE):
         Geometry("POINT", 32614, name="geometry"),
         index=True,
     )
+    vtm_usd = Column(Float)
     # cedula_comparables = relationship(
     #     "_CedulaComparables", back_populates="comparable_catcom"
     # )
 
     def __init__(self, **kwargs: Dict[str, Any]) -> None:
-
         for key, value in kwargs.items():
             setattr(self, key, value)
 

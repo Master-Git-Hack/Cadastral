@@ -56,14 +56,14 @@ export default function Comparables() {
 							<Table.Cell className="px-6 py-4 text-right">
 								<NavLink
 									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-									to={`view/${id}/mercado`}
+									to={`view/${id}/mercado/${tipo}`}
 								>
 									Mercado
 								</NavLink>
 								<span className="mx-2">/</span>
 								<NavLink
 									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-									to={`view/${id}/cedula`}
+									to={`view/${id}/cedula/${tipo}`}
 								>
 									Cedúla Mercado
 								</NavLink>

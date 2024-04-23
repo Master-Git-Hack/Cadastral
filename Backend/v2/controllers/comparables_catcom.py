@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from os.path import exists
 from typing import List, Optional, Set
 
@@ -129,19 +130,14 @@ def render(data: List[dict] | dict, as_report: str = "mercado"):
             with open(f"{(filename:=tmp_filename())}.html", "w", encoding="UTF-8") as f:
                 f.write(
                     template.render(
-                        **{
-                            keys.get(key, key.upper()): value
-                            for key, value in predio.items()
-                        }
+                        **{key.upper(): value for key, value in predio.items()}
                     )
                 )
             files.append(filename)
     else:
         with open(f"{(filename:=tmp_filename())}.html", "w", encoding="UTF-8") as f:
             f.write(
-                template.render(
-                    **{keys.get(key, key.upper()): value for key, value in data.items()}
-                )
+                template.render(**{key.upper(): value for key, value in data.items()})
             )
         files.append(filename)
     return files
@@ -202,7 +198,7 @@ class ComparablesCatComReport:
             return False
         if comparables.filter(id=comparable) is None:
             return False
-        if comparables.current.fecha_captura + timedelta(days=180) > datetime.now():
+        if comparables.current.fecha_captura + timedelta(days=180) <= datetime.now():
             return None
         data = cedula.to_dict(["id"]) | comparables.to_dict() | {"tipo": tipo}
         data = {key.upper(): value for key, value in data.items()}
@@ -211,7 +207,9 @@ class ComparablesCatComReport:
         data["IMAGEN_1"] = f"{url_base}/{data['IMAGEN_1']}"
         data["IMAGEN_2"] = f"{url_base}/{data['IMAGEN_2']}"
         data["FECHA_CAPTURA"] = as_complete_date(data["FECHA_CAPTURA"])
+        data["PREDIOS"] = []
+        if as_report == "mercado":
+            kwargs["orientation"] = "Landscape"
         pdf = PDF(templates=render(data=data, as_report=as_report), **kwargs)
         pdf.render()
-        return pdf.files[0]
         return pdf.files[0]

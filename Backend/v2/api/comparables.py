@@ -34,7 +34,6 @@ async def get_cedulas(
         return __response.error(**user)
     cedula = CedulaMercado(db)
     if cedula.filter_group(usuario=user.usuario) is None:
-
         return __response.error(message="No se encontraron cedulas", status_code=404)
 
     return __response.success(
@@ -74,10 +73,13 @@ async def get_cedula_reporte_by_id(
     """
     if isinstance(user, dict):
         return __response.error(**user)
-    data = await request.json()
+
+    # data = await request.json()
+    # print(data)
     cedula = CedulaMercado(db)
     if cedula.filter(id=id, usuario=user.usuario) is None:
         return __response.error(message="No se encontraron cedulas", status_code=404)
+    print(cedula.current.__dict__)
     return __response.success(data=cedula.to_dict())
 
 
@@ -275,12 +277,15 @@ async def delete_comparable(
 @comparables.get("/reports/{cedula_mercado}")
 async def report_cedulas(
     cedula_mercado: int,
+    request: Request,
     db: Session = Depends(database.valuaciones),
     user=Depends(required),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
     # dont forget the group of the user
+    data = await request.json()
+    print(data)
     return __response.send_file()
 
 
@@ -288,20 +293,21 @@ async def report_cedulas(
 async def generate_preview(
     cedula_mercado: int,
     comparable: int,
-    tipo: str,
     as_report: str,
     request: Request,
+    tipo: str = "TERRENO",
     db: Session = Depends(database.valuaciones),
     user=Depends(required),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
     data = await request.json()
-
+    # print(data)
     report = ComparablesCatComReport(db)
     file = report.preview(
         cedula_mercado, as_report=as_report, comparable=comparable, tipo=tipo, **data
     )
+
     if file is None:
         return __response.error(
             message="Comparable no disponible, ya han transcurrido más de 6 meses.",
@@ -311,7 +317,10 @@ async def generate_preview(
         return __response.error(
             message="No se pudo generar el reporte", status_code=421
         )
-    return __response.send_file(filename=file)
+    route = file.split("/")
+    # print("/".join(route[:-1]))
+    # print(route[-1])
+    return __response.send_file(filename=route[-1], path=file, delete=True)
 
 
 # @comparables.get("/catatastrales_comerciales")

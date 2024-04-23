@@ -1,4 +1,6 @@
+from asyncio import create_task, sleep
 from json import load
+from os import listdir, remove
 from os.path import exists
 from typing import Dict, List, Optional, Union
 
@@ -159,6 +161,30 @@ class Responses:
         return self.__make_response(content, data, status_code, headers, background)
 
     def send_file(
-        self, filename: str, path: str, media_type: str = "application/pdf"
+        self,
+        filename: str,
+        path: str = None,
+        media_type: str = "application/pdf",
+        delete: bool = False,
+        **kwargs,
     ) -> FileResponse:
-        return FileResponse(path, filename=filename, media_type=media_type)
+        if path is None:
+            path = f"{config.PATHS.tmp}/{filename}"
+        response = FileResponse(
+            path, filename=filename, media_type=media_type, **kwargs
+        )
+
+        if delete:
+            create_task(self.__delete_files())
+        return response
+
+    async def __delete_files(self, path: str = None) -> None:
+        await sleep(5)
+        if path is None:
+            path = config.PATHS.tmp
+        try:
+            for filename in listdir(path):
+                if exists(file := f"{path}/{filename}"):
+                    remove(file)
+        except FileNotFoundError:
+            pass

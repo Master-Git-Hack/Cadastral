@@ -11,13 +11,14 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				height: 100vh;
-				margin: 0vw 5vw;
+				width: 297mm;
+				/* 	height: 100vh; */
+				/* margin: 0vw 5vw; */
 				font-size: 9.5px;
 			}
 			.table-container {
-				max-height: 400px; /* Maximum height of the container */
-				overflow-y: auto; /* Enable vertical scrolling */
+				width: 100%;
+				overflow: auto;
 			}
 
 			/* Styles for the table */
@@ -39,7 +40,9 @@
 				width: 100%;
 				border-collapse: collapse;
 			}
-
+			tr {
+				page-break-inside: avoid;
+			}
 			th,
 			td {
 				text-align: center;
@@ -146,13 +149,13 @@
 		</style>
 	</head>
 	<body>
-		<div class="table-container">
+		<div >
 			<table>
 				<thead>
 					<tr>
-						{% if valor[0] == 'T' %}
+						{% if TIPO[0] == 'T' %}
 						<th colspan="57" class="red text-left">{{MERCADO}}</th>
-						{% elif valor[0] == 'R' %}
+						{% elif TIPO[0] == 'R' %}
 						<th colspan="57" class="purple text-left">{{MERCADO}}</th>
 						{%else%}
 						<th colspan="57" class="green text-left">{{MERCADO}}</th>
