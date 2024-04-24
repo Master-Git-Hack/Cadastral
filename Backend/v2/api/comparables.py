@@ -289,6 +289,19 @@ async def report_cedulas(
     return __response.send_file()
 
 
+@comparables.post("/report/{cedula_mercado}/{as_report}")
+async def generate_reports(
+    cedula_mercado: int,
+    request: Request,
+    as_report: str = "mercado",
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+): 
+    if isinstance(user, dict):
+        return __response.error(**user)
+    data = await request.json()
+    report = ComparablesCatComReport(db)
+    
 @comparables.post("/preview/{cedula_mercado}/{tipo}/{comparable}/{as_report}")
 async def generate_preview(
     cedula_mercado: int,

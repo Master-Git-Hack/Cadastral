@@ -95,13 +95,15 @@ export const ComparablesApi = createApi({
                 method: "DELETE",
             }),
         }),
-        reports: mutation<File, { cedula_mercado: number }>({
-            query: ({ cedula_mercado }) => ({
-                url: `comparables/reports/${cedula_mercado}`,
-                method: "GET",
+        reports: mutation<File, { cedula_mercado: number;as_report:string }>({
+            query: ({ cedula_mercado,as_report,data }) => ({
+                url: `comparables/reports/${cedula_mercado}/${as_report}`,
+                method: "POST",
                 responseType: "blob",
+                data
             }),
         }),
+
         preview: mutation<IComparables, { id_cedula_mercado: number, tipo: string; id_comparable_catcom: number,as_report:string, data:any }>({
             query: ({ id_cedula_mercado, id_comparable_catcom,as_report, data,tipo }) => ({
                 url: `comparables/preview/${id_cedula_mercado}/${tipo}/${id_comparable_catcom}/${as_report}`,

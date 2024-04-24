@@ -213,3 +213,7 @@ class ComparablesCatComReport:
         pdf = PDF(templates=render(data=data, as_report=as_report), **kwargs)
         pdf.render()
         return pdf.files[0]
+
+    def get(
+        self, cedula_mercado: int, ids: List[int], as_report: str = "mercado", **kwargs
+    ): ...

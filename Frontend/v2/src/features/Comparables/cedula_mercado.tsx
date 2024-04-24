@@ -4,7 +4,11 @@ import { useNavigate } from "react-router";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button } from "flowbite-react";
 import { NavLink, useParams } from "react-router-dom";
-import { useGetComparablesQuery, useDeleteComparableMutation } from "@api/Comparables";
+import {
+	useGetComparablesQuery,
+	useDeleteComparableMutation,
+	useReportsMutation,
+} from "@api/Comparables";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
@@ -12,8 +16,18 @@ export default function Comparables() {
 	const { cedula_mercado } = useParams();
 	const navigate = useNavigate();
 	const { data, isLoading, isError, error } = useGetComparablesQuery({ cedula_mercado });
-	if (isError) return <Error message={error?.data} />;
-	if (isLoading) return <Spinner size={20} />;
+	const [
+		requestReports,
+		{
+			data: reports,
+			isLoading: isReportsLoading,
+			isError: isReportsError,
+			error: reportsError,
+		},
+	] = useReportsMutation();
+	if (isError || isReportsError) return <Error message={error?.data || reportsError?.data} />;
+	if (isLoading || isReportsLoading) return <Spinner size={20} />;
+	const ids = data?.data.map(({ id }) => id);
 
 	return (
 		<div className="overflow-auto">
@@ -23,12 +37,37 @@ export default function Comparables() {
 						Atras
 					</Button>
 				</NavLink>
-				<NavLink to={`crear`}>
-					<Button pill color="light">
-						Crear Nuevo Comparable
+				<Button.Group>
+					<Button
+						pill
+						onClick={() =>
+							requestReports({
+								cedula_mercado,
+								as_report: "mercado",
+								data: { ids },
+							})
+						}
+					>
+						Ver Mercados
 					</Button>
-				</NavLink>
+					<Button
+						pill
+						onClick={() =>
+							requestReports({
+								cedula_mercado,
+								as_report: "cedula",
+								data: { ids },
+							})
+						}
+					>
+						Ver Cédulas de Mercado
+					</Button>
+					<Button pill color="light">
+						<NavLink to={`crear`}>Crear Nuevo Comparable</NavLink>
+					</Button>
+				</Button.Group>
 			</div>
+
 			<Table striped hoverable>
 				<Table.Head>
 					<Table.HeadCell>#</Table.HeadCell>
