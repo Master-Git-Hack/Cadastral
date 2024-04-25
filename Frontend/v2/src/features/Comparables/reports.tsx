@@ -3,8 +3,114 @@
 import { Table } from "flowbite-react";
 export const Reports = ({ as_report, ...props }) =>
 	as_report === "cedula" ? <Cedula {...props} /> : <Mercado {...props} />;
-const Cedula = ({ data }) => {
-	return <></>;
+const Cedula = ({
+	tipo,
+	tipo_comparable,
+	id,
+	registro,
+	imagen_1,
+	imagen_2,
+	fecha_captura,
+	tipo_zona,
+	tipo_inmueble,
+	zona_economica,
+}) => {
+	return (
+		<div>
+			<Table>
+				<Table.Head>
+					<Table.HeadCell colSpan={17}>Comparables de {tipo_comparable}</Table.HeadCell>
+				</Table.Head>
+				<Table.Body>
+					<Table.Row>
+						<Table.Cell
+							colSpan={4}
+							className={`${
+								tipo === "TERRENO"
+									? "bg-red-500"
+									: tipo === "RENTA"
+										? "bg-purple-500"
+										: "bg-green-500"
+							} text-white`}
+						>
+							{id}
+						</Table.Cell>
+						<Table.Cell colSpan={3} />
+						<Table.Cell colSpan={5} />
+						<Table.Cell colSpan={2}>{registro}</Table.Cell>
+						<Table.Cell />
+					</Table.Row>
+					<Table.Row>
+						<Table.Cell colSpan={17} />
+					</Table.Row>
+					<Table.Row>
+						<Table.Cell />
+						<Table.Cell colSpan={7}>
+							<figure className="max-w-lg">
+								<img className="h-auto max-w-full rounded-lg" src={imagen_1} />
+								<figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+									Comparable 1
+								</figcaption>
+							</figure>
+						</Table.Cell>
+						<Table.Cell />
+						<Table.Cell colSpan={7}>
+							<figure className="max-w-lg">
+								<img className="h-auto max-w-full rounded-lg" src={imagen_2} />
+								<figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+									Microlocalización
+								</figcaption>
+							</figure>
+						</Table.Cell>
+						<Table.Cell />
+					</Table.Row>
+
+					<Table.Row>
+						<Table.Cell />
+						<Table.Cell colSpan={7}>Datos de Verificación</Table.Cell>
+						<Table.Cell />
+						<Table.Cell colSpan={7}>Características</Table.Cell>
+						<Table.Cell />
+					</Table.Row>
+					<Table.Row>
+						<Table.Cell />
+						<Table.Cell colSpan={2} className="text-right">
+							Fecha de captura:
+						</Table.Cell>
+						<Table.Cell colSpan={5} className="text-left">
+							{fecha_captura}
+						</Table.Cell>
+						<Table.Cell />
+						<Table.Cell colSpan={2} className="text-right">
+							Pariferia:
+						</Table.Cell>
+						<Table.Cell colSpan={5} className="text-left">
+							{tipo_zona}
+						</Table.Cell>
+						<Table.Cell />
+					</Table.Row>
+
+					<Table.Row>
+						<Table.Cell />
+						<Table.Cell colSpan={2} className="text-right">
+							Tipo de Inmueble:
+						</Table.Cell>
+						<Table.Cell colSpan={5} className="text-left">
+							{tipo_inmueble}
+						</Table.Cell>
+						<Table.Cell />
+						<Table.Cell colSpan={2} className="text-right">
+							Zona Económica:
+						</Table.Cell>
+						<Table.Cell colSpan={5} className="text-left">
+							{zona_economica}
+						</Table.Cell>
+						<Table.Cell />
+					</Table.Row>
+				</Table.Body>
+			</Table>
+		</div>
+	);
 };
 
 const Mercado = ({ data }) => (
@@ -15,7 +121,13 @@ const Mercado = ({ data }) => (
 					<Table.Head>
 						<Table.HeadCell
 							colSpan={57}
-							className={`${tipo === "TERRENO" ? "bg-red-500" : tipo === "RENTA" ? "bg-purple-500" : "bg-green-500"} text-white`}
+							className={`${
+								tipo === "TERRENO"
+									? "bg-red-500"
+									: tipo === "RENTA"
+										? "bg-purple-500"
+										: "bg-green-500"
+							} text-white`}
 						>
 							{tipo}
 						</Table.HeadCell>

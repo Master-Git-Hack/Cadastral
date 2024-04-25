@@ -31,7 +31,7 @@ export const DocumentViewer = ({
 				</NavLink>
 			</div>
 			<Reports as_report={as_report} data={[{ tipo: "TERRENO" }]} />
-			<div className="flex flex-row justify-between">
+			<div className="flex flex-row justify-end">
 				<Button pill color="success">
 					Descargar
 				</Button>

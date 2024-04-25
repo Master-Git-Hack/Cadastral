@@ -274,66 +274,43 @@ async def delete_comparable(
     return __response.success(data=comp.to_dict())
 
 
-@comparables.get("/reports/{cedula_mercado}")
-async def report_cedulas(
-    cedula_mercado: int,
-    request: Request,
-    db: Session = Depends(database.valuaciones),
-    user=Depends(required),
-):
-    if isinstance(user, dict):
-        return __response.error(**user)
-    # dont forget the group of the user
-    data = await request.json()
-    print(data)
-    return __response.send_file()
-
-
-@comparables.post("/report/{cedula_mercado}/{as_report}")
-async def generate_reports(
+@comparables.post("/preview/{cedula_mercado}/{as_report}")
+async def generate_preview(
     cedula_mercado: int,
     request: Request,
     as_report: str = "mercado",
     db: Session = Depends(database.valuaciones),
     user=Depends(required),
-): 
-    if isinstance(user, dict):
-        return __response.error(**user)
-    data = await request.json()
-    report = ComparablesCatComReport(db)
-    
-@comparables.post("/preview/{cedula_mercado}/{tipo}/{comparable}/{as_report}")
-async def generate_preview(
-    cedula_mercado: int,
-    comparable: int,
-    as_report: str,
-    request: Request,
-    tipo: str = "TERRENO",
-    db: Session = Depends(database.valuaciones),
-    user=Depends(required),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
-    data = await request.json()
-    # print(data)
-    report = ComparablesCatComReport(db)
-    file = report.preview(
-        cedula_mercado, as_report=as_report, comparable=comparable, tipo=tipo, **data
-    )
+    try:
+        data = await request.json()
+    except Exception as e:
+        logger.error(e)
+        return __response.error(
+            message="No se pudo obtener la información", status_code=404
+        )
+    # data = await request.json()
+    # # print(data)
+    # report = ComparablesCatComReport(db)
+    # file = report.preview(
+    #     cedula_mercado, as_report=as_report, comparable=comparable, tipo=tipo, **data
+    # )
 
-    if file is None:
-        return __response.error(
-            message="Comparable no disponible, ya han transcurrido más de 6 meses.",
-            status_code=404,
-        )
-    if not file:
-        return __response.error(
-            message="No se pudo generar el reporte", status_code=421
-        )
-    route = file.split("/")
-    # print("/".join(route[:-1]))
-    # print(route[-1])
-    return __response.send_file(filename=route[-1], path=file, delete=True)
+    # if file is None:
+    #     return __response.error(
+    #         message="Comparable no disponible, ya han transcurrido más de 6 meses.",
+    #         status_code=404,
+    #     )
+    # if not file:
+    #     return __response.error(
+    #         message="No se pudo generar el reporte", status_code=421
+    #     )
+    # route = file.split("/")
+    # # print("/".join(route[:-1]))
+    # # print(route[-1])
+    # return __response.send_file(filename=route[-1], path=file, delete=True)
 
 
 # @comparables.get("/catatastrales_comerciales")

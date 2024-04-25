@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router";
 
 import "primereact/resources/themes/tailwind-light/theme.css";
-import { Table, Button } from "flowbite-react";
+import { Table, Button, Tooltip } from "flowbite-react";
 import { NavLink, useParams } from "react-router-dom";
 import {
 	useGetComparablesQuery,
@@ -12,6 +12,9 @@ import {
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
+// import Checkbox from "@components/Checkbox";
+import { Checkbox } from "primereact/checkbox";
+import { useState } from "react";
 export default function Comparables() {
 	const { cedula_mercado } = useParams();
 	const navigate = useNavigate();
@@ -27,16 +30,17 @@ export default function Comparables() {
 	] = useReportsMutation();
 	if (isError || isReportsError) return <Error message={error?.data || reportsError?.data} />;
 	if (isLoading || isReportsLoading) return <Spinner size={20} />;
-	const ids = data?.data.map(({ id }) => id);
+	const [ids, setIDs] = useState(data?.data.map(({ id }) => id));
 
 	return (
-		<div className="overflow-auto">
-			<div className="flex flex-row justify-between">
+		<div>
+			<div className="flex flex-row justify-between my-3 mx-2">
 				<NavLink to={`/comparables`}>
 					<Button pill color="light">
 						Atras
 					</Button>
 				</NavLink>
+
 				<Button.Group>
 					<Button
 						pill
@@ -48,7 +52,9 @@ export default function Comparables() {
 							})
 						}
 					>
-						Ver Mercados
+						<Tooltip content="Solo se mostraran aquellos registros seleccionados">
+							Ver Mercados
+						</Tooltip>
 					</Button>
 					<Button
 						pill
@@ -60,7 +66,9 @@ export default function Comparables() {
 							})
 						}
 					>
-						Ver Cédulas de Mercado
+						<Tooltip content="Solo se mostraran aquellos registros seleccionados">
+							Ver Cédulas de Mercado
+						</Tooltip>
 					</Button>
 					<Button pill color="light">
 						<NavLink to={`crear`}>Crear Nuevo Comparable</NavLink>
@@ -68,32 +76,52 @@ export default function Comparables() {
 				</Button.Group>
 			</div>
 
-			<Table striped hoverable>
+			<Table striped hoverable className="overflow-y-auto ">
 				<Table.Head>
-					<Table.HeadCell>#</Table.HeadCell>
-					<Table.HeadCell>Tipo</Table.HeadCell>
-					<Table.HeadCell>Comparable</Table.HeadCell>
-					<Table.HeadCell>
+					<Table.HeadCell className="text-center">#</Table.HeadCell>
+					<Table.HeadCell className="text-center">Seleccionar</Table.HeadCell>
+					<Table.HeadCell className="text-center">Tipo</Table.HeadCell>
+					<Table.HeadCell className="text-center">Comparable</Table.HeadCell>
+					<Table.HeadCell className="text-center">
 						<span className="sr-only">Editar</span>
 					</Table.HeadCell>
 				</Table.Head>
 				<Table.Body>
 					{data?.data?.map(({ id, tipo, id_comparable_catcom }, index) => (
 						<Table.Row
-							className="bg-white dark:border-gray-700 dark:bg-gray-800"
+							className="bg-white dark:border-gray-700 dark:bg-gray-800 hover:cursor-pointer text-center"
 							key={index}
+							onClick={() => {
+								if (ids.includes(id)) {
+									setIDs(ids.filter((_id) => _id !== id));
+								} else {
+									setIDs([...ids, id]);
+								}
+							}}
 						>
-							<Table.Cell>
-								<p className=" text-justify">{id}</p>
+							<Table.Cell >
+								<p  className=" text-center cursor-text">{id}</p>
+							</Table.Cell>
+							<Table.Cell className="text-center">
+								<Checkbox
+									checked={ids.includes(id)}
+									onChange={() => {
+										if (ids.includes(id)) {
+											setIDs(ids.filter((_id) => _id !== id));
+										} else {
+											setIDs([...ids, id]);
+										}
+									}}
+								/>
 							</Table.Cell>
 							<Table.Cell>
-								<p className=" text-justify">{tipo}</p>
+								<p className=" text-center cursor-text">{tipo}</p>
 							</Table.Cell>
 							<Table.Cell>
-								<p className=" text-justify">{id_comparable_catcom}</p>
+								<p className=" text-center cursor-text">{id_comparable_catcom}</p>
 							</Table.Cell>
 							<Table.Cell className="px-6 py-4 text-right">
-								<NavLink
+								{/* <NavLink
 									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
 									to={`view/${id}/mercado/${tipo}`}
 								>
@@ -106,7 +134,7 @@ export default function Comparables() {
 								>
 									Cedúla Mercado
 								</NavLink>
-								<span className="mx-2">/</span>
+								<span className="mx-2">/</span> */}
 
 								<button
 									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
