@@ -26,7 +26,7 @@ export const modules = [
 	// 	href: "/obras-complementarias",
 	// 	avatar: "OC",
 	// },
-	
+
 	// {
 	// 	label: "Revisión de Avalúos",
 	// 	href: "/revision-avaluos",

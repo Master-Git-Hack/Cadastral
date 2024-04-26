@@ -4,7 +4,7 @@ import { useState } from "react";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button, Tooltip } from "flowbite-react";
 import { NavLink, useParams } from "react-router-dom";
-import { usePreviewMutation, usePostComparableMutation } from "@api/Comparables";
+import { usePostComparableMutation } from "@api/Comparables";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
@@ -40,13 +40,10 @@ export default function Create() {
 		postComparable,
 		{ isLoading: isLoadingPost, isError: isErrorPost, error: errorPost, isSuccess },
 	] = usePostComparableMutation();
-	const [
-		getPreview,
-		{ isLoading: isLoadingPreview, isError: isErrorPreview, error: errorPreview, data: file },
-	] = usePreviewMutation();
-	if (isErrorPost || isErrorPreview)
-		return <Error message={errorPost?.data || errorPreview?.data} />;
-	if (isLoadingPost || isLoadingPreview) return <Spinner size={20} />;
+	
+	if (isErrorPost )
+		return <Error message={errorPost?.data } />;
+	if (isLoadingPost ) return <Spinner size={20} />;
 	return (
 		<div className="overflow-auto mx-3">
 			<div className="flex flex-row py-2">
@@ -213,14 +210,7 @@ export default function Create() {
 						</Tooltip>
 					</Button>
 
-					<Button pill onClick={() => getPreview({ ...data, as_report: "cedula" })}>
-						<Tooltip content="Previsualizar Documento">Cédula de Mercado</Tooltip>
-					</Button>
-
-					<Button pill onClick={() => getPreview({ ...data, as_report: "mercado" })}>
-						<Tooltip content="Previsualizar Documento">Mercado</Tooltip>
-					</Button>
-
+				
 					<Button
 						pill
 						color="success"
@@ -243,21 +233,7 @@ export default function Create() {
 					</Button>
 				</Button.Group>
 			</div>
-			{preview.status && (
-				<div className="flex items-center justify-center h-full">
-					<iframe
-						title="PDF Viewer"
-						className="w-full aspect-video h-full"
-						data-type="application/pdf"
-						width={window.innerWidth}
-						height={window.innerHeight * 0.8}
-						seamless={true}
-						src={`${preview.file}#zoom=${window.innerWidth * 0.05}`}
-						allow="clipboard-write; encrypted-media;"
-						allowFullScreen
-					/>
-				</div>
-			)}
+			
 		</div>
 	);
 }

@@ -1,5 +1,5 @@
 /** @format */
 
-export interface IComparables {
+export interface ComparablesState {
 	[key: string]: any;
 }

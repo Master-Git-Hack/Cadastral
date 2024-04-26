@@ -23,7 +23,6 @@ export const MetadatosApi = createApi({
 				method: "GET",
 			}),
 			transformResponse: ({ data, ...response }: any) => {
-				
 				return {
 					data: data?.features,
 					...response,

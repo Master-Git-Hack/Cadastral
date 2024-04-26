@@ -2,116 +2,474 @@
 
 import { Table } from "flowbite-react";
 export const Reports = ({ as_report, ...props }) =>
-	as_report === "cedula" ? <Cedula {...props} /> : <Mercado {...props} />;
-const Cedula = ({
-	tipo,
-	tipo_comparable,
-	id,
-	registro,
-	imagen_1,
-	imagen_2,
-	fecha_captura,
-	tipo_zona,
-	tipo_inmueble,
-	zona_economica,
-}) => {
-	return (
-		<div>
-			<Table>
-				<Table.Head>
-					<Table.HeadCell colSpan={17}>Comparables de {tipo_comparable}</Table.HeadCell>
-				</Table.Head>
-				<Table.Body>
-					<Table.Row>
-						<Table.Cell
-							colSpan={4}
-							className={`${
-								tipo === "TERRENO"
-									? "bg-red-500"
-									: tipo === "RENTA"
-										? "bg-purple-500"
-										: "bg-green-500"
-							} text-white`}
-						>
-							{id}
-						</Table.Cell>
-						<Table.Cell colSpan={3} />
-						<Table.Cell colSpan={5} />
-						<Table.Cell colSpan={2}>{registro}</Table.Cell>
-						<Table.Cell />
-					</Table.Row>
-					<Table.Row>
-						<Table.Cell colSpan={17} />
-					</Table.Row>
-					<Table.Row>
-						<Table.Cell />
-						<Table.Cell colSpan={7}>
-							<figure className="max-w-lg">
-								<img className="h-auto max-w-full rounded-lg" src={imagen_1} />
-								<figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-									Comparable 1
-								</figcaption>
-							</figure>
-						</Table.Cell>
-						<Table.Cell />
-						<Table.Cell colSpan={7}>
-							<figure className="max-w-lg">
-								<img className="h-auto max-w-full rounded-lg" src={imagen_2} />
-								<figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-									Microlocalización
-								</figcaption>
-							</figure>
-						</Table.Cell>
-						<Table.Cell />
-					</Table.Row>
+	as_report ? <Cedula {...props} /> : <Mercado {...props} />;
+const Cedula = ({ data }) => (
+	<div className="overflow-y-auto m-5">
+		{data?.map(({ records }, index: number) => (
+			<div key={`mercado view ${index}`} className="my-2">
+				{records?.map(
+					(
+						{
+							id,
+							fecha_captura,
+							tipo_inmueble,
+							tipo_operacion,
+							captura_pantalla,
+							imagen_1,
+							imagen_2,
+							url_fuente,
+							nombre_anunciante,
+							telefono_anunciante,
+							x_utm,
+							y_utm,
+							tipo_vialidad,
+							nombre_vialidad,
+							numero_exterior,
+							numero_interior,
+							edificio,
+							entrecalles,
+							nombre_asentamiento,
+							tipo_asentamiento,
+							localidad,
+							municipio,
+							estado,
+							regimen_propiedad,
+							tipo_zona,
+							uso_suelo_observado,
+							uso_suelo_oficial,
+							ubicacion_manzana,
+							numero_frentes,
+							longitud_frente,
+							longitud_fondo,
+							longitud_frente_tipo,
+							forma,
+							topografia,
+							superficie_terreno,
+							superficie_construccion,
+							calidad_proyecto,
+							estado_conservacion,
+							tipo_construccion,
+							calidad_construccion,
+							edad,
+							niveles,
+							unidades_rentables,
+							descripcion_espacios,
+							agua,
+							drenaje,
+							energia_electrica,
+							alumbrado_publico,
+							banqueta,
+							pavimento,
+							telefonia,
+							valor_total_mercado,
+							valor_renta,
+							precio_dolar,
+							observaciones,
+							usuario,
+							fh_modificacion,
+							zona_utm,
+							google_maps,
+							vtm_usd,
+							geom,
+							tipo,
+							registro,
+						},
+						idx: number,
+					) => (
+						<Table key={`${index}-${tipo}-${idx}`}>
+							<Table.Head>
+								<Table.HeadCell colSpan={17}>Comparables de {tipo}</Table.HeadCell>
+							</Table.Head>
+							<Table.Body>
+								<Table.Row>
+									<Table.Cell
+										colSpan={4}
+										className={`${
+											tipo === "TERRENO"
+												? "bg-red-500"
+												: tipo === "RENTA"
+													? "bg-purple-500"
+													: "bg-green-500"
+										} text-white`}
+									>
+										{id}
+									</Table.Cell>
+									<Table.Cell colSpan={3} />
+									<Table.Cell colSpan={5} />
+									<Table.Cell colSpan={2}>{registro}</Table.Cell>
+									<Table.Cell />
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell colSpan={17} />
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell />
+									<Table.Cell colSpan={7}>
+										<figure className="max-w-lg">
+											<img
+												className="h-auto max-w-full rounded-lg"
+												src={imagen_1}
+											/>
+											<figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+												Comparable 1
+											</figcaption>
+										</figure>
+									</Table.Cell>
+									<Table.Cell />
+									<Table.Cell colSpan={7}>
+										<figure className="max-w-lg">
+											<img
+												className="h-auto max-w-full rounded-lg"
+												src={imagen_2}
+											/>
+											<figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+												Microlocalización
+											</figcaption>
+										</figure>
+									</Table.Cell>
+									<Table.Cell />
+								</Table.Row>
 
-					<Table.Row>
-						<Table.Cell />
-						<Table.Cell colSpan={7}>Datos de Verificación</Table.Cell>
-						<Table.Cell />
-						<Table.Cell colSpan={7}>Características</Table.Cell>
-						<Table.Cell />
-					</Table.Row>
-					<Table.Row>
-						<Table.Cell />
-						<Table.Cell colSpan={2} className="text-right">
-							Fecha de captura:
-						</Table.Cell>
-						<Table.Cell colSpan={5} className="text-left">
-							{fecha_captura}
-						</Table.Cell>
-						<Table.Cell />
-						<Table.Cell colSpan={2} className="text-right">
-							Pariferia:
-						</Table.Cell>
-						<Table.Cell colSpan={5} className="text-left">
-							{tipo_zona}
-						</Table.Cell>
-						<Table.Cell />
-					</Table.Row>
+								<Table.Row>
+									<Table.Cell />
+									<Table.Cell colSpan={7}>Datos de Verificación</Table.Cell>
+									<Table.Cell />
+									<Table.Cell colSpan={7}>Características</Table.Cell>
+									<Table.Cell />
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell />
+									<Table.Cell colSpan={2} className="text-right">
+										Fecha de captura:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{fecha_captura}
+									</Table.Cell>
+									<Table.Cell />
+									<Table.Cell colSpan={2} className="text-right">
+										Pariferia:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{tipo_zona}
+									</Table.Cell>
+									<Table.Cell />
+								</Table.Row>
 
-					<Table.Row>
-						<Table.Cell />
-						<Table.Cell colSpan={2} className="text-right">
-							Tipo de Inmueble:
-						</Table.Cell>
-						<Table.Cell colSpan={5} className="text-left">
-							{tipo_inmueble}
-						</Table.Cell>
-						<Table.Cell />
-						<Table.Cell colSpan={2} className="text-right">
-							Zona Económica:
-						</Table.Cell>
-						<Table.Cell colSpan={5} className="text-left">
-							{zona_economica}
-						</Table.Cell>
-						<Table.Cell />
-					</Table.Row>
-				</Table.Body>
-			</Table>
-		</div>
-	);
-};
+								<Table.Row>
+									<Table.Cell />
+									<Table.Cell colSpan={2} className="text-right">
+										Tipo de Inmueble:
+									</Table.Cell>
+
+									<Table.Cell colSpan={5} className="text-left">
+										{tipo_inmueble}
+									</Table.Cell>
+
+									<Table.Cell />
+
+									<Table.Cell colSpan={2} className="text-right">
+										Zona Económica:
+									</Table.Cell>
+
+									<Table.Cell colSpan={5} className="text-left">
+										{zona_economica}
+									</Table.Cell>
+
+									<Table.Cell />
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Informante:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{nombre_anunciante}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Uso de Suelo:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{" "}
+										{uso_suelo}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Telefono del Informante:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{telefono_anunciante}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Entre Calles:
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										URL Fuente:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{url_fuente}
+									</Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Ubicación en la MZA:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{ubicacion_mza}
+									</Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Superficie:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{superficie}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Tipo de Operación:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{tipo_operacion}
+									</Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										No. de Frentes:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{no_frentes}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell />
+									<Table.Cell colSpan={7}></Table.Cell>
+									<Table.Cell />
+									<Table.Cell colSpan={2} className="text-right">
+										Frente ML:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{frente_ml}
+									</Table.Cell>
+									<Table.Cell />
+								</Table.Row>
+
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={7} className="text-left">
+										Ubicación
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Frente Tipo:
+									</Table.Cell>
+									<Table.Cell colSpan={2} className="text-left">
+										{frente_tipo}
+									</Table.Cell>
+									<Table.Cell className="text-right">Fondo:</Table.Cell>
+									<Table.Cell colSpan={2} className="text-left">
+										{fondo}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Estado:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{estado}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Forma:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{forma}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Municipio:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{municipio}
+									</Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Topografía:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{topografia}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Ciudad/Población:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{ciudad}
+									</Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Servicios:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{servicios}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Asentamiento:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{asentamiento}
+									</Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Régimen de Propiedad:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{regimen_propiedad}
+									</Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell colSpan={2} className="text-right">
+										Nombre de la Vialidad:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{tipo_vialidad} {nombre_vialidad}
+									</Table.Cell>
+									<Table.Cell colSpan={7} className="text-right"></Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										No. Exterior:
+									</Table.Cell>
+									<Table.Cell colSpan={2} className="text-left">
+										{no_exterior}
+									</Table.Cell>
+									<Table.Cell className="text-right">No. Interior:</Table.Cell>
+									<Table.Cell colSpan={2} className="text-left">
+										{no_interior}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={7} className="text-left">
+										Valores:
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Edificio Predio Prototipo:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-left">
+										{edificio_predio_prototipo}
+									</Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Precio:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-right">
+										{precio}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-right">
+										Coordenadas:
+									</Table.Cell>
+									<Table.Cell className="text-right"> X</Table.Cell>
+									<Table.Cell className="text-left">{x_utm}</Table.Cell>
+									<Table.Cell className="text-right">Y</Table.Cell>
+									<Table.Cell className="text-left">{y_utm}</Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2} className="text-left">
+										Precio Unitario:
+									</Table.Cell>
+									<Table.Cell colSpan={5} className="text-right">
+										{precio_unitario}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell colSpan={7}></Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2}>Precio USD:</Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={4}>Precio Unitario USD:</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={7} className="text-left">
+										Observaciones:
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2}>{precio_usd}</Table.Cell>
+									<Table.Cell colSpan={4}>{precio_unitario_usd}</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={7} className="text-justify" rowSpan={3}>
+										{observaciones}
+									</Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={2}>Infraestructura:</Table.Cell>
+									<Table.Cell colSpan={5}>{infraestructura}</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell colSpan={7} className="text-justify" rowSpan={3}>
+										{observaciones}
+									</Table.Cell>
+									<Table.Cell colSpan={2}>Infraestructura</Table.Cell>
+									<Table.Cell colSpan={5}>{infraestructura}</Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row>
+									<Table.Cell></Table.Cell>
+									<Table.Cell></Table.Cell>
+									<Table.Cell
+										colSpan={7}
+										className="text-justify"
+										rowSpan={2}
+									></Table.Cell>
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+								<Table.Row></Table.Row>
+								<Table.Row>
+									<Table.Cell colSpan={7}>
+										<img src={captura_pantalla} />
+									</Table.Cell>
+
+									<Table.Cell></Table.Cell>
+								</Table.Row>
+							</Table.Body>
+						</Table>
+					),
+				)}
+			</div>
+		))}
+	</div>
+);
 
 const Mercado = ({ data }) => (
 	<div className="overflow-x-auto my-5">

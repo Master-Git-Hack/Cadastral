@@ -11,6 +11,7 @@ import { AuthApi } from "./api/Auth";
 import User from "./reducers/User";
 import Notifications from "./reducers/Notifications";
 import { ComparablesApi } from "./api/Comparables";
+import Comparables from "./reducers/Comparables";
 /* Creating a store with the reducers and middleware. */
 export const store = configureStore({
 	reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
 		User,
 		Notifications,
 		[ComparablesApi.reducerPath]: ComparablesApi.reducer,
+		Comparables,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }).concat([

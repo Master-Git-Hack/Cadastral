@@ -68,7 +68,7 @@ const RouterPages = createBrowserRouter([
 						element: <CreateCedula />,
 					},
 					{
-						path: "view/:id/:as_report/:tipo",
+						path: "view",
 						element: <ComparableViewer />,
 					},
 				],

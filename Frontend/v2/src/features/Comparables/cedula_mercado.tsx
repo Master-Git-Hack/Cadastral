@@ -4,34 +4,29 @@ import { useNavigate } from "react-router";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button, Tooltip } from "flowbite-react";
 import { NavLink, useParams } from "react-router-dom";
-import {
-	useGetComparablesQuery,
-	useDeleteComparableMutation,
-	useReportsMutation,
-} from "@api/Comparables";
+import { useGetComparablesQuery, useDeleteComparableMutation } from "@api/Comparables";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
 // import Checkbox from "@components/Checkbox";
 import { Checkbox } from "primereact/checkbox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../../store/provider";
+import { getComparables, setComparables } from "../../store/reducers/Comparables";
 export default function Comparables() {
 	const { cedula_mercado } = useParams();
 	const navigate = useNavigate();
 	const { data, isLoading, isError, error } = useGetComparablesQuery({ cedula_mercado });
-	const [
-		requestReports,
-		{
-			data: reports,
-			isLoading: isReportsLoading,
-			isError: isReportsError,
-			error: reportsError,
-		},
-	] = useReportsMutation();
-	if (isError || isReportsError) return <Error message={error?.data || reportsError?.data} />;
-	if (isLoading || isReportsLoading) return <Spinner size={20} />;
-	const [ids, setIDs] = useState(data?.data.map(({ id }) => id));
 
+	const dispatch = useAppDispatch();
+
+	const [ids, setIDs] = useState<number[]>(data?.data.map(({ id }: any) => id));
+
+	if (isError) return <Error message={error?.data} />;
+	if (isLoading) return <Spinner size={20} />;
+	useEffect(() => {
+		dispatch(setComparables({ key: "ids", value: ids }));
+	}, [ids]);
 	return (
 		<div>
 			<div className="flex flex-row justify-between my-3 mx-2">
@@ -40,40 +35,25 @@ export default function Comparables() {
 						Atras
 					</Button>
 				</NavLink>
-
-				<Button.Group>
-					<Button
-						pill
-						onClick={() =>
-							requestReports({
-								cedula_mercado,
-								as_report: "mercado",
-								data: { ids },
-							})
-						}
-					>
-						<Tooltip content="Solo se mostraran aquellos registros seleccionados">
-							Ver Mercados
+				<div className="flex flex-row gap-2">
+					<Button pill color="success">
+						<Tooltip content="Solo se integraran aquellos registros seleccionados al archivo">
+							Descargar
 						</Tooltip>
 					</Button>
-					<Button
-						pill
-						onClick={() =>
-							requestReports({
-								cedula_mercado,
-								as_report: "cedula",
-								data: { ids },
-							})
-						}
-					>
-						<Tooltip content="Solo se mostraran aquellos registros seleccionados">
-							Ver Cédulas de Mercado
-						</Tooltip>
-					</Button>
-					<Button pill color="light">
-						<NavLink to={`crear`}>Crear Nuevo Comparable</NavLink>
-					</Button>
-				</Button.Group>
+					<NavLink to={`view`}>
+						<Button pill>
+							<Tooltip content="Solo se mostraran aquellos registros seleccionados">
+								Previsualizar
+							</Tooltip>
+						</Button>
+					</NavLink>
+					<NavLink to={`crear`}>
+						<Button pill color="light">
+							Crear Nuevo Comparable
+						</Button>
+					</NavLink>
+				</div>
 			</div>
 
 			<Table striped hoverable className="overflow-y-auto ">
@@ -99,8 +79,8 @@ export default function Comparables() {
 								}
 							}}
 						>
-							<Table.Cell >
-								<p  className=" text-center cursor-text">{id}</p>
+							<Table.Cell>
+								<p className=" text-center cursor-text">{id}</p>
 							</Table.Cell>
 							<Table.Cell className="text-center">
 								<Checkbox

@@ -26,7 +26,6 @@ export default function Comparables() {
 	if (isError || isErrorDeleting || isErrorPost)
 		return <Error message={error?.data || errorDelete?.data || errorPost?.data} />;
 	if (isLoading || isLoadingDelete || isLoadingPost) return <Spinner size={20} />;
-	console.log(data);
 	return (
 		<div className="overflow-auto">
 			<div className="flex flex-row-reverse py-2">

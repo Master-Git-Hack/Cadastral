@@ -13,6 +13,7 @@ from ..models.cedula_mercado import CedulaMercado
 
 # from ..middlewares.auth import required
 from ..models.comparables_catcom import ComparablesCatCom
+from ..utils.local import as_complete_date
 
 __response = __Middlewares.Responses()
 comparables = APIRouter(
@@ -214,7 +215,7 @@ async def create_comparable(
             tipo=tipo,
             id_cedula_mercado=cedula_mercado,
             id_comparable_catcom=comparable,
-            **data
+            **data,
         )
         is None
     ):
@@ -274,23 +275,52 @@ async def delete_comparable(
     return __response.success(data=comp.to_dict())
 
 
-@comparables.post("/preview/{cedula_mercado}/{as_report}")
+@comparables.post("/preview/{cedula_mercado}")
 async def generate_preview(
     cedula_mercado: int,
     request: Request,
-    as_report: str = "mercado",
     db: Session = Depends(database.valuaciones),
     user=Depends(required),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
+    comp = ComparablesCatCom(db)
+    cedula = CedulaComparables(db)
+    mercado = CedulaMercado(db)
+    if mercado.get(cedula_mercado) is None:
+        return __response.error(
+            message="No se encontraron comparables", status_code=404
+        )
+    if len(cedula.filter_group(id_cedula_mercado=cedula_mercado)) == 0:
+        return __response.error(
+            message="No se encontraron comparables", status_code=404
+        )
+    mercado = mercado.to_dict(exclude=["id", "usuario", "fecha"])
+    cedulas = [
+        {**comp.to_dict(), "tipo": c.tipo, **mercado}
+        for c in cedula.current
+        if comp.get(c.id_comparable_catcom) is not None
+    ]
     try:
         data = await request.json()
+
+        if not "ids" in data:
+            raise Exception("No se encontraron comparables")
+        data = [c for c in cedulas if c.get("id") in data["ids"]]
     except Exception as e:
-        logger.error(e)
-        return __response.error(
-            message="No se pudo obtener la información", status_code=404
-        )
+        pass
+    data = [
+        {"tipo": tipo, "records": [c for c in cedulas if c.get("tipo") == tipo]}
+        for tipo in set(c.get("tipo") for c in cedulas)
+    ]
+    url_base = "http://172.31.113.151/comparables/imagenes"
+    for d in data:
+        for r in d["records"]:
+            r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
+            r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
+            r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
+            r["fecha_captura"] = as_complete_date(r["fecha_captura"])
+    return __response.success(data=data)
     # data = await request.json()
     # # print(data)
     # report = ComparablesCatComReport(db)
