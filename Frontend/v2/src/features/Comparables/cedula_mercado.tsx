@@ -21,12 +21,12 @@ export default function Comparables() {
 	const dispatch = useAppDispatch();
 
 	const [ids, setIDs] = useState<number[]>(data?.data.map(({ id }: any) => id));
-
-	if (isError) return <Error message={error?.data} />;
-	if (isLoading) return <Spinner size={20} />;
+	console.log(data);
 	useEffect(() => {
 		dispatch(setComparables({ key: "ids", value: ids }));
 	}, [ids]);
+	if (isError) return <Error message={error?.data} />;
+	if (isLoading) return <Spinner size={20} />;
 	return (
 		<div>
 			<div className="flex flex-row justify-between my-3 mx-2">
@@ -84,7 +84,7 @@ export default function Comparables() {
 							</Table.Cell>
 							<Table.Cell className="text-center">
 								<Checkbox
-									checked={ids.includes(id)}
+									checked={ids?.includes(id)}
 									onChange={() => {
 										if (ids.includes(id)) {
 											setIDs(ids.filter((_id) => _id !== id));

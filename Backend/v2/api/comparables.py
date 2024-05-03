@@ -315,11 +315,105 @@ async def generate_preview(
     ]
     url_base = "http://172.31.113.151/comparables/imagenes"
     for d in data:
+        print(d.keys())
         for r in d["records"]:
             r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
             r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
             r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
             r["fecha_captura"] = as_complete_date(r["fecha_captura"])
+            sheet.append(list(r.keys()))
+            # sheet.append(r["tipo"])
+            sheet.merge_cells(
+                start_row=sheet.max_row,
+                start_column=1,
+                end_row=sheet.max_row,
+                end_column=3,
+            )  # Fusionar celdas
+            sheet[sheet.cell(row=sheet.max_row, column=1).coordinate].font = (
+                font_bold  # Establecer negrita
+            )
+            sheet[sheet.cell(row=sheet.max_row, column=1).coordinate].fill = (
+                fill_gray  # Establecer color de fondo
+            )
+            sheet.append(
+                ["", r["imagen_1"], r["imagen_2"], r["fecha_captura"]]
+            )  # Datos
+
+    # for cell in sheet[
+    #     sheet.cell(row=sheet.max_row, column=1)
+    #     .coordinate : sheet.cell(row=sheet.max_row, column=3)
+    #     .coordinate
+    # ]:
+    #     cell.border = border  # Establecer bordes
+    workbook.save("datos.xlsx")
+    return __response.success(data=data)
+
+
+from openpyxl import Workbook
+from openpyxl.styles import Border, Font, PatternFill, Side
+
+# Crear un nuevo libro de trabajo de Excel
+workbook = Workbook()
+sheet = workbook.active
+
+# Definir estilos
+font_bold = Font(bold=True)
+fill_gray = PatternFill(start_color="DDDDDD", end_color="DDDDDD", fill_type="solid")
+border = Border(
+    left=Side(border_style="thin", color="000000"),
+    right=Side(border_style="thin", color="000000"),
+    top=Side(border_style="thin", color="000000"),
+    bottom=Side(border_style="thin", color="000000"),
+)
+
+
+@comparables.post("/xlxs/{cedula_mercado}")
+async def generate_xlsx(
+    cedula_mercado: int,
+    request: Request,
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
+    if isinstance(user, dict):
+        return __response.error(**user)
+    comp = ComparablesCatCom(db)
+    cedula = CedulaComparables(db)
+    mercado = CedulaMercado(db)
+    if mercado.get(cedula_mercado) is None:
+        return __response.error(
+            message="No se encontraron comparables", status_code=404
+        )
+    if len(cedula.filter_group(id_cedula_mercado=cedula_mercado)) == 0:
+        return __response.error(
+            message="No se encontraron comparables", status_code=404
+        )
+    mercado = mercado.to_dict(exclude=["id", "usuario", "fecha"])
+    cedulas = [
+        {**comp.to_dict(), "tipo": c.tipo, **mercado}
+        for c in cedula.current
+        if comp.get(c.id_comparable_catcom) is not None
+    ]
+    try:
+        data = await request.json()
+
+        if not "ids" in data:
+            raise Exception("No se encontraron comparables")
+        data = [c for c in cedulas if c.get("id") in data["ids"]]
+    except Exception as e:
+        pass
+    data = [
+        {"tipo": tipo, "records": [c for c in cedulas if c.get("tipo") == tipo]}
+        for tipo in set(c.get("tipo") for c in cedulas)
+    ]
+    url_base = "http://172.31.113.151/comparables/imagenes"
+    for d in data:
+        for r in d["records"]:
+            r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
+            r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
+            r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
+            r["fecha_captura"] = as_complete_date(r["fecha_captura"])
+    for d in data:
+        print(d.keys())
     return __response.success(data=data)
     # data = await request.json()
     # # print(data)

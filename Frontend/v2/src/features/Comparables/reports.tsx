@@ -2,7 +2,7 @@
 
 import { Table } from "flowbite-react";
 export const Reports = ({ as_report, ...props }) =>
-	as_report ? <Cedula {...props} /> : <Mercado {...props} />;
+	!as_report ? <Cedula {...props} /> : <Mercado {...props} />;
 const Cedula = ({ data }) => (
 	<div className="overflow-y-auto m-5">
 		{data?.map(({ records }, index: number) => (

@@ -17,12 +17,10 @@ import { usePreviewQuery } from "@api/Comparables";
 export const DocumentViewer = () => {
 	const { id, cedula_mercado, tipo } = useParams();
 	const { ids } = useAppSelector(getComparables);
+	const [as_report, setAsReport] = useState(true);
 	const { data, isLoading, isError, error } = usePreviewQuery({ cedula_mercado, data: ids });
 	if (isError) return <Error message={error?.data} />;
-
 	if (isLoading) return <Spinner size={20} />;
-
-	const [as_report, setAsReport] = useState(true);
 	return (
 		<div className="flex-col my-3 items-center justify-center h-full">
 			<div className="flex flex-row justify-between">
