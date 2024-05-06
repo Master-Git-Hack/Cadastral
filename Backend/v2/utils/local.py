@@ -1,4 +1,5 @@
 """File to work with locale configuration, as money, date and number formats"""
+
 from locale import format_string
 from warnings import filterwarnings
 
@@ -95,5 +96,9 @@ def as_complete_date(date="hoy"):
     Returns:
         str: string with the date formatted.
     """
-    date = date or "hoy"
-    return parse(str(date)).replace(tzinfo=tzInfo).strftime("%d de %B del %Y")
+    if date is None:
+        date = "hoy"
+    date = parse(str(date))
+    if date is None:
+        date = parse("hoy")
+    return date.replace(tzinfo=tzInfo).strftime("%d de %B del %Y")

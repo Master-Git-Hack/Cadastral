@@ -34,6 +34,7 @@
     "million": "^2.6.4",
     "moment": "^2.29.4",
     "momentjs": "^2.0.0",
+    "numero-a-letras": "^1.0.6",
     "primeicons": "^6.0.1",
     "primereact": "^9.6.1",
     "react": "^18.2.0",

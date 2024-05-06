@@ -15,7 +15,8 @@ class PDFMaker:
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback): ...
+    def __exit__(self, exc_type, exc_value, traceback):
+        ...
 
     __margins_default: dict = dict(top="15", bottom="0", left="0", right="0")
     __dpi_default: str = "3000"

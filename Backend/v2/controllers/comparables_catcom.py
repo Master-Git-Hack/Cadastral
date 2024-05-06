@@ -216,4 +216,5 @@ class ComparablesCatComReport:
 
     def get(
         self, cedula_mercado: int, ids: List[int], as_report: str = "mercado", **kwargs
-    ): ...
+    ):
+        ...

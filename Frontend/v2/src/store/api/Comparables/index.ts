@@ -110,7 +110,7 @@ export const ComparablesApi = createApi({
 			}),
 		}),
 
-		preview: query<
+		preview: mutation<
 			IComparables,
 			{
 				cedula_mercado: number;
@@ -122,6 +122,22 @@ export const ComparablesApi = createApi({
 				method: "POST",
 				data,
 			}),
+		}),
+		download: mutation<File, { cedula_mercado: number; data: any }>({
+			query: ({ cedula_mercado, data }) => ({
+				url: `comparables/xlsx/${cedula_mercado}`,
+				method: "POST",
+				responseType: "blob",
+				data,
+			}),
+			transformResponse: (response) => {
+				//descargar archivo xlsx
+				const blob = new Blob([response], {
+					type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+				});
+				saveAs(blob, "comparables.xlsx");
+				return response;
+			},
 		}),
 	}),
 });
@@ -138,6 +154,7 @@ export const {
 	usePatchComparableMutation,
 	useDeleteComparableMutation,
 	useReportsMutation,
-	usePreviewQuery,
+	usePreviewMutation,
 	useComparableReportMutation,
+	useDownloadMutation,
 } = ComparablesApi;

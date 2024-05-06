@@ -1,10 +1,14 @@
 from datetime import datetime, timedelta
 
+from dateparser import parse
 from fastapi import APIRouter, Depends, Request
+from num2words import num2words
+from openpyxl import Workbook
+from openpyxl.styles import Border, Font, PatternFill, Side
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
-from .. import database, logger
+from .. import config, database, logger
 from ..controllers.comparables_catcom import ComparablesCatComReport
 from ..middlewares import Middlewares as __Middlewares
 from ..middlewares.auth import required
@@ -275,6 +279,624 @@ async def delete_comparable(
     return __response.success(data=comp.to_dict())
 
 
+@comparables.post("/xlsx/{cedula_mercado}")
+async def generate_xlsx(
+    cedula_mercado: int,
+    request: Request,
+    db: Session = Depends(database.valuaciones),
+    user=Depends(required),
+):
+    if isinstance(user, dict):
+        return __response.error(**user)
+    comp = ComparablesCatCom(db)
+    cedula = CedulaComparables(db)
+    mercado = CedulaMercado(db)
+    if mercado.get(cedula_mercado) is None:
+        return __response.error(
+            message="No se encontraron comparables", status_code=404
+        )
+    if len(cedula.filter_group(id_cedula_mercado=cedula_mercado)) == 0:
+        return __response.error(
+            message="No se encontraron comparables", status_code=404
+        )
+
+    registro = mercado.current.registro
+    mercado = mercado.to_dict(exclude=["id", "usuario", "fecha"])
+    cedulas = [
+        {**comp.to_dict(), "tipo": c.tipo, **mercado}
+        for c in cedula.current
+        if comp.get(c.id_comparable_catcom) is not None
+    ]
+    try:
+        data = await request.json()
+
+        if not "ids" in data:
+            raise Exception("No se encontraron comparables")
+        data = [c for c in cedulas if c.get("id") in data["ids"]]
+    except Exception as e:
+        pass
+    data = [
+        {"tipo": tipo, "records": [c for c in cedulas if c.get("tipo") == tipo]}
+        for tipo in set(c.get("tipo") for c in cedulas)
+    ]
+    # Crear un nuevo libro de trabajo de Excel
+    workbook = Workbook()
+    mercado_sheet = workbook.active
+    mercado_sheet.title = "MERCADO"
+    cedula_sheet = workbook.create_sheet("CÉDULAS DE MERCADO")
+    # Definir estilos
+    font_bold = Font(bold=True)
+    fill_gray = PatternFill(start_color="DDDDDD", end_color="DDDDDD", fill_type="solid")
+    border = Border(
+        left=Side(border_style="thin", color="000000"),
+        right=Side(border_style="thin", color="000000"),
+        top=Side(border_style="thin", color="000000"),
+        bottom=Side(border_style="thin", color="000000"),
+    )
+    url_base = "http://172.31.113.151/comparables/imagenes"
+    test = data + data + data  # delete this line
+    for index, d in enumerate(test):  # replace test for data
+        mercado_sheet.append([d.get("tipo")])
+        mercado_sheet.merge_cells(
+            start_row=mercado_sheet.max_row,
+            start_column=1,
+            end_row=mercado_sheet.max_row,
+            end_column=53,
+        )  # Fusionar celdas
+        mercado_sheet.append(
+            [
+                "Datos de Verificación",
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                "Ubicación",
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                "Características de Terreno",
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                "Características de Construcción",
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                "Infraestructura",
+                None,
+                "Valores",
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                "Vigencia",
+                None,
+                None,
+                "Elaboró",
+            ]
+        )
+        mercado_last_row = mercado_sheet.max_row
+        # Combinar celdas según las especificaciones dadas en el código JSX
+        mercado_sheet.merge_cells(
+            f"A{mercado_last_row}:G{mercado_last_row}"
+        )  # Datos de Verificación
+        mercado_sheet.merge_cells(
+            f"H{mercado_last_row}:Q{mercado_last_row}"
+        )  # Ubicación
+        mercado_sheet.merge_cells(
+            f"R{mercado_last_row}:R{mercado_last_row}"
+        )  # Celda vacía
+        mercado_sheet.merge_cells(
+            f"S{mercado_last_row}:AD{mercado_last_row}"
+        )  # Características de Terreno
+        mercado_sheet.merge_cells(
+            f"AE{mercado_last_row}:AN{mercado_last_row}"
+        )  # Características de Construcción
+        mercado_sheet.merge_cells(
+            f"AO{mercado_last_row}:AP{mercado_last_row}"
+        )  # Infraestructura
+        mercado_sheet.merge_cells(
+            f"AQ{mercado_last_row}:AV{mercado_last_row}"
+        )  # VALORES
+        mercado_sheet.merge_cells(
+            f"AW{mercado_last_row}:AZ{mercado_last_row}"
+        )  # Características de Construcción
+        for r in d["records"]:
+            r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
+            r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
+            r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
+            r["fecha_captura"] = as_complete_date(r.get("fecha_captura", "hoy"))
+
+            mercado_sheet.append(
+                [
+                    "Folio",
+                    "Tipo de Inmueble",
+                    "Tipo de Operación",
+                    "Fecha de Captura",
+                    "URL Fuente",
+                    "Informante",
+                    "Teléfono de Informante",
+                    "Coordenada UTM X",
+                    "Coordenada UTM Y",
+                    "Estado",
+                    "Municipio",
+                    "Ciudad o Población",
+                    "Tipo y Nombre de Colonia / Asentamiento",
+                    "Tipo y Nombre de la Calle",
+                    "No. Exterior",
+                    "No. Interior",
+                    "Nombre Edificio / Proto / Predio",
+                    "Régimen de Propiedad",
+                    "Clasificación Periférica",
+                    "Clasificación Económica de la Zona (Campo)",
+                    "Uso de Suelo Carta, Uso Plan",
+                    "Entre Calles",
+                    "Ubicación en la Manzana",
+                    "Número de Frentes",
+                    "Superficie Terreno M2",
+                    "Frente ML",
+                    "Frente Tipo ML",
+                    "Fondo",
+                    "Forma",
+                    "Topografía",
+                    "Superficie Construcción M2",
+                    "Proyecto",
+                    "Edo. Conservación",
+                    "Tipo de Construcción",
+                    "Calidad",
+                    "Edad",
+                    "Niveles",
+                    "Unidades Rentables",
+                    "Descripción de Espacios",
+                    "T / C",
+                    "Servicios",
+                    "Descripción de Servicios",
+                    "Precio",
+                    "Precio Unitario",
+                    "Precio Total USD",
+                    "Precio Unitario USD",
+                    "Precio Total Aplicable en la Homologación MXN",
+                    "Precio Unitario Aplicable en la Homologación MXN",
+                    "Observaciones",
+                    "Hoy",
+                    "Días",
+                    "Caduca en 6 meses Fecha",
+                    "Elaboró",
+                ]
+            )
+            # mercado_sheet.append(r["tipo"])
+            # mercado_sheet.merge_cells(
+            #     start_row=mercado_sheet.max_row,
+            #     start_column=1,
+            #     end_row=mercado_sheet.max_row,
+            #     end_column=3,
+            # )  # Fusionar celdas
+            # mercado_sheet[mercado_sheet.cell(row=mercado_sheet.max_row, column=1).coordinate].font = (
+            #     font_bold  # Establecer negrita
+            # )
+            # mercado_sheet[mercado_sheet.cell(row=mercado_sheet.max_row, column=1).coordinate].fill = (
+            #     fill_gray  # Establecer color de fondo
+            # )
+            # Obtener la fecha actual
+            fecha_actual = datetime.now()
+
+            # Formatear la fecha actual
+            fecha_actual_formato = fecha_actual.strftime("%d de %m del %Y")
+
+            # Obtener la fecha de captura (asumiendo que 'fecha_captura' es una cadena de texto)
+            fecha_captura = parse(r.get("fecha_captura", "hoy"))
+            # Handle the case where fecha_captura is None
+            fecha_captura_formato = ""
+
+            fecha_seis_meses_mas_formato = ""
+            mercado_sheet.append(
+                [
+                    r.get("id"),
+                    r.get("tipo_inmueble"),
+                    r.get("tipo_operacion"),
+                    r.get("fecha_captura"),
+                    r.get("url_fuente"),
+                    r.get("nombre_anunciante"),
+                    r.get("telefono_anunciante"),
+                    r.get("x_utm"),
+                    r.get("y_utm"),
+                    r.get("estado"),
+                    r.get("municipio"),
+                    r.get("localidad"),
+                    f"{r.get('tipo_asentamiento')} {r.get('nombre_asentamiento')}",
+                    f"{r.get('tipo_vialidad')} {r.get('nombre_vialidad')}",
+                    r.get("numero_exterior"),
+                    r.get("numero_interior"),
+                    r.get("edificio"),
+                    r.get("regimen_propiedad"),
+                    r.get("tipo_zona"),
+                    r.get("regimen_propiedad"),
+                    r.get("tipo_zona"),
+                    r.get("uso_suelo_observado"),
+                    r.get("uso_suelo_oficial"),
+                    r.get("entrecalles"),
+                    r.get("ubicacion_manzana"),
+                    f"{r.get('numero_frentes')} ({num2words(r.get('numero_frentes'), lang='es').upper()})",
+                    r.get("superficie_terreno"),
+                    r.get("longitud_frente"),
+                    r.get("longitud_frente_tipo"),
+                    r.get("longitud_fondo"),
+                    r.get("forma"),
+                    r.get("topografia"),
+                    r.get("superficie_construccion"),
+                    r.get("calidad_proyecto"),
+                    r.get("estado_conservacion"),
+                    r.get("tipo_construccion"),
+                    r.get("calidad_construccion"),
+                    r.get("edad"),
+                    r.get("niveles"),
+                    r.get("unidades_rentables"),
+                    r.get("descripcion_espacios"),
+                    r.get("superficie_terreno", 0)
+                    / (r.get("superficie_construccion", 1.0) or 1),
+                    r.get(""),
+                    r.get("descripcion_espacios"),
+                    r.get("valor_total_mercado"),
+                    (
+                        r.get("valor_renta", 0)
+                        if r.get("tipo") == "RENTA"
+                        else r.get("valor_total_mercado")
+                    )
+                    / r.get("superficie_terreno", 1),
+                    r.get("precio_dolar", "-"),
+                    (
+                        r.get("precio_dolar") / r.get("superficie_terreno", 1)
+                        if r.get("precio_dolar")
+                        else "-"
+                    ),
+                    # "-",
+                    # "-",
+                    r.get("observaciones"),
+                    fecha_actual_formato,
+                    r.get("fecha_captura"),
+                    fecha_seis_meses_mas_formato,
+                    r.get("usuario"),
+                ]
+            )  # Datos
+            cedula_sheet.append([])
+            cedula_sheet.append(
+                [
+                    None,
+                    f"COMPARABLES DE {r.get('tipo')}",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:Q{cedula_last_row}")
+            cedula_sheet.append([])
+            cedula_sheet.append(
+                [
+                    None,
+                    "Imagen_1",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Imagen_2",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:P{cedula_last_row}")
+
+            cedula_sheet.append(
+                [
+                    None,
+                    "COMPARABLE 1",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "MICROLOCALIZACIÓN",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:P{cedula_last_row}")
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Fecha de Captura:",
+                    None,
+                    r.get("fecha_captura"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Periferia:",
+                    None,
+                    r.get("tipo_zona"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Tipo de Inmueble:",
+                    None,
+                    r.get("tipo_inmueble"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Zona Económica:",
+                    None,
+                    r.get("uso_suelo_observado"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Informante:",
+                    None,
+                    r.get("nombre_anunciante"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Uso de Suelo:",
+                    None,
+                    r.get("uso_suelo_oficial"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Telefono del Informante:",
+                    None,
+                    r.get("telefono_anunciante"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Entre Calles:",
+                    None,
+                    r.get("entrecalles"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "URL Fuente:",
+                    None,
+                    r.get("url_fuente"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Ubicación en la MZA:",
+                    None,
+                    r.get("ubicacion_manzana"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Superficie:",
+                    None,
+                    r.get("superficie_terreno"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Tipo de Operación:",
+                    None,
+                    r.get("tipo_operacion"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "No. de Frentes:",
+                    None,
+                    f'{r.get("numero_frentes")} ({num2words(r.get("numero_frentes"), lang="es").upper()})',
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Frentes ML:",
+                    None,
+                    r.get("longitud_frente"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+        mercado_sheet.append([])  # Espacio
+        cedula_sheet.append([])
+    # for cell in mercado_sheet[
+    #     mercado_sheet.cell(row=mercado_sheet.max_row, column=1)
+    #     .coordinate : mercado_sheet.cell(row=mercado_sheet.max_row, column=3)
+    #     .coordinate
+    # ]:
+    #     cell.border = border  # Establecer bordes
+    filename = f"{registro}.xlsx"
+    path = f"{config.PATHS.tmp}/{filename}"
+    workbook.save(path)
+    return __response.send_file(filename=filename, path=path, delete=True)
+
+
+from openpyxl import Workbook
+from openpyxl.styles import Border, Font, PatternFill, Side
+
+
 @comparables.post("/preview/{cedula_mercado}")
 async def generate_preview(
     cedula_mercado: int,
@@ -315,105 +937,12 @@ async def generate_preview(
     ]
     url_base = "http://172.31.113.151/comparables/imagenes"
     for d in data:
-        print(d.keys())
         for r in d["records"]:
             r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
             r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
             r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
             r["fecha_captura"] = as_complete_date(r["fecha_captura"])
-            sheet.append(list(r.keys()))
-            # sheet.append(r["tipo"])
-            sheet.merge_cells(
-                start_row=sheet.max_row,
-                start_column=1,
-                end_row=sheet.max_row,
-                end_column=3,
-            )  # Fusionar celdas
-            sheet[sheet.cell(row=sheet.max_row, column=1).coordinate].font = (
-                font_bold  # Establecer negrita
-            )
-            sheet[sheet.cell(row=sheet.max_row, column=1).coordinate].fill = (
-                fill_gray  # Establecer color de fondo
-            )
-            sheet.append(
-                ["", r["imagen_1"], r["imagen_2"], r["fecha_captura"]]
-            )  # Datos
 
-    # for cell in sheet[
-    #     sheet.cell(row=sheet.max_row, column=1)
-    #     .coordinate : sheet.cell(row=sheet.max_row, column=3)
-    #     .coordinate
-    # ]:
-    #     cell.border = border  # Establecer bordes
-    workbook.save("datos.xlsx")
-    return __response.success(data=data)
-
-
-from openpyxl import Workbook
-from openpyxl.styles import Border, Font, PatternFill, Side
-
-# Crear un nuevo libro de trabajo de Excel
-workbook = Workbook()
-sheet = workbook.active
-
-# Definir estilos
-font_bold = Font(bold=True)
-fill_gray = PatternFill(start_color="DDDDDD", end_color="DDDDDD", fill_type="solid")
-border = Border(
-    left=Side(border_style="thin", color="000000"),
-    right=Side(border_style="thin", color="000000"),
-    top=Side(border_style="thin", color="000000"),
-    bottom=Side(border_style="thin", color="000000"),
-)
-
-
-@comparables.post("/xlxs/{cedula_mercado}")
-async def generate_xlsx(
-    cedula_mercado: int,
-    request: Request,
-    db: Session = Depends(database.valuaciones),
-    user=Depends(required),
-):
-    if isinstance(user, dict):
-        return __response.error(**user)
-    comp = ComparablesCatCom(db)
-    cedula = CedulaComparables(db)
-    mercado = CedulaMercado(db)
-    if mercado.get(cedula_mercado) is None:
-        return __response.error(
-            message="No se encontraron comparables", status_code=404
-        )
-    if len(cedula.filter_group(id_cedula_mercado=cedula_mercado)) == 0:
-        return __response.error(
-            message="No se encontraron comparables", status_code=404
-        )
-    mercado = mercado.to_dict(exclude=["id", "usuario", "fecha"])
-    cedulas = [
-        {**comp.to_dict(), "tipo": c.tipo, **mercado}
-        for c in cedula.current
-        if comp.get(c.id_comparable_catcom) is not None
-    ]
-    try:
-        data = await request.json()
-
-        if not "ids" in data:
-            raise Exception("No se encontraron comparables")
-        data = [c for c in cedulas if c.get("id") in data["ids"]]
-    except Exception as e:
-        pass
-    data = [
-        {"tipo": tipo, "records": [c for c in cedulas if c.get("tipo") == tipo]}
-        for tipo in set(c.get("tipo") for c in cedulas)
-    ]
-    url_base = "http://172.31.113.151/comparables/imagenes"
-    for d in data:
-        for r in d["records"]:
-            r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
-            r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
-            r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
-            r["fecha_captura"] = as_complete_date(r["fecha_captura"])
-    for d in data:
-        print(d.keys())
     return __response.success(data=data)
     # data = await request.json()
     # # print(data)

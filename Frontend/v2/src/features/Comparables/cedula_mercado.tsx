@@ -1,8 +1,8 @@
 /** @format */
 import { useNavigate } from "react-router";
-
+import { Dialog } from "primereact/dialog";
 import "primereact/resources/themes/tailwind-light/theme.css";
-import { Table, Button, Tooltip } from "flowbite-react";
+import { Table, Button, Tooltip, Modal } from "flowbite-react";
 import { NavLink, useParams } from "react-router-dom";
 import { useGetComparablesQuery, useDeleteComparableMutation } from "@api/Comparables";
 import Spinner from "@components/Spinner";
@@ -12,19 +12,30 @@ import Alert from "@components/Alerts";
 import { Checkbox } from "primereact/checkbox";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/provider";
+import { Reports } from "./reports";
+import { Toggle } from "@components/Toggle";
 import { getComparables, setComparables } from "../../store/reducers/Comparables";
+import { useDownloadMutation, usePreviewMutation } from "@api/Comparables";
 export default function Comparables() {
 	const { cedula_mercado } = useParams();
+	const [visible, setVisible] = useState(false);
+	const [as_report, setAsReport] = useState(true);
 	const navigate = useNavigate();
 	const { data, isLoading, isError, error } = useGetComparablesQuery({ cedula_mercado });
-
+	const [downloadFile] = useDownloadMutation();
+	const [preview, { data: dataPreview, isSuccess: isSuccessPreview }] = usePreviewMutation();
 	const dispatch = useAppDispatch();
 
-	const [ids, setIDs] = useState<number[]>(data?.data.map(({ id }: any) => id));
-	console.log(data);
+	const [ids, setIDs] = useState<number[]>(data?.data.map(({ id }: any) => id) ?? []);
+
 	useEffect(() => {
 		dispatch(setComparables({ key: "ids", value: ids }));
 	}, [ids]);
+	useEffect(() => {
+		if (isSuccessPreview) {
+			setVisible(true);
+		}
+	}, [isSuccessPreview]);
 	if (isError) return <Error message={error?.data} />;
 	if (isLoading) return <Spinner size={20} />;
 	return (
@@ -36,18 +47,22 @@ export default function Comparables() {
 					</Button>
 				</NavLink>
 				<div className="flex flex-row gap-2">
-					<Button pill color="success">
+					<Button
+						pill
+						color="success"
+						onClick={() => downloadFile({ cedula_mercado, data: { ids } })}
+					>
 						<Tooltip content="Solo se integraran aquellos registros seleccionados al archivo">
 							Descargar
 						</Tooltip>
 					</Button>
-					<NavLink to={`view`}>
-						<Button pill>
-							<Tooltip content="Solo se mostraran aquellos registros seleccionados">
-								Previsualizar
-							</Tooltip>
-						</Button>
-					</NavLink>
+
+					<Button pill onClick={() => preview({ cedula_mercado, data: { ids } })}>
+						<Tooltip content="Solo se mostraran aquellos registros seleccionados">
+							Previsualizar
+						</Tooltip>
+					</Button>
+
 					<NavLink to={`crear`}>
 						<Button pill color="light">
 							Crear Nuevo Comparable
@@ -55,7 +70,26 @@ export default function Comparables() {
 					</NavLink>
 				</div>
 			</div>
-
+			{/* <Dialog visible={visible} onHide={() => setVisible(false)} blockScroll maximized>
+				<div className="flex-col my-3 items-center justify-center h-full">
+					<div className="flex flex-row justify-between">
+						<Toggle value={as_report} onChange={() => setAsReport(!as_report)}>
+							{as_report ? "Cédulas de " : ""} Mercado
+						</Toggle>
+					</div>
+					<Reports as_report={as_report} data={dataPreview?.data} />
+				</div>
+			</Dialog> */}
+			<Modal dismissible size="7xl" show={visible} onClose={() => setVisible(false)}>
+				<Modal.Header>
+					<Toggle value={as_report} onChange={() => setAsReport(!as_report)}>
+						{as_report ? "Cédulas de " : ""} Mercado
+					</Toggle>
+				</Modal.Header>
+				<Modal.Body>
+					<Reports as_report={as_report} data={dataPreview?.data} />
+				</Modal.Body>
+			</Modal>
 			<Table striped hoverable className="overflow-y-auto ">
 				<Table.Head>
 					<Table.HeadCell className="text-center">#</Table.HeadCell>
@@ -71,20 +105,13 @@ export default function Comparables() {
 						<Table.Row
 							className="bg-white dark:border-gray-700 dark:bg-gray-800 hover:cursor-pointer text-center"
 							key={index}
-							onClick={() => {
-								if (ids.includes(id)) {
-									setIDs(ids.filter((_id) => _id !== id));
-								} else {
-									setIDs([...ids, id]);
-								}
-							}}
 						>
 							<Table.Cell>
 								<p className=" text-center cursor-text">{id}</p>
 							</Table.Cell>
 							<Table.Cell className="text-center">
 								<Checkbox
-									checked={ids?.includes(id)}
+									checked={ids.includes(id)}
 									onChange={() => {
 										if (ids.includes(id)) {
 											setIDs(ids.filter((_id) => _id !== id));

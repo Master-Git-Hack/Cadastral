@@ -40,10 +40,9 @@ export default function Create() {
 		postComparable,
 		{ isLoading: isLoadingPost, isError: isErrorPost, error: errorPost, isSuccess },
 	] = usePostComparableMutation();
-	
-	if (isErrorPost )
-		return <Error message={errorPost?.data } />;
-	if (isLoadingPost ) return <Spinner size={20} />;
+
+	if (isErrorPost) return <Error message={errorPost?.data} />;
+	if (isLoadingPost) return <Spinner size={20} />;
 	return (
 		<div className="overflow-auto mx-3">
 			<div className="flex flex-row py-2">
@@ -210,7 +209,6 @@ export default function Create() {
 						</Tooltip>
 					</Button>
 
-				
 					<Button
 						pill
 						color="success"
@@ -233,7 +231,6 @@ export default function Create() {
 					</Button>
 				</Button.Group>
 			</div>
-			
 		</div>
 	);
 }

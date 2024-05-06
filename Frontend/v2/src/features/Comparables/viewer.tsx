@@ -13,12 +13,14 @@ import { Reports } from "./reports";
 import { useAppSelector } from "../../store/provider";
 import { getComparables } from "../../store/reducers/Comparables";
 import { Toggle } from "@components/Toggle";
-import { usePreviewQuery } from "@api/Comparables";
 export const DocumentViewer = () => {
 	const { id, cedula_mercado, tipo } = useParams();
 	const { ids } = useAppSelector(getComparables);
 	const [as_report, setAsReport] = useState(true);
-	const { data, isLoading, isError, error } = usePreviewQuery({ cedula_mercado, data: ids });
+	const [request, { data, isLoading, isError, error }] = usePreviewMutation({
+		cedula_mercado,
+		data: ids,
+	});
 	if (isError) return <Error message={error?.data} />;
 	if (isLoading) return <Spinner size={20} />;
 	return (
