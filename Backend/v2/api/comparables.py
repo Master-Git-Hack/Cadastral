@@ -4,7 +4,9 @@ from dateparser import parse
 from fastapi import APIRouter, Depends, Request
 from num2words import num2words
 from openpyxl import Workbook
+from openpyxl.drawing.image import Image
 from openpyxl.styles import Border, Font, PatternFill, Side
+from requests import get
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
@@ -334,8 +336,8 @@ async def generate_xlsx(
         bottom=Side(border_style="thin", color="000000"),
     )
     url_base = "http://172.31.113.151/comparables/imagenes"
-    test = data + data + data  # delete this line
-    for index, d in enumerate(test):  # replace test for data
+
+    for index, d in enumerate(data):  # replace test for data
         mercado_sheet.append([d.get("tipo")])
         mercado_sheet.merge_cells(
             start_row=mercado_sheet.max_row,
@@ -430,7 +432,18 @@ async def generate_xlsx(
             r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
             r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
             r["fecha_captura"] = as_complete_date(r.get("fecha_captura", "hoy"))
-
+            imagen_1 = get(r["imagen_1"]).content
+            imagen_1_path = f"{config.PATHS.tmp}/imagen_1.png"
+            with open(imagen_1_path, "wb") as f:
+                f.write(imagen_1)
+            imagen_2 = get(r["imagen_2"]).content
+            imagen_2_path = f"{config.PATHS.tmp}/imagen_2.png"
+            with open(imagen_2_path, "wb") as f:
+                f.write(imagen_2)
+            captura_pantalla = get(r["captura_pantalla"]).content
+            captura_pantalla_path = f"{config.PATHS.tmp}/captura_pantalla.png"
+            with open(captura_pantalla_path, "wb") as f:
+                f.write(captura_pantalla)
             mercado_sheet.append(
                 [
                     "Folio",
@@ -612,7 +625,7 @@ async def generate_xlsx(
             cedula_sheet.append(
                 [
                     None,
-                    "Imagen_1",
+                    # Image(imagen_1_path, f"B{cedula_last_row}"),
                     None,
                     None,
                     None,
@@ -620,7 +633,9 @@ async def generate_xlsx(
                     None,
                     None,
                     None,
-                    "Imagen_2",
+                    None,
+                    # Image(imagen_2_path, f"J{cedula_last_row}"),
+                    None,
                     None,
                     None,
                     None,
@@ -630,6 +645,13 @@ async def generate_xlsx(
                     None,
                 ]
             )
+            imagen_1 = Image(imagen_1_path)
+            imagen_2 = Image(imagen_2_path)
+            # imagen_1.anchor = "B{cedula_last_row}"
+            # imagen_2.anchor = "J{cedula_last_row}"
+            cedula_sheet.add_image(imagen_1)
+            cedula_sheet.add_image(imagen_2)
+
             cedula_last_row = cedula_sheet.max_row
             cedula_sheet.merge_cells(f"B{cedula_last_row}:H{cedula_last_row}")
             cedula_sheet.merge_cells(f"J{cedula_last_row}:P{cedula_last_row}")
@@ -887,6 +909,86 @@ async def generate_xlsx(
     #     .coordinate
     # ]:
     #     cell.border = border  # Establecer bordes
+    mercado_width = {
+        "A": 92,
+        "B": 183,
+        "C": 90,
+        "D": 186,
+        "E": 90,
+        "F": 237,
+        "G": 94,
+        "H": 92,
+        "I": 92,
+        "J": 108,
+        "K": 209,
+        "L": 90,
+        "M": 208,
+        "N": 136,
+        "O": 90,
+        "P": 90,
+        "Q": 103,
+        "R": 136,
+        "S": 94,
+        "T": 239,
+        "U": 215,
+        "V": 204,
+        "W": 150,
+        "X": 76,
+        "Y": 101,
+        "Z": 76,
+        "AA": 76,
+        "AB": 76,
+        "AC": 125,
+        "AD": 162,
+        "AE": 105,
+        "AF": 90,
+        "AG": 149,
+        "AH": 149,
+        "AI": 104,
+        "AJ": 90,
+        "AK": 90,
+        "AL": 90,
+        "AM": 183,
+        "AN": 90,
+        "AO": 143,
+        "AP": 543,
+        "AQ": 120,
+        "AR": 120,
+        "AS": 120,
+        "AT": 120,
+        "AU": 120,
+        "AV": 120,
+        "AW": 246,
+        "AX": 79,
+        "AY": 72,
+        "AZ": 183,
+        "BA": 77,
+    }
+    cedula_width = {
+        "A": 13,
+        "B": 13,
+        "C": 87,
+        "D": 100,
+        "E": 87,
+        "F": 87,
+        "G": 87,
+        "H": 87,
+        "I": 87,
+        "J": 26,
+        "K": 86,
+        "M": 86,
+        "N": 87,
+        "O": 87,
+        "P": 87,
+        "Q": 87,
+        "R": 87,
+        "S": 13,
+        "T": 13,
+    }
+    for column, width in mercado_width.items():
+        mercado_sheet.column_dimensions[column].width = width / 7.5
+    for column, width in cedula_width.items():
+        cedula_sheet.column_dimensions[column].width = width / 7.5
     filename = f"{registro}.xlsx"
     path = f"{config.PATHS.tmp}/{filename}"
     workbook.save(path)
