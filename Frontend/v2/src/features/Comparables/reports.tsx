@@ -2,10 +2,34 @@
 import { NumerosALetras } from "numero-a-letras";
 import { Table } from "flowbite-react";
 import moment from "moment";
+import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+const styles = StyleSheet.create({
+	page: {
+		flexDirection: "row",
+		backgroundColor: "#E4E4E4",
+	},
+	section: {
+		margin: 10,
+		padding: 10,
+		flexGrow: 1,
+	},
+});
 export const Reports = ({ as_report, ...props }) =>
 	!as_report ? <Cedula {...props} /> : <Mercado {...props} />;
+export const TestPdf = ({ data }) => (
+	<Document>
+		<Page size="A4" style={styles.page}>
+			<View style={styles.section}>
+				<Text>Section #1</Text>
+			</View>
+			<View style={styles.section}>
+				<Text>Section #2</Text>
+			</View>
+		</Page>
+	</Document>
+);
 const Cedula = ({ data }) => (
-	<div className="overflow-y-auto m-5">
+	<div className="overflow-y-auto m-5" id="capture">
 		{data?.map(({ records }, index: number) => (
 			<div key={`mercado view ${index}`} className="my-2 overflow-auto">
 				{records?.map(
@@ -108,6 +132,7 @@ const Cedula = ({ data }) => (
 									<Table.Cell colSpan={7}>
 										<figure className="max-w-lg">
 											<img
+												crossOrigin="use-credentials"
 												className="h-auto max-w-full rounded-lg"
 												src={imagen_1}
 											/>
@@ -120,6 +145,7 @@ const Cedula = ({ data }) => (
 									<Table.Cell colSpan={7}>
 										<figure className="max-w-lg">
 											<img
+												crossOrigin="use-credentials"
 												className="h-auto max-w-full rounded-lg"
 												src={imagen_2}
 											/>
@@ -485,7 +511,7 @@ const Cedula = ({ data }) => (
 								<Table.Row></Table.Row>
 								<Table.Row>
 									<Table.Cell colSpan={7}>
-										<img src={captura_pantalla} />
+										<img src={captura_pantalla} crossOrigin="use-credentials" />
 									</Table.Cell>
 
 									<Table.Cell />

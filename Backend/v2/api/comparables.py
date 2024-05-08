@@ -16,7 +16,6 @@ from ..middlewares import Middlewares as __Middlewares
 from ..middlewares.auth import required
 from ..models.cedula_comparables import CedulaComparables
 from ..models.cedula_mercado import CedulaMercado
-
 # from ..middlewares.auth import required
 from ..models.comparables_catcom import ComparablesCatCom
 from ..utils.local import as_complete_date
@@ -327,17 +326,66 @@ async def generate_xlsx(
     mercado_sheet.title = "MERCADO"
     cedula_sheet = workbook.create_sheet("CÉDULAS DE MERCADO")
     # Definir estilos
-    font_bold = Font(bold=True)
-    fill_gray = PatternFill(start_color="DDDDDD", end_color="DDDDDD", fill_type="solid")
-    border = Border(
-        left=Side(border_style="thin", color="000000"),
-        right=Side(border_style="thin", color="000000"),
-        top=Side(border_style="thin", color="000000"),
-        bottom=Side(border_style="thin", color="000000"),
+    text = dict(
+        header=dict(
+            black=Font(name="Arial", size=18, bold=True),
+            white=Font(name="Arial", size=18, bold=True, color="FFFFFF"),
+        ),
+        title=dict(
+            black=Font(name="Arial", size=14, bold=True),
+            white=Font(name="Arial", size=14, bold=True, color="FFFFFF"),
+        ),
+        sub_title=dict(
+            black=Font(name="Arial", size=12, bold=True),
+            white=Font(name="Arial", size=12, bold=True, color="FFFFFF"),
+        ),
+        normal=dict(
+            black=Font(name="Arial", size=9),
+            white=Font(name="Arial", size=9, color="FFFFFF"),
+        ),
+        bold=dict(
+            black=Font(name="Arial", size=9, bold=True),
+            white=Font(name="Arial", size=9, bold=True, color="FFFFFF"),
+        ),
     )
+    background = dict(
+        red=PatternFill(start_color="F87171", end_color="F87171", fill_type="solid"),
+        green=PatternFill(start_color="4ADE80", end_color="4ADE80", fill_type="solid"),
+        violet=PatternFill(start_color="A78BFA", end_color="A78BFA", fill_type="solid"),
+        kaki=PatternFill(start_color="F3F37A", end_color="F3F37A", fill_type="solid"),
+        teal=PatternFill(start_color="2DD4D4", end_color="2DD4D4", fill_type="solid"),
+        blue=PatternFill(start_color="38BDF8", end_color="38BDF8", fill_type="solid"),
+        pink=PatternFill(start_color="F472B6", end_color="F472B6", fill_type="solid"),
+        emerald=PatternFill(
+            start_color="A7F3D0", end_color="A7F3D0", fill_type="solid"
+        ),
+        yellow=PatternFill(start_color="FBBF24", end_color="FBBF24", fill_type="solid"),
+    )
+    border = dict(
+        top=Border(top=Side(border_style="thin", color="000000")),
+        bottom=Border(bottom=Side(border_style="thin", color="000000")),
+        left=Border(left=Side(border_style="thin", color="000000")),
+        right=Border(right=Side(border_style="thin", color="000000")),
+        x=Border(
+            left=Side(border_style="thin", color="000000"),
+            right=Side(border_style="thin", color="000000"),
+        ),
+        y=Border(
+            top=Side(border_style="thin", color="000000"),
+            bottom=Side(border_style="thin", color="000000"),
+        ),
+        full=Border(
+            left=Side(border_style="thin", color="000000"),
+            right=Side(border_style="thin", color="000000"),
+            top=Side(border_style="thin", color="000000"),
+            bottom=Side(border_style="thin", color="000000"),
+        ),
+    )
+
     url_base = "http://172.31.113.151/comparables/imagenes"
 
     for index, d in enumerate(data):  # replace test for data
+        cell = None
         mercado_sheet.append([d.get("tipo")])
         mercado_sheet.merge_cells(
             start_row=mercado_sheet.max_row,
@@ -345,6 +393,16 @@ async def generate_xlsx(
             end_row=mercado_sheet.max_row,
             end_column=53,
         )  # Fusionar celdas
+        cell = mercado_sheet[
+            mercado_sheet.cell(row=mercado_sheet.max_row, column=1).coordinate
+        ]
+        cell.font = text["header"]["white"]  # Establecer negrita
+        if d.get("tipo") == "VENTA":
+            cell.fill = background["green"]  # Establecer color de fondo
+        elif d.get("tipo") == "RENTA":
+            cell.fill = background["violet"]  # Establecer color de fondo
+        else:
+            cell.fill = background["red"]  # Establecer color de fondo
         mercado_sheet.append(
             [
                 "Datos de Verificación",
@@ -364,8 +422,8 @@ async def generate_xlsx(
                 None,
                 None,
                 None,
-                "Características de Terreno",
                 None,
+                "Características de Terreno",
                 None,
                 None,
                 None,
@@ -403,35 +461,79 @@ async def generate_xlsx(
         )
         mercado_last_row = mercado_sheet.max_row
         # Combinar celdas según las especificaciones dadas en el código JSX
-        mercado_sheet.merge_cells(
-            f"A{mercado_last_row}:G{mercado_last_row}"
-        )  # Datos de Verificación
-        mercado_sheet.merge_cells(
-            f"H{mercado_last_row}:Q{mercado_last_row}"
-        )  # Ubicación
-        mercado_sheet.merge_cells(
-            f"R{mercado_last_row}:R{mercado_last_row}"
-        )  # Celda vacía
-        mercado_sheet.merge_cells(
-            f"S{mercado_last_row}:AD{mercado_last_row}"
-        )  # Características de Terreno
-        mercado_sheet.merge_cells(
-            f"AE{mercado_last_row}:AN{mercado_last_row}"
-        )  # Características de Construcción
-        mercado_sheet.merge_cells(
-            f"AO{mercado_last_row}:AP{mercado_last_row}"
-        )  # Infraestructura
-        mercado_sheet.merge_cells(
-            f"AQ{mercado_last_row}:AV{mercado_last_row}"
-        )  # VALORES
+        mercado_sheet.merge_cells(f"A{mercado_last_row}:G{mercado_last_row}")
+        cell = mercado_sheet[
+            mercado_sheet.cell(row=mercado_last_row, column=1).coordinate
+        ]
+        cell.font = text["sub_title"]["black"]  # Establecer negrita
+        cell.fill = background["kaki"]  # Establecer color de fondo
+
+        # Datos de Verificación
+        mercado_sheet.merge_cells(f"H{mercado_last_row}:Q{mercado_last_row}")
+        cell = mercado_sheet[
+            mercado_sheet.cell(row=mercado_last_row, column=8).coordinate
+        ]
+        cell.font = text["sub_title"]["black"]
+        cell.fill = background["violet"]
+        # Ubicación
+
+        cell = mercado_sheet[
+            mercado_sheet.cell(row=mercado_last_row, column=18).coordinate
+        ]
+        cell.font = text["sub_title"]["black"]
+        # Celda vacía
+        mercado_sheet.merge_cells(f"S{mercado_last_row}:AD{mercado_last_row}")
+        cell = mercado_sheet[
+            mercado_sheet.cell(row=mercado_last_row, column=19).coordinate
+        ]
+        cell.font = text["sub_title"]["black"]
+        cell.fill = background["red"]
+        # Características de Terreno
+        mercado_sheet.merge_cells(f"AE{mercado_last_row}:AN{mercado_last_row}")
+        cell = mercado_sheet[
+            mercado_sheet.cell(row=mercado_last_row, column=31).coordinate
+        ]
+        cell.font = text["sub_title"]["black"]
+        cell.fill = background["teal"]
+        # Características de Construcción
+        mercado_sheet.merge_cells(f"AO{mercado_last_row}:AP{mercado_last_row}")
+        cell = mercado_sheet[
+            mercado_sheet.cell(row=mercado_last_row, column=41).coordinate
+        ]
+        cell.font = text["sub_title"]["black"]
+        cell.fill = background["kaki"]
+        # Infraestructura
+        mercado_sheet.merge_cells(f"AQ{mercado_last_row}:AV{mercado_last_row}")
+        cell = mercado_sheet[
+            mercado_sheet.cell(row=mercado_last_row, column=43).coordinate
+        ]
+        cell.font = text["sub_title"]["black"]
+        cell.fill = background["blue"]
+        # VALORES
         mercado_sheet.merge_cells(
             f"AW{mercado_last_row}:AZ{mercado_last_row}"
         )  # Características de Construcción
+        cell = mercado_sheet[
+            mercado_sheet.cell(row=mercado_last_row, column=49).coordinate
+        ]
+        cell.font = text["sub_title"]["black"]
+        cell.fill = background["pink"]
         for r in d["records"]:
-            r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
-            r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
-            r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
+            if r.get("imagen_1") is not None:
+                r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
+            else:
+                r["imagen_1"] = ""
+            if r.get("imagen_2") is not None:
+                r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
+            else:
+                r["imagen_2"] = ""
+            if r.get("captura_pantalla") is not None:
+                r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
+            else:
+                r["captura_pantalla"] = ""
+            
             r["fecha_captura"] = as_complete_date(r.get("fecha_captura", "hoy"))
+
             imagen_1 = get(r["imagen_1"]).content
             imagen_1_path = f"{config.PATHS.tmp}/imagen_1.png"
             with open(imagen_1_path, "wb") as f:
@@ -501,6 +603,11 @@ async def generate_xlsx(
                     "Elaboró",
                 ]
             )
+            cell = mercado_sheet[
+                mercado_sheet.cell(row=mercado_sheet.max_row, column=1).coordinate
+            ]
+            cell.font = text["bold"]["black"]
+            cell.border = border["full"]
             # mercado_sheet.append(r["tipo"])
             # mercado_sheet.merge_cells(
             #     start_row=mercado_sheet.max_row,
@@ -594,7 +701,18 @@ async def generate_xlsx(
                     fecha_seis_meses_mas_formato,
                     r.get("usuario"),
                 ]
-            )  # Datos
+            )
+            for i in range(1, 53):
+                current_cell = mercado_sheet.cell(row=mercado_sheet.max_row, column=i)
+                current_cell.border = border["full"]
+                current_cell.font = text["normal"]["black"]
+                current_cell.fill = background["emerald"]
+            # cell = mercado_sheet[
+            #     mercado_sheet.cell(row=mercado_sheet.max_row).coordinate
+            # ]
+            # cell.font = text["normal"]["black"]
+            # cell.border = border["full"]
+            # cell.fill = background["emerald"]
             cedula_sheet.append([])
             cedula_sheet.append(
                 [
@@ -900,6 +1018,390 @@ async def generate_xlsx(
             cedula_sheet.merge_cells(f"B{cedula_last_row}:H{cedula_last_row}")
             cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
             cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW# NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Ubicación",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Frentes Tipo:",
+                    None,
+                    r.get("longitud_frente_tipo"),
+                    None,
+                    "Fondo:",
+                    r.get("longitud_fondo"),
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:M{cedula_last_row}")
+            cedula_sheet.merge_cells(f"O{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Estado:",
+                    None,
+                    r.get("estado"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Forma:",
+                    None,
+                    r.get("forma"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Municipio:",
+                    None,
+                    r.get("municipio"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Topografía:",
+                    None,
+                    r.get("topografia"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            servicios = "No tiene"
+            if (
+                r.get("agua")
+                or r.get("drenaje")
+                or r.get("energia_electrica")
+                or r.get("alumbrado_publico")
+                or r.get("banqueta")
+                or r.get("pavimento")
+                or r.get("telefonia")
+            ):
+                servicios = "Tiene Algunos"
+
+            if (
+                r.get("agua")
+                and r.get("drenaje")
+                and r.get("energia_electrica")
+                and r.get("alumbrado_publico")
+                and r.get("banqueta")
+                and r.get("pavimento")
+                and r.get("telefonia")
+            ):
+                servicios = "Si Tiene Completos"
+
+            cedula_sheet.append(
+                [
+                    None,
+                    "Ciudad/Población:",
+                    None,
+                    r.get("localidad"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Servicios:",
+                    None,
+                    servicios,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Asentamiento:",
+                    None,
+                    f"{r.get('tipo_asentamiento')} {r.get('nombre_asentamiento')}",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Régimen de Propiedad",
+                    None,
+                    r.get("regimen_propiedad"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Nombre de la Vialidad:",
+                    None,
+                    f"{r.get('tipo_vialidad')} {r.get('nombre_vialidad')}",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "No. Exterior:",
+                    None,
+                    r.get("numero_exterior"),
+                    None,
+                    "No. Interior:",
+                    None,
+                    r.get("numero_interior"),
+                    None,
+                    "Valores",
+                    None,
+                    r.get("regimen_propiedad"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:E{cedula_last_row}")
+            cedula_sheet.merge_cells(f"G{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Edificio Predio Prototipo:",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Precio:",
+                    None,
+                    r.get("valor_total_mercado"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Coordenadas:",
+                    None,
+                    "X",
+                    r.get("x_utm"),
+                    "Y",
+                    r.get("y_utm"),
+                    None,
+                    None,
+                    "Precio Unitario:",
+                    None,
+                    (
+                        r.get("valor_renta")
+                        if d.get("tipo") == "RENTA"
+                        else r.get("valor_total_mercado") / r.get("superficie_terreno")
+                    ),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Precio USD:",
+                    None,
+                    None,
+                    "Precio Unitario USD:",
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"M{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "Observaciones:",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    r.get("precio_dolar", "-"),
+                    None,
+                    "-",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"M{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    r.get("observaciones"),
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Infraestructura",
+                    None,
+                    servicios,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:C{cedula_last_row}")
+            cedula_sheet.merge_cells(f"D{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:K{cedula_last_row}")
+            cedula_sheet.merge_cells(f"L{cedula_last_row}:P{cedula_last_row}")
+            # END ROW
+            # NEW ROW
+            cedula_sheet.append(
+                [
+                    None,
+                    "captura_pantalla",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    "Precio:",
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                    None,
+                ]
+            )
+            cedula_last_row = cedula_sheet.max_row
+            cedula_sheet.merge_cells(f"B{cedula_last_row}:H{cedula_last_row}")
+            cedula_sheet.merge_cells(f"J{cedula_last_row}:P{cedula_last_row}")
             # END ROW
         mercado_sheet.append([])  # Espacio
         cedula_sheet.append([])
@@ -972,18 +1474,15 @@ async def generate_xlsx(
         "E": 87,
         "F": 87,
         "G": 87,
-        "H": 87,
-        "I": 87,
-        "J": 26,
+        "H": 13,
+        "I": 26,
+        "J": 86,
         "K": 86,
-        "M": 86,
+        "M": 87,
         "N": 87,
         "O": 87,
-        "P": 87,
-        "Q": 87,
-        "R": 87,
-        "S": 13,
-        "T": 13,
+        "P": 13,
+        "Q": 13,
     }
     for column, width in mercado_width.items():
         mercado_sheet.column_dimensions[column].width = width / 7.5

@@ -12,10 +12,12 @@ import Alert from "@components/Alerts";
 import { Checkbox } from "primereact/checkbox";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/provider";
-import { Reports } from "./reports";
+import { Reports, TestPdf } from "./reports";
 import { Toggle } from "@components/Toggle";
 import { getComparables, setComparables } from "../../store/reducers/Comparables";
 import { useDownloadMutation, usePreviewMutation } from "@api/Comparables";
+import html2canvas from "html2canvas-pro";
+import jsPDF from "jspdf";
 export default function Comparables() {
 	const { cedula_mercado } = useParams();
 	const [visible, setVisible] = useState(false);
@@ -38,6 +40,17 @@ export default function Comparables() {
 	}, [isSuccessPreview]);
 	if (isError) return <Error message={error?.data} />;
 	if (isLoading) return <Spinner size={20} />;
+	const downloadPDF = () => {
+		const capture = document.getElementById("capture");
+		html2canvas(capture, { allowTaint: true }).then((canvas) => {
+			const imgData = canvas.toDataURL("image/png");
+			const pdf = new jsPDF("p", "mm", "a4");
+			const componentWidth = pdf.internal.pageSize.getWidth();
+			const componentHeight = pdf.internal.pageSize.getHeight();
+			pdf.addImage(imgData, "PNG", 0, 0, componentWidth, componentHeight);
+			pdf.save("file.pdf");
+		});
+	};
 	return (
 		<div>
 			<div className="flex flex-row justify-between my-3 mx-2">
@@ -47,7 +60,7 @@ export default function Comparables() {
 					</Button>
 				</NavLink>
 				<div className="flex flex-row gap-2">
-					<Button
+					{/* <Button
 						pill
 						color="success"
 						onClick={() => downloadFile({ cedula_mercado, data: { ids } })}
@@ -55,7 +68,7 @@ export default function Comparables() {
 						<Tooltip content="Solo se integraran aquellos registros seleccionados al archivo">
 							Descargar
 						</Tooltip>
-					</Button>
+					</Button> */}
 
 					<Button pill onClick={() => preview({ cedula_mercado, data: { ids } })}>
 						<Tooltip content="Solo se mostraran aquellos registros seleccionados">
@@ -85,9 +98,17 @@ export default function Comparables() {
 					<Toggle value={as_report} onChange={() => setAsReport(!as_report)}>
 						{as_report ? "Cédulas de " : ""} Mercado
 					</Toggle>
+					{!as_report && (
+						<Button pill color="success" onClick={() => downloadPDF()}>
+							Descargar
+						</Button>
+					)}
 				</Modal.Header>
 				<Modal.Body>
-					<Reports as_report={as_report} data={dataPreview?.data} />
+					<div className="m-3">
+						{/* <Reports as_report={as_report} data={dataPreview?.data} /> */}
+						<TestPdf as_report={as_report} data={dataPreview?.data} />
+					</div>
 				</Modal.Body>
 			</Modal>
 			<Table striped hoverable className="overflow-y-auto ">
