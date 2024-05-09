@@ -8,6 +8,7 @@ import { useGetComparablesQuery, useDeleteComparableMutation } from "@api/Compar
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
+import { Sidebar } from "primereact/sidebar";
 // import Checkbox from "@components/Checkbox";
 import { Checkbox } from "primereact/checkbox";
 import { useState, useEffect } from "react";
@@ -16,8 +17,11 @@ import { Reports, TestPdf } from "./reports";
 import { Toggle } from "@components/Toggle";
 import { getComparables, setComparables } from "../../store/reducers/Comparables";
 import { useDownloadMutation, usePreviewMutation } from "@api/Comparables";
+import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
+import Component from "./test";
+import ReactPDF from "@react-pdf/renderer";
 export default function Comparables() {
 	const { cedula_mercado } = useParams();
 	const [visible, setVisible] = useState(false);
@@ -42,12 +46,12 @@ export default function Comparables() {
 	if (isLoading) return <Spinner size={20} />;
 	const downloadPDF = () => {
 		const capture = document.getElementById("capture");
-		html2canvas(capture, { allowTaint: true }).then((canvas) => {
-			const imgData = canvas.toDataURL("image/png");
-			const pdf = new jsPDF("p", "mm", "a4");
+		html2canvas(capture).then((canvas) => {
+			const imgData = canvas.toDataURL("image/jpeg", 1.0);
+			const pdf = new jsPDF("p", "px", "a4");
 			const componentWidth = pdf.internal.pageSize.getWidth();
 			const componentHeight = pdf.internal.pageSize.getHeight();
-			pdf.addImage(imgData, "PNG", 0, 0, componentWidth, componentHeight);
+			pdf.addImage(imgData, "JPEG", 0, 0, componentWidth, componentHeight);
 			pdf.save("file.pdf");
 		});
 	};
@@ -93,24 +97,27 @@ export default function Comparables() {
 					<Reports as_report={as_report} data={dataPreview?.data} />
 				</div>
 			</Dialog> */}
-			<Modal dismissible size="7xl" show={visible} onClose={() => setVisible(false)}>
-				<Modal.Header>
+			<div className="card flex justify-content-center">
+				<Sidebar visible={visible} onHide={() => setVisible(false)} fullScreen>
 					<Toggle value={as_report} onChange={() => setAsReport(!as_report)}>
 						{as_report ? "Cédulas de " : ""} Mercado
 					</Toggle>
-					{!as_report && (
-						<Button pill color="success" onClick={() => downloadPDF()}>
-							Descargar
-						</Button>
-					)}
-				</Modal.Header>
-				<Modal.Body>
-					<div className="m-3">
-						{/* <Reports as_report={as_report} data={dataPreview?.data} /> */}
+					{/* <PDFDownloadLink
+						document={<TestPdf as_report={as_report} data={dataPreview?.data} />}
+					>
+						{({ blob, url, loading, error }) =>
+							loading ? "Loading document..." : "Download now!"
+						}
+					</PDFDownloadLink> */}
+					{/* <Reports as_report={as_report} data={dataPreview?.data} id="capture" /> */}
+					<PDFViewer width="100%" height="100%">
 						<TestPdf as_report={as_report} data={dataPreview?.data} />
-					</div>
-				</Modal.Body>
-			</Modal>
+					</PDFViewer>
+					{/* <TestPdf as_report={as_report} data={dataPreview?.data} /> */}
+					{/* <TestPdf as_report={as_report} data={dataPreview?.data} /> */}
+				</Sidebar>
+			</div>
+
 			<Table striped hoverable className="overflow-y-auto ">
 				<Table.Head>
 					<Table.HeadCell className="text-center">#</Table.HeadCell>

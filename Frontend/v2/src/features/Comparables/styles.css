@@ -1,0 +1,18 @@
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  body, html {
+      width: 21cm !important;
+      height: 29.7cm !important;
+      margin: 0;
+  }
+  .print-preview {
+      width: 21cm;
+      height: 29.7cm;
+      margin: 0;
+      border: 5px solid #000;
+  }
+}

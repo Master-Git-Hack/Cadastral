@@ -1,4 +1,6 @@
+from base64 import b64encode
 from datetime import datetime, timedelta
+from os import remove
 
 from dateparser import parse
 from fastapi import APIRouter, Depends, Request
@@ -16,6 +18,7 @@ from ..middlewares import Middlewares as __Middlewares
 from ..middlewares.auth import required
 from ..models.cedula_comparables import CedulaComparables
 from ..models.cedula_mercado import CedulaMercado
+
 # from ..middlewares.auth import required
 from ..models.comparables_catcom import ComparablesCatCom
 from ..utils.local import as_complete_date
@@ -531,7 +534,7 @@ async def generate_xlsx(
                 r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
             else:
                 r["captura_pantalla"] = ""
-            
+
             r["fecha_captura"] = as_complete_date(r.get("fecha_captura", "hoy"))
 
             imagen_1 = get(r["imagen_1"]).content
@@ -1496,6 +1499,23 @@ async def generate_xlsx(
 
 from openpyxl import Workbook
 from openpyxl.styles import Border, Font, PatternFill, Side
+
+
+def get_image(image_url):
+    try:
+        response = get(image_url)
+        response.raise_for_status()
+        fileName = image_url.split("/")[-1]
+        path = f"{config.PATHS.tmp}/{fileName}"
+        with open(path, "wb") as f:
+            f.write(response.content)
+        with open(path, "rb") as f:
+            data = f.read()
+            image = b64encode(data).decode("utf-8")
+        remove(path)
+        return image
+    except Exception as e:
+        return ""
 
 
 @comparables.post("/preview/{cedula_mercado}")
