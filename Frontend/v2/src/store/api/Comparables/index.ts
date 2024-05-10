@@ -6,6 +6,7 @@ import { baseQuery } from "../baseUrl";
 import { IComparables } from "./types";
 import { saveAs } from "file-saver";
 import { setComparables } from "../../reducers/Comparables";
+
 export const ComparablesApi = createApi({
 	reducerPath: "ComparablesApi",
 	baseQuery,
@@ -137,6 +138,17 @@ export const ComparablesApi = createApi({
 				return response;
 			},
 		}),
+		getImage: mutation<File, { fileName: string }>({
+			query: ({ fileName }) => ({
+				url: `comparables/image/${fileName}`,
+				method: "GET",
+				responseType: "blob",
+			}),
+			transformResponse: (response) => { 
+				console.log(response)
+			}
+		}),
+			
 	}),
 });
 
@@ -155,4 +167,5 @@ export const {
 	usePreviewMutation,
 	useComparableReportMutation,
 	useDownloadMutation,
+	useGetImageMutation
 } = ComparablesApi;

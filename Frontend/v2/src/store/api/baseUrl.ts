@@ -85,3 +85,5 @@ const axiosBaseQuery =
 	};
 export const baseQuery = axiosBaseQuery({ baseUrl });
 export default baseUrl;
+ 
+			 
