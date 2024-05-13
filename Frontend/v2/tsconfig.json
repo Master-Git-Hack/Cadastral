@@ -33,6 +33,7 @@
     "@context/*": ["src/lib/context/*"],
     "@services/*": ["src/lib/services/*"],
     "@assets/*": ["src/assets/*"],
+    "@fonts/*": ["src/assets/fonts/*"],
     "@features/*": ["src/features/*"],
     "@redux/*": ["src/store/*"],
     "@actions/*": ["src/store/actions/*"],

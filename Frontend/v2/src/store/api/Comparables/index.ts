@@ -1,4 +1,3 @@
-
 /** @format */
 
 import { createApi } from "@reduxjs/toolkit/query/react";
@@ -144,11 +143,10 @@ export const ComparablesApi = createApi({
 				method: "GET",
 				responseType: "blob",
 			}),
-			transformResponse: (response) => { 
-				console.log(response)
-			}
+			transformResponse: (response) => {
+				console.log(response);
+			},
 		}),
-			
 	}),
 });
 
@@ -167,5 +165,5 @@ export const {
 	usePreviewMutation,
 	useComparableReportMutation,
 	useDownloadMutation,
-	useGetImageMutation
+	useGetImageMutation,
 } = ComparablesApi;

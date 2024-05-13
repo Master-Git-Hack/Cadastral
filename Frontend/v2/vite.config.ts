@@ -27,6 +27,7 @@ export default defineConfig({
       "@actions": path.resolve(__dirname, "./src/store/actions"),
       "@reducers": path.resolve(__dirname, "./src/store/reducers"),
       "@assets": path.resolve(__dirname, "./src/assets"),
+      "@fonts": path.resolve(__dirname, "./src/assets/fonts"),
       "@redux-api":path.resolve(__dirname, "./src/store/api"),
       
     },
