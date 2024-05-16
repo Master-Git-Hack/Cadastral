@@ -2,20 +2,21 @@
 
 export const modules = [
 	{
-		label: "Metadatos",
-		href: "/metadatos",
-		avatar: "Me",
+		label: "Avaluos Catastrales",
+		href: "/avaluos-catastrales",
+		avatar: "AC",
 	},
 	{
 		label: "Comparables",
 		href: "/comparables",
 		avatar: "Co",
 	},
-	// {
-	// 	label: "Reportes Catastrales",
-	// 	href: "/reportes-catastrales",
-	// 	avatar: "RC",
-	// },
+	{
+		label: "Metadatos",
+		href: "/metadatos",
+		avatar: "Me",
+	},
+
 	// {
 	// 	label: "Homologación",
 	// 	href: "/homologacion",

@@ -41,11 +41,13 @@ export default function Comparables() {
 							showCancelButton: true,
 							cancelButtonText: "Cancelar",
 							inputPlaceholder: "registro",
-						}).then(({ isConfirmed, value }) => {
-							if (isConfirmed) {
-								postCedula({ registro: value });
-							}
 						})
+							.then(({ isConfirmed, value }) => {
+								if (isConfirmed) {
+									postCedula({ registro: value });
+								}
+							})
+							.finally(() => navigate(0))
 					}
 				>
 					Nuevo Registro

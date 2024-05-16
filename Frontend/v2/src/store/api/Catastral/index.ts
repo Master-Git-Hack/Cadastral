@@ -7,26 +7,27 @@ export const ReporteCatastralApi = createApi({
 	reducerPath: "ReporteCatastral",
 	baseQuery,
 	endpoints: (builder) => ({
-		getReporte: builder.mutation<Blob, { fileName: string }>({
-			query: ({ fileName, ...data }) => ({
-				url: `reporte-catastral/${fileName}`,
-				method: "POST",
-				responseType: "blob",
-				data,
+		getReporte: builder.mutation<
+			unknown,
+			{ year: number; collection: number; from: number; to: number }
+		>({
+			query: ({ year, collection, from, to }) => ({
+				url: `/catastrales/registros/${year}/${collection}/${from}/${to}`,
+				method: "GET",
 			}),
-			transformResponse: async (response: any) => {
-				if (!response.ok) {
-					const blob = await response.blob();
-					return Promise.reject(new Error(await blob.text()));
-				}
-				return response.blob();
-			},
-			transformErrorResponse: (error) => {
-				if (error.data) {
-					return error.data;
-				}
-				return error;
-			},
+			// transformResponse: async (response: any) => {
+			// 	if (!response.ok) {
+			// 		const blob = await response.blob();
+			// 		return Promise.reject(new Error(await blob.text()));
+			// 	}
+			// 	return response.blob();
+			// },
+			// transformErrorResponse: (error) => {
+			// 	if (error.data) {
+			// 		return error.data;
+			// 	}
+			// 	return error;
+			// },
 		}),
 	}),
 });

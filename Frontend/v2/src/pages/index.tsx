@@ -13,18 +13,8 @@ import Comparables from "./Comparables";
 import Cedula from "@features/Comparables/cedula_mercado";
 import CreateCedula from "@features/Comparables/create";
 import ComparableViewer from "@features/Comparables/viewer";
-import { Reports } from "./Comparables/reports";
-import { PDFViewer } from "@react-pdf/renderer";
-
+import AvaluosCatastrales from "./AvaluosCatastrales";
 const RouterPages = createBrowserRouter([
-	{
-		path: "/test",
-		element: (
-			<PDFViewer className="w-full min-h-screen bg-white dark:bg-black antialiased tracking-tight">
-				<Reports />
-			</PDFViewer>
-		),
-	},
 	{
 		path: "/sign-in",
 		element: <SignIn />,
@@ -87,8 +77,8 @@ const RouterPages = createBrowserRouter([
 		],
 	},
 	{
-		path: "reportes-catastrales/*",
-		element: <></>,
+		path: "avaluos-catastrales/",
+		element: <AvaluosCatastrales />,
 	},
 	{
 		path: "homologacion",

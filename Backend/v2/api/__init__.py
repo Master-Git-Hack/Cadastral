@@ -59,3 +59,7 @@ app.include_router(parser, prefix=config.API_URL_PREFIX)
 from .comparables import comparables
 
 app.include_router(comparables, prefix=config.API_URL_PREFIX)
+
+from .catastral import catastrales
+
+app.include_router(catastrales, prefix=config.API_URL_PREFIX)

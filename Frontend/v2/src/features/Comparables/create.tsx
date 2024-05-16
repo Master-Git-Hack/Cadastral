@@ -15,24 +15,17 @@ const initialState = (id_cedula_mercado: number) => ({
 	tipo: "TERRENO",
 	id_cedula_mercado,
 	id_comparable_catcom: "",
-	zoom: 1,
-	margins: {
-		left: 0,
-		top: 0,
-		right: 0,
-		bottom: 0,
-	},
-	dpi: 300,
 });
+const currentEnv = import.meta.env.MODE;
+const devUrl = import.meta.env.VITE_API_URL_DEV;
+const prodUrl = import.meta.env.VITE_API_URL_PROD;
+export const baseUrl = currentEnv === "development" ? devUrl : prodUrl;
 export default function Create() {
 	const { cedula_mercado } = useParams();
 	const navigate = useNavigate();
 	const [data, setData] = useState(initialState(parseInt(cedula_mercado)));
 	const [enableProperties, setEnableProperties] = useState(false);
-	const [preview, setPreview] = useState({
-		status: false,
-		file: undefined,
-	});
+	const [preview, setPreview] = useState(false);
 	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
 	const handleMargins = ({ target }) =>
 		setData({ ...data, margins: { ...data.margins, [target.name]: target.value } });
@@ -86,7 +79,26 @@ export default function Create() {
 							/>
 						</Table.Cell>
 					</Table.Row>
-					<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+
+					<Table.Row>
+						<Table.Cell>
+							<strong>Preview</strong>
+						</Table.Cell>
+						<Table.Cell>
+							<figure className="max-w-auto">
+								<img
+									className="h-auto max-w-full rounded-lg mx-auto"
+									src={`${baseUrl}/comparables/preview/image/${data.id_comparable_catcom}/200/200`}
+									alt="Microlocalización"
+								/>
+								<figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
+									Microlocalización
+								</figcaption>
+							</figure>
+						</Table.Cell>
+					</Table.Row>
+
+					{/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 						<Table.Cell colSpan={2}>
 							<Toggle
 								size="sm"
@@ -97,8 +109,8 @@ export default function Create() {
 								Propiedades del documento
 							</Toggle>
 						</Table.Cell>
-					</Table.Row>
-					{enableProperties && (
+					</Table.Row> */}
+					{/* {enableProperties && (
 						<>
 							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 								<Table.Cell>
@@ -198,38 +210,36 @@ export default function Create() {
 								</Table.Cell>
 							</Table.Row>
 						</>
-					)}
+					)} */}
 				</Table.Body>
 			</Table>
 			<div className="flex flex-row-reverse py-2">
-				<Button.Group>
-					<Button pill color="light" disabled={preview.file === undefined}>
-						<Tooltip content="Se habilitara si require una preview de los documentos">
-							{preview.status ? "Ocultar" : "Mostrar"}
-						</Tooltip>
-					</Button>
-
-					<Button
-						pill
-						color="success"
-						onClick={() => {
-							Alert.Question({
-								titleText: "¿Esta seguro de la información?",
-								confirmButtonText: "Guardar",
-								showCancelButton: true,
-								cancelButtonText: "Cancelar",
-							}).then(({ isConfirmed }) => {
+				<Button
+					pill
+					color="success"
+					onClick={() => {
+						Alert.Question({
+							titleText: "¿Esta seguro de la información?",
+							confirmButtonText: "Guardar",
+							showCancelButton: true,
+							cancelButtonText: "Cancelar",
+						})
+							.then(({ isConfirmed }) => {
 								if (isConfirmed) {
 									postComparable(data);
 									setData(initialState(parseInt(cedula_mercado)));
-									navigate(-1);
 								}
-							});
-						}}
-					>
-						Guardar
-					</Button>
-				</Button.Group>
+							})
+							.finally(() =>
+								setTimeout(
+									() => navigate(`/comparables/cedulas/${cedula_mercado}`),
+									500,
+								),
+							);
+					}}
+				>
+					Guardar
+				</Button>
 			</div>
 		</div>
 	);

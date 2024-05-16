@@ -1,87 +1,133 @@
 /** @format */
 import { NumerosALetras } from "numero-a-letras";
+import { asFancyNumber } from "@utils/number";
 import { Table } from "flowbite-react";
 import moment from "moment";
 import { Page, Text, View, Document, StyleSheet, Image, Link } from "@react-pdf/renderer";
 import "./styles.css";
-import axios from "axios";
-// import { useGetImageMutation } from "@api/Comparables";
-import { useEffect, useState } from "react";
+import html2canvas from "html2canvas-pro";
+
 const currentEnv = import.meta.env.MODE;
 const devUrl = import.meta.env.VITE_API_URL_DEV;
 const prodUrl = import.meta.env.VITE_API_URL_PROD;
 export const baseUrl = currentEnv === "development" ? devUrl : prodUrl;
-import ls from "@utils/localstorage";
-export const Reports = ({ as_report, ...props }) =>
-	!as_report ? <Cedula {...props} /> : <Mercado {...props} />;
+import { TabView, TabPanel } from "primereact/tabview";
+
+import { ColumnsProps, SimpleRowProps } from "./types";
+function capturePage(url) {
+	// Specify the URL of the webpage to capture
+
+	// Make a cross-origin request to fetch the webpage content
+	fetch(url)
+		.then((response) => response.text())
+		.then((html) => {
+			// Create a temporary div element and insert the fetched HTML content
+			const tempDiv = document.createElement("div");
+			tempDiv.innerHTML = html;
+
+			// Capture the contents of the temporary div using html2canvas
+			html2canvas(tempDiv).then(function (canvas) {
+				// Convert the canvas to base64 image data
+				const imageData = canvas.toDataURL("image/png");
+
+				// Create a link element
+				const link = document.createElement("a");
+				link.href = imageData;
+				link.download = "captured_page.png";
+
+				// Append the link to the document body and click it programmatically
+				document.body.appendChild(link);
+				link.click();
+
+				// Clean up: remove the link from the document body
+				document.body.removeChild(link);
+			});
+		})
+		.catch((error) => console.error("Error fetching webpage:", error));
+}
+// export const Reports = ({ as_report, ...props }) =>
+// 	!as_report ? <Cedula {...props} /> : <Mercado {...props} />;
+import { PDFViewer } from "@react-pdf/renderer";
+export const Reports = (props) => (
+	<TabView>
+		<TabPanel header="Mercado">
+			<Mercado {...props} />
+		</TabPanel>
+		<TabPanel header="Cedula de Mercado">
+			<PDFViewer width="100%" height="100%" className="w-full  min-h-screen">
+				<Cedula {...props} />
+			</PDFViewer>
+		</TabPanel>
+	</TabView>
+);
 const styles = StyleSheet.create({
 	page: {
-		fontSize: 24,
-		margin: 10,
-		flexDirection: "column",
+		fontFamily: "Helvetica",
+		fontWeight: "normal",
+		fontStyle: "normal",
+		fontSize: 7,
 	},
 	table: {
-		width: "100%",
+		width: "auto",
 		justifyContent: "center",
 		alignItems: "center",
-		marginLeft: 50,
-		marginRight: 50,
-		marginTop: 150,
-		marginBottom: 150,
+		flexDirection: "column",
 		border: "1px solid #EEE",
+		marginHorizontal: "0.35cm",
+		marginVertical: "0.45cm",
 	},
 	row: {
 		display: "flex",
 		flexDirection: "row",
-		borderTop: "1px solid #EEE",
-		paddingTop: 8,
-		paddingBottom: 8,
+		margin: "auto",
 	},
 	header: {
-		borderTop: "none",
-	},
-	bold: {
-		fontWeight: "bold",
-	},
-	// So Declarative and unDRY 👌
-	cellA: { width: "1.015%" },
-	cellB: { width: "6.8%" },
-	cellC: { width: "7.8%" },
-	cellD: { width: "6.8%" },
-	cellE: { width: "6.8%" },
-	cellF: { width: "6.8%" },
-	cellG: { width: "6.8%" },
-	cellH: { width: "6.8%" },
-	cellI: { width: "1.015%" },
-	cellJ: { width: "2.03%" },
-	cellK: { width: "1.015%" },
-	cellL: { width: "6.8%" },
-	cellM: { width: "7.8%" },
-	cellN: { width: "6.8%" },
-	cellO: { width: "6.8%" },
-	cellP: { width: "6.8%" },
-	cellR: { width: "6.8%" },
-	cellS: { width: "6.8%" },
-	cell: { width: "1.015%" },
-	cellHeader: {
-		width: "100%",
-		textAlign: "center",
-		fontWeight: "bold",
-		fontSize: 44,
+		fontSize: 14,
+		fontWeight: "heavy",
 		textTransform: "uppercase",
+		padding: "0.1cm",
 	},
-	//cellID is the sum from cellA to cellE
-	cellID: {
-		width: "27.2%",
-
+	cell: {
+		width: "1.4cm",
+		padding: "0.1cm",
+	},
+	doubleCell: {
+		width: "2.8cm",
+		padding: "0.1cm",
+	},
+	tripleCell: {
+		width: "4.2cm",
+		padding: "0.1cm",
+	},
+	quadrupleCell: {
+		width: "5.6cm",
+		padding: "0.1cm",
+	},
+	quintupleCell: {
+		width: "7cm",
+		padding: "0.1cm",
+	},
+	sextupleCell: {
+		width: "8.4cm",
+		padding: "0.1cm",
+	},
+	septupleCell: {
+		width: "9.8cm",
+		padding: "0.1cm",
+	},
+	gap: {
+		width: "0.7cm",
+	},
+	ID: {
+		fontSize: 18,
+		padding: "0.1cm",
+		color: "#FFF",
+	},
+	title: {
+		fontFamily: "Helvetica-Bold",
 		fontWeight: "bold",
-		fontSize: 52,
-		color: "white",
-	},
-	//image width is the sum from cellB to cellH
-	image: {
-		width: "45.94%",
-		height: 500,
+		fontStyle: "italic",
+		fontSize: 9,
 	},
 	textLeft: {
 		textAlign: "left",
@@ -92,804 +138,726 @@ const styles = StyleSheet.create({
 	textCenter: {
 		textAlign: "center",
 	},
-	cellBC: {
-		width: "14.6%",
+	image: {
+		width: "9.8cm",
+		padding: "0.1cm",
+		height: "6.3cm",
+		border: "1px solid #000",
 	},
-	cellDH: {
-		width: "34%",
+	border: {
+		border: "1px solid #000",
 	},
-	cellDE: {
-		width: "13.6%",
+	borderLeft: {
+		borderLeft: "1px solid #000",
 	},
-	cellGH: {
-		width: "13.6%",
+	borderRight: {
+		borderRight: "1px solid #000",
 	},
-	cellKL: {
-		width: "14.6%",
+	borderBottom: {
+		borderBottom: "1px solid #000",
 	},
-	cellMP: {
-		width: "13.6%",
+	borderTop: {
+		borderTop: "1px solid #000",
 	},
-	cellLM: {
-		width: "13.6%",
+	borderHorizontal: {
+		borderLeft: "1px solid #000",
+		borderRight: "1px solid #000",
 	},
-	cellOP: {
-		width: "13.6%",
-	},
-	cellMiddle: {
-		width: "47.97%",
+	borderVertical: {
+		borderTop: "1px solid #000",
+		borderBottom: "1px solid #000",
 	},
 });
-const getImage = async (imageData: string) => {
-	const binaryString = atob(imageData);
-	const length = binaryString.length;
-	const bytes = new Uint8Array(length);
 
-	for (let i = 0; i < length; i++) {
-		bytes[i] = binaryString.charCodeAt(i);
+const splitText = (text: string, first: boolean = false): string => {
+	const words = text.split(" ");
+	const half = Math.ceil(words.length / 2);
+
+	if (first) {
+		return words.slice(0, half).join(" ");
 	}
-
-	return bytes.buffer;
+	return words.slice(half).join(" ");
 };
-export const TestPdf = ({ data }) => {
-	// const [getImage] = useGetImageMutation();
+const checkServices = ({
+	agua,
+	drenaje,
+	energia_electrica,
+	alumbrado_publico,
+	banqueta,
+	pavimento,
+	telefonia,
+}): string => {
+	const serviciosCompletos =
+		agua &&
+		drenaje &&
+		energia_electrica &&
+		alumbrado_publico &&
+		banqueta &&
+		pavimento &&
+		telefonia;
 
-	const handleImage = async (fileName: string) => {
-		// getImage({ fileName }).then((response) => {
-		// 	setImages((prev) => ({
-		// 		...prev,
-		// 		[fileName]: response,
-		// 	}));
-		// });
-		await axios
-			.get(`${baseUrl}/comparables/image/${fileName}`, {
-				// headers: {
-				// 	Authorization: `Bearer ${ls.get("token")}`,
-				// },
-				responseType: "blob",
-			})
-			.then((response) => {
-				//the response is a blob save the data as url object in a state
-				console.log("response", response);
-				return URL.createObjectURL(response.data);
-				console.log("inside", data);
-			});
-		// return images[fileName];
-		return null;
-	};
-
+	if (serviciosCompletos) {
+		return "Sí Tiene Completos";
+	} else if (
+		!agua &&
+		!drenaje &&
+		!energia_electrica &&
+		!alumbrado_publico &&
+		!banqueta &&
+		pavimento &&
+		!telefonia
+	) {
+		return "No Tiene";
+	} else {
+		return "Tiene Algunos";
+	}
+};
+const Columns = ({
+	text,
+	value,
+	isURL = false,
+	textSize = "tripleCell",
+	valueSize = "quadrupleCell",
+}: ColumnsProps) => {
+	switch (textSize) {
+		case "cell":
+			valueSize = "sextupleCell";
+			break;
+		case "doubleCell":
+			valueSize = "quintupleCell";
+			break;
+		case "tripleCell":
+			valueSize = "quadrupleCell";
+			break;
+		case "quadrupleCell":
+			valueSize = "tripleCell";
+			break;
+		case "quintupleCell":
+			valueSize = "doubleCell";
+			break;
+		case "sextupleCell":
+			valueSize = "cell";
+			break;
+		default:
+			break;
+	}
 	return (
-		<Document>
-			{data?.map(({ records }, index: number) => (
-				<Page size="A4" orientation="portrait" wrap dpi={300} style={styles.page}>
-					{records?.map(
-						(
-							{
-								id,
-								fecha_captura,
-								tipo_inmueble,
-								tipo_operacion,
-								captura_pantalla,
-								imagen_1,
-								imagen_2,
-								url_fuente,
-								nombre_anunciante,
-								telefono_anunciante,
-								x_utm,
-								y_utm,
-								tipo_vialidad,
-								nombre_vialidad,
-								numero_exterior,
-								numero_interior,
-								edificio,
-								entrecalles,
-								nombre_asentamiento,
-								tipo_asentamiento,
-								localidad,
-								municipio,
-								estado,
-								regimen_propiedad,
-								tipo_zona,
-								uso_suelo_observado,
-								uso_suelo_oficial,
-								ubicacion_manzana,
-								numero_frentes,
-								longitud_frente,
-								longitud_fondo,
-								longitud_frente_tipo,
-								forma,
-								topografia,
-								superficie_terreno,
-								superficie_construccion,
-								calidad_proyecto,
-								estado_conservacion,
-								tipo_construccion,
-								calidad_construccion,
-								edad,
-								niveles,
-								unidades_rentables,
-								descripcion_espacios,
-								agua,
-								drenaje,
-								energia_electrica,
-								alumbrado_publico,
-								banqueta,
-								pavimento,
-								telefonia,
-								valor_total_mercado,
-								valor_renta,
-								precio_dolar,
-								observaciones,
-								usuario,
-								fh_modificacion,
-								zona_utm,
-								google_maps,
-								geom,
-								vtm_usd,
-								tipo,
-								registro,
-							},
-							idx: number,
-						) => {
-							return (
-								<View style={styles.table} key={`${index}-${tipo}-${idx}`}>
-									<View style={styles.row}>
-										<Text style={styles.cellHeader}>Comparables de {tipo}</Text>
-									</View>
-									<View style={styles.row}>
-										<Text style={styles.cellA} />
-										<Text style={styles.cellB} />
-										<Text style={styles.cellC} />
-										<Text style={styles.cellD} />
-										<Text style={styles.cellE} />
-										<Text style={styles.cellF} />
-										<Text style={styles.cellG} />
-										<Text style={styles.cellH} />
-										<Text style={styles.cellI} />
-										<Text style={styles.cellJ} />
-										<Text style={styles.cellK} />
-										<Text style={styles.cellL} />
-										<Text style={styles.cellM} />
-										<Text style={styles.cellN} />
-										<Text style={styles.cellO} />
-										<Text style={styles.cellP} />
-										<Text style={styles.cellQ} />
-									</View>
-									<View style={styles.row}>
-										<Text style={styles.cellA} />
-										<Text
-											style={{
-												...styles.cellID,
-												backgroundColor:
-													tipo[0] === "T"
-														? "#F87171"
-														: tipo[0] === "R"
-															? "#A78BFA"
-															: "#A7F3D0",
-												color: "#FFFFFF",
-											}}
-										>
-											{tipo[0]}
-											{idx + 1}
-										</Text>
-										<Text style={styles.cellF} />
-										<Text style={styles.cellG} />
-										<Text style={styles.cellH} />
-										<Text style={styles.cellI} />
-										<Text style={styles.cellJ} />
-										<Text style={styles.cellK} />
-										<Text style={styles.cellL} />
-										<Text style={styles.cellM} />
-										<Text style={styles.cellN} />
-										<Text style={{ ...styles.cellO, ...styles.bold }}>
-											{registro}
-										</Text>
-										<Text style={styles.cellP} />
-										<Text style={styles.cellQ} />
-									</View>
-									<View style={styles.row}>
-										<Text style={styles.cellA} />
-										<Image
-											src={`${baseUrl}/comparables/image/${imagen_1}`}
-											style={styles.image}
-										/>
-
-										<Text style={styles.cellI} />
-										<Image
-											src={`${baseUrl}/comparables/image/${imagen_2}`}
-											style={styles.image}
-										/>
-										<Text style={styles.cellQ} />
-									</View>
-									<View style={styles.row}>
-										<Text style={styles.cellA} />
-										<Text
-											style={{ ...styles.cellMiddle, ...styles.textCenter }}
-										>
-											Comparable 1
-										</Text>
-										<Text style={styles.cellI} />
-										<Text
-											style={{ ...styles.cellMiddle, ...styles.textCenter }}
-										>
-											Microlocalización
-										</Text>
-										<Text style={styles.cellQ} />
-									</View>
-									<View style={styles.row}>
-										<Text style={styles.cellA} />
-										<Text
-											style={{
-												...styles.cellMiddle,
-												...styles.textLeft,
-												...styles.bold,
-											}}
-										>
-											Datos de Verificación
-										</Text>
-										<Text style={styles.cellI} />
-										<Text
-											style={{
-												...styles.cellMiddle,
-												...styles.textLeft,
-												...styles.bold,
-											}}
-										>
-											Características
-										</Text>
-										<Text style={styles.cellQ} />
-									</View>
-									<View style={styles.row}>
-										<Text style={styles.cellA} />
-										<Text
-											style={{
-												...styles.cellBC,
-												...styles.textRight,
-												...styles.bold,
-											}}
-										>
-											Fecha de Captura:
-										</Text>
-										<Text style={{ ...styles.cellDH, ...styles.textLeft }}>
-											{fecha_captura}
-										</Text>
-										<Text style={styles.cellH} />
-										<Text style={styles.cellI} />
-										<Text style={styles.cellJ} />
-										<Text
-											style={{
-												...styles.cellKL,
-												...styles.textRight,
-												...styles.bold,
-											}}
-										>
-											Periferia:
-										</Text>
-										<Text style={{ ...styles.cellMP, ...styles.textLeft }}>
-											{tipo_zona}
-										</Text>
-
-										<Text style={styles.cellQ} />
-									</View>
-								</View>
-							);
-						},
-					)}
-				</Page>
-			))}
-		</Document>
+		<>
+			<Text
+				style={{
+					...styles[textSize],
+					...styles.title,
+					...styles.textRight,
+					...styles.borderLeft,
+				}}
+			>
+				{text ? `${text}:` : ""}
+			</Text>
+			{isURL ? (
+				<Link
+					src={value}
+					style={{
+						...styles[valueSize],
+						...styles.textLeft,
+						...styles.borderRight,
+						fontSize: 5,
+					}}
+				>
+					{value}
+				</Link>
+			) : (
+				<Text
+					style={{
+						...styles[valueSize],
+						...styles.textLeft,
+						...styles.borderRight,
+					}}
+				>
+					{value}
+				</Text>
+			)}
+		</>
 	);
 };
-
+const SimpleRow = ({
+	leftText,
+	leftValue,
+	rightText,
+	rightValue,
+	isLeftURL = false,
+	isRightURL = false,
+	leftTextSize = "tripleCell",
+	leftValueSize = "quadrupleCell",
+	rightTextSize = "tripleCell",
+	rightValueSize = "quadrupleCell",
+}: SimpleRowProps) => (
+	<View style={styles.row}>
+		<Columns
+			text={leftText}
+			value={leftValue}
+			textSize={leftTextSize}
+			valueSize={leftValueSize}
+			isURL={isLeftURL}
+		/>
+		<Text style={styles.gap} />
+		<Columns
+			text={rightText}
+			value={rightValue}
+			textSize={rightTextSize}
+			valueSize={rightValueSize}
+			isURL={isRightURL}
+		/>
+	</View>
+);
+const ImageRow = ({ imageLeft, textLeft, imageRight, textRight, useCrop }) => (
+	<>
+		<View style={styles.row}>
+			<Image src={`${baseUrl}/comparables/image/${imageLeft}/0`} style={styles.image} />
+			<Text style={styles.gap} />
+			<Image
+				src={`${baseUrl}/comparables/image/${imageRight}/${useCrop ? 1 : 0}`}
+				style={styles.image}
+			/>
+		</View>
+		<View style={styles.row}>
+			<Text style={{ ...styles.septupleCell, ...styles.textCenter }}>{textLeft}</Text>
+			<Text style={styles.gap} />
+			<Text style={{ ...styles.septupleCell, ...styles.textCenter }}>{textRight}</Text>
+		</View>
+	</>
+);
 const Cedula = ({ data }) => (
-	<div id="capture">
-		{data?.map(({ records }, index: number) => {
-			return (
-				<div key={`mercado view ${index}`}>
-					{records?.map(
-						(
-							{
-								id,
-								fecha_captura,
-								tipo_inmueble,
-								tipo_operacion,
-								captura_pantalla,
-								imagen_1,
-								imagen_2,
-								url_fuente,
-								nombre_anunciante,
-								telefono_anunciante,
-								x_utm,
-								y_utm,
-								tipo_vialidad,
-								nombre_vialidad,
-								numero_exterior,
-								numero_interior,
-								edificio,
-								entrecalles,
-								nombre_asentamiento,
-								tipo_asentamiento,
-								localidad,
-								municipio,
-								estado,
-								regimen_propiedad,
-								tipo_zona,
-								uso_suelo_observado,
-								uso_suelo_oficial,
-								ubicacion_manzana,
-								numero_frentes,
-								longitud_frente,
-								longitud_fondo,
-								longitud_frente_tipo,
-								forma,
-								topografia,
-								superficie_terreno,
-								superficie_construccion,
-								calidad_proyecto,
-								estado_conservacion,
-								tipo_construccion,
-								calidad_construccion,
-								edad,
-								niveles,
-								unidades_rentables,
-								descripcion_espacios,
-								agua,
-								drenaje,
-								energia_electrica,
-								alumbrado_publico,
-								banqueta,
-								pavimento,
-								telefonia,
-								valor_total_mercado,
-								valor_renta,
-								precio_dolar,
-								observaciones,
-								usuario,
-								fh_modificacion,
-								zona_utm,
-								google_maps,
-								geom,
-								vtm_usd,
-								tipo,
-								registro,
-							},
-							idx: number,
-						) => (
-							<Table key={`${index}-${tipo}-${idx}`}>
-								<Table.Head>
-									<Table.HeadCell colSpan={17}>
-										Comparables de {tipo}
-									</Table.HeadCell>
-								</Table.Head>
-								<Table.Body>
-									<Table.Row>
-										<Table.Cell
-											colSpan={4}
-											className={`${
-												tipo === "TERRENO"
-													? "bg-red-500"
-													: tipo === "RENTA"
-														? "bg-purple-500"
-														: "bg-green-500"
-											} text-white`}
-										>
-											{id}
-										</Table.Cell>
-										<Table.Cell colSpan={3} />
-										<Table.Cell colSpan={5} />
-										<Table.Cell colSpan={2}>{registro}</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell colSpan={17} />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={7}>
-											<figure className="max-w-lg">
-												<img
-													crossOrigin="anonymous"
-													className="h-auto max-w-full rounded-lg"
-													src={imagen_1}
-												/>
-												<figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-													Comparable 1
-												</figcaption>
-											</figure>
-										</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={7}>
-											<figure className="max-w-lg">
-												<img
-													crossOrigin="use-credentials"
-													className="h-auto max-w-full rounded-lg"
-													src={imagen_2}
-												/>
-												<figcaption className="mt-2 text-sm text-center text-gray-500 dark:text-gray-400">
-													Microlocalización
-												</figcaption>
-											</figure>
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
+	<Document>
+		{data?.map(({ records }, index: number) => (
+			<Page size="A4" orientation="portrait" style={styles.page} key={`cedula view ${index}`}>
+				{records.map(
+					(
+						{
+							id,
+							fecha_captura,
+							tipo_inmueble,
+							tipo_operacion,
+							captura_pantalla,
+							imagen_1,
+							imagen_2,
+							url_fuente,
+							nombre_anunciante,
+							telefono_anunciante,
+							x_utm,
+							y_utm,
+							tipo_vialidad,
+							nombre_vialidad,
+							numero_exterior,
+							numero_interior,
+							edificio,
+							entrecalles,
+							nombre_asentamiento,
+							tipo_asentamiento,
+							localidad,
+							municipio,
+							estado,
+							regimen_propiedad,
+							tipo_zona,
+							uso_suelo_observado,
+							uso_suelo_oficial,
+							ubicacion_manzana,
+							numero_frentes,
+							longitud_frente,
+							longitud_fondo,
+							longitud_frente_tipo,
+							forma,
+							topografia,
+							superficie_terreno,
+							superficie_construccion,
+							calidad_proyecto,
+							estado_conservacion,
+							tipo_construccion,
+							calidad_construccion,
+							edad,
+							niveles,
+							unidades_rentables,
+							descripcion_espacios,
+							agua,
+							drenaje,
+							energia_electrica,
+							alumbrado_publico,
+							banqueta,
+							pavimento,
+							telefonia,
+							valor_total_mercado,
+							valor_renta,
+							precio_dolar,
+							observaciones,
+							usuario,
+							fh_modificacion,
+							zona_utm,
+							google_maps,
+							geom,
+							vtm_usd = 1,
+							tipo,
+							registro,
+						},
+						idx: number,
+					) => (
+						<View style={styles.table} key={`${index}-${tipo}-${idx}`}>
+							<View style={styles.row}>
+								<Text style={styles.header}>Comparables de {tipo}</Text>
+							</View>
+							<View style={styles.row}>
+								<Text
+									style={{
+										...styles.quadrupleCell,
+										...styles.border,
+										...styles.ID,
+										backgroundColor:
+											tipo[0] === "T"
+												? "#F87171"
+												: tipo[0] === "R"
+													? "#A78BFA"
+													: "#A7F3D0",
+									}}
+								>
+									{tipo[0]}
+									{idx + 1}
+								</Text>
+								<Text style={styles.tripleCell} />
+								<Text style={styles.gap} />
+								<Text style={styles.quintupleCell} />
+								<Text style={styles.doubleCell}>{registro}</Text>
+							</View>
+							<View style={{ ...styles.row, height: "0.2cm" }}></View>
+							<ImageRow
+								imageLeft={imagen_1}
+								textLeft="Comparable 1"
+								useCrop
+								imageRight={imagen_2}
+								textRight="Comparable 2"
+							/>
 
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={7}>Datos de Verificación</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={7}>Características</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Fecha de captura:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{moment(fecha_captura).format("DD de MM del YYYY")}
-										</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Periferia:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{tipo_zona}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
+							<View style={styles.row}>
+								<Text
+									style={{
+										...styles.septupleCell,
+										...styles.title,
+										...styles.textLeft,
+										...styles.borderBottom,
+									}}
+								>
+									Datos de Verificación
+								</Text>
 
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Tipo de Inmueble:
-										</Table.Cell>
+								<Text style={styles.gap} />
+								<Text
+									style={{
+										...styles.septupleCell,
+										...styles.title,
+										...styles.textLeft,
+										...styles.borderBottom,
+									}}
+								>
+									Características
+								</Text>
+							</View>
+							<SimpleRow
+								leftText="Fecha de Captura"
+								leftValue={fecha_captura}
+								rightText="Periferia"
+								rightValue={tipo_zona}
+							/>
 
-										<Table.Cell colSpan={5} className="text-left">
-											{tipo_inmueble}
-										</Table.Cell>
+							<SimpleRow
+								leftText="Tipo de Inmueble"
+								leftValue={tipo_inmueble}
+								rightText="Zona Económica"
+								rightValue={uso_suelo_observado}
+							/>
 
-										<Table.Cell />
+							<SimpleRow
+								leftText="Informante"
+								leftValue={nombre_anunciante}
+								rightText="Uso de Suelo"
+								rightValue={uso_suelo_oficial}
+							/>
+							<SimpleRow
+								leftText="Teléfono del Informante"
+								leftValue={telefono_anunciante}
+								rightText="Entre Calles"
+								rightValue={entrecalles}
+							/>
+							<SimpleRow
+								leftText="URL Fuente"
+								leftValue={url_fuente}
+								isLeftURL
+								rightText="Ubicación en la MZA"
+								rightValue={ubicacion_manzana}
+							/>
+							<SimpleRow
+								leftText=""
+								leftValue=""
+								rightText="Superficie"
+								rightValue={superficie_terreno}
+							/>
+							<SimpleRow
+								leftText="Tipo de Operación"
+								leftValue={tipo_operacion}
+								rightText="No. de Frentes"
+								rightValue={superficie_terreno}
+							/>
+							<View style={styles.row}>
+								<Text style={{ ...styles.septupleCell, ...styles.borderTop }} />
+								<Text style={styles.gap} />
+								<Text
+									style={{
+										...styles.tripleCell,
+										...styles.borderLeft,
+										...styles.textRight,
+									}}
+								>
+									Frente ML:
+								</Text>
+								<Text
+									style={{
+										...styles.cell,
+										...styles.textLeft,
+									}}
+								>
+									{longitud_frente}
+								</Text>
+								<Text style={{ ...styles.doubleCell, ...styles.textRight }}>
+									Fondo:
+								</Text>
+								<Text
+									style={{
+										...styles.cell,
+										...styles.textLeft,
+										...styles.borderRight,
+									}}
+								>
+									{longitud_frente}
+								</Text>
+							</View>
+							<View style={styles.row}>
+								<Text style={{ ...styles.septupleCell, ...styles.borderBottom }}>
+									Ubicación
+								</Text>
+								<Text style={styles.gap} />
+								<Text
+									style={{
+										...styles.tripleCell,
+										...styles.borderLeft,
+										...styles.textRight,
+									}}
+								>
+									Frente Tipo:
+								</Text>
+								<Text
+									style={{
+										...styles.quadrupleCell,
+										...styles.textLeft,
+										...styles.borderRight,
+									}}
+								>
+									{longitud_frente_tipo}
+								</Text>
+							</View>
+							<SimpleRow
+								leftText="Estado"
+								leftValue={estado}
+								rightText="Forma"
+								rightValue={forma}
+							/>
+							<SimpleRow
+								leftText="Municipio"
+								leftValue={municipio}
+								rightText="Topografía"
+								rightValue={topografia}
+							/>
+							<SimpleRow
+								leftText="Ciudad/Población"
+								leftValue={localidad}
+								rightText="Servicios"
+								rightValue={checkServices({
+									agua,
+									drenaje,
+									energia_electrica,
+									alumbrado_publico,
+									banqueta,
+									pavimento,
+									telefonia,
+								})}
+							/>
+							<SimpleRow
+								leftText="Colonia/Asentamiento"
+								leftValue={`${tipo_asentamiento} ${nombre_asentamiento}`}
+								rightText="Régimen de Propiedad"
+								rightValue={regimen_propiedad}
+							/>
+							<View style={styles.row}>
+								<Text
+									style={{
+										...styles.tripleCell,
+										...styles.borderLeft,
+										...styles.textRight,
+									}}
+								>
+									Nombre de la Vialidad:
+								</Text>
+								<Text style={{ ...styles.quadrupleCell, ...styles.borderRight }}>
+									{tipo_vialidad} {nombre_vialidad}
+								</Text>
+								<Text style={styles.gap} />
+								<Text style={{ ...styles.septupleCell, ...styles.borderTop }} />
+							</View>
+							<View style={styles.row}>
+								<Text
+									style={{
+										...styles.tripleCell,
+										...styles.borderLeft,
+										...styles.textRight,
+									}}
+								>
+									No. Exterior:
+								</Text>
+								<Text style={{ ...styles.cell, ...styles.textLeft }}>
+									{numero_exterior}
+								</Text>
+								<Text style={{ ...styles.doubleCell, ...styles.textRight }}>
+									No. Interior:
+								</Text>
+								<Text style={{ ...styles.cell, ...styles.borderRight }}>
+									{numero_interior}
+								</Text>
+								<Text style={styles.gap} />
+								<Text style={{ ...styles.septupleCell, ...styles.borderBottom }}>
+									Valores
+								</Text>
+							</View>
+							<SimpleRow
+								leftText="Edificio Predio Prototipo"
+								leftValue="#"
+								rightText="Precio"
+								rightValue={asFancyNumber(valor_total_mercado, {
+									isCurrency: true,
+								})}
+							/>
+							<View style={styles.row}>
+								<Text
+									style={{
+										...styles.tripleCell,
+										...styles.borderLeft,
+										...styles.textRight,
+										...styles.borderBottom,
+									}}
+								>
+									Coordenadas:
+								</Text>
+								<Text
+									style={{
+										...styles.cell,
 
-										<Table.Cell colSpan={2} className="text-right">
-											Zona Económica:
-										</Table.Cell>
+										...styles.textRight,
+										...styles.borderBottom,
+										fontSize: 6,
+									}}
+								>
+									X:
+								</Text>
+								<Text
+									style={{
+										...styles.cell,
 
-										<Table.Cell colSpan={5} className="text-left">
-											{uso_suelo_observado}
-										</Table.Cell>
+										...styles.textLeft,
+										...styles.borderBottom,
+									}}
+								>
+									{x_utm}
+								</Text>
+								<Text
+									style={{
+										...styles.cell,
 
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Informante:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{nombre_anunciante}
-										</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Uso de Suelo:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{uso_suelo_oficial}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Telefono del Informante:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{telefono_anunciante}
-										</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Entre Calles:
-										</Table.Cell>
-										<Table.Cell>{entrecalles}</Table.Cell>
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											URL Fuente:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{url_fuente}
-										</Table.Cell>
-										<Table.Cell colSpan={2} className="text-right">
-											Ubicación en la MZA:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{ubicacion_manzana}
-										</Table.Cell>
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Superficie:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{superficie_terreno}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Tipo de Operación:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{tipo_operacion}
-										</Table.Cell>
-										<Table.Cell colSpan={2} className="text-right">
-											No. de Frentes:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{numero_frentes} ({NumerosALetras(numero_frentes)})
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={7}></Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Frente ML:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{longitud_frente}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
+										...styles.textRight,
+										...styles.borderBottom,
+										fontSize: 6,
+									}}
+								>
+									Y:
+								</Text>
+								<Text
+									style={{
+										...styles.cell,
+										...styles.borderRight,
+										...styles.textLeft,
+										...styles.borderBottom,
+									}}
+								>
+									{y_utm}
+								</Text>
+								<Text style={styles.gap} />
+								<Text
+									style={{
+										...styles.tripleCell,
+										...styles.borderBottom,
+										...styles.borderLeft,
+										...styles.textRight,
+									}}
+								>
+									Precio Unitario:
+								</Text>
+								<Text
+									style={{
+										...styles.quadrupleCell,
+										...styles.borderBottom,
+										...styles.borderRight,
+										...styles.textLeft,
+									}}
+								>
+									{asFancyNumber(
+										(tipo === "RENTA" ? valor_renta : valor_total_mercado) /
+											superficie_terreno,
+										{ isCurrency: true },
+									)}
+								</Text>
+							</View>
+							<View style={styles.row}>
+								<Text style={styles.septupleCell} />
+								<Text style={styles.gap} />
+								<Text
+									style={{
+										...styles.tripleCell,
+										...styles.textRight,
+										...styles.borderLeft,
+									}}
+								>
+									Precio USD:
+								</Text>
+								<Text style={{ ...styles.quadrupleCell, ...styles.borderRight }}>
+									Precio Unitario USD:
+								</Text>
+							</View>
+							<View style={styles.row}>
+								<Text style={{ ...styles.septupleCell, ...styles.borderBottom }}>
+									Observaciones
+								</Text>
+								<Text style={styles.gap} />
+								<Text
+									style={{
+										...styles.tripleCell,
+										...styles.textRight,
+										...styles.borderLeft,
+									}}
+								>
+									{asFancyNumber(precio_dolar, { isCurrency: true })}
+								</Text>
+								<Text style={{ ...styles.quadrupleCell, ...styles.borderRight }}>
+									{asFancyNumber(
+										(tipo === "RENTA" ? valor_renta : valor_total_mercado) /
+											superficie_terreno /
+											vtm_usd,
+										{ isCurrency: true },
+									)}
+								</Text>
+							</View>
+							<View style={styles.row}>
+								<Text
+									style={{
+										...styles.septupleCell,
+										...styles.borderHorizontal,
+									}}
+								/>
 
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={7} className="text-left">
-											Ubicación
-										</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Frente Tipo:
-										</Table.Cell>
-										<Table.Cell colSpan={2} className="text-left">
-											{longitud_frente_tipo}
-										</Table.Cell>
-										<Table.Cell className="text-right">Fondo:</Table.Cell>
-										<Table.Cell colSpan={2} className="text-left">
-											{longitud_fondo}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Estado:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{estado}
-										</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Forma:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{forma}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Municipio:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{municipio}
-										</Table.Cell>
-										<Table.Cell colSpan={2} className="text-right">
-											Topografía:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{topografia}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Ciudad/Población:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{localidad}
-										</Table.Cell>
-										<Table.Cell colSpan={2} className="text-right">
-											Servicios:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{agua &&
-												drenaje &&
-												energia_electrica &&
-												alumbrado_publico &&
-												banqueta &&
-												pavimento &&
-												telefonia &&
-												"Si Tiene Completos"}
-											{!agua &&
-											!drenaje &&
-											!energia_electrica &&
-											!alumbrado_publico &&
-											!banqueta &&
-											pavimento &&
-											!telefonia
-												? "No Tiene"
-												: "Tiene Algunos"}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Asentamiento:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{tipo_asentamiento} {nombre_asentamiento}
-										</Table.Cell>
-										<Table.Cell colSpan={2} className="text-right">
-											Régimen de Propiedad:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{regimen_propiedad}
-										</Table.Cell>
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell colSpan={2} className="text-right">
-											Nombre de la Vialidad:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											{tipo_vialidad} {nombre_vialidad}
-										</Table.Cell>
-										<Table.Cell colSpan={7} className="text-right"></Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											No. Exterior:
-										</Table.Cell>
-										<Table.Cell colSpan={2} className="text-left">
-											{numero_exterior}
-										</Table.Cell>
-										<Table.Cell className="text-right">
-											No. Interior:
-										</Table.Cell>
-										<Table.Cell colSpan={2} className="text-left">
-											{numero_interior}
-										</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={7} className="text-left">
-											Valores:
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Edificio Predio Prototipo:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-left">
-											#
-										</Table.Cell>
-										<Table.Cell colSpan={2} className="text-right">
-											Precio:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-right">
-											{valor_total_mercado}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-right">
-											Coordenadas:
-										</Table.Cell>
-										<Table.Cell className="text-right"> X</Table.Cell>
-										<Table.Cell className="text-left">{x_utm}</Table.Cell>
-										<Table.Cell className="text-right">Y</Table.Cell>
-										<Table.Cell className="text-left">{y_utm}</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2} className="text-left">
-											Precio Unitario:
-										</Table.Cell>
-										<Table.Cell colSpan={5} className="text-right">
-											{(tipo === "RENTA"
-												? valor_renta
-												: valor_total_mercado) / superficie_terreno}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell colSpan={7}></Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2}>Precio USD:</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={4}>Precio Unitario USD:</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell colSpan={7} className="text-left">
-											Observaciones:
-										</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2}>
-											{precio_dolar ? precio_dolar : "-"}
-										</Table.Cell>
-										<Table.Cell colSpan={4}>-</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell
-											colSpan={7}
-											className="text-justify"
-											rowSpan={3}
-										>
-											{observaciones}
-										</Table.Cell>
-										<Table.Cell />
-										<Table.Cell colSpan={2}>Infraestructura:</Table.Cell>
-										<Table.Cell colSpan={5}>
-											{agua &&
-												drenaje &&
-												energia_electrica &&
-												alumbrado_publico &&
-												banqueta &&
-												pavimento &&
-												telefonia &&
-												"Si Tiene Completos"}
-											{!agua &&
-											!drenaje &&
-											!energia_electrica &&
-											!alumbrado_publico &&
-											!banqueta &&
-											pavimento &&
-											!telefonia
-												? "No Tiene"
-												: "Tiene Algunos"}
-										</Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row>
-										<Table.Cell />
-										<Table.Cell />
-										<Table.Cell
-											colSpan={7}
-											className="text-justify"
-											rowSpan={2}
-										></Table.Cell>
-										<Table.Cell />
-									</Table.Row>
-									<Table.Row></Table.Row>
-									<Table.Row>
-										<Table.Cell colSpan={7}>
-											<img
-												src={captura_pantalla}
-												crossOrigin="use-credentials"
-											/>
-										</Table.Cell>
+								<Text style={styles.gap} />
+								<Text style={{ ...styles.septupleCell, ...styles.borderTop }} />
+							</View>
+							<View style={styles.row}>
+								<Text
+									style={{
+										...styles.septupleCell,
+										...styles.borderHorizontal,
+									}}
+								/>
+								<Text style={styles.gap} />
+								<Text style={{ ...styles.tripleCell, ...styles.borderBottom }}>
+									Infraestructura
+								</Text>
+								<Text style={{ ...styles.quadrupleCell, ...styles.borderBottom }}>
+									{checkServices({
+										agua,
+										drenaje,
+										energia_electrica,
+										alumbrado_publico,
+										banqueta,
+										pavimento,
+										telefonia,
+									})}
+								</Text>
+							</View>
+							<View style={styles.row}>
+								<Text
+									style={{
+										...styles.septupleCell,
+										...styles.borderHorizontal,
+									}}
+								>
+									{observaciones}
+								</Text>
+								<Text style={styles.gap} />
 
-										<Table.Cell />
-									</Table.Row>
-								</Table.Body>
-							</Table>
-						),
-					)}
-				</div>
-			);
-		})}
-	</div>
+								<Text
+									style={{
+										...styles.septupleCell,
+										...styles.borderHorizontal,
+									}}
+								>
+									{agua && "Red de Agua Potable, "}
+									{drenaje && "Red de Drenaje, "}
+									{energia_electrica && "Red de Energía Eléctrica, "}
+									{alumbrado_publico && "Alumbrado Público, Voz y Datos."}
+									{pavimento && "Pavimento, "}
+									{banqueta && "Banquetas"}
+								</Text>
+							</View>
+							<View style={styles.row}>
+								<Text
+									style={{
+										...styles.tripleCell,
+										...styles.border,
+										...styles.textCenter,
+									}}
+								>
+									Elaboró
+								</Text>
+								<Text
+									style={{
+										...styles.quadrupleCell,
+										...styles.border,
+										...styles.textCenter,
+									}}
+								>
+									{usuario}
+								</Text>
+								<Text style={styles.gap} />
+								<Text
+									style={{
+										...styles.septupleCell,
+										...styles.borderHorizontal,
+										...styles.borderBottom,
+									}}
+								/>
+							</View>
+							<View style={{ ...styles.row, height: "0.2cm" }} />
+							<ImageRow
+								imageLeft={captura_pantalla}
+								textLeft="Recorte De Pantalla"
+								imageRight={imagen_2}
+								textRight="2do. Recorte de Pantalla, Uso de Suelo o Macrolocalización"
+							/>
+						</View>
+					),
+				)}
+			</Page>
+		))}
+	</Document>
 );
 
 const Mercado = ({ data }) => (

@@ -328,6 +328,16 @@ class Template:
             return self.to_list(exclude=exclude)
         return self.current
 
+    def filter_raw(self, **kwargs):
+        self.__check_attr()
+        try:
+            return self.db.query(self.model).filter(**kwargs)
+        except Exception as e:
+            logger.bind(payload=str(e)).debug(
+                f"----------> Unexpected error:\n {str(e)}"
+            )
+            return None
+
     def all(
         self,
         to_list: bool = False,
@@ -470,3 +480,11 @@ class Template:
         if exclude is not None:
             return self.schema(exclude=exclude, many=True, **kwargs).dump(self.current)
         return self.schema(many=True, **kwargs).dump(self.current)
+
+    def to_list_raw(self, data: Optional[object] = None) -> List:
+        self.__check_attr()
+        if data is not None:
+            self.current = data
+        if self.current is None:
+            return []
+        return [self.to_dict(item) for item in self.current]

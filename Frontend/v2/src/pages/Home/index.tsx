@@ -1,18 +1,13 @@
 /** @format */
 
-import Navbar from "@features/Navbar";
-import useMunicipios from "@actions/Municipios";
 import useQuery from "@hooks/useQuery";
-import { DataTable } from "@components/Table";
 import Layout from "@features/Layout";
 
-import { Button } from "primereact/button";
-import { Avatar } from "flowbite-react";
 import { Card } from "flowbite-react";
 import links from "@context/modules";
 import { NavLink } from "react-router-dom";
 export default function Home() {
-	const query = useQuery();
+	// const query = useQuery();
 
 	return (
 		<Layout>

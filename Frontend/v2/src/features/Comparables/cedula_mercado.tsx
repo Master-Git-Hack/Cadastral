@@ -13,7 +13,7 @@ import { Sidebar } from "primereact/sidebar";
 import { Checkbox } from "primereact/checkbox";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/provider";
-import { Reports, TestPdf } from "./reports";
+import { Reports } from "./reports";
 import { Toggle } from "@components/Toggle";
 import { getComparables, setComparables } from "../../store/reducers/Comparables";
 import { useDownloadMutation, usePreviewMutation } from "@api/Comparables";
@@ -22,6 +22,7 @@ import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
 import Component from "./test";
 import ReactPDF from "@react-pdf/renderer";
+
 export default function Comparables() {
 	const { cedula_mercado } = useParams();
 	const [visible, setVisible] = useState(false);
@@ -30,6 +31,7 @@ export default function Comparables() {
 	const { data, isLoading, isError, error } = useGetComparablesQuery({ cedula_mercado });
 	const [downloadFile] = useDownloadMutation();
 	const [preview, { data: dataPreview, isSuccess: isSuccessPreview }] = usePreviewMutation();
+	const [deleteTemporal] = useDeleteComparableMutation();
 	const dispatch = useAppDispatch();
 
 	const [ids, setIDs] = useState<number[]>(data?.data.map(({ id }: any) => id) ?? []);
@@ -55,6 +57,7 @@ export default function Comparables() {
 			pdf.save("file.pdf");
 		});
 	};
+
 	return (
 		<div>
 			<div className="flex flex-row justify-between my-3 mx-2">
@@ -64,21 +67,25 @@ export default function Comparables() {
 					</Button>
 				</NavLink>
 				<div className="flex flex-row gap-2">
-					{/* <Button
-						pill
-						color="success"
-						onClick={() => downloadFile({ cedula_mercado, data: { ids } })}
-					>
-						<Tooltip content="Solo se integraran aquellos registros seleccionados al archivo">
-							Descargar
-						</Tooltip>
-					</Button> */}
+					{data?.data?.length > 0 && (
+						<>
+							<Button
+								pill
+								color="success"
+								onClick={() => downloadFile({ cedula_mercado, data: { ids } })}
+							>
+								<Tooltip content="Solo se integraran aquellos registros seleccionados al archivo">
+									Descargar
+								</Tooltip>
+							</Button>
 
-					<Button pill onClick={() => preview({ cedula_mercado, data: { ids } })}>
-						<Tooltip content="Solo se mostraran aquellos registros seleccionados">
-							Previsualizar
-						</Tooltip>
-					</Button>
+							<Button pill onClick={() => preview({ cedula_mercado, data: { ids } })}>
+								<Tooltip content="Solo se mostraran aquellos registros seleccionados">
+									Previsualizar
+								</Tooltip>
+							</Button>
+						</>
+					)}
 
 					<NavLink to={`crear`}>
 						<Button pill color="light">
@@ -99,22 +106,7 @@ export default function Comparables() {
 			</Dialog> */}
 			<div className="card flex justify-content-center">
 				<Sidebar visible={visible} onHide={() => setVisible(false)} fullScreen>
-					<Toggle value={as_report} onChange={() => setAsReport(!as_report)}>
-						{as_report ? "Cédulas de " : ""} Mercado
-					</Toggle>
-					{/* <PDFDownloadLink
-						document={<TestPdf as_report={as_report} data={dataPreview?.data} />}
-					>
-						{({ blob, url, loading, error }) =>
-							loading ? "Loading document..." : "Download now!"
-						}
-					</PDFDownloadLink> */}
-					{/* <Reports as_report={as_report} data={dataPreview?.data} id="capture" /> */}
-					<PDFViewer width="100%" height="100%">
-						<TestPdf as_report={as_report} data={dataPreview?.data} />
-					</PDFViewer>
-					{/* <TestPdf as_report={as_report} data={dataPreview?.data} /> */}
-					{/* <TestPdf as_report={as_report} data={dataPreview?.data} /> */}
+					<Reports as_report={as_report} data={dataPreview?.data} />
 				</Sidebar>
 			</div>
 
@@ -181,7 +173,7 @@ export default function Comparables() {
 										}).then(
 											({ isConfirmed }) =>
 												isConfirmed &&
-												// deleteTemporal({ uid }) &&
+												deleteTemporal({ id }) &&
 												navigate(0),
 										)
 									}
