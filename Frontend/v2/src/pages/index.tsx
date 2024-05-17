@@ -89,6 +89,43 @@ const RouterPages = createBrowserRouter([
 		element: <></>,
 	},
 	{
+		path: "modules/*	",
+		children: [
+			{
+				path: "comparables/:username/*",
+				element: <Comparables useLayout={false} />,
+				children: [
+					{
+						path: "cedulas/:cedula_mercado",
+						element: <Cedula />,
+						children: [
+							{
+								path: "comparables",
+								element: <Comparables />,
+								children: [
+									{
+										path: "cedulas/:cedula_mercado",
+										element: <Cedula />,
+										children: [
+											{
+												path: "crear",
+												element: <CreateCedula />,
+											},
+											{
+												path: "view",
+												element: <ComparableViewer />,
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+	{
 		path: "*",
 		element: <ErrorPage />,
 	},

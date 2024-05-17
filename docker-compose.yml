@@ -32,7 +32,7 @@ services:
         ports:
             #port used for real server : port used in docker
             #- 80:80
-            - 81:80
+            - 8081:80
         depends_on:
             - backend
         networks:
@@ -48,11 +48,11 @@ services:
         volumes:
             - ./Frontend:/usr/src/Frontend
         expose:
-            - 80
+            - 3000
         ports:
             #port used for real server : port used in docker
             #- 82:80
-            - 82:80
+            - 8082:3000
         depends_on:
             - backend
         networks:

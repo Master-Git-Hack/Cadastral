@@ -1,6 +1,6 @@
 /** @format */
 import { useNavigate } from "react-router";
-
+import { useParams } from "react-router-dom";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button } from "flowbite-react";
 import { NavLink } from "react-router-dom";
@@ -14,9 +14,10 @@ import Error from "../Error";
 import Alert from "@components/Alerts";
 
 export default function Comparables() {
-	// const { uid } = useParams();
+	const { username } = useParams();
 	const navigate = useNavigate();
-	const { data, isLoading, isError, error } = useGetCedulasQuery();
+
+	const { data, isLoading, isError, error } = useGetCedulasQuery({ username });
 	const [
 		deleteCedula,
 		{ isLoading: isLoadingDelete, isError: isErrorDeleting, error: errorDelete },
@@ -27,7 +28,9 @@ export default function Comparables() {
 		return <Error message={error?.data || errorDelete?.data || errorPost?.data} />;
 	if (isLoading || isLoadingDelete || isLoadingPost) return <Spinner size={20} />;
 	return (
-		<div className="overflow-auto">
+		<div
+			className={`overflow-auto ${username ? "w-full min-h-screen bg-white dark:bg-black antialiased tracking-tight" : ""}`}
+		>
 			<div className="flex flex-row-reverse py-2">
 				<Button
 					pill
@@ -44,7 +47,7 @@ export default function Comparables() {
 						})
 							.then(({ isConfirmed, value }) => {
 								if (isConfirmed) {
-									postCedula({ registro: value });
+									postCedula({ registro: value, username });
 								}
 							})
 							.finally(() => navigate(0))
@@ -98,7 +101,7 @@ export default function Comparables() {
 											cancelButtonText: "Cancelar",
 										}).then(({ isConfirmed }) => {
 											if (isConfirmed) {
-												deleteCedula({ id });
+												deleteCedula({ id, username });
 												return navigate(0);
 											}
 										})

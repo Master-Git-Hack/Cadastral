@@ -21,7 +21,7 @@ const devUrl = import.meta.env.VITE_API_URL_DEV;
 const prodUrl = import.meta.env.VITE_API_URL_PROD;
 export const baseUrl = currentEnv === "development" ? devUrl : prodUrl;
 export default function Create() {
-	const { cedula_mercado } = useParams();
+	const { cedula_mercado, username } = useParams();
 	const navigate = useNavigate();
 	const [data, setData] = useState(initialState(parseInt(cedula_mercado)));
 	const [enableProperties, setEnableProperties] = useState(false);
@@ -226,7 +226,7 @@ export default function Create() {
 						})
 							.then(({ isConfirmed }) => {
 								if (isConfirmed) {
-									postComparable(data);
+									postComparable({...data,username});
 									setData(initialState(parseInt(cedula_mercado)));
 								}
 							})

@@ -8,7 +8,7 @@ COPY . /usr/src/Backend
 RUN apt-get update --allow-releaseinfo-change && \
     apt-get install -y nano wget fontconfig libfreetype6 \
     libjpeg62-turbo libpng16-16 libx11-6 libxcb1 libxext6 \
-    libxrender1 xfonts-75dpi xfonts-base
+    libxrender1 xfonts-75dpi xfonts-base ipython3 build-essential python-dev python3-dev
 
 RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb && \
     dpkg -i wkhtmltox_0.12.6.1-2.bullseye_amd64.deb && \ 
@@ -66,4 +66,4 @@ ENV PSQL_URI_DEV="postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432"
 ENV PSQL_URI_TEST="postgresql://root:toor@localhost:5432"
 
 EXPOSE 5000 56733
-CMD ["sh", "./run.dev.sh"]
+CMD ["sh", "./start.sh"]

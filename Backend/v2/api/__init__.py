@@ -60,6 +60,10 @@ from .comparables import comparables
 
 app.include_router(comparables, prefix=config.API_URL_PREFIX)
 
+from .comparables_unauth import ua_comparables
+
+app.include_router(ua_comparables, prefix=config.API_URL_PREFIX)
+
 from .catastral import catastrales
 
 app.include_router(catastrales, prefix=config.API_URL_PREFIX)

@@ -7,8 +7,8 @@ FROM node:16-alpine AS builder
 LABEL version="1.0.0"
 LABEL description="Cadastral Frontend Builder's Image"
 LABEL mantenier="Einar Jhordany Serna Valdivia<eserna@guanajuato.gob.mx>"
-WORKDIR /usr/src/Frontend
-COPY . /usr/src/Frontend
+WORKDIR /usr/src/v1
+COPY . /usr/src/v1
 # install node modules and build assets
 RUN yarn install --inmutable && yarn build
 
@@ -21,7 +21,7 @@ WORKDIR /usr/share/nginx/html
 # Remove default nginx static assets
 RUN rm -rf ./*
 COPY nginx.conf /etc/nginx/nginx.conf
-EXPOSE 81
-COPY --from=builder /usr/src/Frontend/build /usr/share/nginx/html
+EXPOSE 80
+COPY --from=builder /usr/src/v1/build /usr/share/nginx/html
 # Containers run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

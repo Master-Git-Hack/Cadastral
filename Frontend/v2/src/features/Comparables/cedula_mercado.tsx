@@ -24,11 +24,14 @@ import Component from "./test";
 import ReactPDF from "@react-pdf/renderer";
 
 export default function Comparables() {
-	const { cedula_mercado } = useParams();
+	const { cedula_mercado, username } = useParams();
 	const [visible, setVisible] = useState(false);
 	const [as_report, setAsReport] = useState(true);
 	const navigate = useNavigate();
-	const { data, isLoading, isError, error } = useGetComparablesQuery({ cedula_mercado });
+	const { data, isLoading, isError, error } = useGetComparablesQuery({
+		cedula_mercado,
+		username,
+	});
 	const [downloadFile] = useDownloadMutation();
 	const [preview, { data: dataPreview, isSuccess: isSuccessPreview }] = usePreviewMutation();
 	const [deleteTemporal] = useDeleteComparableMutation();
@@ -72,14 +75,19 @@ export default function Comparables() {
 							<Button
 								pill
 								color="success"
-								onClick={() => downloadFile({ cedula_mercado, data: { ids } })}
+								onClick={() =>
+									downloadFile({ cedula_mercado, data: { ids }, username })
+								}
 							>
 								<Tooltip content="Solo se integraran aquellos registros seleccionados al archivo">
 									Descargar
 								</Tooltip>
 							</Button>
 
-							<Button pill onClick={() => preview({ cedula_mercado, data: { ids } })}>
+							<Button
+								pill
+								onClick={() => preview({ cedula_mercado, data: { ids }, username })}
+							>
 								<Tooltip content="Solo se mostraran aquellos registros seleccionados">
 									Previsualizar
 								</Tooltip>

@@ -7,12 +7,12 @@ FROM node:21.7.3-alpine3.18
 LABEL version="2.0.0"
 LABEL description="Cadastral Frontend Builder's Image"
 LABEL mantenier="Einar Jhordany Serna Valdivia<eserna@guanajuato.gob.mx>"
-WORKDIR /usr/src/Frontend
-COPY . /usr/src/Frontend
+WORKDIR /usr/src/v2
+COPY . /usr/src/v2
 # install node modules and build assets
 
 RUN yarn install --inmutable && yarn build && yarn cache clean --force
-EXPOSE 80
+EXPOSE 3000
 CMD [ "yarn","preview"]
 
 # # nginx state for serving content
