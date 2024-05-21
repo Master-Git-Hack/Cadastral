@@ -43,10 +43,7 @@ export const EnabledInputNumber = ({
 					step={step}
 					defaultValue={defaultValue}
 					value={value}
-					onChange={(
-						value: number | string,
-						event: SyntheticEvent<Element, Event>,
-					): void => {
+					onChange={(value: string | number | null, event: React.ChangeEvent<HTMLInputElement> | React.SyntheticEvent<Element, Event>) => {
 						onChange(Number(value));
 					}}
 				/>

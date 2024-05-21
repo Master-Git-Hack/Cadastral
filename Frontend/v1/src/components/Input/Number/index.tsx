@@ -41,7 +41,14 @@ export const InputNumber = ({
 				min={min}
 				step={step}
 				value={value as number}
-				onChange={(current: number | string, event: any): void => onChange(Number(current))}
+				onChange={(
+					value: string | number | null,
+					event:
+						| React.ChangeEvent<HTMLInputElement>
+						| React.SyntheticEvent<Element, Event>,
+				) => {
+					onChange(Number(value));
+				}}
 				size={size}
 				scrollable
 			/>

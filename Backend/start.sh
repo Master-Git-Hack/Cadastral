@@ -1,5 +1,5 @@
 #!/bin/bash
-flask run &
+cd v1 & sourceflask run &
 python main.py &
 wait
 exit $?

@@ -4,7 +4,6 @@
 
 # Name the node stage "builder" 
 FROM node:16-alpine AS builder
-LABEL version="1.0.0"
 LABEL description="Cadastral Frontend Builder's Image"
 LABEL mantenier="Einar Jhordany Serna Valdivia<eserna@guanajuato.gob.mx>"
 WORKDIR /usr/src/v1

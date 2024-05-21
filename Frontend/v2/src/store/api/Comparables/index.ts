@@ -10,9 +10,9 @@ export const ComparablesApi = createApi({
 	reducerPath: "ComparablesApi",
 	baseQuery,
 	endpoints: ({ query, mutation }) => ({
-		getCedulas: query<IComparables[], {username?:string}>({
-			query: ({username}) => ({
-				url: `${username?"un-auth/":""}comparables${username?`/${username}/`:"/"}cedulas`,
+		getCedulas: query<IComparables[], { username?: string }>({
+			query: ({ username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables${username ? `/${username}/` : "/"}cedulas`,
 				method: "GET",
 			}),
 			transformResponse: ({ data, ...response }: any) => {
@@ -22,34 +22,34 @@ export const ComparablesApi = createApi({
 				};
 			},
 		}),
-		getCedula: mutation<IComparables, { id: string,username?:string }>({
-			query: ({ id,username }) => ({
-				url: `${username?"un-auth/":""}comparables${username?`/${username}/`:"/"}cedula/${id}`,
+		getCedula: mutation<IComparables, { id: string; username?: string }>({
+			query: ({ id, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables${username ? `/${username}/` : "/"}cedula/${id}`,
 				method: "GET",
 			}),
 		}),
-		postCedula: mutation<IComparables, { registro: string ,username?:string}>({
-			query: ({ registro,username }) => ({
-				url: `${username?"un-auth/":""}comparables${username?`/${username}/`:"/"}cedula/${registro}`,
+		postCedula: mutation<IComparables, { registro: string; username?: string }>({
+			query: ({ registro, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables${username ? `/${username}/` : "/"}cedula/${registro}`,
 				method: "POST",
 			}),
 		}),
-		patchCedula: mutation<IComparables, { id: string; data: any,username?:string }>({
-			query: ({ id, data,username }) => ({
-				url: `${username?"un-auth/":""}comparables${username?`/${username}/`:"/"}cedula/${id}`,
+		patchCedula: mutation<IComparables, { id: string; data: any; username?: string }>({
+			query: ({ id, data, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables${username ? `/${username}/` : "/"}cedula/${id}`,
 				method: "PATCH",
 				data,
 			}),
 		}),
-		deleteCedula: mutation<IComparables, { id: string,username?:string }>({
-			query: ({ id,username }) => ({
-				url: `${username?"un-auth/":""}comparables${username?`/${username}/`:"/"}cedula/${id}`,
+		deleteCedula: mutation<IComparables, { id: string; username?: string }>({
+			query: ({ id, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables${username ? `/${username}/` : "/"}cedula/${id}`,
 				method: "DELETE",
 			}),
 		}),
-		getComparables: query<IComparables[], { cedula_mercado: number ,username?:string}>({
-			query: ({ cedula_mercado,username }) => ({
-				url: `${username?"un-auth/":""}comparables/${cedula_mercado}`,
+		getComparables: query<IComparables[], { cedula_mercado: number; username?: string }>({
+			query: ({ cedula_mercado, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/${cedula_mercado}`,
 				method: "GET",
 			}),
 			transformResponse: ({ data, ...response }: any) => {
@@ -59,9 +59,9 @@ export const ComparablesApi = createApi({
 				};
 			},
 		}),
-		getComparable: mutation<IComparables, { id: string,username?:string }>({
-			query: ({ id,username }) => ({
-				url: `${username?"un-auth/":""}comparables/comparable/${id}`,
+		getComparable: mutation<IComparables, { id: string; username?: string }>({
+			query: ({ id, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/comparable/${id}`,
 				method: "GET",
 			}),
 		}),
@@ -69,8 +69,8 @@ export const ComparablesApi = createApi({
 			IComparables,
 			{ id: string; as_report: "mercado" | "cedula"; data: any }
 		>({
-			query: ({ id, as_report, data,username }) => ({
-				url: `${username?"un-auth/":""}comparables/cedula/${id}/reporte/${as_report}`,
+			query: ({ id, as_report, data, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/cedula/${id}/reporte/${as_report}`,
 				method: "POST",
 				responseType: "blob",
 				data,
@@ -78,30 +78,35 @@ export const ComparablesApi = createApi({
 		}),
 		postComparable: mutation<
 			IComparables,
-			{ tipo: string, id_cedula_mercado: number, id_comparable_catcom: number, username?:string }
+			{
+				tipo: string;
+				id_cedula_mercado: number;
+				id_comparable_catcom: number;
+				username?: string;
+			}
 		>({
-			query: ({ tipo, id_cedula_mercado, id_comparable_catcom,username, ...data }) => ({
-				url: `${username?"un-auth/":""}comparables/comparable/${id_cedula_mercado}/${tipo}/${id_comparable_catcom}`,
+			query: ({ tipo, id_cedula_mercado, id_comparable_catcom, username, ...data }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/comparable/${id_cedula_mercado}/${tipo}/${id_comparable_catcom}`,
 				method: "POST",
 				data,
 			}),
 		}),
-		patchComparable: mutation<IComparables, { id: string, data: any,username?:string }>({
-			query: ({ id, data,username }) => ({
-				url: `${username?"un-auth/":""}comparables/comparable/${id}`,
+		patchComparable: mutation<IComparables, { id: string; data: any; username?: string }>({
+			query: ({ id, data, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/comparable/${id}`,
 				method: "PATCH",
 				data,
 			}),
 		}),
-		deleteComparable: mutation<IComparables, { id: string ,username?:string}>({
-			query: ({ id,username }) => ({
-				url: `${username?"un-auth/":""}comparables/comparable/${id}`,
+		deleteComparable: mutation<IComparables, { id: string; username?: string }>({
+			query: ({ id, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/comparable/${id}`,
 				method: "DELETE",
 			}),
 		}),
-		reports: mutation<File, { cedula_mercado: number; as_report: string,username?:string }>({
-			query: ({ cedula_mercado, as_report, data,username }) => ({
-				url: `${username?"un-auth/":""}comparables/reports/${cedula_mercado}/${as_report}`,
+		reports: mutation<File, { cedula_mercado: number; as_report: string; username?: string }>({
+			query: ({ cedula_mercado, as_report, data, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/reports/${cedula_mercado}/${as_report}`,
 				method: "POST",
 				responseType: "blob",
 				data,
@@ -111,19 +116,20 @@ export const ComparablesApi = createApi({
 		preview: mutation<
 			IComparables,
 			{
-				cedula_mercado: number,
-				data: any,username?:string
+				cedula_mercado: number;
+				data: any;
+				username?: string;
 			}
 		>({
-			query: ({ cedula_mercado, data,username }) => ({
-				url: `${username?"un-auth/":""}comparables/preview/${cedula_mercado}`,
+			query: ({ cedula_mercado, data, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/preview/${cedula_mercado}`,
 				method: "POST",
 				data,
 			}),
 		}),
-		download: mutation<File, { cedula_mercado: number, data: any,username?:string }>({
-			query: ({ cedula_mercado, data,username }) => ({
-				url: `${username?"un-auth/":""}comparables/xlsx/${cedula_mercado}`,
+		download: mutation<File, { cedula_mercado: number; data: any; username?: string }>({
+			query: ({ cedula_mercado, data, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/xlsx/${cedula_mercado}`,
 				method: "POST",
 				responseType: "blob",
 				data,
@@ -137,9 +143,9 @@ export const ComparablesApi = createApi({
 				return response;
 			},
 		}),
-		getImage: mutation<File, { fileName: string,username?:string }>({
-			query: ({ fileName,username }) => ({
-				url: `${username?"un-auth/":""}comparables/image/${fileName}`,
+		getImage: mutation<File, { fileName: string; username?: string }>({
+			query: ({ fileName, username }) => ({
+				url: `${username ? "un-auth/" : ""}comparables/image/${fileName}`,
 				method: "GET",
 				responseType: "blob",
 			}),

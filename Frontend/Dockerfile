@@ -1,5 +1,4 @@
 FROM node:21.7.3-alpine3.18
-LABEL version='2.0.0'
 LABEL description="Backend Server's Image"
 LABEL mantenier='Einar Jhordany Serna Valdivia<eserna@guanajuato.gob.mx>'
 WORKDIR /usr/src/Frontend

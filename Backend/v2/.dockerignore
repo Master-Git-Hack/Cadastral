@@ -1,0 +1,9 @@
+.flaskenv
+.venv
+.gitignore
+index.rst
+make.bat
+Makefile
+README.md
+docs/*
+.vscode/*

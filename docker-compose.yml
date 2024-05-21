@@ -3,23 +3,35 @@
 version: '3.8'
 #name: cadastral.app.container.docker
 services:
-    backend:
-        container_name: backend_docker
+    backend_v1:
+        container_name: backend_v1
         build:
-            context: ./Backend/
+            context: ./Backend/v1
             #dockerfile: Dockerfile
         restart: on-failure
         volumes:
             - ./Backend:/usr/src/Backend
         expose:
             - 56733
-            - 5000
         ports:
             - 56733:56733
+        networks:
+            - cadastral_network
+    backend_v2:
+        container_name: backend_v2
+        build:
+            context: ./Backend/v2
+            #dockerfile: Dockerfile
+        restart: on-failure
+        volumes:
+            - ./Backend:/usr/src/Backend
+        expose:
+            - 5000
+        ports:
             - 5000:5000
         networks:
             - cadastral_network
-    frontendv1:
+    frontend_v1:
         container_name: frontend_v1_docker
         build:
             context: ./Frontend/v1
@@ -34,12 +46,12 @@ services:
             #- 80:80
             - 8081:80
         depends_on:
-            - backend
+            - backend_v1
         networks:
             - cadastral_network
         links:
-            - 'backend:backend'
-    frontendv2:
+            - 'backend_v1:backend_v1'
+    frontend_v2:
         container_name: frontend_v2_docker
         build:
             context: ./Frontend/v2
@@ -54,11 +66,11 @@ services:
             #- 82:80
             - 8082:3000
         depends_on:
-            - backend
+            - backend_v2
         networks:
             - cadastral_network
         links:
-            - 'backend:backend'
+            - 'backend_v2:backend_v2'
 
 #[optional] If the network is not created, docker will create by itself.
 networks:

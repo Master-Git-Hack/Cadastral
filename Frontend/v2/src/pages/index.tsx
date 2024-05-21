@@ -89,10 +89,10 @@ const RouterPages = createBrowserRouter([
 		element: <></>,
 	},
 	{
-		path: "modules/*	",
+		path: "modules/*",
 		children: [
 			{
-				path: "comparables/:username/*",
+				path: "comparables/:username",
 				element: <Comparables useLayout={false} />,
 				children: [
 					{

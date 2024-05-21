@@ -226,7 +226,7 @@ export default function Create() {
 						})
 							.then(({ isConfirmed }) => {
 								if (isConfirmed) {
-									postComparable({...data,username});
+									postComparable({ ...data, username });
 									setData(initialState(parseInt(cedula_mercado)));
 								}
 							})
