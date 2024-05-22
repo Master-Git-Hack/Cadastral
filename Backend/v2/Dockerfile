@@ -52,4 +52,4 @@ ENV PSQL_URI_DEV="postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432"
 ENV PSQL_URI_TEST="postgresql://root:toor@localhost:5432"
 
 EXPOSE 5000 
-CMD ["py", "main.py"]
+CMD ["python", "main.py"]
