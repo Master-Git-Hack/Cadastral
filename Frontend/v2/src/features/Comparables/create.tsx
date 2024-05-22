@@ -1,6 +1,7 @@
 /** @format */
 
 import { useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button, Tooltip } from "flowbite-react";
@@ -229,7 +230,16 @@ export default function Create() {
 									setData(initialState(parseInt(cedula_mercado)));
 								}
 							})
-							.finally(() => setTimeout(() => navigate(-1), 500));
+							.finally(() =>
+								setTimeout(
+									() =>
+										navigate({
+											pathname: `${username ? "/modules/" : "/"}comparables${username ? `/${username}/` : "/"}cedulas/${cedula_mercado}`,
+											search: "backward=1",
+										}),
+									500,
+								),
+							);
 					}}
 				>
 					Guardar

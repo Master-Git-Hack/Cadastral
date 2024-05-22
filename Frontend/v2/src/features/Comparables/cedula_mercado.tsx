@@ -16,21 +16,22 @@ import { Reports } from "./reports";
 import { Toggle } from "@components/Toggle";
 import { setComparables } from "../../store/reducers/Comparables";
 import { useDownloadMutation, usePreviewMutation } from "@api/Comparables";
-
+import { useSearchParams } from "react-router-dom";
 export default function Comparables() {
 	const { cedula_mercado, username } = useParams();
-	const [visible, setVisible] = useState(false);
-	const [as_report, setAsReport] = useState(true);
-	const navigate = useNavigate();
 	const { data, isLoading, isError, error } = useGetComparablesQuery({
 		cedula_mercado,
 		username,
 	});
+	const [visible, setVisible] = useState(false);
+	const [as_report, setAsReport] = useState(true);
+	const navigate = useNavigate();
+	const [searchParams, setParams] = useSearchParams();
 	const [downloadFile] = useDownloadMutation();
 	const [preview, { data: dataPreview, isSuccess: isSuccessPreview }] = usePreviewMutation();
 	const [deleteTemporal] = useDeleteComparableMutation();
 	const dispatch = useAppDispatch();
-
+	const [backward, setBackward] = useState(false);
 	const [ids, setIDs] = useState<number[]>(data?.data.map(({ id }: any) => id) ?? []);
 
 	useEffect(() => {
@@ -41,6 +42,19 @@ export default function Comparables() {
 			setVisible(true);
 		}
 	}, [isSuccessPreview]);
+
+	useEffect(() => {
+		if (searchParams.get("backward") === "1") {
+			setParams();
+			setBackward(true);
+		}
+	}, []);
+	useEffect(() => {
+		if (backward) {
+			setBackward(false);
+			navigate(0);
+		}
+	}, [backward]);
 	if (isError) return <Error message={error?.data} />;
 	if (isLoading) return <Spinner size={20} />;
 
