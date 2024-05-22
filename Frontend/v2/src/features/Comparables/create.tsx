@@ -1,4 +1,5 @@
 /** @format */
+
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import "primereact/resources/themes/tailwind-light/theme.css";
@@ -24,11 +25,9 @@ export default function Create() {
 	const { cedula_mercado, username } = useParams();
 	const navigate = useNavigate();
 	const [data, setData] = useState(initialState(parseInt(cedula_mercado)));
-	const [enableProperties, setEnableProperties] = useState(false);
-	const [preview, setPreview] = useState(false);
+
 	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
-	const handleMargins = ({ target }) =>
-		setData({ ...data, margins: { ...data.margins, [target.name]: target.value } });
+
 	const [
 		postComparable,
 		{ isLoading: isLoadingPost, isError: isErrorPost, error: errorPost, isSuccess },
@@ -230,12 +229,7 @@ export default function Create() {
 									setData(initialState(parseInt(cedula_mercado)));
 								}
 							})
-							.finally(() =>
-								setTimeout(
-									() => navigate(`/comparables/cedulas/${cedula_mercado}`),
-									500,
-								),
-							);
+							.finally(() => setTimeout(() => navigate(-1), 500));
 					}}
 				>
 					Guardar

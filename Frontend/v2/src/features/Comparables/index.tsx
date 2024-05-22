@@ -16,7 +16,7 @@ import Alert from "@components/Alerts";
 export default function Comparables() {
 	const { username } = useParams();
 	const navigate = useNavigate();
-	console.log(username);
+
 	const { data, isLoading, isError, error } = useGetCedulasQuery({ username });
 	const [
 		deleteCedula,

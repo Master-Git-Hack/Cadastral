@@ -1,8 +1,7 @@
 /** @format */
 import { useNavigate } from "react-router";
-import { Dialog } from "primereact/dialog";
 import "primereact/resources/themes/tailwind-light/theme.css";
-import { Table, Button, Tooltip, Modal } from "flowbite-react";
+import { Table, Button, Tooltip } from "flowbite-react";
 import { NavLink, useParams } from "react-router-dom";
 import { useGetComparablesQuery, useDeleteComparableMutation } from "@api/Comparables";
 import Spinner from "@components/Spinner";
@@ -12,16 +11,11 @@ import { Sidebar } from "primereact/sidebar";
 // import Checkbox from "@components/Checkbox";
 import { Checkbox } from "primereact/checkbox";
 import { useState, useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../../store/provider";
+import { useAppDispatch } from "../../store/provider";
 import { Reports } from "./reports";
 import { Toggle } from "@components/Toggle";
-import { getComparables, setComparables } from "../../store/reducers/Comparables";
+import { setComparables } from "../../store/reducers/Comparables";
 import { useDownloadMutation, usePreviewMutation } from "@api/Comparables";
-import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
-import html2canvas from "html2canvas-pro";
-import jsPDF from "jspdf";
-import Component from "./test";
-import ReactPDF from "@react-pdf/renderer";
 
 export default function Comparables() {
 	const { cedula_mercado, username } = useParams();
@@ -49,22 +43,11 @@ export default function Comparables() {
 	}, [isSuccessPreview]);
 	if (isError) return <Error message={error?.data} />;
 	if (isLoading) return <Spinner size={20} />;
-	const downloadPDF = () => {
-		const capture = document.getElementById("capture");
-		html2canvas(capture).then((canvas) => {
-			const imgData = canvas.toDataURL("image/jpeg", 1.0);
-			const pdf = new jsPDF("p", "px", "a4");
-			const componentWidth = pdf.internal.pageSize.getWidth();
-			const componentHeight = pdf.internal.pageSize.getHeight();
-			pdf.addImage(imgData, "JPEG", 0, 0, componentWidth, componentHeight);
-			pdf.save("file.pdf");
-		});
-	};
 
 	return (
 		<div>
 			<div className="flex flex-row justify-between my-3 mx-2">
-				<NavLink to={`/comparables`}>
+				<NavLink to={-1}>
 					<Button pill color="light">
 						Atras
 					</Button>
@@ -95,23 +78,14 @@ export default function Comparables() {
 						</>
 					)}
 
-					<NavLink to={`crear`}>
+					<NavLink to={"crear"}>
 						<Button pill color="light">
 							Crear Nuevo Comparable
 						</Button>
 					</NavLink>
 				</div>
 			</div>
-			{/* <Dialog visible={visible} onHide={() => setVisible(false)} blockScroll maximized>
-				<div className="flex-col my-3 items-center justify-center h-full">
-					<div className="flex flex-row justify-between">
-						<Toggle value={as_report} onChange={() => setAsReport(!as_report)}>
-							{as_report ? "Cédulas de " : ""} Mercado
-						</Toggle>
-					</div>
-					<Reports as_report={as_report} data={dataPreview?.data} />
-				</div>
-			</Dialog> */}
+
 			<div className="card flex justify-content-center">
 				<Sidebar visible={visible} onHide={() => setVisible(false)} fullScreen>
 					<Reports as_report={as_report} data={dataPreview?.data} />
@@ -181,7 +155,7 @@ export default function Comparables() {
 										}).then(
 											({ isConfirmed }) =>
 												isConfirmed &&
-												deleteTemporal({ id }) &&
+												deleteTemporal({ id, username }) &&
 												navigate(0),
 										)
 									}
