@@ -865,7 +865,7 @@ const Cedula = ({ data }) => (
 const Mercado = ({ data }) => (
 	<div className=" my-5">
 		{data?.map(({ tipo, records }, index) => (
-			<Table striped key={`mercado view ${index}`}>
+			<Table striped hoverable key={`mercado view ${index}`}>
 				<Table.Head>
 					<Table.HeadCell
 						colSpan={57}
@@ -880,88 +880,90 @@ const Mercado = ({ data }) => (
 						{tipo}
 					</Table.HeadCell>
 				</Table.Head>
+				<Table.Head className="text-white text-center">
+					<Table.HeadCell colSpan={7} className="bg-amber-400">
+						Datos de Verificación
+					</Table.HeadCell>
+					<Table.HeadCell colSpan={10} className="bg-fuchsia-400">
+						Ubicación
+					</Table.HeadCell>
+					<Table.HeadCell />
+					<Table.HeadCell colSpan={12} className="bg-yellow-200 text-black">
+						Características de Terreno
+					</Table.HeadCell>
+					<Table.HeadCell colSpan={10} className="bg-red-400">
+						Características de Construcción
+					</Table.HeadCell>
+					<Table.HeadCell colSpan={2} className="bg-teal-400">
+						Infraestructura
+					</Table.HeadCell>
+					<Table.HeadCell colSpan={6} className="bg-orange-200 text-black">
+						Valores
+					</Table.HeadCell>
+					<Table.HeadCell colSpan={4} className="bg-indigo-400">
+						Vigencia
+					</Table.HeadCell>
+					<Table.HeadCell colSpan={2} className="bg-pink-400" rowSpan={2}>
+						Elaboró
+					</Table.HeadCell>
+				</Table.Head>
+				<Table.Head>
+					<Table.HeadCell>Folio</Table.HeadCell>
+					<Table.HeadCell>Tipo de Inmueble</Table.HeadCell>
+					<Table.HeadCell>Tipo de Operación</Table.HeadCell>
+					<Table.HeadCell>Fecha de Captura</Table.HeadCell>
+					<Table.HeadCell>URL Fuente</Table.HeadCell>
+					<Table.HeadCell>Informante</Table.HeadCell>
+					<Table.HeadCell>Teléfono de Informante</Table.HeadCell>
+					<Table.HeadCell>Coordenada UTM X</Table.HeadCell>
+					<Table.HeadCell>Coordenada UTM Y</Table.HeadCell>
+					<Table.HeadCell>Estado</Table.HeadCell>
+					<Table.HeadCell>Municipio</Table.HeadCell>
+					<Table.HeadCell>Ciudad o Población</Table.HeadCell>
+					<Table.HeadCell>Tipo y Nombre de Colonia / Asentamiento</Table.HeadCell>
+					<Table.HeadCell>Tipo y Nombre de la Calle</Table.HeadCell>
+					<Table.HeadCell>No. Exterior</Table.HeadCell>
+					<Table.HeadCell>No. Interior</Table.HeadCell>
+					<Table.HeadCell>Nombre Edificio / Proto / Predio</Table.HeadCell>
+					<Table.HeadCell>Régimen de Propiedad</Table.HeadCell>
+					<Table.HeadCell>Clasificación Periférica</Table.HeadCell>
+					<Table.HeadCell>Clasificación Económica de la Zona (Campo)</Table.HeadCell>
+					<Table.HeadCell>Uso de Suelo Carta, Uso Plan</Table.HeadCell>
+					<Table.HeadCell>Entre Calles</Table.HeadCell>
+					<Table.HeadCell>Ubicación en la Manzana</Table.HeadCell>
+					<Table.HeadCell>Número de Frentes</Table.HeadCell>
+					<Table.HeadCell>Superficie Terreno M2</Table.HeadCell>
+					<Table.HeadCell>Frente ML</Table.HeadCell>
+					<Table.HeadCell>Frente Tipo ML</Table.HeadCell>
+					<Table.HeadCell>Fondo</Table.HeadCell>
+					<Table.HeadCell>Forma</Table.HeadCell>
+					<Table.HeadCell>Topografía</Table.HeadCell>
+					<Table.HeadCell>Superficie Construcción M2</Table.HeadCell>
+					<Table.HeadCell>Proyecto</Table.HeadCell>
+					<Table.HeadCell>Edo. Conservación</Table.HeadCell>
+					<Table.HeadCell>Tipo de Construcción</Table.HeadCell>
+					<Table.HeadCell>Calidad</Table.HeadCell>
+					<Table.HeadCell>Edad</Table.HeadCell>
+					<Table.HeadCell>Niveles</Table.HeadCell>
+					<Table.HeadCell>Unidades Rentables</Table.HeadCell>
+					<Table.HeadCell>Descripción de Espacios</Table.HeadCell>
+					<Table.HeadCell>T / C</Table.HeadCell>
+					<Table.HeadCell>Servicios</Table.HeadCell>
+					<Table.HeadCell>Descripción de Servicios</Table.HeadCell>
+					<Table.HeadCell>Precio</Table.HeadCell>
+					<Table.HeadCell>Precio Unitario</Table.HeadCell>
+					<Table.HeadCell>Precio Total USD</Table.HeadCell>
+					<Table.HeadCell>Precio Unitario USD</Table.HeadCell>
+					<Table.HeadCell>Precio Total Aplicable en la Homologación MXN</Table.HeadCell>
+					<Table.HeadCell>
+						Precio Unitario Aplicable en la Homologación MXN
+					</Table.HeadCell>
+					<Table.HeadCell>Observaciones</Table.HeadCell>
+					<Table.HeadCell>Hoy</Table.HeadCell>
+					<Table.HeadCell>Días</Table.HeadCell>
+					<Table.HeadCell>Caduca en 6 meses Fecha</Table.HeadCell>
+				</Table.Head>
 				<Table.Body>
-					<Table.Row className="text-white text-center">
-						<Table.Cell colSpan={7} className="bg-amber-400">
-							Datos de Verificación
-						</Table.Cell>
-						<Table.Cell colSpan={10} className="bg-fuchsia-400">
-							Ubicación
-						</Table.Cell>
-						<Table.Cell />
-						<Table.Cell colSpan={12} className="bg-yellow-200 text-black">
-							Características de Terreno
-						</Table.Cell>
-						<Table.Cell colSpan={10} className="bg-red-400">
-							Características de Construcción
-						</Table.Cell>
-						<Table.Cell colSpan={2} className="bg-teal-400">
-							Infraestructura
-						</Table.Cell>
-						<Table.Cell colSpan={6} className="bg-orange-200 text-black">
-							Valores
-						</Table.Cell>
-						<Table.Cell colSpan={4} className="bg-indigo-400">
-							Vigencia
-						</Table.Cell>
-						<Table.Cell colSpan={2} className="bg-pink-400" rowSpan={2}>
-							Elaboró
-						</Table.Cell>
-					</Table.Row>
-					<Table.Row>
-						<Table.Cell>Folio</Table.Cell>
-						<Table.Cell>Tipo de Inmueble</Table.Cell>
-						<Table.Cell>Tipo de Operación</Table.Cell>
-						<Table.Cell>Fecha de Captura</Table.Cell>
-						<Table.Cell>URL Fuente</Table.Cell>
-						<Table.Cell>Informante</Table.Cell>
-						<Table.Cell>Teléfono de Informante</Table.Cell>
-						<Table.Cell>Coordenada UTM X</Table.Cell>
-						<Table.Cell>Coordenada UTM Y</Table.Cell>
-						<Table.Cell>Estado</Table.Cell>
-						<Table.Cell>Municipio</Table.Cell>
-						<Table.Cell>Ciudad o Población</Table.Cell>
-						<Table.Cell>Tipo y Nombre de Colonia / Asentamiento</Table.Cell>
-						<Table.Cell>Tipo y Nombre de la Calle</Table.Cell>
-						<Table.Cell>No. Exterior</Table.Cell>
-						<Table.Cell>No. Interior</Table.Cell>
-						<Table.Cell>Nombre Edificio / Proto / Predio</Table.Cell>
-						<Table.Cell>Régimen de Propiedad</Table.Cell>
-						<Table.Cell>Clasificación Periférica</Table.Cell>
-						<Table.Cell>Clasificación Económica de la Zona (Campo)</Table.Cell>
-						<Table.Cell>Uso de Suelo Carta, Uso Plan</Table.Cell>
-						<Table.Cell>Entre Calles</Table.Cell>
-						<Table.Cell>Ubicación en la Manzana</Table.Cell>
-						<Table.Cell>Número de Frentes</Table.Cell>
-						<Table.Cell>Superficie Terreno M2</Table.Cell>
-						<Table.Cell>Frente ML</Table.Cell>
-						<Table.Cell>Frente Tipo ML</Table.Cell>
-						<Table.Cell>Fondo</Table.Cell>
-						<Table.Cell>Forma</Table.Cell>
-						<Table.Cell>Topografía</Table.Cell>
-						<Table.Cell>Superficie Construcción M2</Table.Cell>
-						<Table.Cell>Proyecto</Table.Cell>
-						<Table.Cell>Edo. Conservación</Table.Cell>
-						<Table.Cell>Tipo de Construcción</Table.Cell>
-						<Table.Cell>Calidad</Table.Cell>
-						<Table.Cell>Edad</Table.Cell>
-						<Table.Cell>Niveles</Table.Cell>
-						<Table.Cell>Unidades Rentables</Table.Cell>
-						<Table.Cell>Descripción de Espacios</Table.Cell>
-						<Table.Cell>T / C</Table.Cell>
-						<Table.Cell>Servicios</Table.Cell>
-						<Table.Cell>Descripción de Servicios</Table.Cell>
-						<Table.Cell>Precio</Table.Cell>
-						<Table.Cell>Precio Unitario</Table.Cell>
-						<Table.Cell>Precio Total USD</Table.Cell>
-						<Table.Cell>Precio Unitario USD</Table.Cell>
-						<Table.Cell>Precio Total Aplicable en la Homologación MXN</Table.Cell>
-						<Table.Cell>Precio Unitario Aplicable en la Homologación MXN</Table.Cell>
-						<Table.Cell>Observaciones</Table.Cell>
-						<Table.Cell>Hoy</Table.Cell>
-						<Table.Cell>Días</Table.Cell>
-						<Table.Cell>Caduca en 6 meses Fecha</Table.Cell>
-					</Table.Row>
 					{records?.map(
 						(
 							{
@@ -1029,7 +1031,15 @@ const Mercado = ({ data }) => (
 								<Table.Cell>{tipo_inmueble}</Table.Cell>
 								<Table.Cell>{tipo_operacion}</Table.Cell>
 								<Table.Cell>{fecha_captura}</Table.Cell>
-								<Table.Cell>{url_fuente}</Table.Cell>
+								<Table.Cell>
+									<a
+										href={url_fuente}
+										className="link text-blue-600 visited:text-purple-600"
+										target="_blank"
+									>
+										{url_fuente}
+									</a>
+								</Table.Cell>
 								<Table.Cell>{nombre_anunciante}</Table.Cell>
 								<Table.Cell>{telefono_anunciante}</Table.Cell>
 								<Table.Cell>{x_utm}</Table.Cell>
@@ -1054,7 +1064,10 @@ const Mercado = ({ data }) => (
 								<Table.Cell>{uso_suelo_oficial}</Table.Cell>
 								<Table.Cell>{entrecalles}</Table.Cell>
 								<Table.Cell>{ubicacion_manzana}</Table.Cell>
-								<Table.Cell>{numero_frentes} ()</Table.Cell>
+								<Table.Cell>
+									{numero_frentes} ({NumerosALetras(numero_frentes).toUpperCase()}
+									{numero_frentes === 1 ? "O" : ""})
+								</Table.Cell>
 								<Table.Cell>{superficie_terreno}</Table.Cell>
 								<Table.Cell>{longitud_frente}</Table.Cell>
 								<Table.Cell>{longitud_frente_tipo}</Table.Cell>
@@ -1103,10 +1116,19 @@ const Mercado = ({ data }) => (
 									{precio_dolar ? precio_dolar / superficie_terreno : "-"}
 								</Table.Cell>
 								<Table.Cell>{observaciones}</Table.Cell>
-								<Table.Cell>{moment().format("DD de MM del YYYY")}</Table.Cell>
-								<Table.Cell>{moment().diff(moment(fecha_captura))}</Table.Cell>
+								<Table.Cell>{fecha_captura}</Table.Cell>
 								<Table.Cell>
-									{moment(fecha_captura).add(6, "M").format("DD de MM del YYYY")}
+									{moment().diff(
+										moment("21 de May del 2024", "DD [de] MMM [del] YYYY"),
+										"days",
+									)}
+								</Table.Cell>
+								<Table.Cell>
+									{moment("21 de May del 2024", "DD [de] MMM [del] YYYY")
+										.clone()
+										.add(6, "months")
+										.format("DD [de] MMM [del] YYYY")
+										.toString()}
 								</Table.Cell>
 								<Table.Cell>{usuario}</Table.Cell>
 							</Table.Row>
