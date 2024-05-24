@@ -1,5 +1,5 @@
 /** @format */
-import { NumerosALetras } from "numero-a-letras";
+import { NumerosALetras } from "@utils/number/numero_a_letras";
 import { asFancyNumber } from "@utils/number";
 import { Table } from "flowbite-react";
 import moment from "moment";
@@ -428,10 +428,10 @@ const Cedula = ({ data }) => (
 							<View style={{ ...styles.row, height: "0.2cm" }}></View>
 							<ImageRow
 								imageLeft={imagen_1}
-								textLeft="Comparable 1"
+								textLeft={`Comparable ${idx + 1}`}
 								useCrop
 								imageRight={imagen_2}
-								textRight="Comparable 2"
+								textRight="Microlocalización"
 							/>
 
 							<View style={styles.row}>
@@ -501,7 +501,7 @@ const Cedula = ({ data }) => (
 								leftText="Tipo de Operación"
 								leftValue={tipo_operacion}
 								rightText="No. de Frentes"
-								rightValue={superficie_terreno}
+								rightValue={`${numero_frentes} (${NumerosALetras(numero_frentes).toUpperCase()}${numero_frentes === 1 ? "O" : ""})`}
 							/>
 							<View style={styles.row}>
 								<Text style={{ ...styles.septupleCell, ...styles.borderTop }} />
@@ -634,7 +634,7 @@ const Cedula = ({ data }) => (
 							</View>
 							<SimpleRow
 								leftText="Edificio Predio Prototipo"
-								leftValue="#"
+								leftValue={edificio}
 								rightText="Precio"
 								rightValue={asFancyNumber(valor_total_mercado, {
 									isCurrency: true,
@@ -747,7 +747,9 @@ const Cedula = ({ data }) => (
 										...styles.borderLeft,
 									}}
 								>
-									{asFancyNumber(precio_dolar, { isCurrency: true })}
+									{isNaN(asFancyNumber(precio_dolar, { isCurrency: true }))
+										? "$"
+										: asFancyNumber(precio_dolar, { isCurrency: true })}
 								</Text>
 								<Text style={{ ...styles.quadrupleCell, ...styles.borderRight }}>
 									{asFancyNumber(
@@ -1052,9 +1054,7 @@ const Mercado = ({ data }) => (
 								<Table.Cell>{uso_suelo_oficial}</Table.Cell>
 								<Table.Cell>{entrecalles}</Table.Cell>
 								<Table.Cell>{ubicacion_manzana}</Table.Cell>
-								<Table.Cell>
-									{numero_frentes} ({NumerosALetras(numero_frentes)})
-								</Table.Cell>
+								<Table.Cell>{numero_frentes} ()</Table.Cell>
 								<Table.Cell>{superficie_terreno}</Table.Cell>
 								<Table.Cell>{longitud_frente}</Table.Cell>
 								<Table.Cell>{longitud_frente_tipo}</Table.Cell>
