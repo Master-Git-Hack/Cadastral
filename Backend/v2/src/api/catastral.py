@@ -127,10 +127,10 @@ async def get_collections_by_registros(
 
     return __response.success(data=catastro.to_list_raw(data))
 
+
 @catastrales.get("/qr/{id}")
 async def handle_images(
     id: int,
-    
     # user=Depends(required),
 ):
     # if isinstance(user, dict):
@@ -139,7 +139,7 @@ async def handle_images(
         return __response.error("No se encontró la imagen", status_code=404)
     # download image an save on config.paths.tmp and send as a response.send_file
     url_base = "http://172.31.113.151/reportes_avaluos/qr_catastral.php?id"
-    ext ="png"
+    ext = "png"
     filename = f"{id}.{ext}"
     image_url = f"{url_base}={filename}"
 
@@ -150,7 +150,6 @@ async def handle_images(
 
         with open(path, "wb") as f:
             f.write(response.content)
-        
 
         return __response.send_file(
             filename=filename, path=path, media_type=f"image/{ext}", delete=True

@@ -1,8 +1,9 @@
-from base64 import b64encode
 from datetime import datetime, timedelta
 from os import remove
 
+from babel.dates import format_date
 from dateparser import parse
+from dateutil.relativedelta import relativedelta
 from fastapi import APIRouter, Depends, Request
 from num2words import num2words
 from openpyxl import Workbook
@@ -10,7 +11,6 @@ from openpyxl.drawing.image import Image
 from openpyxl.styles import Border, Font, PatternFill, Side
 from requests import get
 from sqlalchemy.orm import Session
-from sqlalchemy.sql import func
 
 from .. import config, database, logger
 from ..controllers.comparables_catcom import ComparablesCatComReport
@@ -268,13 +268,39 @@ async def delete_comparable(
     return __response.success(data=comp.to_dict())
 
 
+def check_services(**kwargs):
+    agua = kwargs.get("agua", False)
+    drenaje = kwargs.get("drenaje", False)
+    energia_electrica = kwargs.get("energia_electrica", False)
+    alumbrado_publico = kwargs.get("alumbrado_publico", False)
+    banqueta = kwargs.get("banqueta", False)
+    pavimento = kwargs.get("pavimento", False)
+    telefonia = kwargs.get("telefonia", False)
+
+    servicios_completos = (
+        agua
+        and drenaje
+        and energia_electrica
+        and alumbrado_publico
+        and banqueta
+        and pavimento
+        and telefonia
+    )
+
+    if servicios_completos:
+        return "Sí Tiene Completos"
+    elif not servicios_completos:
+        return "No Tiene"
+    else:
+        return "Tiene Algunos"
+
+
 @ua_comparables.post("/xlsx/{cedula_mercado}", deprecated=True)
 async def generate_xlsx(
     cedula_mercado: int,
     request: Request,
     db: Session = Depends(database.valuaciones),
 ):
-
     comp = ComparablesCatCom(db)
     cedula = CedulaComparables(db)
     mercado = CedulaMercado(db)
@@ -580,19 +606,21 @@ async def generate_xlsx(
             else:
                 r["captura_pantalla"] = ""
 
+            date = parse(r.get("fecha_captura"))
             r["fecha_captura"] = as_complete_date(r.get("fecha_captura", "hoy"))
-
-            fecha_actual = datetime.now()
-
-            # Formatear la fecha actual
-            fecha_actual_formato = fecha_actual.strftime("%d de %m del %Y")
-
-            # Obtener la fecha de captura (asumiendo que 'fecha_captura' es una cadena de texto)
-            fecha_captura = parse(r.get("fecha_captura", "hoy"))
-            # Handle the case where fecha_captura is None
-            fecha_captura_formato = ""
-
-            fecha_seis_meses_mas_formato = ""
+            dias = (datetime.now() - date).days
+            seis_meses = format_date(
+                date + relativedelta(months=6),
+                format="d 'de' MMMM 'del' y",
+                locale="es",
+            )
+            numero_frentes = r.get("numero_frentes", 1)
+            if not numero_frentes:
+                numero_frentes = "1 (UNO)"
+            else:
+                numero_frentes = (
+                    f"{numero_frentes} ({num2words(numero_frentes, lang='es').upper()})"
+                )
             mercado_sheet.append(
                 [
                     r.get("id"),
@@ -620,7 +648,7 @@ async def generate_xlsx(
                     r.get("uso_suelo_oficial"),
                     r.get("entrecalles"),
                     r.get("ubicacion_manzana"),
-                    f"{r.get('numero_frentes')}",  # ({num2words(r.get('numero_frentes',"0"), lang='es').upper()})",
+                    numero_frentes,
                     r.get("superficie_terreno"),
                     r.get("longitud_frente"),
                     r.get("longitud_frente_tipo"),
@@ -636,9 +664,9 @@ async def generate_xlsx(
                     r.get("niveles"),
                     r.get("unidades_rentables"),
                     r.get("descripcion_espacios"),
-                    r.get("superficie_terreno", 0)
+                    r.get("superficie_terreno", 1)
                     / (r.get("superficie_construccion", 1.0) or 1),
-                    r.get(""),
+                    check_services(**r),
                     r.get("descripcion_espacios"),
                     r.get("valor_total_mercado"),
                     (
@@ -655,12 +683,10 @@ async def generate_xlsx(
                         if r.get("precio_dolar")
                         else "-"
                     ),
-                    # "-",
-                    # "-",
                     r.get("observaciones"),
-                    fecha_actual_formato,
                     r.get("fecha_captura"),
-                    fecha_seis_meses_mas_formato,
+                    dias,
+                    seis_meses,
                     r.get("usuario"),
                 ]
             )
@@ -837,7 +863,6 @@ async def generate_preview(
     request: Request,
     db: Session = Depends(database.valuaciones),
 ):
-
     comp = ComparablesCatCom(db)
     cedula = CedulaComparables(db)
     mercado = CedulaMercado(db)
