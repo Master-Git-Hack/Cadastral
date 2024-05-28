@@ -1105,7 +1105,14 @@ const Mercado = ({ data }) => (
 										? "No Tiene"
 										: "Tiene Algunos"}
 								</Table.Cell>
-								<Table.Cell>{descripcion_espacios}</Table.Cell>
+								<Table.Cell>
+									{agua && "Red de Agua Potable, "}
+									{drenaje && "Red de Drenaje, "}
+									{energia_electrica && "Red de Energía Eléctrica, "}
+									{alumbrado_publico && "Alumbrado Público, Voz y Datos."}
+									{pavimento && "Pavimento, "}
+									{banqueta && "Banquetas"}
+								</Table.Cell>
 								<Table.Cell>{valor_total_mercado}</Table.Cell>
 								<Table.Cell>
 									{(tipo === "RENTA" ? valor_renta : valor_total_mercado) /

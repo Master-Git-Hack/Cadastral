@@ -44,7 +44,7 @@ export const ComparablesApi = createApi({
 		deleteCedula: mutation<IComparables, { id: string; username?: string }>({
 			query: ({ id, username }) => ({
 				url: `${username ? "un-auth/" : ""}comparables${username ? `/${username}/` : "/"}cedula/${id}`,
-				method: "DELETE",
+				method: "delete",
 			}),
 		}),
 		getComparables: query<IComparables[], { cedula_mercado: number; username?: string }>({
@@ -101,7 +101,7 @@ export const ComparablesApi = createApi({
 		deleteComparable: mutation<IComparables, { id: string; username?: string }>({
 			query: ({ id, username }) => ({
 				url: `${username ? "un-auth/" : ""}comparables/comparable/${id}`,
-				method: "DELETE",
+				method: "delete",
 			}),
 		}),
 		reports: mutation<File, { cedula_mercado: number; as_report: string; username?: string }>({

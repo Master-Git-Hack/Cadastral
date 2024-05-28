@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from os import remove
+from time import sleep
 
 from babel.dates import format_date
 from dateparser import parse
@@ -139,14 +140,15 @@ async def delete_cedula(
     """
 
     cedula = CedulaMercado(db)
-    if cedula.filter(id=id, usuario=username) is None:
+    if cedula.filter(id=id) is None:
         return __response.error(
             message="No se pudo encontrar la cedula", status_code=404
         )
-    if cedula.delete() is None:
+    if cedula.delete() is None or cedula.delete(cedula.current.id) is None:
         return __response.error(
             message="No se pudo eliminar la cedula", status_code=404
         )
+
     return __response.success(data=cedula.to_dict())
 
 
@@ -261,10 +263,17 @@ async def delete_comparable(
         return __response.error(
             message="No se encontraron comparables", status_code=404
         )
-    if comp.delete(id) is None:
-        return __response.error(
-            message="No se pudo eliminar la cedula", status_code=404
-        )
+    try:
+        if comp.delete() is None or comp.delete(id) is None:
+            raise Exception("No se pudo eliminar el registro")
+    except Exception as e:
+        sleep(5)
+        comp = CedulaComparables(db)
+        response = comp.delete(id)
+        if response is None:
+            return __response.error(
+                message="No se encontraron comparables", status_code=404
+            )
     return __response.success(data=comp.to_dict())
 
 
@@ -295,7 +304,27 @@ def check_services(**kwargs):
         return "Tiene Algunos"
 
 
-@ua_comparables.post("/xlsx/{cedula_mercado}", deprecated=True)
+def check_desc_services(**kwargs):
+    servicios = [
+        ("agua", "Red de Agua Potable"),
+        ("drenaje", "Red de Drenaje"),
+        ("energia_electrica", "Red de Energía Eléctrica"),
+        ("alumbrado_publico", "Alumbrado Público, Voz y Datos"),
+        ("pavimento", "Pavimento"),
+        ("banqueta", "Banquetas"),
+    ]
+    response = ""
+    current = False
+    for index, (key, value) in enumerate(servicios):
+        if index > 0 and index < len(servicios) - 1 and current:
+            response += ", "
+        current = kwargs.get(key, False)
+        if current:
+            response += value
+    return response
+
+
+@ua_comparables.post("/xlsx/{cedula_mercado}")
 async def generate_xlsx(
     cedula_mercado: int,
     request: Request,
@@ -361,17 +390,17 @@ async def generate_xlsx(
         ),
     )
     background = dict(
-        red=PatternFill(start_color="F87171", end_color="F87171", fill_type="solid"),
-        green=PatternFill(start_color="4ADE80", end_color="4ADE80", fill_type="solid"),
-        violet=PatternFill(start_color="A78BFA", end_color="A78BFA", fill_type="solid"),
-        kaki=PatternFill(start_color="F3F37A", end_color="F3F37A", fill_type="solid"),
-        teal=PatternFill(start_color="2DD4D4", end_color="2DD4D4", fill_type="solid"),
-        blue=PatternFill(start_color="38BDF8", end_color="38BDF8", fill_type="solid"),
-        pink=PatternFill(start_color="F472B6", end_color="F472B6", fill_type="solid"),
+        red=PatternFill(start_color="fd0d00", end_color="fd0d00", fill_type="solid"),
+        green=PatternFill(start_color="10a870", end_color="10a870", fill_type="solid"),
+        violet=PatternFill(start_color="10a870", end_color="10a870", fill_type="solid"),
+        kaki=PatternFill(start_color="ddd9c3", end_color="ddd9c3", fill_type="solid"),
+        teal=PatternFill(start_color="12b050", end_color="12b050", fill_type="solid"),
+        blue=PatternFill(start_color="548dd4", end_color="548dd4", fill_type="solid"),
+        pink=PatternFill(start_color="d99594", end_color="d99594", fill_type="solid"),
         emerald=PatternFill(
-            start_color="A7F3D0", end_color="A7F3D0", fill_type="solid"
+            start_color="10a870", end_color="10a870", fill_type="solid"
         ),
-        yellow=PatternFill(start_color="FBBF24", end_color="FBBF24", fill_type="solid"),
+        yellow=PatternFill(start_color="fffd03", end_color="fffd03", fill_type="solid"),
     )
     border = dict(
         top=Border(top=Side(border_style="thin", color="000000")),
@@ -446,6 +475,7 @@ async def generate_xlsx(
                 None,
                 None,
                 None,
+                None,
                 "Características de Construcción",
                 None,
                 None,
@@ -464,8 +494,8 @@ async def generate_xlsx(
                 None,
                 None,
                 None,
-                None,
                 "Vigencia",
+                None,
                 None,
                 None,
                 "Elaboró",
@@ -592,7 +622,11 @@ async def generate_xlsx(
         ]
         cell.font = text["bold"]["black"]
         cell.border = border["full"]
-        for r in d["records"]:
+        for i in range(1, 53):
+            current_cell = mercado_sheet.cell(row=mercado_sheet.max_row, column=i)
+            current_cell.border = border["full"]
+            # current_cell.font = text["normal"]["black"]
+        for i, r in enumerate(d["records"]):
             if r.get("imagen_1") is not None:
                 r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
             else:
@@ -608,7 +642,9 @@ async def generate_xlsx(
 
             date = parse(r.get("fecha_captura"))
             r["fecha_captura"] = as_complete_date(r.get("fecha_captura", "hoy"))
-            dias = (datetime.now() - date).days
+            hoy = datetime.now()
+            dias = (hoy - date).days
+            hoy = format_date(hoy, format="d 'de' MMMM 'del' y", locale="es")
             seis_meses = format_date(
                 date + relativedelta(months=6),
                 format="d 'de' MMMM 'del' y",
@@ -621,28 +657,54 @@ async def generate_xlsx(
                 numero_frentes = (
                     f"{numero_frentes} ({num2words(numero_frentes, lang='es').upper()})"
                 )
+            try:
+                tc = r.get("superficie_terreno", 1) / r.get(
+                    "superficie_construccion", 1
+                )
+            except:
+                tc = "NA"
+            try:
+                if r.get("tipo") == "RENTA":
+                    precio_unitario = r.get("valor_renta", 0) / r.get(
+                        "superficie_terreno", 1
+                    )
+                else:
+                    precio_unitario = r.get("valor_total_mercado", 0) / r.get(
+                        "superficie_terreno", 1
+                    )
+            except:
+                precio_unitario = 0
+
+            try:
+                precio_unitario_usd = r.get("vtm_usd", 0) / r.get(
+                    "superficie_terreno", 1
+                )
+            except:
+                precio_unitario_usd = 0
             mercado_sheet.append(
                 [
-                    r.get("id"),
-                    r.get("tipo_inmueble"),
-                    r.get("tipo_operacion"),
-                    r.get("fecha_captura"),
-                    r.get("url_fuente"),
-                    r.get("nombre_anunciante"),
-                    r.get("telefono_anunciante"),
-                    r.get("x_utm"),
-                    r.get("y_utm"),
-                    r.get("estado"),
-                    r.get("municipio"),
-                    r.get("localidad"),
+                    # datos de verificación
+                    index + i + 1,
+                    r.get("tipo_inmueble", "N/A"),
+                    r.get("tipo_operacion", "N/A"),
+                    r.get("fecha_captura", "N/A"),
+                    r.get("url_fuente", "N/A"),
+                    r.get("nombre_anunciante", "N/A"),
+                    r.get("telefono_anunciante", "N/A"),
+                    # ubicación
+                    r.get("x_utm", 0),
+                    r.get("y_utm", 0),
+                    r.get("estado", "GUANAJUATO"),
+                    r.get("municipio", "GUANAJUATO"),
+                    r.get("localidad", "GUANAJUATO"),
                     f"{r.get('tipo_asentamiento')} {r.get('nombre_asentamiento')}",
                     f"{r.get('tipo_vialidad')} {r.get('nombre_vialidad')}",
                     r.get("numero_exterior"),
                     r.get("numero_interior"),
                     r.get("edificio"),
+                    # regimen de propiedad
                     r.get("regimen_propiedad"),
-                    r.get("tipo_zona"),
-                    r.get("regimen_propiedad"),
+                    # caracteristicas del terreno
                     r.get("tipo_zona"),
                     r.get("uso_suelo_observado"),
                     r.get("uso_suelo_oficial"),
@@ -655,6 +717,7 @@ async def generate_xlsx(
                     r.get("longitud_fondo"),
                     r.get("forma"),
                     r.get("topografia"),
+                    # caracteristicas de construccion
                     r.get("superficie_construccion"),
                     r.get("calidad_proyecto"),
                     r.get("estado_conservacion"),
@@ -664,27 +727,20 @@ async def generate_xlsx(
                     r.get("niveles"),
                     r.get("unidades_rentables"),
                     r.get("descripcion_espacios"),
-                    r.get("superficie_terreno", 1)
-                    / (r.get("superficie_construccion", 1.0) or 1),
+                    tc,
+                    # infraestructura
                     check_services(**r),
-                    r.get("descripcion_espacios"),
-                    r.get("valor_total_mercado"),
-                    (
-                        (
-                            r.get("valor_renta", 0)
-                            if r.get("tipo") == "RENTA"
-                            else r.get("valor_total_mercado", 0) or 0
-                        )
-                    )
-                    / (r.get("superficie_terreno", 1) or 1),
-                    r.get("precio_dolar", "-"),
-                    (
-                        r.get("precio_dolar") / r.get("superficie_terreno", 1)
-                        if r.get("precio_dolar")
-                        else "-"
-                    ),
+                    check_desc_services(**r),
+                    # valores
+                    r.get("valor_total_mercado", "$ -"),
+                    precio_unitario,
+                    r.get("vtm_usd"),
+                    precio_unitario_usd,
+                    "$ -",
+                    "$ -",
+                    # vigencia
                     r.get("observaciones"),
-                    r.get("fecha_captura"),
+                    hoy,
                     dias,
                     seis_meses,
                     r.get("usuario"),
@@ -692,9 +748,9 @@ async def generate_xlsx(
             )
             for i in range(1, 53):
                 current_cell = mercado_sheet.cell(row=mercado_sheet.max_row, column=i)
-                current_cell.border = border["full"]
+                # current_cell.border = border["full"]
                 current_cell.font = text["normal"]["black"]
-                current_cell.fill = background["emerald"]
+                # current_cell.fill = background["emerald"]
 
         mercado_sheet.append([])  # Espacio
 
