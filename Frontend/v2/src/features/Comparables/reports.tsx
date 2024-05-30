@@ -50,13 +50,13 @@ function capturePage(url) {
 import { PDFViewer } from "@react-pdf/renderer";
 export const Reports = (props) => (
 	<TabView>
-		<TabPanel header="Mercado">
-			<Mercado {...props} />
-		</TabPanel>
 		<TabPanel header="Cedula de Mercado">
 			<PDFViewer width="100%" height="100%" className="w-full  min-h-screen">
 				<Cedula {...props} />
 			</PDFViewer>
+		</TabPanel>
+		<TabPanel header="Mercado">
+			<Mercado {...props} />
 		</TabPanel>
 	</TabView>
 );
@@ -869,41 +869,51 @@ const Mercado = ({ data }) => (
 				<Table.Head>
 					<Table.HeadCell
 						colSpan={57}
-						className={`${
-							tipo === "TERRENO"
-								? "bg-red-500"
-								: tipo === "RENTA"
-									? "bg-purple-500"
-									: "bg-green-500"
-						} text-white`}
+						style={{
+							backgroundColor:
+								tipo === "TERRENO"
+									? "#fd0d00"
+									: tipo === "RENTA"
+										? "#b2a1c7"
+										: "#10a870",
+						}}
+						className={` text-white`}
 					>
 						{tipo}
 					</Table.HeadCell>
 				</Table.Head>
 				<Table.Head className="text-white text-center">
-					<Table.HeadCell colSpan={7} className="bg-amber-400">
+					<Table.HeadCell colSpan={7} style={{ backgroundColor: "#ddd9c3" }}>
 						Datos de Verificación
 					</Table.HeadCell>
-					<Table.HeadCell colSpan={10} className="bg-fuchsia-400">
+					<Table.HeadCell colSpan={10} style={{ backgroundColor: "#b2a1c7" }}>
 						Ubicación
 					</Table.HeadCell>
 					<Table.HeadCell />
-					<Table.HeadCell colSpan={12} className="bg-yellow-200 text-black">
+					<Table.HeadCell
+						colSpan={12}
+						className=" text-white"
+						style={{ backgroundColor: "#fd0d00" }}
+					>
 						Características de Terreno
 					</Table.HeadCell>
-					<Table.HeadCell colSpan={10} className="bg-red-400">
+					<Table.HeadCell colSpan={10} style={{ backgroundColor: "#12b050" }}>
 						Características de Construcción
 					</Table.HeadCell>
-					<Table.HeadCell colSpan={2} className="bg-teal-400">
+					<Table.HeadCell colSpan={2} style={{ backgroundColor: "#ddd9c3" }}>
 						Infraestructura
 					</Table.HeadCell>
-					<Table.HeadCell colSpan={6} className="bg-orange-200 text-black">
+					<Table.HeadCell
+						colSpan={6}
+						className=" text-white"
+						style={{ backgroundColor: "#548dd4" }}
+					>
 						Valores
 					</Table.HeadCell>
-					<Table.HeadCell colSpan={4} className="bg-indigo-400">
+					<Table.HeadCell colSpan={4} style={{ backgroundColor: "#d99594" }}>
 						Vigencia
 					</Table.HeadCell>
-					<Table.HeadCell colSpan={2} className="bg-pink-400" rowSpan={2}>
+					<Table.HeadCell colSpan={2} rowSpan={2}>
 						Elaboró
 					</Table.HeadCell>
 				</Table.Head>

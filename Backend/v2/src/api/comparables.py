@@ -451,7 +451,7 @@ async def generate_xlsx(
     background = dict(
         red=PatternFill(start_color="fd0d00", end_color="fd0d00", fill_type="solid"),
         green=PatternFill(start_color="10a870", end_color="10a870", fill_type="solid"),
-        violet=PatternFill(start_color="10a870", end_color="10a870", fill_type="solid"),
+        violet=PatternFill(start_color="b2a1c7", end_color="b2a1c7", fill_type="solid"),
         kaki=PatternFill(start_color="ddd9c3", end_color="ddd9c3", fill_type="solid"),
         teal=PatternFill(start_color="12b050", end_color="12b050", fill_type="solid"),
         blue=PatternFill(start_color="548dd4", end_color="548dd4", fill_type="solid"),
