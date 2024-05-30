@@ -14,7 +14,7 @@ import Input from "@components/Input";
 import Select from "@components/Input/select";
 import { Toggle } from "@components/Toggle";
 const initialState = (id_cedula_mercado: number) => ({
-	tipo: "TERRENO",
+	tipo: "Terreno",
 	id_cedula_mercado,
 	id_comparable_catcom: "",
 });
@@ -37,9 +37,17 @@ export default function Create() {
 	if (isErrorPost) return <Error message={errorPost?.data} />;
 	if (isLoadingPost) return <Spinner size={20} />;
 	return (
-		<div className="overflow-auto mx-3">
+		<div
+			className={` ${username ? "w-full min-h-screen bg-white dark:bg-black antialiased tracking-tight px-3" : "px-5"} `}
+		>
 			<div className="flex flex-row py-2">
-				<NavLink to={-1}>
+				<NavLink
+					to={
+						username
+							? `/modules/comparables/${username}/cedulas/${cedula_mercado}`
+							: `/comparables/cedulas/${cedula_mercado}`
+					}
+				>
 					<Button pill color="light">
 						Regresar
 					</Button>
@@ -54,6 +62,7 @@ export default function Create() {
 						<Table.Cell>
 							<Select
 								name="tipo"
+								defaultValue={data.tipo}
 								onClick={(tipo: string) => setData({ ...data, tipo })}
 								options={[
 									{ value: "TERRENO", label: "Terreno" },
@@ -80,7 +89,7 @@ export default function Create() {
 						</Table.Cell>
 					</Table.Row>
 
-					<Table.Row>
+					{/* <Table.Row>
 						<Table.Cell>
 							<strong>Preview</strong>
 						</Table.Cell>
@@ -96,121 +105,7 @@ export default function Create() {
 								</figcaption>
 							</figure>
 						</Table.Cell>
-					</Table.Row>
-
-					{/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-						<Table.Cell colSpan={2}>
-							<Toggle
-								size="sm"
-								variant="primary"
-								checked={enableProperties}
-								onChange={() => setEnableProperties(!enableProperties)}
-							>
-								Propiedades del documento
-							</Toggle>
-						</Table.Cell>
 					</Table.Row> */}
-					{/* {enableProperties && (
-						<>
-							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-								<Table.Cell>
-									<strong>Zoom</strong>
-								</Table.Cell>
-								<Table.Cell>
-									<Input
-										name="zoom"
-										type="number"
-										variant="outline"
-										min={0}
-										max={100}
-										step={1}
-										size="lg"
-										value={data.zoom * 100}
-										onChange={({ target }) =>
-											setData({ ...data, zoom: target.value / 100 })
-										}
-									/>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row>
-								<Table.Cell colSpan={2} className="text-center">
-									<strong>Margenes</strong>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-								<Table.Cell>
-									<strong>Izquierdo</strong>
-								</Table.Cell>
-								<Table.Cell>
-									<Input
-										name="left"
-										type="number"
-										variant="outline"
-										min={0}
-										max={20}
-										step={1}
-										size="lg"
-										value={data.margins.left}
-										onChange={handleMargins}
-									/>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-								<Table.Cell>
-									<strong>Superior</strong>
-								</Table.Cell>
-								<Table.Cell>
-									<Input
-										name="top"
-										type="number"
-										variant="outline"
-										min={0}
-										max={20}
-										step={1}
-										size="lg"
-										value={data.margins.top}
-										onChange={handleMargins}
-									/>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-								<Table.Cell>
-									<strong>Derecho</strong>
-								</Table.Cell>
-								<Table.Cell>
-									<Input
-										name="right"
-										type="number"
-										variant="outline"
-										min={0}
-										max={20}
-										step={1}
-										size="lg"
-										value={data.margins.right}
-										onChange={handleMargins}
-									/>
-								</Table.Cell>
-							</Table.Row>
-							<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-								<Table.Cell>
-									<strong>Inferior</strong>
-								</Table.Cell>
-								<Table.Cell>
-									<Input
-										name="bottom"
-										type="number"
-										variant="outline"
-										min={0}
-										max={20}
-										step={1}
-										size="lg"
-										value={data.margins.bottom}
-										onChange={handleMargins}
-									/>
-								</Table.Cell>
-							</Table.Row>
-						</>
-					)} */}
 				</Table.Body>
 			</Table>
 			<div className="flex flex-row-reverse py-2">

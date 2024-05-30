@@ -47,7 +47,6 @@ class Usuarios(Template):
             return False
 
         password, *_ = self.db.query(func.valuaciones.public.sha1(password)).one()
-        print(password)
         return self.current.contrasenia == password
 
     def encode(self, username: Optional[str] = None) -> Optional[str]:

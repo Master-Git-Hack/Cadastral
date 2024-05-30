@@ -216,7 +216,7 @@ async def get_comparable_key_by_id(
         )
 
     data = comp.to_dict()
-    image_keys = {"imagen_1", "imagen_2", "captura_pantalla"}
+    image_keys = {"imagen_1", "imagen_2", "imagen_3", "captura_pantalla"}
     if key in image_keys:
         return {"data": data.get(key)}
         # url_base = "http://172.31.113.151/comparables/imagenes"
@@ -750,6 +750,10 @@ async def generate_xlsx(
                 r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
             else:
                 r["imagen_2"] = ""
+            if r.get("imagen_3") is not None:
+                r["imagen_3"] = f"{url_base}/{r['imagen_3']}"
+            else:
+                r["imagen_2"] = ""
             if r.get("captura_pantalla") is not None:
                 r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
             else:
@@ -936,7 +940,8 @@ async def generate_xlsx(
     return __response.send_file(filename=filename, path=path, delete=True)
 
 
-def create_file(data): ...
+def create_file(data):
+    ...
 
 
 from openpyxl import Workbook

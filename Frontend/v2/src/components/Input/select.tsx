@@ -14,6 +14,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 			size,
 			rounded,
 			options,
+			defaultValue,
 			id = uuidv4(),
 			onClick,
 			...props
@@ -56,7 +57,9 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 							</span>
 							<span className="border-r-2 mx-2 shadow-inner" />
 							<Tooltip content={currentTooltip}>
-								<span className="text-center font-semibold">{selected}</span>
+								<span className="text-center font-semibold">
+									{selected || defaultValue}
+								</span>
 							</Tooltip>
 						</div>
 
