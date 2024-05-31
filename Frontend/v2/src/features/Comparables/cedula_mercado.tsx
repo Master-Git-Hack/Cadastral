@@ -96,7 +96,7 @@ export default function Comparables() {
 
 					<NavLink to={"crear"}>
 						<Button pill color="light">
-							Crear Nuevo Comparable
+							Adjuntar Comparable
 						</Button>
 					</NavLink>
 				</div>

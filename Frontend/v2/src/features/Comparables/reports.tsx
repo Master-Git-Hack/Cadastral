@@ -212,6 +212,31 @@ const checkServices = ({
 		return "Tiene Algunos";
 	}
 };
+const checkDescServices = (kwargs) => {
+	const servicios = [
+		["agua", "Red de Agua Potable"],
+		["drenaje", "Red de Drenaje"],
+		["energia_electrica", "Red de Energía Eléctrica"],
+		["alumbrado_publico", "Alumbrado Público, Voz y Datos"],
+		["pavimento", "Pavimento"],
+		["banqueta", "Banquetas"],
+	];
+
+	let response = "";
+	let current = false;
+
+	servicios.forEach(([key, value], index) => {
+		if (index > 0 && index < servicios.length - 1 && current) {
+			response += ", ";
+		}
+		current = kwargs[key] || false;
+		if (current) {
+			response += value;
+		}
+	});
+
+	return response;
+};
 const Columns = ({
 	text,
 	value,
@@ -879,7 +904,7 @@ const Mercado = ({ data }) => (
 						{tipo}
 					</Table.HeadCell>
 				</Table.Head>
-				<Table.Head className="text-white text-center">
+				<Table.Head className="text-white text-center ">
 					<Table.HeadCell colSpan={7} style={{ backgroundColor: "#ddd9c3" }}>
 						Datos de Verificación
 					</Table.HeadCell>
@@ -910,16 +935,13 @@ const Mercado = ({ data }) => (
 					<Table.HeadCell colSpan={4} style={{ backgroundColor: "#d99594" }}>
 						Vigencia
 					</Table.HeadCell>
-					<Table.HeadCell colSpan={2} rowSpan={2}>
-						Elaboró
-					</Table.HeadCell>
 				</Table.Head>
-				<Table.Head>
+				<Table.Head className="text-center">
 					<Table.HeadCell>Folio</Table.HeadCell>
 					<Table.HeadCell>Tipo de Inmueble</Table.HeadCell>
 					<Table.HeadCell>Tipo de Operación</Table.HeadCell>
 					<Table.HeadCell>Fecha de Captura</Table.HeadCell>
-					<Table.HeadCell>URL Fuente</Table.HeadCell>
+					<Table.HeadCell className="text-center">URL Fuente</Table.HeadCell>
 					<Table.HeadCell>Informante</Table.HeadCell>
 					<Table.HeadCell>Teléfono de Informante</Table.HeadCell>
 					<Table.HeadCell>Coordenada UTM X</Table.HeadCell>
@@ -969,6 +991,9 @@ const Mercado = ({ data }) => (
 					<Table.HeadCell>Hoy</Table.HeadCell>
 					<Table.HeadCell>Días</Table.HeadCell>
 					<Table.HeadCell>Caduca en 6 meses Fecha</Table.HeadCell>
+					<Table.HeadCell rowSpan={3} className="text-black 	">
+						Elaboró
+					</Table.HeadCell>
 				</Table.Head>
 				<Table.Body>
 					{records?.map(
@@ -1034,7 +1059,7 @@ const Mercado = ({ data }) => (
 							recordIndex,
 						) => (
 							<Table.Row key={`Record ${tipo} ${index} ${recordIndex} ${id}`}>
-								<Table.Cell>{id}</Table.Cell>
+								<Table.Cell>{index + recordIndex + 1}</Table.Cell>
 								<Table.Cell>{tipo_inmueble}</Table.Cell>
 								<Table.Cell>{tipo_operacion}</Table.Cell>
 								<Table.Cell>{fecha_captura}</Table.Cell>
@@ -1065,8 +1090,6 @@ const Mercado = ({ data }) => (
 								<Table.Cell>{edificio}</Table.Cell>
 								<Table.Cell>{regimen_propiedad}</Table.Cell>
 								<Table.Cell>{tipo_zona}</Table.Cell>
-								<Table.Cell>{regimen_propiedad}</Table.Cell>
-								<Table.Cell>{tipo_zona}</Table.Cell>
 								<Table.Cell>{uso_suelo_observado}</Table.Cell>
 								<Table.Cell>{uso_suelo_oficial}</Table.Cell>
 								<Table.Cell>{entrecalles}</Table.Cell>
@@ -1094,51 +1117,45 @@ const Mercado = ({ data }) => (
 									{superficie_terreno / superficie_construccion}
 								</Table.Cell>
 								<Table.Cell>
-									{agua &&
-										drenaje &&
-										energia_electrica &&
-										alumbrado_publico &&
-										banqueta &&
-										pavimento &&
-										telefonia &&
-										"Si Tiene Completos"}
-									{!agua &&
-									!drenaje &&
-									!energia_electrica &&
-									!alumbrado_publico &&
-									!banqueta &&
-									pavimento &&
-									!telefonia
-										? "No Tiene"
-										: "Tiene Algunos"}
+									{checkServices({
+										agua,
+										drenaje,
+										energia_electrica,
+										alumbrado_publico,
+										banqueta,
+										pavimento,
+										telefonia,
+									})}
 								</Table.Cell>
 								<Table.Cell>
-									{agua && "Red de Agua Potable, "}
-									{drenaje && "Red de Drenaje, "}
-									{energia_electrica && "Red de Energía Eléctrica, "}
-									{alumbrado_publico && "Alumbrado Público, Voz y Datos."}
-									{pavimento && "Pavimento, "}
-									{banqueta && "Banquetas"}
+									{checkDescServices({
+										agua,
+										drenaje,
+										energia_electrica,
+										alumbrado_publico,
+										banqueta,
+										pavimento,
+										telefonia,
+									})}
 								</Table.Cell>
 								<Table.Cell>{valor_total_mercado}</Table.Cell>
+								<Table.Cell>{valor_total_mercado / superficie_terreno}</Table.Cell>
+								<Table.Cell>{vtm_usd ? vtm_usd : "-"}</Table.Cell>
 								<Table.Cell>
-									{(tipo === "RENTA" ? valor_renta : valor_total_mercado) /
-										superficie_terreno}
+									{vtm_usd ? vtm_usd / superficie_terreno : "-"}
 								</Table.Cell>
-								<Table.Cell>{precio_dolar ? precio_dolar : "-"}</Table.Cell>
-								<Table.Cell>
-									{precio_dolar ? precio_dolar / superficie_terreno : "-"}
-								</Table.Cell>
+								<Table.Cell>$ -</Table.Cell>
+								<Table.Cell>$ -</Table.Cell>
 								<Table.Cell>{observaciones}</Table.Cell>
-								<Table.Cell>{fecha_captura}</Table.Cell>
+								<Table.Cell>{moment().format("DD [de] MMM [del] YYYY")}</Table.Cell>
 								<Table.Cell>
 									{moment().diff(
-										moment("21 de May del 2024", "DD [de] MMM [del] YYYY"),
+										moment(fecha_captura, "DD [de] MMM [del] YYYY"),
 										"days",
 									)}
 								</Table.Cell>
 								<Table.Cell>
-									{moment("21 de May del 2024", "DD [de] MMM [del] YYYY")
+									{moment(fecha_captura, "DD [de] MMM [del] YYYY")
 										.clone()
 										.add(6, "months")
 										.format("DD [de] MMM [del] YYYY")
