@@ -23,7 +23,7 @@ class Model(database.BASE):
     captura_pantalla = Column(String)
     imagen_1 = Column(String)
     imagen_2 = Column(String)
-    imagen3 = Column(String)
+    imagen_3 = Column(String)
     url_fuente = Column(String)
     nombre_anunciante = Column(String)
     telefono_anunciante = Column(String)

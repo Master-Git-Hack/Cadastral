@@ -22,7 +22,7 @@ from ..models.cedula_mercado import CedulaMercado
 
 # from ..middlewares.auth import required
 from ..models.comparables_catcom import ComparablesCatCom
-from ..utils.local import as_complete_date
+from ..utils.local import as_complete_date, as_currency
 
 __response = __Middlewares.Responses()
 ua_comparables = APIRouter(
@@ -732,12 +732,12 @@ async def generate_xlsx(
                     check_services(**r),
                     check_desc_services(**r),
                     # valores
-                    r.get("valor_total_mercado", "$ -"),
-                    precio_unitario,
-                    r.get("vtm_usd"),
-                    precio_unitario_usd,
-                    "$ -",
-                    "$ -",
+                    as_currency(r.get("valor_total_mercado", 0), "$ -"),
+                    as_currency(precio_unitario, "$ -"),
+                    as_currency(r.get("vtm_usd", 0), "$ -"),
+                    as_currency(precio_unitario_usd, "$ -"),
+                    as_currency(0, "$ -"),
+                    as_currency(0, "$ -"),
                     # vigencia
                     r.get("observaciones"),
                     hoy,

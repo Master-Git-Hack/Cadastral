@@ -21,10 +21,9 @@ from ..middlewares import Middlewares as __Middlewares
 from ..middlewares.auth import required
 from ..models.cedula_comparables import CedulaComparables
 from ..models.cedula_mercado import CedulaMercado
-
 # from ..middlewares.auth import required
 from ..models.comparables_catcom import ComparablesCatCom
-from ..utils.local import as_complete_date
+from ..utils.local import as_complete_date, as_currency
 
 __response = __Middlewares.Responses()
 comparables = APIRouter(
@@ -375,7 +374,7 @@ def check_desc_services(**kwargs):
     response = ""
     current = False
     for index, (key, value) in enumerate(servicios):
-        if index > 0 and index < len(servicios) - 1 and current:
+        if index > 0 and current:
             response += ", "
         current = kwargs.get(key, False)
         if current:
@@ -851,12 +850,12 @@ async def generate_xlsx(
                     check_services(**r),
                     check_desc_services(**r),
                     # valores
-                    r.get("valor_total_mercado", "$ -"),
-                    precio_unitario,
-                    r.get("vtm_usd"),
-                    precio_unitario_usd,
-                    "$ -",
-                    "$ -",
+                    as_currency(r.get("valor_total_mercado", 0),"$ -"),
+                    as_currency(precio_unitario,"$ -"),
+                    as_currency(r.get("vtm_usd", 0),"$ -"),
+                    as_currency(precio_unitario_usd,"$ -"),
+                    as_currency(0,"$ -"),
+                    as_currency(0,"$ -"),
                     # vigencia
                     r.get("observaciones"),
                     hoy,
@@ -940,8 +939,7 @@ async def generate_xlsx(
     return __response.send_file(filename=filename, path=path, delete=True)
 
 
-def create_file(data):
-    ...
+def create_file(data): ...
 
 
 from openpyxl import Workbook

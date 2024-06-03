@@ -52,7 +52,7 @@ def as_percentage(value: float = 0) -> str:
         return ""
 
 
-def as_currency(value: float = 0) -> str:
+def as_currency(value: float = 0, default: str = "") -> str:
     """
     Return a string with the value in the format $dd.dd
     Args:
@@ -62,7 +62,7 @@ def as_currency(value: float = 0) -> str:
     """
     value = value or 0
     if value == 0:
-        return ""
+        return default
     try:
         return format_currency(
             float(value),
