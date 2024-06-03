@@ -2,8 +2,12 @@ import path from "path"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import million from "million/compiler";
+import pluginRewriteAll from '@evg3/vite-plugin-rewrite-all';
+
+
+
 export default defineConfig({
-  plugins: [million.vite({ auto: true }), react()],
+  plugins: [pluginRewriteAll(),million.vite({ auto: true }), react()],
   base: "/",
 
   preview: {

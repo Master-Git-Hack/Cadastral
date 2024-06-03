@@ -60,6 +60,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@evg3/vite-plugin-rewrite-all": "^1.0.3",
     "@types/node": "^20.4.5",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

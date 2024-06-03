@@ -389,6 +389,13 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.0.tgz#a5417ae8427873f1dd08b70b3574b453e67b5f7f"
   integrity sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==
 
+"@evg3/vite-plugin-rewrite-all@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@evg3/vite-plugin-rewrite-all/-/vite-plugin-rewrite-all-1.0.3.tgz#d35596754f7296051b9ac57ca132b1faa7eb0396"
+  integrity sha512-8fX0+uKL5yiuLoCxDqPFlzU9kQClwkHpiClpxiJZA4gwO6YkvPumJOvE7trO89y49LwZRLCDCqh9HcUSR72TxQ==
+  dependencies:
+    connect-history-api-fallback "^1.6.0"
+
 "@floating-ui/core@1.6.0", "@floating-ui/core@^1.0.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.6.0.tgz#fa41b87812a16bf123122bf945946bae3fdf7fc1"
@@ -1753,6 +1760,11 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
+
+connect-history-api-fallback@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/connect-history-api-fallback/-/connect-history-api-fallback-1.6.0.tgz#8b32089359308d111115d81cad3fceab888f97bc"
+  integrity sha512-e54B99q/OUoH64zYYRf3HBP5z24G38h5D3qXu23JGRoigpX5Ss4r9ZnDk3g0Z8uQC2x2lPaJ+UlWBc1ZWBWdLg==
 
 convert-source-map@^2.0.0:
   version "2.0.0"

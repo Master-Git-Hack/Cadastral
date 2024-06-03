@@ -334,7 +334,7 @@ const SimpleRow = ({
 		/>
 	</View>
 );
-const ImageRow = ({ imageLeft, textLeft, imageRight, textRight, useCrop }) => (
+const ImageRow = ({ imageLeft, textLeft, imageRight, textRight, useCrop = false }) => (
 	<>
 		<View style={styles.row}>
 			<Image src={`${baseUrl}/comparables/image/${imageLeft}/0`} style={styles.image} />
@@ -421,7 +421,7 @@ const Cedula = ({ data }) => (
 							vtm_usd = 1,
 							tipo,
 							registro,
-							imagen3,
+							imagen_3,
 						},
 						idx: number,
 					) => (
@@ -454,9 +454,9 @@ const Cedula = ({ data }) => (
 							<View style={{ ...styles.row, height: "0.2cm" }}></View>
 							<ImageRow
 								imageLeft={imagen_1}
-								textLeft={`Comparable ${idx + 1}`}
-								useCrop={!imagen3}
-								imageRight={imagen3 ?? imagen_2}
+								textLeft="Frente / Fachada"
+								useCrop={!imagen_2}
+								imageRight={imagen_2 ?? imagen_3}
 								textRight="Microlocalización"
 							/>
 
@@ -876,9 +876,9 @@ const Cedula = ({ data }) => (
 							<View style={{ ...styles.row, height: "0.2cm" }} />
 							<ImageRow
 								imageLeft={captura_pantalla}
-								textLeft="Recorte De Pantalla"
-								imageRight={imagen_2}
-								textRight="2do. Recorte de Pantalla, Uso de Suelo o Macrolocalización"
+								textLeft="Recorte de Pantalla"
+								imageRight={imagen_3}
+								textRight="Macrolocalización"
 							/>
 						</View>
 					),

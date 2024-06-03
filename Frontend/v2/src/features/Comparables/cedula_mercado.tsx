@@ -63,7 +63,7 @@ export default function Comparables() {
 			className={`overflow-auto ${username ? "w-full min-h-screen bg-white dark:bg-black antialiased tracking-tight" : ""}`}
 		>
 			<div className="flex flex-row justify-between my-3 mx-2">
-				<NavLink to={username ? `/modules/comparables/${username}` : `/comparables`}>
+				<NavLink to={username ? `/modules/comparables/${username}/` : `/comparables`}>
 					<Button pill color="light">
 						Atras
 					</Button>
