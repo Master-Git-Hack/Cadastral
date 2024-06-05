@@ -21,6 +21,7 @@ from ..middlewares import Middlewares as __Middlewares
 from ..middlewares.auth import required
 from ..models.cedula_comparables import CedulaComparables
 from ..models.cedula_mercado import CedulaMercado
+
 # from ..middlewares.auth import required
 from ..models.comparables_catcom import ComparablesCatCom
 from ..utils.local import as_complete_date, as_currency
@@ -264,7 +265,7 @@ async def create_comparable(
         return __response.error(message="Ya existe el comparable", status_code=404)
     if (
         comp.create(
-            tipo=tipo,
+            tipo=tipo.upper(),
             id_cedula_mercado=cedula_mercado,
             id_comparable_catcom=comparable,
             **data,
@@ -415,10 +416,10 @@ async def generate_xlsx(
         data = [c for c in cedulas if c.get("id") in data["ids"]]
     except Exception as e:
         pass
-    data = [
-        {"tipo": tipo, "records": [c for c in cedulas if c.get("tipo") == tipo]}
-        for tipo in set(c.get("tipo") for c in cedulas)
-    ]
+
+    terreno = [c for c in cedulas if c.get("tipo").upper() == "TERRENO"]
+    venta = [c for c in cedulas if c.get("tipo").upper() == "VENTA"]
+    renta = [c for c in cedulas if c.get("tipo").upper() == "RENTA"]
     # Crear un nuevo libro de trabajo de Excel
     workbook = Workbook()
     mercado_sheet = workbook.active
@@ -483,11 +484,25 @@ async def generate_xlsx(
 
     url_base = "http://172.31.113.151/comparables/imagenes"
     usd = 0
-    for index, d in enumerate(data):  # replace test for data
+    for index, tipo in enumerate(
+        [
+            "TERRENO",
+            "VENTA",
+            "RENTA",
+        ]
+    ):
+        if tipo == "TERRENO":
+            d = terreno
+        elif tipo == "VENTA":
+            d = venta
+        else:
+            d = renta
+        if len(d) == 0:
+            continue
         cell = None
         mercado_sheet.append(
             [
-                d.get("tipo"),
+                tipo,
                 None,
                 None,
                 None,
@@ -552,9 +567,9 @@ async def generate_xlsx(
             mercado_sheet.cell(row=mercado_sheet.max_row, column=1).coordinate
         ]
         cell.font = text["header"]["white"]  # Establecer negrita
-        if d.get("tipo") == "VENTA":
+        if tipo == "VENTA":
             cell.fill = background["green"]  # Establecer color de fondo
-        elif d.get("tipo") == "RENTA":
+        elif tipo == "RENTA":
             cell.fill = background["violet"]  # Establecer color de fondo
         else:
             cell.fill = background["red"]  # Establecer color de fondo
@@ -740,7 +755,7 @@ async def generate_xlsx(
             current_cell = mercado_sheet.cell(row=mercado_sheet.max_row, column=i)
             current_cell.border = border["full"]
 
-        for i, r in enumerate(d["records"]):
+        for i, r in enumerate(d):
             if r.get("imagen_1") is not None:
                 r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
             else:
@@ -850,12 +865,12 @@ async def generate_xlsx(
                     check_services(**r),
                     check_desc_services(**r),
                     # valores
-                    as_currency(r.get("valor_total_mercado", 0),"$ -"),
-                    as_currency(precio_unitario,"$ -"),
-                    as_currency(r.get("vtm_usd", 0),"$ -"),
-                    as_currency(precio_unitario_usd,"$ -"),
-                    as_currency(0,"$ -"),
-                    as_currency(0,"$ -"),
+                    as_currency(r.get("valor_total_mercado", 0), "$ -"),
+                    as_currency(precio_unitario, "$ -"),
+                    as_currency(r.get("vtm_usd", 0), "$ -"),
+                    as_currency(precio_unitario_usd, "$ -"),
+                    as_currency(0, "$ -"),
+                    as_currency(0, "$ -"),
                     # vigencia
                     r.get("observaciones"),
                     hoy,
@@ -939,7 +954,8 @@ async def generate_xlsx(
     return __response.send_file(filename=filename, path=path, delete=True)
 
 
-def create_file(data): ...
+def create_file(data):
+    ...
 
 
 from openpyxl import Workbook

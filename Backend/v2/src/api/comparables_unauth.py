@@ -357,10 +357,10 @@ async def generate_xlsx(
         data = [c for c in cedulas if c.get("id") in data["ids"]]
     except Exception as e:
         pass
-    data = [
-        {"tipo": tipo, "records": [c for c in cedulas if c.get("tipo") == tipo]}
-        for tipo in set(c.get("tipo") for c in cedulas)
-    ]
+
+    terreno = [c for c in cedulas if c.get("tipo").upper() == "TERRENO"]
+    venta = [c for c in cedulas if c.get("tipo").upper() == "VENTA"]
+    renta = [c for c in cedulas if c.get("tipo").upper() == "RENTA"]
     # Crear un nuevo libro de trabajo de Excel
     workbook = Workbook()
     mercado_sheet = workbook.active
@@ -392,7 +392,7 @@ async def generate_xlsx(
     background = dict(
         red=PatternFill(start_color="fd0d00", end_color="fd0d00", fill_type="solid"),
         green=PatternFill(start_color="10a870", end_color="10a870", fill_type="solid"),
-        violet=PatternFill(start_color="10a870", end_color="10a870", fill_type="solid"),
+        violet=PatternFill(start_color="b2a1c7", end_color="b2a1c7", fill_type="solid"),
         kaki=PatternFill(start_color="ddd9c3", end_color="ddd9c3", fill_type="solid"),
         teal=PatternFill(start_color="12b050", end_color="12b050", fill_type="solid"),
         blue=PatternFill(start_color="548dd4", end_color="548dd4", fill_type="solid"),
@@ -424,23 +424,93 @@ async def generate_xlsx(
     )
 
     url_base = "http://172.31.113.151/comparables/imagenes"
-
-    for index, d in enumerate(data):  # replace test for data
+    usd = 0
+    for index, tipo in enumerate(
+        [
+            "TERRENO",
+            "VENTA",
+            "RENTA",
+        ]
+    ):
+        if tipo == "TERRENO":
+            d = terreno
+        elif tipo == "VENTA":
+            d = venta
+        else:
+            d = renta
+        if len(d) == 0:
+            continue
         cell = None
-        mercado_sheet.append([d.get("tipo")])
+        mercado_sheet.append(
+            [
+                tipo,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                "$ DLLS",
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+            ]
+        )
         mercado_sheet.merge_cells(
             start_row=mercado_sheet.max_row,
             start_column=1,
             end_row=mercado_sheet.max_row,
-            end_column=53,
+            end_column=4,
         )  # Fusionar celdas
         cell = mercado_sheet[
             mercado_sheet.cell(row=mercado_sheet.max_row, column=1).coordinate
         ]
         cell.font = text["header"]["white"]  # Establecer negrita
-        if d.get("tipo") == "VENTA":
+        if tipo == "VENTA":
             cell.fill = background["green"]  # Establecer color de fondo
-        elif d.get("tipo") == "RENTA":
+        elif tipo == "RENTA":
             cell.fill = background["violet"]  # Establecer color de fondo
         else:
             cell.fill = background["red"]  # Establecer color de fondo
@@ -625,14 +695,18 @@ async def generate_xlsx(
         for i in range(1, 53):
             current_cell = mercado_sheet.cell(row=mercado_sheet.max_row, column=i)
             current_cell.border = border["full"]
-            # current_cell.font = text["normal"]["black"]
-        for i, r in enumerate(d["records"]):
+
+        for i, r in enumerate(d):
             if r.get("imagen_1") is not None:
                 r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
             else:
                 r["imagen_1"] = ""
             if r.get("imagen_2") is not None:
                 r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
+            else:
+                r["imagen_2"] = ""
+            if r.get("imagen_3") is not None:
+                r["imagen_3"] = f"{url_base}/{r['imagen_3']}"
             else:
                 r["imagen_2"] = ""
             if r.get("captura_pantalla") is not None:
