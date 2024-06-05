@@ -1,8 +1,10 @@
+from typing import Optional
+
 from dateparser import parse
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
-from .. import database, logger
+from .. import DBS, database, logger
 from ..controllers.metadatos import ReporteMetadatos as __ReporteMetadatos
 from ..middlewares import Middlewares as __Middlewares
 from ..middlewares.auth import required
@@ -18,9 +20,62 @@ metadatos = APIRouter(
 )
 
 
+@metadatos.get("/resources")
+async def get_resources(
+    user=Depends(required),
+    db_name: Optional[DBS] = None,
+    schema_name: Optional[str] = None,
+    table_name: Optional[str] = None,
+):
+    if isinstance(user, dict):
+        return __response.error(**user)
+    data = database.group_by_db(db=db_name, schema=schema_name, table=table_name)
+    if db_name is None:
+        data = {
+            db: schemas
+            for db, schemas in data.items()
+            if db
+            in {
+                "municipios",
+                "pcm",
+                "plan_ordenamiento_territorial",
+                "valores_municipales",
+            }
+        }
+    return __response.success(
+        data=[
+            {
+                "key": db,
+                "label": db.replace("_", " ").title(),
+                "data": f"{db.capitalize()} Database",
+                "icon": "pi pi-fw pi-database",
+                "children": [
+                    {
+                        "key": f"{db}.{schema}",
+                        "label": schema.replace("_", " ").title(),
+                        "data": f"{schema.capitalize()} Schema",
+                        "icon": "pi pi-fw pi-sitemap",
+                        "children": [
+                            {
+                                "key": f"{db}.{schema}.{table}",
+                                "label": table.replace("_", " ").title(),
+                                "data": f"{table.capitalize()} Table",
+                                "icon": "pi pi-fw pi-table",
+                            }
+                            for table in tables
+                        ],
+                    }
+                    for schema, tables in schemas.items()
+                ],
+            }
+            for db, schemas in data.items()
+        ]
+    )
+
+
 @metadatos.get("/complete")
 async def get_all_metadatos(
-    user=Depends(required), db: Session = Depends(database.catastro_v2)
+    user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -41,7 +96,7 @@ async def get_all_metadatos(
 
 @metadatos.get("/preview")
 async def get_all_metadatos_preview(
-    user=Depends(required), db: Session = Depends(database.catastro_v2)
+    user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -69,7 +124,7 @@ async def get_all_metadatos_preview(
 
 @metadatos.get("/temporal")
 async def get_all_temporal_metadatos(
-    user=Depends(required), db: Session = Depends(database.catastro_v2)
+    user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -86,7 +141,7 @@ async def get_all_temporal_metadatos(
 
 @metadatos.get("/{uid}")
 async def get_id(
-    uid: str, user=Depends(required), db: Session = Depends(database.catastro_v2)
+    uid: str, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -106,7 +161,7 @@ async def get_id(
 
 @metadatos.get("/temporal/{uid}")
 async def get_temporal_id(
-    uid: str, user=Depends(required), db: Session = Depends(database.catastro_v2)
+    uid: str, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -128,7 +183,7 @@ async def get_temporal_id(
 async def create(
     request: Request,
     user=Depends(required),
-    db: Session = Depends(database.catastro_v2),
+    db: Session = Depends(database.CATASTRO_V2),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -165,7 +220,7 @@ async def patch_id(
     id: int,
     request: Request,
     user=Depends(required),
-    db: Session = Depends(database.catastro_v2),
+    db: Session = Depends(database.CATASTRO_V2),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -200,7 +255,7 @@ async def patch_id(
 async def post_temporal_metadatos(
     request: Request,
     user=Depends(required),
-    db: Session = Depends(database.catastro_v2),
+    db: Session = Depends(database.CATASTRO_V2),
 ):
     data = await request.json()
     meta = __TMP(db=db)
@@ -219,7 +274,7 @@ async def patch_temporal_metadatos(
     uid: str,
     request: Request,
     user=Depends(required),
-    db: Session = Depends(database.catastro_v2),
+    db: Session = Depends(database.CATASTRO_V2),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -243,7 +298,7 @@ async def patch_temporal_metadatos(
 def get_file(
     uid: str,
     user=Depends(required),
-    db: Session = Depends(database.catastro_v2),
+    db: Session = Depends(database.CATASTRO_V2),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -261,7 +316,7 @@ def get_file(
 async def delete_temporal_metadatos(
     uid: str,
     user=Depends(required),
-    db: Session = Depends(database.catastro_v2),
+    db: Session = Depends(database.CATASTRO_V2),
 ):
     if isinstance(user, dict):
         return __response.error(**user)

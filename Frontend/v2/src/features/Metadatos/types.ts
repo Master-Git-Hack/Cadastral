@@ -2,19 +2,20 @@
 import { findBestMatch } from "string-similarity";
 import { HTMLAtrributes, MouseEventHandler } from "react";
 export const template = {
+	db_name:"",
 	table_name: "",
 	schema_name: "",
 	title: "",
 	purpose: "",
 	abstract: "",
-	md_dataidentification_language: "",
+	md_dataidentification_language: "ES-Español",
 	topiccategory: "",
 	groupcategory: "",
 	keyword: "",
 	presentationform: "",
-	ci_onlineresource_linkage: "",
+	ci_onlineresource_linkage: "postgresql://user:password@server///",
 	maintenanceandupdatefrequency: "",
-	md_dataidentification_characterset: "",
+	md_dataidentification_characterset: "4. Utf8. Formato de Transferencia UCS de tamaño variable de 8-bit, basado en ISO/IEC 10646",
 	specuse: "",
 	datestamp: "",
 	datetype: "",
@@ -29,7 +30,7 @@ export const template = {
 	eastboundlongitude: 0,
 	southboundlatitude: 0,
 	northboundlatitude: 0,
-	spatialrepresentationtype: "",
+	spatialrepresentationtype: "1. Vector. Los datos vectoriales se utilizan para representar datos espaciales",
 	latres: 0,
 	longres: 0,
 	geogunit: "",
@@ -99,7 +100,7 @@ export const template = {
 	maximum_optimal_scale: 0,
 	publication_date: "",
 	publication_frequency: "",
-	utm_zone: 0,
+	utm_zone: 14,
 	license: "",
 	confidentiality: "",
 	feature_count: 0,
@@ -114,6 +115,7 @@ export const template = {
 };
 
 export const translateTags = {
+	db_name:"Nombre de la Base de Datos",
 	table_name: "Nombre de la Tabla",
 	schema_name: "Nombre del Esquema",
 	title: "Título",
@@ -222,6 +224,7 @@ export const translateTags = {
 	metadata_xml: "Metadatos XML",
 };
 export const typesTags = {
+	db_name:"text",
 	table_name: "text",
 	schema_name: "text",
 	title: "text",

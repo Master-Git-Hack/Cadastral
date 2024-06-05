@@ -46,7 +46,7 @@ export const SchemasApi = createApi({
 		// }),
 		getCatastro: query<unknown, null>({
 			query: () => ({
-				url: `db-info/schemas/valuaciones`,
+				url: `metadatos/resources`,
 				method: "GET",
 			}),
 		}),

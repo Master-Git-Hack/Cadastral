@@ -18,7 +18,7 @@ checklist = APIRouter(
 
 
 @checklist.get("/all")
-async def get_all(user=Depends(required), db: Session = Depends(database.valuaciones)):
+async def get_all(user=Depends(required), db: Session = Depends(database.VALUACIONES)):
     if isinstance(user, dict):
         return __response.error(**user)
     try:
@@ -33,7 +33,7 @@ async def get_all(user=Depends(required), db: Session = Depends(database.valuaci
 
 @checklist.get("/{id}}")
 async def get_id(
-    id: int, user=Depends(required), db: Session = Depends(database.valuaciones)
+    id: int, user=Depends(required), db: Session = Depends(database.VALUACIONES)
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -52,7 +52,7 @@ async def patch_id(
     id: int,
     request: Request,
     user=Depends(required),
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -73,7 +73,7 @@ async def patch_id(
 async def create(
     request: Request,
     user=Depends(required),
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -90,7 +90,7 @@ async def create(
 
 @checklist.get("/revisiones/all")
 async def get_all_revisiones(
-    user=Depends(required), db: Session = Depends(database.valuaciones)
+    user=Depends(required), db: Session = Depends(database.VALUACIONES)
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -121,7 +121,7 @@ async def get_all_revisiones(
 
 @checklist.get("/revisiones/{id}")
 async def get_revision_id(
-    user=Depends(required), db: Session = Depends(database.valuaciones)
+    user=Depends(required), db: Session = Depends(database.VALUACIONES)
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -151,7 +151,7 @@ async def get_revision_id(
 async def create_revision(
     request: Request,
     user=Depends(required),
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
 ):
     if isinstance(user, dict):
         return __response.error(**user)
@@ -171,7 +171,7 @@ async def patch_revision_id(
     id: int,
     request: Request,
     user=Depends(required),
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
 ):
     if isinstance(user, dict):
         return __response.error(**user)

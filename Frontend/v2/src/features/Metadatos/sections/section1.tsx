@@ -1,11 +1,23 @@
 /** @format */
-
+import { useState, useEffect } from "react";
 import { Table } from "flowbite-react";
 import Input from "@components/Input";
 import { Dropdown } from "primereact/dropdown";
 import catalogo from "../catologos/index";
-
+import { MultiSelect } from "primereact/multiselect";
 export const Section1 = ({ data, setData, editable = true }: any) => {
+	useEffect(() => {
+		if (
+			(data.db_name &&
+				data.schema_name &&
+				data.table_name !== data.ci_onlineresource_linkage) ||
+			data.ci_onlineresource_linkage === ""
+		)
+			setData((prev) => ({
+				...prev,
+				ci_onlineresource_linkage: `postgresql://user:password@server/${data.db_name}/${data.schema_name}/${data.table_name}`,
+			}));
+	}, [data.db_name, data.schema_name, data.table]);
 	const handleInputChange = ({ currentTarget }) =>
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
 	const handleSelectChange = ({
@@ -22,6 +34,43 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 		(item) => item.code === data.md_dataidentification_language,
 	);
 
+	const handleMultiSelect = (e) => {
+		const { name } = e.target;
+		const items = e.value.filter((item) => {
+			return item.code && item.label !== "undefined" && item.description !== "undefined";
+		});
+		setData({
+			...data,
+			[name]:
+				items.length === 1
+					? `${items[0].code}. ${items[0].label}. ${items[0].description}`
+					: items
+							.map((item) => `${item.code}. ${item.label}. ${item.description}`)
+							.join(" | "),
+		});
+	};
+	const findMultiSelect = (name: string) => {
+		const input = String(data[name] ?? "");
+		const result = input
+			.split(" | ")
+			.map((item) => {
+				const [code, label, description] = item.split(". ").map((text, index) => {
+					if (index === 0 && text.trim()) {
+						return text.trim();
+					} else if (index !== 0 && text.trim() !== "undefined") {
+						return text.trim();
+					}
+					return null;
+				});
+
+				if (code && label !== "undefined" && description !== "undefined") {
+					return { code, label, description };
+				}
+				return null;
+			})
+			.filter((item) => item !== null);
+		return result;
+	};
 	return (
 		<>
 			<Table.Head>
@@ -160,21 +209,15 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 						Tema principal del conjunto de datos espaciales o producto
 					</Table.Cell>
 					<Table.Cell colSpan={9}>
-						<Dropdown
+						<MultiSelect
 							name="topiccategory"
 							options={catalogo.topiccategory}
-							value={findSelectValue("topiccategory")}
-							onChange={handleSelectChange}
+							value={findMultiSelect("topiccategory")}
+							onChange={handleMultiSelect}
 							placeholder="Seleccione una Categoria"
-							className="w-full md:w-14rem"
 							disabled={!editable}
+							className="w-full md:w-14rem"
 						/>
-						<span className="underline me-1">Descripción:</span>
-						<small className="font-xs">
-							{catalogo.topiccategory[findSelectValue("topiccategory")?.code - 1 ?? 0]
-								?.description ??
-								"Seleccione una opción para ver su descripción correspondiente"}
-						</small>
 					</Table.Cell>
 				</Table.Row>
 
@@ -243,22 +286,16 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 						Forma de presentación de los datos espaciales
 					</Table.Cell>
 					<Table.Cell colSpan={9}>
-						<Dropdown
+						<MultiSelect
 							name="presentationform"
 							options={catalogo.presentationform}
-							value={findSelectValue("presentationform")}
-							onChange={handleSelectChange}
-							placeholder="Seleccione una Forma de Presentación"
-							className="w-full md:w-14rem"
+							value={findMultiSelect("presentationform")}
+							onChange={handleMultiSelect}
+							placeholder="Seleccione una Categoria"
 							disabled={!editable}
+							className="w-full md:w-14rem"
+							selectionLimit={2}
 						/>
-						<span className="underline me-1">Descripción:</span>
-						<small className="font-xs">
-							{catalogo.presentationform[
-								findSelectValue("presentationform")?.code - 1 ?? 0
-							]?.description ??
-								"Seleccione una opción para ver su descripción correspondiente"}
-						</small>
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -292,7 +329,9 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 							size="lg"
 							placeholder="http://www.inegi.org.mx, ftp://inegi.org.mx/mapa.jpg"
 							value={data.ci_onlineresource_linkage}
-							onChange={handleInputChange}
+							onChange={(e) => {
+								setData({ ...data, ci_onlineresource_linkage: e.target.value });
+							}}
 							disabled={!editable}
 						/>
 					</Table.Cell>

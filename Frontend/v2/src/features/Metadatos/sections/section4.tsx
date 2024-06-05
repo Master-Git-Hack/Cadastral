@@ -74,8 +74,9 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 							onValueChange={handleInputChange}
 							name="westboundlongitude"
 							className="w-full md:w-14rem "
-							maxFractionDigits={2}
+							maxFractionDigits={7}
 							min={-180}
+							step={0.0000001}
 							max={180}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
@@ -109,7 +110,8 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 							onValueChange={handleInputChange}
 							name="eastboundlongitude"
 							className="w-full md:w-14rem "
-							maxFractionDigits={2}
+							maxFractionDigits={7}
+							step={0.0000001}
 							min={-180}
 							max={180}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -147,10 +149,11 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 								data.northboundlatitude < data.southboundlatitude &&
 								"border border-red-500"
 							}`}
-							maxFractionDigits={2}
+							maxFractionDigits={7}
+							step={0.0000001}
 							min={-90}
 							max={90}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border bordermercator_sfecenter"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -187,7 +190,8 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 								data.northboundlatitude < data.southboundlatitude &&
 								"border border-red-500"
 							}`}
-							maxFractionDigits={2}
+							maxFractionDigits={7}
+							step={0.0000001}
 							min={-90}
 							max={90}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"

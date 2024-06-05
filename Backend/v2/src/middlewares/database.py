@@ -1,3 +1,4 @@
+from itertools import groupby
 from typing import Any, Dict, List, Optional, Tuple
 from warnings import catch_warnings, simplefilter
 
@@ -11,7 +12,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 from sqlalchemy.schema import MetaData
 
-from .. import config, logger
+from .. import DBS, config, logger
 from ..utils.geom_schema import GeometryField
 
 
@@ -21,35 +22,55 @@ class InstanceDB:
     ENGINES = {}
     SESSIONS = {}
 
+    def dynamic_database(self, schema: Optional[str]):
+        """Método dinámico para obtener la sesión de la base de datos."""
+
+        def dynamic():
+            if schema not in self.ENGINES.keys():
+                raise ValueError(f"Database '{schema}' not found.")
+            engine = self.ENGINES[schema]
+            session = Session(engine)
+            self.SESSIONS[schema] = session
+            try:
+                yield session
+            finally:
+                session.close()
+
+        return dynamic
+
     def __new__(cls):
         cls.BASE = declarative_base()
-        names = config.SECRETS.get("DB_NAMES", [])
-        cls.URIS = {name: f"{config.PSQL_URI}/{name}" for name in names}
-        cls.ENGINES = {name: create_engine(cls.URIS[name]) for name in names}
+
+        cls.URIS = {db.name: f"{config.PSQL_URI}/{db.value}" for db in DBS}
+        cls.ENGINES = {db.name: create_engine(cls.URIS[db.name]) for db in DBS}
         cls.SESSIONS = {
-            name: sessionmaker(
-                autocommit=False, autoflush=False, bind=cls.ENGINES[name]
+            db.name: sessionmaker(
+                autocommit=False, autoflush=False, bind=cls.ENGINES[db.name]
             )
-            for name in names
+            for db in DBS
         }
         return super().__new__(cls)
 
-    def get_db(self, db_name: str = "catastro_v2") -> Session:
-        __current = self.SESSIONS[db_name]()
+    def __init__(self):
+
+        for db in DBS:
+            setattr(
+                self,
+                db.name,
+                self.dynamic_database(db.name),
+            )
+
+    def get_db(self, db: DBS = DBS.CATASTRO_V2) -> Session:
+        __current = self.SESSIONS[db.name]()
         try:
             return __current
         finally:
             __current.close()
 
-    def valuaciones(
-        self,
-    ) -> Session:
-        __current = self.SESSIONS["valuaciones"]()
-        try:
-            yield __current
-        finally:
-            __current.close()
+    def get_all_dbs(self):
+        return [db.value for db in DBS]
 
+<<<<<<< HEAD
     def catastro_v2(
         self,
     ) -> Session:
@@ -83,18 +104,148 @@ class InstanceDB:
 
     def get_all_schemas(self, db_name: str = "valuaciones") -> list:
         engine = self.ENGINES[db_name]
+=======
+    def get_all_schemas(self, db: DBS = DBS.CATASTRO_V2) -> list:
+        engine = self.ENGINES[db.name]
+>>>>>>> a92f6a54d (updated)
         with engine.connect() as connection:
             sql = "SELECT schema_name FROM information_schema.schemata;"
             result = connection.execute(text(sql))
             return [row[0] for row in result.fetchall()]
 
-    def inspect_me(self, db_name: str, schema: str = "valuaciones"):
+    def get_all_tables(self, db: DBS = DBS.CATASTRO_V2, schema: str = "public"):
+        engine = self.ENGINES[db.name]
+        with engine.connect() as connection:
+            sql = f"SELECT table_name FROM information_schema.tables WHERE table_schema = '{schema}';"
+            result = connection.execute(text(sql))
+            return [row[0] for row in result.fetchall()]
+
+    def group_by_db(
+        self,
+        db: Optional[DBS] = None,
+        schema: Optional[str] = None,
+        table: Optional[str] = None,
+    ):
+        db_list = [db] if db else DBS
+        data = {}
+        for db in db_list:
+            engine = self.ENGINES[db.name]
+            with engine.connect() as connection:
+                query = """
+                    SELECT table_schema, table_name
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE'
+                """
+                if schema:
+                    query += " AND table_schema = :schema_name"
+                if table:
+                    query += " AND table_name = :table_name"
+                query += " ORDER BY table_schema, table_name;"
+                result = connection.execute(
+                    text(query), {"schema_name": schema, "table_name": table}
+                ).fetchall()
+                data[db.value] = {
+                    schema: [table for _, table in tables]
+                    for schema, tables in groupby(result, lambda x: x[0])
+                }
+        return data
+
+    def inspect_me(self, db: DBS, schema: str = "valuaciones"):
         with catch_warnings():
             simplefilter("ignore", category=SAWarning)
-            engine = self.ENGINES[db_name]
+            engine = self.ENGINES[db.name]
             meta = MetaData()
             meta.reflect(bind=engine, schema=schema)
         return meta.tables.keys()
+
+
+# class InstanceDB:
+#     BASE = None
+#     URIS = {}
+#     ENGINES = {}
+#     SESSIONS = {}
+
+#     def __new__(cls):
+#         cls.BASE = declarative_base()
+#         names = config.SECRETS.get("DB_NAMES", [])
+#         cls.URIS = {name: f"{config.PSQL_URI}/{name}" for name in names}
+#         cls.ENGINES = {name: create_engine(cls.URIS[name]) for name in names}
+#         cls.SESSIONS = {
+#             name: sessionmaker(
+#                 autocommit=False, autoflush=False, bind=cls.ENGINES[name]
+#             )
+#             for name in names
+#         }
+#         return super().__new__(cls)
+
+#     def get_db(self, db_name: str = "catastro_v2") -> Session:
+#         __current = self.SESSIONS[db_name]()
+#         try:
+#             return __current
+#         finally:
+#             __current.close()
+
+#     def valuaciones(
+#         self,
+#     ) -> Session:
+#         __current = self.SESSIONS["valuaciones"]()
+#         try:
+#             yield __current
+#         finally:
+#             __current.close()
+
+#     def catastro_v2(
+#         self,
+#     ) -> Session:
+#         __current = self.SESSIONS["catastro_v2"]()
+#         try:
+#             yield __current
+#         finally:
+#             __current.close()
+
+#     def fotogrametria(self) -> Session:
+#         __current = self.SESSIONS["fotogrametria"]()
+#         try:
+#             yield __current
+#         finally:
+#             __current.close()
+
+#     def execute_query(self, db_name: str, query: str):
+#         engine = self.ENGINES.get(db_name)
+#         if engine:
+#             with engine.connect() as connection:
+#                 result = connection.execute(text(query))
+#                 return result.fetchall()
+#         else:
+#             raise ValueError(f"Database '{db_name}' not found.")
+
+#     def inspect_all_schemas(self, db_name: str = "valuaciones"):
+#         return [
+#             {
+#                 "label": schema,
+#                 "code": code,
+#                 "items": [
+#                     {"label": table.replace(f"{schema}.", ""), "parent": schema}
+#                     for table in self.inspect_me(db_name=db_name, schema=schema)
+#                 ],
+#             }
+#             for code, schema in enumerate(self.get_all_schemas(db_name))
+#         ]
+
+#     def get_all_schemas(self, db_name: str = "valuaciones") -> list:
+#         engine = self.ENGINES[db_name]
+#         with engine.connect() as connection:
+#             sql = "SELECT schema_name FROM information_schema.schemata;"
+#             result = connection.execute(text(sql))
+#             return [row[0] for row in result.fetchall()]
+
+#     def inspect_me(self, db_name: str, schema: str = "valuaciones"):
+#         with catch_warnings():
+#             simplefilter("ignore", category=SAWarning)
+#             engine = self.ENGINES[db_name]
+#             meta = MetaData()
+#             meta.reflect(bind=engine, schema=schema)
+#         return meta.tables.keys()
 
 
 def create_schema(

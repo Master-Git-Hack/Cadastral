@@ -16,7 +16,7 @@ from .config import Config
 
 
 config = Config()
-
+DBS = config.SECRETS["DBS"]
 from .middlewares import Middlewares
 
 Instance = Middlewares.Database.Instance

@@ -13,6 +13,7 @@ load_dotenv()
 _root_path = environ.get("ROOT_PATH", abspath(dirname(__file__)))
 
 SECRET_KEY: str = environ.get("SECRET_KEY", uuid4())
+from enum import Enum
 
 
 class __Base(object):
@@ -51,7 +52,17 @@ class __Base(object):
 
     SECRETS: Dict = dict(
         HOST=environ.get("HOST", "http://localhost:3000"),
+<<<<<<< HEAD
         DB_NAMES=environ.get("DB_NAMES", "valuaciones,catastro_v2").split(","),
+=======
+        DB_NAMES=(
+            db_items := environ.get(
+                "DB_NAMES",
+                "valuaciones,catastro_v2,fotogrametria,valores_municipales,municipios,pcm,plan_ordenamiento_territorial",
+            ).split(",")
+        ),
+        DBS=Enum("DBS", {db.upper(): db for db in db_items}),
+>>>>>>> a92f6a54d (updated)
     )
 
     class Settings(BaseModel):

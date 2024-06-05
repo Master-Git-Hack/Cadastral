@@ -21,6 +21,7 @@ from ..middlewares import Middlewares as __Middlewares
 from ..middlewares.auth import required
 from ..models.cedula_comparables import CedulaComparables
 from ..models.cedula_mercado import CedulaMercado
+
 # from ..middlewares.auth import required
 from ..models.comparables_catcom import ComparablesCatCom
 from ..utils.local import as_complete_date, as_currency
@@ -36,7 +37,7 @@ comparables = APIRouter(
 
 @comparables.get("/cedulas")
 async def get_cedulas(
-    db: Session = Depends(database.valuaciones), user=Depends(required)
+    db: Session = Depends(database.VALUACIONES), user=Depends(required)
 ):
     """
     Get cedulas
@@ -58,7 +59,7 @@ async def get_cedulas(
 
 @comparables.get("/cedula/{id}")
 async def get_cedula_by_id(
-    id: int, db: Session = Depends(database.valuaciones), user=Depends(required)
+    id: int, db: Session = Depends(database.VALUACIONES), user=Depends(required)
 ):
     """
     Get cedula by id
@@ -76,7 +77,7 @@ async def get_cedula_reporte_by_id(
     id: int,
     request: Request,
     as_report: str = "mercado",
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -97,7 +98,7 @@ async def get_cedula_reporte_by_id(
 @comparables.post("/cedula/{registro}")
 async def create_cedula(
     registro: str,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -115,7 +116,7 @@ async def create_cedula(
 async def update_cedula(
     id: int,
     request: Request,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -139,7 +140,7 @@ async def update_cedula(
 @comparables.delete("/cedula/{id}")
 async def delete_cedula(
     id: int,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -163,7 +164,7 @@ async def delete_cedula(
 @comparables.get("/{cedula_mercado}")
 async def get_comparables(
     cedula_mercado: int,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -182,7 +183,7 @@ async def get_comparables(
 @comparables.get("/comparable/{id}")
 async def get_comparable_by_id(
     id: int,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -202,7 +203,7 @@ async def get_comparable_by_id(
 async def get_comparable_key_by_id(
     id: int,
     key: str,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
 ):
     """
     Get comparable by id
@@ -245,7 +246,7 @@ async def create_comparable(
     tipo: str,
     comparable: int,
     request: Request,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -264,7 +265,7 @@ async def create_comparable(
         return __response.error(message="Ya existe el comparable", status_code=404)
     if (
         comp.create(
-            tipo=tipo,
+            tipo=tipo.upper(),
             id_cedula_mercado=cedula_mercado,
             id_comparable_catcom=comparable,
             **data,
@@ -279,7 +280,7 @@ async def create_comparable(
 async def update_comparable(
     id: int,
     request: Request,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -307,7 +308,7 @@ async def update_comparable(
 @comparables.delete("/comparable/{id}")
 async def delete_comparable(
     id: int,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -386,7 +387,7 @@ def check_desc_services(**kwargs):
 async def generate_xlsx(
     cedula_mercado: int,
     request: Request,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
 ):
     comp = ComparablesCatCom(db)
     cedula = CedulaComparables(db)
@@ -415,10 +416,10 @@ async def generate_xlsx(
         data = [c for c in cedulas if c.get("id") in data["ids"]]
     except Exception as e:
         pass
-    data = [
-        {"tipo": tipo, "records": [c for c in cedulas if c.get("tipo") == tipo]}
-        for tipo in set(c.get("tipo") for c in cedulas)
-    ]
+
+    terreno = [c for c in cedulas if c.get("tipo").upper() == "TERRENO"]
+    venta = [c for c in cedulas if c.get("tipo").upper() == "VENTA"]
+    renta = [c for c in cedulas if c.get("tipo").upper() == "RENTA"]
     # Crear un nuevo libro de trabajo de Excel
     workbook = Workbook()
     mercado_sheet = workbook.active
@@ -483,11 +484,25 @@ async def generate_xlsx(
 
     url_base = "http://172.31.113.151/comparables/imagenes"
     usd = 0
-    for index, d in enumerate(data):  # replace test for data
+    for index, tipo in enumerate(
+        [
+            "TERRENO",
+            "VENTA",
+            "RENTA",
+        ]
+    ):
+        if tipo == "TERRENO":
+            d = terreno
+        elif tipo == "VENTA":
+            d = venta
+        else:
+            d = renta
+        if len(d) == 0:
+            continue
         cell = None
         mercado_sheet.append(
             [
-                d.get("tipo"),
+                tipo,
                 None,
                 None,
                 None,
@@ -552,9 +567,9 @@ async def generate_xlsx(
             mercado_sheet.cell(row=mercado_sheet.max_row, column=1).coordinate
         ]
         cell.font = text["header"]["white"]  # Establecer negrita
-        if d.get("tipo") == "VENTA":
+        if tipo == "VENTA":
             cell.fill = background["green"]  # Establecer color de fondo
-        elif d.get("tipo") == "RENTA":
+        elif tipo == "RENTA":
             cell.fill = background["violet"]  # Establecer color de fondo
         else:
             cell.fill = background["red"]  # Establecer color de fondo
@@ -740,7 +755,7 @@ async def generate_xlsx(
             current_cell = mercado_sheet.cell(row=mercado_sheet.max_row, column=i)
             current_cell.border = border["full"]
 
-        for i, r in enumerate(d["records"]):
+        for i, r in enumerate(d):
             if r.get("imagen_1") is not None:
                 r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
             else:
@@ -850,12 +865,12 @@ async def generate_xlsx(
                     check_services(**r),
                     check_desc_services(**r),
                     # valores
-                    as_currency(r.get("valor_total_mercado", 0),"$ -"),
-                    as_currency(precio_unitario,"$ -"),
-                    as_currency(r.get("vtm_usd", 0),"$ -"),
-                    as_currency(precio_unitario_usd,"$ -"),
-                    as_currency(0,"$ -"),
-                    as_currency(0,"$ -"),
+                    as_currency(r.get("valor_total_mercado", 0), "$ -"),
+                    as_currency(precio_unitario, "$ -"),
+                    as_currency(r.get("vtm_usd", 0), "$ -"),
+                    as_currency(precio_unitario_usd, "$ -"),
+                    as_currency(0, "$ -"),
+                    as_currency(0, "$ -"),
                     # vigencia
                     r.get("observaciones"),
                     hoy,
@@ -971,7 +986,7 @@ async def handle_image_preview(
     comparable: int,
     width: int = 200,
     height: int = 200,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     # user=Depends(required),
 ):
     comp = ComparablesCatCom(db)
@@ -1057,7 +1072,7 @@ async def handle_images(
 async def generate_preview(
     cedula_mercado: int,
     request: Request,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     if isinstance(user, dict):
@@ -1124,7 +1139,7 @@ async def generate_preview(
 
 # @comparables.get("/catatastrales_comerciales")
 # async def get_comparables_catcom(
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1144,7 +1159,7 @@ async def generate_preview(
 # @comparables.get("/catatastral_comercial/{id}")
 # async def get_comparables_catcom_by_id(
 #     id: int,
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1164,7 +1179,7 @@ async def generate_preview(
 # async def get_reporte_catastra_comercial(
 #     request: Request,
 #     cedula_type: str = "mercado",
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1234,7 +1249,7 @@ async def generate_preview(
 
 # @comparables.get("/cedulas/mercado")
 # async def get_cedulas_mercado(
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1251,7 +1266,7 @@ async def generate_preview(
 
 # @comparables.get("/cedulas/comparable")
 # async def get_cedulas_comparable(
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1270,7 +1285,7 @@ async def generate_preview(
 # @comparables.get("/cedula/mercado/{id}")
 # async def get_cedula_mercado_by_id(
 #     id: int,
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1289,7 +1304,7 @@ async def generate_preview(
 # @comparables.get("/cedula/comparable/{id}")
 # async def get_cedula_comparable_by_id(
 #     id: int,
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1306,7 +1321,7 @@ async def generate_preview(
 # @comparables.post("/cedula/mercado")
 # async def create_cedula_mercado(
 #     request: Request,
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1325,7 +1340,7 @@ async def generate_preview(
 # async def update_cedula_mercado(
 #     id: int,
 #     request: Request,
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1345,7 +1360,7 @@ async def generate_preview(
 # @comparables.delete("/cedula/mercado/{id}")
 # async def delete_cedula_mercado(
 #     id: int,
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     """
@@ -1366,7 +1381,7 @@ async def generate_preview(
 #     request: Request,
 #     id: int,
 #     comparable: int,
-#     db: Session = Depends(database.valuaciones),
+#     db: Session = Depends(database.VALUACIONES),
 #     user=Depends(required),
 # ):
 #     if isinstance(user, dict):

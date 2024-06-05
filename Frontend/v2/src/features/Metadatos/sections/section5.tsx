@@ -53,7 +53,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 		spatialrepresentationtype === "TIN";
 	const justNumbers = (value: string) => {
 		if (!value) return 0;
-		return parseFloat(value?.replace(/[^0-9.]/g, ""));
+		return parseFloat(String(value)?.replace(/[^0-9.]/g, ""));
 	};
 	return (
 		<>
@@ -123,8 +123,9 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									className={`w-full md:w-14rem ${
 										data.latres <= 0 && "border border-red-500"
 									}`}
-									maxFractionDigits={2}
-									min={0.01}
+									maxFractionDigits={7}
+									step={0.0000001}
+									min={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -156,8 +157,9 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									className={`w-full md:w-14rem ${
 										data.longres <= 0 && "border border-red-500"
 									}`}
-									maxFractionDigits={2}
-									min={0.01}
+									maxFractionDigits={7}
+									step={0.0000001}
+									min={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -255,7 +257,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="lambertc_stdparll"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
+									maxFractionDigits={7}
+									step={0.0000001}
 									min={-90}
 									max={90}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -287,7 +290,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="lambertc_longcm"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
+									maxFractionDigits={7}
+									step={0.0000001}
 									min={-180}
 									max={180}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -319,7 +323,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="mercatort_latprjo"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
+									maxFractionDigits={7}
+									step={0.0000001}
 									min={-90}
 									max={90}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -351,7 +356,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="mercator_feast"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
+									maxFractionDigits={7}
+									step={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -379,7 +385,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="mercator_fnorth"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
+									maxFractionDigits={7}
+									step={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -422,7 +429,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="mercator_sfec"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
+									maxFractionDigits={7}
+									step={0.0000001}
 									min={-180}
 									max={180}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -452,7 +460,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="mercator_sfec"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
+									maxFractionDigits={7}
+									step={0.0000001}
 									min={-180}
 									max={180}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -493,7 +502,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.utm_zone ?? 0}
+									value={data.utm_zone ?? 14}
 									onValueChange={handleInputChange}
 									name="mercator_sfec"
 									className="w-full md:w-14rem "
@@ -639,8 +648,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="ordres"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
-									min={0.01}
+									maxFractionDigits={7}
+									step={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -668,8 +677,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="ordres"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
-									min={0.01}
+									maxFractionDigits={7}
+									step={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -712,8 +721,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="distance_res"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
-									min={0.01}
+									maxFractionDigits={7}
+									step={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -741,8 +750,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="bearing_res"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
-									min={0.01}
+									maxFractionDigits={7}
+									step={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -949,8 +958,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="semiaxis"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
-									min={0.01}
+									maxFractionDigits={7}
+									step={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -978,7 +987,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									onValueChange={handleInputChange}
 									name="denflat"
 									className="w-full md:w-14rem "
-									maxFractionDigits={2}
+									maxFractionDigits={7}
+									step={0.0000001}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
@@ -1044,8 +1054,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							onValueChange={handleInputChange}
 							name="semiaxis"
 							className="w-full md:w-14rem "
-							maxFractionDigits={2}
-							min={0.01}
+							maxFractionDigits={7}
+							step={0.0000001}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
@@ -1144,8 +1154,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							onValueChange={handleInputChange}
 							name="depthres"
 							className="w-full md:w-14rem "
-							maxFractionDigits={2}
-							min={0.01}
+							maxFractionDigits={7}
+							step={0.0000001}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"

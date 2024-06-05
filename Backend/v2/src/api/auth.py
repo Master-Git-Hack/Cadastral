@@ -41,7 +41,7 @@ security = HTTPBasic()
 
 @auth.get("/sign-in")
 async def sign_in(
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     credentials: HTTPBasicCredentials = Depends(security),
 ):
     # credentials = await request.json()

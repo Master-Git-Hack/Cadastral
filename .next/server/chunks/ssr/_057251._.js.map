@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/components/theme-provider.tsx"],"sourcesContent":["/** @format */\n\n\"use client\";\n\nimport * as React from \"react\";\nimport { ThemeProvider as NextThemesProvider } from \"next-themes\";\nimport { type ThemeProviderProps } from \"next-themes/dist/types\";\n\nexport function ThemeProvider({ children, ...props }: ThemeProviderProps) {\n\treturn <NextThemesProvider {...props}>{children}</NextThemesProvider>;\n}\n"],"names":[],"mappings":"AAAA,YAAY;;;;;;AAEZ;;;AAMO,SAAS,cAAc,EAAE,QAAQ,EAAE,GAAG,OAA2B;IACvE,qBAAO,wPAAC,gJAAA,CAAA,gBAAkB;QAAE,GAAG,KAAK;kBAAG;;;;;;AACxC"}},
+    {"offset": {"line": 24, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

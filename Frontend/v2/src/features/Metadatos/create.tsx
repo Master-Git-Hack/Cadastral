@@ -2,12 +2,13 @@
 import { useState, useEffect, ChangeEventHandler } from "react";
 import { template } from "./types";
 import { IMetadatos } from "@api/Metadatos/types";
-
+import { BreadCrumb } from "primereact/breadcrumb";
 import FileButton from "@components/Button/file";
-
+import { TreeSelect } from "primereact/treeselect";
 import Alert from "@components/Alerts";
 import { jsonToXml } from "@utils/xml";
 import { useXml2jsonMutation, useJson2xmlMutation } from "@api/ParseFile";
+
 import Stepper from "@components/Stepper";
 import { Dropdown } from "primereact/dropdown";
 import { Table, Button } from "flowbite-react";
@@ -137,7 +138,10 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 	const justNumbers = (value: string) => parseFloat(value.replace(/[^0-9.]/g, ""));
 	const handleSelectChange = ({ value }) =>
 		setData({ ...data, table_name: value.label, schema_name: value.parent });
-
+	const handleTreeSelect = ({ value }) => {
+		const [db_name, schema_name, table_name] = value.split(".");
+		setData({ ...data, db_name, table_name, schema_name });
+	};
 	if (isLoadingCreate || isLoadingUpdate || isLoadingCreateTemporal || isLoadingUpdateTemporal)
 		return <Spinner size={20} />;
 	if (isErrorCreate || isErrorUpdate)
@@ -270,23 +274,48 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 							className="whitespace-nowrap dark:text-white"
 						/>
 						<Table.Cell colSpan={2} className="text-black dark:text-white">
-							Nombre de la Tabla de la Base de Datos
+							<p>Selecciona una Tabla</p>
 						</Table.Cell>
 						<Table.Cell colSpan={10}>
-							<Dropdown
-								name="table_name"
-								value={catastro?.data
-									.find(({ label }) => label === data.schema_name)
-									?.items.find(({ label }) => label === data.table_name)}
-								onChange={handleSelectChange}
+							<TreeSelect
+								value={`${data.db_name}.${data.schema_name}.${data.table_name}`}
+								filter
+								onChange={handleTreeSelect}
 								options={catastro?.data}
-								optionLabel="label"
-								optionGroupLabel="label"
-								optionGroupChildren="items"
-								optionGroupTemplate={groupedItemTemplate}
-								className="w-full md:w-14rem"
-								placeholder="Seleccione una Tabla"
-								disabled={!onEdit}
+								className="md:w-20rem w-full"
+								placeholder="Selecciona una Tabla"
+							></TreeSelect>
+							<BreadCrumb
+								className="border-none"
+								model={[
+									{
+										label: data.schema_name
+											.split("_")
+											.map(
+												(word) =>
+													word.charAt(0).toUpperCase() + word.slice(1),
+											)
+											.join(" "),
+										disabled: true,
+									},
+									{
+										label: data.table_name
+											.split("_")
+											.map(
+												(word) =>
+													word.charAt(0).toUpperCase() + word.slice(1),
+											)
+											.join(" "),
+										disabled: true,
+									},
+								]}
+								home={{
+									label: data.db_name
+										.split("_")
+										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+										.join(" "),
+									disabled: true,
+								}}
 							/>
 						</Table.Cell>
 					</Table.Row>

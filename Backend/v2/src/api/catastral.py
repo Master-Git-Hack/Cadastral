@@ -28,7 +28,7 @@ catastrales = APIRouter(
 
 @catastrales.get("/{id}")
 async def get_catastro(
-    id: int, db: Session = Depends(database.valuaciones), user=Depends(required)
+    id: int, db: Session = Depends(database.VALUACIONES), user=Depends(required)
 ):
     """
     Get
@@ -45,7 +45,7 @@ async def get_catastro(
 async def get_catastro_field(
     id: int,
     field: str,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -62,7 +62,7 @@ async def get_catastro_field(
 
 @catastrales.get("/registro/{registro}")
 async def get_by_registro(
-    registro: str, db: Session = Depends(database.valuaciones), user=Depends(required)
+    registro: str, db: Session = Depends(database.VALUACIONES), user=Depends(required)
 ):
     """
     Get
@@ -81,7 +81,7 @@ async def get_collections_old_by_registros(
     collection: str,
     begin: int,
     end: int,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     user=Depends(required),
 ):
     """
@@ -107,7 +107,7 @@ async def get_collections_by_registros(
     collection: str,
     begin: int,
     end: int,
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     # user=Depends(required),
 ):
     """

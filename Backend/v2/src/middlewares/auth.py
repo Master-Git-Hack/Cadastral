@@ -15,7 +15,7 @@ denylist = set()
 
 
 def required(
-    db: Session = Depends(database.valuaciones),
+    db: Session = Depends(database.VALUACIONES),
     authorize: AuthJWT = Depends(),
     _: HTTPBasicCredentials = Depends(bearer),
 ) -> Union[object, dict]:
