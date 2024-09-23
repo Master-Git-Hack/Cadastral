@@ -51,7 +51,9 @@ class __Base(object):
 
     SECRETS: Dict = dict(
         HOST=environ.get("HOST", "http://localhost:3000"),
-        DB_NAMES=environ.get("DB_NAMES", "valuaciones,catastro_v2").split(","),
+        DB_NAMES=environ.get("DB_NAMES", "valuaciones,catastro_v2,fotogrametria").split(
+            ","
+        ),
     )
 
     class Settings(BaseModel):

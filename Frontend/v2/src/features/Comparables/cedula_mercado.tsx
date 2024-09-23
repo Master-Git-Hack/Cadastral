@@ -130,13 +130,13 @@ export default function Comparables() {
 							<Table.Cell className="text-center">
 								<Checkbox
 									checked={ids.includes(id)}
-									onChange={() => {
-										if (ids.includes(id)) {
-											setIDs(ids.filter((_id) => _id !== id));
-										} else {
-											setIDs([...ids, id]);
-										}
-									}}
+									onChange={() =>
+										setIDs(
+											ids.includes(id)
+												? ids.filter((_id) => _id !== id)
+												: [...ids, id],
+										)
+									}
 								/>
 							</Table.Cell>
 							<Table.Cell>
@@ -172,7 +172,7 @@ export default function Comparables() {
 											({ isConfirmed }) =>
 												isConfirmed &&
 												deleteTemporal({ id, username }) &&
-												navigate(0),
+												setTimeout(() => navigate(0), 1000),
 										)
 									}
 								>

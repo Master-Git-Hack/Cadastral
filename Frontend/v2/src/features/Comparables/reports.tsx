@@ -2,11 +2,12 @@
 import { NumerosALetras } from "@utils/number/numero_a_letras";
 import { asFancyNumber } from "@utils/number";
 import { Table } from "flowbite-react";
-import moment from "moment";
+import moment from "moment/moment";
 import { Page, Text, View, Document, StyleSheet, Image, Link } from "@react-pdf/renderer";
 import "./styles.css";
 import html2canvas from "html2canvas-pro";
-
+import "moment/locale/es";
+moment.locale("es");
 const currentEnv = import.meta.env.MODE;
 const devUrl = import.meta.env.VITE_API_URL_DEV;
 const prodUrl = import.meta.env.VITE_API_URL_PROD;
@@ -271,7 +272,7 @@ const Columns = ({
 			<Text
 				style={{
 					...styles[textSize],
-					...styles.title,
+
 					...styles.textRight,
 					...styles.borderLeft,
 				}}
@@ -352,7 +353,7 @@ const ImageRow = ({ imageLeft, textLeft, imageRight, textRight, useCrop = false 
 	</>
 );
 const BaseCedula = ({ data, index, tipo }) => (
-	<Page size="A4" orientation="portrait" style={styles.page} key={`cedula view ${index}`}>
+	<Page size="A4" orientation="portrait" style={styles.page} key={`cedula view ${index}`} wrap>
 		{data?.map(
 			(
 				{
@@ -423,7 +424,7 @@ const BaseCedula = ({ data, index, tipo }) => (
 				},
 				idx: number,
 			) => (
-				<View style={styles.table} key={`${index}-${tipo}-${idx}`}>
+				<View style={styles.table} key={`${index}-${tipo}-${idx}`} wrap={false}>
 					<View style={styles.row}>
 						<Text style={styles.header}>Comparables de {tipo}</Text>
 					</View>
@@ -484,7 +485,11 @@ const BaseCedula = ({ data, index, tipo }) => (
 					</View>
 					<SimpleRow
 						leftText="Fecha de Captura"
-						leftValue={fecha_captura}
+						leftValue={moment(fecha_captura, "DD [de] MMMM [del] YYYY")
+							.clone()
+
+							.format("DD [de] MMMM [del] YYYY")
+							.toString()}
 						rightText="Periferia"
 						rightValue={tipo_zona}
 					/>
@@ -876,6 +881,7 @@ const BaseCedula = ({ data, index, tipo }) => (
 						imageRight={imagen_3}
 						textRight="Macrolocalización"
 					/>
+					<Text break />
 				</View>
 			),
 		)}
@@ -1064,7 +1070,13 @@ const BaseMercado = ({ tipo, index, data }) => (
 						<Table.Cell>{index + recordIndex + 1}</Table.Cell>
 						<Table.Cell>{tipo_inmueble}</Table.Cell>
 						<Table.Cell>{tipo_operacion}</Table.Cell>
-						<Table.Cell>{fecha_captura}</Table.Cell>
+						<Table.Cell>
+							{moment(fecha_captura, "DD [de] MMMM [del] YYYY")
+								.clone()
+
+								.format("DD [de] MMMM [del] YYYY")
+								.toString()}
+						</Table.Cell>
 						<Table.Cell>
 							<a
 								href={url_fuente}
@@ -1145,15 +1157,18 @@ const BaseMercado = ({ tipo, index, data }) => (
 						<Table.Cell>$ -</Table.Cell>
 						<Table.Cell>$ -</Table.Cell>
 						<Table.Cell>{observaciones}</Table.Cell>
-						<Table.Cell>{moment().format("DD [de] MMM [del] YYYY")}</Table.Cell>
+						<Table.Cell>{moment().format("DD [de] MMMM [del] YYYY")}</Table.Cell>
 						<Table.Cell>
-							{moment().diff(moment(fecha_captura, "DD [de] MMM [del] YYYY"), "days")}
+							{moment().diff(
+								moment(fecha_captura, "DD [de] MMMM [del] YYYY"),
+								"days",
+							)}
 						</Table.Cell>
 						<Table.Cell>
-							{moment(fecha_captura, "DD [de] MMM [del] YYYY")
+							{moment(fecha_captura, "DD [de] MMMM [del] YYYY")
 								.clone()
 								.add(6, "months")
-								.format("DD [de] MMM [del] YYYY")
+								.format("DD [de] MMMM [del] YYYY")
 								.toString()}
 						</Table.Cell>
 						<Table.Cell>{usuario}</Table.Cell>

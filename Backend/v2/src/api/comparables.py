@@ -91,7 +91,6 @@ async def get_cedula_reporte_by_id(
     cedula = CedulaMercado(db)
     if cedula.filter(id=id, usuario=user.usuario) is None:
         return __response.error(message="No se encontraron cedulas", status_code=404)
-    print(cedula.current.__dict__)
     return __response.success(data=cedula.to_dict())
 
 
@@ -389,6 +388,13 @@ async def generate_xlsx(
     request: Request,
     db: Session = Depends(database.valuaciones),
 ):
+    try:
+        from backports.zoneinfo import ZoneInfo
+    except ImportError:
+        from zoneinfo import ZoneInfo
+
+    tzInfo = ZoneInfo("America/Mexico_City")
+
     comp = ComparablesCatCom(db)
     cedula = CedulaComparables(db)
     mercado = CedulaMercado(db)
@@ -773,8 +779,12 @@ async def generate_xlsx(
             else:
                 r["captura_pantalla"] = ""
 
-            date = parse(r.get("fecha_captura"))
-            r["fecha_captura"] = as_complete_date(r.get("fecha_captura", "hoy"))
+            date = parse(r.get("fecha_captura", "hoy")).replace(tzinfo=tzInfo)
+            fecha_captura = format_date(
+                date,
+                format="d 'de' MMMM 'del' y",
+                locale="es",
+            )
             hoy = datetime.now()
             dias = (hoy - date).days
             hoy = format_date(hoy, format="d 'de' MMMM 'del' y", locale="es")
@@ -783,6 +793,27 @@ async def generate_xlsx(
                 format="d 'de' MMMM 'del' y",
                 locale="es",
             )
+            months_translation = {
+                "January": "Enero",
+                "February": "Febrero",
+                "March": "Marzo",
+                "April": "Abril",
+                "May": "Mayo",
+                "June": "Junio",
+                "July": "Julio",
+                "August": "Agosto",
+                "September": "Septiembre",
+                "October": "Octubre",
+                "November": "Noviembre",
+                "December": "Diciembre",
+            }
+
+            for english_month, spanish_month in months_translation.items():
+                print(fecha_captura)
+                fecha_captura = fecha_captura.replace(
+                    english_month, spanish_month.lower()
+                )
+                print(fecha_captura)
             numero_frentes = r.get("numero_frentes", 1)
             if not numero_frentes:
                 numero_frentes = "1 (UNO)"
@@ -820,7 +851,7 @@ async def generate_xlsx(
                     index + i + 1,
                     r.get("tipo_inmueble", "N/A"),
                     r.get("tipo_operacion", "N/A"),
-                    r.get("fecha_captura", "N/A"),
+                    fecha_captura,
                     r.get("url_fuente", "N/A"),
                     r.get("nombre_anunciante", "N/A"),
                     r.get("telefono_anunciante", "N/A"),
@@ -886,7 +917,6 @@ async def generate_xlsx(
                 # current_cell.fill = background["emerald"]
 
         mercado_sheet.append([])  # Espacio
-
     mercado_width = {
         "A": 92,
         "B": 183,
@@ -1108,12 +1138,24 @@ async def generate_preview(
         for tipo in set(c.get("tipo") for c in cedulas)
     ]
     # url_base = "http://172.31.113.151/comparables/imagenes"
+    try:
+        from backports.zoneinfo import ZoneInfo
+    except ImportError:
+        from zoneinfo import ZoneInfo
+
+    tzInfo = ZoneInfo("America/Mexico_City")
     for d in data:
         for r in d["records"]:
             # r["imagen_1"] = f"{url_base}/{r['imagen_1']}"
             # r["imagen_2"] = f"{url_base}/{r['imagen_2']}"
             # r["captura_pantalla"] = f"{url_base}/{r['captura_pantalla']}"
-            r["fecha_captura"] = as_complete_date(r["fecha_captura"])
+            date = parse(r.get("fecha_captura", "hoy")).replace(tzinfo=tzInfo)
+
+            r["fecha_captura"] = format_date(
+                date,
+                format="d 'de' MMMM 'del' y",
+                locale="es",
+            )
 
     return __response.success(data=data)
     # data = await request.json()

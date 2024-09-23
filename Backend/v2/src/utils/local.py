@@ -98,7 +98,7 @@ def as_complete_date(date="hoy"):
     """
     if date is None:
         date = "hoy"
-    date = parse(str(date))
+    date = parse(str(date), languages=["es"])
     if date is None:
-        date = parse("hoy")
+        date = parse("hoy", languages=["es"])
     return date.replace(tzinfo=tzInfo).strftime("%d de %B del %Y")

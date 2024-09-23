@@ -59,6 +59,13 @@ class InstanceDB:
         finally:
             __current.close()
 
+    def fotogrametria(self) -> Session:
+        __current = self.SESSIONS["fotogrametria"]()
+        try:
+            yield __current
+        finally:
+            __current.close()
+
     def execute_query(self, db_name: str, query: str):
         engine = self.ENGINES.get(db_name)
         if engine:

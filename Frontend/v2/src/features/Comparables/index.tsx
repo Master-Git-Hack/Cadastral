@@ -8,6 +8,7 @@ import {
 	useGetCedulasQuery,
 	useDeleteCedulaMutation,
 	usePostCedulaMutation,
+	usePatchCedulaMutation,
 } from "@api/Comparables";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
@@ -16,7 +17,7 @@ import Alert from "@components/Alerts";
 export default function Comparables() {
 	const { username } = useParams();
 	const navigate = useNavigate();
-	console.log(username);
+
 	const { data, isLoading, isError, error } = useGetCedulasQuery({ username });
 	const [
 		deleteCedula,
@@ -24,6 +25,7 @@ export default function Comparables() {
 	] = useDeleteCedulaMutation();
 	const [postCedula, { isLoading: isLoadingPost, isError: isErrorPost, error: errorPost }] =
 		usePostCedulaMutation();
+	const [patchCedula] = usePatchCedulaMutation();
 	if (isError || isErrorDeleting || isErrorPost)
 		return <Error message={error?.data || errorDelete?.data || errorPost?.data} />;
 	if (isLoading || isLoadingDelete || isLoadingPost) return <Spinner size={20} />;
@@ -50,7 +52,7 @@ export default function Comparables() {
 									postCedula({ registro: value, username });
 								}
 							})
-							.finally(() => navigate(0))
+							.finally(() => setTimeout(() => navigate(0), 1000))
 					}
 				>
 					Nuevo Registro
@@ -81,6 +83,33 @@ export default function Comparables() {
 								<p className=" text-justify">{registro}</p>
 							</Table.Cell>
 							<Table.Cell className="px-6 py-4 text-right">
+								<button
+									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+									onClick={() =>
+										Alert({
+											titleText: "Modificar registro",
+											input: "text",
+											inputLabel: `Registro:${registro}`,
+											confirmButtonText: "Cambiar en nombre del registro",
+											showCancelButton: true,
+											cancelButtonText: "Cancelar",
+											inputPlaceholder: "registro",
+										})
+											.then(({ isConfirmed, value }) => {
+												if (isConfirmed) {
+													patchCedula({
+														id,
+														data: { registro: value },
+														username,
+													});
+												}
+											})
+											.finally(() => setTimeout(() => navigate(0), 1000))
+									}
+								>
+									Editar
+								</button>
+								<span className="mx-2">/</span>
 								<NavLink
 									className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
 									to={`cedulas/${id}`}
@@ -102,7 +131,7 @@ export default function Comparables() {
 										}).then(({ isConfirmed }) => {
 											if (isConfirmed) {
 												deleteCedula({ id, username });
-												return navigate(0);
+												return setTimeout(() => navigate(0), 1000);
 											}
 										})
 									}
