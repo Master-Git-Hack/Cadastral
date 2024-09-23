@@ -15,5 +15,34 @@
         "Serna",
         "TERRENO",
         "Valdivia"
-    ]
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#ffacdc",
+        "activityBar.background": "#ffacdc",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#4a8000",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "commandCenter.border": "#15202b99",
+        "editorGroup.border": "#ffacdc",
+        "panel.border": "#ffacdc",
+        "sash.hoverBorder": "#ffacdc",
+        "sideBar.border": "#ffacdc",
+        "statusBar.background": "#ff79c6",
+        "statusBar.border": "#ff79c6",
+        "statusBar.debuggingBackground": "#79ffb2",
+        "statusBar.debuggingBorder": "#79ffb2",
+        "statusBar.debuggingForeground": "#15202b",
+        "statusBar.foreground": "#15202b",
+        "statusBarItem.hoverBackground": "#ff46b0",
+        "statusBarItem.remoteBackground": "#ff79c6",
+        "statusBarItem.remoteForeground": "#15202b",
+        "tab.activeBorder": "#ffacdc",
+        "titleBar.activeBackground": "#ff79c6",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.border": "#ff79c6",
+        "titleBar.inactiveBackground": "#ff79c699",
+        "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#ff79c6"
 }

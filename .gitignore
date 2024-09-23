@@ -12,3 +12,4 @@ _front/build*
 _front/public/*
 _front/yarn*
 _front/.env
+node_modules
