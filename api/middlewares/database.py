@@ -6,6 +6,7 @@ from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.exc import SAWarning
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker
+from sqlmodel import Field, Session, SQLModel, create_engine, select
 
 from .. import config
 
@@ -16,15 +17,19 @@ class Instance:
     ENGINES = {}
     SESSIONS = {}
 
-    def dynamic_method(self, db_name: str) -> Session:
-        __Current = self.SESSIONS[db_name]()
+    def dynamic_method(self, schema: str) -> Session:
+        """Método dinámico para obtener la sesión de la base de datos."""
+        if schema not in self.ENGINES.keys():
+            raise ValueError(f"Database '{schema}' not found.")
+        engine = self.ENGINES[schema]
+        session = Session(engine)
         try:
-            yield __Current
+            yield session
         finally:
-            __Current.close()
+            session.close()
 
     def __new__(cls):
-        cls.BASE = declarative_base()
+        cls.BASE = SQLModel.metadata
         names = config.SECRETS.DB_CLIENTS
         cls.URIS = {name: f"{config.SECRETS.DB_URI}/{name}" for name in names}
         cls.ENGINES = {name: create_engine(cls.URIS[name]) for name in names}
@@ -34,28 +39,22 @@ class Instance:
             )
             for name in names
         }
-
         return super().__new__(cls)
 
     def __init__(self) -> None:
         for db_name in self.SESSIONS.keys():
-            setattr(self, db_name, self.dynamic_func.__get__(self))
+            setattr(self, db_name, self.dynamic_method.__get__(self))
 
-    def get_db(self, db_name: str) -> Session:
-        __Current = self.SESSIONS[db_name]()
+    def get_db(self, schema: str) -> Session:
+        """Método para obtener la sesión de la base de datos."""
+        if schema not in self.ENGINES.keys():
+            raise ValueError(f"Database '{schema}' not found.")
+        engine = self.ENGINES[schema]
+        session = Session(engine)
         try:
-            return __Current
+            yield session
         finally:
-            __Current.close()
-
-    def execute_query(self, db_name: str, query: str):
-        engine = self.ENGINES.get(db_name)
-        if engine:
-            with engine.connect() as connection:
-                result = connection.execute(text(query))
-                return result.fetchall()
-        else:
-            raise ValueError(f"Database '{db_name}' not found.")
+            session.close()
 
 
 class Template:

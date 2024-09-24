@@ -10,7 +10,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 from fastapi.security import OAuth2PasswordBearer
-from social_core.backends import facebook
 
 
 class __Base(object):

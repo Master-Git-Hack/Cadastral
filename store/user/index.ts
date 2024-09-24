@@ -13,7 +13,7 @@ const useUser = create((set) => ({
 	username: "",
 	reviewer: null,
 
-	signIn: async (auth: CreateAxiosDefaults["auth"]={username:"",password:""}) => {
+	signIn: async (auth: CreateAxiosDefaults["auth"] = { username: "", password: "" }) => {
 		const { data, headers, ...response } = await api.get("aouth2/sign-in", {
 			headers: { auth },
 		});

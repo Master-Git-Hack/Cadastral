@@ -12,7 +12,7 @@ class Usuario(SQLModel, table=True):
     """Modelo de usuarios utilizando SQLModel"""
 
     __tablename__ = "usuarios"  # No es estrictamente necesario, SQLModel usa el nombre de la clase por defecto
-
+    __table_args__ = {"extend_existing": True}
     id: Optional[int] = Field(default=None, primary_key=True)
     usuario: str = Field(sa_column_kwargs={"unique": True})
     grupo: Optional[int] = Field(default=None)
