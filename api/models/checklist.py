@@ -1,40 +1,38 @@
 from datetime import datetime
-from typing import Any, Dict
+from typing import Optional
 
-from sqlalchemy import JSON, BigInteger, Column, DateTime, Float, ForeignKey, String
+from sqlalchemy import JSON, Float
+from sqlmodel import Field, Session, SQLModel
 
-from .. import config, database
 from ..middlewares.database import Template
 
 
-class Model(database.BASE):
+class Model(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
     __tablename__ = "checklist"
 
-    id = Column(BigInteger, primary_key=True)
-    tipo = Column(String)
-    fecha_creacion = Column(DateTime, default=datetime.utcnow)
-    registro = Column(String)
-    tipo_bien = Column(String)
-    observaciones = Column(String, nullable=True)
-    requerimientos = Column(JSON)
-    total_ponderacion_documental = Column(Float)
-    total_ponderacion_tecnico = Column(Float)
-    resultado_ponderado = Column(Float)
-    valuador = Column(BigInteger, ForeignKey("usuarios.id"))
-
-    def __init__(self, **kwargs: Dict[str, Any]) -> None:
-        for key, value in kwargs.items():
-            if key == "tipo" or key == "tipo_bien":
-                value = value.lower()
-            setattr(self, key, value)
+    id: Optional[int] = Field(
+        default=None, primary_key=True, sa_column_kwargs={"autoincrement": True}
+    )
+    fecha_creacion: datetime = Field(default=None)
+    registro: str = Field(default=None)
+    tipo: str = Field(default=None)
+    tipo_bien: str = Field(default=None)
+    observaciones: str = Field(default=None)
+    requerimientos: dict = Field(default=None, sa_column=JSON)
+    total_ponderacion_documental: float = Field(
+        default=None, sa_column=Float(precision=70)
+    )
+    total_ponderacion_tecnico: float = Field(
+        default=None, sa_column=Float(precision=70)
+    )
+    resultado_ponderado: float = Field(default=None, sa_column=Float(precision=70))
+    valuador: int = Field(
+        default=None,
+        foreign_key="usuarios.id",
+    )
 
 
 class Checklist(Template):
-    def __init__(self, db) -> None:
-        super().__init__(Model, db)
-
-    def __enter__(self):
-        return super().__enter__()
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        return super().__exit__(exc_type, exc_value, traceback)
+    def __init__(self, Session: Session) -> None:
+        super().__init__(Model=Model, Session=Session)

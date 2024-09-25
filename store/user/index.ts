@@ -14,10 +14,12 @@ const useUser = create((set) => ({
 	reviewer: null,
 
 	signIn: async (auth: CreateAxiosDefaults["auth"] = { username: "", password: "" }) => {
-		const { data, headers, ...response } = await api.get("aouth2/sign-in", {
-			headers: { auth },
-		});
-		set({ timeStamp: now(), token: headers.authorization, ...data });
+		const {
+			headers,
+			data: { data },
+		} = await api.post("oauth2/sign-in", auth, true);
+
+		set({ timeStamp: now(), token: headers?.authorization, ...data });
 	},
 }));
 

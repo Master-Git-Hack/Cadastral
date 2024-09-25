@@ -1,12 +1,10 @@
 from typing import Any, Dict, Generator, Iterable, List, Optional, Union
-from warnings import catch_warnings, simplefilter
 
-from fastapi import Depends, FastAPI, HTTPException, status
-from sqlalchemy import create_engine, inspect, text
-from sqlalchemy.exc import SAWarning
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Session, sessionmaker
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from geoalchemy2 import WKBElement
+from geoalchemy2.shape import to_shape
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlmodel import Session, SQLModel, create_engine, select
 
 from .. import config
 
@@ -17,16 +15,20 @@ class Instance:
     ENGINES = {}
     SESSIONS = {}
 
-    def dynamic_method(self, schema: str) -> Session:
+    def dynamic_database(self, schema: Optional[str]):
         """Método dinámico para obtener la sesión de la base de datos."""
-        if schema not in self.ENGINES.keys():
-            raise ValueError(f"Database '{schema}' not found.")
-        engine = self.ENGINES[schema]
-        session = Session(engine)
-        try:
-            yield session
-        finally:
-            session.close()
+
+        def dynamic():
+            if schema not in self.ENGINES.keys():
+                raise ValueError(f"Database '{schema}' not found.")
+            engine = self.ENGINES[schema]
+            session = Session(engine)
+            try:
+                yield session
+            finally:
+                session.close()
+
+        return dynamic
 
     def __new__(cls):
         cls.BASE = SQLModel.metadata
@@ -41,43 +43,36 @@ class Instance:
         }
         return super().__new__(cls)
 
-    def __init__(self) -> None:
-        for db_name in self.SESSIONS.keys():
-            setattr(self, db_name, self.dynamic_method.__get__(self))
+    def __init__(self):
 
-    def get_db(self, schema: str) -> Session:
-        """Método para obtener la sesión de la base de datos."""
-        if schema not in self.ENGINES.keys():
-            raise ValueError(f"Database '{schema}' not found.")
-        engine = self.ENGINES[schema]
-        session = Session(engine)
-        try:
-            yield session
-        finally:
-            session.close()
+        for name in self.SESSIONS.keys():
+            setattr(
+                self,
+                name,
+                self.dynamic_database(name),
+            )
 
 
 class Template:
     Model: object = None
-    Schema = None
     Current: Optional[object] = None
+    QUERY = None
 
     def __init__(
         self,
         Model,
-        Schema,
-        db: Session,
+        Session: Session,
     ) -> None:
         self.Model = Model
-        self.db = db
-        self.Schema = Schema
+        self.QUERY = select(self.Model)
+        self.Session = Session
         self.__check_attr()
 
     def __check_attr(self):
         if self.Model is None:
-            print("----------> Model is not defined:\n")
-            return False
-        return True
+            raise ValueError("Model is not defined.")
+        if self.Session is None:
+            raise ValueError("Session is not defined.")
 
     def __enter__(self):
         if self.__check_attr():
@@ -85,13 +80,12 @@ class Template:
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.Model = None
-        self.Schema = None
         self.Current = None
 
     def __call__(self) -> Any:
         return self.Current
 
-    def get(self, id: int, dict: bool = False, **kwargs) -> Optional[object]:
+    def get(self, id: int, **kwargs) -> Optional[object]:
         """
         Get a record by id
         Args:
@@ -103,17 +97,15 @@ class Template:
         """
         self.__check_attr()
         try:
-            self.Current = self.db.query(self.Model).get(id)
+            with self.Session as session:
+                query = self.QUERY.filter_by(id=id)
+                self.Current = session.exec(query).one_or_none()
         except Exception as e:
             print(f"----------> Unexpected error:\n {str(e)}")
             self.Current = None
-        if dict:
-            return self.dict(**kwargs)
         return self.Current
 
-    def filter(
-        self, dict: bool = False, excludes: Optional[List[str]] = None, **kwargs
-    ) -> Optional[object]:
+    def filter(self, **kwargs) -> Optional[object]:
         """
         Filter records
         Args:
@@ -123,54 +115,30 @@ class Template:
         """
         self.__check_attr()
         try:
-            self.Current = self.db.query(self.Model).filter_by(**kwargs).one_or_none()
+            with self.Session as session:
+                query = self.QUERY.filter_by(**kwargs)
+                self.Current = session.exec(query).one_or_none()
         except Exception as e:
             print(f"----------> Unexpected error:\n {str(e)}")
             self.Current = None
-        if dict:
-            return self.dict(excludes=excludes)
         return self.Current
 
-    def get_first(
-        self, dict: bool = False, excludes: Optional[List[str]] = None, **kwargs
-    ):
+    def get_order_by(self, order_by: str = "asc", **kwargs) -> Optional[object]:
         self.__check_attr()
+        if order_by != "asc":
+            order_by = "desc"
+        orders = {"asc": self.Model.id.asc(), "desc": self.Model.id.desc()}
+        order = orders.get(order_by, self.Model.id.asc())
         try:
-            self.Current = (
-                self.db.query(self.Model)
-                .filter_by(**kwargs)
-                .order_by(self.Model.id.asc())
-                .one_or_none()
-            )
+            with self.Session as session:
+                query = self.QUERY.filter_by(**kwargs).order_by(order)
+                self.Current = session.exec(query).one_or_none()
         except Exception as e:
             print(f"----------> Unexpected error:\n {str(e)}")
             self.Current = None
-        if dict:
-            return self.dict(excludes=excludes)
         return self.Current
 
-    def get_last(
-        self, dict: bool = False, excludes: Optional[List[str]] = None, **kwargs
-    ):
-        self.__check_attr()
-        try:
-            self.Current = (
-                self.db.query(self.Model)
-                .filter_by(**kwargs)
-                .order_by(self.Model.id.desc())
-                .one_or_none()
-            )
-        except Exception as e:
-            print(f"----------> Unexpected error:\n {str(e)}")
-            self.Current = None
-
-        if dict:
-            return self.dict(excludes=excludes)
-        return self.Current
-
-    def filter_group(
-        self, list: bool = False, excludes: Optional[List[str]] = None, **kwargs
-    ) -> Optional[object]:
+    def filter_group(self, **kwargs) -> Optional[object]:
         """
         Filter records
         Args:
@@ -179,25 +147,17 @@ class Template:
             object: The record
         """
         self.__check_attr()
-
-        self.Current = self.db.query(self.Model).filter_by(**kwargs).all()
-
-        if list:
-            return self.list(excludes=excludes)
-        return self.Current
-
-    def filter_raw(self, **kwargs):
-        self.__check_attr()
         try:
-            return self.db.query(self.Model).filter(**kwargs)
+            with self.Session as session:
+                query = self.QUERY.filter_by(**kwargs)
+                self.Current = session.exec(query).all()
         except Exception as e:
             print(f"----------> Unexpected error:\n {str(e)}")
-            return None
+            self.Current = None
+        return self.Current
 
     def all(
         self,
-        list: bool = False,
-        excludes: Optional[List[str]] = None,
     ) -> Optional[object]:
         """
         Get all records
@@ -205,16 +165,15 @@ class Template:
             object: The record
         """
         self.__check_attr()
-
-        self.Current = self.db.query(self.Model).all()
-
-        if list:
-            return self.list(excludes=excludes)
+        try:
+            with self.Session as session:
+                self.Current = session.exec(self.QUERY).all()
+        except Exception as e:
+            print(f"----------> Unexpected error:\n {str(e)}")
+            self.Current = None
         return self.Current
 
-    def create(
-        self, dict: bool = False, excludes: Optional[List[str]] = None, **kwargs
-    ) -> Optional[object]:
+    def create(self, **kwargs) -> Optional[object]:
         """
         Create a record
         Args:
@@ -223,27 +182,21 @@ class Template:
             object: The record
         """
         self.__check_attr()
-
         self.Current = self.Model(**kwargs)
-        try:
-            self.db.add(self.Current)
-            self.db.commit()
-            self.db.refresh(self.Current)
-        except Exception as e:
-            print(f"----------> Unexpected error:\n {str(e)}")
-            self.db.rollback()
-
-            return None
-        else:
-            if dict:
-                return self.dict(excludes=excludes)
-            return self.Current
+        with self.Session as session:
+            try:
+                session.add(self.Current)
+                session.commit()
+                session.refresh(self.Current)
+            except Exception as e:
+                print(f"----------> Unexpected error:\n {str(e)}")
+                session.rollback()
+                self.Current = None
+        return self.Current
 
     def update(
         self,
         id: Optional[int] = None,
-        dict: bool = False,
-        excludes: Optional[List[str]] = None,
         **kwargs,
     ) -> Optional[object]:
         """
@@ -255,25 +208,21 @@ class Template:
             object: The record
         """
         self.__check_attr()
-
         if id is not None:
-            self.Current = self.db.query(self.Model).get(id)
-        for key, value in kwargs.items():
-            setattr(self.Current, key, value)
-        try:
-            self.db.merge(self.Current)
-            self.db.commit()
-            self.db.refresh(self.Current)
-
-        except Exception as e:
-            print(f"----------> Unexpected error:\n {str(e)}")
-            self.db.rollback()
-
+            self.get(id=id)
+        if self.Current is None:
             return None
-        else:
-            if dict:
-                self.dict(excludes=excludes)
-            return self.Current
+        with self.Session as session:
+            try:
+                for key, value in kwargs.items():
+                    setattr(self.Current, key, value)
+                session.commit()
+                session.refresh(self.Current)
+            except Exception as e:
+                print(f"----------> Unexpected error:\n {str(e)}")
+                session.rollback()
+                self.Current = None
+        return self.Current
 
     def delete(self, id: Optional[int] = None) -> None:
         """
@@ -284,20 +233,19 @@ class Template:
             None
         """
         self.__check_attr()
-
         if id is not None:
-            self.Current = self.db.query(self.Model).get(id)
+            self.get(id=id)
         if self.Current is None:
             return None
-        try:
-            self.db.delete(self.Current)
-            self.db.commit()
-            self.Current = None
-            return self.Current
-        except Exception as e:
-            print(f"----------> Unexpected error:\n {str(e)}")
-            self.db.rollback()
-            return self.Current
+        with self.Session as session:
+            try:
+                session.delete(self.Current)
+                session.commit()
+                return None
+            except Exception as e:
+                print(f"----------> Unexpected error:\n {str(e)}")
+                session.rollback()
+        return self.Current
 
     def dict(
         self,
@@ -315,31 +263,34 @@ class Template:
 
         if self.Current is None:
             return {}
-
-        # Filtrar el esquema según incluye/excluye
-        schema = self.__apply_includes_excludes(
-            (
-                self.Schema.from_orm(self.Current)
-                if self.Schema
-                else {
-                    key: value
-                    for key, value in vars(self.Current).items()
-                    if not key.startswith("_")
-                }
-            ),
+        return self.__apply_includes_excludes(
+            self.Current,
             includes,
             excludes,
         )
 
-        return schema.dict() if hasattr(schema, "dict") else schema
+    def __convert_geometry_to_geojson(self, wkb_element):
+        geom = to_shape(wkb_element)  # Convertimos a una geometría Shapely
+        return geom.__geo_interface__
 
     def __apply_includes_excludes(
-        self, schema: Dict, includes: Optional[List[str]], excludes: Optional[List[str]]
+        self, data, includes: Optional[List[str]], excludes: Optional[List[str]]
     ) -> Dict:
+
+        schema = {
+            key: (
+                value
+                if not isinstance(value, WKBElement)
+                else self.__convert_geometry_to_geojson(value)
+            )
+            for key, value in data.__dict__.items()
+            if not key.startswith("_")
+        }
         if excludes:
             # Excluir campos en excludes
-            for key in excludes:
-                schema.pop(key, None)
+            schema = {
+                key: value for key, value in schema.items() if key not in excludes
+            }
         if includes:
             # Solo mantener los campos en includes
             schema = {key: schema.get(key) for key in includes}

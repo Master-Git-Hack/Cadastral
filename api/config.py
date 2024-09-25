@@ -29,7 +29,7 @@ class __Base(object):
         ),
         url_prefix=(url_prefix := f"/api/v{version[0]}"),
     )
-    OAUTH2 = OAuth2PasswordBearer(tokenUrl=f"{url_prefix}/oauth2/sign-in")
+    OAUTH2 = OAuth2PasswordBearer(tokenUrl=f"{url_prefix}/oauth2/token")
     CORS: Dict = dict(
         allow_origins=environ.get("CORS_ORIGIN", "*").split(","),
         allow_credentials=environ.get("CORS_ALLOW_CREDENTIALS", "*").split(","),

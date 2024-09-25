@@ -1,18 +1,10 @@
-from fastapi import Depends, Request
-from fastapi.responses import RedirectResponse
-from fastapi_jwt_auth.exceptions import AuthJWTException
-
-from .. import app, config
+from .. import config
+from ..main import app
+from .oauth import oauth2
+from .catastral import catastral
 
 # from ..middlewares.database import InstanceDB
 
 
-@app.get("/")
-@app.get("/api")
-def redirect_root_to_docs():
-    return RedirectResponse(url="/docs", status_code=303)
-
-
-# from .auth import auth
-
-# app.include_router(auth, prefix=config.API_URL_PREFIX)
+app.include_router(oauth2, prefix=config.API.get("url_prefix", "/api/v1"))
+app.include_router(catastral, prefix=config.API.get("url_prefix", "/api/v1"))

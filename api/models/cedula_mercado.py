@@ -1,21 +1,24 @@
 from datetime import datetime
+from typing import Optional
 
-from sqlalchemy import Column, Date, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Float
+from sqlmodel import Field, Session, SQLModel
 
-from .. import database
 from ..middlewares.database import Template
 
 
-class Model(database.BASE):
+class Model(SQLModel, table=True):
+    __table_args__ = {"extend_existing": True}
     """Cedula Mercado model"""
 
     __tablename__ = "cedula_mercado"
+    id: Optional[int] = Field(
+        default=None, primary_key=True, sa_column_kwargs={"autoincrement": True}
+    )
+    fecha: datetime = Field(default=None)
+    registro: str = Field(default=None)
+    usuario: str = Field(default=None)
 
-    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    fecha = Column(Date, default=datetime.now)
-    registro = Column(String)
-    usuario = Column(String)
     # cedula_comparables = relationship(
     #     "CedulaComparables", back_populates="cedula_mercado"
     # )

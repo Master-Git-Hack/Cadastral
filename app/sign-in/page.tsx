@@ -1,7 +1,6 @@
 /** @format */
 "use client";
 import { useState } from "react";
-import { UserIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline"; // Importa el ícono de persona
 import Image from "next/image";
 import useUser from "@/store/user/index.ts";
 import useStatusStore from "@/store/api.config.ts";
@@ -21,6 +20,8 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import logo200 from "@assets/logo_sfia_200.png";
+import { Success, Danger } from "@components/ui/alert";
+import { useRouter } from "next/navigation";
 const oauthSchema = z.object({
 	username: z.string().min(2, {
 		message:
@@ -34,8 +35,9 @@ const oauthSchema = z.object({
 
 export default function Page() {
 	const [showPassword, setShowPassword] = useState(false);
-	const { signIn } = useUser();
-	const { isLoading, isSuccess, isError, message } = useStatusStore();
+	const router = useRouter();
+	const { token, signIn } = useUser();
+	const { isLoading, isError, message } = useStatusStore();
 	const form = useForm<z.infer<typeof oauthSchema>>({
 		resolver: zodResolver(oauthSchema),
 		defaultValues: {
@@ -44,7 +46,15 @@ export default function Page() {
 		},
 	});
 	function onSubmit(data: z.infer<typeof oauthSchema>) {
-		signIn(data);
+		if (!isLoading) {
+			signIn(data);
+		}
+	}
+	if (token) {
+		router.push("/home");
+	}
+	if (isError) {
+		await Danger({ title: "Error al iniciar sesión", text: message });
 	}
 	return (
 		<main className="flex items-center justify-center h-screen bg-gray-900  bg-opacity-20 rounded drop-shadow-lg ">
@@ -110,15 +120,15 @@ export default function Page() {
 								</FormItem>
 							)}
 						/>
+						<Button
+							type="submit"
+							className="w-full rounded-full mt-2"
+							variant="default"
+							disabled={isLoading}
+						>
+							Iniciar Sesión
+						</Button>
 					</form>
-					<Button
-						type="submit"
-						className="w-full rounded-full mt-2"
-						variant="default"
-						disabled={isLoading}
-					>
-						Iniciar Sesión
-					</Button>
 				</Form>
 			</div>
 		</main>

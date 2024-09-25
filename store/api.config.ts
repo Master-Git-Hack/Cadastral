@@ -41,7 +41,9 @@ const consume = ({
 	LS.set("lastRequest", now());
 	return instance;
 };
-const setConfig = (url: string, { headers = {}, ...config }: CreateAxiosDefaults) => {
+const setConfig = (url: string, config?: CreateAxiosDefaults) => {
+	if (config === undefined) config = {};
+	let headers = {};
 	if (url !== "oauth2/sign-in") {
 		const token = LS.get("token");
 		if (token) {
@@ -56,7 +58,7 @@ const setConfig = (url: string, { headers = {}, ...config }: CreateAxiosDefaults
 			delete config.data;
 		}
 	}
-	return { headers, ...config };
+	return { headers: { ...headers, ...config?.headers }, ...config };
 };
 export const useStatusStore = create((set) => ({
 	isLoading: false,
@@ -99,7 +101,7 @@ export const useStatusStore = create((set) => ({
 		}),
 }));
 export const api = {
-	get: async (url: string, params: CreateAxiosDefaults) => {
+	get: async (url: string, params?: CreateAxiosDefaults) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
@@ -108,7 +110,8 @@ export const api = {
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
-			setError(error.message);
+			const { response, message } = error;
+			setError(response?.data?.message || message);
 			return error;
 		} finally {
 			setTimeout(() => setDefault(), 500);
@@ -117,26 +120,42 @@ export const api = {
 	post: async (
 		url: string,
 		data: CreateAxiosDefaults["data"] = {},
-		params: CreateAxiosDefaults,
+		formData: boolean = false,
+		params?: CreateAxiosDefaults,
 	) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			const response = await consume(config).post(url, data);
-			setSuccess(response.data.data, response.data.message);
-			return response;
+			if (formData) {
+				const formData = new FormData();
+				Object.keys(data).forEach((key) => {
+					formData.append(key, data[key]);
+				});
+				const response = await consume(config).post(url, formData, {
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				});
+				setSuccess(response.data.data, response.data.message);
+				return response;
+			} else {
+				const response = await consume(config).post(url, data);
+				setSuccess(response.data.data, response.data.message);
+				return response;
+			}
 		} catch (error: any) {
-			setError(error.message);
+			const { response, message } = error;
+			setError(response?.data?.message || message);
 			return error;
 		} finally {
-			setTimeout(() => setDefault(), 500);
+			setTimeout(() => setDefault(), 1000);
 		}
 	},
 	patch: async (
 		url: string,
 		data: CreateAxiosDefaults["data"] = {},
-		params: CreateAxiosDefaults,
+		params?: CreateAxiosDefaults,
 	) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
@@ -146,13 +165,14 @@ export const api = {
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
-			setError(error.message);
+			const { response, message } = error;
+			setError(response?.data?.message || message);
 			return error;
 		} finally {
 			setTimeout(() => setDefault(), 500);
 		}
 	},
-	delete: async (url: string, params: CreateAxiosDefaults) => {
+	delete: async (url: string, params?: CreateAxiosDefaults) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
@@ -161,7 +181,8 @@ export const api = {
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
-			setError(error.message);
+			const { response, message } = error;
+			setError(response?.data?.message || message);
 			return error;
 		} finally {
 			setTimeout(() => setDefault(), 500);

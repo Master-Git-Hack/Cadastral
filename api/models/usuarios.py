@@ -1,19 +1,23 @@
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Annotated, Any, Dict, Optional
 
 from fastapi import Depends
 from jose import ExpiredSignatureError, JWTError, jwt
+from sqlalchemy import func
 from sqlmodel import Field, Session, SQLModel
 
 from .. import config, database
+from ..middlewares.database import Template
+from . import response_model
 
 
-class Usuario(SQLModel, table=True):
+class Model(SQLModel, table=True):
     """Modelo de usuarios utilizando SQLModel"""
 
     __tablename__ = "usuarios"  # No es estrictamente necesario, SQLModel usa el nombre de la clase por defecto
     __table_args__ = {"extend_existing": True}
-    id: Optional[int] = Field(default=None, primary_key=True)
+
+    id: int = Field(default=None, primary_key=True)
     usuario: str = Field(sa_column_kwargs={"unique": True})
     grupo: Optional[int] = Field(default=None)
     nombre: Optional[str] = Field(default=None)
@@ -24,8 +28,10 @@ class Usuario(SQLModel, table=True):
 
 
 class Usuarios(Template):
-    # def __init__(self, db) -> None:
-    #     super().__init__(Model=Model, db=db, Schema=Schema)
+    response_model = response_model(Model=Model)
+
+    def __init__(self, Session: Session) -> None:
+        super().__init__(Model=Model, Session=Session)
 
     def encode(
         self,
@@ -41,20 +47,22 @@ class Usuarios(Template):
             self.Current = self.get(id=id)
         if self.Current is None:
             return None
-        user = self.dict()
 
         return jwt.encode(
             {
                 "exp": datetime.now(timezone.utc) + config.SECRETS.EXPIRATION_TIME,
                 "iat": datetime.now(timezone.utc),
-                "sub": str(user.id),
+                "sub": str(self.Current.id),
             },
             config.SECRETS.KEY,
             algorithm=config.SECRETS.ALGORITHM,
         )
 
     @staticmethod
-    def required(token: Annotated[str, Depends(config.OAUTH2)]) -> Optional[Dict]:
+    def required(
+        token: Annotated[str, Depends(config.OAUTH2)],
+        Session=Depends(database.valuaciones),
+    ) -> Optional[Dict]:
         """Decode the auth token.
         Args:
             _authorize (AuthJWT): AuthJWT object.
@@ -69,7 +77,12 @@ class Usuarios(Template):
                 config.SECRETS.KEY,
                 algorithms=[config.SECRETS.ALGORITHM],
             )
-            return data
+            if data.get("sub") is None:
+                return None
+            user = Usuarios(Session)
+            if user.get(id=int(data.get("sub"))) is None:
+                return None
+            return user.Current
         except ExpiredSignatureError:
             # Si el token ha expirado
             print("Token has expired")
@@ -84,6 +97,9 @@ class Usuarios(Template):
             self.Current = self.filter(usuario=username)
         if self.Current is None:
             return False
+        with self.Session as session:
+            password, *_ = session.exec(
+                func.valuaciones.public.sha1(password)
+            ).one_or_none()
 
-        password, *_ = self.db.query(func.valuaciones.public.sha1(password)).one()
         return self.Current.contrasenia == password

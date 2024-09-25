@@ -2,15 +2,13 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
 
-from .. import database,middlewares
+from .. import config, database, middlewares
+from ..models.usuarios import Usuarios
 
-from ..middlewares.auth import denylist
-from ..models.users import Users
 response = middlewares.RESPONSES()
 
-auth = APIRouter(
+oauth2 = APIRouter(
     prefix="/oauth2",
     tags=["OAuth2"],
     dependencies=[],
@@ -18,24 +16,24 @@ auth = APIRouter(
 )
 
 
-@auth.post("/sign-in")
+@oauth2.post(
+    "/sign-in",
+    response_model=Usuarios.response_model,
+)
 async def sign_in(
-    db=Depends(database.get_db),
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    client:str
+    Session=Depends(database.valuaciones),
 ):
-    if client is None:
-        return response.error(status_code=401, message="Cliente no encontrado")
-    
+
     username, password = form_data.username, form_data.password
 
     try:
-        user = Users(db=db, Schema="BASE")
-        if user.filter(email=username) is None:
+        user = Usuarios(Session)
+        if user.filter(usuario=username) is None:
             return response.error(status_code=404, message="Usuario no encontrado")
-        if user.current.estatus == 0:
+        if user.Current.estatus == 0:
             return response.error(status_code=401, message="Usuario inactivo")
-        if not user.check_password(password):
+        if not user.verify_password(password):
             return response.error(status_code=401, message="Credenciales Incorrectas")
         if (token := user.encode()) is None:
             return response.error(
@@ -43,9 +41,38 @@ async def sign_in(
             )
 
         return response.success(
-            message=f"Bienvenido {user.current.nombre}!",
-            data=user.dict(),
-            headers={"access_token": token},
+            message=f"Bienvenido {user.Current.nombre}!",
+            data=user.dict(excludes=["contrasenia"]),
+            headers={"Authorization": token},
+        )
+
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return response.error(message=str(e))
+
+
+@oauth2.post("/token", include_in_schema=False)
+async def is_auth(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    Session=Depends(database.valuaciones),
+):
+
+    username, password = form_data.username, form_data.password
+
+    try:
+        user = Usuarios(Session)
+        if user.filter(usuario=username) is None:
+            return response.error(status_code=404, message="Usuario no encontrado")
+        if user.Current.estatus == 0:
+            return response.error(status_code=401, message="Usuario inactivo")
+        if not user.verify_password(password):
+            return response.error(status_code=401, message="Credenciales Incorrectas")
+        if (token := user.encode()) is None:
+            return response.error(
+                status_code=422, message="No se pudo generar el token"
+            )
+        return response.success(
+            content={"access_token": token},
         )
 
     except Exception as e:

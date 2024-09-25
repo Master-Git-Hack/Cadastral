@@ -1,6 +1,17 @@
+from fastapi.responses import RedirectResponse
+
 from . import create_app
 
 app = create_app()
+
+
+from .routes import *
+
+
+@app.get("/")
+@app.get("/api")
+def redirect_root_to_docs():
+    return RedirectResponse(url="/docs", status_code=303)
 
 
 # def get_db(schema: str):
