@@ -14,10 +14,8 @@
     {"offset": {"line": 101, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
     {"offset": {"line": 113, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/home/page.ts/proxy.js"],"sourcesContent":["import { registerClientReference } from \"react-server-dom-turbopack/server.edge\";\nexport default registerClientReference(\n    function() { throw new Error(\"Attempted to call the default export of [project]/app/home/page.ts from the server, but it's on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.\"); },\n    \"[project]/app/home/page.ts\",\n    \"default\",\n);\n"],"names":[],"mappings":";;;;;;uCACe,CAAA,GAAA,+PAAA,CAAA,0BAAuB,AAAD,EACjC;IAAa,MAAM,IAAI,MAAM;AAAgQ,GAC7R,8BACA"}},
     {"offset": {"line": 122, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
-    {"offset": {"line": 127, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":""}},
-    {"offset": {"line": 132, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
-    {"offset": {"line": 148, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/favicon.ico.mjs (structured image object)"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 256, height: 256 }\n"],"names":[],"mappings":";;;;;;uCACe;IAAE,KAAA,2GAAA,CAAA,UAAG;IAAE,OAAO;IAAK,QAAQ;AAAI"}},
-    {"offset": {"line": 159, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
-    {"offset": {"line": 163, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/.next-internal/server/app/home/page/actions.js"],"sourcesContent":["__turbopack_export_value__({\n});"],"names":[],"mappings":"AAAA,2BAA2B,CAC3B"}},
-    {"offset": {"line": 164, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+    {"offset": {"line": 144, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/favicon.ico.mjs (structured image object)"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 256, height: 256 }\n"],"names":[],"mappings":";;;;;;uCACe;IAAE,KAAA,2GAAA,CAAA,UAAG;IAAE,OAAO;IAAK,QAAQ;AAAI"}},
+    {"offset": {"line": 155, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
+    {"offset": {"line": 159, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/.next-internal/server/app/home/page/actions.js"],"sourcesContent":["__turbopack_export_value__({\n});"],"names":[],"mappings":"AAAA,2BAA2B,CAC3B"}},
+    {"offset": {"line": 160, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
 }
