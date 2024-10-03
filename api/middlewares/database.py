@@ -138,7 +138,9 @@ class Template:
             self.Current = None
         return self.Current
 
-    def filter_group(self, **kwargs) -> Optional[object]:
+    def filter_group(
+        self, offset: Optional[int] = None, limit: Optional[int] = None, **kwargs
+    ) -> Optional[object]:
         """
         Filter records
         Args:
@@ -150,6 +152,10 @@ class Template:
         try:
             with self.Session as session:
                 query = self.QUERY.filter_by(**kwargs)
+                if offset is not None:
+                    query = query.offset(offset)
+                if limit is not None:
+                    query = query.limit(limit)
                 self.Current = session.exec(query).all()
         except Exception as e:
             print(f"----------> Unexpected error:\n {str(e)}")
@@ -158,6 +164,8 @@ class Template:
 
     def all(
         self,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
     ) -> Optional[object]:
         """
         Get all records
@@ -167,7 +175,12 @@ class Template:
         self.__check_attr()
         try:
             with self.Session as session:
-                self.Current = session.exec(self.QUERY).all()
+                query = self.QUERY
+                if offset is not None:
+                    query = query.offset(offset)
+                if limit is not None:
+                    query = query.limit(limit)
+                self.Current = session.exec(query).all()
         except Exception as e:
             print(f"----------> Unexpected error:\n {str(e)}")
             self.Current = None

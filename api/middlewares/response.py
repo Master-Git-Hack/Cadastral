@@ -116,9 +116,9 @@ class Responses:
             content: dict = {}
 
         if message is not None:
-            content["message"] = message
+            content["detail"] = message
         if success_message is not None:
-            content["message"] = self.__success_messages.get(
+            content["detail"] = self.__success_messages.get(
                 success_message, "Operation Successfully Completed!"
             )
 
@@ -162,9 +162,9 @@ class Responses:
         if content is None:
             content: dict = {}
         if message is not None:
-            content["message"] = message
+            content["detail"] = message
         if error_message is not None:
-            content["message"] = self.__errors_messages.get(
+            content["detail"] = self.__errors_messages.get(
                 error_message, "Operation Unexpectedly Failed!"
             )
 

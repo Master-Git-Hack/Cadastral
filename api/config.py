@@ -37,6 +37,11 @@ class __Base(object):
         allow_headers=environ.get("CORS_ALLOW_HEADERS", "*").split(","),
         expose_headers=environ.get("CORS_EXPOSE_HEADERS", "*").split(","),
     )
+    REDIS: Dict = dict(
+        host=environ.get("REDIS_HOST", "localhost"),
+        port=int(environ.get("REDIS_PORT", 6379)),
+        db=int(environ.get("REDIS_DB", 0)),
+    )
 
     class SECRETS:
         CLIENT: str = environ.get("CLIENT")
