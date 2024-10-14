@@ -7,7 +7,15 @@ from geoalchemy2.shape import to_shape
 from pyproj import Proj, transform
 from requests import get
 from shapely import wkt
-from shapely.geometry import MultiLineString, MultiPoint, MultiPolygon, Polygon
+from shapely.geometry import (
+    MultiLineString,
+    MultiPoint,
+    MultiPolygon,
+    Polygon,
+    box,
+    mapping,
+)
+from shapely.ops import split
 
 from .. import cache, config, database, limiter, middlewares
 from ..models.fotogrametria import Fotogrametria
@@ -96,6 +104,32 @@ def get_schema(
     return response.success(data=data)
 
 
+def create_grid(polygon, cell_size):
+    # Obtener los límites del polígono
+    min_x, min_y, max_x, max_y = polygon.bounds
+
+    # Crear una lista para almacenar los cuadrantes
+    grid = []
+
+    # Generar celdas cuadradas dentro de los límites del polígono
+    x = min_x
+    while x < max_x:
+        y = min_y
+        while y < max_y:
+            # Crear una caja (cuadrante) del tamaño especificado
+            cell = box(x, y, x + cell_size, y + cell_size)
+
+            # Verificar si la caja se intersecta con el polígono
+            if polygon.intersects(cell):
+                # Cortar la caja dentro del polígono
+                intersection = polygon.intersection(cell)
+                grid.append(intersection)
+            y += cell_size
+        x += cell_size
+
+    return grid
+
+
 @fotogrametria.get("/map", response_class=HTMLResponse)
 async def get_map(
     municipio: str,
@@ -119,15 +153,13 @@ async def get_map(
     mapa = folium.Map(location=map_center, zoom_start=10)
     area_de_estudio = []
     for area in area_estudio.Current:
-        # Convertir la geometría WKT a un objeto Shapely
-        data = area_estudio.dict(area, includes=["geom"])
-        for point in data.get("geom", {}).get("coordinates", []):
-            for pto in point:
-                for p in pto:
-
-                    x, y = p
-                    lon, lat = utm_proj(x, y, inverse=True)
-                    area_de_estudio += [[lat, lon]]
+        shape = to_shape(area.geom)
+        if shape.geom_type == "MultiPolygon":
+            area_de_estudio += [
+                list(reversed(utm_proj(*coord, inverse=True)))
+                for polygon in shape.geoms
+                for coord in polygon.exterior.coords
+            ]
     folium.Polygon(
         locations=area_de_estudio,
         color="blue",
@@ -135,7 +167,21 @@ async def get_map(
         fill_opacity=0.1,
         popup="Área de estudio",
     ).add_to(mapa)
-
+    matrix = []
+    for matriz in matriz_vuelo.Current:
+        shape = to_shape(matriz.geom)
+        if shape.geom_type == "Polygon":
+            matrix += [
+                create_grid(list(reversed(utm_proj(*coord, inverse=True))), 500)
+                for coord in shape.exterior.coords
+            ]
+    folium.Polygon(
+        locations=matrix,
+        color="red",
+        fill=False,
+        fill_opacity=0.1,
+        popup="Matriz de Vuelo",
+    ).add_to(mapa)
     # print(f"Coordenadas de área {area.id}: {coords}")
 
     # Agregar capa de Google Satellite (necesita clave de API)

@@ -53,7 +53,7 @@ class MatrizVueloModel(SQLModel):
     id: Optional[int] = Field(default=None, primary_key=True)
     geom: Any = Field(sa_column=Column(Geometry("POLYGON")), default=None)
     municipio: str = Field(default=None)
-    localidad: str = Field(default=None)
+    # localidad: str = Field(default=None)
     sup_has: float = Field(default=None, sa_column=Float(precision=70))
     nombre: str = Field(default=None)
     etapa: str = Field(default=None)
@@ -429,6 +429,7 @@ class Fotogrametria:
         class MatrizVuelo(Template):
             def __init__(self, Session: Session):
                 class Model(MatrizVueloModel, table=True):
+                    __tablename__ = "matriz_de_vuelo"
                     __table_args__ = {"extend_existing": True, "schema": "irapuato"}
 
                 super().__init__(Model=Model, Session=Session)

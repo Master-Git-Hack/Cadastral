@@ -20,12 +20,12 @@ class __Base(object):
     API: Dict = dict(
         title=environ.get(
             "TITLE",
-            "API para la dirección general de catastro del estado de guanajuato",
+            "Dirección General de Recursos Materiales, Servicios Generales y Catastro.",
         ),
         version=(version := environ.get("API_VERSION", "1.0.0")),
         description=environ.get(
             "DESCRIPTION",
-            "API para SAAS",
+            "API desarrollada para apoyar la gestión de la Dirección General de Recursos Materiales, Servicios Generales y Catastro, a traves de modulos propios y complementos para el sistema de valuaciones creada por el departamento de Plataformas Geomáticas Catastrales.",
         ),
         url_prefix=(url_prefix := f"/api/v{version[0]}"),
     )
@@ -50,9 +50,9 @@ class __Base(object):
         EXPIRATION_TIME = timedelta(hours=int(environ.get("EXPIRATION_TIME", 24)))
         ALGORITHM: str = environ.get("ALGORITHM", "HS512")
 
-        class STRIPE:
-            API_KEY: str = environ.get("STRIPE_API_KEY")
-            WEBHOOK_SECRET: str = environ.get("STRIPE_WEBHOOK_SECRET")
+        # class STRIPE:
+        #     API_KEY: str = environ.get("STRIPE_API_KEY")
+        #     WEBHOOK_SECRET: str = environ.get("STRIPE_WEBHOOK_SECRET")
 
         KEY = environ.get("SECRET_KEY", uuid4())
         SCOPES: List[str] = environ.get("SCOPES", "").split(",")

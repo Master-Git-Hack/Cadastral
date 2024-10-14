@@ -11,8 +11,8 @@ app = create_app()
 from .routes import *
 
 
-@app.get("/")
-@app.get("/api")
+@app.get("/", include_in_schema=False)
+@app.get("/api", include_in_schema=False)
 def redirect_root_to_docs():
     return RedirectResponse(url="/docs", status_code=303)
 
