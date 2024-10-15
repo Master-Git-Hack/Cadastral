@@ -2,8 +2,8 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import useUser from "@/store/user/index.ts";
-import useStatusStore from "@/store/api.config.ts";
+import useUser from "@/store/user/index";
+import useStatusStore from "@/store/api.config";
 import Spinner from "@components/ui/spinner";
 import { Button } from "@components/ui/button";
 import { useForm } from "react-hook-form";
@@ -33,11 +33,11 @@ const oauthSchema = z.object({
 	}),
 });
 
-export default function Page() {
+export default function SignIn() {
 	const [showPassword, setShowPassword] = useState(false);
 	const router = useRouter();
-	const { token, signIn } = useUser();
-	const { isLoading, isError, message } = useStatusStore();
+	const { token, signIn } = useUser((state) => state);
+	const { isLoading, isError, message } = useStatusStore((state) => state);
 	const form = useForm<z.infer<typeof oauthSchema>>({
 		resolver: zodResolver(oauthSchema),
 		defaultValues: {

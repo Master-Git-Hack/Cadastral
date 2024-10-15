@@ -60,7 +60,21 @@ const setConfig = (url: string, config?: CreateAxiosDefaults) => {
 	}
 	return { headers: { ...headers, ...config?.headers }, ...config };
 };
-export const useStatusStore = create((set) => ({
+export interface IStatusState {
+	isLoading: boolean;
+	isSuccess: boolean;
+	isError: boolean;
+	isUninitialized: boolean;
+	message: string | null;
+	data: unknown | null;
+}
+export interface IStatusActions {
+	setLoading: () => void;
+	setSuccess: (data: unknown, message: unknown) => void;
+	setError: (message: string) => void;
+	setDefault: () => void;
+}
+export const useStatusStore = create<IStatusState & IStatusActions>()((set) => ({
 	isLoading: false,
 	isSuccess: false,
 	isError: false,

@@ -24,7 +24,7 @@ const getItem = (item)=>{
         // Check if data is an object or a string
         if (/^\{.*\}$/.test(data)) {
             return JSON.parse(data);
-        } else if (/^\".*\"$/.test(data)) {
+        } else if (/^".*"$/.test(data)) {
             return data.slice(1, -1);
         } else {
             return data;
@@ -982,7 +982,7 @@ __turbopack_refresh__.register(_c10, "Alert");
 "use strict";
 
 /** @format */ __turbopack_esm__({
-    "default": ()=>Page
+    "default": ()=>SignIn
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
@@ -1025,7 +1025,7 @@ const oauthSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
         message: "Recuerde que su contraseña es la misma que la del sistema de avaluos y es obligatoria"
     })
 });
-function Page() {
+function SignIn() {
     _s();
     const [showPassword, setShowPassword] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
@@ -1249,7 +1249,7 @@ function Page() {
         columnNumber: 3
     }, this);
 }
-_s(Page, "pnBYGWxbucn8eMSsaO8m38/Sv+Q=", false, function() {
+_s(SignIn, "pnBYGWxbucn8eMSsaO8m38/Sv+Q=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$user$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"],
@@ -1257,9 +1257,9 @@ _s(Page, "pnBYGWxbucn8eMSsaO8m38/Sv+Q=", false, function() {
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hook$2d$form$2f$dist$2f$index$2e$esm$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useForm"]
     ];
 });
-_c = Page;
+_c = SignIn;
 var _c;
-__turbopack_refresh__.register(_c, "Page");
+__turbopack_refresh__.register(_c, "SignIn");
 
 })()),
 "[project]/app/sign-in/page.tsx [app-rsc] (ecmascript, Next.js server component, client modules)": (({ r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, g: global, __dirname }) => (() => {

@@ -13,7 +13,7 @@ export const getItem = (item: string): any => {
 		// Check if data is an object or a string
 		if (/^\{.*\}$/.test(data)) {
 			return JSON.parse(data);
-		} else if (/^\".*\"$/.test(data)) {
+		} else if (/^".*"$/.test(data)) {
 			return data.slice(1, -1);
 		} else {
 			return data;

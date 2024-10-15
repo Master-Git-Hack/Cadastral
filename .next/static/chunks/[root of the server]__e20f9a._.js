@@ -2077,7 +2077,8 @@ Object.defineProperty(exports, "__esModule", {
 0 && (module.exports = {
     getNamedMiddlewareRegex: null,
     getNamedRouteRegex: null,
-    getRouteRegex: null
+    getRouteRegex: null,
+    parseParameter: null
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
@@ -2094,6 +2095,9 @@ _export(exports, {
     },
     getRouteRegex: function() {
         return getRouteRegex;
+    },
+    parseParameter: function() {
+        return parseParameter;
     }
 });
 const _interceptionroutes = __turbopack_require__("[project]/node_modules/next/dist/server/future/helpers/interception-routes.js [client] (ecmascript)");
@@ -2101,14 +2105,7 @@ const _escaperegexp = __turbopack_require__("[project]/node_modules/next/dist/sh
 const _removetrailingslash = __turbopack_require__("[project]/node_modules/next/dist/shared/lib/router/utils/remove-trailing-slash.js [client] (ecmascript)");
 const NEXT_QUERY_PARAM_PREFIX = "nxtP";
 const NEXT_INTERCEPTION_MARKER_PREFIX = "nxtI";
-/**
- * Parses a given parameter from a route to a data structure that can be used
- * to generate the parametrized route. Examples:
- *   - `[...slug]` -> `{ key: 'slug', repeat: true, optional: true }`
- *   - `...slug` -> `{ key: 'slug', repeat: true, optional: false }`
- *   - `[foo]` -> `{ key: 'foo', repeat: false, optional: true }`
- *   - `bar` -> `{ key: 'bar', repeat: false, optional: false }`
- */ function parseParameter(param) {
+function parseParameter(param) {
     const optional = param.startsWith("[") && param.endsWith("]");
     if (optional) {
         param = param.slice(1, -1);
@@ -8591,6 +8588,7 @@ const imageConfigDefault = {
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "script-src 'none'; frame-src 'none'; sandbox;",
     contentDispositionType: "inline",
+    localPatterns: undefined,
     remotePatterns: [],
     unoptimized: false
 }; //# sourceMappingURL=image-config.js.map
@@ -17724,7 +17722,7 @@ const _hooksclientcontextsharedruntime = __turbopack_require__("[project]/node_m
 const _onrecoverableerror = /*#__PURE__*/ _interop_require_default._(__turbopack_require__("[project]/node_modules/next/dist/client/on-recoverable-error.js [client] (ecmascript)"));
 const _tracer = /*#__PURE__*/ _interop_require_default._(__turbopack_require__("[project]/node_modules/next/dist/client/tracing/tracer.js [client] (ecmascript)"));
 const _reporttosocket = /*#__PURE__*/ _interop_require_default._(__turbopack_require__("[project]/node_modules/next/dist/client/tracing/report-to-socket.js [client] (ecmascript)"));
-const version = "14.2.13";
+const version = "14.2.15";
 let router;
 const emitter = (0, _mitt.default)();
 const looseToArray = (input)=>[].slice.call(input);

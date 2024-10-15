@@ -5,7 +5,19 @@ import { CreateAxiosDefaults } from "axios";
 import LS from "@utils/localStorage";
 import { now } from "@utils/time";
 import { api } from "../api.config";
-const useUser = create((set) => ({
+export interface IUserState {
+	timeStamp: string;
+	token: string | null;
+	group: number;
+	name: string;
+	username: string;
+	reviewer: string | null;
+}
+
+export interface IUserActions {
+	signIn: (auth: CreateAxiosDefaults["auth"]) => Promise<void>;
+}
+const useUser = create<IUserState & IUserActions>()((set) => ({
 	timeStamp: LS.get("lastRequest") || now(),
 	token: LS.get("token") || null,
 	group: 0,
@@ -13,7 +25,7 @@ const useUser = create((set) => ({
 	username: "",
 	reviewer: null,
 
-	signIn: async (auth: CreateAxiosDefaults["auth"] = { username: "", password: "" }) => {
+	signIn: async (auth: CreateAxiosDefaults["auth"]) => {
 		const {
 			headers,
 			data: { data },

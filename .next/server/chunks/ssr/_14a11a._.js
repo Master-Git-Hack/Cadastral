@@ -24,7 +24,7 @@ const getItem = (item)=>{
         // Check if data is an object or a string
         if (/^\{.*\}$/.test(data)) {
             return JSON.parse(data);
-        } else if (/^\".*\"$/.test(data)) {
+        } else if (/^".*"$/.test(data)) {
             return data.slice(1, -1);
         } else {
             return data;
@@ -881,7 +881,7 @@ const __TURBOPACK__default__export__ = Alert;
 "use strict";
 
 /** @format */ __turbopack_esm__({
-    "default": ()=>Page
+    "default": ()=>SignIn
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/server/future/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/server/future/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
@@ -923,7 +923,7 @@ const oauthSchema = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
         message: "Recuerde que su contraseña es la misma que la del sistema de avaluos y es obligatoria"
     })
 });
-function Page() {
+function SignIn() {
     const [showPassword, setShowPassword] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$future$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const { token, signIn } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$user$2f$index$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])();

@@ -9,11 +9,15 @@
     "dev": "concurrently \"yarn frontend\" \"yarn backend\"",
     "build": "next build",
     "start": "next start -p 3000",
-    "lint": "next lint"
+    "lint": "oxlint  --fix --fix-suggestions -c ./.oxlintrc.json --import-plugin "
+  },
+  "lint-staged": {
+    "**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,astro,svelte}": "oxlint"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.5",
     "@hookform/resolvers": "^3.9.0",
+    "@million/lint": "^1.0.11",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.1",
@@ -42,7 +46,7 @@
     "html2canvas-pro": "^1.5.8",
     "lucide-react": "^0.445.0",
     "moment": "^2.30.1",
-    "next": "^14.2.13",
+    "next": "^14.2.15",
     "next-themes": "^0.3.0",
     "postcss": "^8.4.47",
     "react": "18.3.1",
@@ -59,6 +63,8 @@
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
+    "eslint-plugin-oxlint": "^0.9.10",
+    "oxlint": "^0.9.10",
     "prettier": "^3.3.3"
   }
 }

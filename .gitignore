@@ -13,3 +13,6 @@ _front/public/*
 _front/yarn*
 _front/.env
 node_modules
+
+# Million Lint
+.million

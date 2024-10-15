@@ -3,10 +3,11 @@ from typing import Optional
 import folium
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
+from folium.plugins import BeautifyIcon, MeasureControl
 from geoalchemy2.shape import to_shape
 from pyproj import Proj, transform
 from requests import get
-from shapely import wkt
+from shapely import to_geojson, wkt
 from shapely.geometry import (
     MultiLineString,
     MultiPoint,
@@ -104,30 +105,22 @@ def get_schema(
     return response.success(data=data)
 
 
-def create_grid(polygon, cell_size):
-    # Obtener los límites del polígono
-    min_x, min_y, max_x, max_y = polygon.bounds
-
-    # Crear una lista para almacenar los cuadrantes
-    grid = []
-
-    # Generar celdas cuadradas dentro de los límites del polígono
-    x = min_x
-    while x < max_x:
-        y = min_y
-        while y < max_y:
-            # Crear una caja (cuadrante) del tamaño especificado
-            cell = box(x, y, x + cell_size, y + cell_size)
-
-            # Verificar si la caja se intersecta con el polígono
-            if polygon.intersects(cell):
-                # Cortar la caja dentro del polígono
-                intersection = polygon.intersection(cell)
-                grid.append(intersection)
-            y += cell_size
-        x += cell_size
-
-    return grid
+def style_function(feature):
+    props = feature.get("properties")
+    markup = f"""
+        <a >
+            <div style="font-size: 0.8em;">
+            <div style="width: 10px;
+                        height: 10px;
+                        border: 1px solid black;
+                        border-radius: 5px;
+                        background-color: orange;">
+            </div>
+            {props.get("name")}
+        </div>
+        </a>
+    """
+    return {"html": markup}
 
 
 @fotogrametria.get("/map", response_class=HTMLResponse)
@@ -143,48 +136,17 @@ async def get_map(
     localidad = localidad()
     area_estudio = localidad.AreaEstudio(Session)
     matriz_vuelo = localidad.MatrizVuelo(Session)
+    puntos_control = localidad.PuntosControlGNSS(Session)
     if etapa is not None:
         area_estudio.filter_group(etapa=etapa)
         matriz_vuelo.filter_group(etapa=etapa)
+        puntos_control.filter_group(etapa=etapa)
     else:
         area_estudio.all()
         matriz_vuelo.all()
+        puntos_control.all()
     map_center = [20.6732, -101.3480]  # Ejemplo: Irapuato
-    mapa = folium.Map(location=map_center, zoom_start=10)
-    area_de_estudio = []
-    for area in area_estudio.Current:
-        shape = to_shape(area.geom)
-        if shape.geom_type == "MultiPolygon":
-            area_de_estudio += [
-                list(reversed(utm_proj(*coord, inverse=True)))
-                for polygon in shape.geoms
-                for coord in polygon.exterior.coords
-            ]
-    folium.Polygon(
-        locations=area_de_estudio,
-        color="blue",
-        fill=False,
-        fill_opacity=0.1,
-        popup="Área de estudio",
-    ).add_to(mapa)
-    matrix = []
-    for matriz in matriz_vuelo.Current:
-        shape = to_shape(matriz.geom)
-        if shape.geom_type == "Polygon":
-            matrix += [
-                create_grid(list(reversed(utm_proj(*coord, inverse=True))), 500)
-                for coord in shape.exterior.coords
-            ]
-    folium.Polygon(
-        locations=matrix,
-        color="red",
-        fill=False,
-        fill_opacity=0.1,
-        popup="Matriz de Vuelo",
-    ).add_to(mapa)
-    # print(f"Coordenadas de área {area.id}: {coords}")
-
-    # Agregar capa de Google Satellite (necesita clave de API)
+    mapa = folium.Map(location=map_center, zoom_start=14)
     folium.TileLayer(
         "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
         attr='&copy; <a href="https://www.google.com/intl/en_us/help/terms_maps/">Google</a>',
@@ -192,51 +154,91 @@ async def get_map(
         overlay=True,
         control=True,
     ).add_to(mapa)
+    mapa.add_child(MeasureControl())
+    for area in area_estudio.Current:
+        shape = to_shape(area.geom)
+        if shape.geom_type == "MultiPolygon":
+            folium.Polygon(
+                locations=[
+                    list(reversed(utm_proj(*coord, inverse=True)))
+                    for polygon in shape.geoms
+                    for coord in polygon.exterior.coords
+                ],
+                color="blue",
+                fill=False,
+                fill_opacity=0.1,
+                popup="Matriz de Vuelo",
+            ).add_to(mapa)
 
-    # Lista de puntos a dibujar en el mapa (latitud, longitud)
-    puntos_de_control = [
-        {"nombre": "Irapuato 6", "coordenadas": [19.4305, -99.1345]},
-        {"nombre": "Irapuato 14", "coordenadas": [19.4315, -99.1332]},
-        {"nombre": "Irapuato 22", "coordenadas": [19.4320, -99.1310]},
-        {"nombre": "Irapuato 31", "coordenadas": [19.4330, -99.1320]},
-        {"nombre": "Irapuato 40", "coordenadas": [19.4310, -99.1350]},
-        {"nombre": "Irapuato 47", "coordenadas": [19.4300, -99.1300]},
-        {"nombre": "Irapuato 52", "coordenadas": [19.4300, -99.1360]},
-    ]
+    for matriz in matriz_vuelo.Current:
+        shape = to_shape(matriz.geom)
+        if shape.geom_type == "Polygon":
+            folium.Polygon(
+                locations=[
+                    list(reversed(utm_proj(*coord, inverse=True)))
+                    for coord in shape.exterior.coords
+                ],
+                color="red",
+                fill=False,
+                fill_opacity=0.1,
+                popup="Matriz de Vuelo",
+            ).add_to(mapa)
 
-    # Agregar puntos de control al mapa
-    for punto in puntos_de_control:
+    for punto in puntos_control.Current:
+
+        if hasattr(punto, "pto"):
+            pto = punto.pto
+        else:
+            pto = punto.punto
+        if "gnss" not in pto.lower():
+            _id = int(pto)
+            pto = f"{municipio.title()} {pto}"
+            icon = BeautifyIcon(
+                icon="crosshairs",
+                icon_shape="circle",
+                border_color="#E4D00A",
+                text_color="#00000",
+                number=_id,
+                inner_icon_style="margin-top:0;",
+            )
+        else:
+            icon = BeautifyIcon(
+                icon="crosshairs", icon_shape="circle", border_color="#E4D00A"
+            )
         folium.Marker(
-            location=punto["coordenadas"],
-            popup=punto["nombre"],
-            icon=folium.Icon(color="yellow", icon="info-sign", prefix="fa"),
+            location=list(
+                reversed(utm_proj(float(punto.x), float(punto.y), inverse=True))
+            ),
+            name=pto,
+            icon=icon,
         ).add_to(mapa)
-
-    # Estación Base GPS
-    base_gps_location = [19.4326, -99.1332]
-    folium.Marker(
-        location=base_gps_location,
-        popup="Estación Base GPS",
-        icon=folium.Icon(color="red", icon="crosshairs", prefix="fa"),
-    ).add_to(mapa)
-
-    # Matriz de vuelo (dibujar líneas rojas)
-
-    # Área de estudio (dibujar borde azul)
-
     # Agregar leyenda al mapa
+
     legend_html = """
     <div style="position: fixed; 
-                bottom: 50px; left: 50px; width: 150px; height: 150px; 
+                bottom: 50px; left: 50px; width: 150px; height: 200px; 
                 border:2px solid grey; background-color: white; z-index:9999; 
                 font-size:14px; padding: 10px;">
                 <b>Leyenda</b><br>
                 <i class="fa fa-circle" style="color:yellow"></i> Puntos de Control<br>
-                <i class="fa fa-crosshairs" style="color:red"></i> Estación Base GPS<br>
+                <i class="fa fa-crosshairs" style="color:red"></i> Estación Base GNNS<br>
                 <i style="color:red">Matriz de Vuelo</i><br>
                 <i style="color:blue">Área de Estudio</i><br>
     </div>
     """
+    north_arrow_html = """
+        <div style="
+        position: relative;
+        font-size: 24px;
+        font-weight: bold;
+        color: black;
+        transform: rotate(0deg);
+        ">&uarr;</div>
+    """
+
+    # Add the north arrow as a DivIcon
+
+    mapa.get_root().html.add_child(folium.Element(north_arrow_html))
     mapa.get_root().html.add_child(folium.Element(legend_html))
 
     # Guardar el mapa en un archivo HTML
@@ -246,35 +248,3 @@ async def get_map(
     # Leer el archivo HTML generado y devolverlo como respuesta
     with open(mapa_html, "r") as f:
         return f.read()
-
-
-# @fotogrametria.get(
-#     "/municipio/{municipio}",
-# )
-# def get_table(
-#     municipio: str,
-#     table: str,
-#     request: Request,
-#     # user=Depends(Usuarios.required),
-#     Session=Depends(database.fotogrametria),
-# ):
-#     # if user is None:
-#     #     return response.error(status_code=401, message="No autorizado")
-#     municipio = municipio.title().replace("-", "_")
-#     localidad = Fotogrametria.schema(municipio)
-#     localidad = localidad.get(municipio)
-#     if localidad is None:
-#         return response.error(status_code=404, message="No encontrado")
-#     tables = (
-#         localidad.tables.get(key)
-#         if key is not None and key in localidad.tables
-#         else localidad.tables
-#     )
-#     data = {}
-#     filter = dict(request.query_params)
-#     if isinstance(tables, dict):
-#         data = {key: table(Session).filter(**filter) for key, table in tables.items()}
-#     else:
-#         data = tables(Session).filter(**filter)
-#     return response.success(data=data)
-from shapely.geometry import MultiPolygon, Polygon
