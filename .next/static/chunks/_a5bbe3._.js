@@ -82,6 +82,7 @@ const now = (format)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_m
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/axios/lib/axios.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/zustand/esm/react.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$user$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/store/user/index.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/utils/localStorage.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$time$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/utils/time.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
@@ -91,10 +92,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 ;
 ;
-const _URL = ("TURBOPACK compile-time value", "http://172.31.103.42:5000");
+;
+const _URL = ("TURBOPACK compile-time value", "http://172.31.103.50:5000");
 const _ENDPOINT = ("TURBOPACK compile-time value", "api");
-const _VERSION = ("TURBOPACK compile-time value", "v1");
-// const baseURL = `${_URL}:${_PORT}/${_ENDPOINT}/${_VERSION}`;
+const _VERSION = ("TURBOPACK compile-time value", "v3");
 const baseURL = `${_URL}/${_ENDPOINT}/${_VERSION}`;
 const consume = ({ headers = {}, responseType = "json", auth = {
     username: "",
@@ -123,7 +124,7 @@ const setConfig = (url, config)=>{
     if (config === undefined) config = {};
     let headers = {};
     if (url !== "oauth2/sign-in") {
-        const token = __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get("token");
+        const token = __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$user$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useUser"].getState().token;
         if (token) {
             headers = {
                 ...headers,
@@ -144,7 +145,7 @@ const setConfig = (url, config)=>{
         ...config
     };
 };
-const useStatusStore = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["create"])((set)=>({
+const useStatusStore = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["create"])()((set)=>({
         isLoading: false,
         isSuccess: false,
         isError: false,
@@ -206,23 +207,23 @@ const api = {
         const config = setConfig(url, params);
         setLoading();
         try {
-            if (formData) {
-                const formData = new FormData();
-                Object.keys(data).forEach((key)=>{
-                    formData.append(key, data[key]);
-                });
-                const response = await consume(config).post(url, formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                });
-                setSuccess(response.data.data, response.data.message);
-                return response;
-            } else {
-                const response = await consume(config).post(url, data);
-                setSuccess(response.data.data, response.data.message);
-                return response;
-            }
+            // 	if (formData) {
+            // 		const formData = new FormData();
+            // 		Object.keys(data).forEach((key) => {
+            // 			formData.append(key, data[key]);
+            // 		});
+            // 		const response = await consume(config).post(url, formData, {
+            // 			headers: {
+            // 				"Content-Type": "multipart/form-data",
+            // 			},
+            // 		});
+            // 		setSuccess(response.data.data, response.data.message);
+            // 		return response;
+            // 	} else {
+            // 	}
+            const response = await consume(config).post(url, data);
+            setSuccess(response.data.data, response.data.message);
+            return response;
         } catch (error) {
             const { response, message } = error;
             setError(response?.data?.message || message);
@@ -274,6 +275,7 @@ const __TURBOPACK__default__export__ = useStatusStore;
     "default": ()=>__TURBOPACK__default__export__
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/zustand/esm/react.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$middleware$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/zustand/esm/middleware.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/utils/localStorage.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$time$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/utils/time.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/store/api.config.ts [app-client] (ecmascript)");
@@ -282,25 +284,33 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts
 ;
 ;
 ;
-const useUser = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["create"])((set)=>({
+;
+const useUser = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["create"])()((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$middleware$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["persist"])((set, get)=>({
         timeStamp: __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get("lastRequest") || (0, __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$time$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["now"])(),
         token: __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get("token") || null,
-        group: 0,
-        name: "",
-        username: "",
-        reviewer: null,
-        signIn: async (auth = {
-            username: "",
-            password: ""
-        })=>{
-            const { headers, data: { data } } = await __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].post("oauth2/sign-in", auth, true);
+        groupo: 0,
+        nombre: "",
+        usuario: "",
+        iniciales: "",
+        revisor: null,
+        signIn: async (auth)=>{
+            const { headers, data: { data } } = await __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].post("oauth2/sign-in", new URLSearchParams({
+                ...auth,
+                grant_type: 'password',
+                scope: '',
+                client_id: 'string',
+                client_secret: 'string'
+            }), true);
             set({
                 timeStamp: (0, __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$time$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["now"])(),
                 token: headers?.authorization,
                 ...data
             });
         }
-    }));
+    }), {
+    name: "user-storage",
+    storage: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$middleware$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createJSONStorage"])(()=>localStorage)
+}));
 const __TURBOPACK__default__export__ = useUser;
 
 })()),
@@ -1029,8 +1039,8 @@ function SignIn() {
     _s();
     const [showPassword, setShowPassword] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
-    const { token, signIn } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$user$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])();
-    const { isLoading, isError, message } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])();
+    const { token, signIn } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$user$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])((state)=>state);
+    const { isLoading, isError, message } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])((state)=>state);
     const form = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$hook$2d$form$2f$dist$2f$index$2e$esm$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useForm"])({
         resolver: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$hookform$2f$resolvers$2f$zod$2f$dist$2f$zod$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["zodResolver"])(oauthSchema),
         defaultValues: {
@@ -1047,7 +1057,7 @@ function SignIn() {
         router.push("/home");
     }
     if (isError) {
-        await (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$alert$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Danger"])({
+        (0, __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$alert$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Danger"])({
             title: "Error al iniciar sesión",
             text: message
         });

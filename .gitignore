@@ -16,3 +16,4 @@ node_modules
 
 # Million Lint
 .million
+.next

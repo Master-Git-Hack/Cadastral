@@ -1,7 +1,8 @@
-from typing import Optional
+from typing import List, Optional
 
 import folium
-from fastapi import APIRouter, Depends, Request
+from bs4 import BeautifulSoup
+from fastapi import APIRouter, Depends, File, Request, UploadFile
 from fastapi.responses import HTMLResponse
 from folium.plugins import BeautifyIcon, MeasureControl
 from geoalchemy2.shape import to_shape
@@ -123,6 +124,109 @@ def style_function(feature):
     return {"html": markup}
 
 
+@fotogrametria.post("/scraping-project")
+async def scraping_project(project: UploadFile = File(...)):
+    # Leer el contenido del archivo
+    contents = await project.read()
+
+    # Analizar el contenido del archivo HTML con BeautifulSoup
+    data = BeautifulSoup(contents, "lxml")  # o 'html.parser'
+    section = data.find("h2", string="Adjustment Grid Coordinates")
+    headers = []
+    rows = []
+    if section:
+        table = section.find_next("table")
+        if table:
+            headers = [
+                th.text.lower().replace(" ", "_").replace("(m)", "").strip()
+                for th in table.find_all("th")
+            ]
+            rows = [
+                dict(zip(headers, [td.text.strip() for td in tr.find_all("td")]))
+                for tr in table.find_all("tr")[1:]
+            ]
+    return response.success(data={"headers": headers, "rows": rows})
+
+
+from os import remove
+
+from PIL import Image
+
+
+def extract_gps_data(image_path):
+    img = Image.open(image_path)
+    exif_data = img._getexif()
+    gps_info = exif_data.get(34853) if exif_data else None
+    print(gps_info)
+    if gps_info:
+        lat = gps_info[2]  # Latitude
+        lon = gps_info[4]  # Longitude
+        lat_ref = gps_info[1]  # N or S
+        lon_ref = gps_info[3]  # E or W
+
+        latitude = convert_to_degrees(lat)
+        if lat_ref != "N":
+            latitude = -latitude
+
+        longitude = convert_to_degrees(lon)
+        if lon_ref != "E":
+            longitude = -longitude
+
+        return latitude, longitude
+    return None
+
+
+def convert_to_degrees(value):
+    # Assuming value is a tuple of IFDRational objects
+    d = value[0].numerator / value[0].denominator
+    m = value[1].numerator / value[1].denominator
+    s = value[2].numerator / value[2].denominator
+
+    return d + (m / 60.0) + (s / 3600.0)
+
+
+from math import sqrt
+
+
+def calculate_distance(x1, y1, x2, y2):
+    return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
+
+def assign_nearest_point(image_coords, db_points):
+    min_distance = float("inf")
+    nearest_point = None
+
+    for point in db_points:
+        distance = calculate_distance(
+            image_coords[1], image_coords[0], point["x"], point["y"]
+        )
+        if distance < min_distance:
+            min_distance = distance
+            nearest_point = point["pto"]
+
+    return nearest_point
+
+
+@fotogrametria.post("/metadata-images")
+async def metadata_images(images: List[UploadFile] = File(...)):
+    db_points = [
+        {"x": 255396.6232, "y": 2285543.3714, "pto": "70"},
+        {"x": 255400.0000, "y": 2285500.0000, "pto": "67"},
+    ]
+    results = {}
+    for img in images:
+        image_path = f"/tmp/{img.filename}"
+        with open(image_path, "wb") as img_file:
+            img_file.write(await img.read())
+        gps_data = extract_gps_data(image_path)
+        print(gps_data)
+        if gps_data:
+            results[img.filename] = f"Punto {assign_nearest_point(gps_data, db_points)}"
+        remove(image_path)
+
+    return {"results": results}
+
+
 @fotogrametria.get("/map", response_class=HTMLResponse)
 async def get_map(
     municipio: str,
@@ -242,7 +346,7 @@ async def get_map(
     mapa.get_root().html.add_child(folium.Element(legend_html))
 
     # Guardar el mapa en un archivo HTML
-    mapa_html = "mapa.html"
+    mapa_html = "/mapa.html"
     mapa.save(mapa_html)
 
     # Leer el archivo HTML generado y devolverlo como respuesta

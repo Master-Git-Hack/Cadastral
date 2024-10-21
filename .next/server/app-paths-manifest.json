@@ -1,4 +1,7 @@
 {
-  "/sign-in/page": "app/sign-in/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
+  "/fotogrametria/page": "app/fotogrametria/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/home/page": "app/home/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/fotogrametria/[municipio]/page": "app/fotogrametria/[municipio]/page.js"
 }

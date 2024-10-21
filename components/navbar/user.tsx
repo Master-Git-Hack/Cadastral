@@ -18,31 +18,31 @@ import { useTheme } from "next-themes";
 
 import useUser from "@/store/user/index.ts";
 export default function User() {
-	const { user, username } = useUser();
+	const { nombre, usuario, iniciales } = useUser();
 	const { theme, setTheme } = useTheme();
 	const [isDark, setIsDark] = useState(theme === "dark");
-	console.log(user, username);
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button variant="ghost" className="relative h-8 w-8 rounded-full">
-					<Avatar className="h-8 w-8">
+					<Avatar className="h-12 w-12">
 						<AvatarImage src="/avatars/01.png" alt="@shadcn" />
-						<AvatarFallback>{username}</AvatarFallback>
+						<AvatarFallback>{iniciales.toUpperCase()}</AvatarFallback>
 					</Avatar>
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent className="w-56" align="end" forceMount>
+			<DropdownMenuContent className="w-58" align="end" forceMount>
 				<DropdownMenuLabel className="font-normal">
 					<div className="flex flex-col space-y-1">
-						<p className="text-sm font-medium leading-none">{username}</p>
-						<p className="text-xs leading-none text-muted-foreground">{user}</p>
+						<p className="text-sm font-medium leading-none">{nombre}</p>
+						<p className="text-xs leading-none text-muted-foreground">{usuario}</p>
 					</div>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
 					<DropdownMenuItem
-						className="flex justify-between"
+						className="flex justify-between hover:white:bg-gray-400"
 						onClick={() => {
 							const theme = isDark ? "light" : "dark";
 							setTheme(theme);
@@ -60,7 +60,7 @@ export default function User() {
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem className="bg-red-500 opacity-75 text-dark hover:text-red-400 dark:text-white  hover:opacity-100 text-right">
+				<DropdownMenuItem className="bg-red-600  text-black hover:text-red-600 hover:font-bold  dark:text-white  hover:opacity-100 text-right focus:text-red-600 focus:font-bold hover:border focus:border hover:border-red-600 focus:border-red-600 rounded-md ">
 					Cerrar Sesión
 					{/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
 				</DropdownMenuItem>

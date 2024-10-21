@@ -54,7 +54,7 @@ export default function SignIn() {
 		router.push("/home");
 	}
 	if (isError) {
-		await Danger({ title: "Error al iniciar sesión", text: message });
+		Danger({ title: "Error al iniciar sesión", text: message });
 	}
 	return (
 		<main className="flex items-center justify-center h-screen bg-gray-900  bg-opacity-20 rounded drop-shadow-lg ">

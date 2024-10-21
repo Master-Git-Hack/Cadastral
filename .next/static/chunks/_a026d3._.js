@@ -567,7 +567,7 @@ const getItem = (item)=>{
         // Check if data is an object or a string
         if (/^\{.*\}$/.test(data)) {
             return JSON.parse(data);
-        } else if (/^\".*\"$/.test(data)) {
+        } else if (/^".*"$/.test(data)) {
             return data.slice(1, -1);
         } else {
             return data;
@@ -634,10 +634,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 ;
 ;
-const _URL = ("TURBOPACK compile-time value", "http://172.31.103.42:5000");
+const _URL = ("TURBOPACK compile-time value", "http://172.31.103.50:5000");
 const _ENDPOINT = ("TURBOPACK compile-time value", "api");
-const _VERSION = ("TURBOPACK compile-time value", "v1");
-// const baseURL = `${_URL}:${_PORT}/${_ENDPOINT}/${_VERSION}`;
+const _VERSION = ("TURBOPACK compile-time value", "v3");
 const baseURL = `${_URL}/${_ENDPOINT}/${_VERSION}`;
 const consume = ({ headers = {}, responseType = "json", auth = {
     username: "",
@@ -666,7 +665,8 @@ const setConfig = (url, config)=>{
     if (config === undefined) config = {};
     let headers = {};
     if (url !== "oauth2/sign-in") {
-        const token = __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get("token");
+        const user = __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get("user-storage");
+        const token = user?.token;
         if (token) {
             headers = {
                 ...headers,
@@ -687,7 +687,7 @@ const setConfig = (url, config)=>{
         ...config
     };
 };
-const useStatusStore = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["create"])((set)=>({
+const useStatusStore = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["create"])()((set)=>({
         isLoading: false,
         isSuccess: false,
         isError: false,
@@ -749,23 +749,23 @@ const api = {
         const config = setConfig(url, params);
         setLoading();
         try {
-            if (formData) {
-                const formData = new FormData();
-                Object.keys(data).forEach((key)=>{
-                    formData.append(key, data[key]);
-                });
-                const response = await consume(config).post(url, formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                });
-                setSuccess(response.data.data, response.data.message);
-                return response;
-            } else {
-                const response = await consume(config).post(url, data);
-                setSuccess(response.data.data, response.data.message);
-                return response;
-            }
+            // 	if (formData) {
+            // 		const formData = new FormData();
+            // 		Object.keys(data).forEach((key) => {
+            // 			formData.append(key, data[key]);
+            // 		});
+            // 		const response = await consume(config).post(url, formData, {
+            // 			headers: {
+            // 				"Content-Type": "multipart/form-data",
+            // 			},
+            // 		});
+            // 		setSuccess(response.data.data, response.data.message);
+            // 		return response;
+            // 	} else {
+            // 	}
+            const response = await consume(config).post(url, data);
+            setSuccess(response.data.data, response.data.message);
+            return response;
         } catch (error) {
             const { response, message } = error;
             setError(response?.data?.message || message);
@@ -817,6 +817,7 @@ const __TURBOPACK__default__export__ = useStatusStore;
     "default": ()=>__TURBOPACK__default__export__
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/zustand/esm/react.mjs [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$middleware$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/zustand/esm/middleware.mjs [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/utils/localStorage.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$time$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/utils/time.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/store/api.config.ts [app-client] (ecmascript)");
@@ -825,25 +826,33 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts
 ;
 ;
 ;
-const useUser = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["create"])((set)=>({
+;
+const useUser = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$react$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["create"])()((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$middleware$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["persist"])((set, get)=>({
         timeStamp: __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get("lastRequest") || (0, __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$time$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["now"])(),
         token: __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$localStorage$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get("token") || null,
-        group: 0,
-        name: "",
-        username: "",
-        reviewer: null,
-        signIn: async (auth = {
-            username: "",
-            password: ""
-        })=>{
-            const { headers, data: { data } } = await __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].post("oauth2/sign-in", auth, true);
+        groupo: 0,
+        nombre: "",
+        usuario: "",
+        iniciales: "",
+        revisor: null,
+        signIn: async (auth)=>{
+            const { headers, data: { data } } = await __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$api$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["api"].post("oauth2/sign-in", new URLSearchParams({
+                ...auth,
+                grant_type: "password",
+                scope: "",
+                client_id: "string",
+                client_secret: "string"
+            }), true);
             set({
                 timeStamp: (0, __TURBOPACK__imported__module__$5b$project$5d2f$utils$2f$time$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["now"])(),
                 token: headers?.authorization,
                 ...data
             });
         }
-    }));
+    }), {
+    name: "user-storage",
+    storage: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$zustand$2f$esm$2f$middleware$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createJSONStorage"])(()=>localStorage)
+}));
 const __TURBOPACK__default__export__ = useUser;
 
 })()),
@@ -874,10 +883,9 @@ var _s = __turbopack_refresh__.signature();
 ;
 function User() {
     _s();
-    const { user, username } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$user$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])();
+    const { nombre, usuario, iniciales } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$user$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])();
     const { theme, setTheme } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$themes$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTheme"])();
     const [isDark, setIsDark] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(theme === "dark");
-    console.log(user, username);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenu"], {
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuTrigger"], {
@@ -886,7 +894,7 @@ function User() {
                     variant: "ghost",
                     className: "relative h-8 w-8 rounded-full",
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$avatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Avatar"], {
-                        className: "h-8 w-8",
+                        className: "h-12 w-12",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$avatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AvatarImage"], {
                                 src: "/avatars/01.png",
@@ -897,7 +905,7 @@ function User() {
                                 columnNumber: 7
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$avatar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AvatarFallback"], {
-                                children: username
+                                children: iniciales.toUpperCase()
                             }, void 0, false, {
                                 fileName: "[project]/components/navbar/user.tsx",
                                 lineNumber: 31,
@@ -920,7 +928,7 @@ function User() {
                 columnNumber: 4
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuContent"], {
-                className: "w-56",
+                className: "w-58",
                 align: "end",
                 forceMount: true,
                 children: [
@@ -931,7 +939,7 @@ function User() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-sm font-medium leading-none",
-                                    children: username
+                                    children: nombre
                                 }, void 0, false, {
                                     fileName: "[project]/components/navbar/user.tsx",
                                     lineNumber: 38,
@@ -939,7 +947,7 @@ function User() {
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-xs leading-none text-muted-foreground",
-                                    children: user
+                                    children: usuario
                                 }, void 0, false, {
                                     fileName: "[project]/components/navbar/user.tsx",
                                     lineNumber: 39,
@@ -963,7 +971,7 @@ function User() {
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuGroup"], {
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
-                            className: "flex justify-between",
+                            className: "flex justify-between hover:white:bg-gray-400",
                             onClick: ()=>{
                                 const theme = isDark ? "light" : "dark";
                                 setTheme(theme);
@@ -1016,7 +1024,7 @@ function User() {
                         columnNumber: 5
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
-                        className: "bg-red-500 opacity-75 text-dark hover:text-red-400 dark:text-white  hover:opacity-100 text-right",
+                        className: "bg-red-600  text-black hover:text-red-600 hover:font-bold  dark:text-white  hover:opacity-100 text-right focus:text-red-600 focus:font-bold hover:border focus:border hover:border-red-600 focus:border-red-600 rounded-md ",
                         children: "Cerrar Sesión"
                     }, void 0, false, {
                         fileName: "[project]/components/navbar/user.tsx",
@@ -1036,7 +1044,7 @@ function User() {
         columnNumber: 3
     }, this);
 }
-_s(User, "QdRofmLe18H3kKhYJYTUmgrAF10=", false, function() {
+_s(User, "kEl/r/r8+wjFfBIjN3+x38KGTEo=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$store$2f$user$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$themes$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTheme"]

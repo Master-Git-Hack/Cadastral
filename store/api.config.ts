@@ -2,13 +2,12 @@
 "use client";
 import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
 import { create } from "zustand";
-
+import { useUser } from "./user";
 import LS from "@utils/localStorage";
 import { now } from "@utils/time";
 const _URL = process.env.NEXT_PUBLIC_API_URL;
 const _ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const _VERSION = process.env.NEXT_PUBLIC_API_VERSION;
-// const baseURL = `${_URL}:${_PORT}/${_ENDPOINT}/${_VERSION}`;
 const baseURL = `${_URL}/${_ENDPOINT}/${_VERSION}`;
 const consume = ({
 	headers = {},
@@ -45,7 +44,8 @@ const setConfig = (url: string, config?: CreateAxiosDefaults) => {
 	if (config === undefined) config = {};
 	let headers = {};
 	if (url !== "oauth2/sign-in") {
-		const token = LS.get("token");
+		const user = LS.get("user-storage");
+		const token = user?.token;
 		if (token) {
 			headers = {
 				...headers,
@@ -141,23 +141,24 @@ export const api = {
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			if (formData) {
-				const formData = new FormData();
-				Object.keys(data).forEach((key) => {
-					formData.append(key, data[key]);
-				});
-				const response = await consume(config).post(url, formData, {
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				});
-				setSuccess(response.data.data, response.data.message);
-				return response;
-			} else {
-				const response = await consume(config).post(url, data);
-				setSuccess(response.data.data, response.data.message);
-				return response;
-			}
+			// 	if (formData) {
+			// 		const formData = new FormData();
+			// 		Object.keys(data).forEach((key) => {
+			// 			formData.append(key, data[key]);
+			// 		});
+			// 		const response = await consume(config).post(url, formData, {
+			// 			headers: {
+			// 				"Content-Type": "multipart/form-data",
+			// 			},
+			// 		});
+			// 		setSuccess(response.data.data, response.data.message);
+			// 		return response;
+			// 	} else {
+
+			// 	}
+			const response = await consume(config).post(url, data);
+			setSuccess(response.data.data, response.data.message);
+			return response;
 		} catch (error: any) {
 			const { response, message } = error;
 			setError(response?.data?.message || message);
