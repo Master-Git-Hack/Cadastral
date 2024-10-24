@@ -37,7 +37,7 @@ export default function Page() {
 								{label}
 							</h5>
 						</CardContent>
-						<CardFooter>
+						<CardFooter className="text-end">
 							<Link
 								href={href}
 								className="flex-2 mx-2 grow text-teal-500 hover:text-black dark:text-teal-400 dark:hover:text-white hover:underline"

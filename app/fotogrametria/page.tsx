@@ -55,7 +55,7 @@ export default function Page() {
 								{title(municipio)}
 							</h5>
 						</CardContent>
-						<CardFooter>
+						<CardFooter className="text-end">
 							<Link
 								href={`/fotogrametria/${municipio}`}
 								className="flex-2 mx-2 grow text-teal-500 hover:text-black dark:text-teal-400 dark:hover:text-white hover:underline"

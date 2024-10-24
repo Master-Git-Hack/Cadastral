@@ -1,0 +1,26 @@
+{
+	"vehicle": null,
+	"waypoints": {
+		"rows": [
+			{
+				"state_name": "reserve",
+				"loc": null
+			},
+			{
+				"state_name": "rider cancel",
+				"loc": [
+					0,
+					0
+				]
+			}
+		],
+		"total": 2
+	},
+	"journey_id": "6b5eee14-9070-11ef-b840-4a74c7106dad",
+	"loc": [
+		40.4071773,
+		-3.7077801
+	],
+	"name": "rider cancel",
+	"driver": null
+}

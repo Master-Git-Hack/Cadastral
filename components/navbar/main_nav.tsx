@@ -42,7 +42,7 @@ export default function MainNav({ className, ...props }: React.HTMLAttributes<HT
 				<Link
 					key={label}
 					href={href}
-					className={`text-sm font-medium transition-colors hover:text-primary ${pathname === href ? "text-primary" : "text-gray-500"}`}
+					className={`text-sm font-medium transition-colors hover:text-primary ${pathname.includes(href) ? "text-primary" : "text-gray-500"}`}
 				>
 					{label}
 				</Link>

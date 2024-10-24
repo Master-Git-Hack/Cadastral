@@ -1,6 +1,6 @@
 /** @format */
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import useUser from "@/store/user/index";
 import useStatusStore from "@/store/api.config";
@@ -50,9 +50,12 @@ export default function SignIn() {
 			signIn(data);
 		}
 	}
-	if (token) {
-		router.push("/home");
-	}
+	useEffect(() => {
+		if (token) {
+			router.push("/home");
+		}
+	}, [token]);
+
 	if (isError) {
 		Danger({ title: "Error al iniciar sesión", text: message });
 	}
