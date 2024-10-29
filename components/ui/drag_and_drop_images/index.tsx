@@ -5,12 +5,13 @@ import Image from "next/image";
 import { Card, CardHeader, CardContent, CardFooter } from "../card";
 import { ChevronsUpDown, Plus, X, Pencil, Check, Trash } from "lucide-react";
 import { Button } from "../button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../collapsible";
 import { Input } from "../input";
 import { Label } from "../label";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Warning } from "@components/ui/alert";
 import Resizer from "react-image-file-resizer";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+
 export const DropZone = () => {
 	const [isDragging, setIsDragging] = useState(false);
 	const [images, setImages] = useState([]);
@@ -48,10 +49,10 @@ export const DropZone = () => {
 			);
 		});
 	const handleFileChange = (e) => {
-		const files = Array.from(e.target.files).map(async (file) => {
-			const resized = await resizeFile(file);
-			return new File([resized], file.name, { type: file.type });
-		});
+		const files = Array.from(e.target.files); //.map(async (file) => {
+		// 	const resized = await resizeFile(file);
+		// 	return new File([resized], file.name, { type: file.type });
+		// });
 		displayPreview(files);
 	};
 
@@ -164,83 +165,78 @@ const ImageCard = memo(({ preview, name, index, onRemove, onRename }) => {
 		setIsEditing(!isEditing);
 	};
 	return (
-		<Card
-			className={`${isEditing ? "w-64 h-96" : "size-64"} mx-auto  m-h-fit overflow-hidden border-2 border-gray-200 rounded-lg hover:shadow-lg mx-4`}
-		>
-			<CardHeader className="relative inline-block w-full h-48 mb-4">
-				<Image
-					src={preview}
-					alt={name}
-					layout="fill"
-					objectFit="cover"
-					className="rounded-md object-cover"
-					loading="lazy"
-				/>
+		<>
+			<HoverCard>
 				{!isEditing && (
-					<>
-						<Button
-							variant="destructive"
-							size="icon"
-							className="absolute top-0 right-0 rounded-full z-10 opacity-50 hover:opacity-100 me-2"
-							onClick={() =>
-								Warning({
-									title: "¿Estas seguro?",
-									text: "Esta imagen sera eliminada.",
-									showCancelButton: true,
-									showCloseButton: true,
-								}).then(({ isConfirmed }) => {
-									if (isConfirmed) {
-										onRemove(index);
-									}
-								})
-							}
-						>
-							<Trash className="h-4 w-4" />
+					<HoverCardTrigger asChild>
+						<Button variant="link" className="text-sm font-medium w-fit">
+							{newName}.{ext}{" "}
+							<Button
+								variant="outline"
+								size="icon"
+								className=" rounded-full hover:opacity-50 opacity-100 mx-2"
+								onClick={cancelName}
+							>
+								<Pencil className="size-4" />
+							</Button>
+							<Button
+								variant="destructive"
+								size="icon"
+								className=" rounded-full opacity-50 hover:opacity-100"
+								onClick={() =>
+									Warning({
+										title: "¿Estas seguro?",
+										text: "Esta imagen sera eliminada.",
+										showCancelButton: true,
+										showCloseButton: true,
+									}).then(({ isConfirmed }) => {
+										if (isConfirmed) {
+											onRemove(index);
+										}
+									})
+								}
+							>
+								<Trash className="size-4" />
+							</Button>
 						</Button>
-						<Button
-							variant="outline"
-							size="icon"
-							className="absolute top-0 left-0 rounded-full z-10 hover:opacity-50 opacity-100 ms-2"
-							onClick={cancelName}
-						>
-							<Pencil className="h-4 w-4" />
-						</Button>
-					</>
+					</HoverCardTrigger>
 				)}
-			</CardHeader>
-			<CardContent>
-				{isEditing ? (
-					<div className="space-y-2">
-						<Label htmlFor="filename">Nombre de la Imagen</Label>
-						<Input
-							id="filename"
-							value={newName}
-							onChange={(e) => setNewName(e.target.value)}
-							className="w-full"
-							placeholder={`[Punto/pto]_#.${ext}`}
-						/>
-					</div>
-				) : (
-					<div className="flex flex-row items-center justify-between">
-						<p className="text-sm font-medium break-all truncate">
-							{newName}.{ext}
-						</p>
-					</div>
-				)}
-			</CardContent>
+
+				<HoverCardContent className="size-full w-fit h-fit">
+					<Image
+						src={preview}
+						alt={name}
+						layout="fill"
+						objectFit="cover"
+						className="rounded-md object-cover size-full"
+					/>
+				</HoverCardContent>
+			</HoverCard>
 			{isEditing && (
-				<CardFooter className="flex items-center justify-between">
+				<div className="space-y-2">
+					<Label htmlFor="filename">Nombre de la Imagen</Label>
+					<Input
+						id="filename"
+						value={newName}
+						onChange={(e) => setNewName(e.target.value)}
+						className="w-full"
+						placeholder={`[Punto/pto]_#.${ext}`}
+					/>
+				</div>
+			)}
+			{isEditing && (
+				<>
 					<Button variant="outline" size="sm" onClick={cancelName}>
-						<X className="h-4 w-4 mr-2" />
+						<X className="size-4 mr-2" />
 						Cancelar
 					</Button>
 					<Button variant="success" size="sm" onClick={saveName}>
-						<Check className="h-4 w-4 mr-2" />
+						<Check className="size-4 mr-2" />
 						Guardar
 					</Button>
-				</CardFooter>
+				</>
 			)}
-		</Card>
+		</>
 	);
 });
 
