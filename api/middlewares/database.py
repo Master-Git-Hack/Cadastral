@@ -23,6 +23,7 @@ class Instance:
                 raise ValueError(f"Database '{schema}' not found.")
             engine = self.ENGINES[schema]
             session = Session(engine)
+            self.SESSIONS[schema] = session
             try:
                 yield session
             finally:
