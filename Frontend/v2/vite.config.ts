@@ -3,11 +3,27 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import million from "million/compiler";
 import pluginRewriteAll from '@evg3/vite-plugin-rewrite-all';
-
-
+import { ViteMinifyPlugin } from 'vite-plugin-minify'
+import obfuscator from 'rollup-plugin-obfuscator';
 
 export default defineConfig({
-  plugins: [pluginRewriteAll(),million.vite({ auto: true }), react()],
+  plugins: [pluginRewriteAll(), million.vite({ auto: true }), react(), ViteMinifyPlugin({}),
+  //   obfuscator({
+  //   options: {
+  //     // Your javascript-obfuscator options here
+  //     // See what's allowed: https://github.com/javascript-obfuscator/javascript-obfuscator
+  //   },
+    // })],
+  ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:5000',
+        changeOrigin: true,
+      },
+    
+    }
+  },
   base: "/",
 
   preview: {

@@ -99,11 +99,12 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
-							{catalogo.level[findSelectValue("level")?.code - 1 ?? 0]?.description ??
+							{catalogo.level[findSelectValue("level")?.code - 1]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
 					</Table.Cell>
 				</Table.Row>
+				{/*
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 					<Table.Cell
 						scope="row"
@@ -327,7 +328,7 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 							6.2.3.1.3.1.2, 6.2.4.1.3.1.2, 6.2.5.1.3.1.2
 						</small>
 					</Table.Cell>
-				</Table.Row>
+				</Table.Row> */}
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 					<Table.Cell
 						scope="row"
@@ -363,6 +364,28 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						6.3.2.1
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Descripción del proceso
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Input.Area
+							value={data.li_processstep_description}
+							name="li_source_description"
+							onChange={handleInputChange}
+							variant="outline"
+							size="lg"
+							className=" w-full md:w-14rem"
+						/>
+					</Table.Cell>
+				</Table.Row>
+				{/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 					<Table.Cell
 						scope="row"
 						colSpan={1}
@@ -408,7 +431,7 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 							className=" w-full md:w-14rem"
 						/>
 					</Table.Cell>
-				</Table.Row>
+				</Table.Row> */}
 			</Table.Body>
 		</>
 	);

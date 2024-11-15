@@ -7,6 +7,7 @@ import { Table } from "flowbite-react";
 import Input from "@components/Input";
 import { Dropdown } from "primereact/dropdown";
 import catalogo from "../catologos/index";
+import { MultiSelect } from "primereact/multiselect";
 
 export const Section8 = ({ data, setData, editable = true }: any) => {
 	const handleInputChange = ({ currentTarget }) =>
@@ -24,6 +25,38 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
 		(item) => item.code === data.md_dataidentification_language,
 	);
+	const handleMultiSelect = (e) => {
+		const { name } = e.target;
+		const items = e.value.filter((item) => {
+			return item.code && item.label !== "undefined" && item.description !== "undefined";
+		});
+
+		setData({
+			...data,
+			[name]: items.map((item) => `${item.code}. ${item.label}. ${item.description}`),
+		});
+	};
+	const findMultiSelect = (name: string) => {
+		const input = data[name] ?? [];
+		const result = input
+			.map((item) => {
+				const [code, label, description] = item.split(". ").map((text, index) => {
+					if (index === 0 && text.trim()) {
+						return text.trim();
+					} else if (index !== 0 && text.trim() !== "undefined") {
+						return text.trim();
+					}
+					return null;
+				});
+
+				if (code && label !== "undefined" && description !== "undefined") {
+					return { code, label, description };
+				}
+				return null;
+			})
+			.filter((item) => item !== null);
+		return result;
+	};
 	return (
 		<>
 			<Table.Head>
@@ -42,6 +75,89 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 			</Table.Head>
 			<Table.Body>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						8.1
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Restricciones de acceso
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Input
+							name="accessconstraints"
+							value={data.accessconstraints}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						8.2
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Restricciones de uso
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<MultiSelect
+							name="useconstraints"
+							options={catalogo.useconstraints}
+							value={findMultiSelect("useconstraints")}
+							onChange={handleMultiSelect}
+							placeholder="Seleccione una Categoria"
+							disabled={!editable}
+							className="w-full md:w-14rem"
+							// selectionLimit={2}
+							// maxSelectedLabels={2}
+							display="chip"
+							// selectAll={false}
+							// showSelectAll={false}
+						/>
+						{/* <Input
+							name="useconstraints"
+							value={data.useconstraints}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/> */}
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						8.3
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Responsabilidad de distribución
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Input
+							name="otherconstraints"
+							value={data.otherconstraints}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				{/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 					<Table.Cell
 						scope="row"
 						colSpan={1}
@@ -98,7 +214,7 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 							disabled={!editable}
 						/>
 					</Table.Cell>
-				</Table.Row>
+				</Table.Row> */}
 			</Table.Body>
 		</>
 	);

@@ -49,12 +49,16 @@ async def get_resources(
                 "label": db.replace("_", " ").title(),
                 "data": f"{db.capitalize()} Database",
                 "icon": "pi pi-fw pi-database",
+                "selectable": False,
+                "leaf": True,
                 "children": [
                     {
                         "key": f"{db}.{schema}",
                         "label": schema.replace("_", " ").title(),
                         "data": f"{schema.capitalize()} Schema",
                         "icon": "pi pi-fw pi-sitemap",
+                        "selectable": False,
+                        "leaf": True,
                         "children": [
                             {
                                 "key": f"{db}.{schema}.{table}",
@@ -109,11 +113,14 @@ async def get_all_metadatos_preview(
             data=meta.to_list(
                 only=[
                     "uid",
+                    "db_name",
                     "table_name",
                     "schema_name",
                     "title",
                     "purpose",
                     "abstract",
+                    "username",
+                    "update_date",
                 ]
             )
         )
@@ -131,7 +138,7 @@ async def get_all_temporal_metadatos(
     try:
         meta = __TMP(db=db)
 
-        if meta.filter_group(encargado=user.id) is None:
+        if meta.filter_group(username=user.nombre) is None:
             __response.success(data=[])
         return __response.success(data=meta.to_list())
     except Exception as e:
@@ -179,6 +186,9 @@ async def get_temporal_id(
         return __response.error(message=str(e))
 
 
+from pprint import pprint
+
+
 @metadatos.post("/create")
 async def create(
     request: Request,
@@ -196,23 +206,12 @@ async def create(
             if value is not None or value != ""
         }
 
-        data |= {
-            key: parse(data[key])
-            for key in {
-                "datestamp",
-                "date_creation",
-                "date",
-                "publication_date",
-                "update_date",
-                "data_last_update",
-            }
-        }
-        if meta.create(**data, encargado=user.id) is None:
+        if meta.create(**data, username=user.nombre) is None:
             return __response.error(message="No se pudo registrar el metadato")
-        return __response.success(data=meta.to_dict())
+        return __response.success(data=meta.to_dict() | {"status": "success"})
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
-        return __response.error(message=str(e))
+        return __response.error(message=str(e), data={"status": "error"})
 
 
 @metadatos.patch("/{id}")
@@ -232,7 +231,7 @@ async def patch_id(
                 status_code=404,
             )
         data = await request.json()
-
+        data |= {"update_date": parse("hoy")}
         if "geom" in data:
             del data["geom"]
         # for key in {"distance_res", "bearing_res", "altres", "depthres", "utm_zone"}:
@@ -245,10 +244,10 @@ async def patch_id(
 
         if meta.update(**data) is None:
             return __response.error(message="No se pudo actualizar el metadato")
-        return __response.success(data=meta.to_dict())
+        return __response.success(data=meta.to_dict() | {"status": "success"})
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
-        return __response.error(message=str(e))
+        return __response.error(message=str(e), data={"status": "error"})
 
 
 @metadatos.post("/temporal/create")
@@ -259,14 +258,14 @@ async def post_temporal_metadatos(
 ):
     data = await request.json()
     meta = __TMP(db=db)
-    encargado = user.id
-    if meta.create(**data, encargado=encargado) is None:
+    if meta.create(**data, username=user.nombre) is None:
         return __response.error(
             message="Error procesando la solicitud",
             status_code=404,
+            data={"status": "error"},
         )
 
-    return __response.success(data=meta.to_dict())
+    return __response.success(data=meta.to_dict() | {"status": "success"})
 
 
 @metadatos.patch("/temporal/{uid}")
@@ -280,18 +279,19 @@ async def patch_temporal_metadatos(
         return __response.error(**user)
     data = await request.json()
     meta = __TMP(db=db)
-    encargado = user.id
-    if meta.filter(uid=uid, encargado=encargado) is None:
+    if meta.filter(uid=uid, username=user.nombre) is None:
         return __response.error(
             message="Error procesando la solicitud",
             status_code=404,
         )
+    data |= {"update_date": parse("hoy")}
     if meta.update(**data) is None:
         return __response.error(
             message="No se pudo actualizar el registro",
             status_code=409,
+            data={"status": "error"},
         )
-    return __response.success(data=meta.to_dict())
+    return __response.success(data=meta.to_dict() | {"status": "success"})
 
 
 @metadatos.get("/report/{uid}")
@@ -323,7 +323,7 @@ async def delete_temporal_metadatos(
     try:
         meta = __TMP(db=db)
         encargado = user.id
-        if meta.filter(uid=uid, encargado=encargado) is None:
+        if meta.filter(uid=uid, username=user.nombre) is None:
             return __response.error(
                 message="Error procesando la solicitud",
                 status_code=404,

@@ -1,6 +1,7 @@
 /** @format */
 import { useState, useEffect } from "react";
 import { Table } from "flowbite-react";
+import { Chips } from "primereact/chips";
 import Input from "@components/Input";
 import { Dropdown } from "primereact/dropdown";
 import catalogo from "../catologos/index";
@@ -41,18 +42,12 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 		});
 		setData({
 			...data,
-			[name]:
-				items.length === 1
-					? `${items[0].code}. ${items[0].label}. ${items[0].description}`
-					: items
-							.map((item) => `${item.code}. ${item.label}. ${item.description}`)
-							.join(" | "),
+			[name]: items.map((item) => `${item.code}. ${item.label}. ${item.description}`),
 		});
 	};
 	const findMultiSelect = (name: string) => {
-		const input = String(data[name] ?? "");
+		const input = data[name] ?? [];
 		const result = input
-			.split(" | ")
 			.map((item) => {
 				const [code, label, description] = item.split(". ").map((text, index) => {
 					if (index === 0 && text.trim()) {
@@ -217,6 +212,9 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 							placeholder="Seleccione una Categoria"
 							disabled={!editable}
 							className="w-full md:w-14rem"
+							display="chip"
+							selectAll={false}
+							showSelectAll={false}
 						/>
 					</Table.Cell>
 				</Table.Row>
@@ -244,7 +242,7 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
-							{catalogo.groupcategory[findSelectValue("groupcategory")?.code - 1 ?? 0]
+							{catalogo.groupcategory[findSelectValue("groupcategory")?.code - 1]
 								?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
@@ -262,7 +260,23 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 						Palabra clave
 					</Table.Cell>
 					<Table.Cell colSpan={9}>
-						<Input
+						<Chips
+							name="keyword"
+							value={data.keyword}
+							onChange={(e) => setData((prev) => ({ ...prev, keyword: e.value }))}
+							placeholder="Palabras o frases usadas para describir algún aspecto del conjunto de datos espaciales o producto y que pueden ser utilizadas como referencia para búsquedas."
+							disabled={!editable}
+							allowDuplicate={false}
+							pt={{
+								root: {
+									className: "w-full md:w-14rem",
+								},
+								container: {
+									className: "w-full md:w-14rem",
+								},
+							}}
+						/>
+						{/* <Input
 							name="keyword"
 							type="text"
 							variant="outline"
@@ -271,7 +285,7 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 							value={data.keyword}
 							onChange={handleInputChange}
 							disabled={!editable}
-						/>
+						/> */}
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -295,6 +309,10 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 							disabled={!editable}
 							className="w-full md:w-14rem"
 							selectionLimit={2}
+							maxSelectedLabels={2}
+							display="chip"
+							selectAll={false}
+							showSelectAll={false}
 						/>
 					</Table.Cell>
 				</Table.Row>
@@ -360,7 +378,7 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.maintenanceandupdatefrequency[
-								findSelectValue("maintenanceandupdatefrequency")?.code - 1 ?? 0
+								findSelectValue("maintenanceandupdatefrequency")?.code - 1
 							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
@@ -390,7 +408,7 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.md_dataidentification_characterset[
-								findSelectValue("md_dataidentification_characterset")?.code - 1 ?? 0
+								findSelectValue("md_dataidentification_characterset")?.code - 1
 							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
@@ -409,11 +427,11 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 					</Table.Cell>
 					<Table.Cell colSpan={9}>
 						<Input.Area
-							name="ci_onlineresource_linkage"
+							name="specuse"
 							variant="outline"
 							size="lg"
 							placeholder="Descripción de la manera en la cual el conjunto de datos espaciales o producto es o ha sido utilizado"
-							value={data.ci_onlineresource_linkage}
+							value={data.specuse}
 							onChange={handleInputChange}
 							disabled={!editable}
 						/>

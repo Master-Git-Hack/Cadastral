@@ -21,6 +21,7 @@ export const Section9 = ({ data, setData, editable }: any) => {
 	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
 	const findSelectValue = (name: string) => {
 		const [code] = String(data[name] ?? "")?.split(".");
+		if (name === "inf_metadata_ci_responsibleparty_role") name = "ci_responsibleparty_role";
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
@@ -66,31 +67,244 @@ export const Section9 = ({ data, setData, editable }: any) => {
 						/>
 					</Table.Cell>
 				</Table.Row>
-
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 					<Table.Cell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
-						9.3
+						9.4.2
 					</Table.Cell>
 					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
-						Idioma de los Metadatos
+						Nombre de la organización
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
 						<Input
-							name="metadatastandardversion"
-							value={data.md_dataidentification_language}
+							name="inf_metadata_ci_responsibleparty_organisationname"
+							value={data.inf_metadata_ci_responsibleparty_organisationname}
 							onChange={handleInputChange}
 							type="text"
 							variant="outline"
 							size="lg"
-							disabled
+							disabled={!editable}
 						/>
 					</Table.Cell>
 				</Table.Row>
-
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.4.4
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Teléfono
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						{data.ci_responsibleparty_voice}
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.4.6
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Dirección
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Input
+							name="ci_responsibleparty_deliverypoint"
+							value={data.ci_responsibleparty_deliverypoint}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.4.7
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Ciudad
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Input
+							name="ci_responsibleparty_city"
+							value={data.ci_responsibleparty_city}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.4.9
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Área administrativa
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						{data.ci_responsibleparty_administrativearea}
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.4.9
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Código postal
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Input
+							name="ci_responsibleparty_postalcode"
+							value={data.ci_responsibleparty_postalcode}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.4.10
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						País
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Input
+							name="ci_responsibleparty_country"
+							value={data.ci_responsibleparty_country}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.4.11
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Dirección de correo electrónico del contacto
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Input
+							name="ci_responsibleparty_electronicmailaddress"
+							value={data.ci_responsibleparty_electronicmailaddress}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.4.12
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Rol
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Dropdown
+							name="inf_metadata_ci_responsibleparty_role"
+							placeholder="Seleccione una opción"
+							options={catalogo.ci_responsibleparty_role}
+							value={findSelectValue("inf_metadata_ci_responsibleparty_role")}
+							onChange={handleSelectChange}
+							disabled={!editable}
+							className="w-full md:w-14rem"
+						/>
+						<span className="underline me-1">Descripción:</span>
+						<small className="font-xs">
+							{catalogo.ci_responsibleparty_role[
+								findSelectValue("ci_responsibleparty_role")?.code - 1
+							]?.description ??
+								"Seleccione una opción para ver su descripción correspondiente"}
+						</small>
+						{/* <Input
+							name="inf_metadata_ci_responsibleparty_role"
+							value={data.inf_metadata_ci_responsibleparty_role}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/> */}
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.5
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Fecha de Publicación
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						{moment(data.datestamp ?? new Date()).format("YYYY-MM-DD")}
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						9.6
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Conjunto de caracteres
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						{data.md_dataidentification_characterset}
+					</Table.Cell>
+				</Table.Row>
+				{/* 
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 					<Table.Cell
 						scope="row"
@@ -120,7 +334,7 @@ export const Section9 = ({ data, setData, editable }: any) => {
 							inputClassName="text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 w-full md:w-14rem"
 						/>
 					</Table.Cell>
-				</Table.Row>
+				</Table.Row> */}
 			</Table.Body>
 		</>
 	);

@@ -7,6 +7,7 @@ import "primereact/resources/themes/tailwind-light/theme.css";
 //import { Table } from "@components/Table";
 import { useState, useEffect } from "react";
 import { ScrollPanel } from "primereact/scrollpanel";
+import moment from "moment";
 import {
 	useGetMetadatosQuery,
 	useGetMetadatoReportMutation,
@@ -19,20 +20,31 @@ import Alert from "@components/Alerts";
 import Error from "../Error";
 import { Table, Button } from "flowbite-react";
 import { saveAs } from "file-saver";
-import { useNavigate } from "react-router";
 import Toast from "@components/Alerts";
-
+import { useLocation, useNavigate } from "react-router-dom";
 export default function Metadatos() {
+	const location = useLocation();
 	const navigate = useNavigate();
 
-	const { data, isLoading, isError, error } = useGetMetadatosQuery();
+	const { data, isLoading, isError, error, refetch } = useGetMetadatosQuery();
 	const {
 		data: temporal,
 		isLoading: isLoadingTemporal,
 		isError: isErrorTemporal,
 		error: errorTemporal,
+		refetch: refetchTemporal,
 	} = useGetAllTemporalQuery();
 	const [deleteTemporal] = useDeleteTemporalMutation();
+	useEffect(() => {
+		// Verifica si existe el parámetro 'refresh'
+		if (location.state?.refresh) {
+			refetch();
+			refetchTemporal();
+
+			// Elimina el parámetro 'refresh' después de cargar los datos
+			navigate("/metadatos", { state: {} });
+		}
+	}, [location.state, navigate]);
 	if (isError || isErrorTemporal) return <Error message={error?.data} />;
 	if (isLoading || isLoadingTemporal) return <Spinner size={20} />;
 
@@ -47,11 +59,14 @@ export default function Metadatos() {
 			</div>
 			<Table striped hoverable>
 				<Table.Head>
-					<Table.HeadCell>Nombre de la Tabla</Table.HeadCell>
+					<Table.HeadCell>Nombre de la Base de Datos</Table.HeadCell>
 					<Table.HeadCell>Nombre del Schema</Table.HeadCell>
+					<Table.HeadCell>Nombre de la Tabla</Table.HeadCell>
 					<Table.HeadCell>Titulo</Table.HeadCell>
 					<Table.HeadCell>Proposito</Table.HeadCell>
 					<Table.HeadCell>Resumen</Table.HeadCell>
+					<Table.HeadCell>Usuario</Table.HeadCell>
+					<Table.HeadCell>Ultima Actualización</Table.HeadCell>
 					<Table.HeadCell>
 						<span className="sr-only">Editar</span>
 					</Table.HeadCell>
@@ -59,18 +74,25 @@ export default function Metadatos() {
 				<Table.Body>
 					{data?.data?.map(
 						(
-							{ uid, table_name, schema_name, title, purpose, abstract }: IMetadatos,
+							{
+								uid,
+								db_name,
+								table_name,
+								schema_name,
+								title,
+								purpose,
+								abstract,
+								username,
+								update_date,
+							}: IMetadatos,
 							index: number,
 						) => (
 							<Table.Row
 								className="bg-white dark:border-gray-700 dark:bg-gray-800"
 								key={index}
 							>
-								<Table.Cell
-									scope="row"
-									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-								>
-									{table_name
+								<Table.Cell>
+									{db_name
 										.split("_")
 										?.map(
 											(word: string) =>
@@ -87,6 +109,19 @@ export default function Metadatos() {
 										)
 										.join(" ")}
 								</Table.Cell>
+								<Table.Cell
+									scope="row"
+									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+								>
+									{table_name
+										.split("_")
+										?.map(
+											(word: string) =>
+												word.charAt(0).toUpperCase() + word.slice(1),
+										)
+										.join(" ")}
+								</Table.Cell>
+
 								<Table.Cell>
 									<p className=" text-justify">{title}</p>
 								</Table.Cell>
@@ -100,6 +135,14 @@ export default function Metadatos() {
 									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
 										{abstract}
 									</p>
+								</Table.Cell>
+								<Table.Cell>{username}</Table.Cell>
+								<Table.Cell>
+									{new Date(update_date).toLocaleDateString("es-ES", {
+										year: "numeric", // Ejemplo: 2023
+										month: "long", // Ejemplo: octubre
+										day: "numeric", // Ejemplo: 25
+									})}
 								</Table.Cell>
 								<Table.Cell className="px-6 py-4 text-right">
 									<NavLink
@@ -130,11 +173,14 @@ export default function Metadatos() {
 			{temporal?.data && (
 				<Table striped hoverable>
 					<Table.Head>
+						<Table.HeadCell>Nombre de la Base de Datos</Table.HeadCell>
 						<Table.HeadCell>Nombre de la Tabla</Table.HeadCell>
 						<Table.HeadCell>Nombre del Schema</Table.HeadCell>
 						<Table.HeadCell>Titulo</Table.HeadCell>
 						<Table.HeadCell>Proposito</Table.HeadCell>
 						<Table.HeadCell>Resumen</Table.HeadCell>
+						<Table.HeadCell>Usuario</Table.HeadCell>
+						<Table.HeadCell>Ultima Actualización</Table.HeadCell>
 						<Table.HeadCell>
 							<span className="sr-only">Editar</span>
 						</Table.HeadCell>
@@ -145,12 +191,14 @@ export default function Metadatos() {
 								{
 									uid = "",
 									datos = {
+										db_name: "",
 										table_name: "",
 										schema_name: "",
 										title: "",
 										purpose: "",
 										abstract: "",
 									},
+									username = "",
 									fecha_creacion = "",
 									fecha_modificacion = "",
 								}: IMetadatos,
@@ -160,11 +208,8 @@ export default function Metadatos() {
 									className="bg-white dark:border-gray-700 dark:bg-gray-800"
 									key={index}
 								>
-									<Table.Cell
-										scope="row"
-										className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-									>
-										{datos?.table_name
+									<Table.Cell>
+										{datos?.db_name
 											.split("_")
 											?.map(
 												(word: string) =>
@@ -181,6 +226,19 @@ export default function Metadatos() {
 											)
 											.join(" ")}
 									</Table.Cell>
+									<Table.Cell
+										scope="row"
+										className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+									>
+										{datos?.table_name
+											.split("_")
+											?.map(
+												(word: string) =>
+													word.charAt(0).toUpperCase() + word.slice(1),
+											)
+											.join(" ")}
+									</Table.Cell>
+
 									<Table.Cell>
 										<p className=" text-justify">{datos?.title}</p>
 									</Table.Cell>
@@ -194,6 +252,14 @@ export default function Metadatos() {
 										<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
 											{datos?.abstract}
 										</p>
+									</Table.Cell>
+									<Table.Cell>{username}</Table.Cell>
+									<Table.Cell>
+										{new Date(fecha_modificacion).toLocaleDateString("es-ES", {
+											year: "numeric", // Ejemplo: 2023
+											month: "long", // Ejemplo: octubre
+											day: "numeric", // Ejemplo: 25
+										})}
 									</Table.Cell>
 									<Table.Cell className="px-6 py-4 text-right">
 										<NavLink

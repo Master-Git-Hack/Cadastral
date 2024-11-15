@@ -3,6 +3,8 @@
 export interface IMetadatos {
 	id?: number;
 	uid?: string;
+	db_name: string;
+	username?: string;
 	table_name: string;
 	schema_name: string;
 	title?: string;

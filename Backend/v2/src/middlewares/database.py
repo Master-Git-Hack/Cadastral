@@ -52,7 +52,6 @@ class InstanceDB:
         return super().__new__(cls)
 
     def __init__(self):
-
         for db in DBS:
             setattr(
                 self,

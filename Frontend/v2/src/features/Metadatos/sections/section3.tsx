@@ -125,6 +125,54 @@ export const Section3 = ({ data, setData, editable = true }: any) => {
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
+						3.4
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+						Teléfono
+					</Table.Cell>
+					<Table.Cell colSpan={9} className="w-9/12">
+						<Input
+							name="ci_responsibleparty_voice"
+							type="text"
+							variant="outline"
+							placeholder="Teléfono de la persona responsable"
+							size="lg"
+							value={data.ci_responsibleparty_voice}
+							onChange={handleInputChange}
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
+						3.8
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+						Área administrativa
+					</Table.Cell>
+					<Table.Cell colSpan={9} className="w-9/12">
+						<Input
+							name="ci_responsibleparty_administrativearea"
+							type="text"
+							variant="outline"
+							placeholder="Área de la persona responsable"
+							size="lg"
+							value={data.ci_responsibleparty_administrativearea}
+							onChange={handleInputChange}
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
 						3.12
 					</Table.Cell>
 					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
@@ -167,7 +215,7 @@ export const Section3 = ({ data, setData, editable = true }: any) => {
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.ci_responsibleparty_role[
-								findSelectValue("ci_responsibleparty_role")?.code - 1 ?? 0
+								findSelectValue("ci_responsibleparty_role")?.code - 1
 							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>

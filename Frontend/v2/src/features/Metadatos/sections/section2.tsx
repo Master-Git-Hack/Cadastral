@@ -6,6 +6,7 @@
 // 	date_creation: "",
 // 	inpname: "",
 // };
+import { useState } from "react";
 import { Table } from "flowbite-react";
 import Input from "@components/Input";
 import { Calendar } from "primereact/calendar";
@@ -28,7 +29,6 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
 		(item) => item.code === data.md_dataidentification_language,
 	);
-	console.log();
 	return (
 		<>
 			<Table.Head>
@@ -71,15 +71,15 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 					</Table.Cell>
 					<Table.Cell colSpan={9} className="w-9/12">
 						<Calendar
-							value={moment(data.datestamp).format("YYYY-MM-DD").toString()}
+							value={data.date}
 							dateFormat="yy-mm-dd"
 							showButtonBar
-							onChange={(e) =>
+							onChange={(e) => {
 								setData({
 									...data,
-									datestamp: e.value,
-								})
-							}
+									date: e.value,
+								});
+							}}
 							className=" w-full md:w-14rem"
 							disabled={!editable}
 							inputClassName="text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 w-full md:w-14rem"
@@ -109,7 +109,7 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
-							{catalogo.datetype[findSelectValue("datetype")?.code - 1 ?? 0]
+							{catalogo.datetype[findSelectValue("datetype")?.code - 1]
 								?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>

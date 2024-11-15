@@ -153,7 +153,7 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 							step={0.0000001}
 							min={-90}
 							max={90}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border bordermercator_sfecenter"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -236,7 +236,7 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.spatialrepresentationtype[
-								findSelectValue("spatialrepresentationtype")?.code - 1 ?? 0
+								findSelectValue("spatialrepresentationtype")?.code - 1
 							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>

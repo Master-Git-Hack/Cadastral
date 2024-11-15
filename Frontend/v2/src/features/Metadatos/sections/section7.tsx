@@ -54,8 +54,8 @@ export const Section7 = ({ data, setData, editable = true }: any) => {
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
 						<Input.Area
-							name="entity_detail"
-							value={data.entity_detail}
+							name="schemaascii"
+							value={data.schemaascii}
 							onChange={handleInputChange}
 							variant="outline"
 							size="lg"
@@ -76,8 +76,8 @@ export const Section7 = ({ data, setData, editable = true }: any) => {
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
 						<Input
-							name="graphfilename"
-							value={data.graphfilename}
+							name="entity_detail"
+							value={data.entity_detail}
 							onChange={handleInputChange}
 							type="text"
 							variant="outline"

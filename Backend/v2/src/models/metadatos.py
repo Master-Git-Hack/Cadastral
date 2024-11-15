@@ -1,7 +1,16 @@
 from datetime import datetime
 from typing import Any, Dict
 
-from sqlalchemy import JSON, BigInteger, Column, DateTime, Integer, SmallInteger, text
+from sqlalchemy import (
+    JSON,
+    BigInteger,
+    Column,
+    DateTime,
+    Integer,
+    SmallInteger,
+    Text,
+    text,
+)
 from sqlalchemy.dialects.postgresql import UUID
 
 from .. import config, database
@@ -19,7 +28,9 @@ class Model(database.BASE):
         comment="Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a",
     )
     datos = Column(JSON)
-    encargado = Column(BigInteger)
+    username = Column(
+        Text, comment="Username of the user who created the data.", nullable=False
+    )
     estatus = Column(SmallInteger, default=1)
     fecha_creacion = Column(DateTime, default=datetime.now)
     fecha_modificacion = Column(DateTime, default=datetime.now)

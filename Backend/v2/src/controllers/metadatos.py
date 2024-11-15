@@ -43,16 +43,13 @@ class ReporteMetadatos:
             key: value if value is not None else ""
             for key, value in self.__meta.current.__dict__.items()
         }
-        la
         data |= {
             key: value.strftime("%Y-%m-%d")
             for key in {
                 "datestamp",
                 "date_creation",
                 "date",
-                "publication_date",
                 "update_date",
-                "data_last_update",
             }
             if isinstance((value := data[key]), datetime)
         }

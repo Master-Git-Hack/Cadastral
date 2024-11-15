@@ -954,7 +954,8 @@ async def generate_xlsx(
     return __response.send_file(filename=filename, path=path, delete=True)
 
 
-def create_file(data): ...
+def create_file(data):
+    ...
 
 
 from openpyxl import Workbook

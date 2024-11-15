@@ -8,7 +8,8 @@ import { TreeSelect } from "primereact/treeselect";
 import Alert from "@components/Alerts";
 import { jsonToXml } from "@utils/xml";
 import { useXml2jsonMutation, useJson2xmlMutation } from "@api/ParseFile";
-
+import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import Stepper from "@components/Stepper";
 import { Dropdown } from "primereact/dropdown";
 import { Table, Button } from "flowbite-react";
@@ -98,13 +99,13 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 			const newData = xmlToJsonResult.data.data;
 			for (const key in base) {
 				if (base?.hasOwnProperty(key) && newData?.hasOwnProperty(key)) {
-					console.log(
-						key,
-						base[key],
-						newData[key],
-						typeof base[key],
-						typeof newData[key],
-					);
+					// console.log(
+					// 	key,
+					// 	base[key],
+					// 	newData[key],
+					// 	typeof base[key],
+					// 	typeof newData[key],
+					// );
 					// Verificar si el tipo de dato es el mismo
 					if (typeof base[key] === typeof newData[key]) {
 						if (typeof newData[key] === "string" && typeof base[key] === "number") {
@@ -203,6 +204,42 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 			handleNotification(key, "Este campo debe estar entre -180 y 180");
 		// else if (["bearing_uni","geounit","coord_repres","ref_bearing_dir","ref_bearing_mer"].includes(key) && includes_values[key].includes(value)) handleNotification(key, `Este campo debe ser uno de los siguientes valores: ${includes_values[key].join(", ")}`);
 		else handleNotification(key);
+	};
+	const navigate = useNavigate();
+	const handleReponse = ({ data }) => {
+		const { status } = data ?? { status: "error" };
+		let props = {
+			// showCancelButton: true,
+
+			confirmColor: "success",
+			// denyColor: "secondary",
+			// cancelColor: "danger",
+			customClass: {
+				actions: "my-actions",
+				// cancelButton: "order-1 me-16",
+				confirmButton: "order-3 ",
+				// denyButton: "order-2 ",
+				// input: "disabled:opacity-75 border-0 border-transparent outline-transparent ring-transparent text-white placeholder-white",
+			},
+			focusConfirm: true,
+		};
+
+		if (status == "success") {
+			props = {
+				...props,
+				icon: "success",
+				text: "¡Registro guardado con éxito!",
+				titleText: "¡Éxito!",
+			};
+		} else {
+			props = {
+				...props,
+				icon: "error",
+				text: "¡Hubo un error al guardar el registro, favor de intentar más tarde.!",
+				titleText: "¡Error!",
+			};
+		}
+		return Alert(props).finally(() => navigate("/metadatos", { state: { refresh: true } }));
 	};
 	const checkData = () => {
 		//iter over data json object to check value o some keys
@@ -357,9 +394,14 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 											//checkData();
 											if (notifications.length === 0) {
 												if (record !== undefined) {
-													updateRecord({ data, uid: data.uid ?? uid });
+													updateRecord({
+														data,
+														uid: data.uid ?? uid,
+													}).then(({ data }) => handleReponse(data));
 												} else {
-													createRecord({ data });
+													createRecord({ data }).then(({ data }) =>
+														handleReponse(data),
+													);
 												}
 											} else
 												Alert({
@@ -374,13 +416,13 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 														uid,
 														datos: data,
 													},
-												});
+												}).then(({ data }) => handleReponse(data));
 											} else {
 												createTemporal({
 													data: {
 														datos: data,
 													},
-												});
+												}).then(({ data }) => handleReponse(data));
 											}
 										}
 										return resp;

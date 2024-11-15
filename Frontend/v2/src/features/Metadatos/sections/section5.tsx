@@ -72,7 +72,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 				</Table.HeadCell>
 			</Table.Head>
 			<Table.Body>
-				{enabled && (
+				{/*enabled && (
 					<>
 						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 							<Table.Cell
@@ -253,7 +253,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={justNumbers(data.lambertc_stdparll) ?? 0}
+									value={justNumbers(data.lambertc_stdparll) }
 									onValueChange={handleInputChange}
 									name="lambertc_stdparll"
 									className="w-full md:w-14rem "
@@ -286,7 +286,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.lambertc_longcm ?? 0}
+									value={data.lambertc_longcm }
 									onValueChange={handleInputChange}
 									name="lambertc_longcm"
 									className="w-full md:w-14rem "
@@ -319,7 +319,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.mercatort_latprjo ?? 0}
+									value={data.mercatort_latprjo }
 									onValueChange={handleInputChange}
 									name="mercatort_latprjo"
 									className="w-full md:w-14rem "
@@ -352,7 +352,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.mercator_feast ?? 0}
+									value={data.mercator_feast }
 									onValueChange={handleInputChange}
 									name="mercator_feast"
 									className="w-full md:w-14rem "
@@ -381,7 +381,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.mercator_fnorth ?? 0}
+									value={data.mercator_fnorth }
 									onValueChange={handleInputChange}
 									name="mercator_fnorth"
 									className="w-full md:w-14rem "
@@ -425,7 +425,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.mercator_sfec ?? 0}
+									value={data.mercator_sfec }
 									onValueChange={handleInputChange}
 									name="mercator_sfec"
 									className="w-full md:w-14rem "
@@ -456,7 +456,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.mercator_sfec ?? 0}
+									value={data.mercator_sfec }
 									onValueChange={handleInputChange}
 									name="mercator_sfec"
 									className="w-full md:w-14rem "
@@ -644,7 +644,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.absres ?? 0}
+									value={data.absres }
 									onValueChange={handleInputChange}
 									name="ordres"
 									className="w-full md:w-14rem "
@@ -673,7 +673,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.ordres ?? 0}
+									value={data.ordres }
 									onValueChange={handleInputChange}
 									name="ordres"
 									className="w-full md:w-14rem "
@@ -717,7 +717,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.distance_res ?? 0}
+									value={data.distance_res }
 									onValueChange={handleInputChange}
 									name="distance_res"
 									className="w-full md:w-14rem "
@@ -746,7 +746,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.bearing_res ?? 0}
+									value={data.bearing_res }
 									onValueChange={handleInputChange}
 									name="bearing_res"
 									className="w-full md:w-14rem "
@@ -983,7 +983,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 							<Table.Cell colSpan={9} className=" w-9/12">
 								<InputNumber
-									value={data.denflat ?? 0}
+									value={data.denflat }
 									onValueChange={handleInputChange}
 									name="denflat"
 									className="w-full md:w-14rem "
@@ -1000,8 +1000,347 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							</Table.Cell>
 						</Table.Row>
 					</>
-				)}
+				)*/}
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1
+					</Table.Cell>
+					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+						Sistema de Referencia Horizontal
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.1
+					</Table.Cell>
+					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+						Coordenadas Geográficas
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.2.2.1.1
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Número de Zona UTM
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<InputNumber
+							value={data.utm_zone}
+							onValueChange={handleInputChange}
+							name="utm_zone"
+							className={`w-full md:w-14rem ${
+								data.utm_zone <= 0 && "border border-red-500"
+							}`}
+							maxFractionDigits={0}
+							step={1}
+							min={1}
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							buttonLayout="horizontal"
+							decrementButtonClassName="p-button-info"
+							incrementButtonClassName="p-button-info"
+							incrementButtonIcon="pi pi-plus"
+							decrementButtonIcon="pi pi-minus"
+							showButtons
+						/>
+						<span className="underline me-1">Descripción:</span>
+						<small className="font-xs">{"Resolución de latitud > 0.0"}</small>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.2.2.1.2
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Factor de escala en el meridiano central
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						{data.utm_sfctrmer}
+						{/* <InputNumber
+							value={data.utm_sfctrmer}
+							onValueChange={handleInputChange}
+							name="utm_sfctrmer"
+							className={`w-full md:w-14rem ${
+								data.utm_sfctrmer <= 0 && "border border-red-500"
+							}`}
+							maxFractionDigits={0}
+							step={1}
+							min={1}
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							buttonLayout="horizontal"
+							decrementButtonClassName="p-button-info"
+							incrementButtonClassName="p-button-info"
+							incrementButtonIcon="pi pi-plus"
+							decrementButtonIcon="pi pi-minus"
+							showButtons
+						/>
+						<span className="underline me-1">Descripción:</span>
+						<small className="font-xs">{"Resolución de latitud > 0.0"}</small> */}
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.2.2.1.3
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Longitud del meridiano central
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<InputNumber
+							value={data.utm_longcm}
+							onValueChange={handleInputChange}
+							name="utm_longcm"
+							className={`w-full md:w-14rem ${
+								data.utm_longcm <= 0 && "border border-red-500"
+							}`}
+							maxFractionDigits={0}
+							step={1}
+							min={1}
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							buttonLayout="horizontal"
+							decrementButtonClassName="p-button-info"
+							incrementButtonClassName="p-button-info"
+							incrementButtonIcon="pi pi-plus"
+							decrementButtonIcon="pi pi-minus"
+							showButtons
+						/>
+						<span className="underline me-1">Descripción:</span>
+						<small className="font-xs">
+							Para sistemas de referencia WGS84 UTM zona 14N (EPSG:32614) y México
+							ITRF2008 UTM zona 14N: <strong>-99.00</strong>
+						</small>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.2.2.1.4
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Latitud del origen de proyección
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<InputNumber
+							value={data.utm_latprjo}
+							onValueChange={handleInputChange}
+							name="utm_latprjo"
+							className={`w-full md:w-14rem ${
+								data.utm_latprjo <= 0 && "border border-red-500"
+							}`}
+							maxFractionDigits={0}
+							step={1}
+							min={1}
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							buttonLayout="horizontal"
+							decrementButtonClassName="p-button-info"
+							incrementButtonClassName="p-button-info"
+							incrementButtonIcon="pi pi-plus"
+							decrementButtonIcon="pi pi-minus"
+							showButtons
+						/>
+						<span className="underline me-1">Descripción:</span>
+						<small className="font-xs">{"Resolución de latitud > 0.0"}</small>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.2.2.1.5
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Falso este
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<InputNumber
+							value={data.utm_feast}
+							onValueChange={handleInputChange}
+							name="utm_feast"
+							className={`w-full md:w-14rem ${
+								data.utm_feast <= 0 && "border border-red-500"
+							}`}
+							maxFractionDigits={0}
+							step={1}
+							min={1}
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							buttonLayout="horizontal"
+							decrementButtonClassName="p-button-info"
+							incrementButtonClassName="p-button-info"
+							incrementButtonIcon="pi pi-plus"
+							decrementButtonIcon="pi pi-minus"
+							showButtons
+						/>
+						<span className="underline me-1">Descripción:</span>
+						<small className="font-xs">{"Resolución de latitud > 0.0"}</small>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.2.2.1.6
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Falso este
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<InputNumber
+							value={data.utm_fnorth}
+							onValueChange={handleInputChange}
+							name="utm_fnorth"
+							className={`w-full md:w-14rem ${
+								data.utm_fnorth <= 0 && "border border-red-500"
+							}`}
+							maxFractionDigits={0}
+							step={1}
+							min={1}
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							buttonLayout="horizontal"
+							decrementButtonClassName="p-button-info"
+							incrementButtonClassName="p-button-info"
+							incrementButtonIcon="pi pi-plus"
+							decrementButtonIcon="pi pi-minus"
+							showButtons
+						/>
+						<span className="underline me-1">Descripción:</span>
+						<small className="font-xs">{"Resolución de latitud > 0.0"}</small>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.2.4.1
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Nombre del datum horizontal
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Dropdown
+							name="horizdn"
+							editable
+							options={catalogo.horizdn}
+							value={findSelectValue("horizdn")}
+							onChange={handleSelectChange}
+							placeholder="Seleccione una Categoria"
+							className="w-full md:w-14rem"
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.4.2
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Nombre del elipsoide
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<Dropdown
+							name="ellips"
+							editable
+							options={catalogo.ellips}
+							value={findSelectValue("ellips")}
+							onChange={handleSelectChange}
+							placeholder="Seleccione una Categoria"
+							className="w-full md:w-14rem"
+							disabled={!editable}
+						/>
+					</Table.Cell>
+				</Table.Row>
+
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.4.3
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Semieje mayor
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<InputNumber
+							value={data.semiaxis ?? 1}
+							onValueChange={handleInputChange}
+							name="semiaxis"
+							className="w-full md:w-14rem "
+							maxFractionDigits={7}
+							step={0.0000001}
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							buttonLayout="horizontal"
+							decrementButtonClassName="p-button-info"
+							incrementButtonClassName="p-button-info"
+							incrementButtonIcon="pi pi-plus"
+							decrementButtonIcon="pi pi-minus"
+							showButtons
+						/>
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
+						5.1.4.4
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Factor de denominador de achatamiento
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						<InputNumber
+							value={data.denflat ?? 1}
+							onValueChange={handleInputChange}
+							name="denflat"
+							className="w-full md:w-14rem "
+							maxFractionDigits={7}
+							step={0.0000001}
+							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							buttonLayout="horizontal"
+							decrementButtonClassName="p-button-info"
+							incrementButtonClassName="p-button-info"
+							incrementButtonIcon="pi pi-plus"
+							decrementButtonIcon="pi pi-minus"
+							showButtons
+						/>
+					</Table.Cell>
+				</Table.Row>
+				{/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 					<Table.Cell
 						scope="row"
 						colSpan={1}
@@ -1189,7 +1528,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							disabled={!editable}
 						/>
 					</Table.Cell>
-				</Table.Row>
+				</Table.Row> */}
 			</Table.Body>
 		</>
 	);

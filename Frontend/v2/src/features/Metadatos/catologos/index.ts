@@ -22,6 +22,7 @@ import { altunits } from "./altunits";
 import { altdatum } from "./altdatum";
 import { depthdn } from "./depthdn";
 import { depthdu } from "./depthdu";
+import { useconstraints } from "./useconstraints";
 export const catalogo = {
 	ci_responsibleparty_role,
 	datetype,
@@ -46,5 +47,6 @@ export const catalogo = {
 	altdatum,
 	depthdn,
 	depthdu,
+	useconstraints,
 };
 export default catalogo;
