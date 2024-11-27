@@ -49,7 +49,9 @@ class __Base(object):
         DB_CLIENTS: List[str] = environ.get("DB_CLIENTS", "").split(",")
         EXPIRATION_TIME = timedelta(hours=int(environ.get("EXPIRATION_TIME", 24)))
         ALGORITHM: str = environ.get("ALGORITHM", "HS512")
-
+        SFTP_HOST: str = environ.get("SFTP_HOST")
+        SFTP_USER: str = environ.get("SFTP_USER")
+        SFTP_PASS: str = environ.get("SFTP_PASSWORD")
         # class STRIPE:
         #     API_KEY: str = environ.get("STRIPE_API_KEY")
         #     WEBHOOK_SECRET: str = environ.get("STRIPE_WEBHOOK_SECRET")

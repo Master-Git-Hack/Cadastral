@@ -1,11 +1,27 @@
+import math
+import os
+import shutil
+from os import remove
 from typing import List, Optional
 
 import folium
+import piexif
 from bs4 import BeautifulSoup
-from fastapi import APIRouter, Depends, File, Request, UploadFile
+from fastapi import (
+    APIRouter,
+    Depends,
+    FastAPI,
+    File,
+    HTTPException,
+    Request,
+    UploadFile,
+)
 from fastapi.responses import HTMLResponse
 from folium.plugins import BeautifyIcon, MeasureControl
 from geoalchemy2.shape import to_shape
+from paramiko import AutoAddPolicy, SSHClient
+from PIL import Image
+from pydantic import BaseModel
 from pyproj import Proj, transform
 from requests import get
 from shapely import to_geojson, wkt
@@ -37,6 +53,8 @@ fotogrametria = APIRouter(
 utm_proj = Proj(proj="utm", zone=14, ellps="WGS84")  # UTM Zona 14N, WGS84
 
 
+@fotogrametria.get("/resources")
+async def get_resources(): ...
 @fotogrametria.get(
     "/schemas",
 )
@@ -146,11 +164,6 @@ async def scraping_project(project: UploadFile = File(...)):
                 for tr in table.find_all("tr")[1:]
             ]
     return response.success(data={"headers": headers, "rows": rows})
-
-
-from os import remove
-
-from PIL import Image
 
 
 def extract_gps_data(image_path):
