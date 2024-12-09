@@ -72,10 +72,13 @@ def list_stft_folders():
         return folders
 
 
-def get_images(path: str):
-    path = path.replace(".", "/")
+def get_images(target: str):
+    target = target.replace(".", "/")
+
     with SSHClient() as client:
         client.set_missing_host_key_policy(AutoAddPolicy())
         client.connect(**__CONNECT)
         with client.open_sftp() as sftp:
-            
+            for image in sftp.listdir(path=target):
+                local_path = join(config.PATHS.IMAGES, image)
+                sftp.get(join(target, image), local_path)

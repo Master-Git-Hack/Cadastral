@@ -5,7 +5,7 @@ from os import remove
 from typing import List, Optional
 
 import folium
-import piexif
+
 from bs4 import BeautifulSoup
 from fastapi import (
     APIRouter,
@@ -21,6 +21,7 @@ from folium.plugins import BeautifyIcon, MeasureControl
 from geoalchemy2.shape import to_shape
 from paramiko import AutoAddPolicy, SSHClient
 from PIL import Image
+import piexif
 from pydantic import BaseModel
 from pyproj import Proj, transform
 from requests import get
