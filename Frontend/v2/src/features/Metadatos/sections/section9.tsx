@@ -27,6 +27,7 @@ export const Section9 = ({ data, setData, editable }: any) => {
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
 		(item) => item.code === data.md_dataidentification_language,
 	);
+
 	return (
 		<>
 			<Table.Head>
@@ -73,6 +74,22 @@ export const Section9 = ({ data, setData, editable }: any) => {
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
+						9.3
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Idioma de los metadatos
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						{findLanguageValue.label}
+					</Table.Cell>
+				</Table.Row>
+
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
 						9.4.2
 					</Table.Cell>
 					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
@@ -102,7 +119,15 @@ export const Section9 = ({ data, setData, editable }: any) => {
 						Teléfono
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
-						{data.ci_responsibleparty_voice}
+						<Input
+							name="inf_metadata_ci_responsibleparty_voice"
+							value={data.inf_metadata_ci_responsibleparty_voice}
+							onChange={handleInputChange}
+							type="text"
+							variant="outline"
+							size="lg"
+							disabled={!editable}
+						/>
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">

@@ -511,7 +511,13 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									max={60}
 									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
-									decrementButtonClassName="p-button-info"
+									deccurl --location 'https://api-sandbox.lyft.net/oauth/token' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Basic eWxCSjBVeFJSdzBpOlNBTkRCT1gtVHBwMDZFclJjSlNBVVVVNkhLeFJvaG82dWk1ZmdxZjM=' \
+--data '    {
+    "grant_type": "client_credentials",
+    "scope": "rides.read"
+}'rementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
 									incrementButtonIcon="pi pi-plus"
 									decrementButtonIcon="pi pi-minus"
@@ -541,7 +547,13 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
-									incrementButtonIcon="pi pi-plus"
+									inccurl --location 'https://api-sandbox.lyft.net/oauth/token' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Basic eWxCSjBVeFJSdzBpOlNBTkRCT1gtVHBwMDZFclJjSlNBVVVVNkhLeFJvaG82dWk1ZmdxZjM=' \
+--data '    {
+    "grant_type": "client_credentials",
+    "scope": "rides.read"
+}'rementButtonIcon="pi pi-plus"
 									decrementButtonIcon="pi pi-minus"
 									showButtons
 								/>
@@ -572,7 +584,13 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 						</Table.Row>
 						<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
 							<Table.Cell
-								scope="row"
+								scope="curl --location 'https://api-sandbox.lyft.net/oauth/token' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Basic eWxCSjBVeFJSdzBpOlNBTkRCT1gtVHBwMDZFclJjSlNBVVVVNkhLeFJvaG82dWk1ZmdxZjM=' \
+--data '    {
+    "grant_type": "client_credentials",
+    "scope": "rides.read"
+}'row"
 								colSpan={1}
 								className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 							>
@@ -1019,10 +1037,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
-						5.1.1
+						5.1.2
 					</Table.Cell>
 					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
-						Coordenadas Geográficas
+						Coordenadas Planas
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -1110,12 +1128,9 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							value={data.utm_longcm}
 							onValueChange={handleInputChange}
 							name="utm_longcm"
-							className={`w-full md:w-14rem ${
-								data.utm_longcm <= 0 && "border border-red-500"
-							}`}
+							className={`w-full md:w-14rem `}
 							maxFractionDigits={0}
 							step={1}
-							min={1}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
@@ -1147,12 +1162,9 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							value={data.utm_latprjo}
 							onValueChange={handleInputChange}
 							name="utm_latprjo"
-							className={`w-full md:w-14rem ${
-								data.utm_latprjo <= 0 && "border border-red-500"
-							}`}
+							className={`w-full md:w-14rem `}
 							maxFractionDigits={0}
 							step={1}
-							min={1}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
@@ -1161,8 +1173,6 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							decrementButtonIcon="pi pi-minus"
 							showButtons
 						/>
-						<span className="underline me-1">Descripción:</span>
-						<small className="font-xs">{"Resolución de latitud > 0.0"}</small>
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -1181,12 +1191,9 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							value={data.utm_feast}
 							onValueChange={handleInputChange}
 							name="utm_feast"
-							className={`w-full md:w-14rem ${
-								data.utm_feast <= 0 && "border border-red-500"
-							}`}
+							className={`w-full md:w-14rem $`}
 							maxFractionDigits={0}
 							step={1}
-							min={1}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
@@ -1195,8 +1202,6 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							decrementButtonIcon="pi pi-minus"
 							showButtons
 						/>
-						<span className="underline me-1">Descripción:</span>
-						<small className="font-xs">{"Resolución de latitud > 0.0"}</small>
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -1208,19 +1213,16 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 						5.1.2.2.1.6
 					</Table.Cell>
 					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
-						Falso este
+						Falso norte
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
 						<InputNumber
 							value={data.utm_fnorth}
 							onValueChange={handleInputChange}
 							name="utm_fnorth"
-							className={`w-full md:w-14rem ${
-								data.utm_fnorth <= 0 && "border border-red-500"
-							}`}
+							className={`w-full md:w-14rem `}
 							maxFractionDigits={0}
 							step={1}
-							min={1}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
@@ -1229,8 +1231,6 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							decrementButtonIcon="pi pi-minus"
 							showButtons
 						/>
-						<span className="underline me-1">Descripción:</span>
-						<small className="font-xs">{"Resolución de latitud > 0.0"}</small>
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -1328,8 +1328,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 							onValueChange={handleInputChange}
 							name="denflat"
 							className="w-full md:w-14rem "
-							maxFractionDigits={7}
-							step={0.0000001}
+							maxFractionDigits={12}
+							step={0.000000000001}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"

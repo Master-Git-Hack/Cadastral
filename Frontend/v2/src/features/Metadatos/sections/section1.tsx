@@ -17,6 +17,7 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 			setData((prev) => ({
 				...prev,
 				ci_onlineresource_linkage: `postgresql://user:password@server/${data.db_name}/${data.schema_name}/${data.table_name}`,
+				entity_detail: `postgresql://user:password@server/${data.db_name}/${data.schema_name}/${data.table_name}`,
 			}));
 	}, [data.db_name, data.schema_name, data.table]);
 	const handleInputChange = ({ currentTarget }) =>

@@ -146,11 +146,10 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 						Responsabilidad de distribución
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
-						<Input
+						<Input.Area
 							name="otherconstraints"
 							value={data.otherconstraints}
 							onChange={handleInputChange}
-							type="text"
 							variant="outline"
 							size="lg"
 							disabled={!editable}

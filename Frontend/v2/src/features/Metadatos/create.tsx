@@ -38,7 +38,7 @@ import { useAppDispatch, useAppSelector } from "@redux/provider";
 const baseAlert = (record: any, isTmp: boolean): object => {
 	const action = record !== undefined ? "Actualizar" : "Guardar";
 
-	const alert = {
+	let alert = {
 		titleText: `¿Está seguro de ${action} el registro?`,
 		showCancelButton: true,
 		confirmButtonText: `${action}`,
@@ -66,6 +66,8 @@ const baseAlert = (record: any, isTmp: boolean): object => {
 		//delete deny button and denyButtonText
 		delete alert.showDenyButton;
 		delete alert.denyButtonText;
+	} else {
+		alert.confirmButtonText = "Crear";
 	}
 	return alert;
 };
@@ -389,11 +391,11 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 								pill
 								color="green"
 								onClick={() =>
-									Alert(baseAlert(record, isTmp)).then((resp: any) => {
+									Alert(baseAlert(record, isTemporal)).then((resp: any) => {
 										if (resp.isConfirmed) {
 											//checkData();
 											if (notifications.length === 0) {
-												if (record !== undefined) {
+												if (record !== undefined && !isTemporal) {
 													updateRecord({
 														data,
 														uid: data.uid ?? uid,

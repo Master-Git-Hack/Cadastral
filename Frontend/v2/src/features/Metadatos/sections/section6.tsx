@@ -377,7 +377,7 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 					<Table.Cell colSpan={9} className=" w-9/12">
 						<Input.Area
 							value={data.li_processstep_description}
-							name="li_source_description"
+							name="li_processstep_description"
 							onChange={handleInputChange}
 							variant="outline"
 							size="lg"

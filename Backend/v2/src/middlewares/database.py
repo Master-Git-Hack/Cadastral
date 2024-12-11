@@ -69,44 +69,8 @@ class InstanceDB:
     def get_all_dbs(self):
         return [db.value for db in DBS]
 
-<<<<<<< HEAD
-    def catastro_v2(
-        self,
-    ) -> Session:
-        __current = self.SESSIONS["catastro_v2"]()
-        try:
-            yield __current
-        finally:
-            __current.close()
-
-    def execute_query(self, db_name: str, query: str):
-        engine = self.ENGINES.get(db_name)
-        if engine:
-            with engine.connect() as connection:
-                result = connection.execute(text(query))
-                return result.fetchall()
-        else:
-            raise ValueError(f"Database '{db_name}' not found.")
-
-    def inspect_all_schemas(self, db_name: str = "valuaciones"):
-        return [
-            {
-                "label": schema,
-                "code": code,
-                "items": [
-                    {"label": table.replace(f"{schema}.", ""), "parent": schema}
-                    for table in self.inspect_me(db_name=db_name, schema=schema)
-                ],
-            }
-            for code, schema in enumerate(self.get_all_schemas(db_name))
-        ]
-
-    def get_all_schemas(self, db_name: str = "valuaciones") -> list:
-        engine = self.ENGINES[db_name]
-=======
     def get_all_schemas(self, db: DBS = DBS.CATASTRO_V2) -> list:
         engine = self.ENGINES[db.name]
->>>>>>> a92f6a54d (updated)
         with engine.connect() as connection:
             sql = "SELECT schema_name FROM information_schema.schemata;"
             result = connection.execute(text(sql))

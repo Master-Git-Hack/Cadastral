@@ -1,6 +1,7 @@
 /** @format */
 
 export const horizdn = [
+	
 	{
 		label: "ITRF05 época 2009.0",
 		description: "",
@@ -26,4 +27,9 @@ export const horizdn = [
 		description: "",
 		code: "5",
 	},
+	{
+		label: "WGS-84 Datum Mundial Geodésico 1984",
+		description: "",
+		code: "6",
+	}
 ];

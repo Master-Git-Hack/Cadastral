@@ -52,9 +52,6 @@ class __Base(object):
 
     SECRETS: Dict = dict(
         HOST=environ.get("HOST", "http://localhost:3000"),
-<<<<<<< HEAD
-        DB_NAMES=environ.get("DB_NAMES", "valuaciones,catastro_v2").split(","),
-=======
         DB_NAMES=(
             db_items := environ.get(
                 "DB_NAMES",
@@ -62,7 +59,6 @@ class __Base(object):
             ).split(",")
         ),
         DBS=Enum("DBS", {db.upper(): db for db in db_items}),
->>>>>>> a92f6a54d (updated)
     )
 
     class Settings(BaseModel):
