@@ -425,7 +425,7 @@ class Model(database.BASE):
     projection_name = Column(Text, nullable=True)
     projection_authid = Column(Text, nullable=True)
     spatial_extent = Column(Text, nullable=True)
-    update_date = Column(DateTime, nullable=False)
+    update_date = Column(DateTime, default=datetime.now, nullable=False)
     geom = Column(Geometry("POLYGON", srid=4326), nullable=True)
     # newones---------------------------------------------------------------------
     db_name = Column(Text, nullable=True)
@@ -506,6 +506,7 @@ class Model(database.BASE):
     )
     date_creation = Column(
         DateTime,
+        default=datetime.now,
         nullable=False,
         comment="2.2.1	Fecha de creación de los insumos (O)| previous pg_metadata: creation_date",
         name="creation_date",
@@ -682,9 +683,7 @@ class Model(database.BASE):
         comment="9.4.12	Rol (O)",
     )
     datestamp = Column(
-        DateTime,
-        nullable=True,
-        name="publication_date",
+        DateTime, default=datetime.now, nullable=True, name="publication_date"
     )
     metadata_xml = Column(Text, comment="XML document containing the entire metadata")
     themes = Column(ARRAY(Text()), comment="List of themes")
