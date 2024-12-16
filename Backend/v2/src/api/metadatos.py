@@ -200,14 +200,23 @@ async def create(
     try:
         meta = __Dataset(db=db)
         data = await request.json()
+
         data = {
             key: value
             for key, value in data.items()
             if value is not None or value != ""
         }
-
+        uid = data.get("uid")
         if meta.create(**data, username=user.nombre) is None:
             return __response.error(message="No se pudo registrar el metadato")
+        if uid is not None or uid != "":
+            tmp = __TMP(db=db)
+            logger.info(f"UUID: {uid}")
+            if tmp.filter(uid=uid) is not None:
+                logger.warning("Deleting temporal metadata")
+                result = tmp.delete()
+                logger.info("Result: ", result)
+
         return __response.success(data=meta.to_dict() | {"status": "success"})
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")

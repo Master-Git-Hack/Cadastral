@@ -19,9 +19,9 @@ export const template = {
 	md_dataidentification_characterset:
 		"4. Utf8. Formato de Transferencia UCS de tamaño variable de 8-bit, basado en ISO/IEC 10646",
 	specuse: "",
-	date: null,
+	date: moment().format("YYYY-MM-DD"),
 	datetype: "",
-	date_creation: "",
+	date_creation: moment().format("YYYY-MM-DD"),
 	inpname: "",
 
 	ci_responsibleparty_individualname: "",
@@ -45,7 +45,7 @@ export const template = {
 	utm_fnorth: 1,
 	horizdn: "",
 	ellips: "",
-	semiaxis: 0,
+	semiaxis: 0.0000001,
 	denflat: 0,
 	level: "",
 	statement: "",
@@ -56,15 +56,18 @@ export const template = {
 	useconstraints: [],
 	otherconstraints: "",
 	metadatastandardname: "ISO 19115:2003 (Norma Técnica para Metadatos).",
-	inf_metadata_ci_responsibleparty_organisationname: "Coordinación de Plataformas Geomáticas Catastrales",
+	inf_metadata_ci_responsibleparty_organisationname:
+		"Coordinación de Plataformas Geomáticas Catastrales",
 	inf_metadata_ci_responsibleparty_voice: "473 7351500 Extensión 2404",
 	ci_responsibleparty_deliverypoint: "Paseo de la Presa 172, Zona Centro.",
 	ci_responsibleparty_city: "Guanajuato",
 	ci_responsibleparty_postalcode: "36000",
 	ci_responsibleparty_country: "México",
 	ci_responsibleparty_electronicmailaddress: "catastro@guanajuato.gob.mx",
-	inf_metadata_ci_responsibleparty_role: "2.Custodio.Parte que acepta la responsabilidad de los datos y asegura un cuidado apropiado y el mantenimiento del recurso",
-	datestamp: null,
+	inf_metadata_ci_responsibleparty_role:
+		"2.Custodio.Parte que acepta la responsabilidad de los datos y asegura un cuidado apropiado y el mantenimiento del recurso",
+	datestamp: moment().format("YYYY-MM-DD"),
+	update_date: moment().format("YYYY-MM-DD"),
 	geom: undefined,
 	metadata_xml: "",
 };

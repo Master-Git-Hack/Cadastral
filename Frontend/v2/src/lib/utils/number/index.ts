@@ -31,9 +31,9 @@ export const asFancyNumber = (value: number, properties?: FancyProps): string =>
 		? "currency"
 		: isPercentage
 			? "percent"
-			: properties?.style ?? "decimal";
+			: (properties?.style ?? "decimal");
 	const decimals =
-		!isPercentage || !String(style).includes("percent") ? properties?.decimals ?? 2 : 0;
+		!isPercentage || !String(style).includes("percent") ? (properties?.decimals ?? 2) : 0;
 	const currency = isCurrency || String(style).includes("currency") ? "MXN" : undefined;
 	const unit = (isPercentage && !isCurrency) || String(style).includes("percent") ? 100 : 1;
 	const format = new Intl.NumberFormat("es-MX", {
