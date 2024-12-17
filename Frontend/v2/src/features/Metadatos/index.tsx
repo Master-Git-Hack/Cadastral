@@ -1,6 +1,7 @@
 /** @format */
 
-/** @format */
+"use client";
+
 import { NavLink, redirect } from "react-router-dom";
 
 import "primereact/resources/themes/tailwind-light/theme.css";
@@ -22,10 +23,12 @@ import { Table, Button } from "flowbite-react";
 import { saveAs } from "file-saver";
 import Toast from "@components/Alerts";
 import { useLocation, useNavigate } from "react-router-dom";
+import { MetadatosApi } from "@api/Metadatos";
+import { useDispatch } from "react-redux";
 export default function Metadatos() {
 	const location = useLocation();
 	const navigate = useNavigate();
-
+	const dispatch = useDispatch();
 	const { data, isLoading, isError, error, refetch } = useGetMetadatosQuery();
 	const {
 		data: temporal,
@@ -38,9 +41,11 @@ export default function Metadatos() {
 	useEffect(() => {
 		// Verifica si existe el parámetro 'refresh'
 		if (location.state?.refresh) {
-			refetch();
-			refetchTemporal();
-
+			refetch({ force: true });
+			refetchTemporal({ force: true });
+			setTimeout(() => {
+				console.log("Refrescando");
+			}, 900);
 			// Elimina el parámetro 'refresh' después de cargar los datos
 			navigate("/metadatos", { state: {} });
 		}
@@ -265,6 +270,7 @@ export default function Metadatos() {
 										<NavLink
 											className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
 											to={`temporal/edit/${uid}`}
+											state={{ refresh: true }}
 										>
 											Editar
 										</NavLink>

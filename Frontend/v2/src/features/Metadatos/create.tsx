@@ -35,6 +35,7 @@ import Error from "../Error";
 import { useParams } from "react-router-dom";
 import { addNotification, rmNotification, getNotifications } from "@reducers/Notifications";
 import { useAppDispatch, useAppSelector } from "@redux/provider";
+import { useLocation } from "react-router-dom";
 const baseAlert = (record: any, isTmp: boolean): object => {
 	const action = record !== undefined ? "Actualizar" : "Guardar";
 
@@ -71,9 +72,9 @@ const baseAlert = (record: any, isTmp: boolean): object => {
 	}
 	return alert;
 };
-
 export default function Create({ onEdit = true, record = undefined, isTemporal = false }) {
 	const params = useParams();
+	const location = useLocation();
 	const isTmp = isTemporal;
 	const { uid } = params;
 	const { notifications } = useAppSelector(getNotifications);
@@ -94,6 +95,7 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 		usePostTemporalMutation();
 	const [updateTemporal, { isLoadingUpdateTemporal, isErrorUpdateTemporal }] =
 		usePatchTemporalMutation();
+
 	useEffect(() => {
 		if (xmlToJsonResult.isSuccess && !imported) {
 			setImported(true);
@@ -208,6 +210,17 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 		else handleNotification(key);
 	};
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		// Verifica si existe el parámetro 'refresh'
+		if (location.state?.refresh) {
+			setTimeout(() => {
+				console.log("Refrescando");
+			}, 900);
+			// Elimina el parámetro 'refresh' después de cargar los datos
+			navigate(`/metadatos/temporal/edit/${uid}`, { state: {} });
+		}
+	}, [location.state, navigate]);
 	const handleReponse = ({ data }) => {
 		const { status } = data ?? { status: "error" };
 		let props = {
