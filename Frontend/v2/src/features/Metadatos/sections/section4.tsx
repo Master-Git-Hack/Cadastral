@@ -86,6 +86,7 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 							decrementButtonIcon="pi pi-minus"
 							showButtons
 							suffix="°"
+							disabled={!editable}
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
@@ -122,6 +123,7 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 							decrementButtonIcon="pi pi-minus"
 							showButtons
 							suffix="°"
+							disabled={!editable}
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
@@ -161,6 +163,7 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 							decrementButtonIcon="pi pi-minus"
 							showButtons
 							suffix="°"
+							disabled={!editable}
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
@@ -202,6 +205,7 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 							decrementButtonIcon="pi pi-minus"
 							showButtons
 							suffix="°"
+							disabled={!editable}
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">

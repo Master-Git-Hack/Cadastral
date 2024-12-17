@@ -30,10 +30,11 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 		const items = e.value.filter((item) => {
 			return item.code && item.label !== "undefined" && item.description !== "undefined";
 		});
-
+		const current = items.map((item) => `${item.code}. ${item.label}. ${item.description}`)
 		setData({
 			...data,
-			[name]: items.map((item) => `${item.code}. ${item.label}. ${item.description}`),
+			accessconstraints: current,
+			useconstraints:current ,
 		});
 	};
 	const findMultiSelect = (name: string) => {

@@ -26,18 +26,7 @@
 				margin: 0;
 			}
 
-			nav ul {
-				list-style-type: none;
-				padding: 0;
-				background-color: #fff; /* Cambiado a blanco */
-				overflow: hidden;
-			}
-
-			nav li {
-				display: block; /* Cambiado a bloque */
-				margin: 0;
-				counter-increment: section;
-			}
+			
 
 			nav a {
 				display: inline;
@@ -88,12 +77,7 @@
 				color: black;
 			}
 
-			nav li::before {
-				content: counter(section) '. '; /* Agrega el número y el punto antes del texto */
-				color: #555;
-				font-weight: bold;
-				margin-right: 5px;
-			}
+			
 			.h7{
 				color: #111111;
 				font-size: 10px;
@@ -116,7 +100,8 @@
 			<h1>{{title}}</h1>
 		</header>
 		<nav>
-			<ul>
+			<ol start="0">
+				<li><a href="#seccion0">Información del Metadato</a></li>
 				<li><a href="#seccion1">Identificación del conjunto de datos espaciales o producto</a></li>
 				<li>
 					<a href="#seccion2">Fechas relacionadas con el conjunto de datos espaciales o producto</a>
@@ -139,9 +124,13 @@
 				<li><a href="#seccion7">Entidades y Atributos</a></li>
 				<li><a href="#seccion8">Distribución</a></li>
 				<li><a href="#seccion9">Información de metadatos</a></li>
-			</ul>
+			</ol >
 		</nav>
 		<main>
+			<section id="seccion0">
+				<h2>Información del Metadato</h2>
+				<p>La presente información ha sido elaborada por la Coordinación de Plataformas Geomáticas Catastrales siguiendo los lineamientos establecidos en la Norma Técnica para la elaboración de Metadatos Geográficos del INEGI. Esta información se refiere a los productos relacionados con la Cartografía Catastral, detallando aspectos como la fuente de origen, su ubicación en la base de datos, la extensión geográfica y el sistema de referencia utilizado. Todos estos elementos proporcionan un contexto adecuado para el uso eficiente de la información.</p>
+			</section>
 			<section id="seccion1">
 				<h2>Identificación del conjunto de datos espaciales o producto</h2>
 				<h3>1.1 Título del conjunto de datos espaciales o producto.</h3>
@@ -415,6 +404,7 @@
 				<h3>9.1 Nombre del estándar de metadatos.</h3>
 				<p>{{metadatastandardname}}</p>
 				<h3>9.2 Versión de la norma de metadatos.</h3>
+				{{version|default('1.0')}}
 				<h3>9.3 Idioma de los Metadatos.</h3>
 				{{md_metadata_language}}
 				<h3>9.4 Punto de contacto para los Metadatos:</h3>
@@ -432,7 +422,7 @@
 				<h4>9.4.7 Ciudad.</h3>
 				<p>{{ci_responsibleparty_city}}</p>
 				<h4>9.4.8 Área administrativa.</h3>
-				<p>{{ci_responsibleparty_administrativearea}}</p>
+				<p>{{ci_responsibleparty_administrativearea|default("Guanajuato")}}</p>
 				<h4>9.4.9 Código postal.</h3>
 				<p>{{ci_responsibleparty_postalcode}}</p>
 				<h4>9.4.10 País.</h3>

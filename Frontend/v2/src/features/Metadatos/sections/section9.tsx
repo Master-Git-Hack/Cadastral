@@ -182,6 +182,21 @@ export const Section9 = ({ data, setData, editable }: any) => {
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
+						9.4.8
+					</Table.Cell>
+					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+						Área administrativa
+					</Table.Cell>
+					<Table.Cell colSpan={9} className=" w-9/12">
+						Guanajuato
+					</Table.Cell>
+				</Table.Row>
+				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<Table.Cell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
+					>
 						9.4.9
 					</Table.Cell>
 					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
