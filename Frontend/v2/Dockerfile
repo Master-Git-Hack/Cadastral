@@ -3,8 +3,8 @@
 # 2) nginx stage to serve frontend assets
 
 # Name the node stage "builder" 
-FROM node:21.7.3-alpine3.18
-LABEL version="2.0.0"
+FROM node:22-alpine3.20
+LABEL version="3.0.0"
 LABEL description="Cadastral Frontend Builder's Image"
 LABEL mantenier="Einar Jhordany Serna Valdivia<eserna@guanajuato.gob.mx>"
 WORKDIR /usr/src/v2
