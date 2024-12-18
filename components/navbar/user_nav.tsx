@@ -27,8 +27,14 @@ export default function User() {
 			<DropdownMenuTrigger asChild>
 				<Button variant="ghost" className="relative h-8 w-8 rounded-full">
 					<Avatar className="h-12 w-12">
-						<AvatarImage src="/avatars/01.png" alt="@shadcn" />
-						<AvatarFallback>{iniciales.toUpperCase()}</AvatarFallback>
+						<AvatarImage
+							src="/assets/rounds.png"
+							className="p-2 rounded-full"
+							alt="gto"
+						/>
+						<AvatarFallback className="font-mono uppercase align-middle">
+							{iniciales}
+						</AvatarFallback>
 					</Avatar>
 				</Button>
 			</DropdownMenuTrigger>

@@ -19,7 +19,7 @@ import {
 	FormMessage,
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
-import logo200 from "@assets/logo_sfia_200.png";
+import logoGto from "@assets/guanajuato_logo.svg";
 import { Success, Danger } from "@components/ui/alert";
 import { useRouter } from "next/navigation";
 const oauthSchema = z.object({
@@ -65,9 +65,9 @@ export default function SignIn() {
 			<div className="bg-login z-50 absolute blur-sm border-8 rounded-3xl border-white" />
 			<div className="z-50 bg-white p-8 rounded-2xl shadow-2xl shadow-black text-center opacity-90">
 				<Image
-					src={logo200}
+					src={logoGto}
 					className="text-center w-96 self-center "
-					alt="Logo 200 años"
+					alt="Logo años"
 					width="350"
 				/>
 				<h1 className="text-4xl font-semibold mb-4">Bienvenido</h1>

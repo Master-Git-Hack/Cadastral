@@ -36,7 +36,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@components/ui/select";
-import gtoLogo from "@assets/gto_round.png";
+import gtoLogo from "@assets/round.png";
 const groups = [
 	// {
 	// 	label: "Personal Account",
