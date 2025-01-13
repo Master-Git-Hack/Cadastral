@@ -25,7 +25,10 @@ DBS = {"municipios", "pcm", "plan_ordenamiento_territorial", "valores_municipale
 @meta.get(
     "/",
 )
-def get_meta(): ...
+def get_meta( user=Depends(required),
+    db_name: Optional[DBS] = None,
+    schema_name: Optional[str] = None,
+    table_name: Optional[str] = None,): ...
 def add_keys_to_dict_levels(d):
     # Si el valor es un diccionario, es necesario procesarlo
     if isinstance(d, dict):

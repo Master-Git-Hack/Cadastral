@@ -17,5 +17,5 @@ else
 fi
 
 # Instalar dependencias y ejecutar la aplicación
-pip3 install -r requirements.txt && \
+# pip3 install -r requirements.txt && \
 python3 -m uvicorn api.main:app --host 0.0.0.0 --port $PORT --reload --log-level debug --use-colors

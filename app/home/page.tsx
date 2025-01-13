@@ -7,13 +7,18 @@ import Layout from "@/components/navbar/index";
 import { routes } from "@components/navbar/main_nav";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@components/ui/card";
 import Link from "next/link";
+
 export default function Page() {
 	const firstRender = useRef(true);
 	useEffect(() => {
 		if (firstRender.current) {
 			Success({ title: "Inicio de sesión exitoso", text: "Bienvenido al sistema" });
-			//     .then(
-			//     ({ isConfirmed, isDenied, isDismissed, value }) => isConfirmed && ,
+			// .then(
+			// 	({ isConfirmed, isDenied, isDismissed, value }) =>
+			// 		isConfirmed &&
+			// 		setTimeout(() => {
+			// 			setSkeleton(false);
+			// 		}, 1000),
 			// );
 			firstRender.current = false;
 		}
