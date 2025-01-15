@@ -169,7 +169,6 @@ class Fotogrametria:
                 super().__init__(Model=Model, Session=Session)
 
     class Coroneo:
-
         class AreaEstudio(Template):
             def __init__(self, Session: Session):
                 class Model(AreaEstudioModel, table=True):
@@ -225,7 +224,6 @@ class Fotogrametria:
                 super().__init__(Model=Model, Session=Session)
 
     class Cueramaro:
-
         class AreaEstudio(Template):
             def __init__(self, Session: Session):
                 class Model(AreaEstudioModel, table=True):
@@ -269,7 +267,6 @@ class Fotogrametria:
                 super().__init__(Model=Model, Session=Session)
 
     class DrMora:
-
         class AreaEstudio(Template):
             def __init__(self, Session: Session):
                 class Model(AreaEstudioModel, table=True):
@@ -320,7 +317,6 @@ class Fotogrametria:
                 super().__init__(Model=Model, Session=Session)
 
     class Guanajuato:
-
         class AreaEstudio(Template):
             def __init__(self, Session: Session):
                 class Model(AreaEstudioModel, table=True):
@@ -343,7 +339,6 @@ class Fotogrametria:
                 super().__init__(Model=Model, Session=Session)
 
     class Huanimaro:
-
         class AreaEstudio(Template):
             def __init__(self, Session: Session):
                 class Model(AreaEstudioModel, table=True):
@@ -393,7 +388,6 @@ class Fotogrametria:
         class AreaEstudio(Template):
             def __init__(self, Session: Session):
                 class Model(SQLModel, table=True):
-
                     __tablename__ = "area_de_estudio"
                     __table_args__ = {"extend_existing": True, "schema": "irapuato"}
                     id: Optional[int] = Field(default=None, primary_key=True)
@@ -450,7 +444,6 @@ class Fotogrametria:
                 super().__init__(Model=Model, Session=Session)
 
     class JuventinoRosas:
-
         class AreaEstudio(Template):
             def __init__(self, Session: Session):
                 class Model(AreaEstudioModel, table=True):
@@ -495,7 +488,6 @@ class Fotogrametria:
                 super().__init__(Model=Model, Session=Session)
 
     class Moroleon:
-
         class AreaEstudio(Template):
             def __init__(self, Session: Session):
                 class Model(AreaEstudioModel, table=True):

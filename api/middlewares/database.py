@@ -1,12 +1,13 @@
 from typing import Any, Dict, Generator, Iterable, List, Optional, Union
-
+from itertools import groupby
 from geoalchemy2 import WKBElement
 from geoalchemy2.shape import to_shape
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Session, SQLModel, create_engine, select
-
-from .. import config
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import inspect, text
+from .. import config, DBS
 
 
 class Instance:
@@ -32,26 +33,88 @@ class Instance:
         return dynamic
 
     def __new__(cls):
-        cls.BASE = SQLModel.metadata
-        names = config.SECRETS.DB_CLIENTS
-        cls.URIS = {name: f"{config.SECRETS.DB_URI}/{name}" for name in names}
-        cls.ENGINES = {name: create_engine(cls.URIS[name]) for name in names}
+        cls.BASE = declarative_base()
+
+        cls.URIS = {db.name: f"{config.SECRETS.DB_URI}/{db.value}" for db in DBS}
+        cls.ENGINES = {db.name: create_engine(cls.URIS[db.name]) for db in DBS}
         cls.SESSIONS = {
-            name: sessionmaker(
-                autocommit=False, autoflush=False, bind=cls.ENGINES[name]
+            db.name: sessionmaker(
+                autocommit=False, autoflush=False, bind=cls.ENGINES[db.name]
             )
-            for name in names
+            for db in DBS
         }
         return super().__new__(cls)
 
     def __init__(self):
-
-        for name in self.SESSIONS.keys():
+        for db in DBS:
             setattr(
                 self,
-                name,
-                self.dynamic_database(name),
+                db.name,
+                self.dynamic_database(db.name),
             )
+
+    def get_db(self, db: DBS = DBS.CATASTRO_V2) -> Session:
+        __current = self.SESSIONS[db.name]()
+        try:
+            return __current
+        finally:
+            __current.close()
+
+    def get_all_dbs(self):
+        return [db.value for db in DBS]
+
+    def get_all_schemas(self, db: DBS = DBS.CATASTRO_V2) -> list:
+        engine = self.ENGINES[db.name]
+        with engine.connect() as connection:
+            sql = "SELECT schema_name FROM information_schema.schemata;"
+            result = connection.execute(text(sql))
+            return [row[0] for row in result.fetchall()]
+
+    def get_all_tables(self, db: DBS = DBS.CATASTRO_V2, schema: str = "public"):
+        engine = self.ENGINES[db.name]
+        with engine.connect() as connection:
+            sql = f"SELECT table_name FROM information_schema.tables WHERE table_schema = '{schema}';"
+            result = connection.execute(text(sql))
+            return [row[0] for row in result.fetchall()]
+
+    def group_by_db(
+        self,
+        db: Optional[DBS] = None,
+        schema: Optional[str] = None,
+        table: Optional[str] = None,
+    ):
+        db_list = [db] if db else DBS
+        data = {}
+        print(db_list)
+        for db in db_list:
+            engine = self.ENGINES[db.name]
+            with engine.connect() as connection:
+                query = """
+                    SELECT table_schema, table_name
+                    FROM information_schema.tables
+                    WHERE table_type = 'BASE TABLE'
+                """
+                if schema:
+                    query += " AND table_schema = :schema_name"
+                if table:
+                    query += " AND table_name = :table_name"
+                query += " ORDER BY table_schema, table_name;"
+                result = connection.execute(
+                    text(query), {"schema_name": schema, "table_name": table}
+                ).fetchall()
+                data[db.value] = {
+                    schema: [table for _, table in tables]
+                    for schema, tables in groupby(result, lambda x: x[0])
+                }
+        return data
+
+    def inspect_me(self, db: DBS, schema: str = "valuaciones"):
+        with catch_warnings():
+            simplefilter("ignore", category=SAWarning)
+            engine = self.ENGINES[db.name]
+            meta = MetaData()
+            meta.reflect(bind=engine, schema=schema)
+        return meta.tables.keys()
 
 
 class Template:
@@ -290,7 +353,6 @@ class Template:
     def __apply_includes_excludes(
         self, data, includes: Optional[List[str]], excludes: Optional[List[str]]
     ) -> Dict:
-
         schema = {
             key: (
                 value

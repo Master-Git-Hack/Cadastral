@@ -4,26 +4,33 @@
  */
 // import MillionLint from "@million/lint";
 const nextConfig = {
+	experimental: {
+		turbo: {
+			resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json", ".pdf"],
+		},
+	},
 	rewrites: async () => {
 		return [
 			{
-				source: '/api/py/:path*',
+				source: "/api/py/:path*",
 				destination:
-					process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:5000/api/py/:path*' : '/api/',
+					process.env.NODE_ENV === "development"
+						? "http://127.0.0.1:5000/api/py/:path*"
+						: "/api/",
 			},
 			{
-				source: '/docs',
+				source: "/docs",
 				destination:
-					process.env.NODE_ENV === 'development'
-						? 'http://127.0.0.1:5000/api/py/docs'
-						: '/api/py/docs',
+					process.env.NODE_ENV === "development"
+						? "http://127.0.0.1:5000/api/py/docs"
+						: "/api/py/docs",
 			},
 			{
-				source: '/openapi.json',
+				source: "/openapi.json",
 				destination:
-					process.env.NODE_ENV === 'development'
-						? 'http://127.0.0.1:5000/api/py/openapi.json'
-						: '/api/py/openapi.json',
+					process.env.NODE_ENV === "development"
+						? "http://127.0.0.1:5000/api/py/openapi.json"
+						: "/api/py/openapi.json",
 			},
 		];
 	},

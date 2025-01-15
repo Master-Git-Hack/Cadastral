@@ -46,7 +46,7 @@ response = middlewares.RESPONSES()
 fotogrametria = APIRouter(
     prefix="/fotogrametria",
     tags=["Fotogrametria"],
-    # dependencies=[Depends(Usuarios.required), Depends(database.fotogrametria)],
+    # dependencies=[Depends(Usuarios.required), Depends(database.FOTOGRAMETRIA)],
     responses={404: {"description": "Not found"}},
 )
 
@@ -55,7 +55,10 @@ utm_proj = Proj(proj="utm", zone=14, ellps="WGS84")  # UTM Zona 14N, WGS84
 
 
 @fotogrametria.get("/resources")
-async def get_resources(): ...
+async def get_resources():
+    ...
+
+
 @fotogrametria.get(
     "/schemas",
 )
@@ -63,7 +66,7 @@ async def get_resources(): ...
 async def get_municipios(
     # user=Depends(Usuarios.required),
     request: Request,
-    Session=Depends(database.fotogrametria),
+    Session=Depends(database.FOTOGRAMETRIA),
 ):
     # if user is None:
     #     return response.error(status_code=401, message="No autorizado")
@@ -86,7 +89,7 @@ def get_schema(
     offset: Optional[int] = None,
     limit: Optional[int] = None,
     # user=Depends(Usuarios.required),
-    Session=Depends(database.fotogrametria),
+    Session=Depends(database.FOTOGRAMETRIA),
     table: Optional[str] = None,
 ):
     municipio = municipio.title().replace("-", "_")
@@ -245,7 +248,7 @@ async def metadata_images(images: List[UploadFile] = File(...)):
 async def get_map(
     municipio: str,
     etapa: Optional[str] = None,
-    Session=Depends(database.fotogrametria),
+    Session=Depends(database.FOTOGRAMETRIA),
 ):
     # Crea un mapa centrado en una ubicación específica
     municipio = municipio.title().replace("-", "_")
@@ -303,7 +306,6 @@ async def get_map(
             ).add_to(mapa)
 
     for punto in puntos_control.Current:
-
         if hasattr(punto, "pto"):
             pto = punto.pto
         else:

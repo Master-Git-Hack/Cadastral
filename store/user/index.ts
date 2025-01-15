@@ -19,6 +19,7 @@ export interface IUserState {
 
 export interface IUserActions {
 	signIn: (auth: CreateAxiosDefaults["auth"]) => Promise<void>;
+	signOut: () => void;
 }
 const useUser = create<IUserState & IUserActions>()(
 	persist(
@@ -48,6 +49,19 @@ const useUser = create<IUserState & IUserActions>()(
 				);
 
 				set({ timeStamp: now(), token: headers?.authorization, ...data });
+			},
+			signOut: async () => {
+				await api.delete("oauth2/sign-out");
+				set({
+					timeStamp: now(),
+					token: null,
+					groupo: 0,
+					nombre: "",
+					usuario: "",
+					iniciales: "",
+					revisor: null,
+				});
+				LS.clear();
 			},
 		}),
 		{

@@ -61,7 +61,7 @@ class Usuarios(Template):
     @staticmethod
     def required(
         token: Annotated[str, Depends(config.OAUTH2)],
-        Session=Depends(database.valuaciones),
+        Session=Depends(database.VALUACIONES),
     ) -> Optional[Dict]:
         """Decode the auth token.
         Args:

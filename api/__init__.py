@@ -7,6 +7,7 @@ from slowapi.util import get_remote_address
 from .config import Config
 
 config = Config()
+DBS = config.SECRETS.DBS
 from .middlewares import Middlewares
 
 middlewares = Middlewares()

@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 
 def response_model(Model: Any):
-
     class Content(BaseModel):
         data: Optional[Union[Model, List[Model]]]
         message: Optional[str]

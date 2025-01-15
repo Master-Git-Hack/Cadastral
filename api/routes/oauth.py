@@ -22,9 +22,8 @@ oauth2 = APIRouter(
 )
 async def sign_in(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    Session=Depends(database.valuaciones),
+    Session=Depends(database.VALUACIONES),
 ):
-
     username, password = form_data.username, form_data.password
 
     try:
@@ -54,9 +53,8 @@ async def sign_in(
 @oauth2.post("/token", include_in_schema=False)
 async def is_auth(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    Session=Depends(database.valuaciones),
+    Session=Depends(database.VALUACIONES),
 ):
-
     username, password = form_data.username, form_data.password
 
     try:
@@ -71,10 +69,25 @@ async def is_auth(
             return response.error(
                 status_code=422, message="No se pudo generar el token"
             )
+        if token in blacklist:
+            return response.error(status_code=401, message="Token inválido")
         return response.success(
             content={"access_token": token},
         )
 
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return response.error(message=str(e))
+
+
+blacklist = set()
+
+
+@oauth2.delete("/sign-out")
+async def sign_out(token: Annotated[str, Depends(config.OAUTH2)]):
+    try:
+        blacklist.add(token)
+        return response.success(message="Sesión cerrada exitosamente")
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return response.error(message=str(e))

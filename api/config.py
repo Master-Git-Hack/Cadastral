@@ -5,7 +5,7 @@ from os import environ
 from os.path import abspath, dirname, join
 from typing import Dict, List, Optional
 from uuid import uuid4
-
+from enum import Enum
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -46,7 +46,13 @@ class __Base(object):
     class SECRETS:
         CLIENT: str = environ.get("CLIENT")
         DB_URI: str = environ.get("DB_URL")
-        DB_CLIENTS: List[str] = environ.get("DB_CLIENTS", "").split(",")
+        DB_CLIENTS: List[str] = (
+            db_items := environ.get(
+                "DB_CLIENTS",
+                "valuaciones,catastro_v2,fotogrametria,valores_municipales,municipios,pcm,plan_ordenamiento_territorial",
+            ).split(",")
+        )
+        DBS = Enum("DBS", {db.upper(): db for db in db_items})
         EXPIRATION_TIME = timedelta(hours=int(environ.get("EXPIRATION_TIME", 24)))
         ALGORITHM: str = environ.get("ALGORITHM", "HS512")
         SFTP_HOST: str = environ.get("SFTP_HOST")

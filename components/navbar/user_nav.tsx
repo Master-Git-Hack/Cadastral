@@ -14,14 +14,15 @@ import {
 	DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 
 import useUser from "@/store/user/index.ts";
 export default function User() {
-	const { nombre, usuario, iniciales } = useUser();
+	const { nombre, usuario, iniciales, signOut } = useUser((state) => state);
 	const { theme, setTheme } = useTheme();
 	const [isDark, setIsDark] = useState(theme === "dark");
-
+	const router = useRouter();
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -66,7 +67,10 @@ export default function User() {
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem className="bg-red-600  text-black hover:text-red-600 hover:font-bold  dark:text-white  hover:opacity-100 text-right focus:text-red-600 focus:font-bold hover:border focus:border hover:border-red-600 focus:border-red-600 rounded-md ">
+				<DropdownMenuItem
+					className="bg-red-600  text-black hover:text-red-600 hover:font-bold  dark:text-white  hover:opacity-100 text-right focus:text-red-600 focus:font-bold hover:border focus:border hover:border-red-600 focus:border-red-600 rounded-md "
+					onClick={() => signOut() && setTimeout(() => router.push("/sign-in"), 1500)}
+				>
 					Cerrar Sesión
 					{/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}
 				</DropdownMenuItem>

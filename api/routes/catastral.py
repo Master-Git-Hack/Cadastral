@@ -13,16 +13,18 @@ response = middlewares.RESPONSES()
 catastral = APIRouter(
     prefix="/catastral",
     tags=["Catastrales"],
-    dependencies=[Depends(Usuarios.required), Depends(database.valuaciones)],
+    dependencies=[Depends(Usuarios.required), Depends(database.VALUACIONES)],
     responses={404: {"description": "Not found"}},
 )
 
 
-@catastral.get("/{id}", response_model=Catastrales.response_model)
+@catastral.get(
+    "/{id}",
+)  # response_model=Catastrales.response_model)
 def get_catastral(
     id: int,
     user=Depends(Usuarios.required),
-    Session=Depends(database.valuaciones),
+    Session=Depends(database.VALUACIONES),
     key: Optional[str] = None,
 ):
     if user is None:
@@ -35,11 +37,12 @@ def get_catastral(
 
 
 @catastral.get(
-    "es/deprecated", deprecated=True, response_model=Catastrales.response_model
+    "es/deprecated",
+    deprecated=True,  # response_model=Catastrales.response_model
 )
 def get_deprecated_catastral(
     user=Depends(Usuarios.required),
-    Session=Depends(database.valuaciones),
+    Session=Depends(database.VALUACIONES),
     year: Optional[int] = None,
     collection: Optional[str] = None,
     head: Optional[int] = None,

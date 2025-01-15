@@ -1,0 +1,71 @@
+/** @format */
+"use client";
+import Spinner from "@components/Spinner";
+import Alert from "@components/Alerts";
+import useStatusStore from "@/store/api.config";
+// import blankDocument from "@assets/blank.pdf";
+import useMedatados from "@/store/metadatos/index.ts";
+import { useState, useEffect } from "react";
+import { use } from "react";
+import { MetadatosProps } from "../interface";
+import Error from "@components/error";
+import Layout from "@/components/navbar/index";
+export default function DocumentViewer({
+	params,
+	width = window.innerWidth,
+	height = window.innerHeight * 0.8,
+	type = "cedula",
+}: any) {
+	const { uid } = use(params);
+	const [file, setFile] = useState("/assets/blank.pdf");
+	const { isSuccess, isLoading, isError, message } = useStatusStore((state) => state);
+	const [template, setTemplate] = useState(true);
+	const { viewMetadatoReport } = useMedatados((state) => state);
+	const response = async () => {
+		const f = await viewMetadatoReport(uid);
+		setFile(URL.createObjectURL(f));
+		setTemplate(false);
+	};
+	console.log("uid", uid);
+	console.log(isSuccess, isLoading, isError, message);
+	useEffect(() => {
+		if (uid && file === "/assets/blank.pdf") {
+			response();
+		}
+	}, [file, uid]);
+	// useEffect(() => {
+	// 	if (isSuccess && file === "public/assets/blank.pdf") {
+	// 		setFile(URL.createObjectURL(isSuccess));
+	// 		setTemplate(false);
+	// 	}
+	// }, [isSuccess]);
+	// const { data, isLoading, isError, error } = useViewMetadatoReportQuery({ uid });
+
+	// useEffect(() => {
+	// 	if (data !== undefined && template) {
+	// 		setFile(URL.createObjectURL(data));
+	// 		setTemplate(false);
+	// 	}
+	// }, [data, template]);
+	// if (!uid) return <Error message="No se ha seleccionado un metadato" />;
+	// //if (isError) return <Error message={error?.data} />;
+	// if (isLoading) return <Spinner size={20} />;
+
+	return (
+		<Layout>
+			<div className="flex items-center justify-center h-full">
+				<iframe
+					title="PDF Viewer"
+					className="w-full aspect-video h-full"
+					data-type="application/pdf"
+					width={width}
+					height={height}
+					seamless={true}
+					src={`${file}#zoom=${window.innerWidth * 0.05}`}
+					allow="clipboard-write; encrypted-media;"
+					allowFullScreen
+				/>
+			</div>
+		</Layout>
+	);
+}

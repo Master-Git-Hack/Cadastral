@@ -1,155 +1,356 @@
 from itertools import groupby
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request, Query
 from requests import get
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
+from enum import Enum
 
 from .. import config, database, middlewares
 from ..models.catastral import Catastrales
 from ..models.usuarios import Usuarios
+from sqlalchemy.orm import Session
 
-response = middlewares.RESPONSES()
+__response = middlewares.RESPONSES()
 
-
+required = Usuarios.required
 meta = APIRouter(
-    prefix="/meta",
+    prefix="/metadatos",
     tags=["Metadatos"],
-    dependencies=[Depends(Usuarios.required), Depends(database.valuaciones)],
+    # dependencies=[Depends(Usuarios.required), Depends(database.VALUACIONES)],
     responses={404: {"description": "Not found"}},
 )
-DBS = {"municipios", "pcm", "plan_ordenamiento_territorial", "valores_municipales"}
 
-
-@meta.get(
-    "/",
+DBS = Enum(
+    "DBS",
+    {
+        db.upper(): db
+        for db in {
+            "municipios",
+            "pcm",
+            "plan_ordenamiento_territorial",
+            "valores_municipales",
+        }
+    },
 )
-def get_meta( user=Depends(required),
-    db_name: Optional[DBS] = None,
-    schema_name: Optional[str] = None,
-    table_name: Optional[str] = None,): ...
-def add_keys_to_dict_levels(d):
-    # Si el valor es un diccionario, es necesario procesarlo
-    if isinstance(d, dict):
-        # Añadimos la clave 'keys' que contiene todas las claves de este nivel
-        d["keys"] = list(d.keys())
-
-        # Llamada recursiva en cada valor del diccionario
-        for key, value in d.items():
-            # Solo continuar si el valor es un diccionario
-            if isinstance(value, dict):
-                add_keys_to_dict_levels(value)
-    # Si el valor es una lista o de otro tipo, no hace nada
-    return d
 
 
-@meta.get(
-    "/origin",
-)
-def get_dbs(
-    user=Depends(Usuarios.required),
-    db_name: Optional[str] = None,
+@meta.get("/resources", response_model=None)
+async def get_resources(
+    user=Depends(required),
+    db_name: DBS = "MUNICIPIOS",
     schema_name: Optional[str] = None,
     table_name: Optional[str] = None,
 ):
     if user is None:
-        return response.error(status_code=401, message="No autorizado")
-    db_list = [db_name] if db_name else DBS
-    data = {}
-
-    for db in db_list:
-        local_session = database.SESSIONS.get(db)
-        if local_session is None:
-            continue
-        session = local_session()
-        try:
-
-            query = """
-                SELECT table_schema, table_name
-                FROM information_schema.tables
-                WHERE table_type = 'BASE TABLE'
-            """
-            if schema_name:
-                query += " AND table_schema = :schema_name"
-            if table_name:
-                query += " AND table_name = :table_name"
-            query += " ORDER BY table_schema, table_name;"
-
-            result = session.execute(
-                text(query), {"schema_name": schema_name, "table_name": table_name}
-            ).fetchall()
-
-            data[db] = {
-                schema: [table for _, table in tables]
-                for schema, tables in groupby(result, lambda x: x[0])
+        return __response.error(**user)
+    data = database.group_by_db(db=db_name, schema=schema_name, table=table_name)
+    if db_name is None:
+        data = {
+            db: schemas
+            for db, schemas in data.items()
+            if db
+            in {
+                "municipios",
+                "pcm",
+                "plan_ordenamiento_territorial",
+                "valores_municipales",
             }
-        finally:
-            session.close()
-    return add_keys_to_dict_levels(data)
+        }
+    return __response.success(
+        data=[
+            {
+                "key": db,
+                "label": db.replace("_", " ").title(),
+                "data": f"{db.capitalize()} Database",
+                "icon": "pi pi-fw pi-database",
+                "selectable": False,
+                "leaf": True,
+                "children": [
+                    {
+                        "key": f"{db}.{schema}",
+                        "label": schema.replace("_", " ").title(),
+                        "data": f"{schema.capitalize()} Schema",
+                        "icon": "pi pi-fw pi-sitemap",
+                        "selectable": False,
+                        "leaf": True,
+                        "children": [
+                            {
+                                "key": f"{db}.{schema}.{table}",
+                                "label": table.replace("_", " ").title(),
+                                "data": f"{table.capitalize()} Table",
+                                "icon": "pi pi-fw pi-table",
+                            }
+                            for table in tables
+                        ],
+                    }
+                    for schema, tables in schemas.items()
+                ],
+            }
+            for db, schemas in data.items()
+        ]
+    )
 
 
-@meta.get(
-    "/origin/records",
-)
-async def get_records(
-    db_name: str,
-    schema_name: str,
-    table_name: str,
-    user=Depends(Usuarios.required),
-    limit: Optional[int] = 100,
+@meta.get("/complete")
+async def get_all_metadatos(
+    user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
     if user is None:
-        return response.error(status_code=401, message="No autorizado")
-    if db_name not in DBS:
-        return response.error(status_code=404, message="Base de datos no encontrada")
-    local_session = database.SESSIONS.get(db_name)
-    if local_session is None:
-        return response.error(status_code=404, message="Base de datos no encontrada")
-    session = local_session()
+        return __response.error(**user)
     try:
-        query = text(f"SELECT * FROM {schema_name}.{table_name} LIMIT {limit};")
-        result = session.execute(query).fetchall()
-        return response.success(data=[dict(row) for row in result])
-    except SQLAlchemyError as e:
-        # Manejo de errores en caso de una excepción en la consulta
-        return response.error(
-            status_code=500, message=f"Error al ejecutar la consulta: {str(e)}"
-        )
-    finally:
-        session.close()
+        meta = __Dataset(db=db)
+        if meta.all() is None:
+            return __response.success(data=[])
+        # save data into json
+        from json import dump
+
+        with open("data.json", "w") as file:
+            dump(meta.to_list(), file)
+        return __response.success(data=meta.to_list())
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))
 
 
-@meta.get(
-    "/origin/record",
-)
-async def get_records(
-    db_name: str,
-    schema_name: str,
-    table_name: str,
-    column_name: str,
-    value: Any,
-    user=Depends(Usuarios.required),
+@meta.get("/preview")
+async def get_all_metadatos_preview(
+    user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
     if user is None:
-        return response.error(status_code=401, message="No autorizado")
-    if db_name not in DBS:
-        return response.error(status_code=404, message="Base de datos no encontrada")
-    local_session = database.SESSIONS.get(db_name)
-    if local_session is None:
-        return response.error(status_code=404, message="Base de datos no encontrada")
-    session = local_session()
+        return __response.error(**user)
     try:
-        value = f"'{value}'" if isinstance(value, str) else value
-        query = text(
-            f"SELECT * FROM {schema_name}.{table_name} WHERE {column_name} = {value};"
+        meta = __Dataset(db=db)
+        if meta.all() is None:
+            return __response.success(data=[])
+
+        return __response.success(
+            data=meta.to_list(
+                only=[
+                    "uid",
+                    "db_name",
+                    "table_name",
+                    "schema_name",
+                    "title",
+                    "purpose",
+                    "abstract",
+                    "username",
+                    "update_date",
+                ]
+            )
         )
-        result = session.execute(query).fetchall()
-        return response.success(data=[dict(row) for row in result])
-    except SQLAlchemyError as e:
-        # Manejo de errores en caso de una excepción en la consulta
-        return response.error(
-            status_code=500, message=f"Error al ejecutar la consulta: {str(e)}"
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))
+
+
+@meta.get("/temporal")
+async def get_all_temporal_metadatos(
+    user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
+):
+    if user is None:
+        return __response.error(**user)
+    try:
+        meta = __TMP(db=db)
+
+        if meta.filter_group(username=user.nombre) is None:
+            __response.success(data=[])
+        return __response.success(data=meta.to_list())
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))
+
+
+@meta.get("/{uid}")
+async def get_id(
+    uid: str, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
+):
+    if user is None:
+        return __response.error(**user)
+    try:
+        meta = __Dataset(db=db)
+        if meta.filter(uid=uid) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+
+        return __response.success(data=meta.to_dict())
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))
+
+
+@meta.get("/temporal/{uid}")
+async def get_temporal_id(
+    uid: str, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
+):
+    if user is None:
+        return __response.error(**user)
+    try:
+        meta = __TMP(db=db)
+        if meta.filter(uid=uid) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+        data = meta.to_dict()
+        return __response.success(data=data.get("datos", data))
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))
+
+
+from pprint import pprint
+
+
+@meta.post("/create")
+async def create(
+    request: Request,
+    user=Depends(required),
+    db: Session = Depends(database.CATASTRO_V2),
+):
+    if user is None:
+        return __response.error(**user)
+    try:
+        meta = __Dataset(db=db)
+        data = await request.json()
+
+        data = {
+            key: value
+            for key, value in data.items()
+            if value is not None or value != ""
+        }
+        uid = data.get("uid")
+        if meta.create(**data, username=user.nombre) is None:
+            return __response.error(message="No se pudo registrar el metadato")
+        if uid is not None or uid != "":
+            tmp = __TMP(db=db)
+            logger.info(f"UUID: {uid}")
+            if tmp.filter(uid=uid) is not None:
+                logger.warning("Deleting temporal metadata")
+                result = tmp.delete()
+                logger.info("Result: ", result)
+
+        return __response.success(data=meta.to_dict() | {"status": "success"})
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e), data={"status": "error"})
+
+
+@meta.patch("/{id}")
+async def patch_id(
+    id: int,
+    request: Request,
+    user=Depends(required),
+    db: Session = Depends(database.CATASTRO_V2),
+):
+    if user is None:
+        return __response.error(**user)
+    try:
+        meta = __Dataset(db=db)
+        if meta.get(id) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+        data = await request.json()
+        data |= {"update_date": parse("hoy")}
+        if "geom" in data:
+            del data["geom"]
+        if meta.update(**data) is None:
+            return __response.error(message="No se pudo actualizar el metadato")
+        return __response.success(data=meta.to_dict() | {"status": "success"})
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e), data={"status": "error"})
+
+
+@meta.post("/temporal/create")
+async def post_temporal_metadatos(
+    request: Request,
+    user=Depends(required),
+    db: Session = Depends(database.CATASTRO_V2),
+):
+    data = await request.json()
+    meta = __TMP(db=db)
+    if meta.create(**data, username=user.nombre) is None:
+        return __response.error(
+            message="Error procesando la solicitud",
+            status_code=404,
+            data={"status": "error"},
         )
-    finally:
-        session.close()
+
+    return __response.success(data=meta.to_dict() | {"status": "success"})
+
+
+@meta.patch("/temporal/{uid}")
+async def patch_temporal_metadatos(
+    uid: str,
+    request: Request,
+    user=Depends(required),
+    db: Session = Depends(database.CATASTRO_V2),
+):
+    if user is None:
+        return __response.error(**user)
+    data = await request.json()
+    meta = __TMP(db=db)
+    if meta.filter(uid=uid, username=user.nombre) is None:
+        return __response.error(
+            message="Error procesando la solicitud",
+            status_code=404,
+        )
+    data |= {"update_date": parse("hoy")}
+    if meta.update(**data) is None:
+        return __response.error(
+            message="No se pudo actualizar el registro",
+            status_code=409,
+            data={"status": "error"},
+        )
+    return __response.success(data=meta.to_dict() | {"status": "success"})
+
+
+@meta.get("/report/{uid}")
+def get_file(
+    uid: str,
+    user=Depends(required),
+    db: Session = Depends(database.CATASTRO_V2),
+):
+    if user is None:
+        return __response.error(**user)
+    try:
+        response = __ReporteMetadatos(uid, db)
+        filename, path = response.create()
+        return __response.send_file(filename=filename, path=path)
+
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))
+
+
+@meta.delete("/temporal/{uid}")
+async def delete_temporal_metadatos(
+    uid: str,
+    user=Depends(required),
+    db: Session = Depends(database.CATASTRO_V2),
+):
+    if user is None:
+        return __response.error(**user)
+    try:
+        meta = __TMP(db=db)
+        encargado = user.id
+        if meta.filter(uid=uid, username=user.nombre) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+        if meta.delete() is None:
+            return __response.error(
+                message="No se pudo eliminar el registro",
+                status_code=409,
+            )
+        return __response.success(data=meta.to_dict())
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))
