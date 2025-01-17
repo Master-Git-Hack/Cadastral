@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from .. import config
 from ..models.dataset import Dataset
 from ..utils.pdf import PDFMaker as PDF
-from ..utils.tmp import name_it as tmp_filename
+from ..utils.temporary import name_it as tmp_filename
 
 
 class ReporteMetadatos:
@@ -22,8 +22,8 @@ class ReporteMetadatos:
         self.__meta = self.__Dataset(db)
         if self.__meta.filter(uid=uid) is None:
             raise Exception("No existe el registro actual de los metadatos a consultar")
-        self.filename = str(self.__meta.current.title).replace(" ", "_")
-        self.path = config.PATHS.tmp
+        self.filename = str(self.__meta.Current.title).replace(" ", "_")
+        self.path = config.PATHS.TMP
 
     def __enter__(self):
         return self
@@ -34,14 +34,14 @@ class ReporteMetadatos:
     def __render(self):
         template: Template = Template(
             open(
-                f"{config.PATHS.templates}/{config.TEMPLATES.METADATA.REPORT}",
+                f"{config.PATHS.TEMPLATES}/{config.TEMPLATES.METADATA.REPORT}",
                 encoding="UTF-8",
             ).read()
         )
         self.path += f"/{self.filename}"
         data = {
             key: value if value is not None else ""
-            for key, value in self.__meta.current.__dict__.items()
+            for key, value in self.__meta.Current.__dict__.items()
         }
         data |= {
             key: value.strftime("%Y-%m-%d")

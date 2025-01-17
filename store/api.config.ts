@@ -26,10 +26,8 @@ const consume = ({
 		responseType,
 		timeout: 180000,
 		headers: {
-			Accept: `application/${responseType}`,
-			Authorization: "",
-			Protected: false,
 			...headers,
+			Accept: `application/${responseType}`,
 		},
 		auth,
 		cancelToken,
@@ -43,15 +41,18 @@ const consume = ({
 const setConfig = (url: string, config?: CreateAxiosDefaults) => {
 	if (config === undefined) config = {};
 	let headers = {};
+
 	if (url !== "oauth2/sign-in") {
 		const user = LS.get("user-storage");
-		const token = user?.token;
+		const token = user?.state?.token;
+
 		if (token) {
 			headers = {
 				...headers,
-				Authorization: `Bearer ${token}`,
 				Protected: true,
+				"X-Cadastral-Signature": `Bearer ${token}`,
 			};
+			headers = { ...headers, Authorization: `Bearer ${token}` };
 		}
 		//check if data element on config delete it
 		if (config?.data) {
@@ -120,7 +121,7 @@ export const api = {
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			const response = await consume(config).get(url);
+			const response = await consume({ ...config }).get(url);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {

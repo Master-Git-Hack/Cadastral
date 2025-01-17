@@ -1,7 +1,8 @@
 from datetime import datetime, timezone
-from typing import Annotated, Any, Dict, Optional
+from typing import Any, Dict, Optional
 
-from fastapi import Depends
+# from fastapi import FastAPI, Header, HTTPException, Depends,
+from fastapi import Depends, Security, HTTPException, status
 from jose import ExpiredSignatureError, JWTError, jwt
 from sqlalchemy import func
 from sqlmodel import Field, Session, SQLModel
@@ -60,37 +61,47 @@ class Usuarios(Template):
 
     @staticmethod
     def required(
-        token: Annotated[str, Depends(config.OAUTH2)],
+        # token: Annotated[str, Depends(config.OAUTH2)],\
+        token: str = Security(config.SECRETS.KEY_SIGNATURE_HEADER),
         Session=Depends(database.VALUACIONES),
-    ) -> Optional[Dict]:
+    ) -> Optional[Model]:
         """Decode the auth token.
         Args:
             _authorize (AuthJWT): AuthJWT object.
         Returns:
             response (User): The current user or None.
         """
-
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
         try:
             # Intentar decodificar el token JWT
+            token = token.replace("Bearer ", "")
             data = jwt.decode(
                 token,
                 config.SECRETS.KEY,
                 algorithms=[config.SECRETS.ALGORITHM],
             )
             if data.get("sub") is None:
-                return None
+                raise credentials_exception
             user = Usuarios(Session)
             if user.get(id=int(data.get("sub"))) is None:
-                return None
+                raise credentials_exception
             return user.Current
-        except ExpiredSignatureError:
+        except ExpiredSignatureError as e:
             # Si el token ha expirado
-            print("Token has expired")
-            return None
-        except JWTError:
+            print("Token has expired", str(e))
+            raise credentials_exception
+        except JWTError as e:
             # Otros errores relacionados con JWT
-            print("Invalid token")
-            return None
+            print("Invalid token", str(e))
+            raise credentials_exception
+        except Exception as e:
+            # Otros errores
+            print("Application failed at:", str(e))
+            raise credentials_exception
 
     def verify_password(self, password: str, username: Optional[str] = None) -> bool:
         if username is not None:

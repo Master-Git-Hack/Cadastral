@@ -72,7 +72,7 @@ async def is_auth(
         if token in blacklist:
             return response.error(status_code=401, message="Token inválido")
         return response.success(
-            content={"access_token": token},
+            content={"access_token": token, "token_type": "bearer", "scopes": ""},
         )
 
     except Exception as e:

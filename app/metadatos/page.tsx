@@ -1,9 +1,21 @@
 /** @format */
 
-// /** @format */
-
-// "use client";
-
+"use client";
+import {
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+import { useEffect, useState } from "react";
+import Error from "@components/error";
+import Layout from "@/components/navbar/index";
+import Link from "next/link";
+import { Button } from "@components/ui/button";
 // // import { NavLink, redirect } from "react-router-dom";
 
 // import "primereact/resources/themes/tailwind-light/theme.css";
@@ -305,3 +317,235 @@
 // 		</div>
 // 	);
 // }
+import useMedatados from "@/store/metadatos/index.ts";
+export default function Metadatos() {
+	const { getAllTemporal, getMetadatos, setMetadatos: setMeta } = useMedatados((state) => state);
+
+	const [metadatos, setMetadatos] = useState([]);
+	const [temporal, setTemporal] = useState([]);
+	const handleGetTmp = async () => {
+		const { data } = await getAllTemporal();
+		setTemporal(data?.data);
+	};
+	const handleGetMeta = async () => {
+		const { data } = await getMetadatos();
+		setMetadatos(data?.data);
+	};
+	useEffect(() => {
+		if (metadatos.length === 0) handleGetMeta();
+		if (temporal.length === 0) handleGetTmp();
+	}, [metadatos, temporal]);
+	return (
+		<Layout container>
+			<div className="flex flex-row-reverse py-2">
+				<Link href={`metadatos/create`}>
+					<Button>Nuevo Registro</Button>
+				</Link>
+			</div>
+			<Table>
+				<TableCaption className="mt-5 pt-5">Registros Pendientes</TableCaption>
+				<TableHeader>
+					<TableRow>
+						<TableHead className="w-[250px]">Nombre de la Base de Datos</TableHead>
+						<TableHead className="w-[250px]">Nombre del Schema</TableHead>
+						<TableHead className="w-[250px]">Nombre de la Tabla</TableHead>
+						<TableHead className="w-[100px]">Titulo</TableHead>
+						<TableHead>Proposito</TableHead>
+						<TableHead>Resumen</TableHead>
+						<TableHead>Usuario</TableHead>
+						<TableHead>Ultima Actualización</TableHead>
+						<TableHead className="text-right">
+							<span className="sr-only">Acciones</span>
+						</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{metadatos.map(
+						({
+							uid,
+							db_name,
+							table_name,
+							schema_name,
+							title,
+							purpose,
+							abstract,
+							username,
+							update_date,
+							...metaData
+						}) => (
+							<TableRow key={uid}>
+								<TableCell className="font-medium">
+									{db_name
+										.split("_")
+										?.map(
+											(word: string) =>
+												word.charAt(0).toUpperCase() + word.slice(1),
+										)
+										.join(" ")}
+								</TableCell>
+								<TableCell className="font-medium">
+									{schema_name
+										.split("_")
+										?.map(
+											(word: string) =>
+												word.charAt(0).toUpperCase() + word.slice(1),
+										)
+										.join(" ")}
+								</TableCell>
+								<TableCell className="font-medium">
+									{table_name
+										.split("_")
+										?.map(
+											(word: string) =>
+												word.charAt(0).toUpperCase() + word.slice(1),
+										)
+										.join(" ")}
+								</TableCell>
+								<TableCell className="font-bold">{title}</TableCell>
+								<TableCell className="font-small">
+									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+										{purpose}
+									</p>
+								</TableCell>
+								<TableCell className="font-small">
+									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+										{abstract}
+									</p>
+								</TableCell>
+								<TableCell>{username}</TableCell>
+								<TableCell>
+									{new Date(update_date).toLocaleDateString("es-ES", {
+										year: "numeric", // Ejemplo: 2023
+										month: "long", // Ejemplo: octubre
+										day: "numeric", // Ejemplo: 25
+									})}
+								</TableCell>
+								<TableCell className="text-right">
+									<Link
+										href={`/metadatos/${uid}/edit`}
+										className="transition-colors hover:text-blue-500"
+										onClick={() =>
+											setMeta({
+												uid,
+												db_name,
+												table_name,
+												schema_name,
+												title,
+												purpose,
+												abstract,
+												username,
+												update_date,
+												...metaData,
+											})
+										}
+									>
+										Editar
+									</Link>
+									<span className="mx-2">/</span>
+									<Link
+										href={`/metadatos/${uid}/view`}
+										className="transition-colors hover:text-blue-500"
+									>
+										PDF
+									</Link>
+								</TableCell>
+							</TableRow>
+						),
+					)}
+				</TableBody>
+			</Table>
+			<Table>
+				<TableHeader>
+					<TableRow>
+						<TableHead className="w-[250px]">Nombre de la Base de Datos</TableHead>
+						<TableHead className="w-[250px]">Nombre del Schema</TableHead>
+						<TableHead className="w-[250px]">Nombre de la Tabla</TableHead>
+						<TableHead className="w-[100px]">Titulo</TableHead>
+						<TableHead>Proposito</TableHead>
+						<TableHead>Resumen</TableHead>
+						<TableHead>Usuario</TableHead>
+						<TableHead>Ultima Actualización</TableHead>
+						<TableHead className="text-right">
+							<span className="sr-only">Acciones</span>
+						</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{temporal?.map(
+						({
+							uid,
+							datos,
+							username,
+
+							fecha_modificacion,
+						}) => (
+							<TableRow key={uid}>
+								<TableCell className="font-medium">
+									{datos?.db_name
+										.split("_")
+										?.map(
+											(word: string) =>
+												word.charAt(0).toUpperCase() + word.slice(1),
+										)
+										.join(" ")}
+								</TableCell>
+								<TableCell className="font-medium">
+									{datos?.schema_name
+										.split("_")
+										?.map(
+											(word: string) =>
+												word.charAt(0).toUpperCase() + word.slice(1),
+										)
+										.join(" ")}
+								</TableCell>
+								<TableCell className="font-medium">
+									{datos?.table_name
+										.split("_")
+										?.map(
+											(word: string) =>
+												word.charAt(0).toUpperCase() + word.slice(1),
+										)
+										.join(" ")}
+								</TableCell>
+								<TableCell className="font-bold">{datos?.title}</TableCell>
+								<TableCell className="font-small">
+									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+										{datos?.purpose}
+									</p>
+								</TableCell>
+								<TableCell className="font-small">
+									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+										{datos?.abstract}
+									</p>
+								</TableCell>
+								<TableCell>{username}</TableCell>
+								<TableCell>
+									{new Date(fecha_modificacion).toLocaleDateString("es-ES", {
+										year: "numeric", // Ejemplo: 2023
+										month: "long", // Ejemplo: octubre
+										day: "numeric", // Ejemplo: 25
+									})}
+								</TableCell>
+								<TableCell className="text-right">
+									<Link
+										href={`/metadatos/${uid}/edit?temporal=true`}
+										className="transition-colors hover:text-blue-500"
+									>
+										Editar
+									</Link>
+									<span className="mx-2">/</span>
+									<Link
+										href={`#`}
+										className="text-red-400 transition-colors hover:text-red-600"
+									>
+										Eliminar
+									</Link>
+								</TableCell>
+							</TableRow>
+						),
+					)}
+				</TableBody>
+			</Table>
+		</Layout>
+	);
+}

@@ -22,12 +22,12 @@ export default function DocumentViewer({
 	const [template, setTemplate] = useState(true);
 	const { viewMetadatoReport } = useMedatados((state) => state);
 	const response = async () => {
-		const f = await viewMetadatoReport(uid);
-		setFile(URL.createObjectURL(f));
+		const { data } = await viewMetadatoReport(uid);
+
+		setFile(URL.createObjectURL(data));
 		setTemplate(false);
 	};
-	console.log("uid", uid);
-	console.log(isSuccess, isLoading, isError, message);
+
 	useEffect(() => {
 		if (uid && file === "/assets/blank.pdf") {
 			response();
@@ -53,19 +53,17 @@ export default function DocumentViewer({
 
 	return (
 		<Layout>
-			<div className="flex items-center justify-center h-full">
-				<iframe
-					title="PDF Viewer"
-					className="w-full aspect-video h-full"
-					data-type="application/pdf"
-					width={width}
-					height={height}
-					seamless={true}
-					src={`${file}#zoom=${window.innerWidth * 0.05}`}
-					allow="clipboard-write; encrypted-media;"
-					allowFullScreen
-				/>
-			</div>
+			<iframe
+				title="PDF Viewer"
+				className="w-full aspect-video max-h-screen"
+				data-type="application/pdf"
+				width={width}
+				height={height}
+				seamless={true}
+				src={`${file}#zoom=${window.innerWidth * 0.05}`}
+				allow="clipboard-write; encrypted-media;"
+				allowFullScreen
+			/>
 		</Layout>
 	);
 }

@@ -7,9 +7,10 @@ from typing import Dict, List, Optional
 from uuid import uuid4
 from enum import Enum
 from dotenv import load_dotenv
+from fastapi.security import OAuth2PasswordBearer
+from fastapi.security.api_key import APIKeyHeader
 
 load_dotenv()
-from fastapi.security import OAuth2PasswordBearer
 
 
 class __Base(object):
@@ -30,6 +31,7 @@ class __Base(object):
         url_prefix=(url_prefix := f"/api/v{version[0]}"),
     )
     OAUTH2 = OAuth2PasswordBearer(tokenUrl=f"{url_prefix}/oauth2/token")
+
     CORS: Dict = dict(
         allow_origins=environ.get("CORS_ORIGIN", "*").split(","),
         allow_credentials=environ.get("CORS_ALLOW_CREDENTIALS", "*").split(","),
@@ -51,6 +53,10 @@ class __Base(object):
                 "DB_CLIENTS",
                 "valuaciones,catastro_v2,fotogrametria,valores_municipales,municipios,pcm,plan_ordenamiento_territorial",
             ).split(",")
+        )
+        KEY_SIGNATURE_HEADER = APIKeyHeader(
+            name=environ.get("HEADER_SIGNATURE", "X-Cadastral-Signature"),
+            auto_error=False,
         )
         DBS = Enum("DBS", {db.upper(): db for db in db_items})
         EXPIRATION_TIME = timedelta(hours=int(environ.get("EXPIRATION_TIME", 24)))
@@ -83,6 +89,11 @@ class __Base(object):
         IMAGES: str = join(STATIC, __IMAGES_FOLDERNAME)
         FONTS: str = join(STATIC, __FONTS_FOLDERNAME)
         DOCS: str = join(STATIC, __DOCS_FOLDERNAME)
+
+    class TEMPLATES(object):
+        class METADATA(object):
+            QGIS: str = "main.html"
+            REPORT: str = "metadatos.html"
 
 
 class Config(__Base):

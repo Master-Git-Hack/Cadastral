@@ -6,7 +6,7 @@ import MainNav from "./main_nav";
 import Image from "next/image";
 import Link from "next/link";
 import gtoLogo from "@assets/logo.png";
-export default function NavBar({ children }) {
+export default function NavBar({ children, container = false }) {
 	return (
 		<div className="hidden flex-col md:flex ">
 			<div className="border-black bg-navbar">
@@ -26,7 +26,11 @@ export default function NavBar({ children }) {
 					</div>
 				</div>
 			</div>
-			<div className="flex-1 space-y-4 p-8 pt-6">{children}</div>
+			<div
+				className={`flex-1 space-y-4 p-8 pt-6 ${container ? "m-1 rounded-lg border hover:m-0 hover:rounded-none hover:border-none dark:bg-gray-600 dark:border-white " : ""}`}
+			>
+				{children}
+			</div>
 		</div>
 	);
 }

@@ -3,6 +3,25 @@
  * @type {import('next').NextConfig}
  */
 // import MillionLint from "@million/lint";
+const getItem = (item) => {
+	if (typeof window === "undefined") return undefined;
+	try {
+		if (item === "token") return localStorage.getItem(item);
+		const data = localStorage.getItem(item);
+		if (data === null) return undefined;
+		// Check if data is an object or a string
+		if (/^\{.*\}$/.test(data)) {
+			return JSON.parse(data);
+		} else if (/^".*"$/.test(data)) {
+			return data.slice(1, -1);
+		} else {
+			return data;
+		}
+	} catch (error) {
+		console.error(`Error getting localStorage item '${item}':`, error);
+		return undefined;
+	}
+};
 const nextConfig = {
 	experimental: {
 		turbo: {
@@ -17,6 +36,13 @@ const nextConfig = {
 					process.env.NODE_ENV === "development"
 						? "http://127.0.0.1:5000/api/py/:path*"
 						: "/api/",
+				has: [
+					{
+						type: "header",
+						key: "authorization",
+						value: `Bearer ${getItem("user-storage")?.state?.token}`,
+					},
+				],
 			},
 			{
 				source: "/docs",

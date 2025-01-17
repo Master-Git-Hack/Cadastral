@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 from xml.etree.ElementTree import fromstring, parse
 
 from geoalchemy2 import WKBElement
@@ -25,477 +25,433 @@ from .. import config, database
 from ..middlewares.database import Template
 from . import response_model
 
+from pydantic import BaseModel, validator
+from typing import List, Optional
 
-class Model(database.BASE):
+
+class Config:
+    arbitrary_types_allowed = True
+
+
+# O utiliza validadores explícitos
+@validator("categories", pre=True, always=True)
+def validate_categories(cls, value):
+    if isinstance(value, str):
+        return value.split(",")  # Ejemplo para convertir cadenas en listas
+    return value
+
+
+class Model(SQLModel, table=True):
     __tablename__ = "dataset"
     __table_args__ = {"schema": "pgmetadata"}
-    id: Optional[int] = Field(
-        default=None,
-        primary_key=True,
-        title="id",
-        description="Internal automatic integer ID",
+
+    id: Optional[int] = Field(sa_column=Column(Integer, primary_key=True))
+    uid: str = Field(
+        sa_column=Column(
+            UUID, server_default=text("public.uuid_generate_v4()"), nullable=False
+        )
     )
-    uuid: str = Field(
-        default=None,
-        nullable=False,
-        server_default=text("uuid_generate_v4()"),
-        title="uuid",
-        comment="Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a",
+    table_name: str = Field(sa_column=Column(Text, nullable=False))
+    schema_name: str = Field(sa_column=Column(Text, nullable=False))
+    categories: List[str] = Field(
+        sa_column=Column(ARRAY(Text), nullable=True)
+    )  # delete
+    minimum_optimal_scale: int = Field(sa_column=Column(Integer, nullable=True))
+    maximum_optimal_scale: int = Field(sa_column=Column(Integer, nullable=True))
+    license: str = Field(sa_column=Column(Text, nullable=True))
+    confidentiality: str = Field(sa_column=Column(Text, nullable=True))
+    feature_count: int = Field(sa_column=Column(Integer, nullable=True))
+    geometry_type: str = Field(sa_column=Column(Text, nullable=True))
+    projection_name: str = Field(sa_column=Column(Text, nullable=True))
+    projection_authid: str = Field(sa_column=Column(Text, nullable=True))
+    spatial_extent: str = Field(sa_column=Column(Text, nullable=True))
+    update_date: datetime = Field(
+        sa_column=Column(DateTime, default=datetime.now, nullable=False)
     )
-    table_name: str = Field(
-        default=None,
-        nullable=False,
-        title="table_name",
-        comment="Name of the related table in the database",
+    geom: Optional[Any] = Field(
+        sa_column=Column(Geometry("POLYGON", srid=4326), nullable=True)
     )
-    schema_name: str = Field(
-        default=None,
-        nullable=False,
-        title="schema_name",
-        comment="Name of the related schema in the database",
-    )
-    db_name: str = Field(
-        default=None,
-        nullable=False,
-        title="db_name",
-        comment="Name of the related database in the database",
-    )  # new field
+    # newones---------------------------------------------------------------------
+    db_name: str = Field(sa_column=Column(Text, nullable=True))
+    username: str = Field(sa_column=Column(Text, nullable=True))
+    # mod---------------------------------------------------------------------
     title: str = Field(
-        default=None,
-        nullable=False,
-        title="title",
-        comment="1.1 Título del conjunto de datos espaciales o producto",
+        sa_column=Column(
+            Text,
+            nullable=False,
+            comment="1.1	Título del conjunto de datos espaciales o  producto (O) | previous pg_metadata: title",
+        )
     )
-    purpose: str = Field(default=None, title="purpose", comment="1.2 Propósito")
+    purpose: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="1.3	Descripción del conjunto de datos espaciales o producto (O) | previous pg_metadata: purpose",
+        )
+    )
     abstract: str = Field(
-        default=None,
-        nullable=False,
-        title="abstract",
-        comment="1.3 Descripción del conjunto de datos espaciales o producto",
+        sa_column=Column(Text, nullable=False, comment="1.3	Resumen (O)")
     )
-    md_dataidentification_language: str = Field(
-        default="ES-Español",
-        title="md_dataidentification_language",
-        comment="1.4 Idioma del conjunto de datos espaciales o producto",
+    md_dataidentification_language = Field(
+        sa_column=Column(Text, comment="1.4	Idioma (O)", default="ES-Español.")
     )
-    topiccategory: str = Field(
-        default="ES-Español",
-        comment="1.5.1 Tema principal del conjunto de datos espaciales o producto",
+    topiccategory: List[str] = Field(
+        sa_column=Column(
+            ARRAY(Text),
+            nullable=True,
+            comment="1.5.1	Tema principal del conjunto de datos espaciales o producto (O, repetible)",
+        )
     )
     groupcategory: str = Field(
-        default=None,
-        comment="1.5.2 Grupo de datos del conjunto de datos espaciales o producto",
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="1.5.2	Grupo de temas del conjunto de datos espaciales o producto (O, repetible)",
+        )
     )
-    keyword: str = Field(
-        default=None,
-        title="keywords",
-        comment="1.6 Palabra clave  List of keywords separated by comma. Ex: environment, paris, trees",
+    keyword: List[str] = Field(
+        sa_column=Column(
+            ARRAY(Text),
+            nullable=True,
+            comment="1.6	Palabras clave (O, repetible) | previous pg_metadata: keywords",
+            name="keywords",
+        )
     )
-    geom: Any = Field(sa_column=Column(Geometry("MULTIPOLYGON")), default=None)
-    # id = Column(
-    #     Integer, name="id", primary_key=True, comment="Internal automatic integer ID"
-    # )
-    # uid = Column(
-    #     UUID,
-    #     name="uid",
-    #     nullable=False,
-    #     server_default=text("uuid_generate_v4()"),
-    #     comment="Unique identifier of the data. E.g. 89e3dde9-3850-c211-5045-b5b09aa1da9a",
-    # )
-    # table_name = Column(
-    #     Text,
-    #     name="table_name",
-    #     nullable=False,
-    #     comment="Name of the related table in the database",
-    # )
-    # schema_name = Column(
-    #     Text,
-    #     name="schema_name",
-    #     nullable=False,
-    #     comment="Name of the related schema in the database",
-    # )
-    # title = Column(
-    #     Text,
-    #     name="title",
-    #     nullable=False,
-    #     comment="1.1 Título del conjunto de datos espaciales o producto",
-    # )
-    # purpose = Column(Text, name="purpose", comment="1.2 Propósito")
-    # abstract = Column(
-    #     Text,
-    #     name="abstract",
-    #     nullable=False,
-    #     comment="1.3 Descripción del conjunto de datos espaciales o producto",
-    # )
-    # md_dataidentification_language = Column(
-    #     Text,
-    #     name="md_dataidentification_language",
-    #     comment="1.4 Idioma del conjunto de datos espaciales o producto",
-    # )
-    # topiccategory = Column(
-    #     Text,
-    #     name="topiccategory",
-    #     comment="1.5.1 Tema principal del conjunto de datos espaciales o producto",
-    # )
-    # groupcategory = Column(
-    #     Text,
-    #     name="groupcategory",
-    #     comment="1.5.2 Grupo de datos del conjunto de datos espaciales o producto",
-    # )
-    # keyword = Column(
-    #     Text,
-    #     name="keywords",
-    #     comment="1.6 Palabra clave  List of keywords separated by comma. Ex: environment, paris, trees",
-    # )
-    # presentationform = Column(
-    #     Text,
-    #     name="presentationform",
-    #     comment="1.10 Forma de presentación de los datos espaciales",
-    # )
-    # ci_onlineresource_linkage = Column(
-    #     Text, name="ci_onlineresource_linkage", comment="1.11.1 URL del recurso"
-    # )
-    # maintenanceandupdatefrequency = Column(
-    #     Text,
-    #     name="maintenanceandupdatefrequency",
-    #     comment="1.12 Frecuencia de mantenimiento y actualización",
-    # )
-    # md_dataidentification_characterset = Column(
-    #     Text,
-    #     name="md_dataidentification_characterset",
-    #     comment="1.13 Conjunto de caracteres",
-    # )
+    presentationform: List[str] = Field(
+        sa_column=Column(
+            ARRAY(Text),
+            nullable=True,
+            comment="1.10	Forma de presentación de los datos espaciales (O, repetible)",
+        )
+    )
+    ci_onlineresource_linkage: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="1.11.1	URL del recurso (O)",
+        )
+    )
+    ci_onlineresource_description: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="1.11.2	Descripción del acceso al recurso (Opc)",
+        )
+    )
+    maintenanceandupdatefrequency: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="1.12	Frecuencia de mantenimiento y actualización (O) | previous pg_metadata: maintenance_frequency",
+            name="publication_frequency",
+        )
+    )
+    md_dataidentification_characterset: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="1.13	Conjunto de caracteres (O) | 9.6 Conjunto de caracteres",
+            default="4. Utf8. Formato de Transferencia UCS de tamaño variable de 8-bit, basado en ISO/IEC 10646.",
+        )
+    )
+    specuse: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="1.15	Uso especifico (O)",
+        )
+    )
+    date: datetime = Field(
+        sa_column=Column(
+            DateTime,
+            nullable=True,
+            comment="2.1.1	Fecha de referencia del conjunto de datos espaciales o producto (O)",
+            default=datetime.now,
+        )
+    )
+    datetype: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="2.1.2	Tipo de fecha(O)",
+        )
+    )
+    date_creation: datetime = Field(
+        sa_column=Column(
+            DateTime,
+            default=datetime.now,
+            nullable=False,
+            comment="2.2.1	Fecha de creación de los insumos (O)| previous pg_metadata: creation_date",
+            name="creation_date",
+        )
+    )
+    inpname: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="2.2.2	Nombre del insumo (O)",
+        )
+    )
+    ci_responsibleparty_individualname: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="3.1	Nombre de la persona de contacto (C)",
+        )
+    )
+    ci_responsibleparty_organisationname: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="3.2	Nombre de la organización de contacto (C)",
+        )
+    )
+    ci_responsibleparty_positionname: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="3.3	Cargo de la persona de contacto (C)",
+        )
+    )
+    ci_responsibleparty_voice: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="3.4	Teléfono (Opc, repetible) | 9.4.4	Teléfono (Opc, repetible)",
+        )
+    )
+    ci_responsibleparty_administrativearea: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="3.8	Área administrativa (Opc) | 9.4.8	Área administrativa (Opc)",
+        )
+    )
+    ci_responsibleparty_linkage: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="3.12	Enlace en línea (dirección de Internet de referencia) (O)",
+        )
+    )
+    ci_responsibleparty_role: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="3.13	Rol (O)",
+        )
+    )
+    westboundlongitude: float = Field(
+        sa_column=Column(
+            Float,
+            nullable=True,
+            comment="4.1.1	Coordenada límite al Oeste (O)",
+        )
+    )
+    eastboundlongitude: float = Field(
+        sa_column=Column(
+            Float,
+            nullable=True,
+            comment="4.1.2	Coordenada límite al Este (O)",
+        )
+    )
+    southboundlatitude: float = Field(
+        sa_column=Column(
+            Float,
+            nullable=True,
+            comment="4.1.3	Coordenada límite al Sur (O)",
+        )
+    )
+    northboundlatitude: float = Field(
+        sa_column=Column(
+            Float,
+            nullable=True,
+            comment="4.1.4	Coordenada límite al Norte (O)",
+        )
+    )
+    spatialrepresentationtype: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="4.2	Tipo de representación espacial (O, repetible)",
+        )
+    )
+    utm_zone: int = Field(
+        sa_column=Column(
+            Integer,
+            default=14,
+            comment="5.1.2.2.1.1 Número de zona UTM",
+        )
+    )
+    utm_sfctrmer: float = Field(
+        sa_column=Column(
+            Float,
+            nullable=True,
+            comment="5.1.2.2.1.2 Factor de escala en el meridiano central",
+        )
+    )
+    utm_longcm: float = Field(
+        sa_column=Column(
+            Float,
+            nullable=True,
+            comment="5.1.2.2.1.3 Longitud del meridiano central",
+        )
+    )
+    utm_latprjo: float = Field(
+        sa_column=Column(
+            Float, nullable=True, comment="5.1.2.2.1.4 Latitud del origen de proyección"
+        )
+    )
+    utm_feast: float = Field(
+        sa_column=Column(Float, nullable=True, comment="5.1.2.2.1.5 Falso este")
+    )
+    utm_fnorth: float = Field(
+        sa_column=Column(Float, nullable=True, comment="5.1.2.2.1.6 Falso norte")
+    )
+    horizdn: str = Field(
+        sa_column=Column(
+            Text, nullable=True, comment="5.1.4.1 Nombre del datum horizontal"
+        )
+    )
+    ellips: str = Field(
+        sa_column=Column(Text, nullable=True, comment="5.1.4.2 Nombre del elipsoide")
+    )
+    semiaxis: str = Field(
+        sa_column=Column(Float, nullable=True, comment="5.1.4.3 Semieje mayor")
+    )
+    denflat: float = Field(
+        sa_column=Column(
+            Float,
+            nullable=True,
+            comment="5.1.4.4 Factor de denominador de achatamiento",
+        )
+    )
+    level: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            name="spatial_level",
+            comment="6.1.1 Nivel (O) | previous pg_metadata: spatial_level",
+        )
+    )
+    statement: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="6.3.1	Enunciado (C)",
+        )
+    )
+    li_processstep_description: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="6.3.2.1	Descripción del proceso (O)",
+        )
+    )
+    schemaascii: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="7.1	Descripción general de entidades y atributos",
+        )
+    )
+    entity_detail: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="7.2	Cita del detalle de entidades y atributos",
+        )
+    )
+    accessconstraints: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="8.1	Restricciones de acceso (Opc, repetible)",
+        )
+    )
+    useconstraints: List[str] = Field(
+        sa_column=Column(
+            ARRAY(Text),
+            nullable=True,
+            comment="8.2	Restricciones de uso (Opc, repetible)",
+        )
+    )
+    otherconstraints: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="8.3	Responsabilidad de distribución (Opc, repetible)",
+        )
+    )
+    metadatastandardname: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="9.1	Nombre del estándar de metadatos (O)",
+        )
+    )
+    inf_metadata_ci_responsibleparty_organisationname: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="9.4.2	Nombre de la organización (C)",
+        )
+    )
+    ci_responsibleparty_deliverypoint: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="9.4.6	Dirección (Opc)",
+        )
+    )
+    ci_responsibleparty_city: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            default="Guanaajuato",
+            comment="9.4.7	Ciudad (Opc)",
+        )
+    )
+    ci_responsibleparty_postalcode: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="9.4.9	Código postal (Opc)",
+        )
+    )
+    ci_responsibleparty_country: str = Field(
+        sa_column=Column(Text, comment="9.4.10	País (Opc)", default="México")
+    )
+    ci_responsibleparty_electronicmailaddress: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="9.4.11	Dirección de correo electrónico del contacto (Opc, repetible)",
+        )
+    )
+    inf_metadata_ci_responsibleparty_role: str = Field(
+        sa_column=Column(
+            Text,
+            nullable=True,
+            comment="9.4.12	Rol (O)",
+        )
+    )
+    datestamp: datetime = Field(
+        sa_column=Column(
+            DateTime, default=datetime.now, nullable=True, name="publication_date"
+        )
+    )
+    metadata_xml: str = Field(
+        sa_column=Column(Text, comment="XML document containing the entire metadata")
+    )
+    themes: List[str] = Field(sa_column=Column(ARRAY(Text()), comment="List of themes"))
 
-    # specuse = Column(Text, comment="1.15 Uso específico")
-    # datestamp = Column(
-    #     DateTime,
-    #     name="datestamp",
-    #     comment="2.1.1 Fecha de referencia del conjunto de datos espaciales o producto",
-    # )
-    # datetype = Column(
-    #     Text, name="datetype", comment="2.1.2 Tipo de fecha de referencia"
-    # )
-    # date_creation = Column(
-    #     DateTime,
-    #     default=datetime.now,
-    #     comment="2.2.1 Fecha de creación de los insumos",
-    # )
-    # inpname = Column(Text, comment="2.2.4 Nombre del Insumo")
-    # ci_responsibleparty_individualname = Column(
-    #     Text,
-    #     name="ci_responsibleparty_individualname",
-    #     comment="3.1 Nombre de la persona de contacto",
-    # )
-    # ci_responsibleparty_organisationname = Column(
-    #     Text,
-    #     name="ci_responsibleparty_organisationname",
-    #     comment="3.2 Nombre de la Organización",
-    # )
-    # ci_responsibleparty_positionname = Column(
-    #     Text, name="ci_responsibleparty_positionname", comment="3.3 Puesto del contacto"
-    # )
-    # ci_responsibleparty_linkage = Column(
-    #     Text,
-    #     name="ci_responsibleparty_linkage",
-    #     comment="3.12 Enlace en línea (dirección de Internet de referencia)",
-    # )
-    # ci_responsibleparty_role = Column(
-    #     Text, name="ci_responsibleparty_role", comment="3.13 Rol"
-    # )
-    # westboundlongitude = Column(
-    #     Float(precision=8),
-    #     name="westboundlongitude",
-    #     comment="4.1.1 Coordenada límite al Oeste",
-    # )
-    # eastboundlongitude = Column(
-    #     Float(precision=8),
-    #     name="eastboundlongitude",
-    #     comment="4.1.2 Coordenada límite al Este",
-    # )
-    # southboundlatitude = Column(
-    #     Float(precision=8),
-    #     name="southboundlatitude",
-    #     comment="4.1.3 Coordenada límite al Sur",
-    # )
-    # northboundlatitude = Column(
-    #     Float(precision=8),
-    #     name="northboundlatitude",
-    #     comment="4.1.4 Coordenada límite al Norte",
-    # )
-    # spatialrepresentationtype = Column(
-    #     Text,
-    #     name="spatialrepresentationtype",
-    #     comment="4.2 Tipo de representación espacial",
-    # )
-    # latres = Column(
-    #     Float(precision=8), name="latres", comment="5.1.1.1 Resolución de latitud"
-    # )
-    # longres = Column(
-    #     Float(precision=8), name="longres", comment="5.1.1.2 Resolución de longitud"
-    # )
-    # geogunit = Column(
-    #     Text, name="geogunit", comment="5.1.1.3 Unidades de coordenadas geográficas"
-    # )
-    # lambertc_stdparll = Column(
-    #     Float(precision=8),
-    #     name="lambertc_stdparll",
-    #     comment="5.1.2.1.1.1 Paralelo estándar",
-    # )
-    # lambertc_longcm = Column(
-    #     Float(precision=8),
-    #     name="lambertc_longcm",
-    #     comment="5.1.2.1.1.2|5.1.2.1.2.2|5.1.2.1.3.3|5.1.2.1.4.2|5.1.2.2.1.3 Longitud del meridiano central",
-    # )
-    # mercatort_latprjo = Column(
-    #     Float(precision=8),
-    #     name="mercatort_latprjo",
-    #     comment="5.1.2.1.1.3|5.1.2.1.2.3|5.1.2.1.4.3|5.1.2.2.1.4 Latitud del origen de proyección",
-    # )
-    # mercator_feast = Column(
-    #     Float(precision=8),
-    #     comment="5.1.2.1.1.4|5.1.2.1.2.4|5.1.2.1.3.4|5.1.2.1.4.4|5.1.2.2.1.5 Falso este",
-    # )
-    # mercator_fnorth = Column(
-    #     Float(precision=8),
-    #     comment="5.1.2.1.1.5|5.1.2.1.2.5|5.1.2.1.3.5|5.1.2.1.4.5|5.1.2.2.1.6 Falso norte",
-    # )
-    # mercator_sfec = Column(
-    #     Float(precision=8),
-    #     comment="5.1.2.1.2.1|5.1.2.1.4.1|5.1.2.2.1.2 Factor de escala en el meridiano central",
-    # )
-    # local_desc = Column(Text, comment="5.1.2.3.1 Descripción de la Plana Local")
-    # local_geo_inf = Column(
-    #     Text, comment="5.1.2.3.2 Información de Georreferencia de la Plana Loca"
-    # )
-
-    # coord_repres = Column(
-    #     Text, comment="5.1.2.3.4.1|5.1.2.3.4.2.1 Método codificado de coordenada plana"
-    # )
-    # ordres = Column(Float(precision=8), comment="5.1.2.3.4.2.2.1 Resolución de abscisa")
-    # absres = Column(
-    #     Float(precision=8), comment="5.1.2.3.4.2.2.2 Resolución de ordenada"
-    # )
-    # distance_res = Column(
-    #     Float(precision=8), comment="5.1.2.4.3.1 Resolución de distancia"
-    # )
-    # bearing_res = Column(Float(precision=8), comment="5.1.2.4.3.2 Resolución de rumbo")
-    # bearing_uni = Column(Text, comment="5.1.2.4.3.3 Unidades de rumbo")
-    # ref_bearing_dir = Column(
-    #     Text, comment="5.1.2.4.3.4 Dirección del rumbo de referencia"
-    # )
-    # ref_bearing_mer = Column(
-    #     Text, comment="5.1.2.4.3.5 Meridiano del rumbo de referencia"
-    # )
-    # plandu = Column(Text, comment="5.1.2.4.4 Unidades de distancia plana")
-    # local_desc = Column(Text, comment="5.1.3.1 Descripción Local")
-    # local_geo_inf = Column(
-    #     Text, comment="5.1.3.2 Información de Georreferenciación Local"
-    # )
-    # horizdn = Column(Text, comment="5.1.4.1 Nombre del datum horizontal")
-    # ellips = Column(Text, comment="5.1.4.2 Nombre del elipsoide")
-    # semiaxis = Column(Float(precision=8), comment="5.1.4.3 Semieje mayor")
-    # altenc = Column(Text, comment="5.2.1.1 Nombre del datum de altitud")
-    # categories = Column(ARRAY(Text()), comment="List of categories")
-    # altres = Column(Float(precision=8), comment="5.2.1.2 Resolución de altitud")
-    # altunits = Column(Text, comment="5.2.1.3 Unidades de distancia de altitud")
-    # altdatum = Column(Text, comment="5.2.1.4 Método codificado de altitud")
-    # depthdn = Column(Text, comment="5.2.2.1 Nombre del datum de profundidad")
-    # depthres = Column(Float(precision=8), comment="5.2.2.2 Resolución de profundidad")
-    # depthdu = Column(Text, comment="5.2.2.3 Unidades de distancia de profundidad")
-    # level = Column(Text, comment="6.1.1 Nivel")
-    # dq_quantitativeresult = Column(
-    #     Text,
-    #     name="dq_quantitativeresult",
-    #     comment="6.2.1.1|6.2.3.1|6.2.4.1|6.2.5.1 Nombre del subcriterio de calidad evaluado",
-    # )
-    # dq_completeness_nameofmeasure = Column(
-    #     Text,
-    #     name="dq_completeness_nameofmeasure",
-    #     comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
-    # )
-    # dq_logicconsistency_nameofmeasure = Column(
-    #     Text,
-    #     name="dq_logicconsistency_nameofmeasure",
-    #     comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
-    # )
-    # positionalaccuracy_nameofmeasure = Column(
-    #     Text,
-    #     name="positionalaccuracy_nameofmeasure",
-    #     comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
-    # )
-    # temporalaccuracy_nameofmeasure = Column(
-    #     Text,
-    #     name="temporalaccuracy_nameofmeasure",
-    #     comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
-    # )
-    # thematicaccuracy_nameofmeasure = Column(
-    #     Text,
-    #     name="thematicaccuracy_nameofmeasure",
-    #     comment="6.2.2.1.1|6.2.3.1.1|6.2.4.1.1|6.2.5.1.1 Nombre de la prueba",
-    # )
-    # dq_completeness_measuredescription = Column(
-    #     Text,
-    #     name="dq_completeness_measuredescription",
-    #     comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
-    # )
-    # dq_logicconsistency_measuredescription = Column(
-    #     Text,
-    #     name="dq_logicconsistency_measuredescription",
-    #     comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
-    # )
-    # positionalaccuracy_measuredescription = Column(
-    #     Text,
-    #     name="positionalaccuracy_measuredescription",
-    #     comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
-    # )
-    # temporalaccuracy_measuredescription = Column(
-    #     Text,
-    #     name="temporalaccuracy_measuredescription",
-    #     comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
-    # )
-    # thematicaccuracy_measuredescription = Column(
-    #     Text,
-    #     name="thematicaccuracy_measuredescription",
-    #     comment="6.2.2.1.2|6.2.3.1.2|6.2.4.1.2|6.2.5.1.2 Descripción de la prueba",
-    # )
-    # positionalaccuracy_valueunit = Column(
-    #     Text,
-    #     name="positionalaccuracy_valueunit",
-    #     comment="6.2.2.1.3.1.1|6.2.3.1.3.1.1|6.2.4.1.3.1.1|6.2.5.1.3.1.1 Unidad de valor",
-    # )
-    # temporalaccuracy_valueunit = Column(
-    #     Text,
-    #     name="temporalaccuracy_valueunit",
-    #     comment="6.2.2.1.3.1.1|6.2.3.1.3.1.1|6.2.4.1.3.1.1|6.2.5.1.3.1.1 Unidad de valor",
-    # )
-    # thematicaccuracy_valueunit = Column(
-    #     Text,
-    #     name="thematicaccuracy_valueunit",
-    #     comment="6.2.2.1.3.1.1|6.2.3.1.3.1.1|6.2.4.1.3.1.1|6.2.5.1.3.1.1 Unidad de valor",
-    # )
-    # statement = Column(Text, comment="6.3.1 Enunciado")
-    # entity_detail = Column(
-    #     Text, comment="7.1 Descripción general de entidades y atributos"
-    # )
-    # graphfilename = Column(
-    #     Text, comment="7.2 Cita del detalle de entidades y atributos"
-    # )
-    # md_format = Column(Text, name="md_format", comment="8.4.1 Nombre del formato")
-    # edition = Column(Text, comment="8.4.2 Versión del formato")
-    # metadatastandardname = Column(
-    #     Text,
-    #     name="metadatastandardname",
-    #     comment="9.1 Nombre del estándar de metadatos",
-    # )
-    # metadatastandardversion = Column(
-    #     Text, name="metadatastandardversion", comment="9.3 Idioma de los Metadatos"
-    # )
-    # date = Column(DateTime, comment="9.5 Fecha")
-    # md_referencesystem = Column(
-    #     Text,
-    #     name="md_referencesystem",
-    #     comment="Sistema de Referencia SI 4.2 es de tipo Vector/Raster/TIN",
-    # )
-    # geographicelement = Column(
-    #     Text,
-    #     name="geographicelement",
-    #     comment="5.1.1 Coordenadas Geográficas Si 5.1.2 o 5.1.3 no se capturan",
-    # )
-    # planar = Column(
-    #     Text, comment="5.1.2 Coordenadas Planas Si 5.1.1 o 5.1.3 no se capturan"
-    # )
-    # mapprojn = Column(
-    #     Text,
-    #     comment="5.1.2.1	Proyección Cartográfica Si 5.1.2.1 o 5.1.2.2 no se capturan",
-    # )
-    # gridcoordinatessystem = Column(
-    #     Text, comment="5.1.2.3 Plana Local Si 5.1.2.1 o 5.1.2.2 no se capturan"
-    # )
-    # # local_planar = Column(
-    # #     Text, comment="5.1.2.3 Plana Local Si 5.1.2.1 o 5.1.2.2 no se capturan"
-    # # )
-    # coord_repres = Column(
-    #     Text,
-    #     comment="5.1.2.3.4.2|5.1.2.3.4.2.2 Representación de coordenadas Si 5.1.2.4.3 no se captura",
-    # )
-    # # distance_and_bearing_repres = Column(
-    # #     Text,
-    # #     comment="5.1.2.4.3 Representación de distancia y rumbo Si 5.1.2.4.2 no se captura",
-    # # )
-    # # local_coordinates = Column(
-    # #     Text, comment="5.1.3 Coordenadas Locales Si 5.1.1 o 5.1.2 no se capturan"
-    # # )
-    # # denflat = Column(Text, comment="5.1.4.4 Factor de denominador de achatamiento")
-    # li_processstep = Column(
-    #     Text, name="li_processstep", comment="6.3.2 Pasos del proceso"
-    # )
-    # li_source = Column(Text, name="li_source", comment="6.3.3 Fuente")
-
-    # spatial_level = Column(
-    #     Text, comment="Spatial level of the data. E.g. city, country, street"
-    # )
-    # minimum_optimal_scale = Column(
-    #     Integer,
-    #     comment='Minimum optimal scale denominator to view the data. E.g. 100000 for 1/100000. Most "zoomed out".',
-    # )
-    # maximum_optimal_scale = Column(
-    #     Integer,
-    #     comment='Maximum optimal scale denominator to view the data. E.g. 2000 for 1/2000. Most "zoomed in".',
-    # )
-    # publication_date = Column(
-    #     DateTime,
-    #     default=datetime.now,
-    #     comment="Date of publication of the data",
-    # )
-    # publication_frequency = Column(
-    #     Text, comment="Frequency of publication: how often the data is published."
-    # )
-    # utm_zone = Column(Integer)
-    # license = Column(Text, comment="License. E.g. Public domain")
-    # confidentiality = Column(Text, comment="Confidentiality of the data.")
-    # feature_count = Column(Integer, comment="Number of features of the data")
-    # geometry_type = Column(Text, comment="Geometry type. E.g. Polygon")
-    # projection_name = Column(
-    #     Text, comment="Projection name of the dataset. E.g. WGS 84 - Geographic"
-    # )
-    # projection_authid = Column(Text, comment="Projection auth id. E.g. EPSG:4326")
-    # spatial_extent = Column(
-    #     Text, comment="Spatial extent of the data. xmin,ymin,xmax,ymax."
-    # )
-    # update_date = Column(
-    #     DateTime,
-    #     default=datetime.now,
-    #     comment="Date of update of the dataset item",
-    # )
-    # geom = Column(
-    #     Geometry("POINT", 32614, name="geometry"),
-    #     index=True,
-    #     comment="Geometry defining the extent of the data. Can be any polygon.",
-    # )
-    # data_last_update = Column(
-    #     DateTime,
-    #     comment="Date of the last modification of the target data (not on the dataset item line)",
-    # )
-    # themes = Column(ARRAY(Text()), comment="List of themes")
-    # metadata_xml = Column(Text, comment="XML document containing the entire metadata")
-
-    # def __init__(self, xml_file: Optional[str] = None, **kwargs) -> None:
-    #     if xml_file is not None:
-    #         with open(xml_file, "r", encoding="utf-8") as file:
-    #             metadata_xml = file.read()
-    #         root_xml = fromstring(metadata_xml)
-    #         kwargs |= {element.tag.lower(): element.text for element in root_xml.iter()}
-    #         kwargs |= {"metadata_xml": metadata_xml}
-    #     for key, value in kwargs.items():
-    #         setattr(self, key, value)
+    class Config:
+        arbitrary_types_allowed = True
 
 
 class Dataset(Template):
-    def __init__(self, db) -> None:
-        super().__init__(Model, db)
+    response_model = response_model(Model=Model)
 
-    def __enter__(self):
-        return super().__enter__()
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        return super().__exit__(exc_type, exc_value, traceback)
+    def __init__(self, Session: Session) -> None:
+        super().__init__(Model=Model, Session=Session)

@@ -8,8 +8,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from enum import Enum
 
 from .. import config, database, middlewares
-from ..models.catastral import Catastrales
+from ..models.dataset import Dataset as __Dataset
+from ..models.metadatos import MetadatosTemporales as __TMP
 from ..models.usuarios import Usuarios
+from ..controllers.metadatos import ReporteMetadatos as __ReporteMetadatos
 from sqlalchemy.orm import Session
 
 __response = middlewares.RESPONSES()
@@ -39,7 +41,7 @@ DBS = Enum(
 @meta.get("/resources", response_model=None)
 async def get_resources(
     user=Depends(required),
-    db_name: DBS = "MUNICIPIOS",
+    db_name: Optional[DBS] = None,
     schema_name: Optional[str] = None,
     table_name: Optional[str] = None,
 ):
@@ -100,15 +102,15 @@ async def get_all_metadatos(
     if user is None:
         return __response.error(**user)
     try:
-        meta = __Dataset(db=db)
+        meta = __Dataset(db)
         if meta.all() is None:
             return __response.success(data=[])
-        # save data into json
-        from json import dump
+        # # save data into json
+        # from json import dump
 
-        with open("data.json", "w") as file:
-            dump(meta.to_list(), file)
-        return __response.success(data=meta.to_list())
+        # with open("data.json", "w") as file:
+        #     dump(meta.list(), file)
+        return __response.success(data=meta.list())
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -121,13 +123,13 @@ async def get_all_metadatos_preview(
     if user is None:
         return __response.error(**user)
     try:
-        meta = __Dataset(db=db)
+        meta = __Dataset(db)
         if meta.all() is None:
             return __response.success(data=[])
 
         return __response.success(
-            data=meta.to_list(
-                only=[
+            data=meta.list(
+                includes=[
                     "uid",
                     "db_name",
                     "table_name",
@@ -152,11 +154,11 @@ async def get_all_temporal_metadatos(
     if user is None:
         return __response.error(**user)
     try:
-        meta = __TMP(db=db)
+        meta = __TMP(db)
 
         if meta.filter_group(username=user.nombre) is None:
             __response.success(data=[])
-        return __response.success(data=meta.to_list())
+        return __response.success(data=meta.list())
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -169,14 +171,14 @@ async def get_id(
     if user is None:
         return __response.error(**user)
     try:
-        meta = __Dataset(db=db)
+        meta = __Dataset(db)
         if meta.filter(uid=uid) is None:
             return __response.error(
                 message="Error procesando la solicitud",
                 status_code=404,
             )
 
-        return __response.success(data=meta.to_dict())
+        return __response.success(data=meta.dict())
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -189,20 +191,17 @@ async def get_temporal_id(
     if user is None:
         return __response.error(**user)
     try:
-        meta = __TMP(db=db)
+        meta = __TMP(db)
         if meta.filter(uid=uid) is None:
             return __response.error(
                 message="Error procesando la solicitud",
                 status_code=404,
             )
-        data = meta.to_dict()
+        data = meta.dict()
         return __response.success(data=data.get("datos", data))
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
-
-
-from pprint import pprint
 
 
 @meta.post("/create")
@@ -214,7 +213,7 @@ async def create(
     if user is None:
         return __response.error(**user)
     try:
-        meta = __Dataset(db=db)
+        meta = __Dataset(db)
         data = await request.json()
 
         data = {
@@ -226,14 +225,14 @@ async def create(
         if meta.create(**data, username=user.nombre) is None:
             return __response.error(message="No se pudo registrar el metadato")
         if uid is not None or uid != "":
-            tmp = __TMP(db=db)
+            tmp = __TMP(db)
             logger.info(f"UUID: {uid}")
             if tmp.filter(uid=uid) is not None:
                 logger.warning("Deleting temporal metadata")
                 result = tmp.delete()
                 logger.info("Result: ", result)
 
-        return __response.success(data=meta.to_dict() | {"status": "success"})
+        return __response.success(data=meta.dict() | {"status": "success"})
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e), data={"status": "error"})
@@ -249,7 +248,7 @@ async def patch_id(
     if user is None:
         return __response.error(**user)
     try:
-        meta = __Dataset(db=db)
+        meta = __Dataset(db)
         if meta.get(id) is None:
             return __response.error(
                 message="Error procesando la solicitud",
@@ -261,7 +260,7 @@ async def patch_id(
             del data["geom"]
         if meta.update(**data) is None:
             return __response.error(message="No se pudo actualizar el metadato")
-        return __response.success(data=meta.to_dict() | {"status": "success"})
+        return __response.success(data=meta.dict() | {"status": "success"})
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e), data={"status": "error"})
@@ -274,7 +273,7 @@ async def post_temporal_metadatos(
     db: Session = Depends(database.CATASTRO_V2),
 ):
     data = await request.json()
-    meta = __TMP(db=db)
+    meta = __TMP(db)
     if meta.create(**data, username=user.nombre) is None:
         return __response.error(
             message="Error procesando la solicitud",
@@ -282,7 +281,7 @@ async def post_temporal_metadatos(
             data={"status": "error"},
         )
 
-    return __response.success(data=meta.to_dict() | {"status": "success"})
+    return __response.success(data=meta.dict() | {"status": "success"})
 
 
 @meta.patch("/temporal/{uid}")
@@ -295,7 +294,7 @@ async def patch_temporal_metadatos(
     if user is None:
         return __response.error(**user)
     data = await request.json()
-    meta = __TMP(db=db)
+    meta = __TMP(db)
     if meta.filter(uid=uid, username=user.nombre) is None:
         return __response.error(
             message="Error procesando la solicitud",
@@ -308,17 +307,19 @@ async def patch_temporal_metadatos(
             status_code=409,
             data={"status": "error"},
         )
-    return __response.success(data=meta.to_dict() | {"status": "success"})
+    return __response.success(data=meta.dict() | {"status": "success"})
 
 
 @meta.get("/report/{uid}")
 def get_file(
     uid: str,
+    request: Request,
     user=Depends(required),
     db: Session = Depends(database.CATASTRO_V2),
 ):
-    if user is None:
-        return __response.error(**user)
+    headers = dict(request.headers)
+    print(f"Headers: {headers}")
+
     try:
         response = __ReporteMetadatos(uid, db)
         filename, path = response.create()
@@ -338,8 +339,8 @@ async def delete_temporal_metadatos(
     if user is None:
         return __response.error(**user)
     try:
-        meta = __TMP(db=db)
-        encargado = user.id
+        meta = __TMP(db)
+        username = user.id
         if meta.filter(uid=uid, username=user.nombre) is None:
             return __response.error(
                 message="Error procesando la solicitud",
@@ -350,7 +351,7 @@ async def delete_temporal_metadatos(
                 message="No se pudo eliminar el registro",
                 status_code=409,
             )
-        return __response.success(data=meta.to_dict())
+        return __response.success(data=meta.dict())
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
