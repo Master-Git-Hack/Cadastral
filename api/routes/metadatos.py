@@ -45,8 +45,6 @@ async def get_resources(
     schema_name: Optional[str] = None,
     table_name: Optional[str] = None,
 ):
-    if user is None:
-        return __response.error(**user)
     data = database.group_by_db(db=db_name, schema=schema_name, table=table_name)
     if db_name is None:
         data = {
@@ -99,11 +97,9 @@ async def get_resources(
 async def get_all_metadatos(
     user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
-    if user is None:
-        return __response.error(**user)
     try:
         meta = __Dataset(db)
-        if meta.all() is None:
+        if meta.filter_group(is_latest=True) is None:
             return __response.success(data=[])
         # # save data into json
         # from json import dump
@@ -120,11 +116,9 @@ async def get_all_metadatos(
 async def get_all_metadatos_preview(
     user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
-    if user is None:
-        return __response.error(**user)
     try:
         meta = __Dataset(db)
-        if meta.all() is None:
+        if meta.filter_group(is_latest=True) is None:
             return __response.success(data=[])
 
         return __response.success(
@@ -151,8 +145,6 @@ async def get_all_metadatos_preview(
 async def get_all_temporal_metadatos(
     user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
-    if user is None:
-        return __response.error(**user)
     try:
         meta = __TMP(db)
 
@@ -168,8 +160,6 @@ async def get_all_temporal_metadatos(
 async def get_id(
     uid: str, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
-    if user is None:
-        return __response.error(**user)
     try:
         meta = __Dataset(db)
         if meta.filter(uid=uid) is None:
@@ -177,7 +167,6 @@ async def get_id(
                 message="Error procesando la solicitud",
                 status_code=404,
             )
-
         return __response.success(data=meta.dict())
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
@@ -188,8 +177,6 @@ async def get_id(
 async def get_temporal_id(
     uid: str, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
 ):
-    if user is None:
-        return __response.error(**user)
     try:
         meta = __TMP(db)
         if meta.filter(uid=uid) is None:
@@ -210,8 +197,6 @@ async def create(
     user=Depends(required),
     db: Session = Depends(database.CATASTRO_V2),
 ):
-    if user is None:
-        return __response.error(**user)
     try:
         meta = __Dataset(db)
         data = await request.json()
@@ -226,15 +211,70 @@ async def create(
             return __response.error(message="No se pudo registrar el metadato")
         if uid is not None or uid != "":
             tmp = __TMP(db)
-            logger.info(f"UUID: {uid}")
+            print(f"UUID: {uid}")
             if tmp.filter(uid=uid) is not None:
                 logger.warning("Deleting temporal metadata")
                 result = tmp.delete()
-                logger.info("Result: ", result)
+                print("Result: ", result)
 
         return __response.success(data=meta.dict() | {"status": "success"})
     except Exception as e:
-        print(f"----------> Unexpected error:\n {str(e)}")
+        print(f"----------> Unexpected error on metadata create:\n {str(e)}")
+        return __response.error(message=str(e), data={"status": "error"})
+
+
+@meta.post("/version/create")
+async def create_version(
+    id: int, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
+):
+    try:
+        meta = __Dataset(db)
+        if meta.get(id) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+        new_version = meta.dict(excludes=["id", "uid"])
+        new_version["parent_id"] = meta.Current.id
+        new_version["version"] = meta.Current.version + 1
+        if meta.update(is_latest=False) is None:
+            return __response.error(
+                message=f"Error cambiando la version del registro {meta.Current.id}",
+                status_code=500,
+            )
+        if meta.create(**new_version) is None:
+            return __response.error(
+                message=f"Error creando la nueva version del registro {meta.Current.id}",
+                status_code=500,
+            )
+        return __response.success(data=meta.dict() | {"status": "success"})
+    except Exception as e:
+        print(f"----------> Unexpected error on version create:\n {str(e)}")
+        return __response.error(message=str(e), data={"status": "error"})
+
+
+@meta.get("/version/previous")
+async def previous_version(
+    id: int, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
+):
+    try:
+        meta = __Dataset(db)
+        if meta.get(id) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+        if meta.Current.version == 1:
+            return __response.success(data=[])
+        versions = []
+        parent_id = meta.Current.parent_id
+        for i in range(meta.Current.version - 1):
+            if meta.get(parent_id):
+                parent_id = meta.Current.parent_id
+                versions.append(meta.dict())
+        return __response.success(data=versions)
+    except Exception as e:
+        print(f"----------> Unexpected error on version create:\n {str(e)}")
         return __response.error(message=str(e), data={"status": "error"})
 
 
@@ -245,8 +285,6 @@ async def patch_id(
     user=Depends(required),
     db: Session = Depends(database.CATASTRO_V2),
 ):
-    if user is None:
-        return __response.error(**user)
     try:
         meta = __Dataset(db)
         if meta.get(id) is None:
@@ -291,8 +329,6 @@ async def patch_temporal_metadatos(
     user=Depends(required),
     db: Session = Depends(database.CATASTRO_V2),
 ):
-    if user is None:
-        return __response.error(**user)
     data = await request.json()
     meta = __TMP(db)
     if meta.filter(uid=uid, username=user.nombre) is None:
@@ -336,8 +372,6 @@ async def delete_temporal_metadatos(
     user=Depends(required),
     db: Session = Depends(database.CATASTRO_V2),
 ):
-    if user is None:
-        return __response.error(**user)
     try:
         meta = __TMP(db)
         username = user.id

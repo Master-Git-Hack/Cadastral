@@ -16,6 +16,16 @@ import Error from "@components/error";
 import Layout from "@/components/navbar/index";
 import Link from "next/link";
 import { Button } from "@components/ui/button";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 // // import { NavLink, redirect } from "react-router-dom";
 
 // import "primereact/resources/themes/tailwind-light/theme.css";
@@ -320,15 +330,15 @@ import { Button } from "@components/ui/button";
 import useMedatados from "@/store/metadatos/index.ts";
 export default function Metadatos() {
 	const { getAllTemporal, getMetadatos, setMetadatos: setMeta } = useMedatados((state) => state);
-
+	const router = useRouter();
 	const [metadatos, setMetadatos] = useState([]);
 	const [temporal, setTemporal] = useState([]);
 	const handleGetTmp = async () => {
-		const { data } = await getAllTemporal();
+		const { data } = await getAllTemporal(Router);
 		setTemporal(data?.data);
 	};
 	const handleGetMeta = async () => {
-		const { data } = await getMetadatos();
+		const { data } = await getMetadatos(Router);
 		setMetadatos(data?.data);
 	};
 	useEffect(() => {
@@ -353,6 +363,7 @@ export default function Metadatos() {
 						<TableHead>Proposito</TableHead>
 						<TableHead>Resumen</TableHead>
 						<TableHead>Usuario</TableHead>
+						<TableHead className="w-[50px]">Versión</TableHead>
 						<TableHead>Ultima Actualización</TableHead>
 						<TableHead className="text-right">
 							<span className="sr-only">Acciones</span>
@@ -371,10 +382,11 @@ export default function Metadatos() {
 							abstract,
 							username,
 							update_date,
+							version,
 							...metaData
 						}) => (
 							<TableRow key={uid}>
-								<TableCell className="font-medium">
+								<TableCell className="font-medium text-center">
 									{db_name
 										.split("_")
 										?.map(
@@ -383,7 +395,7 @@ export default function Metadatos() {
 										)
 										.join(" ")}
 								</TableCell>
-								<TableCell className="font-medium">
+								<TableCell className="font-medium text-center">
 									{schema_name
 										.split("_")
 										?.map(
@@ -392,7 +404,7 @@ export default function Metadatos() {
 										)
 										.join(" ")}
 								</TableCell>
-								<TableCell className="font-medium">
+								<TableCell className="font-medium text-center">
 									{table_name
 										.split("_")
 										?.map(
@@ -401,7 +413,9 @@ export default function Metadatos() {
 										)
 										.join(" ")}
 								</TableCell>
-								<TableCell className="font-bold">{title}</TableCell>
+								<TableCell className="font-bold text-justify capitalize">
+									{title}
+								</TableCell>
 								<TableCell className="font-small">
 									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
 										{purpose}
@@ -413,6 +427,7 @@ export default function Metadatos() {
 									</p>
 								</TableCell>
 								<TableCell>{username}</TableCell>
+								<TableCell className="text-center">{version}</TableCell>
 								<TableCell>
 									{new Date(update_date).toLocaleDateString("es-ES", {
 										year: "numeric", // Ejemplo: 2023
@@ -421,33 +436,71 @@ export default function Metadatos() {
 									})}
 								</TableCell>
 								<TableCell className="text-right">
-									<Link
-										href={`/metadatos/${uid}/edit`}
-										className="transition-colors hover:text-blue-500"
-										onClick={() =>
-											setMeta({
-												uid,
-												db_name,
-												table_name,
-												schema_name,
-												title,
-												purpose,
-												abstract,
-												username,
-												update_date,
-												...metaData,
-											})
-										}
-									>
-										Editar
-									</Link>
-									<span className="mx-2">/</span>
-									<Link
-										href={`/metadatos/${uid}/view`}
-										className="transition-colors hover:text-blue-500"
-									>
-										PDF
-									</Link>
+									<DropdownMenu>
+										<DropdownMenuTrigger className="text-blue-600">
+											Acciones...
+										</DropdownMenuTrigger>
+										<DropdownMenuContent>
+											<DropdownMenuLabel>Versiones</DropdownMenuLabel>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem>
+												<Link href={`#new_version`}>
+													<Button variant="link" onClick={() => {}}>
+														Cambiar de Versión
+													</Button>
+												</Link>
+											</DropdownMenuItem>
+											{version > 1 && (
+												<DropdownMenuItem>
+													<Link href={`#previous_versions`}>
+														<Button variant="link" onClick={() => {}}>
+															Versiones Anteriores
+														</Button>
+													</Link>
+
+													<span className="mx-2">/</span>
+												</DropdownMenuItem>
+											)}
+
+											<DropdownMenuLabel>Edición</DropdownMenuLabel>
+											<DropdownMenuSeparator />
+											<DropdownMenuItem>
+												<Link
+													href={`/metadatos/${uid}/edit`}
+													className="transition-colors hover:text-blue-500 "
+													onClick={() =>
+														setMeta({
+															uid,
+															db_name,
+															table_name,
+															schema_name,
+															title,
+															purpose,
+															abstract,
+															username,
+															update_date,
+															...metaData,
+														})
+													}
+												>
+													<Button variant="link" onClick={() => {}}>
+														Editar
+													</Button>
+												</Link>
+											</DropdownMenuItem>
+											<DropdownMenuLabel>Reporte</DropdownMenuLabel>
+											<DropdownMenuItem>
+												<Link
+													href={`/metadatos/${uid}/view`}
+													className="transition-colors hover:text-blue-500"
+												>
+													<Button variant="link" onClick={() => {}}>
+														PDF
+													</Button>
+												</Link>
+											</DropdownMenuItem>
+										</DropdownMenuContent>
+									</DropdownMenu>
 								</TableCell>
 							</TableRow>
 						),

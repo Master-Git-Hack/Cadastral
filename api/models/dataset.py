@@ -445,6 +445,9 @@ class Model(SQLModel, table=True):
         sa_column=Column(Text, comment="XML document containing the entire metadata")
     )
     themes: List[str] = Field(sa_column=Column(ARRAY(Text()), comment="List of themes"))
+    parent_id: Optional[int] = Field(default=None, foreign_key="yourtable.id")
+    version: int = Field(default=1, nullable=False)
+    is_latest: bool = Field(default=True, nullable=False)
 
     class Config:
         arbitrary_types_allowed = True

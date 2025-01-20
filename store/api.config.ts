@@ -1,6 +1,6 @@
 /** @format */
 "use client";
-import axios, { AxiosInstance, CreateAxiosDefaults } from "axios";
+import axios, { AxiosInstance, CreateAxiosDefaults, AxiosError } from "axios";
 import { create } from "zustand";
 import { useUser } from "./user";
 import LS from "@utils/localStorage";
@@ -9,18 +9,22 @@ const _URL = process.env.NEXT_PUBLIC_API_URL;
 const _ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const _VERSION = process.env.NEXT_PUBLIC_API_VERSION;
 const baseURL = `${_URL}/${_ENDPOINT}/${_VERSION}`;
-const consume = ({
-	headers = {},
-	responseType = "json",
-	auth = {
-		username: "",
-		password: "",
-	},
-	cancelToken,
-	signal,
-	data,
-	...config
-}: CreateAxiosDefaults): AxiosInstance => {
+import { NextRouter } from "next/router";
+const consume = (
+	{
+		headers = {},
+		responseType = "json",
+		auth = {
+			username: "",
+			password: "",
+		},
+		cancelToken,
+		signal,
+		data,
+		...config
+	}: CreateAxiosDefaults,
+	router?: NextRouter,
+): AxiosInstance => {
 	const instance = axios.create({
 		baseURL,
 		responseType,
@@ -35,7 +39,33 @@ const consume = ({
 		data,
 		...config,
 	});
+
 	LS.set("lastRequest", now());
+	instance.interceptors.request.use(
+		(config) => {
+			const user = LS.get("user-storage");
+			const token = user?.state?.token;
+			if (token) {
+				config.headers.Authorization = `Bearer ${token}`;
+			}
+			return config;
+		},
+		(error) => {
+			return Promise.reject(error);
+		},
+	);
+	instance.interceptors.response.use(
+		(response) => response,
+		(error: AxiosError) => {
+			if (error.response?.status === 401) {
+				// Clear token or other session data
+				LS.clear();
+				// Redirect to sign-in page
+				if (router) router.push("/sign-in"); // Replace with your sign-in route
+			}
+			return Promise.reject(error);
+		},
+	);
 	return instance;
 };
 const setConfig = (url: string, config?: CreateAxiosDefaults) => {
@@ -116,12 +146,12 @@ export const useStatusStore = create<IStatusState & IStatusActions>()((set) => (
 		}),
 }));
 export const api = {
-	get: async (url: string, params?: CreateAxiosDefaults) => {
+	get: async (url: string, params?: CreateAxiosDefaults, router?: NextRouter) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			const response = await consume({ ...config }).get(url);
+			const response = await consume({ ...config }, router).get(url);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
@@ -137,6 +167,7 @@ export const api = {
 		data: CreateAxiosDefaults["data"] = {},
 		formData: boolean = false,
 		params?: CreateAxiosDefaults,
+		router?: NextRouter,
 	) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
@@ -157,7 +188,7 @@ export const api = {
 			// 	} else {
 
 			// 	}
-			const response = await consume(config).post(url, data);
+			const response = await consume(config, router).post(url, data);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
@@ -172,12 +203,13 @@ export const api = {
 		url: string,
 		data: CreateAxiosDefaults["data"] = {},
 		params?: CreateAxiosDefaults,
+		router?: NextRouter,
 	) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			const response = await consume(config).put(url, data);
+			const response = await consume(config, router).put(url, data);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
@@ -188,12 +220,12 @@ export const api = {
 			setTimeout(() => setDefault(), 500);
 		}
 	},
-	delete: async (url: string, params?: CreateAxiosDefaults) => {
+	delete: async (url: string, params?: CreateAxiosDefaults, router?: NextRouter) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			const response = await consume(config).delete(url);
+			const response = await consume(config, router).delete(url);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
