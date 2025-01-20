@@ -147,8 +147,8 @@ class Responses:
         Returns:
             A response object with the given parameters.
         """
-        if not 400 <= status_code <= 499:
-            raise ValueError("An error status__code must be between 400 and 499")
+        if not 400 <= status_code <= 500:
+            raise ValueError("An error status__code must be between 400 and 500")
         if content is None:
             content: dict = {}
         if message is not None:

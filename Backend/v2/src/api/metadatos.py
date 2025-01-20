@@ -85,7 +85,7 @@ async def get_all_metadatos(
         return __response.error(**user)
     try:
         meta = __Dataset(db=db)
-        if meta.all() is None:
+        if meta.filter_group(is_latest=True) is None:
             return __response.success(data=[])
         # save data into json
         from json import dump
@@ -106,7 +106,7 @@ async def get_all_metadatos_preview(
         return __response.error(**user)
     try:
         meta = __Dataset(db=db)
-        if meta.all() is None:
+        if meta.filter_group(is_latest=True) is None:
             return __response.success(data=[])
 
         return __response.success(
@@ -222,7 +222,67 @@ async def create(
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e), data={"status": "error"})
 
+@metadatos.post("/version/create")
+async def create_version(
+    id: int, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
+):
+    if isinstance(user, dict):
+        return __response.error(**user)
+    try:
+        meta = __Dataset(db)
+        if meta.get(id) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+        new_version = meta.to_dict(exclude=["id", "uid"])
+        print(new_version)
+        new_version["parent_id"] = meta.current.id
+        new_version["version"] = meta.current.version + 1
+        new_version["is_latest"] = True
+        if meta.update(is_latest=False) is None:
+            return __response.error(
+                message=f"Error cambiando la version del registro {meta.current.id}",
+                status_code=409,
+            )
+        if meta.create(**new_version) is None:
+            return __response.error(
+                message=f"Error creando la nueva version del registro {meta.current.id}",
+                status_code=409,
+            )
+        
+        return __response.success(data=meta.to_dict() | {"status": "success"})
+    except Exception as e:
+        print(f"----------> Unexpected error on version create:\n {str(e)}")
+        return __response.error(message=str(e), data={"status": "error"})
 
+
+@metadatos.get("/version/previous")
+async def previous_version(
+    id: int, user=Depends(required), db: Session = Depends(database.CATASTRO_V2)
+):
+    if isinstance(user, dict):
+        return __response.error(**user)
+    try:
+        meta = __Dataset(db)
+        if meta.get(id) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+        if meta.current.version == 1:
+            return __response.success(data=[])
+        versions = []
+        parent_id = meta.current.parent_id
+        for i in range(meta.current.version - 1):
+            if meta.get(parent_id):
+                parent_id = meta.current.parent_id
+                versions.append(meta.to_dict())
+        return __response.success(data=versions)
+    except Exception as e:
+        print(f"----------> Unexpected error on version create:\n {str(e)}")
+        return __response.error(message=str(e), data={"status": "error"})
+    
 @metadatos.patch("/{id}")
 async def patch_id(
     id: int,

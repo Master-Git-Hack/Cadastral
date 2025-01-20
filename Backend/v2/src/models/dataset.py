@@ -15,6 +15,8 @@ from sqlalchemy import (
     UniqueConstraint,
     create_engine,
     text,
+    ForeignKey,
+    Boolean,
 )
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -687,6 +689,9 @@ class Model(database.BASE):
     )
     metadata_xml = Column(Text, comment="XML document containing the entire metadata")
     themes = Column(ARRAY(Text()), comment="List of themes")
+    parent_id = Column(Integer, ForeignKey("pgmetadata.dataset.id"), nullable=True,default=None)
+    version = Column(Integer, nullable=False,default=1)
+    is_latest = Column(Boolean, nullable=False, default=True)
 
     def __init__(self, xml_file: Optional[str] = None, **kwargs) -> None:
         if xml_file is not None:
