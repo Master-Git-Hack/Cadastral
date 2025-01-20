@@ -17,14 +17,24 @@ import { TreeSelect } from "primereact/treeselect";
 import useMedatados from "@/store/metadatos/index.ts";
 import FileButton from "@/components/ui/button-file";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
-	BreadcrumbLink,
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import {
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 export default function Create({
 	isTemporal = false,
 	page = 1,
@@ -32,11 +42,18 @@ export default function Create({
 	onEdit,
 	uid = undefined,
 }) {
-	const { getResources, schema_name, table_name, db_name } = useMedatados((state) => state);
+	const { getResources, schema_name, table_name, db_name, setMetadatos, ...data } = useMedatados(
+		(state) => state,
+	);
 	const [resources, setResources] = useState([]);
+	const router = useRouter();
 	const callResources = async () => {
 		const { data } = await getResources();
 		setResources(data?.data);
+	};
+	const handleTreeSelect = ({ value }) => {
+		const [db_name, schema_name, table_name] = value.split(".");
+		setMetadatos({ ...data, db_name, table_name, schema_name });
 	};
 	useEffect(() => {
 		if (resources.length === 0) {
@@ -61,9 +78,8 @@ export default function Create({
 				)}
 				<div className="w-1/3">
 					<TreeSelect
-						// value={`${data.db_name}.${data.schema_name}.${data.table_name}`}
-
-						// onChange={handleTreeSelect}
+						value={`${data.db_name}.${data.schema_name}.${data.table_name}`}
+						onChange={handleTreeSelect}
 						options={resources}
 						filter
 						className="md:w-20rem w-full"
@@ -128,7 +144,7 @@ export default function Create({
 						<Button
 							variant="outline"
 							className="mt-1 "
-							// onClick={() => setIndexPage(indexPage - 1)}
+							onClick={() => router.push(`?page=${parseInt(page) - 1}`)}
 						>
 							Anterior {parseInt(page) - 1}
 						</Button>
@@ -140,13 +156,25 @@ export default function Create({
 						<Button
 							variant="outline"
 							className="mt-1 "
-							// onClick={() => setIndexPage(indexPage - 1)}
+							onClick={() => router.push(`?page=${parseInt(page) + 1}`)}
 						>
 							Siguiente {parseInt(page) + 1}
 						</Button>
 					)}
 				</div>
 			</div>
+
+			<Table>
+				{page === "1" && <Section1 />}
+				{/* {page === 2 && <Section2 />}
+				{page === 3 && <Section3 />}
+				{page === 4 && <Section4 />}
+				{page === 5 && <Section5 />}
+				{page === 6 && <Section6 />}
+				{page === 7 && <Section7 />}
+				{page === 8 && <Section8 />}
+				{page === 9 && <Section9 />} */}
+			</Table>
 		</div>
 	);
 }

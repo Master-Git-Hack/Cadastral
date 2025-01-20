@@ -25,11 +25,25 @@ import Toast from "@components/Alerts";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MetadatosApi } from "@api/Metadatos";
 import { useDispatch } from "react-redux";
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from "@/components/ui/drawer";
+const PreviousVersion = ({ open, setOpen, id }) => {
+	return <>open</>;
+};
 export default function Metadatos() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { data, isLoading, isError, error, refetch } = useGetMetadatosQuery();
+	const [open, setOpen] = useState(false);
 	const {
 		data: temporal,
 		isLoading: isLoadingTemporal,
@@ -56,6 +70,9 @@ export default function Metadatos() {
 	return (
 		<div className="overflow-auto">
 			<div className="flex flex-row-reverse py-2">
+				<Button pill color="light" onClick={() => setOpen(true)}>
+					Open
+				</Button>
 				<NavLink to={`crear`}>
 					<Button pill color="light">
 						Nuevo Registro

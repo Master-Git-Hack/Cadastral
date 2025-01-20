@@ -26,319 +26,235 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// // import { NavLink, redirect } from "react-router-dom";
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+} from "@/components/ui/drawer";
+const PreviousVersions = ({ id, open, setOpen }) => {
+	const { getPrevious, setMetadatos: setMeta } = useMedatados((state) => state);
+	const [metadatos, setMetadatos] = useState([]);
+	const handleGetPrevious = async () => {
+		const { data } = await getPrevious(id);
+		console.log(data);
+		setMetadatos(data?.data);
+	};
+	useEffect(() => {
+		if (metadatos?.length === 0) handleGetPrevious();
+	}, [metadatos]);
+	return (
+		<Drawer
+			open={open}
+			onClose={() => setOpen(false)}
+			onOpenChange={(isOpen) => setOpen(isOpen)}
+		>
+			<DrawerContent>
+				<DrawerHeader>
+					<DrawerTitle>Versiones Anteriores</DrawerTitle>
+					<DrawerDescription>
+						Aqui estan todas las versiones previas a la seleccionada
+					</DrawerDescription>
+				</DrawerHeader>
+				<DrawerFooter className="mb-5">
+					<Table>
+						<TableHeader>
+							<TableRow>
+								<TableHead className="w-[250px]">
+									Nombre de la Base de Datos
+								</TableHead>
+								<TableHead className="w-[250px]">Nombre del Schema</TableHead>
+								<TableHead className="w-[250px]">Nombre de la Tabla</TableHead>
+								<TableHead className="w-[100px]">Titulo</TableHead>
+								<TableHead>Proposito</TableHead>
+								<TableHead>Resumen</TableHead>
+								<TableHead>Usuario</TableHead>
+								<TableHead className="w-[50px]">Versión</TableHead>
+								<TableHead>Ultima Actualización</TableHead>
+								<TableHead className="text-right">
+									<span className="sr-only">Acciones</span>
+								</TableHead>
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							{metadatos?.map(
+								({
+									id,
+									uid,
+									db_name,
+									table_name,
+									schema_name,
+									title,
+									purpose,
+									abstract,
+									username,
+									update_date,
+									version,
+									...metaData
+								}) => (
+									<TableRow key={uid}>
+										<TableCell className="font-medium text-center">
+											{db_name
+												.split("_")
+												?.map(
+													(word: string) =>
+														word.charAt(0).toUpperCase() +
+														word.slice(1),
+												)
+												.join(" ")}
+										</TableCell>
+										<TableCell className="font-medium text-center">
+											{schema_name
+												.split("_")
+												?.map(
+													(word: string) =>
+														word.charAt(0).toUpperCase() +
+														word.slice(1),
+												)
+												.join(" ")}
+										</TableCell>
+										<TableCell className="font-medium text-center">
+											{table_name
+												.split("_")
+												?.map(
+													(word: string) =>
+														word.charAt(0).toUpperCase() +
+														word.slice(1),
+												)
+												.join(" ")}
+										</TableCell>
+										<TableCell className="font-bold text-justify capitalize">
+											{title}
+										</TableCell>
+										<TableCell className="font-small">
+											<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+												{purpose}
+											</p>
+										</TableCell>
+										<TableCell className="font-small">
+											<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+												{abstract}
+											</p>
+										</TableCell>
+										<TableCell>{username}</TableCell>
+										<TableCell className="text-center">{version}</TableCell>
+										<TableCell>
+											{new Date(update_date).toLocaleDateString("es-ES", {
+												year: "numeric", // Ejemplo: 2023
+												month: "long", // Ejemplo: octubre
+												day: "numeric", // Ejemplo: 25
+											})}
+										</TableCell>
+										<TableCell className="text-right">
+											<DropdownMenu>
+												<DropdownMenuTrigger className="text-blue-600">
+													Acciones...
+												</DropdownMenuTrigger>
+												<DropdownMenuContent>
+													<DropdownMenuLabel>Versiones</DropdownMenuLabel>
+													<DropdownMenuSeparator />
+													<DropdownMenuItem>
+														<Link href={`#new_version`}>
+															<Button
+																variant="link"
+																onClick={() => {}}
+															>
+																Cambiar de Versión
+															</Button>
+														</Link>
+													</DropdownMenuItem>
+													{version > 1 && (
+														<DropdownMenuItem>
+															<Link href={`#previous_versions`}>
+																<Button
+																	variant="link"
+																	onClick={() => {
+																		setId(id);
+																		setTimeout(
+																			() => setOpen(true),
+																			1500,
+																		);
+																	}}
+																>
+																	Versiones Anteriores
+																</Button>
+															</Link>
+														</DropdownMenuItem>
+													)}
 
-// import "primereact/resources/themes/tailwind-light/theme.css";
-// //import { Table } from "@components/Table";
-// import { useState, useEffect } from "react";
-// import { ScrollPanel } from "primereact/scrollpanel";
-// import moment from "moment";
-// import {
-// 	useGetMetadatosQuery,
-// 	useGetMetadatoReportMutation,
-// 	useGetAllTemporalQuery,
-// 	useDeleteTemporalMutation,
-// } from "@api/Metadatos";
-// import { IMetadatos } from "@api/Metadatos/types";
-// import Spinner from "@components/Spinner";
-// import Alert from "@components/Alerts";
-// import Error from "../Error";
-// import { Table, Button } from "flowbite-react";
-// import { saveAs } from "file-saver";
-// import Toast from "@components/Alerts";
-// import { useLocation, useNavigate } from "react-router-dom";
-// import { MetadatosApi } from "@api/Metadatos";
-// import { useDispatch } from "react-redux";
-// export default function Metadatos() {
-// 	const location = useLocation();
-// 	const navigate = useNavigate();
-// 	const dispatch = useDispatch();
-// 	const { data, isLoading, isError, error, refetch } = useGetMetadatosQuery();
-// 	const {
-// 		data: temporal,
-// 		isLoading: isLoadingTemporal,
-// 		isError: isErrorTemporal,
-// 		error: errorTemporal,
-// 		refetch: refetchTemporal,
-// 	} = useGetAllTemporalQuery();
-// 	const [deleteTemporal] = useDeleteTemporalMutation();
-// 	useEffect(() => {
-// 		// Verifica si existe el parámetro 'refresh'
-// 		if (location.state?.refresh) {
-// 			refetch({ force: true });
-// 			refetchTemporal({ force: true });
-// 			setTimeout(() => {
-// 				console.log("Refrescando");
-// 			}, 900);
-// 			// Elimina el parámetro 'refresh' después de cargar los datos
-// 			navigate("/metadatos", { state: {} });
-// 		}
-// 	}, [location.state, navigate]);
-// 	if (isError || isErrorTemporal) return <Error message={error?.data} />;
-// 	if (isLoading || isLoadingTemporal) return <Spinner size={20} />;
-
-// 	return (
-// 		<div className="overflow-auto">
-// 			<div className="flex flex-row-reverse py-2">
-// 				<NavLink to={`crear`}>
-// 					<Button pill color="light">
-// 						Nuevo Registro
-// 					</Button>
-// 				</NavLink>
-// 			</div>
-// 			<Table striped hoverable>
-// 				<Table.Head>
-// 					<Table.HeadCell>Nombre de la Base de Datos</Table.HeadCell>
-// 					<Table.HeadCell>Nombre del Schema</Table.HeadCell>
-// 					<Table.HeadCell>Nombre de la Tabla</Table.HeadCell>
-// 					<Table.HeadCell>Titulo</Table.HeadCell>
-// 					<Table.HeadCell>Proposito</Table.HeadCell>
-// 					<Table.HeadCell>Resumen</Table.HeadCell>
-// 					<Table.HeadCell>Usuario</Table.HeadCell>
-// 					<Table.HeadCell>Ultima Actualización</Table.HeadCell>
-// 					<Table.HeadCell>
-// 						<span className="sr-only">Editar</span>
-// 					</Table.HeadCell>
-// 				</Table.Head>
-// 				<Table.Body>
-// 					{data?.data?.map(
-// 						(
-// 							{
-// 								uid,
-// 								db_name,
-// 								table_name,
-// 								schema_name,
-// 								title,
-// 								purpose,
-// 								abstract,
-// 								username,
-// 								update_date,
-// 							}: IMetadatos,
-// 							index: number,
-// 						) => (
-// 							<Table.Row
-// 								className="bg-white dark:border-gray-700 dark:bg-gray-800"
-// 								key={index}
-// 							>
-// 								<Table.Cell>
-// 									{db_name
-// 										.split("_")
-// 										?.map(
-// 											(word: string) =>
-// 												word.charAt(0).toUpperCase() + word.slice(1),
-// 										)
-// 										.join(" ")}
-// 								</Table.Cell>
-// 								<Table.Cell>
-// 									{schema_name
-// 										.split("_")
-// 										?.map(
-// 											(word: string) =>
-// 												word.charAt(0).toUpperCase() + word.slice(1),
-// 										)
-// 										.join(" ")}
-// 								</Table.Cell>
-// 								<Table.Cell
-// 									scope="row"
-// 									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-// 								>
-// 									{table_name
-// 										.split("_")
-// 										?.map(
-// 											(word: string) =>
-// 												word.charAt(0).toUpperCase() + word.slice(1),
-// 										)
-// 										.join(" ")}
-// 								</Table.Cell>
-
-// 								<Table.Cell>
-// 									<p className=" text-justify">{title}</p>
-// 								</Table.Cell>
-// 								<Table.Cell className="px-6 py-4 w-fit hover:h-52">
-// 									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
-// 										{purpose}
-// 									</p>
-// 								</Table.Cell>
-
-// 								<Table.Cell className="px-6 py-4 w-fit hover:h-52">
-// 									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
-// 										{abstract}
-// 									</p>
-// 								</Table.Cell>
-// 								<Table.Cell>{username}</Table.Cell>
-// 								<Table.Cell>
-// 									{new Date(update_date).toLocaleDateString("es-ES", {
-// 										year: "numeric", // Ejemplo: 2023
-// 										month: "long", // Ejemplo: octubre
-// 										day: "numeric", // Ejemplo: 25
-// 									})}
-// 								</Table.Cell>
-// 								<Table.Cell className="px-6 py-4 text-right">
-// 									<NavLink
-// 										className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-// 										to={`edit/${uid}`}
-// 									>
-// 										Editar
-// 									</NavLink>
-// 									<span className="mx-2">/</span>
-
-// 									<NavLink
-// 										className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-// 										to={`view/${uid}`}
-// 									>
-// 										PDF
-// 									</NavLink>
-// 								</Table.Cell>
-// 							</Table.Row>
-// 						),
-// 					)}
-// 				</Table.Body>
-// 			</Table>
-// 			<div>
-// 				<p className="text-center text-2xl mt-20 mb-10 text-black dark:text-white">
-// 					Registros Pendientes
-// 				</p>
-// 			</div>
-// 			{temporal?.data && (
-// 				<Table striped hoverable>
-// 					<Table.Head>
-// 						<Table.HeadCell>Nombre de la Base de Datos</Table.HeadCell>
-// 						<Table.HeadCell>Nombre de la Tabla</Table.HeadCell>
-// 						<Table.HeadCell>Nombre del Schema</Table.HeadCell>
-// 						<Table.HeadCell>Titulo</Table.HeadCell>
-// 						<Table.HeadCell>Proposito</Table.HeadCell>
-// 						<Table.HeadCell>Resumen</Table.HeadCell>
-// 						<Table.HeadCell>Usuario</Table.HeadCell>
-// 						<Table.HeadCell>Ultima Actualización</Table.HeadCell>
-// 						<Table.HeadCell>
-// 							<span className="sr-only">Editar</span>
-// 						</Table.HeadCell>
-// 					</Table.Head>
-// 					<Table.Body>
-// 						{temporal.data?.map(
-// 							(
-// 								{
-// 									uid = "",
-// 									datos = {
-// 										db_name: "",
-// 										table_name: "",
-// 										schema_name: "",
-// 										title: "",
-// 										purpose: "",
-// 										abstract: "",
-// 									},
-// 									username = "",
-// 									fecha_creacion = "",
-// 									fecha_modificacion = "",
-// 								}: IMetadatos,
-// 								index: number,
-// 							) => (
-// 								<Table.Row
-// 									className="bg-white dark:border-gray-700 dark:bg-gray-800"
-// 									key={index}
-// 								>
-// 									<Table.Cell>
-// 										{datos?.db_name
-// 											.split("_")
-// 											?.map(
-// 												(word: string) =>
-// 													word.charAt(0).toUpperCase() + word.slice(1),
-// 											)
-// 											.join(" ")}
-// 									</Table.Cell>
-// 									<Table.Cell>
-// 										{datos?.schema_name
-// 											.split("_")
-// 											?.map(
-// 												(word: string) =>
-// 													word.charAt(0).toUpperCase() + word.slice(1),
-// 											)
-// 											.join(" ")}
-// 									</Table.Cell>
-// 									<Table.Cell
-// 										scope="row"
-// 										className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-// 									>
-// 										{datos?.table_name
-// 											.split("_")
-// 											?.map(
-// 												(word: string) =>
-// 													word.charAt(0).toUpperCase() + word.slice(1),
-// 											)
-// 											.join(" ")}
-// 									</Table.Cell>
-
-// 									<Table.Cell>
-// 										<p className=" text-justify">{datos?.title}</p>
-// 									</Table.Cell>
-// 									<Table.Cell className="px-6 py-4 w-fit hover:h-52">
-// 										<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
-// 											{datos?.purpose}
-// 										</p>
-// 									</Table.Cell>
-
-// 									<Table.Cell className="px-6 py-4 w-fit hover:h-52">
-// 										<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
-// 											{datos?.abstract}
-// 										</p>
-// 									</Table.Cell>
-// 									<Table.Cell>{username}</Table.Cell>
-// 									<Table.Cell>
-// 										{new Date(fecha_modificacion).toLocaleDateString("es-ES", {
-// 											year: "numeric", // Ejemplo: 2023
-// 											month: "long", // Ejemplo: octubre
-// 											day: "numeric", // Ejemplo: 25
-// 										})}
-// 									</Table.Cell>
-// 									<Table.Cell className="px-6 py-4 text-right">
-// 										<NavLink
-// 											className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-// 											to={`temporal/edit/${uid}`}
-// 											state={{ refresh: true }}
-// 										>
-// 											Editar
-// 										</NavLink>
-// 										<span className="mx-2">/</span>
-
-// 										<button
-// 											className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-// 											onClick={() =>
-// 												Alert.Warning({
-// 													titleText: "Advertencia",
-// 													messageText:
-// 														"Esta seguro que desea eliminar este registro",
-// 												}).then(
-// 													({ isConfirmed }) =>
-// 														isConfirmed &&
-// 														deleteTemporal({ uid }) &&
-// 														navigate(0),
-// 												)
-// 											}
-// 										>
-// 											Eliminar
-// 										</button>
-// 									</Table.Cell>
-// 								</Table.Row>
-// 							),
-// 						)}
-// 					</Table.Body>
-// 				</Table>
-// 			)}
-// 		</div>
-// 	);
-// }
+													<DropdownMenuLabel>Edición</DropdownMenuLabel>
+													<DropdownMenuSeparator />
+													<DropdownMenuItem>
+														<Link
+															href={`/metadatos/${uid}/edit`}
+															className="transition-colors hover:text-blue-500 "
+															onClick={() =>
+																setMeta({
+																	uid,
+																	db_name,
+																	table_name,
+																	schema_name,
+																	title,
+																	purpose,
+																	abstract,
+																	username,
+																	update_date,
+																	...metaData,
+																})
+															}
+														>
+															<Button
+																variant="link"
+																onClick={() => {}}
+															>
+																Editar
+															</Button>
+														</Link>
+													</DropdownMenuItem>
+													<DropdownMenuLabel>Reporte</DropdownMenuLabel>
+													<DropdownMenuItem>
+														<Link
+															href={`/metadatos/${uid}/view`}
+															className="transition-colors hover:text-blue-500"
+														>
+															<Button
+																variant="link"
+																onClick={() => {}}
+															>
+																PDF
+															</Button>
+														</Link>
+													</DropdownMenuItem>
+												</DropdownMenuContent>
+											</DropdownMenu>
+										</TableCell>
+									</TableRow>
+								),
+							)}
+						</TableBody>
+					</Table>
+				</DrawerFooter>
+			</DrawerContent>
+		</Drawer>
+	);
+};
 import useMedatados from "@/store/metadatos/index.ts";
 export default function Metadatos() {
 	const { getAllTemporal, getMetadatos, setMetadatos: setMeta } = useMedatados((state) => state);
+	const [open, setOpen] = useState(false);
+	const [id, setId] = useState(0);
 	const router = useRouter();
 	const [metadatos, setMetadatos] = useState([]);
 	const [temporal, setTemporal] = useState([]);
 	const handleGetTmp = async () => {
-		const { data } = await getAllTemporal(Router);
+		const { data } = await getAllTemporal(router);
 		setTemporal(data?.data);
 	};
 	const handleGetMeta = async () => {
-		const { data } = await getMetadatos(Router);
+		const { data } = await getMetadatos(router);
 		setMetadatos(data?.data);
 	};
 	useEffect(() => {
@@ -373,6 +289,7 @@ export default function Metadatos() {
 				<TableBody>
 					{metadatos.map(
 						({
+							id,
 							uid,
 							db_name,
 							table_name,
@@ -386,7 +303,7 @@ export default function Metadatos() {
 							...metaData
 						}) => (
 							<TableRow key={uid}>
-								<TableCell className="font-medium text-center">
+								<TableCell className="font-small text-center">
 									{db_name
 										.split("_")
 										?.map(
@@ -395,7 +312,7 @@ export default function Metadatos() {
 										)
 										.join(" ")}
 								</TableCell>
-								<TableCell className="font-medium text-center">
+								<TableCell className="font-small text-center">
 									{schema_name
 										.split("_")
 										?.map(
@@ -404,7 +321,7 @@ export default function Metadatos() {
 										)
 										.join(" ")}
 								</TableCell>
-								<TableCell className="font-medium text-center">
+								<TableCell className="font-small text-center">
 									{table_name
 										.split("_")
 										?.map(
@@ -453,12 +370,19 @@ export default function Metadatos() {
 											{version > 1 && (
 												<DropdownMenuItem>
 													<Link href={`#previous_versions`}>
-														<Button variant="link" onClick={() => {}}>
+														<Button
+															variant="link"
+															onClick={() => {
+																setId(id);
+																setTimeout(
+																	() => setOpen(true),
+																	1500,
+																);
+															}}
+														>
 															Versiones Anteriores
 														</Button>
 													</Link>
-
-													<span className="mx-2">/</span>
 												</DropdownMenuItem>
 											)}
 
@@ -599,6 +523,7 @@ export default function Metadatos() {
 					)}
 				</TableBody>
 			</Table>
+			{id !== 0 && <PreviousVersions id={id} open={open} setOpen={setOpen} />}
 		</Layout>
 	);
 }

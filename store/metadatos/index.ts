@@ -138,6 +138,8 @@ export interface IMetadatatosActions {
 	clearMetadatos: (router?: NextRouter) => void;
 	setMetadatos: (data: IMetadatosState, router?: NextRouter) => void;
 	getResources: (router?: NextRouter) => Promise<void>;
+	getPrevious: (id: number, router?: NextRouter) => Promise<void>;
+	newVersion: (id: number, router?: NextRouter) => Promise<void>;
 }
 const useMetadatos = create<IMetadatosState & IMetadatatosActions>()(
 	persist(
@@ -314,6 +316,10 @@ const useMetadatos = create<IMetadatosState & IMetadatatosActions>()(
 					metadata_xml: "",
 				}),
 			setMetadatos: (data: IMetadatosState) => set(data),
+			getPrevious: async (id: number, router?: NextRouter) =>
+				await api.get(`metadatos/version/previous?id=${id}`, {}, router),
+			newVersion: async (id: number, router?: NextRouter) =>
+				await api.get(`metadatos/version/create?id=${id}`, {}, router),
 		}),
 		{
 			name: "metadatos-storage",
