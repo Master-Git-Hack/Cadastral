@@ -103,6 +103,18 @@ export const MetadatosApi = createApi({
 				method: "DELETE",
 			}),
 		}),
+		newVersion: mutation<IMetadatos, { id: number }>({
+			query: ({ id }) => ({
+				url: `metadatos/version/create?id=${id}`,
+				method: "POST",
+			}),
+		}),
+		previousVersion: mutation<IMetadatos, { id: number }>({
+			query: ({ id }) => ({
+				url: `metadatos/version/previous?id=${id}`,
+				method: "GET",
+			}),
+		}),
 	}),
 });
 
@@ -119,4 +131,6 @@ export const {
 	usePostTemporalMutation,
 	usePatchTemporalMutation,
 	useDeleteTemporalMutation,
+	useNewVersionMutation,
+	usePreviousVersionMutation,
 } = MetadatosApi;

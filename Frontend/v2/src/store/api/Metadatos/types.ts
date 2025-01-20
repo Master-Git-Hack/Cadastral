@@ -116,4 +116,7 @@ export interface IMetadatos {
 	data_last_update?: string;
 	themes?: string[];
 	metadata_xml?: string;
+	version: number;
+	parent_id: number;
+	is_lastest: boolean;
 }
