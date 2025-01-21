@@ -1,147 +1,164 @@
 /** @format */
 
-// export const section2 = {
-// 	datestamp: "",
-// 	datetype: "",
-// 	date_creation: "",
-// 	inpname: "",
-// };
-import { useState } from "react";
-import { Table } from "flowbite-react";
-import Input from "@components/Input";
-import { Calendar } from "primereact/calendar";
-import { Dropdown } from "primereact/dropdown";
+import { Textarea } from "@/components/ui/textarea";
+import { Calendar } from "@/components/ui/calendar";
+import { Button } from "@/components/ui/button";
+import { cn } from "@utils/index";
+import "react-day-picker/dist/style.css";
+import { es } from "date-fns/locale";
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarIcon } from "lucide-react";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import catalogo from "../catologos/index";
-import moment from "moment";
-export const Section2 = ({ data, setData, editable = true }: any) => {
-	const handleInputChange = ({ currentTarget }) =>
-		setData({ ...data, [currentTarget.name]: currentTarget.value });
-	const handleSelectChange = ({
-		target: {
-			name,
-			value: { code, label, description },
-		},
-	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
+import useMedatados from "@/store/metadatos/index.ts";
+import { format } from "date-fns";
+export const Section2 = ({ editable = true }: any) => {
+	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
+
 	const findSelectValue = (name: string) => {
 		const [code] = String(data[name] ?? "")?.split(".");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
-	const findLanguageValue = catalogo.md_dataidentification_language.find(
-		(item) => item.code === data.md_dataidentification_language,
-	);
+
 	return (
 		<>
-			<Table.Head>
-				<Table.HeadCell
-					className="flex-row text-2xl text-black dark:text-white"
-					colSpan={1}
-				>
-					2
-				</Table.HeadCell>
-				<Table.HeadCell
-					className="flex-row justify-center text-center text-2xl text-black dark:text-white"
-					colSpan={11}
-				>
-					Fechas relacionadas con el conjunto de datos espaciales o producto
-				</Table.HeadCell>
-			</Table.Head>
-			<Table.Body>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+			<TableHeader>
+				<TableRow className="border-bottom border-none">
+					<TableHead colSpan={1}>2</TableHead>
+					<TableHead className="text-center title" colSpan={11}>
+						Fechas relacionadas con el conjunto de datos espaciales o producto
+					</TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						2.1
-					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					</TableCell>
+					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
 						Fechas y eventos
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
 						2.1.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Fecha de referencia del conjunto de datos espaciales o producto
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
-						<Calendar
-							value={data.date}
-							dateFormat="yy-mm-dd"
-							showButtonBar
-							onChange={(e) => {
-								setData({
-									...data,
-									date: e.value,
-								});
-							}}
-							className=" w-full md:w-14rem"
-							disabled={!editable}
-							inputClassName="text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 w-full md:w-14rem"
-						/>
-						<small className="font-xs">{data.date}</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Popover>
+							<PopoverTrigger asChild>
+								<Button
+									variant={"outline"}
+									className={cn(
+										"w-full justify-start text-left font-normal",
+										!data.date && "text-muted-foreground",
+									)}
+								>
+									<CalendarIcon className="mr-2 h-4 w-4" />
+									{data.date ? (
+										format(data.date, "yyyy-MM-dd")
+									) : (
+										<span>Selecciona una Fecha</span>
+									)}
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent className="w-auto p-0">
+								<Calendar
+									mode="single"
+									locale={es}
+									showOutsideDays
+									selected={data.date}
+									onSelect={(e) =>
+										setData({ ...data, date: format(e, "yyyy-MM-dd") })
+									}
+									isSelected={data.date}
+									initialFocus
+								/>
+							</PopoverContent>
+						</Popover>
+					</TableCell>
+				</TableRow>
+				<TableRow className="border-bottom border-none">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
 						2.1.2
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Tipo de fecha
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
-						<Dropdown
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Select
 							name="datetype"
-							options={catalogo.datetype}
-							value={findSelectValue("datetype")}
-							onChange={handleSelectChange}
-							placeholder="Seleccione una Categoria"
-							className="w-full md:w-14rem"
+							value={data.datetype}
+							onValueChange={(datetype) => setData({ ...data, datetype })}
 							disabled={!editable}
-						/>
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Seleccione una Categoria" />
+							</SelectTrigger>
+							<SelectContent>
+								{catalogo.datetype.map(({ code, label }) => (
+									<SelectItem value={code} key={code}>
+										{label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.datetype[findSelectValue("datetype")?.code - 1]
 								?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						2.2
-					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					</TableCell>
+					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
 						Fechas de los insumos tomados para la elaboración del producto o conjunto de
 						datos espaciales
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
 						2.2.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Fecha de creación de los insumos
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
-						<Calendar
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						{/* <Calendar
 							autoZIndex
 							value={data.date_creation}
 							dateFormat="yy-mm-dd"
@@ -156,29 +173,56 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 							className=" w-full md:w-14rem text-black"
 							disabled={!editable}
 							inputClassName="text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 w-full md:w-14rem"
-						/>
-						<small className="font-xs">{data.date_creation}</small>
-					</Table.Cell>
-				</Table.Row>
+						/> */}
+						<Popover>
+							<PopoverTrigger asChild>
+								<Button
+									variant={"outline"}
+									className={cn(
+										"w-full justify-start text-left font-normal",
+										!data.date_creation && "text-muted-foreground",
+									)}
+								>
+									<CalendarIcon className="mr-2 h-4 w-4" />
+									{data.date_creation ? (
+										format(data.date_creation, "yyyy-MM-dd")
+									) : (
+										<span>Selecciona una Fecha</span>
+									)}
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent className="w-auto p-0">
+								<Calendar
+									mode="single"
+									locale={es}
+									showOutsideDays
+									selected={data.date_creation}
+									onSelect={(e) =>
+										setData({ ...data, date_creation: format(e, "yyyy-MM-dd") })
+									}
+									isSelected={data.date_creation}
+									initialFocus
+								/>
+							</PopoverContent>
+						</Popover>
+					</TableCell>
+				</TableRow>
 
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
 						2.2.4
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Nombre del insumo
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
-						<Input.Area
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Textarea
 							name="ipname"
-							type="text"
-							variant="outline"
 							placeholder="Palabras o frases usadas para describir algún aspecto del conjunto de datos espaciales o producto y que pueden ser utilizadas como referencia para búsquedas."
-							size="lg"
 							value={data.inpname}
 							onChange={(e) =>
 								setData({
@@ -188,9 +232,9 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 							}
 							disabled={!editable}
 						/>
-					</Table.Cell>
-				</Table.Row>
-			</Table.Body>
+					</TableCell>
+				</TableRow>
+			</TableBody>
 		</>
 	);
 };

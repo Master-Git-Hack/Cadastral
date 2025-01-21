@@ -1,217 +1,190 @@
 /** @format */
 
-// export const section3 = {
-// 	ci_responsibleparty_individualname: "",
-// 	ci_responsibleparty_organisationname: "",
-// 	ci_responsibleparty_positionname: "",
-// 	ci_responsibleparty_linkage: "",
-// 	ci_responsibleparty_role: "",
-// };
-import { Table } from "flowbite-react";
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-import { Dropdown } from "primereact/dropdown";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import catalogo from "../catologos/index";
-import Input from "@components/Input";
-export const Section3 = ({ data, setData, editable = true }: any) => {
+import { Input } from "@/components/ui/input";
+import useMedatados from "@/store/metadatos/index.ts";
+export const Section3 = ({ editable = true }: any) => {
+	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 	const handleInputChange = ({ currentTarget }) =>
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
-	const handleSelectChange = ({
-		target: {
-			name,
-			value: { code, label, description },
-		},
-	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
+
 	const findSelectValue = (name: string) => {
 		const [code] = String(data[name] ?? "")?.split(".");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
-	const findLanguageValue = catalogo.md_dataidentification_language.find(
-		(item) => item.code === data.md_dataidentification_language,
-	);
 
 	return (
 		<>
-			<Table.Head>
-				<Table.HeadCell
-					className="flex-row text-2xl text-black dark:text-white"
-					colSpan={1}
-				>
-					3
-				</Table.HeadCell>
-				<Table.HeadCell
-					className="flex-row justify-center text-center text-2xl text-black dark:text-white"
-					colSpan={11}
-				>
+			<TableHeader>
+				<TableHead colSpan={1}>3</TableHead>
+				<TableHead className="text-center title" colSpan={11}>
 					Unidad del estado responsable del conjunto de datos espaciales o producto
-				</Table.HeadCell>
-			</Table.Head>
-			<Table.Body>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
-						scope="row"
-						colSpan={1}
-						className="text-gray-900 whitespace-nowrap dark:text-white "
-					>
+				</TableHead>
+			</TableHeader>
+			<TableBody>
+				<TableRow>
+					<TableCell scope="row" colSpan={1}>
 						3.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
-						Nombre de la persona de contacto
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
+					</TableCell>
+					<TableCell colSpan={2}>Nombre de la persona de contacto</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
 						<Input
 							name="ci_responsibleparty_individualname"
 							type="text"
-							variant="outline"
 							placeholder="Nombre de la persona responsable (productor) dando apellido y nombre."
-							size="lg"
 							value={data.ci_responsibleparty_individualname}
 							onChange={handleInputChange}
 							disabled={!editable}
 						/>
-					</Table.Cell>
-				</Table.Row>
+					</TableCell>
+				</TableRow>
 
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
 						3.2
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Nombre de la organización
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
 						<Input
 							name="ci_responsibleparty_organisationname"
 							type="text"
-							variant="outline"
 							placeholder="Nombre de la organización responsable"
-							size="lg"
 							value={data.ci_responsibleparty_organisationname}
 							onChange={handleInputChange}
 							disabled={!editable}
 						/>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
-						scope="row"
-						colSpan={1}
-						className="text-gray-900 whitespace-nowrap dark:text-white "
-					>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell scope="row" colSpan={1}>
 						3.3
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Puesto del contacto
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
 						<Input
 							name="ci_responsibleparty_positionname"
 							type="text"
-							variant="outline"
 							placeholder="Cargo de la persona responsable"
-							size="lg"
 							value={data.ci_responsibleparty_positionname}
 							onChange={handleInputChange}
 							disabled={!editable}
 						/>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
 						3.4
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Teléfono
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
 						<Input
 							name="ci_responsibleparty_voice"
 							type="text"
-							variant="outline"
 							placeholder="Teléfono de la persona responsable"
-							size="lg"
 							value={data.ci_responsibleparty_voice}
 							onChange={handleInputChange}
 							disabled={!editable}
 						/>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
 						3.8
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Área administrativa
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
 						<Input
 							name="ci_responsibleparty_administrativearea"
 							type="text"
-							variant="outline"
 							placeholder="Área de la persona responsable"
-							size="lg"
 							value={data.ci_responsibleparty_administrativearea}
 							onChange={handleInputChange}
 							disabled={!editable}
 						/>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
 						3.12
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Enlace en línea (dirección de Internet de referencia)
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
 						<Input
 							name="ci_responsibleparty_linkage"
 							type="url"
-							variant="outline"
 							placeholder="http://www.inegi.org.mx/normatividad_geografica"
-							size="lg"
 							value={data.ci_responsibleparty_linkage}
 							onChange={handleInputChange}
 							disabled={!editable}
 						/>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
 						3.13
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white ">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
 						Rol
-					</Table.Cell>
-					<Table.Cell colSpan={9} className="w-9/12">
-						<Dropdown
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Select
 							name="ci_responsibleparty_role"
-							placeholder="Seleccione una opción"
-							options={catalogo.ci_responsibleparty_role}
-							value={findSelectValue("ci_responsibleparty_role")}
-							onChange={handleSelectChange}
+							value={data.ci_responsibleparty_role}
+							onValueChange={(ci_responsibleparty_role) =>
+								setData({ ...data, ci_responsibleparty_role })
+							}
 							disabled={!editable}
-							className="w-full md:w-14rem"
-						/>
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Seleccione una opción" />
+							</SelectTrigger>
+							<SelectContent>
+								{catalogo.ci_responsibleparty_role.map(({ code, label }) => (
+									<SelectItem value={code} key={code}>
+										{label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.ci_responsibleparty_role[
@@ -219,9 +192,9 @@ export const Section3 = ({ data, setData, editable = true }: any) => {
 							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
-					</Table.Cell>
-				</Table.Row>
-			</Table.Body>
+					</TableCell>
+				</TableRow>
+			</TableBody>
 		</>
 	);
 };

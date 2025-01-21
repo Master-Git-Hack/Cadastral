@@ -1,39 +1,28 @@
 /** @format */
 
-// export const section6 = {
-// 	level: "",
-// 	dq_quantitativeresult: "",
-// 	dq_completeness_nameofmeasure: "",
-// 	dq_completeness_measuredescription: "",
-// 	positionalaccuracy_valueunit: "",
-// 	statement: "",
-// 	li_processstep: "",
-// 	li_source: "",
-// };
 import { useState, useEffect } from "react";
-import { Table } from "flowbite-react";
-import Input from "@components/Input";
-import { Dropdown } from "primereact/dropdown";
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import catalogo from "../catologos/index";
-import { InputNumber } from "primereact/inputnumber";
-import { Chips } from "primereact/chips";
 
-export const Section6 = ({ data, setData, editable = true }: any) => {
+import useMedatados from "@/store/metadatos/index.ts";
+export const Section6 = ({ editable = true }: any) => {
+	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 	const handleInputChange = ({ currentTarget }) =>
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
-	const handleSelectChange = ({
-		target: {
-			name,
-			value: { code, label, description },
-		},
-	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
+
 	const findSelectValue = (name: string) => {
 		const [code] = String(data[name] ?? "")?.split(".");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
-	const findLanguageValue = catalogo.md_dataidentification_language.find(
-		(item) => item.code === data.md_dataidentification_language,
-	);
+
 	const [positionalaccuracy_value, setDataValue] = useState(
 		data.positionalaccuracy_value ??
 			data.temporalaccuracy_value ??
@@ -49,98 +38,101 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 	}, [data]);
 	return (
 		<>
-			<Table.Head>
-				<Table.HeadCell
-					className="flex-row text-2xl text-black dark:text-white"
-					colSpan={1}
-				>
-					6
-				</Table.HeadCell>
-				<Table.HeadCell
-					className="flex-row justify-center text-center text-2xl text-black dark:text-white"
-					colSpan={11}
-				>
-					Calidad de la información
-				</Table.HeadCell>
-			</Table.Head>
-			<Table.Body>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+			<TableHeader>
+				<TableRow>
+					<TableHead colSpan={1}>6</TableHead>
+					<TableHead className="text-center title" colSpan={11}>
+						Calidad de la información
+					</TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800 border-bottom border-none">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.1
-					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					</TableCell>
+					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
 						Alcance o ámbito
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.1.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Nivel
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
-						<Dropdown
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
+						<Select
 							name="level"
-							options={catalogo.level}
-							value={findSelectValue("level")}
-							onChange={handleSelectChange}
-							placeholder="Seleccione una Categoria"
-							className="w-full md:w-14rem"
+							value={data.level}
+							onValueChange={(level) => setData({ ...data, level })}
 							disabled={!editable}
-						/>
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Seleccione una Categoria" />
+							</SelectTrigger>
+							<SelectContent>
+								{catalogo.level.map(({ code, label }) => (
+									<SelectItem value={code} key={code}>
+										{label}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.level[findSelectValue("level")?.code - 1]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
-					</Table.Cell>
-				</Table.Row>
+					</TableCell>
+				</TableRow>
 				{/*
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.2
-					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					</TableCell>
+					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
 						Reporte
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.2.1
-					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					</TableCell>
+					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
 						Completitud
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.2.1.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Nombre del subcriterio de calidad evaluado
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<Input
 							value={data.dq_quantitativeresult}
 							onChange={handleInputChange}
@@ -152,20 +144,20 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 						/>
 						<span className="underline me-1">Revisar:</span>
 						<small className="font-xs">6.2.3.1, 6.2.4.1, 6.2.5.1</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.2.2.1.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Nombre de la prueba
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<Input
 							value={
 								data.dq_completeness_nameofmeasure ??
@@ -191,20 +183,20 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 						/>
 						<span className="underline me-1">Revisar:</span>
 						<small className="font-xs">6.2.3.1.1, 6.2.4.1.1, 6.2.5.1.1</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.2.2.1.2
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Descripción de la prueba
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<Input.Area
 							value={
 								data.dq_completeness_nameofdescription ??
@@ -230,44 +222,44 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 						/>
 						<span className="underline me-1">Revisar:</span>
 						<small className="font-xs">6.2.3.1.2, 6.2.4.1.2, 6.2.5.1.2</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.2.2.1.3
-					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					</TableCell>
+					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
 						Resultado
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.2.2.1.3.1
-					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					</TableCell>
+					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
 						Resultado Cuantitativo
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.2.2.1.3.1.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Unidad de Valor
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<Dropdown
 							name="positionalaccuracy_valueunit"
 							options={catalogo.valueunit}
@@ -282,20 +274,20 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 						<small className="font-xs">
 							6.2.3.1.3.1.1, 6.2.4.1.3.1.1, 6.2.5.1.3.1.1
 						</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.2.2.1.3.1.2
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Valor
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<Chips
 							value={positionalaccuracy_value
 								.split("|")
@@ -327,76 +319,76 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 						<small className="font-xs">
 							6.2.3.1.3.1.2, 6.2.4.1.3.1.2, 6.2.5.1.3.1.2
 						</small>
-					</Table.Cell>
-				</Table.Row> */}
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow> */}
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.3
-					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					</TableCell>
+					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
 						Linaje
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.3.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Enunciado
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
-						<Input.Area
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
+						<Textarea
 							value={data.li_source_description}
 							name="li_source_description"
 							onChange={handleInputChange}
-							variant="outline"
-							size="lg"
+							// variant="outline"
+							// size="lg"
 							className=" w-full md:w-14rem"
 						/>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.3.2.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Descripción del proceso
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
-						<Input.Area
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
+						<Textarea
 							value={data.li_processstep_description}
 							name="li_processstep_description"
 							onChange={handleInputChange}
-							variant="outline"
-							size="lg"
+							// variant="outline"
+							// size="lg"
 							className=" w-full md:w-14rem"
 						/>
-					</Table.Cell>
-				</Table.Row>
-				{/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				{/* <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.3.2.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Descripcion
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<Input.Area
 							value={data.li_processstep_description}
 							name="li_processstep_description"
@@ -407,20 +399,20 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 						/>
 						<span className="underline me-1">Revisar:</span>
 						<small className="font-xs">6.3.3.1</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						6.3.3
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Fuente
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<Input
 							value={data.li_source}
 							name="li_source"
@@ -430,9 +422,9 @@ export const Section6 = ({ data, setData, editable = true }: any) => {
 							type="text"
 							className=" w-full md:w-14rem"
 						/>
-					</Table.Cell>
-				</Table.Row> */}
-			</Table.Body>
+					</TableCell>
+				</TableRow> */}
+			</TableBody>
 		</>
 	);
 };

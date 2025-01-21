@@ -1,74 +1,61 @@
 /** @format */
 
-// export const section4 = {
-// 	westboundlongitude: "",
-// 	eastboundlongitude: "",
-// 	southboundlatitude: "",
-// 	northboundlatitude: "",
-// 	spatialrepresentationtype: "",
-// };
-import { Table } from "flowbite-react";
-import Input from "@components/Input";
-import { Dropdown } from "primereact/dropdown";
-import catalogo from "../catologos/index";
+import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
 import { InputNumber } from "primereact/inputnumber";
-export const Section4 = ({ data, setData, editable = true }: any) => {
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import catalogo from "../catologos/index";
+import useMedatados from "@/store/metadatos/index.ts";
+export const Section4 = ({ editable = true }: any) => {
+	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
-	const handleSelectChange = ({
-		target: {
-			name,
-			value: { code, label, description },
-		},
-	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
+
 	const findSelectValue = (name: string) => {
 		const [code] = String(data[name] ?? "")?.split(".");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
-	const findLanguageValue = catalogo.md_dataidentification_language.find(
-		(item) => item.code === data.md_dataidentification_language,
-	);
 
 	return (
 		<>
-			<Table.Head>
-				<Table.HeadCell
-					className="flex-row text-2xl text-black dark:text-white"
-					colSpan={1}
-				>
-					4
-				</Table.HeadCell>
-				<Table.HeadCell
-					className="flex-row justify-center text-center text-2xl text-black dark:text-white"
-					colSpan={11}
-				>
-					Localización geográfica del conjunto de datos espaciales o producto
-				</Table.HeadCell>
-			</Table.Head>
-			<Table.Body>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+			<TableHeader>
+				<TableRow>
+					<TableHead colSpan={1}>4</TableHead>
+					<TableHead className="text-center title" colSpan={11}>
+						Localización geográfica del conjunto de datos espaciales o producto
+					</TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800 border-bottom border-none">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						4.1
-					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					</TableCell>
+					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
 						Localización geográfica del conjunto de datos espaciales o producto
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						4.1.1
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Coordenada límite al Oeste
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<InputNumber
 							value={data.westboundlongitude}
 							onValueChange={handleInputChange}
@@ -92,20 +79,20 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 						<small className="font-xs">
 							{"-180,0 <= valor de longitud al Oeste <= 180,0"}
 						</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						4.1.2
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Coordenada límite al Este
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<InputNumber
 							value={data.eastboundlongitude}
 							onValueChange={handleInputChange}
@@ -129,20 +116,20 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 						<small className="font-xs">
 							{"-180,0 <= valor de longitud al Este <= 180,0"}
 						</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						4.1.3
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Coordenada límite al Sur
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<InputNumber
 							value={data.southboundlatitude}
 							onValueChange={handleInputChange}
@@ -171,20 +158,20 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 								"-90,0 <= valor de latitud al Sur <= 90,0; valor de latitud al Sur <= valor de latitud al Norte"
 							}
 						</small>
-					</Table.Cell>
-				</Table.Row>
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+					</TableCell>
+				</TableRow>
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						4.1.4
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Coordenada límite al Norte
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
 						<InputNumber
 							value={data.northboundlatitude}
 							onValueChange={handleInputChange}
@@ -213,30 +200,45 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 								"-90,0 <= valor de latitud al Norte <= 90,0; valor de latitud al Norte >= valor de latitud al Sur"
 							}
 						</small>
-					</Table.Cell>
-				</Table.Row>
+					</TableCell>
+				</TableRow>
 
-				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<Table.Cell
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
 						4.2
-					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
 						Tipo de representación espacial
-					</Table.Cell>
-					<Table.Cell colSpan={9} className=" w-9/12">
-						<Dropdown
+					</TableCell>
+					<TableCell colSpan={9} className=" w-9/12">
+						<Select
 							name="spatialrepresentationtype"
-							options={catalogo.spatialrepresentationtype}
-							value={findSelectValue("spatialrepresentationtype")}
-							onChange={handleSelectChange}
-							placeholder="Seleccione una Categoria"
-							className="w-full md:w-14rem"
+							value={data.spatialrepresentationtype}
+							onValueChange={(spatialrepresentationtype) =>
+								setData({ ...data, spatialrepresentationtype })
+							}
 							disabled={!editable}
-						/>
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Seleccione una Categoria" />
+							</SelectTrigger>
+							<SelectContent>
+								{catalogo.spatialrepresentationtype.map(
+									({ code, label, description }) => (
+										<SelectItem
+											value={`${code}. ${label}. ${description}`}
+											key={code}
+										>
+											{label}
+										</SelectItem>
+									),
+								)}
+							</SelectContent>
+						</Select>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.spatialrepresentationtype[
@@ -244,9 +246,9 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
-					</Table.Cell>
-				</Table.Row>
-			</Table.Body>
+					</TableCell>
+				</TableRow>
+			</TableBody>
 		</>
 	);
 };

@@ -166,14 +166,18 @@ export default function Create({
 
 			<Table>
 				{page === "1" && <Section1 />}
-				{/* {page === 2 && <Section2 />}
-				{page === 3 && <Section3 />}
-				{page === 4 && <Section4 />}
-				{page === 5 && <Section5 />}
-				{page === 6 && <Section6 />}
-				{page === 7 && <Section7 />}
-				{page === 8 && <Section8 />}
-				{page === 9 && <Section9 />} */}
+				{page === "2" && <Section2 />}
+				{page === "3" && <Section3 />}
+				{page === "4" && <Section4 />}
+				{page === "5" && <Section5 />}
+				{page === "6" && <Section6 />}
+				{page === "7" && <Section7 />}
+				{page === "8" && <Section8 />}
+				{/* 
+				
+				
+				
+				{page === "9" && <Section9 />} */}
 			</Table>
 		</div>
 	);
