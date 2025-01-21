@@ -491,7 +491,8 @@ export const Section1 = ({ editable = true }) => {
 		},
 	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
 	const findSelectValue = (name: string) => {
-		const [code] = String(data[name] ?? "")?.split(".");
+		const code = String(data[name] ?? "")?.split(".");
+
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
@@ -576,8 +577,8 @@ export const Section1 = ({ editable = true }) => {
 							// variant="outline"
 							rows={1}
 							placeholder="Resumen de las intenciones por las cuales fue desarrollado el conjunto de datos espaciales o producto."
-							// value={data.purpose}
-							// onChange={handleInputChange}
+							value={data.purpose}
+							onChange={handleInputChange}
 							disabled={!editable}
 						/>
 					</TableCell>
@@ -596,13 +597,13 @@ export const Section1 = ({ editable = true }) => {
 							// type="text"
 							// variant="outline"
 							// size="lg"
-							// value={data.abstract}
-							// onChange={handleInputChange}
+							value={data.abstract}
+							onChange={handleInputChange}
 							disabled={!editable}
 						/>
 					</TableCell>
 				</TableRow>
-				<TableRow>
+				<TableRow className="border-bottom border-none">
 					<TableCell colSpan={1} className="w-[25px] text-center">
 						1.4
 					</TableCell>
@@ -612,8 +613,10 @@ export const Section1 = ({ editable = true }) => {
 					<TableCell colSpan={9}>
 						<Select
 							name="md_dataidentification_language"
-							// value={findLanguageValue}
-							onValueChange={(value) => console.log(value)}
+							value={findLanguageValue}
+							onValueChange={(md_dataidentification_language) =>
+								setData({ ...data, md_dataidentification_language })
+							}
 							disabled={!editable}
 						>
 							<SelectTrigger>
@@ -627,17 +630,6 @@ export const Section1 = ({ editable = true }) => {
 								))}
 							</SelectContent>
 						</Select>
-						{/* <Dropdown
-							name="md_dataidentification_language"
-							options={catalogo.md_dataidentification_language}
-							value={findLanguageValue}
-							onChange={({ target: { name, value } }) =>
-								setData({ ...data, [name]: value.code })
-							}
-							placeholder=""
-							className="w-full md:w-14rem"
-							disabled={!editable}
-						/> */}
 					</TableCell>
 				</TableRow>
 				<TableRow>
@@ -659,11 +651,11 @@ export const Section1 = ({ editable = true }) => {
 						<MultiSelect
 							name="topiccategory"
 							options={catalogo.topiccategory}
-							// value={findMultiSelect("topiccategory")}
-							// onChange={handleMultiSelect}
+							value={findMultiSelect("topiccategory")}
+							onChange={handleMultiSelect}
 							placeholder="Seleccione una Categoria"
 							disabled={!editable}
-							className="w-full md:w-14rem border border-gray-50"
+							className="w-full md:w-14rem border border-gray-100"
 							display="chip"
 							selectAll={false}
 							showSelectAll={false}
@@ -681,36 +673,31 @@ export const Section1 = ({ editable = true }) => {
 					<TableCell colSpan={9}>
 						<Select
 							name="groupcategory"
-							// value={findSelectValue("groupcategory")}
-							onValueChange={(value) => console.log(value)}
+							value={data.groupcategory}
+							onValueChange={(groupcategory) => setData({ ...data, groupcategory })}
 							disabled={!editable}
 						>
 							<SelectTrigger>
 								<SelectValue placeholder="Seleccione un Grupo de Datos" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo.groupcategory.map(({ code, label }) => (
-									<SelectItem value={code} key={code}>
+								{catalogo.groupcategory.map(({ code, label, description }) => (
+									<SelectItem
+										value={`${code}. ${label}. ${description}`}
+										key={code}
+									>
 										{label}
 									</SelectItem>
 								))}
 							</SelectContent>
 						</Select>
-						{/* <Dropdown
-							name="groupcategory"
-							options={catalogo.groupcategory}
-							value={findSelectValue("groupcategory")}
-							onChange={handleSelectChange}
-							placeholder="Seleccione un Grupo de Datos"
-							className="w-full md:w-14rem"
-							disabled={!editable}
-						/> */}
+
 						<span className="underline me-1">Descripción:</span>
-						{/* <small className="font-xs">
+						<small className="font-xs">
 							{catalogo.groupcategory[findSelectValue("groupcategory")?.code - 1]
 								?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
-						</small> */}
+						</small>
 					</TableCell>
 				</TableRow>
 				<TableRow>
@@ -723,33 +710,24 @@ export const Section1 = ({ editable = true }) => {
 					<TableCell colSpan={9}>
 						<Chips
 							name="keyword"
-							// value={data.keyword}
-							// onChange={(e) => setData((prev) => ({ ...prev, keyword: e.value }))}
+							value={data.keyword}
+							onChange={(e) => setData((prev) => ({ ...prev, keyword: e.value }))}
 							placeholder="Palabras o frases usadas para describir algún aspecto del conjunto de datos espaciales o producto y que pueden ser utilizadas como referencia para búsquedas."
 							disabled={!editable}
 							allowDuplicate={false}
+							className="border border-gray-100 rounded-lg"
 							pt={{
 								root: {
-									className: "w-full md:w-14rem",
+									className: "w-full md:w-14rem ",
 								},
 								container: {
-									className: "w-full md:w-14rem",
+									className: "w-full md:w-14rem ",
 								},
 							}}
 						/>
-						{/* <Input
-							name="keyword"
-							type="text"
-							variant="outline"
-							placeholder="Palabras o frases usadas para describir algún aspecto del conjunto de datos espaciales o producto y que pueden ser utilizadas como referencia para búsquedas."
-							size="lg"
-							value={data.keyword}
-							onChange={handleInputChange}
-							disabled={!editable}
-						/> */}
 					</TableCell>
 				</TableRow>
-				<TableRow>
+				<TableRow className="border-bottom border-none">
 					<TableCell colSpan={1} className="w-[25px] text-center">
 						1.10
 					</TableCell>
@@ -760,11 +738,11 @@ export const Section1 = ({ editable = true }) => {
 						<MultiSelect
 							name="presentationform"
 							options={catalogo.presentationform}
-							// value={findMultiSelect("presentationform")}
-							// onChange={handleMultiSelect}
+							value={findMultiSelect("presentationform")}
+							onChange={handleMultiSelect}
 							placeholder="Seleccione una Categoria"
 							disabled={!editable}
-							className="w-full md:w-14rem"
+							className="w-full md:w-14rem border border-gray-100"
 							selectionLimit={2}
 							maxSelectedLabels={2}
 							display="chip"
@@ -793,7 +771,8 @@ export const Section1 = ({ editable = true }) => {
 							// variant="outline"
 							// size="lg"
 							placeholder="http://www.inegi.org.mx, ftp://inegi.org.mx/mapa.jpg"
-							// value={data.ci_onlineresource_linkage}
+							value={data.ci_onlineresource_linkage}
+							onChange={handleInputChange}
 							// onChange={(e) => {
 							// 	setData({ ...data, ci_onlineresource_linkage: e.target.value });
 							// }}
@@ -809,22 +788,35 @@ export const Section1 = ({ editable = true }) => {
 						Frecuencia de mantenimiento y actualización
 					</TableCell>
 					<TableCell colSpan={9}>
-						{/* <Dropdown
+						<Select
 							name="maintenanceandupdatefrequency"
-							options={catalogo.maintenanceandupdatefrequency}
-							value={findSelectValue("maintenanceandupdatefrequency")}
-							onChange={handleSelectChange}
-							placeholder="Seleccione la Frecuencia de Actualización"
-							className="w-full md:w-14rem"
+							value={data.maintenanceandupdatefrequency}
+							onValueChange={(maintenanceandupdatefrequency) =>
+								setData({ ...data, maintenanceandupdatefrequency })
+							}
 							disabled={!editable}
-						/>
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Seleccione la Frecuencia de Actualización" />
+							</SelectTrigger>
+							<SelectContent>
+								{catalogo.maintenanceandupdatefrequency.map(
+									({ code, label, description }) => (
+										<SelectItem value={`${code}. ${label}. ${description}`}>
+											{label}
+										</SelectItem>
+									),
+								)}
+							</SelectContent>
+						</Select>
+
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.maintenanceandupdatefrequency[
 								findSelectValue("maintenanceandupdatefrequency")?.code - 1
 							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
-						</small> */}
+						</small>
 					</TableCell>
 				</TableRow>
 				<TableRow>
@@ -835,22 +827,35 @@ export const Section1 = ({ editable = true }) => {
 						Conjunto de caracteres
 					</TableCell>
 					<TableCell colSpan={9}>
-						{/* <Dropdown
+						<Select
 							name="md_dataidentification_characterset"
-							options={catalogo.md_dataidentification_characterset}
 							value={findSelectValue("md_dataidentification_characterset")}
-							onChange={handleSelectChange}
-							placeholder="Seleccione un conjunto"
-							className="w-full md:w-14rem"
+							onValueChange={(md_dataidentification_characterset) =>
+								setData({ ...data, md_dataidentification_characterset })
+							}
 							disabled={!editable}
-						/>
+						>
+							<SelectTrigger>
+								<SelectValue placeholder="Seleccione un conjunto" />
+							</SelectTrigger>
+							<SelectContent>
+								{catalogo.md_dataidentification_characterset.map(
+									({ code, label }) => (
+										<SelectItem value={code} key={code}>
+											{label}
+										</SelectItem>
+									),
+								)}
+							</SelectContent>
+						</Select>
+
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
 							{catalogo.md_dataidentification_characterset[
 								findSelectValue("md_dataidentification_characterset")?.code - 1
 							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
-						</small> */}
+						</small>
 					</TableCell>
 				</TableRow>
 				<TableRow>
@@ -866,8 +871,8 @@ export const Section1 = ({ editable = true }) => {
 							// variant="outline"
 							// size="lg"
 							placeholder="Descripción de la manera en la cual el conjunto de datos espaciales o producto es o ha sido utilizado"
-							// value={data.specuse}
-							// onChange={handleInputChange}
+							value={data.specuse}
+							onChange={handleInputChange}
 							disabled={!editable}
 						/>
 					</TableCell>

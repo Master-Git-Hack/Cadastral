@@ -264,7 +264,7 @@ export default function Metadatos() {
 	return (
 		<Layout container>
 			<div className="flex flex-row-reverse py-2">
-				<Link href={`metadatos/create`}>
+				<Link href={`metadatos/create?page=1`}>
 					<Button>Nuevo Registro</Button>
 				</Link>
 			</div>
