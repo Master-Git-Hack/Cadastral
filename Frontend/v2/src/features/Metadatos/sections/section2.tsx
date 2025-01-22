@@ -177,7 +177,7 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 					</Table.Cell>
 					<Table.Cell colSpan={9} className="w-9/12">
 						<Input.Area
-							name="ipname"
+							name="inpname"
 							type="text"
 							variant="outline"
 							placeholder="Palabras o frases usadas para describir algún aspecto del conjunto de datos espaciales o producto y que pueden ser utilizadas como referencia para búsquedas."

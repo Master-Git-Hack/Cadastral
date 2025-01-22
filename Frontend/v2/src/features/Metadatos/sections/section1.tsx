@@ -7,6 +7,7 @@ import { Dropdown } from "primereact/dropdown";
 import catalogo from "../catologos/index";
 import { MultiSelect } from "primereact/multiselect";
 export const Section1 = ({ data, setData, editable = true }: any) => {
+	console.log(data.keyword);
 	useEffect(() => {
 		if (
 			(data.db_name &&

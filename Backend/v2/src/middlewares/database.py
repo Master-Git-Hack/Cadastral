@@ -578,7 +578,11 @@ class Template:
             return {}
         if exclude is not None:
             return self.schema(exclude=exclude, **kwargs).dump(self.current)
-        return self.schema(**kwargs).dump(self.current)
+        partial= self.schema(**kwargs).dump(self.current)
+        keyword = kwargs.get("keyword")
+        if keyword:
+            partial["keyword"] =  "".join(self.current.keyword).replace('{', '').replace('}', '').replace('"', '').split(',')
+        return partial
 
     def to_list(
         self,

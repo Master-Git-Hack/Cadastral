@@ -87,12 +87,13 @@ async def get_all_metadatos(
         meta = __Dataset(db=db)
         if meta.filter_group(is_latest=True) is None:
             return __response.success(data=[])
-        # save data into json
-        from json import dump
 
-        with open("data.json", "w") as file:
-            dump(meta.to_list(), file)
-        return __response.success(data=meta.to_list())
+
+        data = meta.to_list()
+        for m in data.get("features",[]):
+            m["keyword"] = "".join(m.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(',')
+            m["accessconstraints"]="".join(m["accessconstraints"]).replace('{"', '').replace('"}', '').split('","')
+        return __response.success(data=data)
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -108,10 +109,7 @@ async def get_all_metadatos_preview(
         meta = __Dataset(db=db)
         if meta.filter_group(is_latest=True) is None:
             return __response.success(data=[])
-
-        return __response.success(
-            data=meta.to_list(
-                only=[
+        data = meta.to_list(only=[
                     "uid",
                     "db_name",
                     "table_name",
@@ -121,9 +119,12 @@ async def get_all_metadatos_preview(
                     "abstract",
                     "username",
                     "update_date",
-                ]
-            )
-        )
+                ])
+        for m in data.get("features",[]):
+            m["keyword"] = "".join(m.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(',')
+            m["accessconstraints"]="".join(m["accessconstraints"]).replace('{"', '').replace('"}', '').split('","')
+        return __response.success(data=data)
+        
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -140,7 +141,11 @@ async def get_all_temporal_metadatos(
 
         if meta.filter_group(username=user.nombre) is None:
             __response.success(data=[])
-        return __response.success(data=meta.to_list())
+        data = meta.to_list()
+        for m in data.get("features",[]):
+            m["keyword"] = "".join(m.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(',')
+            m["accessconstraints"]="".join(m.get("accessconstraints","")).replace('{"', '').replace('"}', '').split('","')
+        return __response.success(data=data)
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -159,8 +164,10 @@ async def get_id(
                 message="Error procesando la solicitud",
                 status_code=404,
             )
-
-        return __response.success(data=meta.to_dict())
+        data = meta.to_dict()
+        data["keyword"] = "".join(data.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(',')
+        data["accessconstraints"]="".join(data["accessconstraints"]).replace('{"', '').replace('"}', '').split('","')
+        return __response.success(data=data)
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -180,7 +187,10 @@ async def get_temporal_id(
                 status_code=404,
             )
         data = meta.to_dict()
-        return __response.success(data=data.get("datos", data))
+        data = data.get("datos", data)
+        data["keyword"] = "".join(data.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(',')
+        data["accessconstraints"]="".join(data["accessconstraints"]).replace('{"', '').replace('"}', '').split('","')
+        return __response.success(data=data)
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))

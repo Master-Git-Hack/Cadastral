@@ -16,7 +16,7 @@ from sqlalchemy import (
     create_engine,
     text,
     ForeignKey,
-    Boolean,
+    Boolean,String
 )
 from sqlalchemy.dialects.postgresql import UUID
 
@@ -417,7 +417,7 @@ class Model(database.BASE):
     uid = Column(UUID, server_default=text("public.uuid_generate_v4()"), nullable=False)
     table_name = Column(Text, nullable=False)
     schema_name = Column(Text, nullable=False)
-    categories = Column(ARRAY(Text), nullable=True)  # delete
+    categories = Column(ARRAY(String), nullable=True)  # delete
     minimum_optimal_scale = Column(Integer, nullable=True)
     maximum_optimal_scale = Column(Integer, nullable=True)
     license = Column(Text, nullable=True)
@@ -448,7 +448,7 @@ class Model(database.BASE):
         Text, comment="1.4	Idioma (O)", default="ES-Español."
     )
     topiccategory = Column(
-        ARRAY(Text),
+        ARRAY(String),
         nullable=True,
         comment="1.5.1	Tema principal del conjunto de datos espaciales o producto (O, repetible)",
     )
@@ -458,13 +458,13 @@ class Model(database.BASE):
         comment="1.5.2	Grupo de temas del conjunto de datos espaciales o producto (O, repetible)",
     )
     keyword = Column(
-        ARRAY(Text),
+        ARRAY(String),
         nullable=True,
         comment="1.6	Palabras clave (O, repetible) | previous pg_metadata: keywords",
         name="keywords",
     )
     presentationform = Column(
-        ARRAY(Text),
+        ARRAY(String),
         nullable=True,
         comment="1.10	Forma de presentación de los datos espaciales (O, repetible)",
     )
@@ -517,7 +517,9 @@ class Model(database.BASE):
         Text,
         nullable=True,
         comment="2.2.2	Nombre del insumo (O)",
+    
     )
+    
     ci_responsibleparty_individualname = Column(
         Text,
         nullable=True,
@@ -610,10 +612,11 @@ class Model(database.BASE):
         name="spatial_level",
         comment="6.1.1 Nivel (O) | previous pg_metadata: spatial_level",
     )
-    statement = Column(
+    li_source_description = Column(
         Text,
         nullable=True,
         comment="6.3.1	Enunciado (C)",
+        name="statement"
     )
     li_processstep_description = Column(
         Text,
@@ -636,7 +639,7 @@ class Model(database.BASE):
         comment="8.1	Restricciones de acceso (Opc, repetible)",
     )
     useconstraints = Column(
-        ARRAY(Text),
+        ARRAY(String),
         nullable=True,
         comment="8.2	Restricciones de uso (Opc, repetible)",
     )
@@ -654,6 +657,11 @@ class Model(database.BASE):
         Text,
         nullable=True,
         comment="9.4.2	Nombre de la organización (C)",
+    )
+    inf_metadata_ci_responsibleparty_voice = Column(
+        Text,
+        nullable=True,
+        comment="9.4.4	Teléfono (Opc, repetible)",
     )
     ci_responsibleparty_deliverypoint = Column(
         Text,
@@ -687,6 +695,7 @@ class Model(database.BASE):
     datestamp = Column(
         DateTime, default=datetime.now, nullable=True, name="publication_date"
     )
+    
     metadata_xml = Column(Text, comment="XML document containing the entire metadata")
     themes = Column(ARRAY(Text()), comment="List of themes")
     parent_id = Column(Integer, ForeignKey("pgmetadata.dataset.id"), nullable=True,default=None)

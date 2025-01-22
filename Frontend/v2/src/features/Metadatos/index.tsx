@@ -215,137 +215,142 @@ export default function Metadatos() {
 					</Table.HeadCell>
 				</Table.Head>
 				<Table.Body>
-					{data?.data?.map(
-						(
-							{
-								id,
-								uid,
-								db_name,
-								table_name,
-								schema_name,
-								title,
-								purpose,
-								abstract,
-								username,
-								update_date,
-								version,
-							}: IMetadatos,
-							index: number,
-						) => (
-							<Table.Row
-								className="bg-white dark:border-gray-700 dark:bg-gray-800"
-								key={index}
-							>
-								<Table.Cell>
-									{db_name
-										.split("_")
-										?.map(
-											(word: string) =>
-												word.charAt(0).toUpperCase() + word.slice(1),
-										)
-										.join(" ")}
-								</Table.Cell>
-								<Table.Cell>
-									{schema_name
-										.split("_")
-										?.map(
-											(word: string) =>
-												word.charAt(0).toUpperCase() + word.slice(1),
-										)
-										.join(" ")}
-								</Table.Cell>
-								<Table.Cell
-									scope="row"
-									className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+					{[...data?.data]
+						?.sort((a, b) => a?.title.localeCompare(b?.title))
+						.map(
+							(
+								{
+									id,
+									uid,
+									db_name,
+									table_name,
+									schema_name,
+									title,
+									purpose,
+									abstract,
+									username,
+									update_date,
+									version,
+								}: IMetadatos,
+								index: number,
+							) => (
+								<Table.Row
+									className="bg-white dark:border-gray-700 dark:bg-gray-800"
+									key={index}
 								>
-									{table_name
-										.split("_")
-										?.map(
-											(word: string) =>
-												word.charAt(0).toUpperCase() + word.slice(1),
-										)
-										.join(" ")}
-								</Table.Cell>
-
-								<Table.Cell>
-									<p className=" text-justify capitalize">{title}</p>
-								</Table.Cell>
-								<Table.Cell className="px-6 py-4 w-fit hover:h-52">
-									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
-										{purpose}
-									</p>
-								</Table.Cell>
-
-								<Table.Cell className="px-6 py-4 w-fit hover:h-52">
-									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
-										{abstract}
-									</p>
-								</Table.Cell>
-								<Table.Cell>{username}</Table.Cell>
-								<Table.Cell className="text-center">{version}</Table.Cell>
-								<Table.Cell>
-									{new Date(update_date).toLocaleDateString("es-ES", {
-										year: "numeric", // Ejemplo: 2023
-										month: "long", // Ejemplo: octubre
-										day: "numeric", // Ejemplo: 25
-									})}
-								</Table.Cell>
-								<Table.Cell className="px-6 py-4 text-right">
-									<NavLink
-										className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-										to={`#new_version`}
+									<Table.Cell>
+										{db_name
+											.split("_")
+											?.map(
+												(word: string) =>
+													word.charAt(0).toUpperCase() + word.slice(1),
+											)
+											.join(" ")}
+									</Table.Cell>
+									<Table.Cell>
+										{schema_name
+											.split("_")
+											?.map(
+												(word: string) =>
+													word.charAt(0).toUpperCase() + word.slice(1),
+											)
+											.join(" ")}
+									</Table.Cell>
+									<Table.Cell
+										scope="row"
+										className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
 									>
-										<a
-											onClick={async () => {
-												const { data } = await newVersion({ id });
-												console.log(data);
-												//edit/${uid}
-												return navigate(
-													`/metadatos/edit/${data?.data?.uid}`,
-												);
-											}}
+										{table_name
+											.split("_")
+											?.map(
+												(word: string) =>
+													word.charAt(0).toUpperCase() + word.slice(1),
+											)
+											.join(" ")}
+									</Table.Cell>
+
+									<Table.Cell>
+										<p className=" text-justify capitalize">{title}</p>
+									</Table.Cell>
+									<Table.Cell className="px-6 py-4 w-fit hover:h-52">
+										<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+											{purpose}
+										</p>
+									</Table.Cell>
+
+									<Table.Cell className="px-6 py-4 w-fit hover:h-52">
+										<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+											{abstract}
+										</p>
+									</Table.Cell>
+									<Table.Cell>{username}</Table.Cell>
+									<Table.Cell className="text-center">{version}</Table.Cell>
+									<Table.Cell>
+										{new Date(update_date).toLocaleDateString("es-ES", {
+											year: "numeric", // Ejemplo: 2023
+											month: "long", // Ejemplo: octubre
+											day: "numeric", // Ejemplo: 25
+										})}
+									</Table.Cell>
+									<Table.Cell className="px-6 py-4 text-right">
+										<NavLink
+											className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+											to={`#new_version`}
 										>
-											Nueva Versión
-										</a>
-									</NavLink>
-									<span className="mx-2">/</span>
-									{version > 1 && (
-										<>
-											<NavLink
-												className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-												to={`#previous_version`}
+											<a
+												onClick={async () => {
+													const { data } = await newVersion({ id });
+													console.log(data);
+													//edit/${uid}
+													return navigate(
+														`/metadatos/edit/${data?.data?.uid}`,
+													);
+												}}
 											>
-												<a
-													onClick={() => {
-														setId(id);
-														setTimeout(() => setVisible(true), 1500);
-													}}
+												Nueva Versión
+											</a>
+										</NavLink>
+										<span className="mx-2">/</span>
+										{version > 1 && (
+											<>
+												<NavLink
+													className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+													to={`#previous_version`}
 												>
-													Versiones Previas
-												</a>
-											</NavLink>
-											<span className="mx-2">/</span>
-										</>
-									)}
+													<a
+														onClick={() => {
+															setId(id);
+															setTimeout(
+																() => setVisible(true),
+																1500,
+															);
+														}}
+													>
+														Versiones Previas
+													</a>
+												</NavLink>
+												<span className="mx-2">/</span>
+											</>
+										)}
 
-									<NavLink
-										className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-										to={`edit/${uid}`}
-									>
-										Editar
-									</NavLink>
-									<span className="mx-2">/</span>
+										<NavLink
+											className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+											to={`edit/${uid}`}
+										>
+											Editar
+										</NavLink>
+										<span className="mx-2">/</span>
 
-									<NavLink
-										className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-										to={`view/${uid}`}
-									>
-										PDF
-									</NavLink>
-								</Table.Cell>
-							</Table.Row>
-						),
-					)}
+										<NavLink
+											className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+											to={`view/${uid}`}
+										>
+											PDF
+										</NavLink>
+									</Table.Cell>
+								</Table.Row>
+							),
+						)}
 				</Table.Body>
 			</Table>
 			<div>
