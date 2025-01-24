@@ -1048,6 +1048,7 @@ export const Section5 = ({ editable = true }: any) => {
 							incrementButtonIcon="pi pi-plus"
 							decrementButtonIcon="pi pi-minus"
 							showButtons
+							disabled={!editable}
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">{"Resolución de latitud > 0.0"}</small>
@@ -1114,6 +1115,7 @@ export const Section5 = ({ editable = true }: any) => {
 							incrementButtonIcon="pi pi-plus"
 							decrementButtonIcon="pi pi-minus"
 							showButtons
+							disabled={!editable}
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
@@ -1148,6 +1150,7 @@ export const Section5 = ({ editable = true }: any) => {
 							incrementButtonIcon="pi pi-plus"
 							decrementButtonIcon="pi pi-minus"
 							showButtons
+							disabled={!editable}
 						/>
 					</TableCell>
 				</TableRow>
@@ -1177,6 +1180,7 @@ export const Section5 = ({ editable = true }: any) => {
 							incrementButtonIcon="pi pi-plus"
 							decrementButtonIcon="pi pi-minus"
 							showButtons
+							disabled={!editable}
 						/>
 					</TableCell>
 				</TableRow>
@@ -1206,6 +1210,7 @@ export const Section5 = ({ editable = true }: any) => {
 							incrementButtonIcon="pi pi-plus"
 							decrementButtonIcon="pi pi-minus"
 							showButtons
+							disabled={!editable}
 						/>
 					</TableCell>
 				</TableRow>
@@ -1298,6 +1303,7 @@ export const Section5 = ({ editable = true }: any) => {
 							incrementButtonIcon="pi pi-plus"
 							decrementButtonIcon="pi pi-minus"
 							showButtons
+							disabled={!editable}
 						/>
 					</TableCell>
 				</TableRow>
@@ -1327,6 +1333,7 @@ export const Section5 = ({ editable = true }: any) => {
 							incrementButtonIcon="pi pi-plus"
 							decrementButtonIcon="pi pi-minus"
 							showButtons
+							disabled={!editable}
 						/>
 					</TableCell>
 				</TableRow>

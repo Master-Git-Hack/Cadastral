@@ -6,18 +6,19 @@ import {
 	TableBody,
 	TableCaption,
 	TableCell,
-	TableFooter,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+
 import { useEffect, useState } from "react";
 import Error from "@components/error";
 import Layout from "@/components/navbar/index";
 import Link from "next/link";
 import { Button } from "@components/ui/button";
 import { useRouter } from "next/navigation";
-import { Router } from "next/router";
+
+import { IMetaTable } from "./types";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -28,7 +29,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
 	Drawer,
-	DrawerClose,
 	DrawerContent,
 	DrawerDescription,
 	DrawerFooter,
@@ -40,9 +40,9 @@ const PreviousVersions = ({ id, open, setOpen }) => {
 	const [metadatos, setMetadatos] = useState([]);
 	const handleGetPrevious = async () => {
 		const { data } = await getPrevious(id);
-		console.log(data);
 		setMetadatos(data?.data);
 	};
+
 	useEffect(() => {
 		if (metadatos?.length === 0) handleGetPrevious();
 	}, [metadatos]);
@@ -94,9 +94,9 @@ const PreviousVersions = ({ id, open, setOpen }) => {
 									update_date,
 									version,
 									...metaData
-								}) => (
+								}: IMetaTable) => (
 									<TableRow key={uid}>
-										<TableCell className="font-medium text-center">
+										<TableCell className="font-medium text-center w-[250px]">
 											{db_name
 												.split("_")
 												?.map(
@@ -106,7 +106,7 @@ const PreviousVersions = ({ id, open, setOpen }) => {
 												)
 												.join(" ")}
 										</TableCell>
-										<TableCell className="font-medium text-center">
+										<TableCell className="font-medium text-center w-[250px]">
 											{schema_name
 												.split("_")
 												?.map(
@@ -116,7 +116,7 @@ const PreviousVersions = ({ id, open, setOpen }) => {
 												)
 												.join(" ")}
 										</TableCell>
-										<TableCell className="font-medium text-center">
+										<TableCell className="font-medium text-center w-[250px]">
 											{table_name
 												.split("_")
 												?.map(
@@ -126,7 +126,7 @@ const PreviousVersions = ({ id, open, setOpen }) => {
 												)
 												.join(" ")}
 										</TableCell>
-										<TableCell className="font-bold text-justify capitalize">
+										<TableCell className="font-bold text-justify capitalize w-[100px]">
 											{title}
 										</TableCell>
 										<TableCell className="font-small">
@@ -140,7 +140,9 @@ const PreviousVersions = ({ id, open, setOpen }) => {
 											</p>
 										</TableCell>
 										<TableCell>{username}</TableCell>
-										<TableCell className="text-center">{version}</TableCell>
+										<TableCell className="text-center w-[50px]">
+											{version}
+										</TableCell>
 										<TableCell>
 											{new Date(update_date).toLocaleDateString("es-ES", {
 												year: "numeric", // Ejemplo: 2023
@@ -154,42 +156,11 @@ const PreviousVersions = ({ id, open, setOpen }) => {
 													Acciones...
 												</DropdownMenuTrigger>
 												<DropdownMenuContent>
-													<DropdownMenuLabel>Versiones</DropdownMenuLabel>
-													<DropdownMenuSeparator />
-													<DropdownMenuItem>
-														<Link href={`#new_version`}>
-															<Button
-																variant="link"
-																onClick={() => {}}
-															>
-																Cambiar de Versión
-															</Button>
-														</Link>
-													</DropdownMenuItem>
-													{version > 1 && (
-														<DropdownMenuItem>
-															<Link href={`#previous_versions`}>
-																<Button
-																	variant="link"
-																	onClick={() => {
-																		setId(id);
-																		setTimeout(
-																			() => setOpen(true),
-																			1500,
-																		);
-																	}}
-																>
-																	Versiones Anteriores
-																</Button>
-															</Link>
-														</DropdownMenuItem>
-													)}
-
 													<DropdownMenuLabel>Edición</DropdownMenuLabel>
 													<DropdownMenuSeparator />
 													<DropdownMenuItem>
 														<Link
-															href={`/metadatos/${uid}/edit`}
+															href={`/metadatos/${uid}/edit?page=1`}
 															className="transition-colors hover:text-blue-500 "
 															onClick={() =>
 																setMeta({
@@ -242,12 +213,18 @@ const PreviousVersions = ({ id, open, setOpen }) => {
 	);
 };
 import useMedatados from "@/store/metadatos/index.ts";
+
 export default function Metadatos() {
-	const { getAllTemporal, getMetadatos, setMetadatos: setMeta } = useMedatados((state) => state);
+	const {
+		getAllTemporal,
+		getMetadatos,
+		setMetadatos: setMeta,
+		clearMetadatos,
+	} = useMedatados((state) => state);
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(0);
 	const router = useRouter();
-	const [metadatos, setMetadatos] = useState([]);
+	const [metadatos, setMetadatos] = useState<IMetaTable[]>([]);
 	const [temporal, setTemporal] = useState([]);
 	const handleGetTmp = async () => {
 		const { data } = await getAllTemporal(router);
@@ -258,13 +235,13 @@ export default function Metadatos() {
 		setMetadatos(data?.data);
 	};
 	useEffect(() => {
-		if (metadatos.length === 0) handleGetMeta();
-		if (temporal.length === 0) handleGetTmp();
+		if (metadatos?.length === 0) handleGetMeta();
+		if (temporal?.length === 0) handleGetTmp();
 	}, [metadatos, temporal]);
 	return (
 		<Layout container>
 			<div className="flex flex-row-reverse py-2">
-				<Link href={`metadatos/create?page=1`}>
+				<Link href={`metadatos/create?page=1`} onClick={clearMetadatos}>
 					<Button>Nuevo Registro</Button>
 				</Link>
 			</div>
@@ -272,22 +249,24 @@ export default function Metadatos() {
 				<TableCaption className="mt-5 pt-5">Registros Pendientes</TableCaption>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[250px]">Nombre de la Base de Datos</TableHead>
-						<TableHead className="w-[250px]">Nombre del Schema</TableHead>
-						<TableHead className="w-[250px]">Nombre de la Tabla</TableHead>
-						<TableHead className="w-[100px]">Titulo</TableHead>
-						<TableHead>Proposito</TableHead>
-						<TableHead>Resumen</TableHead>
-						<TableHead>Usuario</TableHead>
-						<TableHead className="w-[50px]">Versión</TableHead>
-						<TableHead>Ultima Actualización</TableHead>
-						<TableHead className="text-right">
+						<TableHead className="w-[250px] text-center">
+							Nombre de la Base de Datos
+						</TableHead>
+						<TableHead className="w-[250px] text-center">Nombre del Schema</TableHead>
+						<TableHead className="w-[250px] text-center">Nombre de la Tabla</TableHead>
+						<TableHead className="w-[100px] text-center">Titulo</TableHead>
+						<TableHead className="text-center">Proposito</TableHead>
+						<TableHead className="text-center">Resumen</TableHead>
+						<TableHead className="text-center">Usuario</TableHead>
+						<TableHead className="w-[50px] text-center">Versión</TableHead>
+						<TableHead className="text-justify">Ultima Actualización</TableHead>
+						<TableHead className="text-left">
 							<span className="sr-only">Acciones</span>
 						</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{metadatos.map(
+					{metadatos?.map(
 						({
 							id,
 							uid,
@@ -301,9 +280,9 @@ export default function Metadatos() {
 							update_date,
 							version,
 							...metaData
-						}) => (
+						}: IMetaTable) => (
 							<TableRow key={uid}>
-								<TableCell className="font-small text-center">
+								<TableCell className="font-small  w-[250px]">
 									{db_name
 										.split("_")
 										?.map(
@@ -312,7 +291,7 @@ export default function Metadatos() {
 										)
 										.join(" ")}
 								</TableCell>
-								<TableCell className="font-small text-center">
+								<TableCell className="font-small  w-[250px]">
 									{schema_name
 										.split("_")
 										?.map(
@@ -321,7 +300,7 @@ export default function Metadatos() {
 										)
 										.join(" ")}
 								</TableCell>
-								<TableCell className="font-small text-center">
+								<TableCell className="font-small  w-[250px]">
 									{table_name
 										.split("_")
 										?.map(
@@ -330,7 +309,7 @@ export default function Metadatos() {
 										)
 										.join(" ")}
 								</TableCell>
-								<TableCell className="font-bold text-justify capitalize">
+								<TableCell className="font-bold text-justify capitalize w-[100px]">
 									{title}
 								</TableCell>
 								<TableCell className="font-small">
@@ -344,7 +323,7 @@ export default function Metadatos() {
 									</p>
 								</TableCell>
 								<TableCell>{username}</TableCell>
-								<TableCell className="text-center">{version}</TableCell>
+								<TableCell className="text-center w-[50px]">{version}</TableCell>
 								<TableCell>
 									{new Date(update_date).toLocaleDateString("es-ES", {
 										year: "numeric", // Ejemplo: 2023
@@ -390,7 +369,7 @@ export default function Metadatos() {
 											<DropdownMenuSeparator />
 											<DropdownMenuItem>
 												<Link
-													href={`/metadatos/${uid}/edit`}
+													href={`/metadatos/${uid}/edit?page=1`}
 													className="transition-colors hover:text-blue-500 "
 													onClick={() =>
 														setMeta({
@@ -407,7 +386,23 @@ export default function Metadatos() {
 														})
 													}
 												>
-													<Button variant="link" onClick={() => {}}>
+													<Button
+														variant="link"
+														onClick={() =>
+															setMeta({
+																uid,
+																db_name,
+																table_name,
+																schema_name,
+																title,
+																purpose,
+																abstract,
+																username,
+																update_date,
+																...metaData,
+															})
+														}
+													>
 														Editar
 													</Button>
 												</Link>
@@ -454,7 +449,7 @@ export default function Metadatos() {
 							datos,
 							username,
 
-							fecha_modificacion,
+							update_date,
 						}) => (
 							<TableRow key={uid}>
 								<TableCell className="font-medium">
@@ -497,7 +492,7 @@ export default function Metadatos() {
 								</TableCell>
 								<TableCell>{username}</TableCell>
 								<TableCell>
-									{new Date(fecha_modificacion).toLocaleDateString("es-ES", {
+									{new Date(update_date).toLocaleDateString("es-ES", {
 										year: "numeric", // Ejemplo: 2023
 										month: "long", // Ejemplo: octubre
 										day: "numeric", // Ejemplo: 25
@@ -505,10 +500,16 @@ export default function Metadatos() {
 								</TableCell>
 								<TableCell className="text-right">
 									<Link
-										href={`/metadatos/${uid}/edit?temporal=true`}
+										href={`/metadatos/${uid}/edit?page=1&temporal=true`}
 										className="transition-colors hover:text-blue-500"
+										onClick={() => setMeta({ ...data, ...datos, uid })}
 									>
-										Editar
+										<Button
+											variant="link"
+											onClick={() => setMeta({ ...data, ...datos, uid })}
+										>
+											Editar
+										</Button>
 									</Link>
 									<span className="mx-2">/</span>
 									<Link

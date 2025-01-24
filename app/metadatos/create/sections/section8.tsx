@@ -66,11 +66,10 @@ export const Section8 = ({ editable = true }: any) => {
 						Restricciones de acceso
 					</TableCell>
 					<TableCell colSpan={9} className=" w-9/12">
-						<Input
+						<Textarea
 							name="accessconstraints"
 							value={data.accessconstraints}
 							onChange={handleInputChange}
-							type="text"
 							// variant="outline"
 							// size="lg"
 							disabled={!editable}

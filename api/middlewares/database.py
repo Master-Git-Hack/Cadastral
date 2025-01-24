@@ -85,7 +85,6 @@ class Instance:
     ):
         db_list = [db] if db else DBS
         data = {}
-        print(db_list)
         for db in db_list:
             engine = self.ENGINES[db.name]
             with engine.connect() as connection:
@@ -259,12 +258,18 @@ class Template:
             object: The record
         """
         self.__check_attr()
-        self.Current = self.Model(**kwargs)
+
         with self.Session as session:
             try:
-                session.add(self.Current)
+                self.Current = self.Model(**kwargs)
+                if self.Current not in session:
+                    self.Current = session.merge(self.Current)
+
+                session.flush()
                 session.commit()
                 session.refresh(self.Current)
+                if self.Current not in session:
+                    self.Current = session.merge(self.Current)
             except Exception as e:
                 print(f"----------> Unexpected error:\n {str(e)}")
                 session.rollback()
@@ -290,9 +295,12 @@ class Template:
         if self.Current is None:
             return None
         with self.Session as session:
+            if self.Current not in session:
+                self.Current = session.merge(self.Current)
             try:
                 for key, value in kwargs.items():
                     setattr(self.Current, key, value)
+                session.flush()
                 session.commit()
                 session.refresh(self.Current)
             except Exception as e:
@@ -316,8 +324,12 @@ class Template:
             return None
         with self.Session as session:
             try:
+                if self.Current not in session:
+                    self.Current = session.merge(self.Current)
                 session.delete(self.Current)
+                session.flush()
                 session.commit()
+                session.refresh(self.Current)
                 return None
             except Exception as e:
                 print(f"----------> Unexpected error:\n {str(e)}")

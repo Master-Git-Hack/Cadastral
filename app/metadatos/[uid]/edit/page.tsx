@@ -2,10 +2,100 @@
 "use client";
 import Error from "@components/error";
 import Layout from "@/components/navbar/index";
-export default function EditMetadata() {
+import Create from "../../create/create";
+import useMedatados from "@/store/metadatos/index.ts";
+import {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationNext,
+	PaginationPrevious,
+} from "@/components/ui/pagination";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useState } from "react";
+import { use } from "react";
+const Pages = ({ page }) => {
+	//make an array of 9 pages
+	const pages = Array.from({ length: 9 }, (_, i) => i + 1);
+	const sections = [
+		"Identificación",
+		"Fechas Relacionadas",
+		"Unidad Responsable",
+		"Localización Geográfica",
+		"Referencia",
+		"Calidad",
+		"Entidades/Atributos",
+		"Distribución",
+		"Información Metadatos",
+	];
+	return (
+		<Pagination>
+			<PaginationContent>
+				<PaginationItem>
+					<PaginationPrevious
+						href={`?page=${page - 1 > 0 ? page - 1 : 9}`}
+						customText="Previo"
+					/>
+				</PaginationItem>
+				{pages.map((p) => (
+					<PaginationItem key={`page-${p}`}>
+						<Link
+							href={`?page=${p}`}
+							className={`page-link ${page === p ? "text-blue-600 underline underline-offset-auto " : ""} transition-colors hover:text-blue-400`}
+						>
+							<HoverCard>
+								<HoverCardTrigger>
+									{page === p ? sections[p - 1] : <p className="mx-3">{p}</p>}
+								</HoverCardTrigger>
+								<HoverCardContent>
+									<p className="text-center">
+										{page === p ? (
+											<>
+												Page: <strong>{p}</strong>
+											</>
+										) : (
+											<>
+												Sección: <strong>{sections[p - 1]}</strong>
+											</>
+										)}
+									</p>
+								</HoverCardContent>
+							</HoverCard>
+						</Link>
+					</PaginationItem>
+				))}
+
+				<PaginationItem>
+					<PaginationNext
+						href={`?page=${page + 1 < 10 ? page + 1 : 1}`}
+						customText="Siguiente"
+					></PaginationNext>
+				</PaginationItem>
+			</PaginationContent>
+		</Pagination>
+	);
+};
+export default function EditMetadata({ params }) {
+	const [edit, setEdit] = useState(true);
+	const { uid } = use(params);
+	const searchParams = useSearchParams();
+
+	const page = searchParams.get("page") ?? 1;
+	const isTemporal = searchParams.get("temporal") ?? false;
+
 	return (
 		<Layout>
-			<></>
+			<Create
+				disabled={edit}
+				onEdit={setEdit}
+				uid={uid}
+				page={page}
+				isTemporal={isTemporal}
+			/>
+			<Pages page={parseInt(page)} />
 		</Layout>
 	);
 }

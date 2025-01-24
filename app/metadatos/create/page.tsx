@@ -85,7 +85,7 @@ export default function CreateMetadata({ data }) {
 
 	return (
 		<Layout>
-			<Create isTemporal={isTemporal} page={page} onEdit={true} data={0} />
+			<Create isTemporal={isTemporal} page={page.toString()} onEdit={true} data={0} />
 			<Pages page={parseInt(page)} />
 		</Layout>
 	);

@@ -61,7 +61,7 @@ export const Section4 = ({ editable = true }: any) => {
 							onValueChange={handleInputChange}
 							name="westboundlongitude"
 							className="w-full md:w-14rem "
-							maxFractionDigits={7}
+							maxFractionDigits={8}
 							min={-180}
 							step={0.0000001}
 							max={180}
@@ -98,7 +98,7 @@ export const Section4 = ({ editable = true }: any) => {
 							onValueChange={handleInputChange}
 							name="eastboundlongitude"
 							className="w-full md:w-14rem "
-							maxFractionDigits={7}
+							maxFractionDigits={8}
 							step={0.0000001}
 							min={-180}
 							max={180}
@@ -134,11 +134,12 @@ export const Section4 = ({ editable = true }: any) => {
 							value={data.southboundlatitude}
 							onValueChange={handleInputChange}
 							name="southboundlatitude"
-							className={`w-full md:w-14rem ${
-								data.northboundlatitude < data.southboundlatitude &&
-								"border border-red-500"
-							}`}
-							maxFractionDigits={7}
+							className="w-full md:w-14rem "
+							// className={`w-full md:w-14rem ${
+							// 	data.northboundlatitude < data.southboundlatitude &&
+							// 	"border border-red-500"
+							// }`}
+							maxFractionDigits={8}
 							step={0.0000001}
 							min={-90}
 							max={90}
@@ -176,11 +177,12 @@ export const Section4 = ({ editable = true }: any) => {
 							value={data.northboundlatitude}
 							onValueChange={handleInputChange}
 							name="northboundlatitude"
-							className={`w-full md:w-14rem ${
-								data.northboundlatitude < data.southboundlatitude &&
-								"border border-red-500"
-							}`}
-							maxFractionDigits={7}
+							className="w-full md:w-14rem "
+							// className={`w-full md:w-14rem ${
+							// 	data.northboundlatitude < data.southboundlatitude &&
+							// 	"border border-red-500"
+							// }`}
+							maxFractionDigits={8}
 							step={0.0000001}
 							min={-90}
 							max={90}

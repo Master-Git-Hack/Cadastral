@@ -55,7 +55,7 @@ export const Section1 = ({ editable = true }) => {
 	const findMultiSelect = (name: string) => {
 		const input = data[name] ?? [];
 		const result = input
-			.map((item) => {
+			?.map((item) => {
 				const [code, label, description] = item.split(". ").map((text, index) => {
 					if (index === 0 && text.trim()) {
 						return text.trim();

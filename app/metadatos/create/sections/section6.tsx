@@ -352,6 +352,7 @@ export const Section6 = ({ editable = true }: any) => {
 							// variant="outline"
 							// size="lg"
 							className=" w-full md:w-14rem"
+							disabled={!editable}
 						/>
 					</TableCell>
 				</TableRow>
@@ -374,6 +375,7 @@ export const Section6 = ({ editable = true }: any) => {
 							// variant="outline"
 							// size="lg"
 							className=" w-full md:w-14rem"
+							disabled={!editable}
 						/>
 					</TableCell>
 				</TableRow>

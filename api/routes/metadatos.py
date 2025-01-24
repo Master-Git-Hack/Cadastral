@@ -6,7 +6,7 @@ from requests import get
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from enum import Enum
-
+from dateparser import parse
 from .. import config, database, middlewares
 from ..models.dataset import Dataset as __Dataset
 from ..models.metadatos import MetadatosTemporales as __TMP
@@ -101,14 +101,31 @@ async def get_all_metadatos(
         meta = __Dataset(db)
         if meta.filter_group(is_latest=True) is None:
             return __response.success(data=[])
-        # # save data into json
-        # from json import dump
+        # data = []
+        # for current in meta.list():
+        #     current["keyword"]= "".join(current.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(','),
+        #     current["accessconstraints"]:"".join(current.get("accessconstraints","")).replace('{"', '').replace('"}', '').split('","')
+        #     data.append(current)
 
-        # with open("data.json", "w") as file:
-        #     dump(meta.list(), file)
-        return __response.success(data=meta.list())
+        return __response.success(
+            data=[
+                {
+                    **current,
+                    "keyword": "".join(current.get("keyword", ""))
+                    .replace("{", "")
+                    .replace("}", "")
+                    .replace('"', "")
+                    .split(","),
+                    "accessconstraints": "".join(current.get("accessconstraints", ""))
+                    .replace('{"', "")
+                    .replace('"}', "")
+                    .split('","'),
+                }
+                for current in meta.list()
+            ]
+        )
     except Exception as e:
-        print(f"----------> Unexpected error:\n {str(e)}")
+        print(f"----------> Unexpected error on Metadata:\n {str(e)}")
         return __response.error(message=str(e))
 
 
@@ -122,22 +139,36 @@ async def get_all_metadatos_preview(
             return __response.success(data=[])
 
         return __response.success(
-            data=meta.list(
-                includes=[
-                    "uid",
-                    "db_name",
-                    "table_name",
-                    "schema_name",
-                    "title",
-                    "purpose",
-                    "abstract",
-                    "username",
-                    "update_date",
-                ]
-            )
+            data=[
+                {
+                    **current,
+                    "keyword": "".join(current.get("keyword", ""))
+                    .replace("{", "")
+                    .replace("}", "")
+                    .replace('"', "")
+                    .split(","),
+                    "accessconstraints": "".join(current.get("accessconstraints", ""))
+                    .replace('{"', "")
+                    .replace('"}', "")
+                    .split('","'),
+                }
+                for current in meta.list(
+                    includes=[
+                        "uid",
+                        "db_name",
+                        "table_name",
+                        "schema_name",
+                        "title",
+                        "purpose",
+                        "abstract",
+                        "username",
+                        "update_date",
+                    ]
+                )
+            ]
         )
     except Exception as e:
-        print(f"----------> Unexpected error:\n {str(e)}")
+        print(f"----------> Unexpected error on Temporal Metadata:\n {str(e)}")
         return __response.error(message=str(e))
 
 
@@ -150,7 +181,20 @@ async def get_all_temporal_metadatos(
 
         if meta.filter_group(username=user.nombre) is None:
             __response.success(data=[])
-        return __response.success(data=meta.list())
+        data = []
+        for current in meta.list():
+            current["datos"]["keyword"] = (
+                "".join(current.get("keyword", ""))
+                .replace("{", "")
+                .replace("}", "")
+                .replace('"', "")
+                .split(","),
+            )
+            current["datos"]["accessconstraints"]: "".join(
+                current.get("accessconstraints", "")
+            ).replace('{"', "").replace('"}', "").split('","')
+            data.append(current)
+        return __response.success(data=data)
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -167,7 +211,19 @@ async def get_id(
                 message="Error procesando la solicitud",
                 status_code=404,
             )
-        return __response.success(data=meta.dict())
+        data = meta.dict()
+
+        data["keyword"] = (
+            "".join(data.get("keyword", ""))
+            .replace("{", "")
+            .replace("}", "")
+            .replace('"', "")
+            .split(","),
+        )
+        data["accessconstraints"]: "".join(data.get("accessconstraints", "")).replace(
+            '{"', ""
+        ).replace('"}', "").split('","')
+        return __response.success(data=data)
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -185,6 +241,16 @@ async def get_temporal_id(
                 status_code=404,
             )
         data = meta.dict()
+        data["datos"]["keyword"] = (
+            "".join(data.get("keyword", ""))
+            .replace("{", "")
+            .replace("}", "")
+            .replace('"', "")
+            .split(","),
+        )
+        data["datos"]["accessconstraints"]: "".join(
+            data.get("accessconstraints", "")
+        ).replace('{"', "").replace('"}', "").split('","')
         return __response.success(data=data.get("datos", data))
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
@@ -211,7 +277,6 @@ async def create(
             return __response.error(message="No se pudo registrar el metadato")
         if uid is not None or uid != "":
             tmp = __TMP(db)
-            print(f"UUID: {uid}")
             if tmp.filter(uid=uid) is not None:
                 logger.warning("Deleting temporal metadata")
                 result = tmp.delete()
@@ -278,29 +343,34 @@ async def previous_version(
         return __response.error(message=str(e), data={"status": "error"})
 
 
-@meta.patch("/{id}")
+@meta.patch("/{uid}")
 async def patch_id(
-    id: int,
+    uid: str,
     request: Request,
     user=Depends(required),
     db: Session = Depends(database.CATASTRO_V2),
 ):
     try:
         meta = __Dataset(db)
-        if meta.get(id) is None:
+
+        if meta.filter(uid=uid) is None:
             return __response.error(
                 message="Error procesando la solicitud",
                 status_code=404,
             )
         data = await request.json()
+
         data |= {"update_date": parse("hoy")}
         if "geom" in data:
             del data["geom"]
-        if meta.update(**data) is None:
+        if "inp_name" in data:
+            print(data.get("inp_name "))
+            del data["inp_name"]
+        if meta.update(**data) is None:  #
             return __response.error(message="No se pudo actualizar el metadato")
         return __response.success(data=meta.dict() | {"status": "success"})
     except Exception as e:
-        print(f"----------> Unexpected error:\n {str(e)}")
+        print(f"----------> Unexpected error on Metadata Update:\n {str(e)}")
         return __response.error(message=str(e), data={"status": "error"})
 
 
@@ -336,7 +406,7 @@ async def patch_temporal_metadatos(
             message="Error procesando la solicitud",
             status_code=404,
         )
-    data |= {"update_date": parse("hoy")}
+    # data |= {"update_date": parse("hoy")}
     if meta.update(**data) is None:
         return __response.error(
             message="No se pudo actualizar el registro",

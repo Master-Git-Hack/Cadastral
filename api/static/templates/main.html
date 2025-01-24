@@ -171,30 +171,34 @@
 	}
 </script>
 <div>
+	<h2>0 Información del Metadato</h2>
+	<p class="text-justify">La presente información ha sido elaborada por la Coordinación de Plataformas Geomáticas Catastrales siguiendo los lineamientos establecidos en la Norma Técnica para la elaboración de Metadatos Geográficos del INEGI. Esta información se refiere a los productos relacionados con la Cartografía Catastral, detallando aspectos como la fuente de origen, su ubicación en la base de datos, la extensión geográfica y el sistema de referencia utilizado. Todos estos elementos proporcionan un contexto adecuado para el uso eficiente de la información.</p>
+</div>
+<div>
 	<h2>1 Identificación del conjunto de datos espaciales o producto</h2>
 	<table class="table table-condensed">
 		<tr>
 			<th class="text">1.1 Título del conjunto de datos espaciales o producto.</th>
 			<td>
-				<p class="text-justify">[ % title % ]</p>
+				<p class="text-justify">[% title %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.2 Propósito.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % purpose % ]</p>
+				<p class="text-justify">[% purpose %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.3 Descripción del conjunto de datos espaciales o producto.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % abstract % ]</p>
+				<p class="text-justify">[% abstract %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.4 Idioma del conjunto de datos espaciales o producto.</th>
 			<td class="text">
-				<p class="text-justify">[ % md_dataidentification_language % ]</p>
+				<p class="text-justify">[% md_dataidentification_language %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -207,7 +211,7 @@
 				1.5.1 Tema principal del conjunto de datos espaciales o producto.
 			</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % topiccategory % ]</p>
+				<p class="text-justify">[% topiccategory %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -215,19 +219,37 @@
 				1.5.2 Grupo de datos del conjunto de datos espaciales o producto.
 			</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % groupcategory % ]</p>
+				<p class="text-justify">[% groupcategory %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.6 Palabra clave.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % keywords % ]</p>
+				<p class="text-justify">[% keywords %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.7 Tipo.</th>
+			<td class="text-justify">
+				<p class="text-justify">5. Tema. La palabra clave que identifica un tema o materia particular</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.8 Nombre del tesauro.</th>
+			<td class="text-justify">
+				<p class="text-justify">Ninguno</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.9 Edición.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% version %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.10 Forma de presentación de los datos espaciales.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % presentationform % ]</p>
+				<p class="text-justify">[% presentationform %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -236,7 +258,13 @@
 		<tr>
 			<th class="text pl">1.11.1 URL del recurso.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % ci_onlineresource_linkage % ]</p>
+				<p class="text-justify">[% ci_onlineresource_linkage %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">1.11.2 Descripción del acceso al recurso.</th>
+			<td class="text-justify">
+				<p class="text-justify">URI de conexión a base de datos: Dirección de la base de datos que permite acceder al recurso conforme a las políticas institucionales y los lineamientos de los centros de información autorizados.</p>
 			</td>
 		</tr>
 
@@ -250,19 +278,25 @@
 				>
 			</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % maintenanceandupdatefrequency % ]</p>
+				<p class="text-justify">[% maintenanceandupdatefrequency %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.13 Conjunto de caracteres.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % md_dataidentification_characterset % ]</p>
+				<p class="text-justify">[% md_dataidentification_characterset %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">1.14 Nombre del archivo gráfico.</th>
+			<td class="text-justify">
+				<p class="text-justify">Por definir.</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">1.15 Uso específico.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % specuse % ]</p>
+				<p class="text-justify">[% specuse %]</p>
 			</td>
 		</tr>
 	</table>
@@ -278,13 +312,13 @@
 				2.1.1 Fecha de referencia del conjunto de datos espaciales o producto.
 			</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % datestamp % ]</p>
+				<p class="text-justify">[% date %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">2.1.2 Tipo de fecha.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % datetype % ]</p>
+				<p class="text-justify">[% datetype %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -296,13 +330,25 @@
 		<tr>
 			<th class="text pl">2.2.1 Fecha de creación de los insumos.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % date_creation % ]</p>
+				<p class="text-justify">[% date_creation %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">2.2.2 Fecha de inicio de verificación de campo.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% date_creation %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text pl">2.2.3 Fecha final de verificación de campo.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% date_creation %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">2.2.4 Nombre del Insumo.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % inpname % ]</p>
+				<p class="text-justify">[% inpname %]</p>
 			</td>
 		</tr>
 	</table>
@@ -320,7 +366,7 @@
 				>
 			</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % ci_responsibleparty_individualname % ]</p>
+				<p class="text-justify">[% ci_responsibleparty_individualname %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -333,7 +379,7 @@
 				>
 			</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % ci_responsibleparty_organisationname % ]</p>
+				<p class="text-justify">[% ci_responsibleparty_organisationname %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -346,13 +392,96 @@
 				>
 			</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % ci_responsibleparty_positionname % ]</p>
+				<p class="text-justify">[% ci_responsibleparty_positionname %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.4 Teléfono.</span
+					></a
+				>
+			</th>
+			<td class="text-justify">
+				<p class="text-justify">[% ci_responsibleparty_voice %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.5 Fax.</span
+					></a
+				>
+			</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.6 Dirección.</span
+					></a
+				>
+			</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.7 Ciudad.</span
+					></a
+				>
+			</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.8 Área administrativa.</span
+					></a
+				>
+			</th>
+			<td class="text-justify">
+				<p class="text-justify">[% ci_responsibleparty_administrativearea %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.9 Código postal.</span
+					></a
+				>
+			</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">
+				<a href="#" class="toggle-tooltip"
+					>3.10 País.</span
+					></a
+				>
+			</th>
+			<td class="text-justify">
+				<p class="text-justify">México.</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">3.11 Dirección de correo electrónico del contacto.</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">3.12 Enlace en línea (dirección de Internet de referencia).</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % ci_responsibleparty_linkage % ]</p>
+				<p class="text-justify">[% ci_responsibleparty_linkage %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -365,7 +494,7 @@
 				>
 			</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % ci_responsibleparty_role % ]</p>
+				<p class="text-justify">[% ci_responsibleparty_role %]</p>
 			</td>
 		</tr>
 	</table>
@@ -385,31 +514,31 @@
 		<tr>
 			<th class="text pl">4.1.1 Coordenada límite al Oeste</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % westboundlongitude % ]</p>
+				<p class="text-justify">[% westboundlongitude %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">4.1.2 Coordenada límite al Este</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % eastboundlongitude % ]</p>
+				<p class="text-justify">[% eastboundlongitude %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">4.1.3 Coordenada límite al Sur</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % southboundlatitude % ]</p>
+				<p class="text-justify">[% southboundlatitude %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">4.1.4 Coordenada límite al Norte</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % northboundlatitude % ]</p>
+				<p class="text-justify">[% northboundlatitude %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">4.2 Tipo de representación espacial</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % spatialrepresentationtype % ]</p>
+				<p class="text-justify">[% spatialrepresentationtype %]</p>
 			</td>
 		</tr>
 	</table>
@@ -426,19 +555,19 @@
 		<tr>
 			<th class="text pl">5.1.1.1 Resolución de latitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % latres % ]</p>
+				<p class="text-justify">[% latres %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.1.2 Resolución de longitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % longres % ]</p>
+				<p class="text-justify">[% longres %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.1.3 Unidades de coordenadas geográficas.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % geogunit % ]</p>
+				<p class="text-justify">[% geogunit %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -450,260 +579,139 @@
 		<tr>
 			<th class="text pl-3">5.1.2.1.1.1 Paralelo estándar.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % lambertc_stdparll % ]</p>
+				<p class="text-justify">[% lambertc_stdparll %]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-3">
-				<a href="#" class="toggle-tooltip"
-					>5.1.2.1.1.2 Longitud del meridiano central.<span class="tooltip"
-						>Revisar tambien los puntos 5.1.2.1.2.2, 5.1.2.1.3.3, 5.1.2.1.4.2,
-						5.1.2.2.1.3 de la Norma Tecnica para la elaboracion de Metadatos
-						Geograficos.</span
-					></a
-				>
-			</th>
+			<th class="text pl-3">5.1.2.1.1.2 Longitud del meridiano central.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % lambertc_longcm % ]</p>
+				<p class="text-justify">[% lambertc_longcm %]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-3">
-				<a href="#" class="toggle-tooltip"
-					>5.1.2.1.1.3 Latitud del origen de proyección.
-					<span class="tooltip"
-						>Revisar tambien los puntos 5.1.2.1.2.3, 5.1.2.1.4.3, 5.1.2.2.1.4 de la
-						Norma Tecnica para la elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
+			<th class="text pl-3">5.1.2.1.1.3 Latitud del origen de proyección.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % mercatort_latprjo % ]</p>
+				<p class="text-justify">[% lambertc_latprjo %]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-3">
-				<a href="#" class="toggle-tooltip"
-					>5.1.2.1.1.4 Falso este.
-					<span class="tooltip"
-						>Revisar tambien los puntos 5.1.2.1.2.4, 5.1.2.1.3.4, 5.1.2.1.4.4,
-						5.1.2.2.1.5 de la Norma Tecnica para la elaboracion de Metadatos
-						Geograficos.</span
-					></a
-				>
-			</th>
+			<th class="text pl-3">5.1.2.1.1.4 Falso este.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % mercator_feast % ]</p>
+				<p class="text-justify">[% lambertc_feast %]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-3">
-				<a href="#" class="toggle-tooltip"
-					>5.1.2.1.1.5 Falso norte.
-					<span class="tooltip"
-						>Revisar tambien los puntos 5.1.2.1.2.5, 5.1.2.1.3.5, 5.1.2.1.4.5,
-						5.1.2.2.1.6 de la Norma Tecnica para la elaboracion de Metadatos
-						Geograficos.</span
-					></a
-				>
-			</th>
+			<th class="text pl-3">5.1.2.1.1.5 Falso norte.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % mercator_fnorth % ]</p>
+				<p class="text-justify">[% lambertc_fnorth %]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-3">
-				<a href="#" class="toggle-tooltip"
-					>5.1.2.1.2.1 Factor de escala en el meridiano central.
-					<span class="tooltip"
-						>Revisar tambien los puntos 5.1.2.1.4.1, 5.1.2.2.1.2 de la Norma Tecnica
-						para la elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
+			<th class="text pl" colspan="2">5.1.2.2 Sistema de Coordenadas de Cuadrícula.</th>
+		</tr>
+		<tr>
+			<th class="text pl">5.1.2.2.1.1 Número de zona UTM.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % mercator_sfec % ]</p>
+				<p class="text-justify">[ {{utm_zone}} ]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl">5.1.2.2 Sistema de Coordenadas de Cuadrícula.</th>
+			<th class="text pl">5.1.2.2.1.2 Factor de escala en el meridiano central.</th>
 			<td class="text-justify">
-				<p class="text-justify"></p>
+				<p class="text-justify">[ {{utm_sfctrmer}} ]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-2" colspan="2">5.1.2.2.1 Universal Transversa de Mercator.</th>
-		</tr>
-		<tr>
-			<th class="text pl-3">5.1.2.2.1.1 Número de zona UTM.</th>
+			<th class="text pl">5.1.2.2.1.3 Longitud del meridiano central.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % utm_zone % ]</p>
+				<p class="text-justify">[ {{utm_longcm}} ]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl" colspan="2">5.1.2.3 Plana Local.</th>
-		</tr>
-		<tr>
-			<th class="text pl-2">5.1.2.3.1 Descripción de la Plana Local.</th>
+			<th class="text pl">5.1.2.2.1.4 Latitud del origen de proyección.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % local_desc % ]</p>
+				<p class="text-justify">[ {{utm_latprjo}} ]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-2">5.1.2.3.2 Información de Georreferencia de la Plana Local.</th>
+			<th class="text pl">5.1.2.2.1.5 Falso este.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % local_geo_inf % ]</p>
+				<p class="text-justify">[ {{utm_feast}} ]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-2" colspan="2">5.1.2.3.4 Información de coordenadas planas.</th>
-		</tr>
-		<tr>
-			<th class="text pl-3">
-				<a href="#" class="toggle-tooltip"
-					>5.1.2.3.4.1 Método codificado de coordenada plana.
-					<span class="tooltip"
-						>Revisar tambien el punto 5.1.2.3.4.2.1 de la Norma Tecnica para la
-						elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
+			<th class="text pl">5.1.2.2.1.6 Falso norte.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % coord_repres % ]</p>
+				<p class="text-justify">[ {{utm_fnorth}} ]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-4">5.1.2.3.4.2.2.1 Resolución de abscisa.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % ordres % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-4">5.1.2.3.4.2.2.2 Resolución de ordenada.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % absres % ]</p>
-			</td>
-		</tr>
-
-		<tr>
-			<th class="text pl-2" colspan="2">5.1.2.4.3 Representación de distancia y rumbo.</th>
-		</tr>
-		<tr>
-			<th class="text pl-3">5.1.2.4.3.1 Resolución de distancia.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % distance_res % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-3">5.1.2.4.3.2 Resolución de rumbo.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % bearing_res % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-3">5.1.2.4.3.3 Unidades de rumbo.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % bearing_uni % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-3">5.1.2.4.3.4 Dirección del rumbo de referencia.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % ref_bearing_dir % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-3">5.1.2.4.3.5 Meridiano del rumbo de referencia.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % ref_bearing_mer % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-3">5.1.2.4.4 Unidades de distancia plana.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % plandu % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text" colspan="2">5.1.3 Coordenadas Locales.</th>
+			<th class="text pl" colspan="2">5.1.3 Coordenadas Locales.</th>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.3.1 Descripción Local.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % local_desc % ]</p>
+				<p class="text-justify">[% local_desc %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.3.2 Información de Georreferenciación Local.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % local_geo_inf % ]</p>
+				<p class="text-justify">[% local_georef %]</p>
 			</td>
+		</tr>
+		<tr>
+			<th class="text pl" colspan="2">5.1.4 Modelo Geodésico.</th>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.4.1 Nombre del datum horizontal.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % horizdn % ]</p>
+				<p class="text-justify">[ {{horizdn}} ]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.4.2 Nombre del elipsoide.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % ellips % ]</p>
+				<p class="text-justify">[ {{ellips}} ]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.4.3 Semieje mayor.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % semiaxis % ]</p>
+				<p class="text-justify">[ {{semiaxis}} ]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl" colspan="2">5.1.4.4 Factor de denominador de achatamiento.</th>
+			<th class="text pl">5.1.4.4 Factor de denominador de achatamiento.</th>
+			<td class="text-justify">
+				<p class="text-justify">[ {{denflat}} ]</p>
+			</td>
 		</tr>
-
 		<tr>
 			<th class="text" colspan="2">5.2 Sistema de Referencia Vertical.</th>
 		</tr>
 		<tr>
-			<th class="text pl-2">5.2.1.1 Nombre del datum de altitud.</th>
+			<th class="text pl">5.2.1.1 Nombre del datum de altitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % altenc % ]</p>
+				<p class="text-justify">[% alt_datum %]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-2">5.2.1.2 Resolución de altitud.</th>
+			<th class="text pl">5.2.1.2 Resolución de altitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % altres % ]</p>
+				<p class="text-justify">[% alt_res %]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-2">5.2.1.3 Unidades de distancia de altitud.</th>
+			<th class="text pl">5.2.1.3 Unidades de distancia de altitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % altunits % ]</p>
+				<p class="text-justify">[% alt_unit %]</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-2">5.2.1.4 Método codificado de altitud.</th>
+			<th class="text pl">5.2.1.4 Método codificado de altitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % altdatum % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-2">5.2.2.1 Nombre del datum de profundidad.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % depthdn % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-2">5.2.2.2 Resolución de profundidad.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % depthres % ]</p>
-			</td>
-		</tr>
-		<tr>
-			<th class="text pl-2">5.2.2.3 Unidades de distancia de profundidad.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % depthdu % ]</p>
+				<p class="text-justify">[% alt_method %]</p>
 			</td>
 		</tr>
 	</table>
@@ -712,114 +720,95 @@
 	<h2>6 Calidad de la información</h2>
 	<table class="table table-condensed">
 		<tr>
-			<th class="text" colspan="2">6.1 Alcance o ámbito</th>
-			<td></td>
+			<th colspan="2"><h3>6.1 Alcance o ámbito</h3></th>
 		</tr>
 		<tr>
-			<th class="text pl">6.1.1 Nivel.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % level % ]</p>
+			<td><h4>6.1.1 Nivel.</h4></td>
+			<td>{{level}}</td>
+		</tr>
+		<tr>
+			<th colspan="2"><h3>6.2 Reporte</h3></th>
+		</tr>
+		<tr>
+			<td colspan="2"><h4>6.2.1 Completitud</h4></td>
+		</tr>
+		<tr>
+			<td><h5>6.2.1.1 Nombre del subcriterio de calidad evaluado</h5></td>
+			<td>
+				<h6>6.2.1.1.1 Nombre de la prueba</h6>
+				<p class="h7">6.2.1.1.2 Descripción de la prueba</p>
+				<p class="h7">6.2.1.1.3 Resultado</p>
+				<p class="h8">6.2.1.1.3.1 Resultado cuantitativo</p>
+				<p class="h9">6.2.1.1.3.1.1 Unidad de valor</p>
+				<p class="h9">6.2.1.1.3.1.2 Valor</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-2">
-				<a href="#" class="toggle-tooltip"
-					>6.2.1.1 Nombre del subcriterio de calidad evaluado.
-					<span class="tooltip"
-						>Revisar tambien los puntos 6.2.3.1, 6.2.4.1, 6.2.5.1 de la Norma Tecnica
-						para la elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % dq_quantitativeresult % ]</p>
+			<td><h5>6.2.2 Consistencia lógica</h5></td>
+			<td>
+				<h6>6.2.2.1 Nombre del subcriterio de calidad evaluado</h6>
+				<p class="h7">6.2.2.1.1 Nombre de la prueba</p>
+				<p class="h7">6.2.2.1.2 Descripción de la prueba</p>
+				<p class="h7">6.2.2.1.3 Resultado</p>
+				<p class="h8">6.2.2.1.3.1 Resultado cuantitativo</p>
+				<p class="h9">6.2.2.1.3.1.1 Unidad de valor</p>
+				<p class="h9">6.2.2.1.3.1.2 Valor</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-3">
-				<a href="#" class="toggle-tooltip"
-					>6.2.2.1.1 Nombre de la prueba.
-					<span class="tooltip"
-						>Revisar tambien los puntos 6.2.3.1.1, 6.2.4.1.1, 6.2.5.1.1 de la Norma
-						Tecnica para la elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % dq_completeness_nameofmeasure % ]</p>
+			<td><h5>6.2.3 Exactitud posicional</h5></td>
+			<td>
+				<h6>6.2.3.1 Nombre del subcriterio de calidad evaluado</h6>
+				<p class="h7">6.2.3.1.1 Nombre de la prueba</p>
+				<p class="h7">6.2.3.1.2 Descripción de la prueba</p>
+				<p class="h7">6.2.3.1.3 Resultado</p>
+				<p class="h8">6.2.3.1.3.1 Resultado cuantitativo</p>
+				<p class="h9">6.2.3.1.3.1.1 Unidad de valor</p>
+				<p class="h9">6.2.3.1.3.1.2 Valor</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-3">
-				<a href="#" class="toggle-tooltip"
-					>6.2.2.1.2 Descripción de la prueba.
-					<span class="tooltip"
-						>Revisar tambien los puntos 6.2.3.1.2, 6.2.4.1.2, 6.2.5.1.2 de la Norma
-						Tecnica para la elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % dq_completeness_measuredescription % ]</p>
-			</td>
-		</tr>
-
-		<tr>
-			<th class="text pl-4" colspan="2">
-				<a href="#" class="toggle-tooltip"
-					>6.2.2.1.3.1 Resultado cuantitativo.
-					<span class="tooltip"
-						>Revisar tambien los puntos 6.2.3.1.3.1, 6.2.4.1.3.1, 6.2.5.1.3.1 de la
-						Norma Tecnica para la elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
-		</tr>
-		<tr>
-			<th class="text pl-5">
-				<a href="#" class="toggle-tooltip"
-					>6.2.2.1.3.1.1 Unidad de valor.
-					<span class="tooltip"
-						>Revisar tambien los puntos 6.2.3.1.3.1.1, 6.2.4.1.3.1.1, 6.2.5.1.3.1.1 de
-						la Norma Tecnica para la elaboracion de Metadatos Geograficos.</span
-					></a
-				>
-			</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % positionalaccuracy_valueunit % ]</p>
+			<td><h5>6.2.4 Exactitud temporal</h5></td>
+			<td>
+				<h6>6.2.4.1 Nombre del subcriterio de calidad evaluado</h6>
+				<p class="h7">6.2.4.1.1 Nombre de la prueba</p>
+				<p class="h7">6.2.4.1.2 Descripción de la prueba</p>
+				<p class="h7">6.2.4.1.3 Resultado</p>
+				<p class="h8">6.2.4.1.3.1 Resultado cuantitativo</p>
+				<p class="h9">6.2.4.1.3.1.1 Unidad de valor</p>
+				<p class="h9">6.2.4.1.3.1.2 Valor</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text" colspan="2">6.3 Linaje</th>
-		</tr>
-		<tr>
-			<th class="text pl">6.3.1 Enunciado</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % statement % ]</p>
-			</td>
-		</tr>
-
-		<tr>
-			<th class="text pl">6.3.2 Pasos del proceso</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % li_processstep % ]</p>
+			<td><h5>6.2.5 Exactitud temática</h5></td>
+			<td>
+				<h6>6.2.5.1 Nombre del subcriterio de calidad evaluado</h6>
+				<p class="h7">6.2.5.1.1 Nombre de la prueba</p>
+				<p class="h7">6.2.5.1.2 Descripción de la prueba</p>
+				<p class="h7">6.2.5.1.3 Resultado</p>
+				<p class="h8">6.2.5.1.3.1 Resultado cuantitativo</p>
+				<p class="h9">6.2.5.1.3.1.1 Unidad de valor</p>
+				<p class="h9">6.2.5.1.3.1.2 Valor</p>
 			</td>
 		</tr>
 		<tr>
-			<th class="text pl-2">
-				<a href="#" class="toggle-tooltip"
-					>6.3.2.1 Descripción.
-					<span class="tooltip"
-						>Revisar tambien el punto 6.3.3.1 de la Norma Tecnica para la elaboracion de
-						Metadatos Geograficos.</span
-					></a
-				>
-			</th>
+			<th colspan="2"><h3>6.3 Linaje</h3></th>
 		</tr>
 		<tr>
-			<th class="text pl">6.3.3 Fuente.</th>
-			<td class="text-justify">
-				<p class="text-justify">[ % li_source % ]</p>
+			<td><h4>6.3.1 Enunciado</h4></td>
+			<td>{{statement}}</td>
+		</tr>
+		<tr>
+			<td><h4>6.3.2 Pasos del proceso</h4></td>
+			<td>
+				<h5>6.3.2.1 Descripción del proceso.</h5>
+				<p>{{li_processstep_description}}</p>
+			</td>
+		</tr>
+		<tr>
+			<td><h4>6.3.3 Fuente.</h4></td>
+			<td>
+				<h5>6.3.3.1 Descripción.</h5>
 			</td>
 		</tr>
 	</table>
@@ -830,13 +819,13 @@
 		<tr>
 			<th class="text">7.1 Descripción general de entidades y atributos.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % entity_detail % ]</p>
+				<p class="text-justify">[% schemaascii %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">7.2 Cita del detalle de entidades y atributos.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % graphfilename % ]</p>
+				<p class="text-justify">[% entity_detail %]</p>
 			</td>
 		</tr>
 	</table>
@@ -845,15 +834,40 @@
 	<h2>8 Distribución</h2>
 	<table class="table table-condensed">
 		<tr>
+			<th class="text">8.1 Restricciones de acceso.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% accessconstraints %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">8.2 Restricciones de uso.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% useconstraints %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">8.3 Responsabilidad de distribución.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% otherconstraints %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">8.4 Formato de distribución.</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
+			</td>
+		</tr>
+		
+		<tr>
 			<th class="text">8.4.1 Nombre del formato.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % md_format % ]</p>
+				<p class="text-justify">[% md_format %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">8.4.2 Versión del formato.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % edition % ]</p>
+				<p class="text-justify">[% edition %]</p>
 			</td>
 		</tr>
 	</table>
@@ -864,20 +878,113 @@
 		<tr>
 			<th class="text">9.1 Nombre del estándar de metadatos.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % metadatastandardname % ]</p>
+				<p class="text-justify">[% metadatastandardname %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.2 Versión de la norma de metadatos.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% version %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">9.3 Idioma de los Metadatos.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % metadatastandardversion % ]</p>
+				<p class="text-justify">[% md_metadata_language %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4 Punto de contacto para los Metadatos:</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.1 Nombre de la persona de contacto:</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.2 Nombre de la organización.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% inf_metadata_ci_responsibleparty_organisationname %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.3 Puesto del contacto:</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.4 Teléfono.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% inf_metadata_ci_responsibleparty_organisationname %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.5 Fax.</th>
+			<td class="text-justify">
+				<p class="text-justify"></p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.6 Dirección.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% ci_responsibleparty_deliverypoint %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.7 Ciudad.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% ci_responsibleparty_city %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.8 Área administrativa.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% ci_responsibleparty_administrativearea %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.9 Código postal.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% ci_responsibleparty_postalcode %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.10 País.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% ci_responsibleparty_country %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.11 Dirección de correo electrónico del contacto.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% ci_responsibleparty_electronicmailaddress %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.4.12 Rol.</th>
+			<td class="text-justify">
+				<p class="text-justify">[% inf_metadata_ci_responsibleparty_role %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">9.5 Fecha de los metadatos.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ % date % ]</p>
+				<p class="text-justify">[% md_metadata_datestamp %]</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="text">9.6 Conjunto de caracteres:</th>
+			<td class="text-justify">
+				<p class="text-justify">[% md_metadata_characterset %]</p>
 			</td>
 		</tr>
 	</table>
 </div>
+<footer>
+	<p>&copy; Dirección de Catastro</p>
+</footer>

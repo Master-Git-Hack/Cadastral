@@ -32,9 +32,12 @@ class Model(SQLModel, table=True):
     )
     datos: Optional[Dict[str, Any]] = Field(default=None, sa_column=Column(JSON))
     estatus: int = Field(default=1, sa_column=Column(SmallInteger))
-    fecha_creacion: datetime = Field(default=datetime.now, sa_column=Column(DateTime))
-    fecha_modificacion: datetime = Field(
-        default=datetime.now(), sa_column=Column(DateTime, onupdate=datetime.now)
+    date: datetime = Field(
+        default=datetime.now(), sa_column=Column(DateTime, name="fecha_creacion")
+    )
+    update_date: datetime = Field(
+        default=datetime.now(),
+        sa_column=Column(DateTime, onupdate=datetime.now, name="fecha_modificacion"),
     )
     username: str = Field(default=None, sa_column=Column(String))
 

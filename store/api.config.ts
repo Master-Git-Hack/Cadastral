@@ -209,7 +209,7 @@ export const api = {
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			const response = await consume(config, router).put(url, data);
+			const response = await consume(config, router).patch(url, data);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {

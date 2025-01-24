@@ -70,6 +70,7 @@ export const Section2 = ({ editable = true }: any) => {
 										"w-full justify-start text-left font-normal",
 										!data.date && "text-muted-foreground",
 									)}
+									disabled={!editable}
 								>
 									<CalendarIcon className="mr-2 h-4 w-4" />
 									{data.date ? (
@@ -83,7 +84,6 @@ export const Section2 = ({ editable = true }: any) => {
 								<Calendar
 									mode="single"
 									locale={es}
-									showOutsideDays
 									selected={data.date}
 									onSelect={(e) =>
 										setData({ ...data, date: format(e, "yyyy-MM-dd") })
@@ -182,6 +182,7 @@ export const Section2 = ({ editable = true }: any) => {
 										"w-full justify-start text-left font-normal",
 										!data.date_creation && "text-muted-foreground",
 									)}
+									disabled={!editable}
 								>
 									<CalendarIcon className="mr-2 h-4 w-4" />
 									{data.date_creation ? (
@@ -195,7 +196,6 @@ export const Section2 = ({ editable = true }: any) => {
 								<Calendar
 									mode="single"
 									locale={es}
-									showOutsideDays
 									selected={data.date_creation}
 									onSelect={(e) =>
 										setData({ ...data, date_creation: format(e, "yyyy-MM-dd") })
@@ -221,13 +221,14 @@ export const Section2 = ({ editable = true }: any) => {
 					</TableCell>
 					<TableCell colSpan={9} className="w-9/12">
 						<Textarea
-							name="ipname"
+							name="inpname"
 							placeholder="Palabras o frases usadas para describir algún aspecto del conjunto de datos espaciales o producto y que pueden ser utilizadas como referencia para búsquedas."
 							value={data.inpname}
 							onChange={(e) =>
 								setData({
 									...data,
-									inpname: e.value,
+									inpname: e.target.value,
+									inp_name: e.target.value,
 								})
 							}
 							disabled={!editable}
