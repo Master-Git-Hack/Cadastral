@@ -142,9 +142,9 @@ async def get_all_temporal_metadatos(
         if meta.filter_group(username=user.nombre) is None:
             __response.success(data=[])
         data = meta.to_list()
-        for m in data.get("features",[]):
-            m["keyword"] = "".join(m.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(',')
-            m["accessconstraints"]="".join(m.get("accessconstraints","")).replace('{"', '').replace('"}', '').split('","')
+        # for m in data.get("features",[]):
+        #     m["keyword"] = "".join(m.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(',')
+        #     m["accessconstraints"]="".join(m.get("accessconstraints","")).replace('{"', '').replace('"}', '').split('","')
         return __response.success(data=data)
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
@@ -188,8 +188,8 @@ async def get_temporal_id(
             )
         data = meta.to_dict()
         data = data.get("datos", data)
-        data["keyword"] = "".join(data.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(',')
-        data["accessconstraints"]="".join(data["accessconstraints"]).replace('{"', '').replace('"}', '').split('","')
+        # data["keyword"] = "".join(data.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(',')
+        # data["accessconstraints"]="".join(data["accessconstraints"]).replace('{"', '').replace('"}', '').split('","')
         return __response.success(data=data)
     except Exception as e:
         logger.bind(payload=str(e)).debug(f"----------> Unexpected error:\n {str(e)}")
