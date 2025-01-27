@@ -22,6 +22,10 @@ const getItem = (item) => {
 		return undefined;
 	}
 };
+const backendURL =
+	process.env.NODE_ENV === "development"
+		? process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:5000"
+		: "/api/";
 const nextConfig = {
 	experimental: {
 		turbo: {
@@ -34,7 +38,7 @@ const nextConfig = {
 				source: "/api/py/:path*",
 				destination:
 					process.env.NODE_ENV === "development"
-						? "http://127.0.0.1:5000/api/py/:path*"
+						? `${backendURL}/api/py/:path*`
 						: "/api/",
 				has: [
 					{
@@ -48,14 +52,14 @@ const nextConfig = {
 				source: "/docs",
 				destination:
 					process.env.NODE_ENV === "development"
-						? "http://127.0.0.1:5000/api/py/docs"
+						? `${backendURL}/api/py/docs`
 						: "/api/py/docs",
 			},
 			{
 				source: "/openapi.json",
 				destination:
 					process.env.NODE_ENV === "development"
-						? "http://127.0.0.1:5000/api/py/openapi.json"
+						? `${backendURL}/api/py/openapi.json`
 						: "/api/py/openapi.json",
 			},
 		];

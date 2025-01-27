@@ -162,12 +162,21 @@ const SaveActions = ({ open, setOpen, uid, isTemporal }) => {
 									Actualizar Registro Temporal
 								</Button>
 							)}
-							<Button
-								className={cn(`ms-5 bg-teal-600 hover:bg-teal-900`)}
-								onClick={() => handleSave(MetadatoActions.PatchMetadato)}
-							>
-								Actualizar Registro
-							</Button>
+							{isTemporal ? (
+								<Button
+									className={cn(`ms-5 bg-teal-600 hover:bg-teal-900`)}
+									onClick={() => handleSave(MetadatoActions.PostMetadato)}
+								>
+									Crear Nuevo Registro
+								</Button>
+							) : (
+								<Button
+									className={cn(`ms-5 bg-teal-600 hover:bg-teal-900`)}
+									onClick={() => handleSave(MetadatoActions.PatchMetadato)}
+								>
+									Actualizar Registro
+								</Button>
+							)}
 						</div>
 					)}
 				</DrawerFooter>
@@ -195,6 +204,7 @@ export default function Create({
 	};
 	const handleTreeSelect = ({ value }) => {
 		const [db_name, schema_name, table_name] = value.split(".");
+
 		setMetadatos({ ...data, db_name, table_name, schema_name });
 	};
 	useEffect(() => {
@@ -228,44 +238,61 @@ export default function Create({
 			<div className="flex flex-row-reverse py-2">
 				<div className="w-1/3">
 					<TreeSelect
-						value={`${data.db_name}.${data.schema_name}.${data.table_name}`}
+						value={`${db_name}.${schema_name}.${table_name}`}
 						onChange={handleTreeSelect}
 						options={resources}
 						filter
 						className="md:w-20rem w-full"
 						placeholder="Selecciona una Tabla"
 						disabled={disabled}
+						variant="filled"
+						autoFocus
+						valueTemplate={() => (
+							<Breadcrumb disabled>
+								<BreadcrumbList>
+									<BreadcrumbItem>
+										<BreadcrumbPage>
+											{schema_name
+												.split("_")
+												.map(
+													(word) =>
+														word.charAt(0).toUpperCase() +
+														word.slice(1),
+												)
+												.join(" ")}
+										</BreadcrumbPage>
+									</BreadcrumbItem>
+									<BreadcrumbSeparator />
+									<BreadcrumbItem>
+										<BreadcrumbPage>
+											{table_name
+												.split("_")
+												.map(
+													(word) =>
+														word.charAt(0).toUpperCase() +
+														word.slice(1),
+												)
+												.join(" ")}
+										</BreadcrumbPage>
+									</BreadcrumbItem>
+									<BreadcrumbSeparator />
+									<BreadcrumbItem>
+										<BreadcrumbPage>
+											{db_name
+												.split("_")
+												.map(
+													(word) =>
+														word.charAt(0).toUpperCase() +
+														word.slice(1),
+												)
+												.join(" ")}
+										</BreadcrumbPage>
+									</BreadcrumbItem>
+								</BreadcrumbList>
+							</Breadcrumb>
+						)}
 					/>
-					<Breadcrumb disabled>
-						<BreadcrumbList>
-							<BreadcrumbItem>
-								<BreadcrumbPage>
-									{schema_name
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
-								</BreadcrumbPage>
-							</BreadcrumbItem>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbPage>
-									{table_name
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
-								</BreadcrumbPage>
-							</BreadcrumbItem>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbPage>
-									{db_name
-										.split("_")
-										.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-										.join(" ")}
-								</BreadcrumbPage>
-							</BreadcrumbItem>
-						</BreadcrumbList>
-					</Breadcrumb>
+
 					<div className="flex flex-row-reverse py-2 justify-between items-center">
 						{/* <FileButton
 							size="sm"
@@ -313,7 +340,11 @@ export default function Create({
 						<Button
 							variant="outline"
 							className="mt-1 "
-							onClick={() => router.push(`?page=${parseInt(page) - 1}`)}
+							onClick={() =>
+								router.push(
+									`?page=${parseInt(page) - 1}${isTemporal ? "&temporal=true" : ""}`,
+								)
+							}
 						>
 							Anterior {parseInt(page) - 1}
 						</Button>
@@ -325,7 +356,11 @@ export default function Create({
 						<Button
 							variant="outline"
 							className="mt-1 "
-							onClick={() => router.push(`?page=${parseInt(page) + 1}`)}
+							onClick={() =>
+								router.push(
+									`?page=${parseInt(page) + 1}${isTemporal ? "&temporal=true" : ""}`,
+								)
+							}
 						>
 							Siguiente {parseInt(page) + 1}
 						</Button>

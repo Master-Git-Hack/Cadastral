@@ -22,7 +22,7 @@ export const Section5 = ({ editable = true }: any) => {
 		},
 	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
 	const findSelectValue = (name: string) => {
-		const [code] = String(data[name] ?? "")?.split(".");
+		const [code, label, description] = String(data[name] ?? "")?.split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
@@ -1236,8 +1236,8 @@ export const Section5 = ({ editable = true }: any) => {
 								<SelectValue placeholder="Seleccione una Categoria" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo.horizdn.map(({ code, label }) => (
-									<SelectItem value={code} key={code}>
+								{catalogo.horizdn.map(({ code, label, description }) => (
+									<SelectItem value={`${code}. ${label}. ${description}`}>
 										{label}
 									</SelectItem>
 								))}
@@ -1267,8 +1267,8 @@ export const Section5 = ({ editable = true }: any) => {
 								<SelectValue placeholder="Seleccione una Categoria" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo.ellips.map(({ code, label }) => (
-									<SelectItem value={code} key={code}>
+								{catalogo.ellips.map(({ code, label, description }) => (
+									<SelectItem value={`${code}. ${label}. ${description}`}>
 										{label}
 									</SelectItem>
 								))}

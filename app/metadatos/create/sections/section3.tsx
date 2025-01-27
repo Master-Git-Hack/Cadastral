@@ -18,7 +18,7 @@ export const Section3 = ({ editable = true }: any) => {
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
 
 	const findSelectValue = (name: string) => {
-		const [code] = String(data[name] ?? "")?.split(".");
+		const [code, label, description] = String(data[name] ?? "")?.split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 
@@ -178,11 +178,13 @@ export const Section3 = ({ editable = true }: any) => {
 								<SelectValue placeholder="Seleccione una opción" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo.ci_responsibleparty_role.map(({ code, label }) => (
-									<SelectItem value={code} key={code}>
-										{label}
-									</SelectItem>
-								))}
+								{catalogo.ci_responsibleparty_role.map(
+									({ code, label, description }) => (
+										<SelectItem value={`${code}. ${label}. ${description}`}>
+											{label}
+										</SelectItem>
+									),
+								)}
 							</SelectContent>
 						</Select>
 						<span className="underline me-1">Descripción:</span>

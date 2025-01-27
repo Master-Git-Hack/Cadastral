@@ -17,7 +17,7 @@ export const Section4 = ({ editable = true }: any) => {
 	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
 
 	const findSelectValue = (name: string) => {
-		const [code] = String(data[name] ?? "")?.split(".");
+		const [code, label, description] = String(data[name] ?? "")?.split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 

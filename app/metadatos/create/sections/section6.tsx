@@ -19,7 +19,7 @@ export const Section6 = ({ editable = true }: any) => {
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
 
 	const findSelectValue = (name: string) => {
-		const [code] = String(data[name] ?? "")?.split(".");
+		const [code, label, description] = String(data[name] ?? "")?.split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 
@@ -81,8 +81,8 @@ export const Section6 = ({ editable = true }: any) => {
 								<SelectValue placeholder="Seleccione una Categoria" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo.level.map(({ code, label }) => (
-									<SelectItem value={code} key={code}>
+								{catalogo.level.map(({ code, label, description }) => (
+									<SelectItem value={`${code}. ${label}. ${description}`}>
 										{label}
 									</SelectItem>
 								))}
@@ -321,7 +321,7 @@ export const Section6 = ({ editable = true }: any) => {
 						</small>
 					</TableCell>
 				</TableRow> */}
-				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
+				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800 border-bottom border-none">
 					<TableCell
 						scope="row"
 						colSpan={1}

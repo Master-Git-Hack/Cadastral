@@ -278,7 +278,7 @@
 				>
 			</th>
 			<td class="text-justify">
-				<p class="text-justify">[% maintenanceandupdatefrequency %]</p>
+				<p class="text-justify">[% publication_frequency %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -330,19 +330,19 @@
 		<tr>
 			<th class="text pl">2.2.1 Fecha de creación de los insumos.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% date_creation %]</p>
+				<p class="text-justify">[% creation_date %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">2.2.2 Fecha de inicio de verificación de campo.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% date_creation %]</p>
+				<p class="text-justify">[% creation_date %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">2.2.3 Fecha final de verificación de campo.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% date_creation %]</p>
+				<p class="text-justify">[% creation_date %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -555,19 +555,19 @@
 		<tr>
 			<th class="text pl">5.1.1.1 Resolución de latitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% latres %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.1.2 Resolución de longitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% longres %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.1.3 Unidades de coordenadas geográficas.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% geogunit %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
@@ -579,31 +579,31 @@
 		<tr>
 			<th class="text pl-3">5.1.2.1.1.1 Paralelo estándar.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% lambertc_stdparll %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-3">5.1.2.1.1.2 Longitud del meridiano central.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% lambertc_longcm %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-3">5.1.2.1.1.3 Latitud del origen de proyección.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% lambertc_latprjo %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-3">5.1.2.1.1.4 Falso este.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% lambertc_feast %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl-3">5.1.2.1.1.5 Falso norte.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% lambertc_fnorth %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
@@ -612,37 +612,37 @@
 		<tr>
 			<th class="text pl">5.1.2.2.1.1 Número de zona UTM.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{utm_zone}} ]</p>
+				<p class="text-justify">[% utm_zone %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.2.2.1.2 Factor de escala en el meridiano central.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{utm_sfctrmer}} ]</p>
+				<p class="text-justify">[% utm_sfctrmer %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.2.2.1.3 Longitud del meridiano central.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{utm_longcm}} ]</p>
+				<p class="text-justify">[% utm_longcm %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.2.2.1.4 Latitud del origen de proyección.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{utm_latprjo}} ]</p>
+				<p class="text-justify">[% utm_latprjo %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.2.2.1.5 Falso este.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{utm_feast}} ]</p>
+				<p class="text-justify">[% utm_feast %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.2.2.1.6 Falso norte.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{utm_fnorth}} ]</p>
+				<p class="text-justify">[% utm_fnorth %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -651,13 +651,13 @@
 		<tr>
 			<th class="text pl">5.1.3.1 Descripción Local.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% local_desc %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.3.2 Información de Georreferenciación Local.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% local_georef %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
@@ -666,25 +666,25 @@
 		<tr>
 			<th class="text pl">5.1.4.1 Nombre del datum horizontal.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{horizdn}} ]</p>
+				<p class="text-justify">[% horizdn %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.4.2 Nombre del elipsoide.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{ellips}} ]</p>
+				<p class="text-justify">[% ellips %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.4.3 Semieje mayor.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{semiaxis}} ]</p>
+				<p class="text-justify">[% semiaxis %]</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.1.4.4 Factor de denominador de achatamiento.</th>
 			<td class="text-justify">
-				<p class="text-justify">[ {{denflat}} ]</p>
+				<p class="text-justify">[% denflat %]</p>
 			</td>
 		</tr>
 		<tr>
@@ -693,25 +693,25 @@
 		<tr>
 			<th class="text pl">5.2.1.1 Nombre del datum de altitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% alt_datum %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.2.1.2 Resolución de altitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% alt_res %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.2.1.3 Unidades de distancia de altitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% alt_unit %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text pl">5.2.1.4 Método codificado de altitud.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% alt_method %]</p>
+				<p class="text-justify"></p>
 			</td>
 		</tr>
 	</table>
@@ -724,7 +724,7 @@
 		</tr>
 		<tr>
 			<td><h4>6.1.1 Nivel.</h4></td>
-			<td>{{level}}</td>
+			<td>[% spatial_level %] </td>
 		</tr>
 		<tr>
 			<th colspan="2"><h3>6.2 Reporte</h3></th>
@@ -796,13 +796,13 @@
 		</tr>
 		<tr>
 			<td><h4>6.3.1 Enunciado</h4></td>
-			<td>{{statement}}</td>
+			<td>[% statement %] </td>
 		</tr>
 		<tr>
 			<td><h4>6.3.2 Pasos del proceso</h4></td>
 			<td>
 				<h5>6.3.2.1 Descripción del proceso.</h5>
-				<p>{{li_processstep_description}}</p>
+				<p>[% li_processstep_description %] </p>
 			</td>
 		</tr>
 		<tr>
@@ -861,13 +861,13 @@
 		<tr>
 			<th class="text">8.4.1 Nombre del formato.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% md_format %]</p>
+				<p class="text-justify">Por definir.</p>
 			</td>
 		</tr>
 		<tr>
 			<th class="text">8.4.2 Versión del formato.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% edition %]</p>
+				<p class="text-justify">[% version %]</p>
 			</td>
 		</tr>
 	</table>
@@ -974,7 +974,7 @@
 		<tr>
 			<th class="text">9.5 Fecha de los metadatos.</th>
 			<td class="text-justify">
-				<p class="text-justify">[% md_metadata_datestamp %]</p>
+				<p class="text-justify">[% publication_date %]</p>
 			</td>
 		</tr>
 		<tr>

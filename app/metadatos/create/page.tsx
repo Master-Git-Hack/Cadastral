@@ -16,7 +16,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Create from "./create";
 
-const Pages = ({ page }) => {
+const Pages = ({ page, isTemporal }) => {
 	//make an array of 9 pages
 	const pages = Array.from({ length: 9 }, (_, i) => i + 1);
 	const sections = [
@@ -35,14 +35,14 @@ const Pages = ({ page }) => {
 			<PaginationContent>
 				<PaginationItem>
 					<PaginationPrevious
-						href={`?page=${page - 1 > 0 ? page - 1 : 9}`}
+						href={`?page=${page - 1 > 0 ? page - 1 : 9}${isTemporal ? "&temporal=true" : ""}`}
 						customText="Previo"
 					/>
 				</PaginationItem>
 				{pages.map((p) => (
 					<PaginationItem key={`page-${p}`}>
 						<Link
-							href={`?page=${p}`}
+							href={`?page=${p}${isTemporal ? "&temporal=true" : ""}`}
 							className={`page-link ${page === p ? "text-blue-600 underline underline-offset-auto " : ""} transition-colors hover:text-blue-400`}
 						>
 							<HoverCard>
@@ -69,7 +69,7 @@ const Pages = ({ page }) => {
 
 				<PaginationItem>
 					<PaginationNext
-						href={`?page=${page + 1 < 10 ? page + 1 : 1}`}
+						href={`?page=${page + 1 < 10 ? page + 1 : 1}${isTemporal ? "&temporal=true" : ""}`}
 						customText="Siguiente"
 					></PaginationNext>
 				</PaginationItem>
@@ -86,7 +86,7 @@ export default function CreateMetadata({ data }) {
 	return (
 		<Layout>
 			<Create isTemporal={isTemporal} page={page.toString()} onEdit={true} data={0} />
-			<Pages page={parseInt(page)} />
+			<Pages page={parseInt(page)} isTemporal={isTemporal} />
 		</Layout>
 	);
 }

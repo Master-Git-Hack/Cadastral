@@ -397,16 +397,18 @@
 				<p>{{otherconstraints}}</p>
 				<h3>8.4 Formato de distribución.</h3>
 				<h4>8.4.1 Nombre del formato.</h4>
+				<p>Por definir.</p>
 				<h4>8.4.2 Versión del formato.</h4>
+				<p>{{version|default('1.0')}}</p>
 			</section>
 			<section id="seccion">
 				<h2>Información de metadatos</h2>
 				<h3>9.1 Nombre del estándar de metadatos.</h3>
 				<p>{{metadatastandardname}}</p>
 				<h3>9.2 Versión de la norma de metadatos.</h3>
-				{{version|default('1.0')}}
+				<p>{{version|default('1.0')}}</p>
 				<h3>9.3 Idioma de los Metadatos.</h3>
-				{{md_metadata_language}}
+				{{md_dataidentification_language}}
 				<h3>9.4 Punto de contacto para los Metadatos:</h3>
 				<h4>9.4.1 Nombre de la persona de contacto:</h4>
 				<p></p>
@@ -432,9 +434,9 @@
 				<h4>9.4.12 Rol.</h3>
 				<p>{{inf_metadata_ci_responsibleparty_role}}</p>
 				<h3>9.5 Fecha de los metadatos:</h3>
-				{{md_metadata_datestamp}}
+			<p>	{{date_creation}}</p>
 				<h3>9.6 Conjunto de caracteres:</h3>
-				{{md_metadata_characterset}}
+				<p>{{md_dataidentification_characterset}}</p>
 			</section>
 		</main>
 		<footer>

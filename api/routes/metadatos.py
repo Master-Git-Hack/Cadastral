@@ -111,15 +111,23 @@ async def get_all_metadatos(
             data=[
                 {
                     **current,
-                    "keyword": "".join(current.get("keyword", ""))
+                    "keyword": "".join(keyword)
                     .replace("{", "")
                     .replace("}", "")
                     .replace('"', "")
-                    .split(","),
-                    "accessconstraints": "".join(current.get("accessconstraints", ""))
+                    .replace("\\", "")
+                    .replace('\\"', '"')
+                    .replace('\\"', '"')
+                    .split(",")
+                    if (keyword := current.get("keyword", [])) is not None
+                    else [],
+                    "accessconstraints": "".join(accessconstraints)
                     .replace('{"', "")
                     .replace('"}', "")
-                    .split('","'),
+                    .split('","')
+                    if (accessconstraints := current.get("accessconstraints", []))
+                    is not None
+                    else [],
                 }
                 for current in meta.list()
             ]
@@ -142,15 +150,23 @@ async def get_all_metadatos_preview(
             data=[
                 {
                     **current,
-                    "keyword": "".join(current.get("keyword", ""))
+                    "keyword": "".join(keyword)
                     .replace("{", "")
                     .replace("}", "")
                     .replace('"', "")
-                    .split(","),
-                    "accessconstraints": "".join(current.get("accessconstraints", ""))
+                    .replace("\\", "")
+                    .replace('\\"', '"')
+                    .replace('\\"', '"')
+                    .split(",")
+                    if (keyword := current.get("keyword", [])) is not None
+                    else [],
+                    "accessconstraints": "".join(accessconstraints)
                     .replace('{"', "")
                     .replace('"}', "")
-                    .split('","'),
+                    .split('","')
+                    if (accessconstraints := current.get("accessconstraints", []))
+                    is not None
+                    else [],
                 }
                 for current in meta.list(
                     includes=[
@@ -181,20 +197,20 @@ async def get_all_temporal_metadatos(
 
         if meta.filter_group(username=user.nombre) is None:
             __response.success(data=[])
-        data = []
-        for current in meta.list():
-            current["datos"]["keyword"] = (
-                "".join(current.get("keyword", ""))
-                .replace("{", "")
-                .replace("}", "")
-                .replace('"', "")
-                .split(","),
-            )
-            current["datos"]["accessconstraints"]: "".join(
-                current.get("accessconstraints", "")
-            ).replace('{"', "").replace('"}', "").split('","')
-            data.append(current)
-        return __response.success(data=data)
+        # data = []
+        # for current in meta.list():
+        #     current["datos"]["keyword"] = (
+        #         "".join(current.get("keyword", ""))
+        #         .replace("{", "")
+        #         .replace("}", "")
+        #         .replace('"', "")
+        #         .split(","),
+        #     )
+        #     current["datos"]["accessconstraints"]: "".join(
+        #         current.get("accessconstraints", "")
+        #     ).replace('{"', "").replace('"}', "").split('","')
+        #     data.append(current)
+        return __response.success(data=meta.list())
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
@@ -214,15 +230,22 @@ async def get_id(
         data = meta.dict()
 
         data["keyword"] = (
-            "".join(data.get("keyword", ""))
+            "".join(keyword)
             .replace("{", "")
             .replace("}", "")
             .replace('"', "")
-            .split(","),
+            .replace("\\", "")
+            .replace('\\"', '"')
+            .replace('\\"', '"')
+            .split(",")
+            if (keyword := data.get("keyword", [])) is not None
+            else []
         )
-        data["accessconstraints"]: "".join(data.get("accessconstraints", "")).replace(
-            '{"', ""
-        ).replace('"}', "").split('","')
+        data["accessconstraints"]: "".join(accessconstraints).replace('{"', "").replace(
+            '"}', ""
+        ).split('","') if (
+            accessconstraints := data.get("accessconstraints", [])
+        ) is not None else []
         return __response.success(data=data)
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
@@ -241,16 +264,16 @@ async def get_temporal_id(
                 status_code=404,
             )
         data = meta.dict()
-        data["datos"]["keyword"] = (
-            "".join(data.get("keyword", ""))
-            .replace("{", "")
-            .replace("}", "")
-            .replace('"', "")
-            .split(","),
-        )
-        data["datos"]["accessconstraints"]: "".join(
-            data.get("accessconstraints", "")
-        ).replace('{"', "").replace('"}', "").split('","')
+        # data["datos"]["keyword"] = (
+        #     "".join(data.get("keyword", ""))
+        #     .replace("{", "")
+        #     .replace("}", "")
+        #     # .replace('"', "")
+        #     .split(","),
+        # )
+        # data["datos"]["accessconstraints"]: "".join(
+        #     data.get("accessconstraints", "")
+        # ).replace('{"', "").replace('"}', "").split('","')
         return __response.success(data=data.get("datos", data))
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
@@ -272,15 +295,18 @@ async def create(
             for key, value in data.items()
             if value is not None or value != ""
         }
+
         uid = data.get("uid")
+        if "uid" in data:
+            del data["uid"]
+
         if meta.create(**data, username=user.nombre) is None:
             return __response.error(message="No se pudo registrar el metadato")
         if uid is not None or uid != "":
             tmp = __TMP(db)
             if tmp.filter(uid=uid) is not None:
-                logger.warning("Deleting temporal metadata")
+                print("Deleting temporal metadata")
                 result = tmp.delete()
-                print("Result: ", result)
 
         return __response.success(data=meta.dict() | {"status": "success"})
     except Exception as e:

@@ -94,7 +94,7 @@ class Model(SQLModel, table=True):
         sa_column=Column(String, nullable=False, comment="1.3	Resumen (O)")
     )
     md_dataidentification_language = Field(
-        sa_column=Column(String, comment="1.4	Idioma (O)", default="ES-Español.")
+        sa_column=Column(String, comment="1.4	Idioma (O)", default="ES-Español")
     )
     topiccategory: List[str] = Field(
         sa_column=Column(

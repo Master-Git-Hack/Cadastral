@@ -85,6 +85,8 @@ CREATE VIEW pgmetadata.v_dataset AS
 			d.ci_responsibleparty_electronicmailaddress,
 			d.inf_metadata_ci_responsibleparty_role,
 			d.datetype,
+			d.version,
+			d.inf_metadata_ci_responsibleparty_voice,
             cat.cat,
             theme.theme
            FROM ((pgmetadata.dataset d
@@ -170,6 +172,8 @@ CREATE VIEW pgmetadata.v_dataset AS
 			s.ci_responsibleparty_electronicmailaddress,
 			s.inf_metadata_ci_responsibleparty_role,
 			s.datetype,
+			s.version,
+			s.inf_metadata_ci_responsibleparty_voice,
             ((((glossary.dict -> 'dataset.categories'::text) -> s.cat) -> 'label'::text) ->> glossary.locale) AS cat,
             gtheme.label AS theme,
             ('1/'::text || s.minimum_optimal_scale) AS minimum_optimal_scale,
@@ -253,6 +257,8 @@ CREATE VIEW pgmetadata.v_dataset AS
 	ss.ci_responsibleparty_electronicmailaddress,
 	ss.inf_metadata_ci_responsibleparty_role,
 	ss.datetype,
+	ss.version,
+	ss.inf_metadata_ci_responsibleparty_voice,
     string_agg(DISTINCT ss.cat, ', '::text ORDER BY ss.cat) AS categories,
     string_agg(DISTINCT ss.theme, ', '::text ORDER BY ss.theme) AS themes
    FROM ss
@@ -324,7 +330,7 @@ CREATE VIEW pgmetadata.v_dataset AS
 	ss.ci_responsibleparty_country,
 	ss.ci_responsibleparty_electronicmailaddress,
 	ss.inf_metadata_ci_responsibleparty_role,
-	ss.datetype;
+	ss.datetype, ss.version,ss.inf_metadata_ci_responsibleparty_voice;
 
  CREATE VIEW pgmetadata.v_export_table AS
  SELECT d.id,
@@ -398,6 +404,8 @@ CREATE VIEW pgmetadata.v_dataset AS
 			d.ci_responsibleparty_electronicmailaddress,
 			d.inf_metadata_ci_responsibleparty_role,
 			d.datetype,
+			d.version,
+			d.inf_metadata_ci_responsibleparty_voice,
     string_agg(((l.name || ': '::text) || l.url), ', '::text) AS links,
     string_agg((((((c.name || ' ('::text) || c.organisation_name) || ')'::text) || ' - '::text) || c.contact_role), ', '::text) AS contacts
    FROM ((pgmetadata.v_dataset d
@@ -473,5 +481,7 @@ CREATE VIEW pgmetadata.v_dataset AS
 			d.ci_responsibleparty_country,
 			d.ci_responsibleparty_electronicmailaddress,
 			d.inf_metadata_ci_responsibleparty_role,
-			d.datetype
+			d.datetype,
+			d.version,
+			d.inf_metadata_ci_responsibleparty_voice
   ORDER BY d.db_name, d.schema_name, d.table_name;

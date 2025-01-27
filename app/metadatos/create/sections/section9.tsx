@@ -20,8 +20,7 @@ export const Section9 = ({ editable = true }: any) => {
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
 
 	const findSelectValue = (name: string) => {
-		const [code] = String(data[name] ?? "")?.split(".");
-		if (name === "inf_metadata_ci_responsibleparty_role") name = "ci_responsibleparty_role";
+		const [code, label, description] = String(data[name] ?? "")?.split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
@@ -180,21 +179,7 @@ export const Section9 = ({ editable = true }: any) => {
 						Guanajuato
 					</TableCell>
 				</TableRow>
-				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-					<TableCell
-						scope="row"
-						colSpan={1}
-						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
-					>
-						9.4.9
-					</TableCell>
-					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
-						Área administrativa
-					</TableCell>
-					<TableCell colSpan={9} className=" w-9/12">
-						{data?.ci_responsibleparty_administrativearea}
-					</TableCell>
-				</TableRow>
+
 				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
 					<TableCell
 						scope="row"
@@ -282,11 +267,13 @@ export const Section9 = ({ editable = true }: any) => {
 								<SelectValue placeholder="Seleccione una Categoria" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo?.ci_responsibleparty_role?.map(({ code, label }) => (
-									<SelectItem value={code} key={code}>
-										{label}
-									</SelectItem>
-								))}
+								{catalogo?.ci_responsibleparty_role?.map(
+									({ code, label, description }) => (
+										<SelectItem value={`${code}. ${label}. ${description}`}>
+											{label}
+										</SelectItem>
+									),
+								)}
 							</SelectContent>
 						</Select>
 

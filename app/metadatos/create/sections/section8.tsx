@@ -72,7 +72,7 @@ export const Section8 = ({ editable = true }: any) => {
 							onChange={handleInputChange}
 							// variant="outline"
 							// size="lg"
-							disabled={!editable}
+							disabled={true}
 						/>
 					</TableCell>
 				</TableRow>

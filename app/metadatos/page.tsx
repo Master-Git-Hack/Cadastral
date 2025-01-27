@@ -220,6 +220,7 @@ export default function Metadatos() {
 		getMetadatos,
 		setMetadatos: setMeta,
 		clearMetadatos,
+		deleteTemporal,
 	} = useMedatados((state) => state);
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(0);
@@ -266,128 +267,115 @@ export default function Metadatos() {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{metadatos?.map(
-						({
-							id,
-							uid,
-							db_name,
-							table_name,
-							schema_name,
-							title,
-							purpose,
-							abstract,
-							username,
-							update_date,
-							version,
-							...metaData
-						}: IMetaTable) => (
-							<TableRow key={uid}>
-								<TableCell className="font-small  w-[250px]">
-									{db_name
-										.split("_")
-										?.map(
-											(word: string) =>
-												word.charAt(0).toUpperCase() + word.slice(1),
-										)
-										.join(" ")}
-								</TableCell>
-								<TableCell className="font-small  w-[250px]">
-									{schema_name
-										.split("_")
-										?.map(
-											(word: string) =>
-												word.charAt(0).toUpperCase() + word.slice(1),
-										)
-										.join(" ")}
-								</TableCell>
-								<TableCell className="font-small  w-[250px]">
-									{table_name
-										.split("_")
-										?.map(
-											(word: string) =>
-												word.charAt(0).toUpperCase() + word.slice(1),
-										)
-										.join(" ")}
-								</TableCell>
-								<TableCell className="font-bold text-justify capitalize w-[100px]">
-									{title}
-								</TableCell>
-								<TableCell className="font-small">
-									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
-										{purpose}
-									</p>
-								</TableCell>
-								<TableCell className="font-small">
-									<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
-										{abstract}
-									</p>
-								</TableCell>
-								<TableCell>{username}</TableCell>
-								<TableCell className="text-center w-[50px]">{version}</TableCell>
-								<TableCell>
-									{new Date(update_date).toLocaleDateString("es-ES", {
-										year: "numeric", // Ejemplo: 2023
-										month: "long", // Ejemplo: octubre
-										day: "numeric", // Ejemplo: 25
-									})}
-								</TableCell>
-								<TableCell className="text-right">
-									<DropdownMenu>
-										<DropdownMenuTrigger className="text-blue-600">
-											Acciones...
-										</DropdownMenuTrigger>
-										<DropdownMenuContent>
-											<DropdownMenuLabel>Versiones</DropdownMenuLabel>
-											<DropdownMenuSeparator />
-											<DropdownMenuItem>
-												<Link href={`#new_version`}>
-													<Button variant="link" onClick={() => {}}>
-														Cambiar de Versión
-													</Button>
-												</Link>
-											</DropdownMenuItem>
-											{version > 1 && (
+					{metadatos
+						?.sort((a, b) => a?.title.localeCompare(b?.title))
+						?.map(
+							({
+								id,
+								uid,
+								db_name,
+								table_name,
+								schema_name,
+								title,
+								purpose,
+								abstract,
+								username,
+								update_date,
+								version,
+								...metaData
+							}: IMetaTable) => (
+								<TableRow key={uid}>
+									<TableCell className="font-small  w-[250px]">
+										{db_name
+											.split("_")
+											?.map(
+												(word: string) =>
+													word.charAt(0).toUpperCase() + word.slice(1),
+											)
+											.join(" ")}
+									</TableCell>
+									<TableCell className="font-small  w-[250px]">
+										{schema_name
+											.split("_")
+											?.map(
+												(word: string) =>
+													word.charAt(0).toUpperCase() + word.slice(1),
+											)
+											.join(" ")}
+									</TableCell>
+									<TableCell className="font-small  w-[250px]">
+										{table_name
+											.split("_")
+											?.map(
+												(word: string) =>
+													word.charAt(0).toUpperCase() + word.slice(1),
+											)
+											.join(" ")}
+									</TableCell>
+									<TableCell className="font-bold text-justify capitalize w-[100px]">
+										{title}
+									</TableCell>
+									<TableCell className="font-small">
+										<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+											{purpose}
+										</p>
+									</TableCell>
+									<TableCell className="font-small">
+										<p className="whitespace-nowrap overflow-hidden text-ellipsis hover:text-clip hover:whitespace-normal w-80 hover:overflow-clip hover:text-justify hover:max-h-52 hover:overflow-y-scroll hover:px-2">
+											{abstract}
+										</p>
+									</TableCell>
+									<TableCell>{username}</TableCell>
+									<TableCell className="text-center w-[50px]">
+										{version}
+									</TableCell>
+									<TableCell>
+										{new Date(update_date).toLocaleDateString("es-ES", {
+											year: "numeric", // Ejemplo: 2023
+											month: "long", // Ejemplo: octubre
+											day: "numeric", // Ejemplo: 25
+										})}
+									</TableCell>
+									<TableCell className="text-right">
+										<DropdownMenu>
+											<DropdownMenuTrigger className="text-blue-600">
+												Acciones...
+											</DropdownMenuTrigger>
+											<DropdownMenuContent>
+												<DropdownMenuLabel>Versiones</DropdownMenuLabel>
+												<DropdownMenuSeparator />
 												<DropdownMenuItem>
-													<Link href={`#previous_versions`}>
-														<Button
-															variant="link"
-															onClick={() => {
-																setId(id);
-																setTimeout(
-																	() => setOpen(true),
-																	1500,
-																);
-															}}
-														>
-															Versiones Anteriores
+													<Link href={`#new_version`}>
+														<Button variant="link" onClick={() => {}}>
+															Cambiar de Versión
 														</Button>
 													</Link>
 												</DropdownMenuItem>
-											)}
+												{version > 1 && (
+													<DropdownMenuItem>
+														<Link href={`#previous_versions`}>
+															<Button
+																variant="link"
+																onClick={() => {
+																	setId(id);
+																	setTimeout(
+																		() => setOpen(true),
+																		1500,
+																	);
+																}}
+															>
+																Versiones Anteriores
+															</Button>
+														</Link>
+													</DropdownMenuItem>
+												)}
 
-											<DropdownMenuLabel>Edición</DropdownMenuLabel>
-											<DropdownMenuSeparator />
-											<DropdownMenuItem>
-												<Link
-													href={`/metadatos/${uid}/edit?page=1`}
-													className="transition-colors hover:text-blue-500 "
-													onClick={() =>
-														setMeta({
-															uid,
-															db_name,
-															table_name,
-															schema_name,
-															title,
-															purpose,
-															abstract,
-															username,
-															update_date,
-															...metaData,
-														})
-													}
-												>
-													<Button
-														variant="link"
+												<DropdownMenuLabel>Edición</DropdownMenuLabel>
+												<DropdownMenuSeparator />
+												<DropdownMenuItem>
+													<Link
+														href={`/metadatos/${uid}/edit?page=1`}
+														className="transition-colors hover:text-blue-500 "
 														onClick={() =>
 															setMeta({
 																uid,
@@ -403,27 +391,44 @@ export default function Metadatos() {
 															})
 														}
 													>
-														Editar
-													</Button>
-												</Link>
-											</DropdownMenuItem>
-											<DropdownMenuLabel>Reporte</DropdownMenuLabel>
-											<DropdownMenuItem>
-												<Link
-													href={`/metadatos/${uid}/view`}
-													className="transition-colors hover:text-blue-500"
-												>
-													<Button variant="link" onClick={() => {}}>
-														PDF
-													</Button>
-												</Link>
-											</DropdownMenuItem>
-										</DropdownMenuContent>
-									</DropdownMenu>
-								</TableCell>
-							</TableRow>
-						),
-					)}
+														<Button
+															variant="link"
+															onClick={() =>
+																setMeta({
+																	uid,
+																	db_name,
+																	table_name,
+																	schema_name,
+																	title,
+																	purpose,
+																	abstract,
+																	username,
+																	update_date,
+																	...metaData,
+																})
+															}
+														>
+															Editar
+														</Button>
+													</Link>
+												</DropdownMenuItem>
+												<DropdownMenuLabel>Reporte</DropdownMenuLabel>
+												<DropdownMenuItem>
+													<Link
+														href={`/metadatos/${uid}/view`}
+														className="transition-colors hover:text-blue-500"
+													>
+														<Button variant="link" onClick={() => {}}>
+															PDF
+														</Button>
+													</Link>
+												</DropdownMenuItem>
+											</DropdownMenuContent>
+										</DropdownMenu>
+									</TableCell>
+								</TableRow>
+							),
+						)}
 				</TableBody>
 			</Table>
 			<Table>
@@ -502,11 +507,19 @@ export default function Metadatos() {
 									<Link
 										href={`/metadatos/${uid}/edit?page=1&temporal=true`}
 										className="transition-colors hover:text-blue-500"
-										onClick={() => setMeta({ ...data, ...datos, uid })}
 									>
 										<Button
 											variant="link"
-											onClick={() => setMeta({ ...data, ...datos, uid })}
+											onClick={() =>
+												setMeta({
+													uid,
+													...datos,
+													username,
+
+													update_date,
+												})
+											}
+											// onClick={() => setMeta({ ...data, ...datos, uid })}
 										>
 											Editar
 										</Button>
@@ -515,6 +528,11 @@ export default function Metadatos() {
 									<Link
 										href={`#`}
 										className="text-red-400 transition-colors hover:text-red-600"
+										onClick={async () => {
+											await deleteTemporal(uid, router).then(() =>
+												router.push("/metadatos"),
+											);
+										}}
 									>
 										Eliminar
 									</Link>

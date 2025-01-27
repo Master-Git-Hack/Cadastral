@@ -37,8 +37,7 @@ export const Section1 = ({ editable = true }) => {
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
 
 	const findSelectValue = (name: string) => {
-		const code = String(data[name] ?? "")?.split(".");
-
+		const [code, label, description] = String(data[name] ?? "")?.split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 
@@ -343,7 +342,7 @@ export const Section1 = ({ editable = true }) => {
 								<SelectValue placeholder="Seleccione la Frecuencia de Actualización" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo.maintenanceandupdatefrequency.map(
+								{catalogo.maintenanceandupdatefrequency?.map(
 									({ code, label, description }) => (
 										<SelectItem value={`${code}. ${label}. ${description}`}>
 											{label}
@@ -372,7 +371,7 @@ export const Section1 = ({ editable = true }) => {
 					<TableCell colSpan={9}>
 						<Select
 							name="md_dataidentification_characterset"
-							value={findSelectValue("md_dataidentification_characterset")}
+							value={data.md_dataidentification_characterset}
 							onValueChange={(md_dataidentification_characterset) =>
 								setData({ ...data, md_dataidentification_characterset })
 							}
@@ -382,9 +381,9 @@ export const Section1 = ({ editable = true }) => {
 								<SelectValue placeholder="Seleccione un conjunto" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo.md_dataidentification_characterset.map(
-									({ code, label }) => (
-										<SelectItem value={code} key={code}>
+								{catalogo.md_dataidentification_characterset?.map(
+									({ code, label, description }) => (
+										<SelectItem value={`${code}. ${label}. ${description}`}>
 											{label}
 										</SelectItem>
 									),

@@ -18,12 +18,12 @@ import {
 } from "@/components/ui/select";
 import catalogo from "../catologos/index";
 import useMedatados from "@/store/metadatos/index.ts";
-import { format } from "date-fns";
+import moment from "moment";
 export const Section2 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 
 	const findSelectValue = (name: string) => {
-		const [code] = String(data[name] ?? "")?.split(".");
+		const [code, label, description] = String(data[name] ?? "")?.split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 
@@ -74,7 +74,7 @@ export const Section2 = ({ editable = true }: any) => {
 								>
 									<CalendarIcon className="mr-2 h-4 w-4" />
 									{data.date ? (
-										format(data.date, "yyyy-MM-dd")
+										moment(data.date).format("YYYY-MM-DD").toString()
 									) : (
 										<span>Selecciona una Fecha</span>
 									)}
@@ -86,7 +86,10 @@ export const Section2 = ({ editable = true }: any) => {
 									locale={es}
 									selected={data.date}
 									onSelect={(e) =>
-										setData({ ...data, date: format(e, "yyyy-MM-dd") })
+										setData({
+											...data,
+											date: moment(e).format("YYYY-MM-DD").toString(),
+										})
 									}
 									isSelected={data.date}
 									initialFocus
@@ -117,8 +120,8 @@ export const Section2 = ({ editable = true }: any) => {
 								<SelectValue placeholder="Seleccione una Categoria" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo.datetype.map(({ code, label }) => (
-									<SelectItem value={code} key={code}>
+								{catalogo.datetype.map(({ code, label, description }) => (
+									<SelectItem value={`${code}. ${label}. ${description}`}>
 										{label}
 									</SelectItem>
 								))}
@@ -186,7 +189,7 @@ export const Section2 = ({ editable = true }: any) => {
 								>
 									<CalendarIcon className="mr-2 h-4 w-4" />
 									{data.date_creation ? (
-										format(data.date_creation, "yyyy-MM-dd")
+										moment(data.date_creation).format("YYYY-MM-DD").toString()
 									) : (
 										<span>Selecciona una Fecha</span>
 									)}
@@ -198,7 +201,12 @@ export const Section2 = ({ editable = true }: any) => {
 									locale={es}
 									selected={data.date_creation}
 									onSelect={(e) =>
-										setData({ ...data, date_creation: format(e, "yyyy-MM-dd") })
+										setData({
+											...data,
+											date_creation: moment(e)
+												.format("YYYY-MM-DD")
+												.toString(),
+										})
 									}
 									isSelected={data.date_creation}
 									initialFocus
