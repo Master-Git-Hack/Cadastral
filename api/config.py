@@ -29,6 +29,13 @@ class __Base(object):
             "API desarrollada para apoyar la gestión de la Dirección General de Recursos Materiales, Servicios Generales y Catastro, a traves de modulos propios y complementos para el sistema de valuaciones creada por el departamento de Plataformas Geomáticas Catastrales.",
         ),
         url_prefix=(url_prefix := f"/api/v{version[0]}"),
+        host=environ.get("HOST", "localhost"),
+        port=environ.get("PORT", 5000),
+        workers=environ.get("WORKERS", 3),
+        reload=environ.get("RELOAD", True),
+        log_level=environ.get("LOG_LEVEL", "info"),
+        debug=(debug := environ.get("DEBUG", False)),
+        use_colors=environ.get("USE_COLORS", True),
     )
     OAUTH2 = OAuth2PasswordBearer(tokenUrl=f"{url_prefix}/oauth2/token")
 

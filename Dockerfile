@@ -1,5 +1,5 @@
 # Dockerfile for Next.js
-FROM 23.6.1-alpine3.20
+FROM node:23.6.1-alpine3.20 AS builder
 
 # Set working directory
 WORKDIR /app
@@ -12,9 +12,17 @@ RUN yarn install --frozen-lockfile
 
 # Copy all files to the container
 COPY . .
+RUN yarn build
 
-# Expose the development port
+# Use a minimal image for production
+FROM node:23.6.1-alpine3.20 AS runner
+WORKDIR /app
+
+COPY --from=builder /app ./
+ENV NODE_ENV=production
+
+# Expose port 3000 for Next.js
 EXPOSE 3000
 
-# Command to run the development server
-CMD ["yarn", "dev"]
+# Run Next.js in production mode
+CMD ["yarn", "start"]

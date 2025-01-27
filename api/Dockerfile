@@ -2,7 +2,7 @@ FROM python:3.11.9-slim-bullseye
 LABEL description="Backend Server's Image"
 LABEL mantenier='Einar Jhordany Serna Valdivia<eserna@guanajuato.gob.mx>'
 WORKDIR /usr/src/v3
-COPY . /usr/src/v3
+COPY . .
 # RUN echo "deb http://security.debian.org/debian-security bullseye-security main contrib non-free" > /etc/apt/sources.list
 RUN apt-get update --allow-releaseinfo-change && \
     apt-get install -y nano wget fontconfig libfreetype6 \
@@ -16,7 +16,7 @@ RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/w
 
 RUN python -m pip install --upgrade pip && \
     pip install --no-cache-dir reportlab psycopg2-binary pandas && \
-    pip install --no-cache-dir -r /usr/src/v2/requirements.txt 
+    pip install --no-cache-dir -r requirements.txt 
 
 RUN apt autoclean && apt autoremove && rm -rf /var/lib/apt/lists/*
 
@@ -58,4 +58,4 @@ ENV PSQL_URI_DEV="postgresql://info-cat3:#jhgfye%rwA@172.31.113.151:5432"
 ENV PSQL_URI_TEST="postgresql://root:toor@localhost:5432"
 
 EXPOSE 5000 
-CMD ["python3", "-m", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "5000", "--workers","65", "--log-level", "info", "--use-colors"]
+CMD ["python3", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000", "--workers","65", "--log-level", "info", "--use-colors"]
