@@ -39,7 +39,7 @@ import { useLocation } from "react-router-dom";
 const baseAlert = (record: any, isTmp: boolean): object => {
 	const action = record !== undefined ? "Actualizar" : "Guardar";
 
-	let alert = {
+	const alert = {
 		titleText: `¿Está seguro de ${action} el registro?`,
 		showCancelButton: true,
 		confirmButtonText: `${action}`,

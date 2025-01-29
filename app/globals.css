@@ -86,7 +86,7 @@
 	background: #024883;
 }
 .bg-login {
-	background-image: url("@assets/gto.webp");
+	background-image: url("gto.webp");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;

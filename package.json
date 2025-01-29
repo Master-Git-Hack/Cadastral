@@ -9,6 +9,7 @@
     "dev": "concurrently \"yarn frontend\" \"yarn backend\"",
     "build": "next build",
     "start": "next start -p 3000",
+    "deploy": "concurrently \"yarn build\" \"yarn start\" \"yarn backend\"",
     "lint": "oxlint  --fix --fix-suggestions -c ./.oxlintrc.json --import-plugin "
   },
   "lint-staged": {
@@ -48,7 +49,7 @@
     "cmdk": "1.0.0",
     "concurrently": "^9.0.1",
     "date-fns": "^4.1.0",
-    "eslint": "8.41.0",
+    "eslint": "^9.19.0",
     "eslint-config-next": "15.1.6",
     "fast-xml-parser": "^4.5.0",
     "html2canvas-pro": "^1.5.8",
@@ -77,9 +78,14 @@
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@next/eslint-plugin-next": "^15.1.6",
     "eslint-plugin-oxlint": "^0.9.10",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^15.14.0",
     "oxlint": "^0.9.10",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "typescript-eslint": "^8.22.0"
   },
   "resolutions": {
     "@types/react": "19.0.8",

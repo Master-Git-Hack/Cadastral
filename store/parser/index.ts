@@ -9,12 +9,12 @@ export interface IParserState {
 	file?: File | File[];
 	filename?: string;
 	fileType?: string;
-	data: Object;
+	data: object;
 }
 
 export interface IParserActions {
 	xmlToJson: (file: IParserState, router?: NextRouter) => Promise<any>;
-	jsonToXml: (data: Object, router?: NextRouter) => Promise<Blob>;
+	jsonToXml: (data: object, router?: NextRouter) => Promise<Blob>;
 	clearFile: () => void;
 	setFile: (file: File | File[]) => void;
 	setParser: (data: IParserState) => void;
