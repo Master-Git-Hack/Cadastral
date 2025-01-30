@@ -7,8 +7,8 @@ import { ChevronsUpDown, Plus, X, Pencil, Check, Trash } from "lucide-react";
 import { Button } from "../button";
 import { Input } from "../input";
 import { Label } from "../label";
-import { ScrollArea } from "@components/ui/scroll-area";
-import { Warning } from "@components/ui/alert";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Warning } from "@/components/ui/alert";
 import Resizer from "react-image-file-resizer";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
@@ -96,6 +96,7 @@ export const DropZone = () => {
 			))}
 		</div>
 	));
+	ImageCards.displayName = "ImageCards";
 	return (
 		<div className="space-y-2">
 			<div
@@ -240,4 +241,6 @@ const ImageCard = memo(({ preview, name, index, onRemove, onRename }) => {
 	);
 });
 
+ImageCard.displayName = "ImageCard";
+DropZone.displayName = "DropZone";
 export default DropZone;

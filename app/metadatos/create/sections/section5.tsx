@@ -1,7 +1,7 @@
 /** @format */
 
 import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import Input from "@components/Input";
+import Input from "@/components/Input";
 import { InputNumber } from "primereact/inputnumber";
 import {
 	Select,
@@ -11,7 +11,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import catalogo from "../catologos/index";
-import useMedatados from "@/store/metadatos/index.ts";
+import useMedatados from "@/store/metadatos/index";
 export const Section5 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });

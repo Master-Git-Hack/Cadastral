@@ -15,7 +15,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import useMedatados from "@/store/metadatos/index.ts";
+import useMedatados from "@/store/metadatos/index";
 import { useEffect } from "react";
 export const Section1 = ({ editable = true }) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
@@ -33,7 +33,7 @@ export const Section1 = ({ editable = true }) => {
 				entity_detail: `postgresql://user:password@server/${data.db_name}/${data.schema_name}/${data.table_name}`,
 			});
 	}, [data.db_name, data.schema_name, data.table]);
-	const handleInputChange = ({ currentTarget }) =>
+	const handleInputChange = ({ currentTarget }: any) =>
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
 
 	const findSelectValue = (name: string) => {

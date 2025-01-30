@@ -1,6 +1,6 @@
 from itertools import groupby
 from typing import Any, Optional
-
+from os import remove
 from fastapi import APIRouter, Depends, Request, Query
 from requests import get
 from sqlalchemy import text
@@ -13,7 +13,8 @@ from ..models.metadatos import MetadatosTemporales as __TMP
 from ..models.usuarios import Usuarios
 from ..controllers.metadatos import ReporteMetadatos as __ReporteMetadatos
 from sqlalchemy.orm import Session
-
+from ..utils.temporary import name_it
+from xmltodict import unparse
 __response = middlewares.RESPONSES()
 
 required = Usuarios.required
@@ -333,6 +334,23 @@ async def create_version(
                 message=f"Error cambiando la version del registro {meta.Current.id}",
                 status_code=500,
             )
+        new_version["keyword"] = (
+            "".join(keyword)
+            .replace("{", "")
+            .replace("}", "")
+            .replace('"', "")
+            .replace("\\", "")
+            .replace('\\"', '"')
+            .replace('\\"', '"')
+            .split(",")
+            if (keyword := new_version.get("keyword", [])) is not None
+            else []
+        )
+        new_version["accessconstraints"]: "".join(accessconstraints).replace('{"', "").replace(
+            '"}', ""
+        ).split('","') if (
+            accessconstraints := new_version.get("accessconstraints", [])
+        ) is not None else []
         if meta.create(**new_version) is None:
             return __response.error(
                 message=f"Error creando la nueva version del registro {meta.Current.id}",
@@ -485,3 +503,43 @@ async def delete_temporal_metadatos(
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
+@meta.get("/export/{uid}")
+async def export_xml(uid:str,user=Depends(required),
+    db: Session = Depends(database.CATASTRO_V2),filename:str=name_it(extension="xml")):
+
+    try:
+        meta = __Dataset(db)
+        if meta.filter(uid=uid) is None:
+            return __response.error(
+                message="Error procesando la solicitud",
+                status_code=404,
+            )
+        data = meta.dict()
+        data["keyword"] = (
+            "".join(keyword)
+            .replace("{", "")
+            .replace("}", "")
+            .replace('"', "")
+            .replace("\\", "")
+            .replace('\\"', '"')
+            .replace('\\"', '"')
+            .split(",")
+            if (keyword := data.get("keyword", [])) is not None
+            else []
+        )
+        data["accessconstraints"]: "".join(accessconstraints).replace('{"', "").replace(
+            '"}', ""
+        ).split('","') if (
+            accessconstraints := data.get("accessconstraints", [])
+        ) is not None else []
+        filename=f"{data.get('uid')}.xml"
+        path = f"{config.PATHS.TMP}/{filename}"
+        with open(path, "w") as file:
+            file.write(unparse({"root": data}))
+        return __response.send_file(filename=filename, path=path)
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))
+    finally:
+        # remove(path)
+        ...

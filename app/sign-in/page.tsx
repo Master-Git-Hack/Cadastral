@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import useUser from "@/store/user/index";
 import useStatusStore from "@/store/api.config";
-import Spinner from "@components/ui/spinner";
-import { Button } from "@components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,10 +17,10 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@components/ui/form";
-import { Input } from "@components/ui/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import logoGto from "@assets/guanajuato_logo.svg";
-import { Success, Danger } from "@components/ui/alert";
+import { Success, Danger } from "@/components/ui/alert";
 import { useRouter } from "next/navigation";
 const oauthSchema = z.object({
 	username: z.string().min(2, {

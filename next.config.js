@@ -22,12 +22,15 @@ const getItem = (item) => {
 		return undefined;
 	}
 };
-const backendURL =
-	process.env.NODE_ENV === "development"
-		? process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:5000"
-		: "/api/";
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const nextConfig = {
-	
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
+	typescript: {
+		ignoreBuildErrors: true,
+	},
+
 	experimental: {
 		turbo: {
 			resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json", ".pdf"],

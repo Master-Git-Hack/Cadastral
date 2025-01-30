@@ -12,7 +12,7 @@ import { Section8 } from "./sections/section8";
 import { Section9 } from "./sections/section9";
 import { Button } from "@/components/ui/button";
 import { TreeSelect } from "primereact/treeselect";
-import useMedatados from "@/store/metadatos/index.ts";
+import useMedatados from "@/store/metadatos/index";
 import FileButton from "@/components/ui/button-file";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -34,14 +34,14 @@ import {
 } from "@/components/ui/drawer";
 import { Success, Danger } from "@/components/ui/alert";
 import { cn } from "@utils/index";
-import useParser from "@/store/parser/index.ts";
+import useParser from "@/store/parser/index";
 enum MetadatoActions {
 	PostMetadato = "POST_METADATO",
 	PatchMetadato = "PATCH_METADATO",
 	PostTemporal = "POST_TEMPORAL",
 	PatchTemporal = "PATCH_TEMPORAL",
 }
-const SaveActions = ({ open, setOpen, uid, isTemporal }) => {
+const SaveActions = ({ open, setOpen, uid, isTemporal }: any) => {
 	const { postMetadato, patchMetadato, postTemporal, patchTemporal, clearMetadatos, ...data } =
 		useMedatados((state) => state);
 
@@ -89,8 +89,8 @@ const SaveActions = ({ open, setOpen, uid, isTemporal }) => {
 
 			const { method, message: msg } = selectedAction;
 
-			await method({ ...data, uid })
-				.then(({ status, message, ...response }) => {
+			await method()
+				.then(({ status, message, ...response }: any) => {
 					if (status !== 200)
 						return Danger({
 							title: status,
@@ -107,7 +107,7 @@ const SaveActions = ({ open, setOpen, uid, isTemporal }) => {
 						text: response?.data?.detail ?? response?.data?.message ?? message,
 					});
 				});
-		} catch (error) {
+		} catch (error: any) {
 			// Manejo de errores generales
 			Danger({ title: "Error", text: error?.message ?? "Error desconocido" });
 		}
@@ -190,7 +190,7 @@ export default function Create({
 	disabled = false,
 	onEdit,
 	uid = undefined,
-}) {
+}: any) {
 	const { getResources, schema_name, table_name, db_name, setMetadatos, ...data } = useMedatados(
 		(state) => state,
 	);
@@ -202,7 +202,7 @@ export default function Create({
 		const { data } = await getResources();
 		setResources(data?.data);
 	};
-	const handleTreeSelect = ({ value }) => {
+	const handleTreeSelect = ({ value }: any) => {
 		const [db_name, schema_name, table_name] = value.split(".");
 
 		setMetadatos({ ...data, db_name, table_name, schema_name });
@@ -248,7 +248,7 @@ export default function Create({
 						variant="filled"
 						autoFocus
 						valueTemplate={() => (
-							<Breadcrumb disabled>
+							<Breadcrumb aria-disabled="true">
 								<BreadcrumbList>
 									<BreadcrumbItem>
 										<BreadcrumbPage>

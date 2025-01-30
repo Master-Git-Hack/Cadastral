@@ -18,6 +18,8 @@ export const variants = {
 };
 
 export interface IAlert extends SweetAlertOptions {
+	title?: string;
+	text?: string | null;
 	icon?: SweetAlertIcon;
 	isLoading?: boolean;
 	confirmColor?:

@@ -11,7 +11,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import catalogo from "../catologos/index";
-import useMedatados from "@/store/metadatos/index.ts";
+import useMedatados from "@/store/metadatos/index";
 export const Section4 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });

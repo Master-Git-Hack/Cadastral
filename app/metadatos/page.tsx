@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/table";
 
 import { useEffect, useState } from "react";
-import Error from "@components/error";
+import Error from "@/components/error";
 import Layout from "@/components/navbar/index";
 import Link from "next/link";
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 import { IMetaTable } from "./types";
@@ -35,12 +35,12 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 } from "@/components/ui/drawer";
-const PreviousVersions = ({ id, open, setOpen }) => {
+const PreviousVersions = ({ id, open, setOpen }: any) => {
 	const { getPrevious, setMetadatos: setMeta } = useMedatados((state) => state);
 	const [metadatos, setMetadatos] = useState([]);
 	const handleGetPrevious = async () => {
 		const { data } = await getPrevious(id);
-		setMetadatos(data?.data);
+		setMetadatos(data?.data as any);
 	};
 
 	useEffect(() => {
@@ -212,7 +212,7 @@ const PreviousVersions = ({ id, open, setOpen }) => {
 		</Drawer>
 	);
 };
-import useMedatados from "@/store/metadatos/index.ts";
+import useMedatados from "@/store/metadatos/index";
 
 export default function Metadatos() {
 	const {
@@ -221,6 +221,8 @@ export default function Metadatos() {
 		setMetadatos: setMeta,
 		clearMetadatos,
 		deleteTemporal,
+		exportAsXML,
+		newVersion,
 	} = useMedatados((state) => state);
 	const [open, setOpen] = useState(false);
 	const [id, setId] = useState(0);
@@ -229,11 +231,11 @@ export default function Metadatos() {
 	const [temporal, setTemporal] = useState([]);
 	const handleGetTmp = async () => {
 		const { data } = await getAllTemporal(router);
-		setTemporal(data?.data);
+		setTemporal(data?.data as any);
 	};
 	const handleGetMeta = async () => {
 		const { data } = await getMetadatos(router);
-		setMetadatos(data?.data);
+		setMetadatos(data?.data as any);
 	};
 	useEffect(() => {
 		if (metadatos?.length === 0) handleGetMeta();
@@ -346,7 +348,13 @@ export default function Metadatos() {
 												<DropdownMenuSeparator />
 												<DropdownMenuItem>
 													<Link href={`#new_version`}>
-														<Button variant="link" onClick={() => {}}>
+														<Button
+															variant="link"
+															onClick={async () =>
+																(await newVersion(id, router)) &&
+																window.location.reload(true)
+															}
+														>
 															Cambiar de Versión
 														</Button>
 													</Link>
@@ -412,14 +420,57 @@ export default function Metadatos() {
 														</Button>
 													</Link>
 												</DropdownMenuItem>
-												<DropdownMenuLabel>Reporte</DropdownMenuLabel>
+												<DropdownMenuLabel>Exportar</DropdownMenuLabel>
 												<DropdownMenuItem>
 													<Link
 														href={`/metadatos/${uid}/view`}
 														className="transition-colors hover:text-blue-500"
 													>
-														<Button variant="link" onClick={() => {}}>
-															PDF
+														<Button variant="link">PDF</Button>
+													</Link>
+												</DropdownMenuItem>
+												<DropdownMenuItem>
+													<Link
+														href={`/metadatos#xml`}
+														className="transition-colors hover:text-blue-500"
+													>
+														<Button
+															variant="link"
+															onClick={async () => {
+																try {
+																	const response =
+																		await exportAsXML(
+																			uid,
+																			router,
+																		);
+
+																	// Create a link element
+																	const link =
+																		document.createElement("a");
+
+																	// Create an object URL for the blob and set it as the link's href
+																	link.href = URL.createObjectURL(
+																		response.data,
+																	);
+
+																	// Set the file name for download (the name of the file being downloaded)
+																	link.download = `${uid}.xml`;
+
+																	// Append the link to the document and simulate a click to start the download
+																	document.body.appendChild(link);
+																	link.click();
+
+																	// Clean up: remove the link element after clicking
+																	document.body.removeChild(link);
+																} catch (error) {
+																	console.error(
+																		"Error downloading file:",
+																		error,
+																	);
+																}
+															}}
+														>
+															XML
 														</Button>
 													</Link>
 												</DropdownMenuItem>

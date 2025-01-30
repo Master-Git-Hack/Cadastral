@@ -123,4 +123,5 @@ export const FileButton = forwardRef<HTMLInputElement, {}>(
 		);
 	},
 );
+FileButton.displayName = "FileButton";
 export default FileButton;

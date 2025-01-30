@@ -1,14 +1,13 @@
 /** @format */
 "use client";
-import Spinner from "@components/Spinner";
-import Alert from "@components/Alerts";
+
 import useStatusStore from "@/store/api.config";
 // import blankDocument from "@assets/blank.pdf";
-import useMedatados from "@/store/metadatos/index.ts";
+import useMedatados from "@/store/metadatos/index";
 import { useState, useEffect } from "react";
 import { use } from "react";
 import { MetadatosProps } from "../interface";
-import Error from "@components/error";
+import Error from "@/components/error";
 import Layout from "@/components/navbar/index";
 export default function DocumentViewer({
 	params,
@@ -16,13 +15,13 @@ export default function DocumentViewer({
 	height = window.innerHeight * 0.8,
 	type = "cedula",
 }: any) {
-	const { uid } = use(params);
+	const uid = params?.uid as string | undefined;
 	const [file, setFile] = useState("/assets/blank.pdf");
 	const { isSuccess, isLoading, isError, message } = useStatusStore((state) => state);
 	const [template, setTemplate] = useState(true);
 	const { viewMetadatoReport } = useMedatados((state) => state);
 	const response = async () => {
-		const { data } = await viewMetadatoReport(uid);
+		const { data } = (await viewMetadatoReport(uid as string)) as any;
 
 		setFile(URL.createObjectURL(data));
 		setTemplate(false);

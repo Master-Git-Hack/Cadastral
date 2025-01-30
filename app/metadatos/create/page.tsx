@@ -1,8 +1,9 @@
 /** @format */
 "use client";
 import { useEffect, useState } from "react";
-import Error from "@components/error";
+import Error from "@/components/error";
 import Layout from "@/components/navbar/index";
+import Spinner from "@/components/ui/spinner";
 import {
 	Pagination,
 	PaginationContent,
@@ -15,8 +16,9 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Create from "./create";
+import { Suspense } from "react";
 
-const Pages = ({ page, isTemporal }) => {
+const Pages = ({ page, isTemporal }: any) => {
 	//make an array of 9 pages
 	const pages = Array.from({ length: 9 }, (_, i) => i + 1);
 	const sections = [
@@ -77,10 +79,10 @@ const Pages = ({ page, isTemporal }) => {
 		</Pagination>
 	);
 };
-export default function CreateMetadata({ data }) {
+function MetadataContent() {
 	const searchParams = useSearchParams();
 
-	const page = searchParams.get("page") ?? 1;
+	const page = searchParams.get("page") ?? "1";
 	const isTemporal = searchParams.get("temporal") ?? false;
 
 	return (
@@ -88,5 +90,12 @@ export default function CreateMetadata({ data }) {
 			<Create isTemporal={isTemporal} page={page.toString()} onEdit={true} data={0} />
 			<Pages page={parseInt(page)} isTemporal={isTemporal} />
 		</Layout>
+	);
+}
+export default function CreateMetadata() {
+	return (
+		<Suspense fallback={<Spinner />}>
+			<MetadataContent />
+		</Suspense>
 	);
 }

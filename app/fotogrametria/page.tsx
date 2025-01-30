@@ -2,11 +2,11 @@
 
 "use client";
 import { useEffect } from "react";
-import useFotogrametria from "@/store/fotogrametria/index.ts";
+import useFotogrametria from "@/store/fotogrametria/index";
 import useStatusStore from "@/store/api.config";
-import { Danger } from "@components/ui/alert";
-import { ScrollArea } from "@components/ui/scroll-area";
-import { Separator } from "@components/ui/separator";
+import { Danger } from "@/components/ui/alert";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import Layout from "@/components/navbar/index";
 import {
@@ -17,8 +17,8 @@ import {
 	CommandItem,
 	CommandList,
 	CommandSeparator,
-} from "@components/ui/command";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@components/ui/card";
+} from "@/components/ui/command";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 export default function Page() {
 	const { municipios, getMunicipios, setMunicipio } = useFotogrametria();
 	const { isLoading, isError, message } = useStatusStore((state) => state);

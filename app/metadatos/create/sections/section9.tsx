@@ -11,8 +11,8 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import catalogo from "../catologos/index";
-import useMedatados from "@/store/metadatos/index.ts";
-import { format } from "date-fns";
+import useMedatados from "@/store/metadatos/index";
+import moment from "moment";
 
 export const Section9 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
@@ -298,7 +298,9 @@ export const Section9 = ({ editable = true }: any) => {
 						Fecha de Publicación
 					</TableCell>
 					<TableCell colSpan={9} className=" w-9/12">
-						{format(data.datestamp ?? new Date(), "yyyy-MM-dd")}
+						{moment(data.datestamp ?? new Date())
+							.format("YYYY-MM-DD")
+							.toString()}
 					</TableCell>
 				</TableRow>
 				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">

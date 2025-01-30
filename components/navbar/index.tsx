@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import gtoLogo from "@assets/logo.png";
 import { useStatusStore } from "@/store/api.config";
-import Spinner from "@components/ui/spinner";
+import Spinner from "@/components/ui/spinner";
 export default function NavBar({ children, container = false }) {
 	const { isLoading, isError, isSuccess, message } = useStatusStore((state) => state);
 

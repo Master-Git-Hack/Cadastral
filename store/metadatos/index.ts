@@ -126,24 +126,28 @@ export interface IMetadatosState {
 	version?: number;
 	parent_id?: number;
 }
+interface IResponseGet {
+	data: any;
+}
 export interface IMetadatatosActions {
 	getMetadatosPreview: (router?: NextRouter) => Promise<void>;
-	getMetadatos: (router?: NextRouter) => Promise<IMetadatosState[]>;
+	getMetadatos: (router?: NextRouter) => Promise<IResponseGet>;
 	getMetadato: (uid: string, isTemporal?: boolean, router?: NextRouter) => Promise<void>;
 	postMetadato: (router?: NextRouter) => Promise<void>;
 	patchMetadato: (router?: NextRouter) => Promise<void>;
 	getMetadatoReport: (uid: string, router?: NextRouter) => Promise<void>;
 	viewMetadatoReport: (uid: string, router?: NextRouter) => Promise<Blob>;
-	getAllTemporal: (router?: NextRouter) => Promise<void>;
+	getAllTemporal: (router?: NextRouter) => Promise<IResponseGet>;
 	getTemporal: (uid: string, router?: NextRouter) => Promise<void>;
 	postTemporal: (router?: NextRouter) => Promise<void>;
 	patchTemporal: (router?: NextRouter) => Promise<void>;
 	deleteTemporal: (uid: string, router?: NextRouter) => Promise<void>;
 	clearMetadatos: (router?: NextRouter) => void;
 	setMetadatos: (data: IMetadatosState, router?: NextRouter) => void;
-	getResources: (router?: NextRouter) => Promise<void>;
-	getPrevious: (id: number, router?: NextRouter) => Promise<void>;
+	getResources: (router?: NextRouter) => Promise<any>;
+	getPrevious: (id: number, router?: NextRouter) => Promise<IResponseGet>;
 	newVersion: (id: number, router?: NextRouter) => Promise<void>;
+	exportAsXML: (uid: string, router?: NextRouter) => Promise<Blob>;
 }
 const useMetadatos = create<IMetadatosState & IMetadatatosActions>()(
 	persist(
@@ -902,7 +906,9 @@ const useMetadatos = create<IMetadatosState & IMetadatatosActions>()(
 			getPrevious: async (id: number, router?: NextRouter) =>
 				await api.get(`metadatos/version/previous?id=${id}`, {}, router),
 			newVersion: async (id: number, router?: NextRouter) =>
-				await api.get(`metadatos/version/create?id=${id}`, {}, router),
+				await api.post(`metadatos/version/create?id=${id}`, {}, router),
+			exportAsXML: async (uid: string, router?: NextRouter) =>
+				await api.get(`metadatos/export/${uid}`, { responseType: "blob" }, router),
 		}),
 		{
 			name: "metadatos-storage",

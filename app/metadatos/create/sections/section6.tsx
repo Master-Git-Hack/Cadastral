@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import catalogo from "../catologos/index";
 
-import useMedatados from "@/store/metadatos/index.ts";
+import useMedatados from "@/store/metadatos/index";
 export const Section6 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 	const handleInputChange = ({ currentTarget }) =>

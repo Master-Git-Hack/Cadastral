@@ -23,7 +23,7 @@
     "paths": {
       "@/*": ["./*"],
       "@assets/*": ["./public/assets/*"],
-      "@components/*": ["./components/*"],
+      "@/components/*": ["./components/*"],
       "@utils/*": ["./utils/*"],
       "@store":["./store/*"],
       

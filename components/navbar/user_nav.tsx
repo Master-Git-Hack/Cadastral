@@ -1,8 +1,8 @@
 /** @format */
 "use client";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
-import { Button } from "@components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,12 +12,12 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuShortcut,
 	DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 
-import useUser from "@/store/user/index.ts";
+import useUser from "@/store/user/index";
 export default function User() {
 	const { nombre, usuario, iniciales, signOut } = useUser((state) => state);
 	const { theme, setTheme } = useTheme();

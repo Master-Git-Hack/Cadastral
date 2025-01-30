@@ -1,9 +1,9 @@
 /** @format */
 "use client";
-import Error from "@components/error";
+import Error from "@/components/error";
 import Layout from "@/components/navbar/index";
 import Create from "../../create/create";
-import useMedatados from "@/store/metadatos/index.ts";
+import useMedatados from "@/store/metadatos/index";
 import {
 	Pagination,
 	PaginationContent,
@@ -17,7 +17,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { use } from "react";
-const Pages = ({ page, isTemporal }) => {
+const Pages = ({ page, isTemporal }: any) => {
 	//make an array of 9 pages
 	const pages = Array.from({ length: 9 }, (_, i) => i + 1);
 	const sections = [
@@ -78,24 +78,36 @@ const Pages = ({ page, isTemporal }) => {
 		</Pagination>
 	);
 };
-export default function EditMetadata({ params }) {
+import Spinner from "@/components/ui/spinner";
+import { Suspense } from "react";
+
+function MetadataContent({ params }: any) {
 	const [edit, setEdit] = useState(true);
-	const { uid } = use(params);
+	const uid = params?.uid as string | undefined;
 	const searchParams = useSearchParams();
 
-	const page = searchParams.get("page") ?? 1;
+	const page = searchParams.get("page") ?? "1";
 	const isTemporal = searchParams.get("temporal") ?? false;
 
 	return (
-		<Layout>
-			<Create
-				disabled={edit}
-				onEdit={setEdit}
-				uid={uid}
-				page={page}
-				isTemporal={isTemporal}
-			/>
-			<Pages page={parseInt(page)} isTemporal={isTemporal} />
-		</Layout>
+		<Suspense fallback={<Spinner />}>
+			<Layout>
+				<Create
+					disabled={edit}
+					onEdit={setEdit}
+					uid={uid}
+					page={page}
+					isTemporal={isTemporal}
+				/>
+				<Pages page={parseInt(page)} isTemporal={isTemporal} />
+			</Layout>
+		</Suspense>
+	);
+}
+export default function EditMetadata() {
+	return (
+		<Suspense fallback={<Spinner />}>
+			<MetadataContent />
+		</Suspense>
 	);
 }
