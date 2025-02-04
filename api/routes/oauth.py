@@ -1,3 +1,4 @@
+from datetime import timedelta
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
@@ -41,7 +42,13 @@ async def sign_in(
 
         return response.success(
             message=f"Bienvenido {user.Current.nombre}!",
-            data=user.dict(excludes=["contrasenia"]),
+            data=user.dict(excludes=["contrasenia"])
+            | {
+                "expires": (
+                    config.SECRETS.EXPIRATION_TIME - timedelta(minutes=1)
+                ).total_seconds()
+                // 60
+            },
             headers={"Authorization": token},
         )
 
@@ -72,7 +79,17 @@ async def is_auth(
         if token in blacklist:
             return response.error(status_code=401, message="Token inválido")
         return response.success(
-            content={"access_token": token, "token_type": "bearer", "scopes": ""},
+            content={
+                "access_token": token,
+                "token_type": "bearer",
+                "scopes": "",
+                "expires": int(
+                    (
+                        config.SECRETS.EXPIRATION_TIME - timedelta(minutes=1)
+                    ).total_seconds()
+                    // 60
+                ),
+            },
         )
 
     except Exception as e:

@@ -1,11 +1,12 @@
 # config.py
 """ Configuration file for the backend """
 from datetime import timedelta
+from enum import Enum
 from os import environ
 from os.path import abspath, dirname, join
 from typing import Dict, List, Optional
 from uuid import uuid4
-from enum import Enum
+
 from dotenv import load_dotenv
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.security.api_key import APIKeyHeader
@@ -66,7 +67,7 @@ class __Base(object):
             auto_error=False,
         )
         DBS = Enum("DBS", {db.upper(): db for db in db_items})
-        EXPIRATION_TIME = timedelta(hours=int(environ.get("EXPIRATION_TIME", 24)))
+        EXPIRATION_TIME = timedelta(hours=int(environ.get("EXPIRATION_TIME", 12)))
         ALGORITHM: str = environ.get("ALGORITHM", "HS512")
         SFTP_HOST: str = environ.get("SFTP_HOST")
         SFTP_USER: str = environ.get("SFTP_USER")

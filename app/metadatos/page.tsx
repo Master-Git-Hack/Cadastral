@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 
 import { useEffect, useState } from "react";
-import Error from "@/components/error";
+
 import Layout from "@/components/navbar/index";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,7 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 } from "@/components/ui/drawer";
+import ImportXML from "./create/xml_import";
 const PreviousVersions = ({ id, open, setOpen }: any) => {
 	const { getPrevious, setMetadatos: setMeta } = useMedatados((state) => state);
 	const [metadatos, setMetadatos] = useState([]);
@@ -244,9 +245,10 @@ export default function Metadatos() {
 	return (
 		<Layout container>
 			<div className="flex flex-row-reverse py-2">
-				<Link href={`metadatos/create?page=1`} onClick={clearMetadatos}>
+				<Link href={`metadatos/create?page=1`} onClick={clearMetadatos} className="ms-5">
 					<Button>Nuevo Registro</Button>
 				</Link>
+				<ImportXML />
 			</div>
 			<Table>
 				<TableCaption className="mt-5 pt-5">Registros Pendientes</TableCaption>
@@ -351,7 +353,7 @@ export default function Metadatos() {
 														<Button
 															variant="link"
 															onClick={async () =>
-																(await newVersion(id, router)) &&
+																(await newVersion(id)) &&
 																window.location.reload(true)
 															}
 														>
@@ -510,7 +512,7 @@ export default function Metadatos() {
 							<TableRow key={uid}>
 								<TableCell className="font-medium">
 									{datos?.db_name
-										.split("_")
+										?.split("_")
 										?.map(
 											(word: string) =>
 												word.charAt(0).toUpperCase() + word.slice(1),
@@ -519,7 +521,7 @@ export default function Metadatos() {
 								</TableCell>
 								<TableCell className="font-medium">
 									{datos?.schema_name
-										.split("_")
+										?.split("_")
 										?.map(
 											(word: string) =>
 												word.charAt(0).toUpperCase() + word.slice(1),
@@ -528,7 +530,7 @@ export default function Metadatos() {
 								</TableCell>
 								<TableCell className="font-medium">
 									{datos?.table_name
-										.split("_")
+										?.split("_")
 										?.map(
 											(word: string) =>
 												word.charAt(0).toUpperCase() + word.slice(1),
@@ -580,8 +582,8 @@ export default function Metadatos() {
 										href={`#`}
 										className="text-red-400 transition-colors hover:text-red-600"
 										onClick={async () => {
-											await deleteTemporal(uid, router).then(() =>
-												router.push("/metadatos"),
+											await deleteTemporal(uid).then(() =>
+												window.location.reload(true),
 											);
 										}}
 									>

@@ -15,7 +15,7 @@ class Model(SQLModel, table=True):
     id: Optional[int] = Field(
         default=None, primary_key=True, sa_column_kwargs={"autoincrement": True}
     )
-    fecha: datetime = Field(default=None)
+    fecha: datetime = Field(default=datetime.now)
     registro: str = Field(default=None)
     usuario: str = Field(default=None)
 

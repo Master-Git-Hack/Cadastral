@@ -1,38 +1,31 @@
-from typing import Any, Dict
+from typing import Optional
 
-from sqlalchemy import Boolean, Column, Float, Integer, String, Text
+from sqlmodel import Field, Session, SQLModel
 
-from .. import config, database
 from ..middlewares.database import Template
+from . import response_model
 
 
-class Model(database.BASE):
+class Model(SQLModel, table=True):
     __tablename__ = "calculo_valor_unitario_construccion"
-
-    id = Column(Integer, primary_key=True)
-    descripcion = Column(Text)
-    costo_directo = Column(Float)
-    indirectos = Column(Float)
-    valor_neto = Column(Float)
-    m2 = Column(Float)
-    factor_gto = Column(Boolean, unique=False, default=False, nullable=False)
-    valor_resultante = Column(Float)
-    total = Column(Float)
-    tipo_servicio = Column(String())
-    registro = Column(String())
-    redondeo = Column(Integer, default=0)
-
-    def __init__(self, **kwargs: Dict[str, Any]) -> None:
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+    id: Optional[int] = Field(
+        default=None, primary_key=True, sa_column_kwargs={"autoincrement": True}
+    )
+    descripcion: str = Field(default=None)
+    costo_directo: float = Field(default=None)
+    indirectos: float = Field(default=None)
+    valor_neto: float = Field(default=None)
+    m2: float = Field(default=None)
+    factor_gto: bool = Field(default=False)
+    valor_resultante: float = Field(default=None)
+    total: float = Field(default=None)
+    tipo_servicio: str = Field(default=None)
+    registro: str = Field(default=None)
+    redondeo: int = Field(default=0)
 
 
 class CostosConstruccion(Template):
-    def __init__(self, db) -> None:
-        super().__init__(Model, db)
+    response_model = response_model(Model=Model)
 
-    def __enter__(self):
-        return super().__enter__()
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        return super().__exit__(exc_type, exc_value, traceback)
+    def __init__(self, Session: Session) -> None:
+        super().__init__(Model=Model, Session=Session)

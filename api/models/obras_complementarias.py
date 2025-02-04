@@ -1,51 +1,28 @@
 from typing import Any, Dict, Optional
 
 from sqlalchemy import JSON, BigInteger, Boolean, Column, Float, SmallInteger, String
+from sqlmodel import Field, Session, SQLModel
 
 from .. import config, database
 from ..middlewares.database import Template
+from . import response_model
 
 
-class Model(database.BASE):
-    """Model for the ObrasComplementarias table"""
-
+class Model(SQLModel, table=True):
     __tablename__ = "obras_complementarias"
-
-    id = Column(BigInteger, primary_key=True)
-    datos = Column(JSON)
-    calculo = Column(JSON)
-    valor_unitario = Column(Float)
-    registro = Column(String())
-    calculo_completo = Column(Boolean)
-    redondeo = Column(SmallInteger)
-
-    def __init__(self, **kwargs: Dict[str, Any]) -> None:
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-
-
-from pydantic import BaseModel
-
-
-class Schema(BaseModel):
-    id: Optional[int]
-    datos: Optional[Dict[str, Any]]
-    calculo: Optional[Dict[str, Any]]
-    valor_unitario: Optional[float]
-    registro: Optional[str]
-    calculo_completo: Optional[bool]
-    redondeo: Optional[int]
-
-    class Config:
-        orm_mode = True
+    id: Optional[int] = Field(
+        default=None, primary_key=True, sa_column_kwargs={"autoincrement": True}
+    )
+    datos: Dict[str, Any] = Field(default=None)
+    calculo: Dict[str, Any] = Field(default=None)
+    valor_unitario: float = Field(default=None)
+    registro: str = Field(default=None)
+    calculo_completo: bool = Field(default=False)
+    redondeo: int = Field(default=0)
 
 
 class ObrasComplementarias(Template):
-    def __init__(self, db) -> None:
-        super().__init__(Model=Model, db=db, Schema=Schema)
+    response_model = response_model(Model=Model)
 
-    def __enter__(self):
-        return super().__enter__()
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        return super().__exit__(exc_type, exc_value, traceback)
+    def __init__(self, Session: Session) -> None:
+        super().__init__(Model=Model, Session=Session)

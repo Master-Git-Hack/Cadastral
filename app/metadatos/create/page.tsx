@@ -38,7 +38,7 @@ const Pages = ({ page, isTemporal }: any) => {
 				<PaginationItem>
 					<PaginationPrevious
 						href={`?page=${page - 1 > 0 ? page - 1 : 9}${isTemporal ? "&temporal=true" : ""}`}
-						customText="Previo"
+						customtext="Previo"
 					/>
 				</PaginationItem>
 				{pages.map((p) => (
@@ -72,7 +72,7 @@ const Pages = ({ page, isTemporal }: any) => {
 				<PaginationItem>
 					<PaginationNext
 						href={`?page=${page + 1 < 10 ? page + 1 : 1}${isTemporal ? "&temporal=true" : ""}`}
-						customText="Siguiente"
+						customtext="Siguiente"
 					></PaginationNext>
 				</PaginationItem>
 			</PaginationContent>

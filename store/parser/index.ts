@@ -13,8 +13,8 @@ export interface IParserState {
 }
 
 export interface IParserActions {
-	xmlToJson: (file: IParserState, router?: NextRouter) => Promise<any>;
-	jsonToXml: (data: object, router?: NextRouter) => Promise<Blob>;
+	xmlToJson: (file: IParserState) => Promise<any>;
+	jsonToXml: (data: object) => Promise<Blob>;
 	clearFile: () => void;
 	setFile: (file: File | File[]) => void;
 	setParser: (data: IParserState) => void;
@@ -26,12 +26,12 @@ const useParser = create<IParserState & IParserActions>()(
 			filename: null,
 			fileType: null,
 			data: {},
-			xmlToJson: async (file: File, router?: NextRouter) => {
+			xmlToJson: async (file: File) => {
 				const formData = new FormData();
 				formData.append("file", file);
-				return await api.post(`parser?from=xml&to=json`, formData, true, {}, router);
+				return await api.post(`parser?from=xml&to=json`, formData, true, {});
 			},
-			jsonToXml: async (json: any, filename: string, router?: NextRouter) => {},
+			jsonToXml: async (json: any, filename: string) => {},
 
 			clearFile: () => set({ file: null, filename: null, fileType: null, data: {} }),
 

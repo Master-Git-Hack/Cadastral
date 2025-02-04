@@ -1,34 +1,27 @@
-from typing import Any, Dict
+from typing import Optional
 
-from sqlalchemy import Column, Float, Integer, Text
+from sqlmodel import Field, Session, SQLModel
 
-from .. import config, database
 from ..middlewares.database import Template
+from . import response_model
 
 
-class Model(database.BASE):
+class Model(SQLModel, table=True):
     __tablename__ = "indicadores_municipales"
-
-    id = Column(Integer, primary_key=True)
-    municipio = Column(Text)
-    poblacion_total = Column(Integer)
-    densidad_poblacion = Column(Float)
-    pob_econom_activa = Column(Integer)
-    viviendas_habitadas = Column(Integer)
-    anualidad_censo = Column(Integer)
-    porcentaje = Column(Float)
-
-    def __init__(self, **kwargs: Dict[str, Any]) -> None:
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+    id: Optional[int] = Field(
+        default=None, primary_key=True, sa_column_kwargs={"autoincrement": True}
+    )
+    municipio: str = Field(default=None)
+    poblacion_total: int = Field(default=None)
+    densidad_poblacion: float = Field(default=None)
+    pob_econom_activa: int = Field(default=None)
+    viviendas_habitadas: int = Field(default=None)
+    anualidad_censo: int = Field(default=None)
+    porcentaje: float = Field(default=None)
 
 
 class IndicadoresMunicipales(Template):
-    def __init__(self, db) -> None:
-        super().__init__(Model, db)
+    response_model = response_model(Model=Model)
 
-    def __enter__(self):
-        return super().__enter__()
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        return super().__exit__(exc_type, exc_value, traceback)
+    def __init__(self, Session: Session) -> None:
+        super().__init__(Model=Model, Session=Session)

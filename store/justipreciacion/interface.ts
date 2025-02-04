@@ -1,0 +1,63 @@
+/** @format */
+
+enum TipoJustipreciacion {
+	TERRENO = "terreno",
+	RENTA = "renta",
+}
+enum TipoJustipreciacionValue {
+	TERRENO = 0,
+	RENTA = 1,
+}
+export interface IJustipreciacionState {
+	id: number;
+	registro: string;
+
+	sp1_vu?: number;
+	sp1_factor?: number;
+	sp1_superficie?: number;
+
+	sp2_vu?: number;
+	sp2_factor?: number;
+	sp2_superficie?: number;
+
+	sp3_vu?: number;
+	sp3_factor?: number;
+	sp3_superficie?: number;
+
+	sp4_vu?: number;
+	sp4_factor?: number;
+	sp4_superficie?: number;
+
+	comparativo_mercado?: number;
+
+	cna_edad?: number;
+	cna_superficie?: number;
+	justipreciacioncna_vu?: number;
+
+	cnb_edad?: number;
+	cnb_superficie?: number;
+	justipreciacioncnb_vu?: number;
+
+	cnc_edad?: number;
+	cnc_superficie?: number;
+	justipreciacioncnc_vu?: number;
+
+	cnd_edad?: number;
+	cnd_superficie?: number;
+	justipreciacioncnd_vu?: number;
+
+	valor_total_obras_comp?: number;
+	tipo: TipoJustipreciacion | TipoJustipreciacionValue;
+}
+export interface IJustipreciacionActions {
+	setJustipreciacion: (justipreciacion: Partial<IJustipreciacionState>) => void;
+	clearJustipreciacion: () => void;
+	getJustipreciacionById: () => void;
+	getJustipreciacionByRegistro: () => void;
+	patchJustipreciacion: () => void;
+}
+export const defaultState = {
+	id: 0,
+	registro: null,
+	tipo: TipoJustipreciacion.TERRENO,
+};

@@ -1,20 +1,25 @@
+from datetime import datetime
+from enum import Enum
 from itertools import groupby
-from typing import Any, Optional
 from os import remove
-from fastapi import APIRouter, Depends, Request, Query
+from typing import Any, Optional
+from xml.etree.ElementTree import fromstring, parse
+
+from dateparser import parse
+from fastapi import APIRouter, Depends, File, Query, Request, UploadFile
 from requests import get
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
-from enum import Enum
-from dateparser import parse
+from sqlalchemy.orm import Session
+from xmltodict import unparse
+
 from .. import config, database, middlewares
+from ..controllers.metadatos import ReporteMetadatos as __ReporteMetadatos
 from ..models.dataset import Dataset as __Dataset
 from ..models.metadatos import MetadatosTemporales as __TMP
 from ..models.usuarios import Usuarios
-from ..controllers.metadatos import ReporteMetadatos as __ReporteMetadatos
-from sqlalchemy.orm import Session
 from ..utils.temporary import name_it
-from xmltodict import unparse
+
 __response = middlewares.RESPONSES()
 
 required = Usuarios.required
@@ -25,74 +30,6 @@ meta = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-DBS = Enum(
-    "DBS",
-    {
-        db.upper(): db
-        for db in {
-            "municipios",
-            "pcm",
-            "plan_ordenamiento_territorial",
-            "valores_municipales",
-        }
-    },
-)
-
-
-@meta.get("/resources", response_model=None)
-async def get_resources(
-    user=Depends(required),
-    db_name: Optional[DBS] = None,
-    schema_name: Optional[str] = None,
-    table_name: Optional[str] = None,
-):
-    data = database.group_by_db(db=db_name, schema=schema_name, table=table_name)
-    if db_name is None:
-        data = {
-            db: schemas
-            for db, schemas in data.items()
-            if db
-            in {
-                "municipios",
-                "pcm",
-                "plan_ordenamiento_territorial",
-                "valores_municipales",
-            }
-        }
-    return __response.success(
-        data=[
-            {
-                "key": db,
-                "label": db.replace("_", " ").title(),
-                "data": f"{db.capitalize()} Database",
-                "icon": "pi pi-fw pi-database",
-                "selectable": False,
-                "leaf": True,
-                "children": [
-                    {
-                        "key": f"{db}.{schema}",
-                        "label": schema.replace("_", " ").title(),
-                        "data": f"{schema.capitalize()} Schema",
-                        "icon": "pi pi-fw pi-sitemap",
-                        "selectable": False,
-                        "leaf": True,
-                        "children": [
-                            {
-                                "key": f"{db}.{schema}.{table}",
-                                "label": table.replace("_", " ").title(),
-                                "data": f"{table.capitalize()} Table",
-                                "icon": "pi pi-fw pi-table",
-                            }
-                            for table in tables
-                        ],
-                    }
-                    for schema, tables in schemas.items()
-                ],
-            }
-            for db, schemas in data.items()
-        ]
-    )
-
 
 @meta.get("/complete")
 async def get_all_metadatos(
@@ -102,40 +39,38 @@ async def get_all_metadatos(
         meta = __Dataset(db)
         if meta.filter_group(is_latest=True) is None:
             return __response.success(data=[])
-        # data = []
-        # for current in meta.list():
-        #     current["keyword"]= "".join(current.get("keyword","")).replace('{', '').replace('}', '').replace('"', '').split(','),
-        #     current["accessconstraints"]:"".join(current.get("accessconstraints","")).replace('{"', '').replace('"}', '').split('","')
-        #     data.append(current)
-
         return __response.success(
             data=[
                 {
                     **current,
-                    "keyword": "".join(keyword)
-                    .replace("{", "")
-                    .replace("}", "")
-                    .replace('"', "")
-                    .replace("\\", "")
-                    .replace('\\"', '"')
-                    .replace('\\"', '"')
-                    .split(",")
-                    if (keyword := current.get("keyword", [])) is not None
-                    else [],
-                    "accessconstraints": "".join(accessconstraints)
-                    .replace('{"', "")
-                    .replace('"}', "")
-                    .split('","')
-                    if (accessconstraints := current.get("accessconstraints", []))
-                    is not None
-                    else [],
+                    "keyword": (
+                        "".join(keyword)
+                        .replace("{", "")
+                        .replace("}", "")
+                        .replace('"', "")
+                        .replace("\\", "")
+                        .replace('\\"', '"')
+                        .replace('\\"', '"')
+                        .split(",")
+                        if (keyword := current.get("keyword", [])) is not None
+                        else []
+                    ),
+                    "accessconstraints": (
+                        "".join(accessconstraints)
+                        .replace('{"', "")
+                        .replace('"}', "")
+                        .split('","')
+                        if (accessconstraints := current.get("accessconstraints", []))
+                        is not None
+                        else []
+                    ),
                 }
                 for current in meta.list()
             ]
         )
     except Exception as e:
         print(f"----------> Unexpected error on Metadata:\n {str(e)}")
-        return __response.error(message=str(e))
+        return __response.error(message=str(e), status_code=500)
 
 
 @meta.get("/preview")
@@ -151,23 +86,27 @@ async def get_all_metadatos_preview(
             data=[
                 {
                     **current,
-                    "keyword": "".join(keyword)
-                    .replace("{", "")
-                    .replace("}", "")
-                    .replace('"', "")
-                    .replace("\\", "")
-                    .replace('\\"', '"')
-                    .replace('\\"', '"')
-                    .split(",")
-                    if (keyword := current.get("keyword", [])) is not None
-                    else [],
-                    "accessconstraints": "".join(accessconstraints)
-                    .replace('{"', "")
-                    .replace('"}', "")
-                    .split('","')
-                    if (accessconstraints := current.get("accessconstraints", []))
-                    is not None
-                    else [],
+                    "keyword": (
+                        "".join(keyword)
+                        .replace("{", "")
+                        .replace("}", "")
+                        .replace('"', "")
+                        .replace("\\", "")
+                        .replace('\\"', '"')
+                        .replace('\\"', '"')
+                        .split(",")
+                        if (keyword := current.get("keyword", [])) is not None
+                        else []
+                    ),
+                    "accessconstraints": (
+                        "".join(accessconstraints)
+                        .replace('{"', "")
+                        .replace('"}', "")
+                        .split('","')
+                        if (accessconstraints := current.get("accessconstraints", []))
+                        is not None
+                        else []
+                    ),
                 }
                 for current in meta.list(
                     includes=[
@@ -198,19 +137,6 @@ async def get_all_temporal_metadatos(
 
         if meta.filter_group(username=user.nombre) is None:
             __response.success(data=[])
-        # data = []
-        # for current in meta.list():
-        #     current["datos"]["keyword"] = (
-        #         "".join(current.get("keyword", ""))
-        #         .replace("{", "")
-        #         .replace("}", "")
-        #         .replace('"', "")
-        #         .split(","),
-        #     )
-        #     current["datos"]["accessconstraints"]: "".join(
-        #         current.get("accessconstraints", "")
-        #     ).replace('{"', "").replace('"}', "").split('","')
-        #     data.append(current)
         return __response.success(data=meta.list())
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
@@ -242,11 +168,11 @@ async def get_id(
             if (keyword := data.get("keyword", [])) is not None
             else []
         )
-        data["accessconstraints"]: "".join(accessconstraints).replace('{"', "").replace(
-            '"}', ""
-        ).split('","') if (
-            accessconstraints := data.get("accessconstraints", [])
-        ) is not None else []
+        data["accessconstraints"]: (
+            "".join(accessconstraints).replace('{"', "").replace('"}', "").split('","')
+            if (accessconstraints := data.get("accessconstraints", [])) is not None
+            else []
+        )
         return __response.success(data=data)
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
@@ -346,11 +272,12 @@ async def create_version(
             if (keyword := new_version.get("keyword", [])) is not None
             else []
         )
-        new_version["accessconstraints"]: "".join(accessconstraints).replace('{"', "").replace(
-            '"}', ""
-        ).split('","') if (
-            accessconstraints := new_version.get("accessconstraints", [])
-        ) is not None else []
+        new_version["accessconstraints"]: (
+            "".join(accessconstraints).replace('{"', "").replace('"}', "").split('","')
+            if (accessconstraints := new_version.get("accessconstraints", []))
+            is not None
+            else []
+        )
         if meta.create(**new_version) is None:
             return __response.error(
                 message=f"Error creando la nueva version del registro {meta.Current.id}",
@@ -403,8 +330,10 @@ async def patch_id(
                 status_code=404,
             )
         data = await request.json()
-
-        data |= {"update_date": parse("hoy")}
+        try:
+            data |= {"update_date": parse("hoy")}
+        except Exception as e:
+            data |= {"update_date": datetime.now()}
         if "geom" in data:
             del data["geom"]
         if "inp_name" in data:
@@ -503,10 +432,15 @@ async def delete_temporal_metadatos(
     except Exception as e:
         print(f"----------> Unexpected error:\n {str(e)}")
         return __response.error(message=str(e))
-@meta.get("/export/{uid}")
-async def export_xml(uid:str,user=Depends(required),
-    db: Session = Depends(database.CATASTRO_V2),filename:str=name_it(extension="xml")):
 
+
+@meta.get("/export/{uid}")
+async def export_xml(
+    uid: str,
+    user=Depends(required),
+    db: Session = Depends(database.CATASTRO_V2),
+    filename: str = name_it(extension="xml"),
+):
     try:
         meta = __Dataset(db)
         if meta.filter(uid=uid) is None:
@@ -527,12 +461,12 @@ async def export_xml(uid:str,user=Depends(required),
             if (keyword := data.get("keyword", [])) is not None
             else []
         )
-        data["accessconstraints"]: "".join(accessconstraints).replace('{"', "").replace(
-            '"}', ""
-        ).split('","') if (
-            accessconstraints := data.get("accessconstraints", [])
-        ) is not None else []
-        filename=f"{data.get('uid')}.xml"
+        data["accessconstraints"]: (
+            "".join(accessconstraints).replace('{"', "").replace('"}', "").split('","')
+            if (accessconstraints := data.get("accessconstraints", [])) is not None
+            else []
+        )
+        filename = f"{data.get('uid')}.xml"
         path = f"{config.PATHS.TMP}/{filename}"
         with open(path, "w") as file:
             file.write(unparse({"root": data}))
@@ -543,3 +477,75 @@ async def export_xml(uid:str,user=Depends(required),
     finally:
         # remove(path)
         ...
+
+
+@meta.post("/import")
+async def import_xml(
+    file: UploadFile = File(...),
+    user=Depends(required),
+    db: Session = Depends(database.CATASTRO_V2),
+    temporal: bool = False,
+):
+    if "xml" not in file.filename or file.filename == "":
+        return __response.error(message="El archivo enviado no es un archivo XML")
+    try:
+        xml = await file.read()
+        root_xml = fromstring(xml)
+        data = {
+            element.tag.lower(): (
+                float(element.text)
+                if element.text.isdigit()
+                else element.text.strip().replace("\n", "")
+            )
+            for element in root_xml.iter()
+        }
+        data = {key: value if value is not None else "" for key, value in data.items()}
+        data["metadata_xml"] = xml.decode("utf-8")
+        data["version"] = 1
+        data["db_name"] = ""
+        data["schema_name"] = ""
+        data["table_name"] = ""
+        if isinstance(data["topiccategory"], str):
+            data["topiccategory"] = data["topiccategory"].split(",")
+        elif not isinstance(data["topiccategory"], list):
+            data["topiccategory"] = []
+        if isinstance(data["presentationform"], str):
+            data["presentationform"] = data["presentationform"].split(",")
+        elif not isinstance(data["presentationform"], list):
+            data["presentationform"] = []
+
+        if isinstance(data["useconstraints"], str):
+            data["useconstraints"] = data["useconstraints"].split(",")
+        elif not isinstance(data["useconstraints"], list):
+            data["useconstraints"] = []
+
+        if "keyword" in data:
+            if isinstance(data["keyword"], str):
+                data["keywords"] = data["keyword"].split(",")
+            elif not isinstance(data["keyword"], list):
+                data["keywords"] = []
+            else:
+                data["keywords"] = data["keyword"]
+        # if temporal:
+        meta = __TMP(db)
+        keys = __Dataset(db).Model.__table__.columns.keys()
+
+        data = {
+            "datos": {
+                key: data.get(key, "") for key in keys if key not in {"uid", "id"}
+            }
+        }
+        # else:
+        #     meta = __Dataset(db)
+
+        if meta.create(**data, username=user.nombre) is None:
+            return __response.error(message="No se pudo registrar el metadato")
+
+        return __response.success(
+            data={
+                "status": "success",
+            }
+        )
+    except Exception as e:
+        print(f"----------> Unexpected error:\n {str(e)}")
+        return __response.error(message=str(e))

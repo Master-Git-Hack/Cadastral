@@ -36,7 +36,7 @@ const oauthSchema = z.object({
 export default function SignIn() {
 	const [showPassword, setShowPassword] = useState(false);
 	const router = useRouter();
-	const { token, signIn } = useUser((state) => state);
+	const { token, signIn, setExpiration } = useUser((state) => state);
 	const { isLoading, isError, message } = useStatusStore((state) => state);
 	const form = useForm<z.infer<typeof oauthSchema>>({
 		resolver: zodResolver(oauthSchema),
@@ -52,6 +52,7 @@ export default function SignIn() {
 	}
 	useEffect(() => {
 		if (token) {
+			setExpiration(719);
 			router.push("/home");
 		}
 	}, [token]);

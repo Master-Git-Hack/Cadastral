@@ -1,43 +1,24 @@
 from typing import Any, Dict, Optional
 
 from sqlalchemy import BigInteger, Column, String
+from sqlmodel import Field, Session, SQLModel
 
 from .. import config, database
 from ..middlewares.database import Template
+from . import response_model
 
 
-class Model(database.BASE):
-    """
-    Municipios Model
-    """
-
+class Model(SQLModel, table=True):
     __tablename__ = "municipios"
-
-    id = Column(BigInteger, primary_key=True)
-    nombre = Column(String)
-    nombre_utf = Column(String)
-
-    def __init__(self, **kwargs: Dict[str, Any]) -> None:
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-
-
-from pydantic import BaseModel
-
-
-class Schema(BaseModel):
-    """
-    Municipios Schema
-    """
-
-    id: Optional[int]
-    nombre: Optional[str]
-    nombre_utf: Optional[str]
-
-    class Config:
-        orm_mode = True
+    id: Optional[int] = Field(
+        default=None, primary_key=True, sa_column_kwargs={"autoincrement": True}
+    )
+    nombre: str = Field(default=None)
+    nombre_utf: str = Field(default=None)
 
 
 class Municipios(Template):
-    def __init__(self, db) -> None:
-        super().__init__(Model=Model, db=db, Schema=Schema)
+    response_model = response_model(Model=Model)
+
+    def __init__(self, Session: Session) -> None:
+        super().__init__(Model=Model, Session=Session)

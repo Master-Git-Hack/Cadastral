@@ -191,7 +191,7 @@ class Responses:
     async def __delete_files(self, path: str = None) -> None:
         await sleep(5)
         if path is None:
-            path = config.PATHS.tmp
+            path = config.PATHS.TMP
         try:
             for filename in listdir(path):
                 if exists(file := f"{path}/{filename}"):

@@ -1,45 +1,22 @@
 from datetime import datetime
-from typing import Any, Dict, Optional, List
-from xml.etree.ElementTree import fromstring, parse
+from typing import Any, List, Optional
 
-from geoalchemy2 import WKBElement
 from geoalchemy2.types import Geometry
-from shapely.geometry import shape
-from sqlalchemy import (
-    ARRAY,
-    Column,
-    DateTime,
-    Float,
-    Index,
-    Integer,
-    PrimaryKeyConstraint,
-    String,
-    UniqueConstraint,
-    create_engine,
-    Boolean,
-    text,
-)
+
+# from pydantic import BaseModel, validator
+from sqlalchemy import ARRAY, Boolean, Column, DateTime, Float, Integer, String, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlmodel import Field, Session, SQLModel
 
-from .. import config, database
 from ..middlewares.database import Template
 from . import response_model
 
-from pydantic import BaseModel, validator
-from typing import List, Optional
-
-
-class Config:
-    arbitrary_types_allowed = True
-
-
-# O utiliza validadores explícitos
-@validator("categories", pre=True, always=True)
-def validate_categories(cls, value):
-    if isinstance(value, str):
-        return value.split(",")  # Ejemplo para convertir cadenas en listas
-    return value
+# # O utiliza validadores explícitos
+# @validator("categories", pre=True, always=True)
+# def validate_categories(cls, value):
+#     if isinstance(value, str):
+#         return value.split(",")  # Ejemplo para convertir cadenas en listas
+#     return value
 
 
 class Model(SQLModel, table=True):

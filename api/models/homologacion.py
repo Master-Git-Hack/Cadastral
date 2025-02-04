@@ -1,35 +1,26 @@
-from typing import Any, Dict
+from typing import Optional
 
-from sqlalchemy import JSON, BigInteger, Column, Float, String
+from sqlmodel import Field, Session, SQLModel
 
-from .. import config, database
 from ..middlewares.database import Template
+from . import response_model
 
 
-class Model(database.BASE):
+class Model(SQLModel, table=True):
     __tablename__ = "homologacion"
-
-    id = Column(BigInteger, primary_key=True)
-    tipo = Column(String)
-    factores = Column(JSON)
-    resultado = Column(JSON)
-    valor_unitario = Column(Float)
-    registro = Column(String())
-    tipo_servicio = Column(String())
-
-    def __init__(self, **kwargs: Dict[str, Any]) -> None:
-        for key, value in kwargs.items():
-            if key == "tipo" or key == "tipo_servicio":
-                value = value.lower()
-            setattr(self, key, value)
+    id: Optional[int] = Field(
+        default=None, primary_key=True, sa_column_kwargs={"autoincrement": True}
+    )
+    tipo: str = Field(default=None)
+    factores: dict = Field(default=None)
+    resultado: dict = Field(default=None)
+    valor_unitario: float = Field(default=None)
+    registro: str = Field(default=None)
+    tipo_servicio: str = Field(default=None)
 
 
 class Homologacion(Template):
-    def __init__(self, db) -> None:
-        super().__init__(Model, db)
+    response_model = response_model(Model=Model)
 
-    def __enter__(self):
-        return super().__enter__()
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        return super().__exit__(exc_type, exc_value, traceback)
+    def __init__(self, Session: Session) -> None:
+        super().__init__(Model=Model, Session=Session)

@@ -194,7 +194,9 @@ export default function Create({
 	const { getResources, schema_name, table_name, db_name, setMetadatos, ...data } = useMedatados(
 		(state) => state,
 	);
-	const { xmlToJson } = useParser((state) => state);
+
+	const [currentUID, setCurrentUID] = useState(uid);
+
 	const [open, setOpen] = useState(false);
 	const [resources, setResources] = useState([]);
 	const router = useRouter();
@@ -212,11 +214,20 @@ export default function Create({
 			callResources();
 		}
 	}, [resources]);
-
+	useEffect(() => {
+		if (!uid && !currentUID) {
+			if (data.uid) {
+				setCurrentUID(data.uid);
+			}
+		}
+		if (uid && !currentUID) {
+			setCurrentUID(uid);
+		}
+	}, [uid]);
 	return (
 		<div className="p-4 bg-white dark:bg-black  max-h-full">
 			<div className="flex flex-row-reverse py-2 justify-between items-center">
-				{uid && (
+				{currentUID && (
 					<>
 						<Button
 							className={cn(
@@ -302,7 +313,7 @@ export default function Create({
 							// customSaveFile={(filename: string) => jsonToXml(file, filename)}
 							onChange={async (file: File) => {
 								if (file) {
-									const response = await xmlToJson(file, router);
+									const response = await xmlToJson(file);
 									if (response.status !== 200) {
 										return Danger({
 											title: "Error",
@@ -328,7 +339,7 @@ export default function Create({
 						<SaveActions
 							open={open}
 							setOpen={setOpen}
-							uid={uid}
+							uid={currentUID}
 							isTemporal={isTemporal}
 						/>
 					</div>

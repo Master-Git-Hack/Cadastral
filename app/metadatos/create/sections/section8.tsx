@@ -12,10 +12,14 @@ export const Section8 = ({ editable = true }: any) => {
 
 	const handleMultiSelect = (e) => {
 		const { name } = e.target;
+		console.log(e.value);
 		const items = e.value.filter((item) => {
 			return item.code && item.label !== "undefined" && item.description !== "undefined";
 		});
-		const current = items.map((item) => `${item.code}. ${item.label}. ${item.description}`);
+
+		const current = items.map(
+			({ code, label, description }) => `${code}. ${label}. ${description}`,
+		);
 		setData({
 			...data,
 			accessconstraints: current,
@@ -24,23 +28,27 @@ export const Section8 = ({ editable = true }: any) => {
 	};
 	const findMultiSelect = (name: string) => {
 		const input = data[name] ?? [];
+		console.log(input);
+
 		const result = input
 			.map((item) => {
-				const [code, label, description] = item.split(". ").map((text, index) => {
-					if (index === 0 && text.trim()) {
-						return text.trim();
-					} else if (index !== 0 && text.trim() !== "undefined") {
-						return text.trim();
-					}
-					return null;
-				});
+				const parts = item.split(". ");
 
-				if (code && label !== "undefined" && description !== "undefined") {
-					return { code, label, description };
+				// Validamos que tenga al menos 2 partes: código y título
+				if (parts.length < 2) {
+					return { code: null, label: item.trim(), description: null }; // Caso especial
+				}
+
+				const [code, label, ...rest] = parts;
+				const description = rest.length ? rest.join(". ").trim() : null;
+
+				if (code && label) {
+					return { code: code.trim(), label: label.trim(), description };
 				}
 				return null;
 			})
 			.filter((item) => item !== null);
+
 		return result;
 	};
 	return (

@@ -1,6 +1,6 @@
 /** @format */
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +10,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
-	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
@@ -19,10 +18,18 @@ import { useTheme } from "next-themes";
 
 import useUser from "@/store/user/index";
 export default function User() {
-	const { nombre, usuario, iniciales, signOut } = useUser((state) => state);
+	const { nombre, usuario, iniciales, isExpired, signOut } = useUser((state) => state);
 	const { theme, setTheme } = useTheme();
 	const [isDark, setIsDark] = useState(theme === "dark");
 	const router = useRouter();
+	useEffect(() => {
+		if (isExpired()) {
+			signOut();
+			alert("Sesión Expirada");
+			router.push("/sign-in");
+		}
+	}, []);
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>

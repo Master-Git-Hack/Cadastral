@@ -48,14 +48,14 @@ export const Section1 = ({ editable = true }) => {
 		});
 		setData({
 			...data,
-			[name]: items.map((item) => `${item.code}. ${item.label}. ${item.description}`),
+			[name]: items?.map((item) => `${item.code}. ${item.label}. ${item.description}`),
 		});
 	};
 	const findMultiSelect = (name: string) => {
 		const input = data[name] ?? [];
 		const result = input
 			?.map((item) => {
-				const [code, label, description] = item.split(". ").map((text, index) => {
+				const [code, label, description] = item.split(". ")?.map((text, index) => {
 					if (index === 0 && text.trim()) {
 						return text.trim();
 					} else if (index !== 0 && text.trim() !== "undefined") {
@@ -344,7 +344,10 @@ export const Section1 = ({ editable = true }) => {
 							<SelectContent>
 								{catalogo.maintenanceandupdatefrequency?.map(
 									({ code, label, description }) => (
-										<SelectItem value={`${code}. ${label}. ${description}`}>
+										<SelectItem
+											value={`${code}. ${label}. ${description}`}
+											key={`${code}. ${label}. ${description}`}
+										>
 											{label}
 										</SelectItem>
 									),
@@ -383,7 +386,10 @@ export const Section1 = ({ editable = true }) => {
 							<SelectContent>
 								{catalogo.md_dataidentification_characterset?.map(
 									({ code, label, description }) => (
-										<SelectItem value={`${code}. ${label}. ${description}`}>
+										<SelectItem
+											value={`${code}. ${label}. ${description}`}
+											key={`${code}. ${label}. ${description}`}
+										>
 											{label}
 										</SelectItem>
 									),

@@ -1,38 +1,23 @@
-from typing import Any, Dict
+from typing import Optional
 
-from sqlalchemy import Column, Integer, String
+from sqlmodel import Field, Session, SQLModel
 
-from .. import config, database
 from ..middlewares.database import Template
+from . import response_model
 
 
-class Model(database.BASE):
-    """
-    Departamentos Solicitantes
-    Clase para la tabla dep_solicitante
-    """
-
+class Model(SQLModel, table=True):
     __tablename__ = "dep_solicitante"
-
-    id = Column(
-        Integer,
-        primary_key=True,
+    id: Optional[int] = Field(
+        default=None, primary_key=True, sa_column_kwargs={"autoincrement": True}
     )
-    descripcion = Column(String)
-    nombre_corto = Column(String)
-    secretaria = Column(String)
-
-    def __init__(self, **kwargs: Dict[str, Any]) -> None:
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+    descripcion: str = Field(default=None)
+    nombre_corto: str = Field(default=None)
+    secretaria: str = Field(default=None)
 
 
 class DepartamentosSolicitantes(Template):
-    def __init__(self, db) -> None:
-        super().__init__(Model, db)
+    response_model = response_model(Model=Model)
 
-    def __enter__(self):
-        return super().__enter__()
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        return super().__exit__(exc_type, exc_value, traceback)
+    def __init__(self, Session: Session) -> None:
+        super().__init__(Model=Model, Session=Session)

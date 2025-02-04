@@ -1,13 +1,14 @@
-from typing import Any, Dict, Generator, Iterable, List, Optional, Union
 from itertools import groupby
+from typing import Any, Dict, Generator, Iterable, List, Optional, Union
+
 from geoalchemy2 import WKBElement
 from geoalchemy2.shape import to_shape
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect, text
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Session, SQLModel, create_engine, select
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import inspect, text
-from .. import config, DBS
+
+from .. import DBS, config
 
 
 class Instance:
@@ -106,6 +107,38 @@ class Instance:
                     for schema, tables in groupby(result, lambda x: x[0])
                 }
         return data
+
+    def logged_actions(
+        self,
+        limit: int = 100,
+        schema_name: Optional[str] = None,
+        table_name: Optional[str] = None,
+        user_name: Optional[str] = None,
+        action: Optional[str] = None,
+    ):
+        db = DBS.VALUACIONES
+        engine = self.ENGINES[db.name]
+        with engine.connect() as connection:
+            query = """SELECT 
+                schema_name, table_name, user_name, action_tstamp, 'action', original_data, new_data, query, client_addr
+                FROM audit.logged_actions
+                WHERE (schema_name = :schema_name OR :schema_name IS NULL)
+                    AND (table_name = :table_name OR :table_name IS NULL)
+                    AND (user_name = :user_name OR :user_name IS NULL)
+                    AND (action = :action OR :action IS NULL)
+                LIMIT :limit
+            """
+            result = connection.execute(
+                text(query),
+                {
+                    "schema_name": schema_name,
+                    "table_name": table_name,
+                    "user_name": user_name,
+                    "action": action,
+                    "limit": limit,
+                },
+            )
+            return [dict(row) for row in result.mappings().all()]
 
     def inspect_me(self, db: DBS, schema: str = "valuaciones"):
         with catch_warnings():

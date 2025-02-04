@@ -10,21 +10,19 @@ const _ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const _VERSION = process.env.NEXT_PUBLIC_API_VERSION;
 const baseURL = `${_URL}/${_ENDPOINT}/${_VERSION}`;
 import { NextRouter } from "next/router";
-const consume = (
-	{
-		headers = {},
-		responseType = "json",
-		auth = {
-			username: "",
-			password: "",
-		},
-		cancelToken,
-		signal,
-		data,
-		...config
-	}: CreateAxiosDefaults,
-	router?: NextRouter,
-): AxiosInstance => {
+import { useRouter } from "next/navigation";
+const consume = ({
+	headers = {},
+	responseType = "json",
+	auth = {
+		username: "",
+		password: "",
+	},
+	cancelToken,
+	signal,
+	data,
+	...config
+}: CreateAxiosDefaults): AxiosInstance => {
 	const instance = axios.create({
 		baseURL,
 		responseType,
@@ -45,8 +43,11 @@ const consume = (
 		(config) => {
 			const user = LS.get("user-storage");
 			const token = user?.state?.token;
-			if (token) {
-				config.headers.Authorization = `Bearer ${token}`;
+			const url = config.url || "";
+			if (token && !url.includes("sign-in") && !url.includes("legacy")) {
+				const auth = `Bearer ${token}`;
+				config.headers.Authorization = auth;
+				config.headers["X-Cadastral-Signature"] = auth;
 			}
 			return config;
 		},
@@ -58,10 +59,9 @@ const consume = (
 		(response) => response,
 		(error: AxiosError) => {
 			if (error.response?.status === 401) {
-				// Clear token or other session data
+				const router = useRouter();
 				LS.clear();
-				// Redirect to sign-in page
-				if (router) router.push("/sign-in"); // Replace with your sign-in route
+				router.push("/sign-in");
 			}
 			return Promise.reject(error);
 		},
@@ -146,12 +146,12 @@ export const useStatusStore = create<IStatusState & IStatusActions>()((set) => (
 		}),
 }));
 export const api = {
-	get: async (url: string, params?: CreateAxiosDefaults, router?: NextRouter) => {
+	get: async (url: string, params?: CreateAxiosDefaults) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			const response = await consume({ ...config }, router).get(url);
+			const response = await consume({ ...config }).get(url);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
@@ -188,7 +188,7 @@ export const api = {
 			// 	} else {
 
 			// 	}
-			const response = await consume(config, router).post(url, data);
+			const response = await consume(config).post(url, data);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
@@ -209,7 +209,7 @@ export const api = {
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			const response = await consume(config, router).patch(url, data);
+			const response = await consume(config).patch(url, data);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
@@ -220,12 +220,12 @@ export const api = {
 			setTimeout(() => setDefault(), 500);
 		}
 	},
-	delete: async (url: string, params?: CreateAxiosDefaults, router?: NextRouter) => {
+	delete: async (url: string, params?: CreateAxiosDefaults) => {
 		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {
-			const response = await consume(config, router).delete(url);
+			const response = await consume(config).delete(url);
 			setSuccess(response.data.data, response.data.message);
 			return response;
 		} catch (error: any) {
