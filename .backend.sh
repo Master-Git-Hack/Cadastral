@@ -18,4 +18,4 @@ fi
 
 # Instalar dependencias y ejecutar la aplicación
 # pip3 install -r api/requirements.txt && \
-python3 -m uvicorn api.main:app --host 0.0.0.0 --port $PORT --reload --log-level debug --use-colors
+python3 -m uvicorn api.src.main:app --host 0.0.0.0 --port $PORT --reload --log-level debug --use-colors
