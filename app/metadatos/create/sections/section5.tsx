@@ -102,7 +102,7 @@ export const Section5 = ({ editable = true }: any) => {
 									maxFractionDigits={7}
 									step={0.0000001}
 									min={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -136,7 +136,7 @@ export const Section5 = ({ editable = true }: any) => {
 									maxFractionDigits={7}
 									step={0.0000001}
 									min={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -237,7 +237,7 @@ export const Section5 = ({ editable = true }: any) => {
 									step={0.0000001}
 									min={-90}
 									max={90}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -270,7 +270,7 @@ export const Section5 = ({ editable = true }: any) => {
 									step={0.0000001}
 									min={-180}
 									max={180}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -303,7 +303,7 @@ export const Section5 = ({ editable = true }: any) => {
 									step={0.0000001}
 									min={-90}
 									max={90}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -334,7 +334,7 @@ export const Section5 = ({ editable = true }: any) => {
 									className="w-full md:w-14rem "
 									maxFractionDigits={7}
 									step={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -363,7 +363,7 @@ export const Section5 = ({ editable = true }: any) => {
 									className="w-full md:w-14rem "
 									maxFractionDigits={7}
 									step={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -409,7 +409,7 @@ export const Section5 = ({ editable = true }: any) => {
 									step={0.0000001}
 									min={-180}
 									max={180}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -440,7 +440,7 @@ export const Section5 = ({ editable = true }: any) => {
 									step={0.0000001}
 									min={-180}
 									max={180}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -485,7 +485,7 @@ export const Section5 = ({ editable = true }: any) => {
 									maxFractionDigits={0}
 									min={1}
 									max={60}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									deccurl --location 'https://api-sandbox.lyft.net/oauth/token' \
 --header 'Content-Type: application/json' \
@@ -519,7 +519,7 @@ export const Section5 = ({ editable = true }: any) => {
 									name="mercator_sfec"
 									className="w-full md:w-14rem "
 									maxFractionDigits={0}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -644,7 +644,7 @@ export const Section5 = ({ editable = true }: any) => {
 									className="w-full md:w-14rem "
 									maxFractionDigits={7}
 									step={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -673,7 +673,7 @@ export const Section5 = ({ editable = true }: any) => {
 									className="w-full md:w-14rem "
 									maxFractionDigits={7}
 									step={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -717,7 +717,7 @@ export const Section5 = ({ editable = true }: any) => {
 									className="w-full md:w-14rem "
 									maxFractionDigits={7}
 									step={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -746,7 +746,7 @@ export const Section5 = ({ editable = true }: any) => {
 									className="w-full md:w-14rem "
 									maxFractionDigits={7}
 									step={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -954,7 +954,7 @@ export const Section5 = ({ editable = true }: any) => {
 									className="w-full md:w-14rem "
 									maxFractionDigits={7}
 									step={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -983,7 +983,7 @@ export const Section5 = ({ editable = true }: any) => {
 									className="w-full md:w-14rem "
 									maxFractionDigits={7}
 									step={0.0000001}
-									inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+									inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 									buttonLayout="horizontal"
 									decrementButtonClassName="p-button-info"
 									incrementButtonClassName="p-button-info"
@@ -1041,7 +1041,7 @@ export const Section5 = ({ editable = true }: any) => {
 							maxFractionDigits={0}
 							step={1}
 							min={1}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -1077,7 +1077,7 @@ export const Section5 = ({ editable = true }: any) => {
 							maxFractionDigits={0}
 							step={1}
 							min={1}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -1108,7 +1108,7 @@ export const Section5 = ({ editable = true }: any) => {
 							className={`w-full md:w-14rem `}
 							maxFractionDigits={0}
 							step={1}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -1143,7 +1143,7 @@ export const Section5 = ({ editable = true }: any) => {
 							className={`w-full md:w-14rem `}
 							maxFractionDigits={0}
 							step={1}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -1173,7 +1173,7 @@ export const Section5 = ({ editable = true }: any) => {
 							className={`w-full md:w-14rem $`}
 							maxFractionDigits={0}
 							step={1}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -1203,7 +1203,7 @@ export const Section5 = ({ editable = true }: any) => {
 							className={`w-full md:w-14rem `}
 							maxFractionDigits={0}
 							step={1}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -1296,7 +1296,7 @@ export const Section5 = ({ editable = true }: any) => {
 							className="w-full md:w-14rem "
 							maxFractionDigits={7}
 							step={0.0000001}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -1326,7 +1326,7 @@ export const Section5 = ({ editable = true }: any) => {
 							className="w-full md:w-14rem "
 							maxFractionDigits={12}
 							step={0.000000000001}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -1392,7 +1392,7 @@ export const Section5 = ({ editable = true }: any) => {
 							className="w-full md:w-14rem "
 							maxFractionDigits={7}
 							step={0.0000001}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"
@@ -1492,7 +1492,7 @@ export const Section5 = ({ editable = true }: any) => {
 							className="w-full md:w-14rem "
 							maxFractionDigits={7}
 							step={0.0000001}
-							inputClassName="text-gray-900 dark:bg-white focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
+							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
 							buttonLayout="horizontal"
 							decrementButtonClassName="p-button-info"
 							incrementButtonClassName="p-button-info"

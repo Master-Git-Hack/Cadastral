@@ -306,14 +306,14 @@ export const Section6 = ({ editable = true }: any) => {
 							pt={{
 								container: {
 									className:
-										"text-gray-900 focus:outline-none dark:bg-white bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center w-full md:w-14rem",
+										"text-gray-900 focus:outline-hidden dark:bg-white bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center w-full md:w-14rem",
 								},
 								input: {
 									className:
-										"text-gray-900 focus:outline-none dark:bg-white bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center w-full md:w-14rem",
+										"text-gray-900 focus:outline-hidden dark:bg-white bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center w-full md:w-14rem",
 								},
 							}}
-							className="text-gray-900 focus:outline-none dark:bg-white bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center w-full md:w-14rem"
+							className="text-gray-900 focus:outline-hidden dark:bg-white bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center w-full md:w-14rem"
 						/>
 						<span className="underline me-1">Revisar:</span>
 						<small className="font-xs">

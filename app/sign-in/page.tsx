@@ -63,7 +63,7 @@ export default function SignIn() {
 	return (
 		<main className="flex items-center justify-center h-screen bg-gray-900  bg-opacity-20 rounded drop-shadow-lg ">
 			{isLoading && <Spinner />}
-			<div className="bg-login z-50 absolute blur-sm border-8 rounded-3xl border-white" />
+			<div className="bg-login z-50 absolute blur-xs border-8 rounded-3xl border-white" />
 			<div className="z-50 bg-white p-8 rounded-2xl shadow-2xl shadow-black text-center opacity-90">
 				<Image
 					src={logoGto}

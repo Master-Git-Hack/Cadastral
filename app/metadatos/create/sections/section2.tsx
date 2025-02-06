@@ -175,7 +175,7 @@ export const Section2 = ({ editable = true }: any) => {
 							}
 							className=" w-full md:w-14rem text-black"
 							disabled={!editable}
-							inputClassName="text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 w-full md:w-14rem"
+							inputClassName="text-gray-900 focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 w-full md:w-14rem"
 						/> */}
 						<Popover>
 							<PopoverTrigger asChild>
