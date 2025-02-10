@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/fotogrametria/[municipio]/page.tsx"],"sourcesContent":["/** @format */\n\"use client\";\ninterface MunicipioProps {\n\tparams: { municipio: string };\n}\nimport DropZone from \"@components/ui/drag_and_drop_images/index\";\nexport default function Municipio({ params }: MunicipioProps) {\n\treturn (\n\t\t<>\n\t\t\t{params.municipio}\n\t\t\t<DropZone />\n\t\t</>\n\t);\n}\n"],"names":[],"mappings":"AAAA,YAAY;;;;;;AACZ;;;AAKe,SAAS,UAAU,EAAE,MAAM,EAAkB;IAC3D,qBACC;;YACE,OAAO,SAAS;0BACjB,wPAAC,kJAAA,CAAA,UAAQ;;;;;;;AAGZ"}},
-    {"offset": {"line": 26, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}
