@@ -55,7 +55,7 @@ export const Fancy = ({
 					/>
 				</>
 			) : (
-				<Tooltip id={id} tooltip={decoratedValue}>
+				<Tooltip id={id} tooltip={<span>{decoratedValue}</span>}>
 					<input
 						id={id}
 						type="text"

@@ -24,7 +24,7 @@ const initialState: FactorsProps = {
 		value: Number(getURLParams("cna_edad") ?? 1),
 		operator: 0.01,
 	},
-	data: [template(1)],
+	data: [template(1),template(2),template(3),template(4)],
 };
 export const age = {
 	template,

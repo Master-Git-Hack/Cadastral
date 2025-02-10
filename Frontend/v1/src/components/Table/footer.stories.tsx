@@ -28,6 +28,6 @@ const Template: ComponentStory<typeof Footer> = (args) => <Footer {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-	children: "Footer",
+	children: <span>Footer</span>,
 	className: "",
 };

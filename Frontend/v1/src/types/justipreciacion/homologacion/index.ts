@@ -19,6 +19,7 @@ import { indiviso } from "./registros/indiviso";
 import { reFactor } from "./registros/reFactor";
 import { salesCost } from "./registros/salesCost";
 import { weightingPercentage } from "./registros/weightingPercentage";
+import { other } from "./factores/other";
 import { operation, insertion } from "./factores";
 /** @format */
 export const homologacion = {
@@ -37,6 +38,7 @@ export const homologacion = {
 		typeForm,
 		usage,
 		zone,
+		other,
 	},
 	documentation: {
 		area,

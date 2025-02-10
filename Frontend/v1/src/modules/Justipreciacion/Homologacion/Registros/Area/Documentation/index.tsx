@@ -87,26 +87,26 @@ const Body = (type: boolean, options: any) => {
 				</td>
 				<td>{zone.name}</td>
 				{type && <td>{options[index].label}</td>}
-				{!type && (
-					<td>
-						<Fancy
-							name=""
-							label=""
-							value={SalesCost.data[index].value}
-							onChange={({ currentTarget: { valueAsNumber } }) => {
-								dispatch(
-									setSalesCostData({
-										index,
-										key: "value",
-										value: !isNaN(valueAsNumber) ? valueAsNumber : 0,
-									}),
-								);
-							}}
-							isCurrency
-							classNameDecorator="text-center bg-light"
-						/>
-					</td>
-				)}
+				
+				<td>
+					<Fancy
+						name=""
+						label=""
+						value={SalesCost.data[index].value}
+						onChange={({ currentTarget: { valueAsNumber } }) => {
+							dispatch(
+								setSalesCostData({
+									index,
+									key: "value",
+									value: !isNaN(valueAsNumber) ? valueAsNumber : 0,
+								}),
+							);
+						}}
+						isCurrency
+						classNameDecorator="text-center bg-light"
+					/>
+				</td>
+				
 				<td>
 					<div className="d-flex flex-row">
 						<label htmlFor={`date ${index}`} className="invisible disabled" />

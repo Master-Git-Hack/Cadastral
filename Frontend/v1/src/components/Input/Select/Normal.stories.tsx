@@ -89,23 +89,23 @@ const Normal: ComponentStory<typeof Select.Normal> = (args) => <Select.Normal {.
 export const Default = Normal.bind({});
 
 Default.args = {
-	label: "Select",
+	label: <span>Select</span>,
 	value: {
 		label: "+",
-		value: 1,
+		value: "1",
 	},
 	data: [
 		{
 			label: "+",
-			value: 1,
+			value: "1",
 		},
 		{
 			label: "=",
-			value: 0,
+			value: "0",
 		},
 		{
 			label: "-",
-			value: -1,
+			value: "-1",
 		},
 	],
 	onChange: (event) => alert(event.currentTarget.value),

@@ -1,9 +1,9 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 
 export interface TableProps {
-	children: ReactNode | ReactNode[];
+	children: JSX.Element | JSX.Element[];
 	className?: string;
 	type?: "success" | "danger" | "warning" | "info" | "primary" | "secondary" | "dark";
 }
@@ -11,13 +11,13 @@ export interface TableComponent {
 	className?: string;
 	name: string;
 	header?: string[];
-	customHeader?: ReactNode | ReactNode[];
+	customHeader?: JSX.Element | JSX.Element[];
 	headerClassName?: string;
 	body?: any[];
-	customBody?: ReactNode | ReactNode[];
+	customBody?: JSX.Element | JSX.Element[];
 	bodyClassName?: string;
 	footer?: string[];
-	customFooter?: ReactNode | ReactNode[];
+	customFooter?: JSX.Element | JSX.Element[];
 	footerClassName?: string;
 	hasFooter?: boolean;
 }

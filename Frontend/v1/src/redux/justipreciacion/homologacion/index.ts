@@ -153,6 +153,7 @@ export const {
 	setReFactorSurface,
 	setReFactorForm,
 	setIndiviso,
+	setOther,
 } = slice.actions;
 
 export default slice.reducer;

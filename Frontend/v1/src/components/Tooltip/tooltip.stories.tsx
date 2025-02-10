@@ -52,5 +52,5 @@ export const Default = Template.bind({});
 Default.args = {
 	id: "Tooltip",
 	children: "Tooltip",
-	tooltip: "Tooltip Message",
+	tooltip: <span>Tooltip Message</span>,
 };

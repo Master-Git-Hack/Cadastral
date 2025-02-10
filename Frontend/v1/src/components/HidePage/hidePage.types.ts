@@ -1,9 +1,9 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 
 export interface HidePageProps {
-	children: ReactNode | ReactNode[];
-	elementOnHide?: ReactNode | ReactNode[];
+	children: JSX.Element | JSX.Element[];
+	elementOnHide?: JSX.Element | JSX.Element[];
 	title?: string;
 }

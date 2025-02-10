@@ -23,8 +23,8 @@ export const EnabledInputNumber = ({
 			onChange={(checked: boolean) => setChecked(checked)}
 			withText
 			size={"sm"}
-			uncheckedText="Con Número"
-			checkedText="Sin Número"
+			uncheckedText={<span>Con Número</span>}
+			checkedText={<span>Sin Número</span>}
 		/>
 	);
 	return (

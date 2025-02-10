@@ -71,6 +71,6 @@ const Template: ComponentStory<typeof Modal> = (args) => <Modal {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-	action: "Press Me",
-	children: "Something",
+	action: <span>Press Me</span>,
+	children: <span>Something</span>,
 };

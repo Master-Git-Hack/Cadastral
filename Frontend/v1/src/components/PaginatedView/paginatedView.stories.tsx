@@ -77,8 +77,8 @@ Default.args = {
 		"Page 9",
 		"Page 10",
 	],
-	title: "Paginated View",
-	footer: "Footer",
+	title: <span>Paginated View</span>,
+	footer: <span>Footer</span>,
 	startAt: 5,
 	totalPages: 100,
 };

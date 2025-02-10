@@ -13,7 +13,7 @@ const calculation = (data: any) =>
 
 export const initialState: WeightingPercentageProps = {
 	total: 100,
-	data: [template(1)],
+	data: [template(1), template(2), template(3), template(4)],
 };
 export const weightingPercentage = {
 	template,

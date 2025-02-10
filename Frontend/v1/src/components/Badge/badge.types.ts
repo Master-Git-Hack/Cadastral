@@ -1,9 +1,9 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 
 export interface BadgeProps {
-	children?: ReactNode | ReactNode[];
+	children?: JSX.Element | JSX.Element[];
 	type?: "danger" | "success" | "warning" | "info" | "primary" | "secondary" | "orange";
 	text: string;
 }

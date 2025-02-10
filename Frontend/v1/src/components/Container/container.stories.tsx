@@ -56,39 +56,39 @@ export const SidebarLeftOutside = Template.bind({});
 export const SidebarRightOutside = Template.bind({});
 
 Default.args = {
-	children: "Default",
+	children: <div>Default</div>,
 };
 HeaderFooter.args = {
-	children: "HeaderFooter",
-	header: "Header",
-	footer: "Footer",
+	children: <div>HeaderFooter</div>,
+	header: <div>Header</div>,
+	footer: <div>Footer</div>,
 };
 SidebarLeft.args = {
-	children: "SidebarLeft",
+	children: <div>SidebarLeft</div>,
 	sidebar: {
-		children: "SidebarLeft",
+		children: <div>SidebarLeft</div>,
 		position: "left",
 	},
 };
 SidebarRight.args = {
-	children: "SidebarRight",
+	children: <div>SidebarRight</div>,
 	sidebar: {
-		children: "SidebarRight",
+		children: <div>SidebarRight</div>,
 		position: "right",
 	},
 };
 SidebarLeftOutside.args = {
-	children: "SidebarLeftOutside",
+	children: <div>SidebarLeftOutside</div>,
 	sidebar: {
-		children: "SidebarLeftOutside",
+		children: <div>SidebarLeftOutside</div>,
 		position: "left",
 		outside: true,
 	},
 };
 SidebarRightOutside.args = {
-	children: "SidebarRightOutside",
+	children: <div>SidebarRightOutside</div>,
 	sidebar: {
-		children: "SidebarRightOutside",
+		children: <div>SidebarRightOutside</div>,
 		position: "right",
 		outside: true,
 	},

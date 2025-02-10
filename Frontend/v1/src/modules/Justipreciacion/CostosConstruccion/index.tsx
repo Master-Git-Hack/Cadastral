@@ -190,7 +190,7 @@ export const CostosConstruccion = ({ children, subTotal, totalCalculado }: any) 
 											<Switch
 												checked={enabled}
 												reverse
-												label="Factor GTO"
+												label={<span>Factor GTO</span>}
 												withText
 												onChange={(checked: boolean) =>
 													setTimeout(
@@ -247,7 +247,7 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }: any) => {
 					onClick(rowData.id);
 				}}
 			>
-				{rowData.status === "EDIT" ? "Guardar" : "Editar"}
+				{rowData.status === "EDIT" ? <span>Guardar</span> : <span>Editar</span>}
 			</Button>
 		</Cell>
 	);

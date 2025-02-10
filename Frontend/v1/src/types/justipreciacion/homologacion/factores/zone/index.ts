@@ -18,11 +18,14 @@ const operation = (items: any) => {
 	);
 	return results.map((item: number, index: number) => ({ id: index + 1, value: item }));
 };
-const templateSubject = (id: number) => ({
+const templateSubject = (id: number,percentage:number=10,observations:string="") => ({
 	id,
 	C1: options[0],
-	percentage: 10,
-	observations: "",
+	C2: options[0],
+	C3: options[0],
+	C4: options[0],
+	percentage,
+	observations,
 	insertion: insertColumn,
 });
 const templateData = (id: number) => ({
@@ -39,7 +42,7 @@ const insertionSubject = (data: any) => {
 
 	const keys = Object.keys(data[id - 2]).filter((name: string) => name.includes("C"));
 	let newRow = templateSubject(id);
-	for (let i = 2; i <= keys.length; i++) {
+	for (let i = 2; i <= keys.length+1; i++) {
 		newRow = insertColumn(`C${i}`, newRow);
 	}
 	data.push(newRow);
@@ -65,9 +68,9 @@ const initialState: FactorsProps = {
 	tag: "FZon.",
 	isUsed: false,
 	position: 0,
-	subject: [templateSubject(1)],
-	data: [templateData(1)],
-	results: [templateResults(1)],
+	subject: [templateSubject(1,2,"EQUIPAMIENTO"),templateSubject(2,2,"SERVICIOS"),templateSubject(3,2,"DESEABILIDAD"),templateSubject(4,2,"TRANSPORTE"),templateSubject(5,2,"PERIFERIA")],
+	data: [templateData(1),templateData(2),templateData(3),templateData(4)],
+	results: [templateResults(1),templateResults(2),templateResults(3),templateResults(4)],
 };
 export const zone = {
 	operation,

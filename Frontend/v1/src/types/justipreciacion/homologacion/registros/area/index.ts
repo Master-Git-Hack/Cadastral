@@ -88,7 +88,7 @@ const initialState = (type: string): AreaProps => ({
 			{ id: 2, type: "totalPopulation", root: 12 },
 		],
 	},
-	data: [template(1, type)],
+	data: [template(1, type),template(2, type),template(3, type),template(4, type)],
 });
 export const area = {
 	operationAverageLotArea,

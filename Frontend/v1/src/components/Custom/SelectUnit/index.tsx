@@ -13,7 +13,7 @@ const options = [
 export const SelectUnit = ({ currentItem, onSelect }: SelectUnitProps): JSX.Element => (
 	<Custom
 		block
-		data={options}
+		data={options.map(option => ({ label: option.label, value: <span>{option.value}</span> }))}
 		placement="autoHorizontalStart"
 		value={currentItem}
 		onSelect={(eventKey: string, event: any) => onSelect(eventKey)}

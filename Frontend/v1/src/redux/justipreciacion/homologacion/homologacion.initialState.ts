@@ -20,6 +20,7 @@ const {
 		typeForm,
 		usage,
 		zone,
+		other,
 	},
 	documentation: { area, indiviso, reFactor, salesCost, weightingPercentage },
 	handlers: { common },
@@ -45,6 +46,7 @@ export const initialState: StateProps = {
 		Usage: usage.initialState,
 		Location: location.initialState,
 		Zone: zone.initialState,
+		Other: other.initialState,
 	},
 	documentation: {
 		Area: area.initialState(tipo),

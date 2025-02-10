@@ -12,6 +12,7 @@ export const Button = ({
 	loading,
 	size,
 	onClick,
+	...props
 }: ButtonProps): JSX.Element => (
 	<Component
 		color={colorPicker[type ?? "primary"]}
@@ -21,6 +22,7 @@ export const Button = ({
 		loading={loading}
 		size={size}
 		onClick={onClick}
+		{...props}
 	>
 		{children}
 	</Component>

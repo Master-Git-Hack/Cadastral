@@ -1,15 +1,15 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 
 export interface PopPanelProps {
-	children: ReactNode | ReactNode[];
+	children: JSX.Element | JSX.Element[];
 
 	placement?: "top" | "bottom" | "left" | "right";
 	size?: "full" | "lg" | "md" | "sm" | "xs";
-	header?: ReactNode | ReactNode[];
-	customPanelActions?: ReactNode | ReactNode[];
-	action?: ReactNode | ReactNode[];
+	header?: JSX.Element | JSX.Element[];
+	customPanelActions?: JSX.Element | JSX.Element[];
+	action?: JSX.Element | JSX.Element[];
 	btnType?: "danger" | "success" | "warning" | "info" | "primary" | "secondary" | "orange";
 	btnAppearance?: "default" | "primary" | "link" | "light" | "outline";
 	block?: boolean;

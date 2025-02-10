@@ -1,11 +1,11 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 
 /** @format */
 export interface DropdownProps {
 	items?: string[];
-	children?: ReactNode | ReactNode[];
+	children?: JSX.Element | JSX.Element[];
 	trigger?: "click" | "hover" | "contextMenu";
 	placement?:
 		| "bottomStart"
@@ -16,7 +16,7 @@ export interface DropdownProps {
 		| "leftEnd"
 		| "rightStart"
 		| "rightEnd";
-	title: ReactNode | ReactNode[];
+	title: JSX.Element | JSX.Element[];
 	onSelect: (eventKey: string | undefined) => void;
 	type?: "danger" | "success" | "warning" | "info" | "primary" | "secondary" | "orange";
 	appearance?: "default" | "primary" | "link" | "light" | "outline";

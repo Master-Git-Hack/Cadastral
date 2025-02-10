@@ -14,9 +14,10 @@ export const positions = (type: boolean) => {
 		[type ? 2 : 10]: { key: "TypeForm", isUsed: type },
 		[type ? 3 : 11]: { key: "Usage", isUsed: type },
 		[type ? 4 : 2]: { key: "Zone", isUsed: true },
+		[type ? 12 : 13]: { key: "Other", isUsed: true },
 	};
 
-	return new Array(type ? 12 : 13).fill(0).map((_, i) => {
+	return new Array(type ? 13 : 14).fill(0).map((_, i) => {
 		return {
 			...factors[i],
 		};
@@ -78,7 +79,7 @@ export const rmRowFN = (state: any) => {
 	for (const key in factors) {
 		const { data, subject } = factors[key];
 		const { length } = data;
-		if (length > 1) {
+		if (length > 4) {
 			key !== "Location" && key !== "Zone" && data.pop();
 			if (key === "Location") {
 				const id = length;
@@ -95,7 +96,7 @@ export const rmRowFN = (state: any) => {
 		const length = data !== undefined ? data.length : 0;
 		const id = !key.includes("ReFactor") && !key.includes("Indiviso") ? length : 0;
 		if (key.includes("Area") || key.includes("WeightingPercentage")) {
-			id > 1 && data.pop();
+			id > 4 && data.pop();
 		}
 		key.includes("SalesCost") && id > 1 && data.pop() && results.pop();
 	}
@@ -204,7 +205,7 @@ export const updateValuesFN = (state: any) => {
 	if (type.includes("TERRENO")) {
 		documentation.Indiviso = handlers.Indiviso.operation(Indiviso, Area.subject.value);
 	}
-	state.errors = checkErrors(state);
+	// state.errors = checkErrors(state);
 	return state;
 };
 

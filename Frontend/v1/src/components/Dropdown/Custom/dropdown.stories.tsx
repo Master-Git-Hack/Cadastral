@@ -67,7 +67,7 @@ const Template: ComponentStory<typeof Dropdown> = (args) => <Dropdown {...args} 
 export const Default = Template.bind({});
 
 Default.args = {
-	title: "Dropdown",
+	title: <span>Dropdown</span>,
 	items: ["Item 1", "Item 2", "Item 3"],
 	onSelect: (eventKey: string | undefined) => {
 		alert(eventKey);

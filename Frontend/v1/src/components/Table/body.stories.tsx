@@ -27,6 +27,6 @@ export default {
 const Template: ComponentStory<typeof Body> = (args) => <Body {...args} />;
 export const Default = Template.bind({});
 Default.args = {
-	children: "Body",
+	children: <span>Body</span>,
 	className: "",
 };

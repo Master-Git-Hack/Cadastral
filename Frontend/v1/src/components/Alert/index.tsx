@@ -1,6 +1,5 @@
 /** @format */
 import React from "react";
-
 import { Message } from "rsuite";
 import { AlertProps } from "./alert.types";
 
@@ -11,3 +10,4 @@ export const Alert = ({ closable, duration, header, type, children }: AlertProps
 		</Message>
 	</div>
 );
+export default Alert;

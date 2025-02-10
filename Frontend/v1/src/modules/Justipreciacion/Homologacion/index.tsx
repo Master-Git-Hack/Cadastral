@@ -1,7 +1,7 @@
 /** @format */
 
 import { PaginatedView } from "../../../components/PaginatedView";
-import { Save, Success, Danger } from "../../../components/Button";
+import { Save, Success, Danger, Button } from "../../../components/Button";
 import { Spinner } from "../../../components/Spinner";
 import { useEffect, useState } from "react";
 import { Factores } from "./Factores";
@@ -23,21 +23,21 @@ import { Indiviso } from "./Registros/Inviso";
 import { Justipreciacion } from "..";
 import { consumeJustipreciacion, getJustipreciacion } from "../../../redux/justipreciacion";
 const { AgeContainer, Compilation, Selector } = Factores;
+import { Drawer } from "rsuite";
 //const { Success, Error, SimpleMessage, Save } = Alert;
-const base = (type: "TERRENO" | "RENTA", key: string = "6") => ({
-	1: <Compilation />,
+const base = (type: "TERRENO" | "RENTA", key: string = "5") => ({
+	1: <Compilation type={type} />,
 	2: <AgeContainer type={type} />,
 	3: <Area.Component />,
-	4: <Selector />,
-	5: <BigPicture />,
+	4: <BigPicture />,
 	[key]: <NaturalValues />,
 });
 const Pages = (type: "TERRENO" | "RENTA", isUsed: boolean) =>
 	!isUsed
 		? { ...base(type) }
 		: {
-				...base(type, "7"),
-				6: <Indiviso />,
+				...base(type, "6"),
+				5: <Indiviso />,
 		  };
 
 export const Homologacion = () => {
@@ -58,6 +58,7 @@ export const Homologacion = () => {
 	const [startAt, setStartAt] = useState(1);
 	const [loadingSave, setLoadingSave] = useState(false);
 	const [showErrors, setShowErrors] = useState(false);
+	const [open, setOpen] = useState(false);
 	useEffect(() => {
 		id === 0 &&
 			justipreciacion.id !== 0 &&
@@ -168,6 +169,7 @@ export const Homologacion = () => {
 				});
 		});
 	};
+	const [currentPage, setCurrentPage] = useState(1);
 	return (
 		<Justipreciacion>
 			{loadingPage && <Spinner backdrop inverse size="lg" />}
@@ -176,16 +178,39 @@ export const Homologacion = () => {
 					startAt={startAt}
 					errors={errors}
 					showErrors={showErrors}
+					currentPage={setCurrentPage}
 					title={
 						<>
 							<h1 className="me-auto">
 								Homologación de tipo: <strong>{type}</strong>
 							</h1>
-							<Save
-								status={record.status}
-								loading={loadingSave}
-								onClick={saveAction}
-							/>
+							<>
+							{currentPage>2&&
+								<><Button className="me-4" onClick={() => setOpen(true)}>
+								<span>Mostrar Información</span>
+							</Button>
+							
+							<Drawer
+								open={open}
+								onClose={() => setOpen(false)}
+								placement={"bottom"}
+							>
+								<Drawer.Header>
+									<Drawer.Title>Documentación</Drawer.Title>
+								</Drawer.Header>
+								<Drawer.Body >
+									<div style={{pointerEvents: 'none',
+		opacity: 0.5 }} tabIndex={-1}><Area.Documentation /></div>
+									
+								</Drawer.Body>
+							</Drawer></>
+							}
+								<Save
+									status={record.status}
+									loading={loadingSave}
+									onClick={saveAction}
+								/>
+							</>
 						</>
 					}
 					footer={
@@ -196,7 +221,7 @@ export const Homologacion = () => {
 							página 5.
 						</span>
 					}
-					totalPages={!isUsed ? 6 : 7}
+					totalPages={!isUsed ? 5 : 6}
 					actions={{
 						children: (
 							<>

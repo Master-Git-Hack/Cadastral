@@ -23,7 +23,7 @@ const initialState: FactorsProps = {
 		enabled: false,
 		observations: "",
 	},
-	data: [template(1)],
+	data: [template(1),template(2),template(3),template(4)],
 };
 export const surface = {
 	template,

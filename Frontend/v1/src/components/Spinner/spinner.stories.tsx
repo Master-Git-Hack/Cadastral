@@ -55,7 +55,7 @@ export default {
 const Template: ComponentStory<typeof Spinner> = (args) => <Spinner {...args} />;
 export const Default = Template.bind({});
 Default.args = {
-	children: "Spinner",
+	children: <span>Spinner</span>,
 	backdrop: false,
 	center: true,
 	inverse: false,

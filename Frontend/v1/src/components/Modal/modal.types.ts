@@ -1,15 +1,15 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 
 export interface ModalProps {
-	action: ReactNode | ReactNode[];
-	children: ReactNode | ReactNode[];
+	action: JSX.Element | JSX.Element[];
+	children: JSX.Element | JSX.Element[];
 	type?: "danger" | "success" | "warning" | "info" | "primary" | "secondary" | "orange";
 	appearance?: "default" | "primary" | "link" | "light" | "outline";
 	btnSize?: "xs" | "sm" | "md" | "lg";
 	size?: "full" | "lg" | "md" | "sm" | "xs";
-	header?: ReactNode | ReactNode[];
-	title?: ReactNode | ReactNode[];
-	footer?: ReactNode | ReactNode[];
+	header?: JSX.Element | JSX.Element[];
+	title?: JSX.Element | JSX.Element[];
+	footer?: JSX.Element | JSX.Element[];
 }

@@ -1,6 +1,6 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 /** @format */
 
 export interface ModalProps {
@@ -14,5 +14,5 @@ export interface ModalProps {
 	setEditable: (checked: boolean) => void;
 	comment: string;
 	setComment: (value: string) => void;
-	children: ReactNode | ReactNode[];
+	children: JSX.Element | JSX.Element[];
 }

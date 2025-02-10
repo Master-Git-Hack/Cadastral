@@ -30,7 +30,7 @@ export const PopPanel = ({
 				size={btnSize}
 				onClick={() => setShow(!show)}
 			>
-				{action ?? "Abrir"}
+				{action ?? <span>Abrir</span>}
 			</Button>
 			<Drawer
 				size={size}

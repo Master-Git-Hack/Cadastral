@@ -34,7 +34,7 @@ export const reducers = {
 		const { subject } = factors[key];
 
 		const { length } = subject;
-		if (length > 1) {
+		if (length > 3) {
 			subject.pop();
 			subject.map((item: any) => (item.percentage = 10 / (length - 1)));
 			state = updateValuesFN(state);
@@ -116,8 +116,8 @@ export const reducers = {
 		positions(type).map((factor: any, index: number) => {
 			const { key, isUsed } = factor;
 			const current: any = factors[key];
-			const inferiorLimit = type ? 7 : 9;
-			const superiorLimit = type ? 10 : 11;
+			const inferiorLimit = type ? 6 : 8;
+			const superiorLimit = type ? 9 : 10;
 			const enabled = index <= inferiorLimit && index >= superiorLimit;
 			if (!current.isUsed && !enabled) {
 				current.isUsed = isUsed;
@@ -296,4 +296,11 @@ export const reducers = {
 		if (key !== undefined && value !== undefined) Indiviso[key] = value;
 		state = updateValuesFN(state);
 	},
+	setOther:(state: StateProps, { payload: { id, value } }: PayloadAction<any>) => {
+		const { data } = state.factors.Other
+		if (id !== undefined && value !== undefined) {
+			const index = data.findIndex((item: any) => item.id === id);
+			data[index].result=value;}
+		state = updateValuesFN(state);
+	}
 };

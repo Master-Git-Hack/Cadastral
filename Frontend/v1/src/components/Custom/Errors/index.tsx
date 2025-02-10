@@ -26,14 +26,14 @@ export const Errors = ({ name, errors, show }: AlertProps) => {
 					appearance={hide ? "primary" : "outline"}
 					onClick={() => setHide(!hide)}
 				>
-					{hide ? "Mostrar" : "Ocultar"}
+					{hide ? <span>Mostrar</span> : <span>Ocultar</span>}
 				</Button>
 			)}
 			{show &&
 				!hide &&
 				errors?.map(({ title, message, reference }: ErrorsProps, index: number) => (
 					<div key={`errors alert for component ${name} ${index}`} className="py-1">
-						<Alert header={`Error encontrado en: ${title}`} type="error">
+						<Alert header={<span>Error encontrado en: {title}</span>} type="error">
 							<p style={{ textAlign: "justify", textJustify: "inter-word" }}>
 								{message}, favor de revisar {reference}
 							</p>

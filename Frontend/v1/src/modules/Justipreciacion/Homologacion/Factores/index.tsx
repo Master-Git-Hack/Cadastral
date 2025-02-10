@@ -59,14 +59,13 @@ const SymbolContainer = ({ name }: LocationZoneProps) => (
 		</Row>
 	</Grid>
 );
-export const Compilation = () => (
-	<Container>
-		<CommonContainer components={["Classification", "TypeForm"]} />
-		<SymbolContainer name="Location" />
-		<CommonContainer components={["Usage", "Topography"]} />
-		<CommonContainer components={["Level", "Quality"]} />
-		<CommonContainer components={["Project", "Building"]} />
-	</Container>
+export const Compilation = (({type}:{type:"TERRENO"|"RENTA"}) => <Container>
+ 	<CommonContainer components={["Classification", "TypeForm"]} />
+ 	<SymbolContainer name="Location" />
+ 	<CommonContainer components={["Usage", "Topography"]} />
+ 	<CommonContainer components={["Building", "Quality"]} />
+ 	<>{type==="RENTA"&&<CommonContainer components={["Level", "Project"]} />}</>
+ </Container>
 );
 export const Factores = {
 	Age,

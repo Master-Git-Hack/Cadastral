@@ -27,6 +27,6 @@ const Template: ComponentStory<typeof Container> = (args) => <Container {...args
 
 export const Default = Template.bind({});
 Default.args = {
-	children: "Container",
+	children: <span>Container</span>,
 	className: "",
 };

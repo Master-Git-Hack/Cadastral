@@ -61,29 +61,29 @@ export const Light = Template.bind({});
 export const Outline = Template.bind({});
 
 Default.args = {
-	children: "Press me",
+	children: <>Press me</>,
 	type: "primary",
 	appearance: "default",
 };
 Primary.args = {
-	children: "Press me",
+	children: <>Press me</>,
 	type: "primary",
 	appearance: "primary",
 };
 Link.args = {
-	children: "Press me",
+	children: <>Press me</>,
 	type: "primary",
 	appearance: "link",
 	href: "https://www.google.com",
 };
 Light.args = {
-	children: "Press me",
+	children: <>Press me</>,
 	type: "primary",
 	appearance: "light",
 };
 
 Outline.args = {
-	children: "Press me",
+	children: <>Press me</>,
 	type: "primary",
 	appearance: "outline",
 };

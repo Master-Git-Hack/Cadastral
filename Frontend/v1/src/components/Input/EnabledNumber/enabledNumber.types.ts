@@ -1,6 +1,6 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 
 export interface EnabledNumberProps {
 	defaultValue?: number;
@@ -10,8 +10,8 @@ export interface EnabledNumberProps {
 	value: number;
 	onChange: (value: number) => void;
 	size?: "lg" | "md" | "sm" | "xs";
-	postfix?: ReactNode;
-	prefix?: ReactNode;
+	postfix?: JSX.Element;
+	prefix?: JSX.Element;
 	checked: boolean;
 	setChecked: (checked: boolean) => void;
 }

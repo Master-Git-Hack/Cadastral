@@ -29,7 +29,7 @@ export const DocumentViewer = ({
 			)}
 			{status.includes("loading") && <Spinner backdrop size="lg" />}
 			{status.includes("fail") && (
-				<Alert type="error">Algo fallo, favor de intentar más tarde.</Alert>
+				<Alert type="error"><span>Algo fallo, favor de intentar más tarde.</span></Alert>
 			)}
 		</div>
 	);

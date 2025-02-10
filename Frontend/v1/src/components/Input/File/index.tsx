@@ -28,7 +28,7 @@ export const File = ({ onChange, file, filename, remove }: FileProps): JSX.Eleme
 			>
 				<Tooltip
 					id={id}
-					tooltip="Solo se puede subir un solo archivo, precione el boton para seleccionar un archivo o cambiar el existente."
+					 tooltip={<span>Solo se puede subir un solo archivo, precione el boton para seleccionar un archivo o cambiar el existente.</span>}
 					trigger="hover"
 					followCursor
 				>

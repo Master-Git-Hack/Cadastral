@@ -237,7 +237,7 @@ export const Catastral = ({
 						size="md"
 						withText
 						checked={watermark}
-						label="Marca de Agua"
+						label={<span>Marca de Agua</span>}
 						onChange={(value: boolean) => handleCommonChanges("watermark", value)}
 					/>
 				</Col>
@@ -246,7 +246,7 @@ export const Catastral = ({
 						size="md"
 						withText
 						checked={properties}
-						label="Usar Propiedes Recomendadas (Impresión con Membrete)"
+						label={<span>Usar Propiedes Recomendadas (Impresión con Membrete)</span>}
 						onChange={(value: boolean) => {
 							setProperties(value);
 							value && setTimeout(() => handleDefaultProperties(value), 1000);
@@ -258,7 +258,7 @@ export const Catastral = ({
 						size="md"
 						withText
 						checked={showProperties}
-						label="Mostrar Propiedades"
+						label={<span>Mostrar Propiedades</span>}
 						onChange={(value: boolean) =>
 							setTimeout(() => setShowProperties(value), 1000)
 						}
@@ -276,7 +276,7 @@ export const Catastral = ({
 					step={0.05}
 					value={zoom}
 					onChange={(value: number) => handleCommonChanges("zoom", value)}
-					customTooltip={(value: number) => (value * 100).toFixed(0)}
+					customTooltip={(value: number) => <span>{(value * 100).toFixed(0)}</span>}
 				/>
 			</Row>
 			{showProperties && (
@@ -284,7 +284,7 @@ export const Catastral = ({
 					<Row className="my-2">
 						<Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12} className="my-2">
 							<Select
-								label="Tipo de página"
+								label={<span>Tipo de página</span>}
 								searchable={false}
 								block
 								size="lg"
@@ -292,7 +292,7 @@ export const Catastral = ({
 								data={["A4", "Carta"].map((label) => ({
 									label,
 									value: label.includes("Carta") ? "Letter" : label,
-								}))}
+								})) as Item[]}
 								onSelect={(value: string) =>
 									handlerMoreProperties("pageSize", value)
 								}
@@ -316,7 +316,7 @@ export const Catastral = ({
 								max={2000}
 								step={100}
 								value={dpi}
-								customTooltip={(value: number) => value}
+								customTooltip={(value: number) => <span>{value}</span>}
 								onChange={(value: number) => handlerMoreProperties("dpi", value)}
 							/>
 						</Col>
@@ -431,10 +431,10 @@ export const Catastral = ({
 					<PopPanel
 						size="full"
 						btnAppearance="primary"
-						action={`Previsualizar Documento ${id}`}
+						action={<span>Previsualizar Documento {id}</span>}
 						customPanelActions={
 							<Button onClick={() => handleDocument()}>
-								Solicitar Documentos Nuevamente
+								<span>Solicitar Documentos Nuevamente</span>
 							</Button>
 						}
 						onEnter={() => {

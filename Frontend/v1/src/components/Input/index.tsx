@@ -57,3 +57,4 @@ export const Input = {
 	EnabledInputNumber,
 	InputNumber,
 };
+export default Input;

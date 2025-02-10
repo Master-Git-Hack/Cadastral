@@ -1,7 +1,7 @@
 /** @format */
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Alert } from ".";
+import Alert from "./index";
 import { Message } from "rsuite";
 
 export default {
@@ -46,21 +46,21 @@ export const Info = Template.bind({});
 
 Success.args = {
 	type: "success",
-	header: "Success",
-	children: "This is a success message",
+	header: <>Success</>,
+	children: <>This is a success message</>,
 };
 Danger.args = {
 	type: "error",
-	header: "Error",
-	children: "This is a error message",
+	header: <>Error</>,
+	children: <>This is an error message</>,
 };
 Warning.args = {
 	type: "warning",
-	header: "Warning",
-	children: "This is a warning message",
+	header: <>Warning</>,
+	children: <>This is a warning message</>,
 };
 Info.args = {
 	type: "info",
-	header: "Info",
-	children: "This is an info message",
+	header: <>Info</>,
+	children: <>This is an info message</>,
 };

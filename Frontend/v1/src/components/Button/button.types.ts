@@ -1,9 +1,9 @@
 /** @format */
 
-import { ReactNode, MouseEventHandler } from "react";
+import {  MouseEventHandler } from "react";
 
 export interface ButtonProps {
-	children?: ReactNode | ReactNode[];
+	children?: JSX.Element | JSX.Element[];
 	type?: "danger" | "success" | "warning" | "info" | "primary" | "secondary" | "orange";
 	appearance?: "default" | "primary" | "link" | "light" | "outline";
 	block?: boolean;
@@ -11,6 +11,7 @@ export interface ButtonProps {
 	loading?: boolean;
 	size?: "xs" | "sm" | "md" | "lg";
 	onClick?: MouseEventHandler<HTMLElement> | (() => void);
+	[key: string]: any;
 }
 export interface SaveProps extends ButtonProps {
 	status: "newOne" | "exists";

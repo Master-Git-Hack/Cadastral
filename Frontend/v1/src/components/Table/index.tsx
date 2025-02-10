@@ -53,7 +53,7 @@ export const Component = ({
 		<Body className={bodyClassName}>
 			{customBody ??
 				(body &&
-					body.map((item: any, index: number) => (
+					(body.map((item: any, index: number) => (
 						<tr key={`table body component for ${name} ${index}`}>
 							{item.map((subItem: any, indx: number) => (
 								<td key={`table body component for ${name} ${index} ${indx}`}>
@@ -61,7 +61,7 @@ export const Component = ({
 								</td>
 							))}
 						</tr>
-					)))}
+					)) as React.ReactElement))}
 		</Body>
 		{hasFooter && (
 			<Footer className={footerClassName}>
@@ -72,7 +72,7 @@ export const Component = ({
 								<td key={`table footer component for ${name} ${index}`}>{item}</td>
 							))}
 						</tr>
-					))}
+					)) as React.ReactElement}
 			</Footer>
 		)}
 	</Container>

@@ -147,7 +147,7 @@ export const BigPicture = () => {
 					<Switch
 						checked={isUsed}
 						withText
-						label="Indiviso"
+						label={<>{type==="RENTA"?"Superficie":"Indiviso"}</>}
 						reverse
 						onChange={(checked: boolean): void => {
 							dispatch(setIndivisoVisibility(checked));
@@ -315,7 +315,7 @@ const Footer = ({
 							<td rowSpan={2} colSpan={type ? 2 : 1}>
 								SUJETO
 							</td>
-							{!type && <td rowSpan={2}>{asFancyNumber(subjectArea)}</td>}
+							 <td rowSpan={2}>{asFancyNumber(subjectArea)}</td>
 							<td rowSpan={2}>
 								<M2 text={`${asFancyNumber(averageLotArea)}`} />
 							</td>

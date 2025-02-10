@@ -17,11 +17,14 @@ const operation = (items: any) => {
 	);
 	return results.map((item: number, index: number) => ({ id: index + 1, value: item }));
 };
-const templateSubject = (id: number) => ({
+const templateSubject = (id: number,percentage:number=10,observations:string="") => ({
 	id,
 	C1: options[0],
-	percentage: 10,
-	observations: "",
+	C2: options[0],
+	C3: options[0],
+	C4: options[0],
+	percentage,
+	observations,
 	insertion: insertColumn,
 });
 const templateData = (id: number) => ({
@@ -54,8 +57,8 @@ const initialState: FactorsProps = {
 	tag: "FUbic.",
 	isUsed: false,
 	position: 0,
-	subject: [templateSubject(1)],
-	data: [templateData(1)],
+	subject: [templateSubject(1,2,"MANZANA"),templateSubject(2,5,"VIALIDAD"),templateSubject(3,3,"PAVIMENTO")],
+	data: [templateData(1),templateData(2),templateData(3),templateData(4)],
 };
 
 export const location = {

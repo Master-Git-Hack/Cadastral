@@ -1,13 +1,13 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 export interface SwitchProps {
 	checked?: boolean;
 	onChange: (checked: boolean) => void;
 	withText?: boolean;
-	label?: ReactNode | ReactNode[];
-	checkedText?: ReactNode;
-	uncheckedText?: ReactNode;
+	label?: JSX.Element | JSX.Element[];
+	checkedText?: JSX.Element;
+	uncheckedText?: JSX.Element;
 	size?: "lg" | "md" | "sm" | "xs";
 	reverse?: boolean;
 }

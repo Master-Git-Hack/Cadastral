@@ -18,8 +18,8 @@ export const HidePage = ({ children, elementOnHide, title }: HidePageProps): JSX
 							block
 							onClick={() => setHide(!hide)}
 						>
-							{!hide ? "Ocultar " : "Mostrar "}
-							{title}
+							{!hide ? <span>Ocultar </span> : <span>Mostrar </span>}
+							{title && <span>{title}</span> as React.ReactElement}
 						</Button>
 					</div>
 				),
@@ -27,8 +27,8 @@ export const HidePage = ({ children, elementOnHide, title }: HidePageProps): JSX
 				outside: true,
 			}}
 		>
-			{!hide && children}
-			{hide && <div className="mx-3 my-2">{elementOnHide}</div>}
+			{!hide && children as React.ReactElement}
+			{hide && <div className="mx-3 my-2">{elementOnHide}</div> as React.ReactElement}
 		</Container>
 	);
 };

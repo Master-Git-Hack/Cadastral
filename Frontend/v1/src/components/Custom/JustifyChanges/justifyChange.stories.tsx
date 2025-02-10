@@ -67,5 +67,5 @@ Default.args = {
 	action: "Press Me",
 	editable: false,
 	comment: "Justificacion",
-	children: "Elemento",
+	children: <div>Elemento</div>,
 };

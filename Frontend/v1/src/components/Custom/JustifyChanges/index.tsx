@@ -19,7 +19,7 @@ export const JustifyChanges = ({
 }: ModalProps) => (
 	<div>
 		<Modal
-			action={action}
+			action={<span>{action}</span>}
 			title={<h3>Cambiar Valor: {name}</h3>}
 			type={type}
 			appearance={appearance}
@@ -29,7 +29,7 @@ export const JustifyChanges = ({
 			<div style={{ minHeight: 350 }}>
 				<Switch
 					withText
-					label="Edición del campo."
+					label={<span>Edición del campo.</span>}
 					onChange={setEditable}
 					checked={editable}
 				/>

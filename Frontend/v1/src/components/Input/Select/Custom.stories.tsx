@@ -40,8 +40,7 @@ export default {
 		},
 		defaultValue: {
 			text: "Default Value",
-
-			defaultValue: {},
+			defaultValue: "1",
 		},
 		data: {
 			text: "Data",
@@ -51,7 +50,7 @@ export default {
 		value: {
 			text: "Value",
 
-			defaultValue: {},
+			defaultValue: "1",
 		},
 		placement: {
 			text: "Placement",
@@ -87,21 +86,21 @@ const Custom: ComponentStory<typeof Select.Custom> = (args) => <Select.Custom {.
 export const CustomSelect = Custom.bind({});
 
 CustomSelect.args = {
-	label: "Select",
-	defaultValue: 1,
-	value: 1,
+	label: <span>Select</span>,
+	defaultValue: "1",
+	value: "1",
 	data: [
 		{
 			label: "+",
-			value: 1,
+			value: <span>1</span>,
 		},
 		{
 			label: "=",
-			value: 0,
+			value: <span>0</span>,
 		},
 		{
 			label: "-",
-			value: -1,
+			value: <span>-1</span>,
 		},
 	],
 	onSelect: (value) => alert(value),

@@ -1,20 +1,21 @@
 /** @format */
 
-import { ReactNode } from "react";
+
 
 export interface PaginatedViewProps {
-	children: { [key: string | number]: ReactNode | ReactNode[] } | any[];
-	title?: ReactNode | ReactNode[];
-	footer?: ReactNode | ReactNode[];
+	children: { [key: string | number]: JSX.Element | JSX.Element[] } | any[];
+	title?: JSX.Element | JSX.Element[];
+	footer?: JSX.Element | JSX.Element[];
 	errors?: any[];
 	showErrors?: boolean;
 	startAt?: number;
 	totalPages: number;
 	limit?: number;
 	actions: {
-		children: ReactNode | ReactNode[];
+		children: JSX.Element | JSX.Element[];
 		position?: "top" | "bottom";
 		show?: "first" | "last" | "all" | "beforeLast" | "afterFirst";
 	};
 	hidePage?: number;
+	currentPage?: (page: number) => void;
 }
