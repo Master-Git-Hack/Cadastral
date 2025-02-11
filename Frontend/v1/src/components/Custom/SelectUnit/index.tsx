@@ -10,7 +10,7 @@ const options = [
 	{ label: "pza", value: "pza" },
 ];
 
-export const SelectUnit = ({ currentItem, onSelect }: SelectUnitProps): JSX.Element => (
+export const SelectUnit = ({ currentItem, onSelect }: SelectUnitProps)=> (
 	<Custom
 		block
 		data={options.map(option => ({ label: option.label, value: <span>{option.value}</span> }))}

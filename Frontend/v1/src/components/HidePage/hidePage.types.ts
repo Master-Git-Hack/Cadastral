@@ -1,9 +1,7 @@
 /** @format */
 
-
-
 export interface HidePageProps {
-	children: JSX.Element | JSX.Element[];
-	elementOnHide?: JSX.Element | JSX.Element[];
+	children: React.ReactNode|React.ReactNode[];
+	elementOnHide?: React.ReactNode|React.ReactNode[];
 	title?: string;
 }

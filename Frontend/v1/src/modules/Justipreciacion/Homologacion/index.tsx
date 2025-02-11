@@ -22,8 +22,8 @@ import { NaturalValues } from "./ValoresNaturales";
 import { Indiviso } from "./Registros/Inviso";
 import { Justipreciacion } from "..";
 import { consumeJustipreciacion, getJustipreciacion } from "../../../redux/justipreciacion";
-const { AgeContainer, Compilation, Selector } = Factores;
 import { Drawer } from "rsuite";
+const { AgeContainer, Compilation, Selector } = Factores;
 //const { Success, Error, SimpleMessage, Save } = Alert;
 const base = (type: "TERRENO" | "RENTA", key: string = "5") => ({
 	1: <Compilation type={type} />,

@@ -15,7 +15,7 @@ import { Title, Header } from "../factores.interface";
 import { Component } from "../../../../../components/Table";
 import { searchByValue } from "../../../../../utils/search";
 
-const Body = ({ options, data, subject, name, tag }: BodyProps): JSX.Element => {
+const Body = ({ options, data, subject, name, tag }: BodyProps)=> {
 	const dispatch = useAppDispatch();
 	return (
 		<>

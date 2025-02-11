@@ -15,7 +15,7 @@ export const Dropdown = ({
 	type,
 	appearance,
 	btnSize,
-}: DropdownProps): JSX.Element => (
+}: DropdownProps)=> (
 	<Whisper
 		placement={placement}
 		trigger={trigger ?? ["click", "hover"]}

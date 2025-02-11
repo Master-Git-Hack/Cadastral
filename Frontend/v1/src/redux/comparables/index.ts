@@ -29,7 +29,6 @@ export const slice = createSlice({
 				) => {
 					state.status = status;
 					state.message = message;
-					
 				},
 			);
 	},

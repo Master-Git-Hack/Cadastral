@@ -1,9 +1,7 @@
 /** @format */
 
-
-
 export interface TableProps {
-	children: JSX.Element | JSX.Element[];
+	children:any;
 	className?: string;
 	type?: "success" | "danger" | "warning" | "info" | "primary" | "secondary" | "dark";
 }
@@ -11,13 +9,13 @@ export interface TableComponent {
 	className?: string;
 	name: string;
 	header?: string[];
-	customHeader?: JSX.Element | JSX.Element[];
+	customHeader?:any;
 	headerClassName?: string;
 	body?: any[];
-	customBody?: JSX.Element | JSX.Element[];
+	customBody?:any;
 	bodyClassName?: string;
 	footer?: string[];
-	customFooter?: JSX.Element | JSX.Element[];
+	customFooter?:any;
 	footerClassName?: string;
 	hasFooter?: boolean;
 }

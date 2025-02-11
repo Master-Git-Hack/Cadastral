@@ -12,19 +12,17 @@ interface Reports extends Properties {
 	document: any;
 	status: string;
 	zoom: number;
-    moreProperties: Properties;
-    
-    folio: string;
-    type: "terreno" | "ventas"|"rentas"
+	moreProperties: Properties;
 
+	folio: string;
+	type: "terreno" | "ventas" | "rentas";
 }
 export interface StateProps extends Properties {
-    status: "success" | "loading" | "working" | "fail" | string;
-    filename: string;
-    reports: Array<Reports>;
-    documents: any;
-    message: string;
-    
+	status: "success" | "loading" | "working" | "fail" | string;
+	filename: string;
+	reports: Array<Reports>;
+	documents: any;
+	message: string;
 }
 export const initialProperties = {
 	zoom: 1,
@@ -59,11 +57,11 @@ export const reportsTemplate = (id: number, date: string = moment().toISOString(
 	document: "",
 	status: "working",
 	message: "",
-	
-    zoom,
-    moreProperties,
-    folio: "",
-    type: "terreno"
+
+	zoom,
+	moreProperties,
+	folio: "",
+	type: "terreno",
 });
 export const name = "Comparables";
 export const consume = api(name);

@@ -1,13 +1,11 @@
 /** @format */
-
-
-
+import { ReactNode } from "react";
 export interface ContainerProps {
-	children: JSX.Element | JSX.Element[];
-	header?: JSX.Element | JSX.Element[];
-	footer?: JSX.Element | JSX.Element[];
+	children: ReactNode|ReactNode[];
+	header?: ReactNode|ReactNode[];
+	footer?: ReactNode|ReactNode[];
 	sidebar?: {
-		children: JSX.Element | JSX.Element[];
+		children: ReactNode|ReactNode[];
 		position?: "left" | "right";
 		outside?: boolean;
 	};

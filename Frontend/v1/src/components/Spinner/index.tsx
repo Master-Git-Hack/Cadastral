@@ -11,7 +11,7 @@ export const Spinner = ({
 	size,
 	speed,
 	vertical,
-}: SpinnerProps): JSX.Element => (
+}: SpinnerProps)=> (
 	<Loader
 		backdrop={backdrop}
 		center={center ?? true}

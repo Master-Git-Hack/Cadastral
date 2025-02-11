@@ -8,7 +8,7 @@ import TrashIcon from "@rsuite/icons/Trash";
 import { Tooltip } from "../../Tooltip";
 import { FileProps } from "./file.types";
 import FileSaver from "file-saver";
-export const File = ({ onChange, file, filename, remove }: FileProps): JSX.Element => {
+export const File = ({ onChange, file, filename, remove }: FileProps)=> {
 	const onClick = () => {
 		let input = document.createElement("input");
 		input.type = "file";

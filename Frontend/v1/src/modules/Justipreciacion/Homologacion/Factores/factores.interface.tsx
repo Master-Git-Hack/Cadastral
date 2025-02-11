@@ -7,7 +7,7 @@ export interface TitleProps {
 export interface AgeContainerProps {
 	type: "TERRENO" | "RENTA";
 }
-export const Title = ({ name, colSpan, title }: TitleProps): JSX.Element => (
+export const Title = ({ name, colSpan, title }: TitleProps) => (
 	<tr>
 		<th colSpan={colSpan ?? 4}>{title ?? `FACTOR POR ${name.toUpperCase()}`}</th>
 	</tr>
@@ -25,7 +25,7 @@ export interface HeaderProps {
 	isAge?: boolean;
 }
 
-export const Header = ({ name, isAge }: HeaderProps): JSX.Element => (
+export const Header = ({ name, isAge }: HeaderProps) => (
 	<tr>
 		<td>#</td>
 		<td>

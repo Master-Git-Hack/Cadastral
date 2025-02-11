@@ -1,8 +1,6 @@
 /** @format */
 
-
-
 /** @format */
 export interface NavbarProps {
-	children: JSX.Element | JSX.Element[];
+	children: React.ReactNode|React.ReactNode[];
 }

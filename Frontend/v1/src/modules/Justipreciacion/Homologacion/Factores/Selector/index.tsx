@@ -63,12 +63,12 @@ export const Selector = () => {
 										appearance="outline"
 										onClick={() => handlePositions(key, true, index)}
 									>
-										Agregar
+										<span>Agregar</span>
 									</Success>
 								) : (
 									enabled && (
 										<Danger onClick={() => handlePositions(key, false, -1)}>
-											Eliminar
+											<span>Eliminar</span>
 										</Danger>
 									)
 								)}

@@ -1,9 +1,11 @@
 /** @format */
 
+import { ReactNode } from "react";
+
 export interface AlertProps {
 	closable?: boolean;
 	duration?: number;
-	header?: JSX.Element;
+	header?:ReactNode|ReactNode[];
 	type: "success" | "info" | "warning" | "error";
-	children: JSX.Element | JSX.Element[];
+	children: ReactNode|ReactNode[];
 }

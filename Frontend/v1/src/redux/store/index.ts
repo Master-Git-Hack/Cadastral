@@ -1,4 +1,6 @@
-import { Comparable } from './../../views/Comparables/comparable';
+/** @format */
+
+import { Comparable } from "./../../views/Comparables/comparable";
 /** @format */
 
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";

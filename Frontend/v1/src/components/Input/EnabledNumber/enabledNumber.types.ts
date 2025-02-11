@@ -10,8 +10,8 @@ export interface EnabledNumberProps {
 	value: number;
 	onChange: (value: number) => void;
 	size?: "lg" | "md" | "sm" | "xs";
-	postfix?: JSX.Element;
-	prefix?: JSX.Element;
+	postfix?:any;
+	prefix?:any;
 	checked: boolean;
 	setChecked: (checked: boolean) => void;
 }

@@ -14,7 +14,7 @@ export const Modal = ({
 	header,
 	title,
 	footer,
-}: ModalProps): JSX.Element => {
+}: ModalProps)=> {
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(!open);
 	return (

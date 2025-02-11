@@ -14,7 +14,7 @@ import { asFancyNumber } from "../../../../../utils/number";
 import { Title, Header } from "../factores.interface";
 import { BodyProps, FooterProps } from "./age.types";
 
-const Body = ({ name, data }: BodyProps): JSX.Element => {
+const Body = ({ name, data }: BodyProps)=> {
 	const dispatch = useAppDispatch();
 	return (
 		<>
@@ -37,7 +37,7 @@ const Body = ({ name, data }: BodyProps): JSX.Element => {
 		</>
 	);
 };
-const Footer = ({ name, subject: { label, value }, type }: FooterProps): JSX.Element => {
+const Footer = ({ name, subject: { label, value }, type }: FooterProps) => {
 	const dispatch = useAppDispatch();
 	const { cna_edad, cna_superficie } = useAppSelector(getJustipreciacion);
 	useEffect(() => {

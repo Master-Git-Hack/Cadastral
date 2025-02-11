@@ -21,7 +21,7 @@ root.render(
 				<Pages />
 			</Router>
 		</Provider>
-	</Fragment> as React.ReactElement,
+	</Fragment>,
 );
 
 // If you want to start measuring performance in your app, pass a function

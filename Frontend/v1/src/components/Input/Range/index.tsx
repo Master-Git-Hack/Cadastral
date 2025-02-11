@@ -11,7 +11,7 @@ export const InputRange = ({
 	progress,
 	value,
 	customTooltip,
-}: RangeProps): JSX.Element => (
+}: RangeProps)=> (
 	<Slider
 		defaultValue={defaultValue ?? 0}
 		value={value}

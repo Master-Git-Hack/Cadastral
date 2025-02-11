@@ -1,10 +1,10 @@
 /** @format */
 
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, ReactNode } from "react";
 
 export interface Item {
 	/** The value of the option corresponds to the `valueKey` in the data. **/
-	value: JSX.Element;
+	value?:any;
 
 	/** The content displayed by the option corresponds to the `labelKey` in the data. **/
 	label: string;
@@ -12,7 +12,7 @@ export interface Item {
 export interface SelectProps {
 	index?: number;
 	className?: string;
-	label?: JSX.Element;
+	label?:any;
 	labelKey?: string;
 	valueKey?: string;
 	defaultValue?: string | number | readonly string[] | undefined;

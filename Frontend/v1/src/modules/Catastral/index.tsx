@@ -289,10 +289,12 @@ export const Catastral = ({
 								block
 								size="lg"
 								value={pageSize}
-								data={["A4", "Carta"].map((label) => ({
-									label,
-									value: label.includes("Carta") ? "Letter" : label,
-								})) as Item[]}
+								data={
+									["A4", "Carta"].map((label) => ({
+										label,
+										value: label.includes("Carta") ? "Letter" : label,
+									})) as any
+								}
 								onSelect={(value: string) =>
 									handlerMoreProperties("pageSize", value)
 								}

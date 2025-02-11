@@ -20,7 +20,7 @@ export const RoundedSelection = ({
 	onSelect,
 	disabled,
 	placement,
-}: RoundedSelectionProps): JSX.Element => (
+}: RoundedSelectionProps)=> (
 	<div>
 		<Dropdown
 			items={options}

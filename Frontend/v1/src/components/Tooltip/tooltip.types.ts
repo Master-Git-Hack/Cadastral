@@ -1,11 +1,9 @@
 /** @format */
 
-
-
 export interface TooltipProps {
 	id: string;
 	children: any;
-	tooltip: JSX.Element | JSX.Element[];
+	tooltip: React.ReactNode|React.ReactNode[];
 	trigger?: "click" | "contextMenu" | "hover" | "focus" | "active" | "none";
 	delay?: number;
 	followCursor?: boolean;

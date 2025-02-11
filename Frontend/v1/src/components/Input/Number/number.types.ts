@@ -1,5 +1,3 @@
-/** @format */
-
 export interface NumberProps {
 	id?: string;
 	defaultValue?: number;

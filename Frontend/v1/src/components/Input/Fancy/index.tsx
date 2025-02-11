@@ -17,7 +17,7 @@ export const Fancy = ({
 	classNameDecorator,
 	onChange,
 	decimals,
-}: FancyProps): JSX.Element => {
+}: FancyProps)=> {
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const toggleEditing = (): void => setIsEditing(!isEditing);
 	const id = `fancy input ${isEditing ? "editing" : "with decorator"} ${name} ${index}`;

@@ -1,4 +1,7 @@
-export interface ComparableProps { 	id: number;
+/** @format */
+
+export interface ComparableProps {
+	id: number;
 	filename: string;
 	status: string;
 	message: string;
@@ -6,4 +9,5 @@ export interface ComparableProps { 	id: number;
 	folio: string;
 	type: "terreno" | "ventas" | "rentas";
 	zoom: number;
-	moreProperties: any;}
+	moreProperties: any;
+}

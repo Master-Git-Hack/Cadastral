@@ -21,7 +21,7 @@ export const Text = ({
 	rows,
 	value,
 	disabled,
-}: TextProps): JSX.Element => {
+}: TextProps)=> {
 	const [visible, setVisible] = useState(false);
 
 	return (

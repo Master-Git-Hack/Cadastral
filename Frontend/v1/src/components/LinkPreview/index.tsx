@@ -6,7 +6,7 @@ import { Text } from "../Input";
 import { isURL } from "../../utils/url";
 import { Notification } from "rsuite";
 
-export const LinkPreviewed = ({ onChange, value, size }: LinkPreviewProps): JSX.Element => {
+export const LinkPreviewed = ({ onChange, value, size }: LinkPreviewProps)=> {
 	const [url, setURL] = useState(isURL(value));
 	useEffect(() => {
 		setURL(isURL(value));

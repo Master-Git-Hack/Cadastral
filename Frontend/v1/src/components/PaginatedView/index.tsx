@@ -25,10 +25,15 @@ export const PaginatedView = ({
 	showErrors,
 	currentPage,
 	...props
-}: PaginatedViewProps): JSX.Element => {
+}: PaginatedViewProps)=> {
 	const [activePage, setActivePage] = useState(startAt ?? 1);
 	useEffect(() => {
-		startAt !== undefined && startAt !== 1 && setActivePage(startAt)&&currentPage&&currentPage(activePage);
+		if (startAt !== undefined && startAt !== 1) {
+			setActivePage(startAt);
+			if (currentPage) {
+				currentPage(startAt);
+			}
+		}
 	}, [startAt]);
 
 	const showActions = actions?.show ?? "all";
@@ -55,7 +60,7 @@ export const PaginatedView = ({
 					? activePage - 1
 					: activePage,
 			);
-			currentPage&&currentPage(activePage);
+		currentPage && currentPage(activePage);
 		window.scrollTo(0, 0);
 		window.resizeTo(window.innerWidth, window.innerHeight);
 	}, [activePage]);
@@ -110,7 +115,7 @@ export const PaginatedView = ({
 								onChangePage={(page: number) => {
 									setShowAnimation(false);
 									setActivePage(page);
-									currentPage&&currentPage(page);
+									currentPage && currentPage(page);
 								}}
 								limit={limit}
 								totalPages={totalPages}

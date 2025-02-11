@@ -14,5 +14,5 @@ export interface ModalProps {
 	setEditable: (checked: boolean) => void;
 	comment: string;
 	setComment: (value: string) => void;
-	children: JSX.Element | JSX.Element[];
+	children: React.ReactNode|React.ReactNode[];
 }

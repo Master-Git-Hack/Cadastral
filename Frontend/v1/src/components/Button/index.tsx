@@ -3,6 +3,7 @@
 import { Button as Component } from "rsuite";
 import { ButtonProps, SaveProps } from "./button.types";
 import { colorPicker, appearancePicker } from "../../utils/color";
+import { ReactNode } from "react";
 export const Button = ({
 	children,
 	type,
@@ -13,7 +14,7 @@ export const Button = ({
 	size,
 	onClick,
 	...props
-}: ButtonProps): JSX.Element => (
+}: ButtonProps) => (
 	<Component
 		color={colorPicker[type ?? "primary"]}
 		appearance={appearancePicker[appearance ?? "default"]}
@@ -34,7 +35,7 @@ export const Success = ({
 	loading,
 	size,
 	onClick,
-}: ButtonProps): JSX.Element => (
+}: ButtonProps) => (
 	<Component
 		color={colorPicker["success"]}
 		appearance={appearancePicker[appearance ?? "default"]}
@@ -53,7 +54,7 @@ export const Danger = ({
 	loading,
 	size,
 	onClick,
-}: ButtonProps): JSX.Element => (
+}: ButtonProps)=> (
 	<Component
 		color={colorPicker["danger"]}
 		appearance={appearancePicker[appearance ?? "link"]}
@@ -72,7 +73,7 @@ export const Save = ({
 	size,
 	onClick,
 	status,
-}: SaveProps): JSX.Element => (
+}: SaveProps) => (
 	<Component
 		color={colorPicker["success"]}
 		appearance={appearancePicker[appearance ?? "primary"]}

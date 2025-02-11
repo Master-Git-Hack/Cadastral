@@ -1,9 +1,9 @@
 /** @format */
 
-import {  MouseEventHandler } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 
 export interface ButtonProps {
-	children?: JSX.Element | JSX.Element[];
+	children?:  string|ReactNode|ReactNode[];
 	type?: "danger" | "success" | "warning" | "info" | "primary" | "secondary" | "orange";
 	appearance?: "default" | "primary" | "link" | "light" | "outline";
 	block?: boolean;

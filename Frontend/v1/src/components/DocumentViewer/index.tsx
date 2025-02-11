@@ -9,7 +9,7 @@ export const DocumentViewer = ({
 	status,
 	width,
 	height,
-}: DocumentViewerProps): JSX.Element => {
+}: DocumentViewerProps)=> {
 	const currentDoc = status.includes("success") && document !== "" ? document : blankDocument;
 	return (
 		<div className="d-flex justify-content-center flex-fill embed-responsive">
@@ -29,7 +29,9 @@ export const DocumentViewer = ({
 			)}
 			{status.includes("loading") && <Spinner backdrop size="lg" />}
 			{status.includes("fail") && (
-				<Alert type="error"><span>Algo fallo, favor de intentar más tarde.</span></Alert>
+				<Alert type="error">
+					<span>Algo fallo, favor de intentar más tarde.</span>
+				</Alert>
 			)}
 		</div>
 	);
