@@ -6,7 +6,7 @@ import { Container } from "../../../../components/Container";
 import { M2 } from "../../../../components/Decorators";
 import { Switch } from "../../../../components/Input/Switch";
 import { Component } from "../../../../components/Table";
-import { Text } from "../../../../components/Input";
+import Input from "../../../../components/Input";
 import { useAppDispatch, useAppSelector } from "../../../../redux";
 import {
 	getHomologaciones,
@@ -20,7 +20,7 @@ import { JustifyChanges } from "../../../../components/Custom/JustifyChanges";
 import { RoundedSelection } from "../../../../components/Custom/RoundedSelection";
 import { terreno, renta } from "../../../../redux/justipreciacion";
 const { Column, ColumnGroup, HeaderCell, Cell } = Table;
-
+const { Text, InputNumber }= Input;
 export const BigPicture = () => {
 	const [loading, setLoading] = useState(true);
 	const dispatch = useAppDispatch();
@@ -147,7 +147,7 @@ export const BigPicture = () => {
 					<Switch
 						checked={isUsed}
 						withText
-						label={<>{type === "RENTA" ? "Superficie" : "Indiviso"}</>}
+						label={<>{!type ? "Superficie" : "Indiviso"}</>}
 						reverse
 						onChange={(checked: boolean): void => {
 							dispatch(setIndivisoVisibility(checked));
@@ -283,10 +283,11 @@ const CurrentCell = ({
 	...props
 }: any) => {
 	const value = asFancyNumber(rowData[dataKey], { isCurrency, isPercentage });
-	const Area = isArea ? <M2 text={`${value} `} /> : undefined;
+	const id = parseInt(rowData?.id?.replace("C",""));
+	const dispatch = useAppDispatch();
 	return (
 		<Cell {...props} style={{ padding: 4 }}>
-			{Area ?? value}
+			{isArea ? <M2 text={`${value} `} /> :dataKey==="FOtro"?<InputNumber  size="xs" value={rowData[dataKey]} step={0.01} onChange={(value:number)=>{console.log(id,value)}} />: value}
 		</Cell>
 	);
 };
