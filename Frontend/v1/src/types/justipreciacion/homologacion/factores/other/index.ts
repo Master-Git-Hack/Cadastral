@@ -15,6 +15,7 @@ const initialState: FactorsProps = {
     isUsed: true,
     position: 14,
     data: [template(1),template(2),template(3),template(4)],
+    
 };
 export const other = {
     template,

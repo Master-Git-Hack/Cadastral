@@ -13,6 +13,7 @@ import {
 	setIndivisoVisibility,
 	setObservations,
 	setRoundedTo,
+	setOther
 } from "../../../../redux/justipreciacion/homologacion";
 import { positions } from "../../../../redux/justipreciacion/homologacion/homologacion.actions";
 import { asFancyNumber } from "../../../../utils/number";
@@ -282,12 +283,18 @@ const CurrentCell = ({
 	dataIndex,
 	...props
 }: any) => {
+	const { factors: { Other:{data} }} = useAppSelector(getHomologaciones);
 	const value = asFancyNumber(rowData[dataKey], { isCurrency, isPercentage });
 	const id = parseInt(rowData?.id?.replace("C",""));
 	const dispatch = useAppDispatch();
+	let current = rowData[dataKey];
+	if(dataKey==="FOtro"){
+		const obj = data[id-1];
+		current = parseFloat(obj.result);
+	}
 	return (
 		<Cell {...props} style={{ padding: 4 }}>
-			{isArea ? <M2 text={`${value} `} /> :dataKey==="FOtro"?<InputNumber  size="xs" value={rowData[dataKey]} step={0.01} onChange={(value:number)=>{console.log(id,value)}} />: value}
+			{isArea ? <M2 text={`${value} `} /> :dataKey==="FOtro"?<InputNumber  size="xs" value={current} step={0.01} onChange={(value:number)=>{dispatch(setOther({id,value}))}} />: value}
 		</Cell>
 	);
 };

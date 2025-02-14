@@ -1,52 +1,109 @@
 /** @format */
 
 import { FactorsProps } from "../";
-export const options = [
+// export const options = [
+// 	{
+// 		label: "RESIDENCIAL PLUS",
+// 		value: 1.08,
+// 	},
+// 	{
+// 		label: "RESIDENCIAL",
+// 		value: 1.06,
+// 	},
+// 	{
+// 		label: "SEMILUJO",
+// 		value: 1.04,
+// 	},
+// 	{
+// 		label: "MEDIA",
+// 		value: 1.02,
+// 	},
+// 	{
+// 		label: "MEDIA COMÚN",
+// 		value: 1.0,
+// 	},
+// 	{
+// 		label: "INTERÉS SOCIAL ALTA",
+// 		value: 0.98,
+// 	},
+// 	{
+// 		label: "INTERÉS SOCIAL MEDIA",
+// 		value: 0.96,
+// 	},
+// 	{
+// 		label: "INTERÉS SOCIAL BAJA",
+// 		value: 0.94,
+// 	},
+// 	{
+// 		label: "ECONÓMICA ALTA",
+// 		value: 0.92,
+// 	},
+// 	{
+// 		label: "ECONÓMICA BAJA",
+// 		value: 0.9,
+// 	},
+// 	{
+// 		label: "MÍNIMA",
+// 		value: 0.88,
+// 	},
+// ];
+// MODERNO SUPERIOR	1.08
+// MODERNO MEDIO	1.06
+// MODERNO ECONÓMICO	1.04
+// MODERNO PRECARIO	1.02
+// TRADICIONAL	1.00
+// PREFABRICADO	0.98
+// ANTIGUO SUPERIOR	0.96
+// ANTIGUO MEDIO	0.94
+// ANTIGUO ECONÓMICO	0.92
+// ANTIGUO PRECARIO	0.90
+// MIXTAS	0.88
+const options=[
 	{
-		label: "RESIDENCIAL PLUS",
+		label: "MODERNO SUPERIOR",
 		value: 1.08,
 	},
 	{
-		label: "RESIDENCIAL",
+		label: "MODERNO MEDIO",
 		value: 1.06,
 	},
 	{
-		label: "SEMILUJO",
+		label: "MODERNO ECONÓMICO",
 		value: 1.04,
 	},
 	{
-		label: "MEDIA",
+		label: "MODERNO PRECARIO",
 		value: 1.02,
 	},
 	{
-		label: "MEDIA COMÚN",
+		label: "TRADICIONAL",
 		value: 1.0,
 	},
 	{
-		label: "INTERÉS SOCIAL ALTA",
+		label: "PREFABRICADO",
 		value: 0.98,
 	},
 	{
-		label: "INTERÉS SOCIAL MEDIA",
+		label: "ANTIGUO SUPERIOR",
 		value: 0.96,
 	},
 	{
-		label: "INTERÉS SOCIAL BAJA",
+		label: "ANTIGUO MEDIO",
 		value: 0.94,
 	},
 	{
-		label: "ECONÓMICA ALTA",
+		label: "ANTIGUO ECONÓMICO",
 		value: 0.92,
 	},
 	{
-		label: "ECONÓMICA BAJA",
+		label: "ANTIGUO PRECARIO",
 		value: 0.9,
 	},
 	{
-		label: "MÍNIMA",
+		label: "MIXTAS",
 		value: 0.88,
-	},
-];
+	}
+]
 const template = (id: number) => ({
 	id,
 	...options[0],

@@ -240,8 +240,8 @@ const Extra = () => {
 	);
 };
 export const Symbols = ({ name, tag }: LocationZoneProps) => {
-	const colSpan = name.includes("Zone") ? 20 : 24;
-	const minColSpan = name.includes("Zone") ? colSpan + 4 : colSpan;
+	const colSpan = name.includes("Zone") ? 24 : 24;
+	const minColSpan = name.includes("Zone") ? colSpan + 4 : colSpan+4;
 	return (
 		<Grid fluid>
 			<Row>
@@ -255,11 +255,11 @@ export const Symbols = ({ name, tag }: LocationZoneProps) => {
 				>
 					<LocationZone name={name} />
 				</Col>
-				{name.includes("Zone") && (
+				{/* {name.includes("Zone") && (
 					<Col xs={24} sm={24} md={24} lg={4} xl={4} xxl={4}>
 						<Extra />
 					</Col>
-				)}
+				)} */}
 			</Row>
 		</Grid>
 	);

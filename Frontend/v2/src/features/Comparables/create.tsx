@@ -1,6 +1,6 @@
 /** @format */
 
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router-dom'
 import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import "primereact/resources/themes/tailwind-light/theme.css";

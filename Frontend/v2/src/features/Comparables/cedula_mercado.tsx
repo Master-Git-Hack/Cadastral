@@ -1,5 +1,5 @@
 /** @format */
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router-dom'
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button, Tooltip } from "flowbite-react";
 import { NavLink, useParams } from "react-router-dom";

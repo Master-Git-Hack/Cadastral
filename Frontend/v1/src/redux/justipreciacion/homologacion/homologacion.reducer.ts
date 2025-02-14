@@ -300,7 +300,8 @@ export const reducers = {
 		const { data } = state.factors.Other
 		if (id !== undefined && value !== undefined) {
 			const index = data.findIndex((item: any) => item.id === id);
-			data[index].result=value;}
+			state.factors.Other.data[index].result=value;
+		}
 		state = updateValuesFN(state);
 	}
 };

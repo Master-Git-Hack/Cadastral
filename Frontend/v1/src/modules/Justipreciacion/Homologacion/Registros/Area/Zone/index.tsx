@@ -110,7 +110,7 @@ const Header = () => {
 					/>
 				</th>
 				<th>Factor 2</th>
-				<th>Factor resultante 1 indicador (F. Zona)</th>
+				<th>Factor resultante (F. Zona)</th>
 			</tr>
 			<tr>
 				<th>SUJETO</th>
@@ -178,9 +178,9 @@ const Footer = () => {
 		</tr>
 	);
 };
-const NumberComponent = (props: { value: number; isPercentage?: boolean; colSpan?: number }) => (
-	<td colSpan={props.colSpan ?? 1}>
-		{asFancyNumber(props.value, { isPercentage: props?.isPercentage ?? false })}
+const NumberComponent = (props: { value: number; isPercentage?: boolean; colSpan?: number,isResult?:boolean }) => (
+	<td colSpan={props.colSpan ?? 1} >
+		<span className={props?.isResult?"text-success fs-6 fw-bolder":""}>{asFancyNumber(props.value, { isPercentage: props?.isPercentage ?? false })}</span>
 	</td>
 );
 const Body = () => {
@@ -241,7 +241,7 @@ const Body = () => {
 							value={extras.factor2}
 							isPercentage={factores[1].type.includes("percentage")}
 						/>
-						<NumberComponent value={Zone.results[index].factor1} />
+						<NumberComponent value={Zone.results[index].factor1} isResult/>
 					</tr>
 				);
 			})}

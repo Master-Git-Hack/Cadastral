@@ -1,6 +1,24 @@
 /** @format */
 
 import { FactorsProps } from "../";
+// const options = [
+// 	{
+// 		label: "PLANA",
+// 		value: 1.0,
+// 	},
+// 	{
+// 		label: "PENDIENTE LIGERA",
+// 		value: 0.98,
+// 	},
+// 	{
+// 		label: "PENDIENTE INCLINADA",
+// 		value: 0.96,
+// 	},
+// 	{
+// 		label: "PENDIENTE ACCIDENTADA",
+// 		value: 0.94,
+// 	},
+// ];
 const options = [
 	{
 		label: "PLANA",
@@ -8,15 +26,15 @@ const options = [
 	},
 	{
 		label: "PENDIENTE LIGERA",
-		value: 0.98,
+		value: 0.97,
 	},
 	{
 		label: "PENDIENTE INCLINADA",
-		value: 0.96,
+		value: 0.94,
 	},
 	{
 		label: "PENDIENTE ACCIDENTADA",
-		value: 0.94,
+		value: 0.91,
 	},
 ];
 const template = (id: number) => ({
