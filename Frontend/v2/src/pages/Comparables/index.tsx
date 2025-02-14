@@ -11,7 +11,6 @@ export default function Comparables({ useLayout = true }) {
 			<Route path="/" element={<Component />} />
 			<Route path="cedulas/:cedula_mercado" element={<Cedulas />} />
 			<Route path="cedulas/:cedula_mercado/crear" element={<CrearCedula />} />
-
 			<Route path="cedulas/:cedula_mercado/view" element={<Viewer />} />
 		</Routes>
 	);

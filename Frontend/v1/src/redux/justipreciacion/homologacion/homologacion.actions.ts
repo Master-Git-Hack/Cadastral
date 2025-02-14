@@ -38,10 +38,12 @@ export const addRowFN = (state: any) => {
 		const id = data.length + 1;
 		key !== "Location" && key !== "Zone" && data.push(template(id));
 		if (key === "Location" || key === "Zone") {
-			subject.map((item: any) => {
-				item = insertColumn(`C${id}`, item);
-				return item;
-			});
+			if (!subject.includes(`C${id}`)) {
+				subject.map((item: any) => {
+					item = insertColumn(`C${id}`, item);
+					return item;
+				});
+			}
 			data.push(templateData(id));
 			key === "Zone" && results.push(templateResults(id));
 		}
@@ -79,9 +81,9 @@ export const rmRowFN = (state: any) => {
 	for (const key in factors) {
 		const { data, subject } = factors[key];
 		const { length } = data;
-		if (length > 4) {
+		if (length > 3) {
 			key !== "Location" && key !== "Zone" && data.pop();
-			if (key === "Location") {
+			if (key === "Location" || key === "Zone") {
 				const id = length;
 				subject.map((item: any) => {
 					delete item[`C${id}`];

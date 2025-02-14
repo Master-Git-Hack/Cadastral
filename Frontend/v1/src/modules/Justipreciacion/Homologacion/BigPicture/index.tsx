@@ -50,7 +50,7 @@ export const BigPicture = () => {
 			const used: Array<string> = [];
 			const header: Array<Object> = [];
 			factores.map(({ key }: any) => {
-				const { isUsed, name, tag } = factors[key];
+				const { isUsed, name, tag } = factors[key] ?? {isUsed:false,name:"",tag:""};
 				isUsed && header.push({ tag, name }) && used.push(key);
 			});
 			setFactorsHeader(header);
@@ -283,20 +283,35 @@ const CurrentCell = ({
 	dataIndex,
 	...props
 }: any) => {
-	const { factors: { Other:{data} }} = useAppSelector(getHomologaciones);
-	const value = asFancyNumber(rowData[dataKey], { isCurrency, isPercentage });
-	const id = parseInt(rowData?.id?.replace("C",""));
-	const dispatch = useAppDispatch();
-	let current = rowData[dataKey];
-	if(dataKey==="FOtro"){
-		const obj = data[id-1];
-		current = parseFloat(obj.result);
-	}
-	return (
-		<Cell {...props} style={{ padding: 4 }}>
-			{isArea ? <M2 text={`${value} `} /> :dataKey==="FOtro"?<InputNumber  size="xs" value={current} step={0.01} onChange={(value:number)=>{dispatch(setOther({id,value}))}} />: value}
-		</Cell>
-	);
+	const { factors } = useAppSelector(getHomologaciones) ?? {};
+const data = factors?.Other?.data ?? [];
+
+const value = asFancyNumber(rowData[dataKey], { isCurrency, isPercentage });
+const id = parseInt(rowData?.id?.replace("C", ""));
+const dispatch = useAppDispatch();
+let current = rowData[dataKey];
+
+if (dataKey === "FOtro") {
+    const obj = data?.[id - 1] ?? { result: 0 };
+    current = parseFloat(obj.result);
+}
+
+return (
+    <Cell {...props} style={{ padding: 4 }}>
+        {isArea ? (
+            <M2 text={`${value} `} />
+        ) : dataKey === "FOtro" ? (
+            <InputNumber
+                size="xs"
+                value={current}
+                step={0.01}
+                onChange={(value: number) => dispatch(setOther({ id, value }))}
+            />
+        ) : (
+            value
+        )}
+    </Cell>
+);
 };
 const Footer = ({
 	type,

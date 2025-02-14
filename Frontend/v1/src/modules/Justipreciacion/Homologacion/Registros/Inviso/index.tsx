@@ -18,19 +18,19 @@ export const Indiviso = () => {
 	return (
 		<Grid fluid>
 			<Row>
-				<Col>
-					<ReFactor />
-				</Col>
-				<Col style={{ minWidth: 250 }}>
-					<AdjustedValue />
-				</Col>
-				<Col>
-					<Component />
-				</Col>
+			<ReFactor />
+			<Col style={{alignItems:"center"}}><AdjustedValue /></Col>
+				
+				
 			</Row>
 		</Grid>
 	);
 };
+export const IndivisoPage2=()=><Grid fluid>
+			<Row>
+<Component />
+</Row>
+		</Grid>
 export const Component = () => {
 	const {
 		documentation: {

@@ -178,22 +178,22 @@ export const Footer = ({ type, subject, surface, averageLotArea }: FooterProps) 
 	return (
 		<tr>
 			<td colSpan={type ? 2 : 1}>SUJETO</td>
-			{!type && (
-				<Fancy
-					name=""
-					label=""
-					value={subject}
-					onChange={({ currentTarget: { valueAsNumber } }) => {
-						dispatch(
-							setAreaSubject({
-								key: "value",
-								value: !isNaN(valueAsNumber) ? valueAsNumber : 0,
-							}),
-						);
-					}}
-					classNameDecorator="text-center bg-light"
-				/>
-			)}
+			
+			<Fancy
+				name=""
+				label=""
+				value={subject}
+				onChange={({ currentTarget: { valueAsNumber } }) => {
+					dispatch(
+						setAreaSubject({
+							key: "value",
+							value: !isNaN(valueAsNumber) ? valueAsNumber : 0,
+						}),
+					);
+				}}
+				classNameDecorator="text-center bg-light"
+			/>
+		
 			<td>
 				<M2 text={asFancyNumber(averageLotArea)} />
 			</td>

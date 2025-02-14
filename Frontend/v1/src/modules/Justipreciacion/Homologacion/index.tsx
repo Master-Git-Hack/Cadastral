@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux";
 import { BigPicture } from "./BigPicture";
 import { Area } from "./Registros/Area";
 import { NaturalValues } from "./ValoresNaturales";
-import { Indiviso } from "./Registros/Inviso";
+import { Indiviso,IndivisoPage2 } from "./Registros/Inviso";
 import { Justipreciacion } from "..";
 import { consumeJustipreciacion, getJustipreciacion } from "../../../redux/justipreciacion";
 import { Drawer } from "rsuite";
@@ -36,8 +36,9 @@ const Pages = (type: "TERRENO" | "RENTA", isUsed: boolean) =>
 	!isUsed
 		? { ...base(type) }
 		: {
-				...base(type, "6"),
+				...base(type, "7"),
 				5: <Indiviso />,
+				6:<IndivisoPage2/>
 		  };
 
 export const Homologacion = () => {
@@ -185,10 +186,15 @@ export const Homologacion = () => {
 								Homologación de tipo: <strong>{type}</strong>
 							</h1>
 							<>
+{				id!==0&&			<Button className="me-4" disabled>
+								<span>Revisión</span>
+							</Button>}
+							
 							{currentPage>2&&
-								<><Button className="me-4" onClick={() => setOpen(true)}>
-								<span>Mostrar Información</span>
-							</Button>
+								<>
+								<Button className="me-4" onClick={() => setOpen(true)}>
+									<span>Mostrar Información</span>
+								</Button>
 							
 							<Drawer
 								open={open}
@@ -221,7 +227,7 @@ export const Homologacion = () => {
 							página 5.
 						</span>
 					}
-					totalPages={!isUsed ? 5 : 6}
+					totalPages={!isUsed ? 5 : 7}
 					actions={{
 						children: (
 							<>
