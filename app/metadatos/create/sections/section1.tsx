@@ -91,7 +91,7 @@ export const Section1 = ({ editable = true }) => {
 						1.1
 					</TableCell>
 					<TableCell colSpan={2} className="w-[25px] ">
-						Título del conjunto de datos espaciales o producto
+						Título del conjunto de datos espaciales o producto *
 					</TableCell>
 					<TableCell colSpan={9}>
 						<Input
@@ -111,7 +111,7 @@ export const Section1 = ({ editable = true }) => {
 						1.2
 					</TableCell>
 					<TableCell colSpan={2} className="w-[25px]">
-						Propósito
+						Propósito *
 					</TableCell>
 					<TableCell colSpan={9}>
 						<Textarea

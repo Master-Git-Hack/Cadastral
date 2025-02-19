@@ -206,7 +206,6 @@ export default function Create({
 	};
 	const handleTreeSelect = ({ value }: any) => {
 		const [db_name, schema_name, table_name] = value.split(".");
-
 		setMetadatos({ ...data, db_name, table_name, schema_name });
 	};
 	useEffect(() => {
@@ -247,7 +246,7 @@ export default function Create({
 			</div>
 
 			<div className="flex flex-row-reverse py-2">
-				<div className="w-1/3">
+				<div className="w-1/3">*
 					<TreeSelect
 						value={`${db_name}.${schema_name}.${table_name}`}
 						onChange={handleTreeSelect}
@@ -263,7 +262,7 @@ export default function Create({
 								<BreadcrumbList>
 									<BreadcrumbItem>
 										<BreadcrumbPage>
-											{schema_name
+											{schema_name==="mapservice"?"GeoServer":schema_name
 												.split("_")
 												.map(
 													(word) =>
@@ -276,7 +275,7 @@ export default function Create({
 									<BreadcrumbSeparator />
 									<BreadcrumbItem>
 										<BreadcrumbPage>
-											{table_name
+											{schema_name==="mapservice"?"GeoServer Web Map Service":table_name
 												.split("_")
 												.map(
 													(word) =>
@@ -289,7 +288,7 @@ export default function Create({
 									<BreadcrumbSeparator />
 									<BreadcrumbItem>
 										<BreadcrumbPage>
-											{db_name
+											{(schema_name==="mapservice"?table_name:db_name)
 												.split("_")
 												.map(
 													(word) =>

@@ -62,6 +62,9 @@ class __Base(object):
                 "valuaciones,catastro_v2,fotogrametria,valores_municipales,municipios,pcm,plan_ordenamiento_territorial",
             ).split(",")
         )
+        GEOSERVER_URL: str = environ.get("GEOS_URL")
+        GEOSERVER_USER: str = environ.get("GEOS_USER")
+        GEOSERVER_PASS: str = environ.get("GEOS_PASSWORD")
         KEY_SIGNATURE_HEADER = APIKeyHeader(
             name=environ.get("HEADER_SIGNATURE", "X-Cadastral-Signature"),
             auto_error=False,

@@ -158,8 +158,7 @@ const useMetadatos = create<IMetadatosState & IMetadatatosActions>()(
 						version,
 						parent_id,
 					},
-					{},
-					router,
+
 				);
 			},
 			patchMetadato: async () => {
@@ -303,8 +302,6 @@ const useMetadatos = create<IMetadatosState & IMetadatatosActions>()(
 						version,
 						parent_id,
 					},
-					{},
-					router,
 				);
 			},
 			getMetadatoReport: async (uid: string) => await api.get(`metadatos/report/${uid}`, {}),
@@ -459,8 +456,6 @@ const useMetadatos = create<IMetadatosState & IMetadatatosActions>()(
 							parent_id,
 						},
 					},
-					{},
-					router,
 				);
 			},
 			patchTemporal: async () => {

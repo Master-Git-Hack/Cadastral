@@ -3,10 +3,13 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from requests import get
+from requests.auth import HTTPBasicAuth
+from xml.etree.ElementTree import ElementTree, fromstring
 
 from .. import config, database, middlewares
 from ..models.usuarios import Usuarios
-
+from ..utils.xml import xml_to_dict
 __response = middlewares.RESPONSES()
 
 required = Usuarios.required
@@ -38,6 +41,49 @@ async def get_resources(
     schema_name: Optional[str] = None,
     table_name: Optional[str] = None,
 ):
+    try:
+        url = config.SECRETS.GEOSERVER_URL
+        user = config.SECRETS.GEOSERVER_USER
+        pwd = config.SECRETS.GEOSERVER_PASS
+        response = get(url, params= {    "SERVICE": "WMS",    "VERSION": "1.1.1",    "REQUEST": "GetCapabilities"}, auth=HTTPBasicAuth(user, pwd))
+        response.raise_for_status()
+        xml = ElementTree(fromstring(response.text))
+        root = xml.getroot()
+        data = xml_to_dict(root)
+        layers =data.get("Capability",{}).get("Layer",{}).get("Layer",[])
+        wms=[{
+                "key": "geoserver",
+                "label": "GeoServer",
+                "data": f"Geoserver Database",
+                "icon": "pi pi-fw pi-map",
+                "selectable": False,
+                "leaf": True,
+                "children": [
+                    {
+                        "key": f"geoserver.mapservice",
+                        "label": "GeoServer Web Map Service",
+                        "data": f"Mapservice Schema",
+                        "icon": "pi pi-fw pi-map-marker",
+                        "selectable": False,
+                        "leaf": True,
+                        "children": [
+                            {
+                                "key": f"geoserver.mapservice.{title.lower()}",
+                                "label": title.replace("_", " ").title(),
+                                "data": f"{title.lower()} Table",
+                                "icon": "pi pi-fw pi-microsoft",
+                            }
+                            for layer in layers
+                            if (title:=layer.get('Title',"")) and title not in {"",None}
+                        ],
+                    }
+                ],
+            }]
+        data=None
+    except Exception as e:
+        print(e)
+        wms = []
+        data=None
     data = database.group_by_db(db=db_name, schema=schema_name, table=table_name)
     if db_name is None:
         data = {
@@ -82,7 +128,7 @@ async def get_resources(
                 ],
             }
             for db, schemas in data.items()
-        ]
+        ]+wms
     )
 
 
