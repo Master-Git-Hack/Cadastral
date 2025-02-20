@@ -105,49 +105,58 @@ export interface IStatusActions {
 	setError: (message: string) => void;
 	setDefault: () => void;
 }
-export const useStatusStore = create<IStatusState & IStatusActions>()((set) => ({
-	isLoading: false,
-	isSuccess: false,
-	isError: false,
-	isUninitialized: true,
+export const useStatusStore = create<IStatusState & IStatusActions>()(
+	(set) => ({
+		isLoading: false,
+		isSuccess: false,
+		isError: false,
+		isUninitialized: true,
 
-	message: null,
-	data: null,
+		message: null,
+		data: null,
 
-	// Funciones para actualizar el estado del fetch
-	setLoading: () =>
-		set({
-			isLoading: true,
-			isSuccess: false,
-			isError: false,
-			isUninitialized: false,
-			message: null,
-			data: null,
-		}),
-	setSuccess: (data: unknown, message: unknown = null) =>
-		set({
-			isLoading: false,
-			isSuccess: true,
-			isError: false,
-			isUninitialized: false,
-			data,
-			message: null,
-		}),
-	setError: (message: string) =>
-		set({ isLoading: false, isSuccess: false, isError: true, isUninitialized: false, message }),
-	setDefault: () =>
-		set({
-			isLoading: false,
-			isSuccess: false,
-			isError: false,
-			isUninitialized: true,
-			message: null,
-			data: null,
-		}),
-}));
+		// Funciones para actualizar el estado del fetch
+		setLoading: () =>
+			set({
+				isLoading: true,
+				isSuccess: false,
+				isError: false,
+				isUninitialized: false,
+				message: null,
+				data: null,
+			}),
+		setSuccess: (data: unknown, message: unknown = null) =>
+			set({
+				isLoading: false,
+				isSuccess: true,
+				isError: false,
+				isUninitialized: false,
+				data,
+				message: null,
+			}),
+		setError: (message: string) =>
+			set({
+				isLoading: false,
+				isSuccess: false,
+				isError: true,
+				isUninitialized: false,
+				message,
+			}),
+		setDefault: () =>
+			set({
+				isLoading: false,
+				isSuccess: false,
+				isError: false,
+				isUninitialized: true,
+				message: null,
+				data: null,
+			}),
+	}),
+);
 export const api = {
 	get: async (url: string, params?: CreateAxiosDefaults) => {
-		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
+		const { setLoading, setSuccess, setError, setDefault } =
+			useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {
@@ -169,7 +178,8 @@ export const api = {
 		params?: CreateAxiosDefaults,
 		router?: NextRouter,
 	) => {
-		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
+		const { setLoading, setSuccess, setError, setDefault } =
+			useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {
@@ -205,7 +215,8 @@ export const api = {
 		params?: CreateAxiosDefaults,
 		router?: NextRouter,
 	) => {
-		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
+		const { setLoading, setSuccess, setError, setDefault } =
+			useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {
@@ -221,7 +232,8 @@ export const api = {
 		}
 	},
 	delete: async (url: string, params?: CreateAxiosDefaults) => {
-		const { setLoading, setSuccess, setError, setDefault } = useStatusStore.getState();
+		const { setLoading, setSuccess, setError, setDefault } =
+			useStatusStore.getState();
 		const config = setConfig(url, params);
 		setLoading();
 		try {

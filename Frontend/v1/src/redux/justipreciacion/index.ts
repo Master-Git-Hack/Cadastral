@@ -98,6 +98,7 @@ export const slice = createSlice({
 			);
 	},
 });
-export const { setID, setInitialState, terreno, renta, obrasComplementarias } = slice.actions;
+export const { setID, setInitialState, terreno, renta, obrasComplementarias } =
+	slice.actions;
 export const getJustipreciacion = (state: RootState) => state.Justipreciacion;
 export default slice.reducer;

@@ -3,7 +3,15 @@ import { NumerosALetras } from "@utils/number/numero_a_letras";
 import { asFancyNumber } from "@utils/number";
 import { Table } from "flowbite-react";
 import moment from "moment";
-import { Page, Text, View, Document, StyleSheet, Image, Link } from "@react-pdf/renderer";
+import {
+	Page,
+	Text,
+	View,
+	Document,
+	StyleSheet,
+	Image,
+	Link,
+} from "@react-pdf/renderer";
 import "./styles.css";
 import html2canvas from "html2canvas-pro";
 
@@ -334,10 +342,19 @@ const SimpleRow = ({
 		/>
 	</View>
 );
-const ImageRow = ({ imageLeft, textLeft, imageRight, textRight, useCrop = false }) => (
+const ImageRow = ({
+	imageLeft,
+	textLeft,
+	imageRight,
+	textRight,
+	useCrop = false,
+}) => (
 	<>
 		<View style={styles.row}>
-			<Image src={`${baseUrl}/comparables/image/${imageLeft}/0`} style={styles.image} />
+			<Image
+				src={`${baseUrl}/comparables/image/${imageLeft}/0`}
+				style={styles.image}
+			/>
 			<Text style={styles.gap} />
 			<Image
 				src={`${baseUrl}/comparables/image/${imageRight}/${useCrop ? "1" : "0"}`}
@@ -345,14 +362,23 @@ const ImageRow = ({ imageLeft, textLeft, imageRight, textRight, useCrop = false 
 			/>
 		</View>
 		<View style={styles.row}>
-			<Text style={{ ...styles.septupleCell, ...styles.textCenter }}>{textLeft}</Text>
+			<Text style={{ ...styles.septupleCell, ...styles.textCenter }}>
+				{textLeft}
+			</Text>
 			<Text style={styles.gap} />
-			<Text style={{ ...styles.septupleCell, ...styles.textCenter }}>{textRight}</Text>
+			<Text style={{ ...styles.septupleCell, ...styles.textCenter }}>
+				{textRight}
+			</Text>
 		</View>
 	</>
 );
 const BaseCedula = ({ data, index, tipo }) => (
-	<Page size="A4" orientation="portrait" style={styles.page} key={`cedula view ${index}`}>
+	<Page
+		size="A4"
+		orientation="portrait"
+		style={styles.page}
+		key={`cedula view ${index}`}
+	>
 		{data?.map(
 			(
 				{
@@ -547,7 +573,9 @@ const BaseCedula = ({ data, index, tipo }) => (
 						>
 							{longitud_frente}
 						</Text>
-						<Text style={{ ...styles.doubleCell, ...styles.textRight }}>Fondo:</Text>
+						<Text style={{ ...styles.doubleCell, ...styles.textRight }}>
+							Fondo:
+						</Text>
 						<Text
 							style={{
 								...styles.cell,
@@ -888,7 +916,9 @@ const Cedula = ({ data }) => {
 
 	return (
 		<Document>
-			{terreno && <BaseCedula data={terreno?.records} index={0} tipo="TERRENO" />}
+			{terreno && (
+				<BaseCedula data={terreno?.records} index={0} tipo="TERRENO" />
+			)}
 			{venta && <BaseCedula data={venta?.records} index={1} tipo="VENTA" />}
 			{renta && <BaseCedula data={renta?.records} index={2} tipo="RENTA" />}
 		</Document>
@@ -901,7 +931,11 @@ const BaseMercado = ({ tipo, index, data }) => (
 				colSpan={57}
 				style={{
 					backgroundColor:
-						tipo === "TERRENO" ? "#fd0d00" : tipo === "RENTA" ? "#b2a1c7" : "#10a870",
+						tipo === "TERRENO"
+							? "#fd0d00"
+							: tipo === "RENTA"
+								? "#b2a1c7"
+								: "#10a870",
 				}}
 				className={` text-white`}
 			>
@@ -960,7 +994,9 @@ const BaseMercado = ({ tipo, index, data }) => (
 			<Table.HeadCell>Nombre Edificio / Proto / Predio</Table.HeadCell>
 			<Table.HeadCell>Régimen de Propiedad</Table.HeadCell>
 			<Table.HeadCell>Clasificación Periférica</Table.HeadCell>
-			<Table.HeadCell>Clasificación Económica de la Zona (Campo)</Table.HeadCell>
+			<Table.HeadCell>
+				Clasificación Económica de la Zona (Campo)
+			</Table.HeadCell>
 			<Table.HeadCell>Uso de Suelo Carta, Uso Plan</Table.HeadCell>
 			<Table.HeadCell>Entre Calles</Table.HeadCell>
 			<Table.HeadCell>Ubicación en la Manzana</Table.HeadCell>
@@ -987,8 +1023,12 @@ const BaseMercado = ({ tipo, index, data }) => (
 			<Table.HeadCell>Precio Unitario</Table.HeadCell>
 			<Table.HeadCell>Precio Total USD</Table.HeadCell>
 			<Table.HeadCell>Precio Unitario USD</Table.HeadCell>
-			<Table.HeadCell>Precio Total Aplicable en la Homologación MXN</Table.HeadCell>
-			<Table.HeadCell>Precio Unitario Aplicable en la Homologación MXN</Table.HeadCell>
+			<Table.HeadCell>
+				Precio Total Aplicable en la Homologación MXN
+			</Table.HeadCell>
+			<Table.HeadCell>
+				Precio Unitario Aplicable en la Homologación MXN
+			</Table.HeadCell>
 			<Table.HeadCell>Observaciones</Table.HeadCell>
 			<Table.HeadCell>Hoy</Table.HeadCell>
 			<Table.HeadCell>Días</Table.HeadCell>
@@ -1115,7 +1155,9 @@ const BaseMercado = ({ tipo, index, data }) => (
 						<Table.Cell>{niveles}</Table.Cell>
 						<Table.Cell>{unidades_rentables}</Table.Cell>
 						<Table.Cell>{descripcion_espacios}</Table.Cell>
-						<Table.Cell>{superficie_terreno / superficie_construccion}</Table.Cell>
+						<Table.Cell>
+							{superficie_terreno / superficie_construccion}
+						</Table.Cell>
 						<Table.Cell>
 							{checkServices({
 								agua,
@@ -1141,13 +1183,18 @@ const BaseMercado = ({ tipo, index, data }) => (
 						<Table.Cell>{valor_total_mercado}</Table.Cell>
 						<Table.Cell>{valor_total_mercado / superficie_terreno}</Table.Cell>
 						<Table.Cell>{vtm_usd ? vtm_usd : "-"}</Table.Cell>
-						<Table.Cell>{vtm_usd ? vtm_usd / superficie_terreno : "-"}</Table.Cell>
+						<Table.Cell>
+							{vtm_usd ? vtm_usd / superficie_terreno : "-"}
+						</Table.Cell>
 						<Table.Cell>$ -</Table.Cell>
 						<Table.Cell>$ -</Table.Cell>
 						<Table.Cell>{observaciones}</Table.Cell>
 						<Table.Cell>{moment().format("DD [de] MMM [del] YYYY")}</Table.Cell>
 						<Table.Cell>
-							{moment().diff(moment(fecha_captura, "DD [de] MMM [del] YYYY"), "days")}
+							{moment().diff(
+								moment(fecha_captura, "DD [de] MMM [del] YYYY"),
+								"days",
+							)}
 						</Table.Cell>
 						<Table.Cell>
 							{moment(fecha_captura, "DD [de] MMM [del] YYYY")
@@ -1170,7 +1217,9 @@ const Mercado = ({ data }) => {
 
 	return (
 		<div className=" my-5">
-			{terreno && <BaseMercado tipo="TERRENO" index={0} data={terreno?.records} />}
+			{terreno && (
+				<BaseMercado tipo="TERRENO" index={0} data={terreno?.records} />
+			)}
 			{venta && <BaseMercado tipo="VENTA" index={1} data={venta?.records} />}
 			{renta && <BaseMercado tipo="RENTA" index={2} data={renta?.records} />}
 		</div>

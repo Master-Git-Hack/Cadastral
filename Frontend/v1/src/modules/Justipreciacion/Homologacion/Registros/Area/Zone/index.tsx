@@ -31,10 +31,9 @@ const objectOptions: { [key: string]: string } = {
 	"Total de Viviendas Habitadas": "inhabitedDwellings",
 	"Factor de Zona Calculado": "useZoneResults",
 };
-const invertedObjectOptions: { [key: string]: string } = Object.keys(objectOptions).reduce(
-	(acc, key) => ({ ...acc, [objectOptions[key]]: key }),
-	{},
-);
+const invertedObjectOptions: { [key: string]: string } = Object.keys(
+	objectOptions,
+).reduce((acc, key) => ({ ...acc, [objectOptions[key]]: key }), {});
 const factorsOptions = [
 	{ value: 0, label: "Densidad de Población" },
 	{ value: 1, label: "Población Económicamente Activa" },
@@ -66,10 +65,12 @@ const Header = () => {
 				<th colSpan={3}>
 					<div style={{ padding: 4 }}>
 						<Select
-							defaultValue={factorsOptions.find(
+							defaultValue={
+								factorsOptions.find(
 									(item: any) =>
 										item.label === invertedObjectOptions[factors[0].type],
-								)?.value}
+								)?.value
+							}
 							data={factorsOptions.slice(0, 5)}
 							onChange={({ currentTarget: { value } }) => {
 								const selection =
@@ -90,10 +91,12 @@ const Header = () => {
 				<th>Factor 1</th>
 				<th>
 					<Select
-						defaultValue={factorsOptions.find(
-									(item: any) =>
-										item.label === invertedObjectOptions[factors[1].type],
-								)?.value}
+						defaultValue={
+							factorsOptions.find(
+								(item: any) =>
+									item.label === invertedObjectOptions[factors[1].type],
+							)?.value
+						}
 						data={factorsOptions}
 						onChange={({ currentTarget: { value } }) => {
 							const selection =
@@ -143,7 +146,8 @@ const Header = () => {
 };
 const Footer = () => {
 	const dispatch = useAppDispatch();
-	const { factors } = useAppSelector(getHomologaciones).documentation.Area.subject;
+	const { factors } =
+		useAppSelector(getHomologaciones).documentation.Area.subject;
 	const colSpan = factors.length + 7;
 	const options = new Array(11).fill(0).map((_, i) => `${i + 2}`);
 	return (
@@ -178,14 +182,24 @@ const Footer = () => {
 		</tr>
 	);
 };
-const NumberComponent = (props: { value: number; isPercentage?: boolean; colSpan?: number,isResult?:boolean }) => (
-	<td colSpan={props.colSpan ?? 1} >
-		<span className={props?.isResult?"text-success fs-6 fw-bolder":""}>{asFancyNumber(props.value, { isPercentage: props?.isPercentage ?? false })}</span>
+const NumberComponent = (props: {
+	value: number;
+	isPercentage?: boolean;
+	colSpan?: number;
+	isResult?: boolean;
+}) => (
+	<td colSpan={props.colSpan ?? 1}>
+		<span className={props?.isResult ? "text-success fs-6 fw-bolder" : ""}>
+			{asFancyNumber(props.value, {
+				isPercentage: props?.isPercentage ?? false,
+			})}
+		</span>
 	</td>
 );
 const Body = () => {
 	const dispatch = useAppDispatch();
-	const { factors, documentation, handlers } = useAppSelector(getHomologaciones);
+	const { factors, documentation, handlers } =
+		useAppSelector(getHomologaciones);
 	const { subject, data } = documentation.Area;
 	const factores = subject.factors;
 	const { zoneInformation } = handlers;
@@ -241,7 +255,7 @@ const Body = () => {
 							value={extras.factor2}
 							isPercentage={factores[1].type.includes("percentage")}
 						/>
-						<NumberComponent value={Zone.results[index].factor1} isResult/>
+						<NumberComponent value={Zone.results[index].factor1} isResult />
 					</tr>
 				);
 			})}

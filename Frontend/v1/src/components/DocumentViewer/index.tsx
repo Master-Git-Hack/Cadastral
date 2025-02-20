@@ -9,8 +9,9 @@ export const DocumentViewer = ({
 	status,
 	width,
 	height,
-}: DocumentViewerProps)=> {
-	const currentDoc = status.includes("success") && document !== "" ? document : blankDocument;
+}: DocumentViewerProps) => {
+	const currentDoc =
+		status.includes("success") && document !== "" ? document : blankDocument;
 	return (
 		<div className="d-flex justify-content-center flex-fill embed-responsive">
 			{(status.includes("success") || status.includes("working")) && (

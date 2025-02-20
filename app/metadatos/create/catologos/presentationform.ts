@@ -38,7 +38,8 @@ export const presentationform = [
 	},
 	{
 		label: "Modelo Digital",
-		description: "Representación digital multi-dimensional de un objeto, proceso, etc.",
+		description:
+			"Representación digital multi-dimensional de un objeto, proceso, etc.",
 		code: "7",
 	},
 	{ label: "Modelo Impreso", description: "Modelo físico tridimensional" },
@@ -64,5 +65,9 @@ export const presentationform = [
 			"Representación de hechos o figuras sistemáticamente representadas, en columnas, impresa en papel, material fotográfico u otro soporte para su utilización directa por los usuarios",
 		code: "11",
 	},
-	{ label: "Video Digital", description: "Grabación digital de video", code: "12" },
+	{
+		label: "Video Digital",
+		description: "Grabación digital de video",
+		code: "12",
+	},
 ];

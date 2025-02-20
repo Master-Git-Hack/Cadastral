@@ -10,5 +10,5 @@ export const ellips = [
 		label: "Sistema Geodésico Mundial (WGS84)",
 		description: "",
 		code: "2",
-	}
+	},
 ];

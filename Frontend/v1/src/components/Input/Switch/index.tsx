@@ -26,8 +26,8 @@ export const Switch = ({
 			<span className="me-2 ">{reverse && label}</span>
 			<Toggle
 				checked={checked}
-				checkedChildren={withText ? checkedText ?? "Deshabilitar" : ""}
-				unCheckedChildren={withText ? uncheckedText ?? "Habilitar" : ""}
+				checkedChildren={withText ? (checkedText ?? "Deshabilitar") : ""}
+				unCheckedChildren={withText ? (uncheckedText ?? "Habilitar") : ""}
 				loading={loading}
 				onChange={(value: boolean, event: any) => {
 					setLoading(true);

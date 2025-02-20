@@ -59,14 +59,29 @@ const AlertDialogContent = forwardRef<
 ));
 AlertDialogContent.displayName = Content.displayName;
 
-const AlertDialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-	<div className={cn("flex flex-col space-y-2 text-center sm:text-left", className)} {...props} />
+const AlertDialogHeader = ({
+	className,
+	...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+	<div
+		className={cn(
+			"flex flex-col space-y-2 text-center sm:text-left",
+			className,
+		)}
+		{...props}
+	/>
 );
 AlertDialogHeader.displayName = "AlertDialogHeader";
 
-const AlertDialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+const AlertDialogFooter = ({
+	className,
+	...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
 	<div
-		className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className)}
+		className={cn(
+			"flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+			className,
+		)}
 		{...props}
 	/>
 );
@@ -76,7 +91,11 @@ const AlertDialogTitle = forwardRef<
 	ElementRef<typeof Title>,
 	ComponentPropsWithoutRef<typeof Title>
 >(({ className, ...props }, ref) => (
-	<Title ref={ref} className={cn("text-lg font-semibold", className)} {...props} />
+	<Title
+		ref={ref}
+		className={cn("text-lg font-semibold", className)}
+		{...props}
+	/>
 ));
 AlertDialogTitle.displayName = Title.displayName;
 
@@ -106,7 +125,11 @@ const AlertDialogCancel = forwardRef<
 >(({ className, ...props }, ref) => (
 	<Cancel
 		ref={ref}
-		className={cn(buttonVariants({ variant: "outline" }), "mt-2 sm:mt-0", className)}
+		className={cn(
+			buttonVariants({ variant: "outline" }),
+			"mt-2 sm:mt-0",
+			className,
+		)}
 		{...props}
 	/>
 ));

@@ -102,8 +102,7 @@ const PreviousVersions = ({ id, open, setOpen }: any) => {
 												.split("_")
 												?.map(
 													(word: string) =>
-														word.charAt(0).toUpperCase() +
-														word.slice(1),
+														word.charAt(0).toUpperCase() + word.slice(1),
 												)
 												.join(" ")}
 										</TableCell>
@@ -112,8 +111,7 @@ const PreviousVersions = ({ id, open, setOpen }: any) => {
 												.split("_")
 												?.map(
 													(word: string) =>
-														word.charAt(0).toUpperCase() +
-														word.slice(1),
+														word.charAt(0).toUpperCase() + word.slice(1),
 												)
 												.join(" ")}
 										</TableCell>
@@ -122,8 +120,7 @@ const PreviousVersions = ({ id, open, setOpen }: any) => {
 												.split("_")
 												?.map(
 													(word: string) =>
-														word.charAt(0).toUpperCase() +
-														word.slice(1),
+														word.charAt(0).toUpperCase() + word.slice(1),
 												)
 												.join(" ")}
 										</TableCell>
@@ -178,10 +175,7 @@ const PreviousVersions = ({ id, open, setOpen }: any) => {
 																})
 															}
 														>
-															<Button
-																variant="link"
-																onClick={() => {}}
-															>
+															<Button variant="link" onClick={() => {}}>
 																Editar
 															</Button>
 														</Link>
@@ -192,10 +186,7 @@ const PreviousVersions = ({ id, open, setOpen }: any) => {
 															href={`/metadatos/${uid}/view`}
 															className="transition-colors hover:text-blue-500"
 														>
-															<Button
-																variant="link"
-																onClick={() => {}}
-															>
+															<Button variant="link" onClick={() => {}}>
 																PDF
 															</Button>
 														</Link>
@@ -245,7 +236,11 @@ export default function Metadatos() {
 	return (
 		<Layout container>
 			<div className="flex flex-row-reverse py-2">
-				<Link href={`metadatos/create?page=1`} onClick={clearMetadatos} className="ms-5">
+				<Link
+					href={`metadatos/create?page=1`}
+					onClick={clearMetadatos}
+					className="ms-5"
+				>
 					<Button>Nuevo Registro</Button>
 				</Link>
 				<ImportXML />
@@ -257,8 +252,12 @@ export default function Metadatos() {
 						<TableHead className="w-[250px] text-center">
 							Nombre de la Base de Datos
 						</TableHead>
-						<TableHead className="w-[250px] text-center">Nombre del Schema</TableHead>
-						<TableHead className="w-[250px] text-center">Nombre de la Tabla</TableHead>
+						<TableHead className="w-[250px] text-center">
+							Nombre del Schema
+						</TableHead>
+						<TableHead className="w-[250px] text-center">
+							Nombre de la Tabla
+						</TableHead>
 						<TableHead className="w-[100px] text-center">Titulo</TableHead>
 						<TableHead className="text-center">Proposito</TableHead>
 						<TableHead className="text-center">Resumen</TableHead>
@@ -368,10 +367,7 @@ export default function Metadatos() {
 																variant="link"
 																onClick={() => {
 																	setId(id);
-																	setTimeout(
-																		() => setOpen(true),
-																		1500,
-																	);
+																	setTimeout(() => setOpen(true), 1500);
 																}}
 															>
 																Versiones Anteriores
@@ -440,15 +436,13 @@ export default function Metadatos() {
 															variant="link"
 															onClick={async () => {
 																try {
-																	const response =
-																		await exportAsXML(
-																			uid,
-																			router,
-																		);
+																	const response = await exportAsXML(
+																		uid,
+																		router,
+																	);
 
 																	// Create a link element
-																	const link =
-																		document.createElement("a");
+																	const link = document.createElement("a");
 
 																	// Create an object URL for the blob and set it as the link's href
 																	link.href = URL.createObjectURL(
@@ -487,7 +481,9 @@ export default function Metadatos() {
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-[250px]">Nombre de la Base de Datos</TableHead>
+						<TableHead className="w-[250px]">
+							Nombre de la Base de Datos
+						</TableHead>
 						<TableHead className="w-[250px]">Nombre del Schema</TableHead>
 						<TableHead className="w-[250px]">Nombre de la Tabla</TableHead>
 						<TableHead className="w-[100px]">Titulo</TableHead>

@@ -29,7 +29,8 @@ import { MetadatosApi } from "@api/Metadatos";
 import { useDispatch } from "react-redux";
 import { Dialog } from "primereact/dialog";
 const Previous = ({ setVisible, visible = false, id }) => {
-	const [request, { data, isLoading, isError, error }] = usePreviousVersionMutation();
+	const [request, { data, isLoading, isError, error }] =
+		usePreviousVersionMutation();
 	useEffect(() => {
 		request({ id });
 	}, []);
@@ -302,9 +303,7 @@ export default function Metadatos() {
 													const { data } = await newVersion({ id });
 													console.log(data);
 													//edit/${uid}
-													return navigate(
-														`/metadatos/edit/${data?.data?.uid}`,
-													);
+													return navigate(`/metadatos/edit/${data?.data?.uid}`);
 												}}
 											>
 												Nueva Versión
@@ -320,10 +319,7 @@ export default function Metadatos() {
 													<a
 														onClick={() => {
 															setId(id);
-															setTimeout(
-																() => setVisible(true),
-																1500,
-															);
+															setTimeout(() => setVisible(true), 1500);
 														}}
 													>
 														Versiones Previas
@@ -483,7 +479,9 @@ export default function Metadatos() {
 					</Table.Body>
 				</Table>
 			)}
-			{id !== 0 && <Previous id={id} visible={visible} setVisible={setVisible} />}
+			{id !== 0 && (
+				<Previous id={id} visible={visible} setVisible={setVisible} />
+			)}
 		</div>
 	);
 }

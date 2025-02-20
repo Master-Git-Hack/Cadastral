@@ -54,7 +54,10 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 					>
 						2.1
 					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<Table.Cell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Fechas y eventos
 					</Table.Cell>
 				</Table.Row>
@@ -127,9 +130,12 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 					>
 						2.2
 					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
-						Fechas de los insumos tomados para la elaboración del producto o conjunto de
-						datos espaciales
+					<Table.Cell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
+						Fechas de los insumos tomados para la elaboración del producto o
+						conjunto de datos espaciales
 					</Table.Cell>
 				</Table.Row>
 				<Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -153,7 +159,9 @@ export const Section2 = ({ data, setData, editable = true }: any) => {
 							onChange={(e) => {
 								setData({
 									...data,
-									date_creation: moment(e.value).format("YYYY-MM-DD").toString(),
+									date_creation: moment(e.value)
+										.format("YYYY-MM-DD")
+										.toString(),
 								});
 							}}
 							className=" w-full md:w-14rem text-black"

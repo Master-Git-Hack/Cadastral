@@ -8,7 +8,9 @@ export default function Error({ message, detail }) {
 		>
 			<div className="z-10 bg-white  p-8 rounded-lg shadow-md text-center">
 				<h1 className="text-4xl font-semibold mb-4">Oops!</h1>
-				<p className="text-red-500 mb-4">¡Lo sentimos, un error acaba de suceder!</p>
+				<p className="text-red-500 mb-4">
+					¡Lo sentimos, un error acaba de suceder!
+				</p>
 				<p className="text-gray-600 text-center">{message ?? detail} </p>
 			</div>
 		</div>

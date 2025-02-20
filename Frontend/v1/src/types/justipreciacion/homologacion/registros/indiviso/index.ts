@@ -16,7 +16,7 @@ const initialState = (type: string): IndivisoProps =>
 				building: 1,
 				indiviso: Number(getURLParams("sp1_factor") ?? 1),
 				result: 1,
-		  }
+			}
 		: {};
 export const indiviso = {
 	operation,

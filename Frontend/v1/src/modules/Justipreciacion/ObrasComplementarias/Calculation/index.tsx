@@ -5,7 +5,11 @@ import { SelectUnit } from "../../../../components/Custom/SelectUnit";
 import { Fancy } from "../../../../components/Input/Fancy";
 import { Text } from "../../../../components/Input";
 import { useAppDispatch, useAppSelector } from "../../../../redux";
-import { getOC, setAge, setCalc } from "../../../../redux/justipreciacion/obrasComplementarias";
+import {
+	getOC,
+	setAge,
+	setCalc,
+} from "../../../../redux/justipreciacion/obrasComplementarias";
 import { asFancyNumber } from "../../../../utils/number";
 import { Button } from "../../../../components/Button";
 import { Custom } from "../../../../components/Input/Select";
@@ -13,8 +17,14 @@ import { Custom } from "../../../../components/Input/Select";
 const { Column, HeaderCell, Cell } = Table;
 const headerStyle = { padding: 4, backgroundColor: "#d1e6dd", color: "black" };
 const typeOptions = [
-	{ value: "IE - Instalaciones Especiales", label: "IE - Instalaciones Especiales" },
-	{ value: "IA - Instalaciones Auxiliares", label: "IA - Instalaciones Auxiliares" },
+	{
+		value: "IE - Instalaciones Especiales",
+		label: "IE - Instalaciones Especiales",
+	},
+	{
+		value: "IA - Instalaciones Auxiliares",
+		label: "IA - Instalaciones Auxiliares",
+	},
 	{ value: "OC - Obras Complementarias", label: "OC - Obras Complementarias" },
 ];
 export const Calculation = () => {
@@ -37,7 +47,13 @@ export const Calculation = () => {
 		const activeItem: any = nextData.find(
 			(item: any, currentIndex: number) => currentIndex === index,
 		);
-		dispatch(setCalc({ index, key: "status", value: activeItem.status ? null : "EDIT" }));
+		dispatch(
+			setCalc({
+				index,
+				key: "status",
+				value: activeItem.status ? null : "EDIT",
+			}),
+		);
 	};
 
 	return (
@@ -122,7 +138,9 @@ export const Calculation = () => {
 					<HeaderCell style={headerStyle}>
 						<strong>Factor de Edad</strong>
 					</HeaderCell>
-					<Cell dataKey="age">{(rowData) => asFancyNumber(rowData.age.factor)}</Cell>
+					<Cell dataKey="age">
+						{(rowData) => asFancyNumber(rowData.age.factor)}
+					</Cell>
 				</Column>
 
 				<Column align="center" verticalAlign="middle" flexGrow={1} fixed>
@@ -139,7 +157,9 @@ export const Calculation = () => {
 						<strong>Valor Unitario de Reposición</strong>
 					</HeaderCell>
 					<Cell dataKey="repositionValue">
-						{(rowData) => asFancyNumber(rowData.repositionValue, { isCurrency: true })}
+						{(rowData) =>
+							asFancyNumber(rowData.repositionValue, { isCurrency: true })
+						}
 					</Cell>
 				</Column>
 				<Column align="center" verticalAlign="middle" flexGrow={1} fixed>
@@ -169,21 +189,33 @@ export const Calculation = () => {
 		</>
 	);
 }; //
-const ReadDocCell = ({ Key, Documentation, asNumber, isCurrency, ...props }: any) => (
+const ReadDocCell = ({
+	Key,
+	Documentation,
+	asNumber,
+	isCurrency,
+	...props
+}: any) => (
 	<Cell {...props}>
-		{asNumber ?? false
+		{(asNumber ?? false)
 			? asFancyNumber(Documentation[props.rowIndex][Key], { isCurrency })
 			: Documentation[props.rowIndex][Key]}
 	</Cell>
 );
 const ReadAreaCell = ({ Key, Documentation, asNumber, ...props }: any) => (
 	<Cell {...props}>
-		{asNumber ?? false
+		{(asNumber ?? false)
 			? asFancyNumber(Documentation[props.rowIndex].area[Key])
 			: Documentation[props.rowIndex].area[Key]}
 	</Cell>
 );
-const SelectConservationCell = ({ rowData, dataKey, onChange, options, ...props }: any) => {
+const SelectConservationCell = ({
+	rowData,
+	dataKey,
+	onChange,
+	options,
+	...props
+}: any) => {
 	const editing = rowData.status === "EDIT";
 	const current = rowData[dataKey];
 
@@ -235,7 +267,13 @@ const SelectTypeCell = ({ rowData, dataKey, onChange, ...props }: any) => {
 	);
 };
 
-const FancyCell = ({ rowData, dataKey, onChange, isCurrency, ...props }: any) => {
+const FancyCell = ({
+	rowData,
+	dataKey,
+	onChange,
+	isCurrency,
+	...props
+}: any) => {
 	const editing = rowData.status === "EDIT";
 	const current = rowData[dataKey];
 	const value = dataKey.includes("age") ? current.value : current;

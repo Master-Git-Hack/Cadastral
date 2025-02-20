@@ -47,10 +47,20 @@ export const Catastral = ({
 	const [properties, setProperties] = useState(false);
 	const [showProperties, setShowProperties] = useState(false);
 	const minLabel =
-		min < 10 ? String(!isNaN(min) ? min : 0).padStart(2, "0") : !isNaN(min) ? min : "00";
+		min < 10
+			? String(!isNaN(min) ? min : 0).padStart(2, "0")
+			: !isNaN(min)
+				? min
+				: "00";
 	const maxLabel =
-		max < 10 ? String(!isNaN(max) ? max : 0).padStart(2, "0") : !isNaN(max) ? max : "00";
-	const collectionLabel = !isNaN(collection) ? collection.toString().padStart(4, "0") : "0000";
+		max < 10
+			? String(!isNaN(max) ? max : 0).padStart(2, "0")
+			: !isNaN(max)
+				? max
+				: "00";
+	const collectionLabel = !isNaN(collection)
+		? collection.toString().padStart(4, "0")
+		: "0000";
 	const yearLabel = !isNaN(year)
 		? year.toString().slice(2, 4)
 		: moment().year().toString().slice(2, 4);
@@ -111,7 +121,9 @@ export const Catastral = ({
 					),
 				)
 				.catch((error: any) =>
-					dispatch(setDocument({ id: id - 1, status: "fail", message: error.message })),
+					dispatch(
+						setDocument({ id: id - 1, status: "fail", message: error.message }),
+					),
 				);
 		}
 	}, [status]);
@@ -140,7 +152,11 @@ export const Catastral = ({
 							handleCommonChanges(
 								"collection",
 								!isNaN(value)
-									? value.toString().slice(0, 4).replace(".", "").replace(",", "")
+									? value
+											.toString()
+											.slice(0, 4)
+											.replace(".", "")
+											.replace(",", "")
 									: 0,
 							);
 						}}
@@ -227,7 +243,15 @@ export const Catastral = ({
 				</Col>
 			</Row>
 			<Row>
-				<Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24} className="py-1 text-center">
+				<Col
+					xs={24}
+					sm={24}
+					md={24}
+					lg={24}
+					xl={24}
+					xxl={24}
+					className="py-1 text-center"
+				>
 					{minLabel !== maxLabel ? "Desde " : "Recuperar: "} "<DocRangeLabel />"
 				</Col>
 			</Row>
@@ -238,7 +262,9 @@ export const Catastral = ({
 						withText
 						checked={watermark}
 						label={<span>Marca de Agua</span>}
-						onChange={(value: boolean) => handleCommonChanges("watermark", value)}
+						onChange={(value: boolean) =>
+							handleCommonChanges("watermark", value)
+						}
 					/>
 				</Col>
 				<Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24} className="py-2">
@@ -246,7 +272,9 @@ export const Catastral = ({
 						size="md"
 						withText
 						checked={properties}
-						label={<span>Usar Propiedes Recomendadas (Impresión con Membrete)</span>}
+						label={
+							<span>Usar Propiedes Recomendadas (Impresión con Membrete)</span>
+						}
 						onChange={(value: boolean) => {
 							setProperties(value);
 							value && setTimeout(() => handleDefaultProperties(value), 1000);
@@ -276,13 +304,23 @@ export const Catastral = ({
 					step={0.05}
 					value={zoom}
 					onChange={(value: number) => handleCommonChanges("zoom", value)}
-					customTooltip={(value: number) => <span>{(value * 100).toFixed(0)}</span>}
+					customTooltip={(value: number) => (
+						<span>{(value * 100).toFixed(0)}</span>
+					)}
 				/>
 			</Row>
 			{showProperties && (
 				<>
 					<Row className="my-2">
-						<Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12} className="my-2">
+						<Col
+							xs={12}
+							sm={12}
+							md={12}
+							lg={12}
+							xl={12}
+							xxl={12}
+							className="my-2"
+						>
 							<Select
 								label={<span>Tipo de página</span>}
 								searchable={false}
@@ -319,7 +357,9 @@ export const Catastral = ({
 								step={100}
 								value={dpi}
 								customTooltip={(value: number) => <span>{value}</span>}
-								onChange={(value: number) => handlerMoreProperties("dpi", value)}
+								onChange={(value: number) =>
+									handlerMoreProperties("dpi", value)
+								}
 							/>
 						</Col>
 					</Row>
@@ -429,7 +469,15 @@ export const Catastral = ({
 				</>
 			)}
 			<Row className="mt-5">
-				<Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24} className="text-end">
+				<Col
+					xs={24}
+					sm={24}
+					md={24}
+					lg={24}
+					xl={24}
+					xxl={24}
+					className="text-end"
+				>
 					<PopPanel
 						size="full"
 						btnAppearance="primary"

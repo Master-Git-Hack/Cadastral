@@ -85,9 +85,12 @@ const useFotogrametria = create<IFotogrametriaState & IFotogrametriaActions>()(
 						s.survey_point_id === scraping.survey_point_id ? scraping : s,
 					),
 				}),
-			addPunto: (punto: IPunto) => set({ puntos: [...get().puntos, { id: v4(), ...punto }] }),
+			addPunto: (punto: IPunto) =>
+				set({ puntos: [...get().puntos, { id: v4(), ...punto }] }),
 			editPunto: (punto: IPunto) =>
-				set({ puntos: get().puntos.map((p) => (p.id === punto.id ? punto : p)) }),
+				set({
+					puntos: get().puntos.map((p) => (p.id === punto.id ? punto : p)),
+				}),
 			removePunto: (index: number) =>
 				set({ puntos: get().puntos.filter((_, i) => i !== index) }),
 			postScraping: async (file: File) => {

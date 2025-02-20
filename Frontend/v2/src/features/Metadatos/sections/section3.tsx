@@ -42,7 +42,8 @@ export const Section3 = ({ data, setData, editable = true }: any) => {
 					className="flex-row justify-center text-center text-2xl text-black dark:text-white"
 					colSpan={11}
 				>
-					Unidad del estado responsable del conjunto de datos espaciales o producto
+					Unidad del estado responsable del conjunto de datos espaciales o
+					producto
 				</Table.HeadCell>
 			</Table.Head>
 			<Table.Body>

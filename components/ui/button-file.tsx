@@ -64,7 +64,9 @@ export const FileButton = forwardRef<HTMLInputElement, {}>(
 			input.style.display = "none";
 			input.accept = `.${fileType ?? "*"}`;
 			input.click();
-			input.onchange = ({ target: { files } }: ChangeEventHandler<HTMLInputElement>) => {
+			input.onchange = ({
+				target: { files },
+			}: ChangeEventHandler<HTMLInputElement>) => {
 				setFile(files[0]);
 				onChange(files[0]);
 			};
@@ -110,7 +112,9 @@ export const FileButton = forwardRef<HTMLInputElement, {}>(
 								}
 							}}
 						>
-							<span className={cn(`transition-colors text-center ${color} me-auto`)}>
+							<span
+								className={cn(`transition-colors text-center ${color} me-auto`)}
+							>
 								{label}
 							</span>
 							<span className={cn(`transition-colors text-center ${color}`)}>

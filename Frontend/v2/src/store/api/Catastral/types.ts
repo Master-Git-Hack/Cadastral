@@ -2,5 +2,5 @@
 
 export interface ICatastral {}
 export interface ICatastralPost {
-	fetch: (fileName: string) => Promise<>;
+	fetch: (fileName: string) => Promise<any>;
 }

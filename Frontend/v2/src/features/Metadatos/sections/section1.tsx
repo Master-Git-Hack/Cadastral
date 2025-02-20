@@ -40,25 +40,33 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 	const handleMultiSelect = (e) => {
 		const { name } = e.target;
 		const items = e.value.filter((item) => {
-			return item.code && item.label !== "undefined" && item.description !== "undefined";
+			return (
+				item.code &&
+				item.label !== "undefined" &&
+				item.description !== "undefined"
+			);
 		});
 		setData({
 			...data,
-			[name]: items.map((item) => `${item.code}. ${item.label}. ${item.description}`),
+			[name]: items.map(
+				(item) => `${item.code}. ${item.label}. ${item.description}`,
+			),
 		});
 	};
 	const findMultiSelect = (name: string) => {
 		const input = data[name] ?? [];
 		const result = input
 			.map((item) => {
-				const [code, label, description] = item.split(". ").map((text, index) => {
-					if (index === 0 && text.trim()) {
-						return text.trim();
-					} else if (index !== 0 && text.trim() !== "undefined") {
-						return text.trim();
-					}
-					return null;
-				});
+				const [code, label, description] = item
+					.split(". ")
+					.map((text, index) => {
+						if (index === 0 && text.trim()) {
+							return text.trim();
+						} else if (index !== 0 && text.trim() !== "undefined") {
+							return text.trim();
+						}
+						return null;
+					});
 
 				if (code && label !== "undefined" && description !== "undefined") {
 					return { code, label, description };
@@ -93,7 +101,10 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 					>
 						1.1
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Título del conjunto de datos espaciales o producto
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -244,8 +255,9 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
-							{catalogo.groupcategory[findSelectValue("groupcategory")?.code - 1]
-								?.description ??
+							{catalogo.groupcategory[
+								findSelectValue("groupcategory")?.code - 1
+							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
 					</Table.Cell>
@@ -265,7 +277,9 @@ export const Section1 = ({ data, setData, editable = true }: any) => {
 						<Chips
 							name="keyword"
 							value={data.keyword}
-							onChange={(e) => setData((prev) => ({ ...prev, keyword: e.value }))}
+							onChange={(e) =>
+								setData((prev) => ({ ...prev, keyword: e.value }))
+							}
 							placeholder="Palabras o frases usadas para describir algún aspecto del conjunto de datos espaciales o producto y que pueden ser utilizadas como referencia para búsquedas."
 							disabled={!editable}
 							allowDuplicate={false}

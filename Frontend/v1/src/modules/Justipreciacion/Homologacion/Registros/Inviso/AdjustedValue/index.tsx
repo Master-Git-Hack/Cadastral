@@ -22,15 +22,28 @@ export const AdjustedValue = () => {
 
 	const dispatch = useAppDispatch();
 	useEffect(() => {
-		dispatch(record.type.includes("TERRENO") ? terreno(adjustedValue) : renta(adjustedValue));
+		dispatch(
+			record.type.includes("TERRENO")
+				? terreno(adjustedValue)
+				: renta(adjustedValue),
+		);
 	}, [adjustedValue]);
 
-	const options = ["Sin Redondeo", "A la Unidad", "A la Decena", "A la Centena", "Al Millar"];
+	const options = [
+		"Sin Redondeo",
+		"A la Unidad",
+		"A la Decena",
+		"A la Centena",
+		"Al Millar",
+	];
 	return (
 		<div className="my-5">
 			<Table.Component
 				name="Valor Ajustado"
-				header={["VALOR AJUSTADO", asFancyNumber(adjustedValue, { isCurrency: true })]}
+				header={[
+					"VALOR AJUSTADO",
+					asFancyNumber(adjustedValue, { isCurrency: true }),
+				]}
 				customBody={
 					<tr>
 						<td colSpan={2}>
@@ -40,7 +53,9 @@ export const AdjustedValue = () => {
 								name="Valor Ajustado"
 								editable={enabled}
 								setEditable={(checked: boolean) => {
-									dispatch(setRoundedResult({ key: "enabled", value: checked }));
+									dispatch(
+										setRoundedResult({ key: "enabled", value: checked }),
+									);
 									!checked &&
 										dispatch(
 											setRoundedResult({ key: "observations", value: "" }),

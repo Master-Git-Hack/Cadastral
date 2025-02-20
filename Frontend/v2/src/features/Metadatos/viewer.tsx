@@ -15,7 +15,9 @@ export const DocumentViewer = ({
 	const { uid } = useParams();
 	const [file, setFile] = useState(blankDocument);
 	const [template, setTemplate] = useState(true);
-	const { data, isLoading, isError, error } = useViewMetadatoReportQuery({ uid });
+	const { data, isLoading, isError, error } = useViewMetadatoReportQuery({
+		uid,
+	});
 
 	useEffect(() => {
 		if (data !== undefined && template) {

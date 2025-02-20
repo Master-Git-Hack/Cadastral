@@ -13,7 +13,7 @@ import {
 	setIndivisoVisibility,
 	setObservations,
 	setRoundedTo,
-	setOther
+	setOther,
 } from "../../../../redux/justipreciacion/homologacion";
 import { positions } from "../../../../redux/justipreciacion/homologacion/homologacion.actions";
 import { asFancyNumber } from "../../../../utils/number";
@@ -21,7 +21,7 @@ import { JustifyChanges } from "../../../../components/Custom/JustifyChanges";
 import { RoundedSelection } from "../../../../components/Custom/RoundedSelection";
 import { terreno, renta } from "../../../../redux/justipreciacion";
 const { Column, ColumnGroup, HeaderCell, Cell } = Table;
-const { Text, InputNumber }= Input;
+const { Text, InputNumber } = Input;
 export const BigPicture = () => {
 	const [loading, setLoading] = useState(true);
 	const dispatch = useAppDispatch();
@@ -50,7 +50,11 @@ export const BigPicture = () => {
 			const used: Array<string> = [];
 			const header: Array<Object> = [];
 			factores.map(({ key }: any) => {
-				const { isUsed, name, tag } = factors[key] ?? {isUsed:false,name:"",tag:""};
+				const { isUsed, name, tag } = factors[key] ?? {
+					isUsed: false,
+					name: "",
+					tag: "",
+				};
 				isUsed && header.push({ tag, name }) && used.push(key);
 			});
 			setFactorsHeader(header);
@@ -103,7 +107,14 @@ export const BigPicture = () => {
 				setLoading(false);
 			}, 1000);
 	}, [keys]);
-	const factorWidth: { [key: number]: number } = { 13: 53, 12: 57, 11: 62, 10: 69, 9: 77, 8: 86 };
+	const factorWidth: { [key: number]: number } = {
+		13: 53,
+		12: 57,
+		11: 62,
+		10: 69,
+		9: 77,
+		8: 86,
+	};
 	const [sortColumn, setSortColumn] = useState<string>();
 	const [sortType, setSortType] = useState<"asc" | "desc" | undefined>();
 	const handleSortColumn = (sortColumn: string, sortType?: "asc" | "desc") => {
@@ -191,7 +202,13 @@ export const BigPicture = () => {
 					</HeaderCell>
 					<Cell dataKey="id" style={{ padding: 4 }} />
 				</Column>
-				<Column align="center" flexGrow={1} verticalAlign="middle" width={100} fixed>
+				<Column
+					align="center"
+					flexGrow={1}
+					verticalAlign="middle"
+					width={100}
+					fixed
+				>
 					<HeaderCell style={{ padding: 4 }}>
 						<strong>
 							{type ? (
@@ -217,7 +234,13 @@ export const BigPicture = () => {
 					</HeaderCell>
 					<CurrentCell dataKey="areaValue" isArea />
 				</Column>
-				<Column align="center" flexGrow={1} verticalAlign="middle" width={106} fixed>
+				<Column
+					align="center"
+					flexGrow={1}
+					verticalAlign="middle"
+					width={106}
+					fixed
+				>
 					<HeaderCell style={{ padding: 4 }}>
 						<strong>
 							<M2 text="Precio Unitario ( $ / " />)
@@ -250,19 +273,37 @@ export const BigPicture = () => {
 					})}
 				</ColumnGroup>
 
-				<Column align="center" flexGrow={1} verticalAlign="middle" width={60} fixed>
+				<Column
+					align="center"
+					flexGrow={1}
+					verticalAlign="middle"
+					width={60}
+					fixed
+				>
 					<HeaderCell style={{ padding: 4 }}>
 						<strong>F.Ho. Re.</strong>
 					</HeaderCell>
 					<CurrentCell dataKey="results" />
 				</Column>
-				<Column align="center" flexGrow={1} verticalAlign="middle" width={90} fixed>
+				<Column
+					align="center"
+					flexGrow={1}
+					verticalAlign="middle"
+					width={90}
+					fixed
+				>
 					<HeaderCell style={{ padding: 4 }}>
 						<strong>Ponderación</strong>
 					</HeaderCell>
 					<CurrentCell dataKey="percentage" isPercentage />
 				</Column>
-				<Column align="center" flexGrow={1} verticalAlign="middle" width={130} fixed>
+				<Column
+					align="center"
+					flexGrow={1}
+					verticalAlign="middle"
+					width={130}
+					fixed
+				>
 					<HeaderCell style={{ padding: 4 }}>
 						<strong>
 							<M2 text="Valor Unitario Resultante ( $ / " />)
@@ -284,34 +325,34 @@ const CurrentCell = ({
 	...props
 }: any) => {
 	const { factors } = useAppSelector(getHomologaciones) ?? {};
-const data = factors?.Other?.data ?? [];
+	const data = factors?.Other?.data ?? [];
 
-const value = asFancyNumber(rowData[dataKey], { isCurrency, isPercentage });
-const id = parseInt(rowData?.id?.replace("C", ""));
-const dispatch = useAppDispatch();
-let current = rowData[dataKey];
+	const value = asFancyNumber(rowData[dataKey], { isCurrency, isPercentage });
+	const id = parseInt(rowData?.id?.replace("C", ""));
+	const dispatch = useAppDispatch();
+	let current = rowData[dataKey];
 
-if (dataKey === "FOtro") {
-    const obj = data?.[id - 1] ?? { result: 0 };
-    current = parseFloat(obj.result);
-}
+	if (dataKey === "FOtro") {
+		const obj = data?.[id - 1] ?? { result: 0 };
+		current = parseFloat(obj.result);
+	}
 
-return (
-    <Cell {...props} style={{ padding: 4 }}>
-        {isArea ? (
-            <M2 text={`${value} `} />
-        ) : dataKey === "FOtro" ? (
-            <InputNumber
-                size="xs"
-                value={current}
-                step={0.01}
-                onChange={(value: number) => dispatch(setOther({ id, value }))}
-            />
-        ) : (
-            value
-        )}
-    </Cell>
-);
+	return (
+		<Cell {...props} style={{ padding: 4 }}>
+			{isArea ? (
+				<M2 text={`${value} `} />
+			) : dataKey === "FOtro" ? (
+				<InputNumber
+					size="xs"
+					value={current}
+					step={0.01}
+					onChange={(value: number) => dispatch(setOther({ id, value }))}
+				/>
+			) : (
+				value
+			)}
+		</Cell>
+	);
 };
 const Footer = ({
 	type,
@@ -324,7 +365,13 @@ const Footer = ({
 	roundedTo: { enabled, ...roundedTo },
 }: any) => {
 	const dispatch = useAppDispatch();
-	const options = ["Sin Redondeo", "A la Unidad", "A la Decena", "A la Centena", "Al Millar"];
+	const options = [
+		"Sin Redondeo",
+		"A la Unidad",
+		"A la Decena",
+		"A la Centena",
+		"Al Millar",
+	];
 
 	return (
 		<div className="d-flex justify-content-center mb-1">
@@ -393,7 +440,9 @@ const Footer = ({
 											}
 										/>
 									</JustifyChanges>
-									<span className="ms-auto my-auto">Valor Unitario Promedio</span>
+									<span className="ms-auto my-auto">
+										Valor Unitario Promedio
+									</span>
 								</div>
 							</td>
 							<td>{asFancyNumber(value ?? 1, { isCurrency: true })}</td>

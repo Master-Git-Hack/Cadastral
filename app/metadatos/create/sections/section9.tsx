@@ -1,7 +1,13 @@
 /** @format */
 
 "use client";
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import {
 	Select,
@@ -31,7 +37,10 @@ export const Section9 = ({ editable = true }: any) => {
 		<>
 			<TableHeader>
 				<TableRow>
-					<TableHead className="flex-row text-2xl text-black dark:text-white" colSpan={1}>
+					<TableHead
+						className="flex-row text-2xl text-black dark:text-white"
+						colSpan={1}
+					>
 						9
 					</TableHead>
 					<TableHead

@@ -11,7 +11,10 @@ export const reducers = {
 		const { length } = data;
 		length > 1 && data.pop();
 	},
-	setValues: (state: StateProps, { payload: { key, value, id } }: PayloadAction<any>) => {
+	setValues: (
+		state: StateProps,
+		{ payload: { key, value, id } }: PayloadAction<any>,
+	) => {
 		const {
 			handlers: { totalRows, getTotal },
 		} = state;

@@ -3,7 +3,12 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux";
 
-import { getJustipreciacion, setID, get, setInitialState } from "../../redux/justipreciacion";
+import {
+	getJustipreciacion,
+	setID,
+	get,
+	setInitialState,
+} from "../../redux/justipreciacion";
 import { Alert } from "../../utils/alert";
 
 import { getURLParams } from "../../utils/url";

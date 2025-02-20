@@ -17,7 +17,9 @@ export default function DocumentViewer({
 }: any) {
 	const uid = params?.uid as string | undefined;
 	const [file, setFile] = useState("/assets/blank.pdf");
-	const { isSuccess, isLoading, isError, message } = useStatusStore((state) => state);
+	const { isSuccess, isLoading, isError, message } = useStatusStore(
+		(state) => state,
+	);
 	const [template, setTemplate] = useState(true);
 	const { viewMetadatoReport } = useMedatados((state) => state);
 	const response = async () => {

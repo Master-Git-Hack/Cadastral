@@ -1,6 +1,12 @@
 /** @format */
 
-import { Dropdown as Component, Popover, Whisper, IconButton, ButtonGroup } from "rsuite";
+import {
+	Dropdown as Component,
+	Popover,
+	Whisper,
+	IconButton,
+	ButtonGroup,
+} from "rsuite";
 import ArrowDownIcon from "@rsuite/icons/ArrowDown";
 import { DropdownProps } from "./dropdown.types";
 import { colorPicker, appearancePicker } from "../../../utils/color";
@@ -15,7 +21,7 @@ export const Dropdown = ({
 	type,
 	appearance,
 	btnSize,
-}: DropdownProps)=> (
+}: DropdownProps) => (
 	<Whisper
 		placement={placement}
 		trigger={trigger ?? ["click", "hover"]}

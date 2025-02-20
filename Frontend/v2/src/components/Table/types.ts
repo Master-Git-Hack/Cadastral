@@ -28,29 +28,32 @@ export const bodyVariants = cva("[&_tr:last-child]:border-0", {
 export interface BodyProps
 	extends HTMLAttributes<HTMLTableSectionElement>,
 		VariantProps<typeof bodyVariants> {}
-export const captionVariants = cva("mt-4 text-sm text-zinc-500 dark:text-zinc-400", {
-	variants: {
-		variant: {
-			default: "",
-			primary: "",
-			warning: "",
-			danger: "",
-			success: "",
-			info: "",
-			light: "",
-			dark: "",
+export const captionVariants = cva(
+	"mt-4 text-sm text-zinc-500 dark:text-zinc-400",
+	{
+		variants: {
+			variant: {
+				default: "",
+				primary: "",
+				warning: "",
+				danger: "",
+				success: "",
+				info: "",
+				light: "",
+				dark: "",
+			},
+			size: {
+				default: "",
+				sm: "",
+				lg: "",
+			},
 		},
-		size: {
-			default: "",
-			sm: "",
-			lg: "",
+		defaultVariants: {
+			variant: "default",
+			size: "default",
 		},
 	},
-	defaultVariants: {
-		variant: "default",
-		size: "default",
-	},
-});
+);
 export interface CaptionProps
 	extends HTMLAttributes<HTMLTableCaptionElement>,
 		VariantProps<typeof captionVariants> {}
@@ -172,7 +175,8 @@ export const rowVariants = cva("text-xs uppercase ", {
 		variant: {
 			default: "text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400",
 			primary: " text-white bg-zinc-500 dark:bg-zinc-400 dark:text-zinc-50",
-			warning: " text-white bg-yellow-500 dark:bg-yellow-400 dark:text-yellow-50",
+			warning:
+				" text-white bg-yellow-500 dark:bg-yellow-400 dark:text-yellow-50",
 			danger: " text-white bg-red-500 dark:bg-red-400 dark:text-red-50",
 			success: " text-white bg-green-500 dark:bg-green-400 dark:text-green-50",
 			info: " text-white bg-blue-500 dark:bg-blue-400 dark:text-blue-50",

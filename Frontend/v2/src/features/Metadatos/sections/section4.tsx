@@ -13,7 +13,8 @@ import { Dropdown } from "primereact/dropdown";
 import catalogo from "../catologos/index";
 import { InputNumber } from "primereact/inputnumber";
 export const Section4 = ({ data, setData, editable = true }: any) => {
-	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
+	const handleInputChange = ({ target }) =>
+		setData({ ...data, [target.name]: target.value });
 	const handleSelectChange = ({
 		target: {
 			name,
@@ -53,7 +54,10 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 					>
 						4.1
 					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<Table.Cell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Localización geográfica del conjunto de datos espaciales o producto
 					</Table.Cell>
 				</Table.Row>
@@ -65,7 +69,10 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 					>
 						4.1.1
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Coordenada límite al Oeste
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -102,7 +109,10 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 					>
 						4.1.2
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Coordenada límite al Este
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -139,7 +149,10 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 					>
 						4.1.3
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Coordenada límite al Sur
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -178,7 +191,10 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 					>
 						4.1.4
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Coordenada límite al Norte
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -218,7 +234,10 @@ export const Section4 = ({ data, setData, editable = true }: any) => {
 					>
 						4.2
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Tipo de representación espacial
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">

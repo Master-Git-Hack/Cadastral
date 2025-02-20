@@ -49,12 +49,17 @@
 	--bs-black-rgb: 0, 0, 0;
 	--bs-body-color-rgb: 33, 37, 41;
 	--bs-body-bg-rgb: 255, 255, 255;
-	--bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+	--bs-font-sans-serif:
+		system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
 		"Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
 		"Segoe UI Symbol", "Noto Color Emoji";
-	--bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
-		monospace;
-	--bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+	--bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+		"Liberation Mono", "Courier New", monospace;
+	--bs-gradient: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.15),
+		rgba(255, 255, 255, 0)
+	);
 	--bs-body-font-family: var(--bs-font-sans-serif);
 	--bs-body-font-size: 1rem;
 	--bs-body-font-weight: 400;
@@ -1907,8 +1912,8 @@ progress {
 	border-width: 0;
 	border-inline-end-width: 1px;
 	border-radius: 0;
-	-webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-		border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	-webkit-transition: color 0.15s ease-in-out, background-color 0.15s
+		ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
 		border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -1956,8 +1961,8 @@ progress {
 	border-width: 0;
 	border-inline-end-width: 1px;
 	border-radius: 0;
-	-webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-		border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	-webkit-transition: color 0.15s ease-in-out, background-color 0.15s
+		ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
 		border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -2246,8 +2251,8 @@ textarea.form-control-lg {
 	background-color: #0d6efd;
 	border: 0;
 	border-radius: 1rem;
-	-webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-		box-shadow 0.15s ease-in-out;
+	-webkit-transition: background-color 0.15s ease-in-out, border-color 0.15s
+		ease-in-out, box-shadow 0.15s ease-in-out;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
 		box-shadow 0.15s ease-in-out;
 	-webkit-appearance: none;
@@ -2277,8 +2282,8 @@ textarea.form-control-lg {
 	background-color: #0d6efd;
 	border: 0;
 	border-radius: 1rem;
-	-moz-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-		box-shadow 0.15s ease-in-out;
+	-moz-transition: background-color 0.15s ease-in-out, border-color 0.15s
+		ease-in-out, box-shadow 0.15s ease-in-out;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
 		box-shadow 0.15s ease-in-out;
 	-moz-appearance: none;
@@ -2435,17 +2440,21 @@ textarea.form-control-lg {
 	padding-right: 3rem;
 }
 .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n + 3),
-.input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) {
+.input-group:not(.has-validation)
+	> :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
 .input-group.has-validation > .dropdown-toggle:nth-last-child(n + 4),
-.input-group.has-validation > :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu) {
+.input-group.has-validation
+	> :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu) {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
 .input-group
-	> :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+	> :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(
+		.valid-feedback
+	):not(.invalid-tooltip):not(.invalid-feedback) {
 	margin-left: -1px;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
@@ -2493,7 +2502,8 @@ textarea.form-control-lg {
 .was-validated textarea.form-control:valid,
 textarea.form-control.is-valid {
 	padding-right: calc(1.5em + 0.75rem);
-	background-position: top calc(0.375em + 0.1875rem) right calc(0.375em + 0.1875rem);
+	background-position: top calc(0.375em + 0.1875rem) right
+		calc(0.375em + 0.1875rem);
 }
 .form-select.is-valid,
 .was-validated .form-select:valid {
@@ -2588,7 +2598,8 @@ textarea.form-control.is-valid {
 .was-validated textarea.form-control:invalid,
 textarea.form-control.is-invalid {
 	padding-right: calc(1.5em + 0.75rem);
-	background-position: top calc(0.375em + 0.1875rem) right calc(0.375em + 0.1875rem);
+	background-position: top calc(0.375em + 0.1875rem) right
+		calc(0.375em + 0.1875rem);
 }
 .form-select.is-invalid,
 .was-validated .form-select:invalid {
@@ -4428,7 +4439,8 @@ fieldset:disabled .btn {
 	border: 0;
 	border-radius: 0;
 	overflow-anchor: none;
-	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+	transition:
+		color 0.15s ease-in-out, background-color 0.15s ease-in-out,
 		border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -5123,7 +5135,7 @@ fieldset:disabled .btn {
 	color: #000;
 	background: transparent
 		url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
-		center/1em auto no-repeat;
+		center / 1em auto no-repeat;
 	border: 0;
 	border-radius: 0.25rem;
 	opacity: 0.5;
@@ -6077,8 +6089,18 @@ fieldset:disabled .btn {
 	}
 }
 .placeholder-wave {
-	-webkit-mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
-	mask-image: linear-gradient(130deg, #000 55%, rgba(0, 0, 0, 0.8) 75%, #000 95%);
+	-webkit-mask-image: linear-gradient(
+		130deg,
+		#000 55%,
+		rgba(0, 0, 0, 0.8) 75%,
+		#000 95%
+	);
+	mask-image: linear-gradient(
+		130deg,
+		#000 55%,
+		rgba(0, 0, 0, 0.8) 75%,
+		#000 95%
+	);
 	-webkit-mask-size: 200% 100%;
 	mask-size: 200% 100%;
 	-webkit-animation: placeholder-wave 2s linear infinite;

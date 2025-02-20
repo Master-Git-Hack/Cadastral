@@ -64,7 +64,9 @@ export const File = forwardRef<HTMLButtonElement, FileButtonProps>(
 			input.style.display = "none";
 			input.accept = `.${fileType ?? "*"}`;
 			input.click();
-			input.onchange = ({ target: { files } }: ChangeEventHandler<HTMLInputElement>) => {
+			input.onchange = ({
+				target: { files },
+			}: ChangeEventHandler<HTMLInputElement>) => {
 				setFile(files[0]);
 				onChange(files[0]);
 			};

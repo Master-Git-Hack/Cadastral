@@ -9,7 +9,8 @@ const template = (id: number) => ({
 const operation = (area: any, surface: any) =>
 	surface.data.map((item: any, index: number) => {
 		const value =
-			(area.data[index].value / area.averageLotArea.value) ** (1 / surface.root.value);
+			(area.data[index].value / area.averageLotArea.value) **
+			(1 / surface.root.value);
 		item.value = !isNaN(value) ? value : 1;
 		return item;
 	});
@@ -23,7 +24,7 @@ const initialState: FactorsProps = {
 		enabled: false,
 		observations: "",
 	},
-	data: [template(1),template(2),template(3),template(4)],
+	data: [template(1), template(2), template(3), template(4)],
 };
 export const surface = {
 	template,

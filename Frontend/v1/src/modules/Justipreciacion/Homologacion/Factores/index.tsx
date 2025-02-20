@@ -65,7 +65,11 @@ export const Compilation = ({ type }: { type: "TERRENO" | "RENTA" }) => (
 		<SymbolContainer name="Location" />
 		<CommonContainer components={["Usage", "Topography"]} />
 		<CommonContainer components={["Building", "Quality"]} />
-		<>{type === "RENTA" && <CommonContainer components={["Level", "Project"]} />}</>
+		<>
+			{type === "RENTA" && (
+				<CommonContainer components={["Level", "Project"]} />
+			)}
+		</>
 	</Container>
 );
 export const Factores = {

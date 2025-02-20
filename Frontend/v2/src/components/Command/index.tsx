@@ -1,13 +1,22 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef, HTMLAttributes } from "react";
+import {
+	forwardRef,
+	ElementRef,
+	ComponentPropsWithoutRef,
+	HTMLAttributes,
+} from "react";
 import { DialogProps } from "@radix-ui/react-dialog";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Command as CommandPrimitive } from "cmdk";
 
 import { cn } from "@lib/utils/ui";
-import { Component as Dialog, Content as DialogContent } from "@components/Dialog";
-const { Input, displayName, List, Empty, Group, Separator, Item } = CommandPrimitive;
+import {
+	Component as Dialog,
+	Content as DialogContent,
+} from "@components/Dialog";
+const { Input, displayName, List, Empty, Group, Separator, Item } =
+	CommandPrimitive;
 const Command = forwardRef<
 	ElementRef<typeof CommandPrimitive>,
 	ComponentPropsWithoutRef<typeof CommandPrimitive>
@@ -37,54 +46,60 @@ const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
 	);
 };
 
-const CommandInput = forwardRef<ElementRef<typeof Input>, ComponentPropsWithoutRef<typeof Input>>(
-	({ className, ...props }, ref) => (
-		<div className="flex items-center border-b px-3" cmdk-input-wrapper="">
-			<MagnifyingGlassIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-			<Input
-				ref={ref}
-				className={cn(
-					"flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-zinc-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-zinc-400",
-					className,
-				)}
-				{...props}
-			/>
-		</div>
-	),
-);
-
-CommandInput.displayName = Input.displayName;
-
-const CommandList = forwardRef<ElementRef<typeof List>, ComponentPropsWithoutRef<typeof List>>(
-	({ className, ...props }, ref) => (
-		<List
-			ref={ref}
-			className={cn("max-h-[300px] overflow-y-auto overflow-x-hidden", className)}
-			{...props}
-		/>
-	),
-);
-
-CommandList.displayName = List.displayName;
-
-const CommandEmpty = forwardRef<ElementRef<typeof Empty>, ComponentPropsWithoutRef<typeof Empty>>(
-	(props, ref) => <Empty ref={ref} className="py-6 text-center text-sm" {...props} />,
-);
-
-CommandEmpty.displayName = Empty.displayName;
-
-const CommandGroup = forwardRef<ElementRef<typeof Group>, ComponentPropsWithoutRef<typeof Group>>(
-	({ className, ...props }, ref) => (
-		<Group
+const CommandInput = forwardRef<
+	ElementRef<typeof Input>,
+	ComponentPropsWithoutRef<typeof Input>
+>(({ className, ...props }, ref) => (
+	<div className="flex items-center border-b px-3" cmdk-input-wrapper="">
+		<MagnifyingGlassIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+		<Input
 			ref={ref}
 			className={cn(
-				"overflow-hidden p-1 text-zinc-950 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-zinc-500 dark:text-zinc-50 dark:[&_[cmdk-group-heading]]:text-zinc-400",
+				"flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-zinc-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-zinc-400",
 				className,
 			)}
 			{...props}
 		/>
-	),
-);
+	</div>
+));
+
+CommandInput.displayName = Input.displayName;
+
+const CommandList = forwardRef<
+	ElementRef<typeof List>,
+	ComponentPropsWithoutRef<typeof List>
+>(({ className, ...props }, ref) => (
+	<List
+		ref={ref}
+		className={cn("max-h-[300px] overflow-y-auto overflow-x-hidden", className)}
+		{...props}
+	/>
+));
+
+CommandList.displayName = List.displayName;
+
+const CommandEmpty = forwardRef<
+	ElementRef<typeof Empty>,
+	ComponentPropsWithoutRef<typeof Empty>
+>((props, ref) => (
+	<Empty ref={ref} className="py-6 text-center text-sm" {...props} />
+));
+
+CommandEmpty.displayName = Empty.displayName;
+
+const CommandGroup = forwardRef<
+	ElementRef<typeof Group>,
+	ComponentPropsWithoutRef<typeof Group>
+>(({ className, ...props }, ref) => (
+	<Group
+		ref={ref}
+		className={cn(
+			"overflow-hidden p-1 text-zinc-950 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-zinc-500 dark:text-zinc-50 dark:[&_[cmdk-group-heading]]:text-zinc-400",
+			className,
+		)}
+		{...props}
+	/>
+));
 
 CommandGroup.displayName = Group.displayName;
 
@@ -100,22 +115,26 @@ const CommandSeparator = forwardRef<
 ));
 CommandSeparator.displayName = Separator.displayName;
 
-const CommandItem = forwardRef<ElementRef<typeof Item>, ComponentPropsWithoutRef<typeof Item>>(
-	({ className, ...props }, ref) => (
-		<Item
-			ref={ref}
-			className={cn(
-				"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-zinc-100 aria-selected:text-zinc-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:aria-selected:bg-zinc-800 dark:aria-selected:text-zinc-50",
-				className,
-			)}
-			{...props}
-		/>
-	),
-);
+const CommandItem = forwardRef<
+	ElementRef<typeof Item>,
+	ComponentPropsWithoutRef<typeof Item>
+>(({ className, ...props }, ref) => (
+	<Item
+		ref={ref}
+		className={cn(
+			"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-zinc-100 aria-selected:text-zinc-900 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 dark:aria-selected:bg-zinc-800 dark:aria-selected:text-zinc-50",
+			className,
+		)}
+		{...props}
+	/>
+));
 
 CommandItem.displayName = Item.displayName;
 
-const CommandShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => {
+const CommandShortcut = ({
+	className,
+	...props
+}: HTMLAttributes<HTMLSpanElement>) => {
 	return (
 		<span
 			className={cn(

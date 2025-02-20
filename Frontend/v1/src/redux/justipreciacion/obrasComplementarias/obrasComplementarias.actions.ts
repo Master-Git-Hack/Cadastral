@@ -39,13 +39,22 @@ export const updateValuesFN = ({
 			factorGTO,
 		}),
 	),
-	Calculation: Calculation.map(({ vut, age, conservation, ...item }: any, index: number) => {
-		const { totalByUnit, area } = Documentation[index];
-		const factor = getFactor(age.value, vut);
-		const repositionValue = factor * conservation.value * totalByUnit;
-		const total = repositionValue * area.total;
-		return { ...item, vut, conservation, age: { ...age, factor }, repositionValue, total };
-	}),
+	Calculation: Calculation.map(
+		({ vut, age, conservation, ...item }: any, index: number) => {
+			const { totalByUnit, area } = Documentation[index];
+			const factor = getFactor(age.value, vut);
+			const repositionValue = factor * conservation.value * totalByUnit;
+			const total = repositionValue * area.total;
+			return {
+				...item,
+				vut,
+				conservation,
+				age: { ...age, factor },
+				repositionValue,
+				total,
+			};
+		},
+	),
 	total: getFinalTotal(Calculation),
 });
 export const updatePartialValuesFN = ({
@@ -56,17 +65,27 @@ export const updatePartialValuesFN = ({
 		getFinalTotal,
 	},
 }: StateProps) => ({
-	Calculation: Calculation.map(({ vut, age, conservation, ...item }: any, index: number) => {
-		const { totalByUnit, area } = Documentation[index];
-		const factor = getFactor(age.value, vut);
-		const repositionValue = factor * conservation.value * totalByUnit;
-		const total = repositionValue * area.total;
-		return { ...item, vut, conservation, age: { ...age, factor }, repositionValue, total };
-	}),
+	Calculation: Calculation.map(
+		({ vut, age, conservation, ...item }: any, index: number) => {
+			const { totalByUnit, area } = Documentation[index];
+			const factor = getFactor(age.value, vut);
+			const repositionValue = factor * conservation.value * totalByUnit;
+			const total = repositionValue * area.total;
+			return {
+				...item,
+				vut,
+				conservation,
+				age: { ...age, factor },
+				repositionValue,
+				total,
+			};
+		},
+	),
 	total: getFinalTotal(Calculation),
 });
 export const checkErrorsFN = ({ Documentation, Calculation }: StateProps) => {
-	const errors: Array<{ title: string; message: string; reference: string }> = [];
+	const errors: Array<{ title: string; message: string; reference: string }> =
+		[];
 	Documentation.map(({ area, data, ...item }: any, index: number) => {
 		area.data.map(({ description, status, ...elements }: any, indx: number) => {
 			if (description.trim() === "") {

@@ -66,8 +66,13 @@ const Template = ({
 	});
 };
 
-const Component = ({ titleText, text, icon, isLoading = false, ...props }: AlertProps) =>
-	Template({ titleText, text, icon, isLoading, ...props });
+const Component = ({
+	titleText,
+	text,
+	icon,
+	isLoading = false,
+	...props
+}: AlertProps) => Template({ titleText, text, icon, isLoading, ...props });
 export const Success = ({
 	icon = "success",
 	confirmColor = "success",
@@ -132,7 +137,14 @@ export const Ask = ({
 	cancelColor = "danger",
 	...props
 }: AlertProps) =>
-	Template({ ...props, icon, confirmButtonText, confirmColor, cancelButtonText, cancelColor });
+	Template({
+		...props,
+		icon,
+		confirmButtonText,
+		confirmColor,
+		cancelButtonText,
+		cancelColor,
+	});
 export const Alert = Object.assign(Component, {
 	Success,
 	Danger,

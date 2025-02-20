@@ -27,7 +27,8 @@ const {
 } = homologacion;
 
 const tipo: string = getURLParams("tipo")?.toUpperCase() ?? "TERRENO";
-const tipo_servicio: string = getURLParams("tipo_servicio")?.toUpperCase() ?? "justipreciacion";
+const tipo_servicio: string =
+	getURLParams("tipo_servicio")?.toUpperCase() ?? "justipreciacion";
 export const initialState: StateProps = {
 	status: "working",
 	message: "",

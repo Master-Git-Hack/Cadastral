@@ -9,7 +9,7 @@ export const Normal = ({
 	data,
 	onChange,
 	value,
-}: SelectProps)=> {
+}: SelectProps) => {
 	const id = `select component for ${label ?? "select"} ${index}`;
 
 	return (
@@ -50,7 +50,7 @@ export const Custom = ({
 	size,
 	value,
 	searchable,
-}: SelectProps)=> (
+}: SelectProps) => (
 	<SelectPicker
 		label={label}
 		labelKey={labelKey}

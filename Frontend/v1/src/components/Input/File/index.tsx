@@ -8,7 +8,7 @@ import TrashIcon from "@rsuite/icons/Trash";
 import { Tooltip } from "../../Tooltip";
 import { FileProps } from "./file.types";
 import FileSaver from "file-saver";
-export const File = ({ onChange, file, filename, remove }: FileProps)=> {
+export const File = ({ onChange, file, filename, remove }: FileProps) => {
 	const onClick = () => {
 		let input = document.createElement("input");
 		input.type = "file";
@@ -28,7 +28,12 @@ export const File = ({ onChange, file, filename, remove }: FileProps)=> {
 			>
 				<Tooltip
 					id={id}
-					 tooltip={<span>Solo se puede subir un solo archivo, precione el boton para seleccionar un archivo o cambiar el existente.</span>}
+					tooltip={
+						<span>
+							Solo se puede subir un solo archivo, precione el boton para
+							seleccionar un archivo o cambiar el existente.
+						</span>
+					}
 					trigger="hover"
 					followCursor
 				>
@@ -43,11 +48,15 @@ export const File = ({ onChange, file, filename, remove }: FileProps)=> {
 				</Tooltip>
 
 				<Dropdown.Item
-					icon={<FileDownloadIcon color={filename !== "" ? "green" : undefined} />}
+					icon={
+						<FileDownloadIcon color={filename !== "" ? "green" : undefined} />
+					}
 					onClick={saveFile}
 					disabled={filename === ""}
 				>
-					<span className={filename !== "" ? "text-success" : "text-muted disabled"}>
+					<span
+						className={filename !== "" ? "text-success" : "text-muted disabled"}
+					>
 						Descargar
 					</span>
 				</Dropdown.Item>
@@ -56,7 +65,9 @@ export const File = ({ onChange, file, filename, remove }: FileProps)=> {
 					onClick={remove}
 					disabled={filename === ""}
 				>
-					<span className={filename !== "" ? "text-danger" : "text-muted disabled"}>
+					<span
+						className={filename !== "" ? "text-danger" : "text-muted disabled"}
+					>
 						Eliminar
 					</span>
 				</Dropdown.Item>

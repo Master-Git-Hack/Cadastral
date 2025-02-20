@@ -42,8 +42,14 @@ enum MetadatoActions {
 	PatchTemporal = "PATCH_TEMPORAL",
 }
 const SaveActions = ({ open, setOpen, uid, isTemporal }: any) => {
-	const { postMetadato, patchMetadato, postTemporal, patchTemporal, clearMetadatos, ...data } =
-		useMedatados((state) => state);
+	const {
+		postMetadato,
+		patchMetadato,
+		postTemporal,
+		patchTemporal,
+		clearMetadatos,
+		...data
+	} = useMedatados((state) => state);
 
 	const router = useRouter();
 
@@ -94,7 +100,8 @@ const SaveActions = ({ open, setOpen, uid, isTemporal }: any) => {
 					if (status !== 200)
 						return Danger({
 							title: status,
-							text: response?.data?.detail ?? response?.data?.message ?? message,
+							text:
+								response?.data?.detail ?? response?.data?.message ?? message,
 						});
 					Success({ title: msg.title, text: msg.text }).finally(() => {
 						clearMetadatos();
@@ -122,8 +129,8 @@ const SaveActions = ({ open, setOpen, uid, isTemporal }: any) => {
 				<DrawerHeader>
 					<DrawerTitle className="text-center">¿Esta Seguro?</DrawerTitle>
 					<DrawerDescription className="text-center">
-						Esta por realizar una "Insersión/Actualización" de un metadato, ¿Desea
-						continuar?
+						Esta por realizar una "Insersión/Actualización" de un metadato,
+						¿Desea continuar?
 					</DrawerDescription>
 				</DrawerHeader>
 				<DrawerFooter className="mb-5 flex flex-row items-center justify-between p-4">
@@ -191,9 +198,14 @@ export default function Create({
 	onEdit,
 	uid = undefined,
 }: any) {
-	const { getResources, schema_name, table_name, db_name, setMetadatos, ...data } = useMedatados(
-		(state) => state,
-	);
+	const {
+		getResources,
+		schema_name,
+		table_name,
+		db_name,
+		setMetadatos,
+		...data
+	} = useMedatados((state) => state);
 
 	const [currentUID, setCurrentUID] = useState(uid);
 
@@ -246,7 +258,8 @@ export default function Create({
 			</div>
 
 			<div className="flex flex-row-reverse py-2">
-				<div className="w-1/3">*
+				<div className="w-1/3">
+					*
 					<TreeSelect
 						value={`${db_name}.${schema_name}.${table_name}`}
 						onChange={handleTreeSelect}
@@ -262,38 +275,39 @@ export default function Create({
 								<BreadcrumbList>
 									<BreadcrumbItem>
 										<BreadcrumbPage>
-											{schema_name==="mapservice"?"GeoServer":schema_name
-												.split("_")
-												.map(
-													(word) =>
-														word.charAt(0).toUpperCase() +
-														word.slice(1),
-												)
-												.join(" ")}
+											{schema_name === "mapservice"
+												? "GeoServer"
+												: schema_name
+														.split("_")
+														.map(
+															(word) =>
+																word.charAt(0).toUpperCase() + word.slice(1),
+														)
+														.join(" ")}
 										</BreadcrumbPage>
 									</BreadcrumbItem>
 									<BreadcrumbSeparator />
 									<BreadcrumbItem>
 										<BreadcrumbPage>
-											{schema_name==="mapservice"?"GeoServer Web Map Service":table_name
-												.split("_")
-												.map(
-													(word) =>
-														word.charAt(0).toUpperCase() +
-														word.slice(1),
-												)
-												.join(" ")}
+											{schema_name === "mapservice"
+												? "GeoServer Web Map Service"
+												: table_name
+														.split("_")
+														.map(
+															(word) =>
+																word.charAt(0).toUpperCase() + word.slice(1),
+														)
+														.join(" ")}
 										</BreadcrumbPage>
 									</BreadcrumbItem>
 									<BreadcrumbSeparator />
 									<BreadcrumbItem>
 										<BreadcrumbPage>
-											{(schema_name==="mapservice"?table_name:db_name)
+											{(schema_name === "mapservice" ? table_name : db_name)
 												.split("_")
 												.map(
 													(word) =>
-														word.charAt(0).toUpperCase() +
-														word.slice(1),
+														word.charAt(0).toUpperCase() + word.slice(1),
 												)
 												.join(" ")}
 										</BreadcrumbPage>
@@ -302,7 +316,6 @@ export default function Create({
 							</Breadcrumb>
 						)}
 					/>
-
 					<div className="flex flex-row-reverse py-2 justify-between items-center">
 						{/* <FileButton
 							size="sm"

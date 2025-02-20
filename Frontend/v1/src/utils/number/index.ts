@@ -24,25 +24,36 @@ export const formatNumb = (value: number, decimals: number = 3): number =>
  * @optionsProperties {number}decimals - number of decimals to show}
  */
 
-export const asFancyNumber = (value: number, properties?: FancyProps): string => {
+export const asFancyNumber = (
+	value: number,
+	properties?: FancyProps,
+): string => {
 	const isCurrency = properties?.isCurrency ?? false;
 	const isPercentage = properties?.isPercentage ?? false;
 	const style = isCurrency
 		? "currency"
 		: isPercentage
-		? "percent"
-		: properties?.style ?? "decimal";
+			? "percent"
+			: (properties?.style ?? "decimal");
 	const decimals =
-		!isPercentage || !String(style).includes("percent") ? properties?.decimals ?? 2 : 0;
-	const currency = isCurrency || String(style).includes("currency") ? "MXN" : undefined;
-	const unit = (isPercentage && !isCurrency) || String(style).includes("percent") ? 100 : 1;
+		!isPercentage || !String(style).includes("percent")
+			? (properties?.decimals ?? 2)
+			: 0;
+	const currency =
+		isCurrency || String(style).includes("currency") ? "MXN" : undefined;
+	const unit =
+		(isPercentage && !isCurrency) || String(style).includes("percent")
+			? 100
+			: 1;
 	const format = new Intl.NumberFormat("es-MX", {
 		style,
 		minimumFractionDigits: decimals,
 		currency,
 	});
 	const current = value?.toFixed(decimals);
-	return properties !== undefined ? format.format(Number(current) / unit) : current;
+	return properties !== undefined
+		? format.format(Number(current) / unit)
+		: current;
 };
 /**
  * Using 10 power to the rounded value given as parameter to get the first decimal place and round it to the nearest value,
@@ -59,7 +70,11 @@ export const roundNumber = (value: number, round: number = -1): number => {
 		const reducedValue = value / roundType;
 		const decimals = reducedValue.toString().split(".");
 		const action =
-			decimals.length === 1 ? "round" : Number(decimals[1][0]) < 5 ? "floor" : "ceil";
+			decimals.length === 1
+				? "round"
+				: Number(decimals[1][0]) < 5
+					? "floor"
+					: "ceil";
 
 		return Math[action](reducedValue) * roundType;
 	} else return Number(value.toFixed(2));
@@ -70,7 +85,8 @@ export const roundNumber = (value: number, round: number = -1): number => {
  * @returns number - The average of the values given.
  */
 export const average = (values: Array<number>): number =>
-	values.reduce((previous: number, current: number) => previous + current, 0) / values.length;
+	values.reduce((previous: number, current: number) => previous + current, 0) /
+	values.length;
 
 /**
  * It takes an array of numbers and returns its standard deviation.

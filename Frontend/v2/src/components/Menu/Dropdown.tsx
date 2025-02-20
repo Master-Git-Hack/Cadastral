@@ -1,6 +1,11 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef, HTMLAttributes } from "react";
+import {
+	forwardRef,
+	ElementRef,
+	ComponentPropsWithoutRef,
+	HTMLAttributes,
+} from "react";
 import {
 	Root,
 	Trigger,
@@ -18,7 +23,11 @@ import {
 	Label,
 	Separator,
 } from "@radix-ui/react-dropdown-menu";
-import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons";
+import {
+	CheckIcon,
+	ChevronRightIcon,
+	DotFilledIcon,
+} from "@radix-ui/react-icons";
 
 import { cn } from "@utils/ui";
 
@@ -160,7 +169,11 @@ const DropdownMenuLabel = forwardRef<
 >(({ className, inset, ...props }, ref) => (
 	<Label
 		ref={ref}
-		className={cn("px-2 py-1.5 text-sm font-semibold", inset && "pl-8", className)}
+		className={cn(
+			"px-2 py-1.5 text-sm font-semibold",
+			inset && "pl-8",
+			className,
+		)}
 		{...props}
 	/>
 ));
@@ -178,9 +191,15 @@ const DropdownMenuSeparator = forwardRef<
 ));
 DropdownMenuSeparator.displayName = Separator.displayName;
 
-const DropdownMenuShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => {
+const DropdownMenuShortcut = ({
+	className,
+	...props
+}: HTMLAttributes<HTMLSpanElement>) => {
 	return (
-		<span className={cn("ml-auto text-xs tracking-widest opacity-60", className)} {...props} />
+		<span
+			className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
+			{...props}
+		/>
 	);
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";

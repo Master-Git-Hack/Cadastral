@@ -1,7 +1,12 @@
 /** @format */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { reducers } from "./comparable.reducer";
-import { name, consume, initialState, StateProps } from "./comparables.interface";
+import {
+	name,
+	consume,
+	initialState,
+	StateProps,
+} from "./comparables.interface";
 import { RootState } from "../store";
 
 export const consumeComparables = consume;

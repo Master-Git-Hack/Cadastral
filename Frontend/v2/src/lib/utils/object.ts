@@ -1,6 +1,9 @@
 /** @format */
 
-export const flattenObject = (obj: any, parentKey = ""): { [key: string]: any } => {
+export const flattenObject = (
+	obj: any,
+	parentKey = "",
+): { [key: string]: any } => {
 	const result: { [key: string]: any } = {};
 
 	for (const key in obj) {

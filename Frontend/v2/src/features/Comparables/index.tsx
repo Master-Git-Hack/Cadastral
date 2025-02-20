@@ -19,13 +19,22 @@ export default function Comparables() {
 	const { data, isLoading, isError, error } = useGetCedulasQuery({ username });
 	const [
 		deleteCedula,
-		{ isLoading: isLoadingDelete, isError: isErrorDeleting, error: errorDelete },
+		{
+			isLoading: isLoadingDelete,
+			isError: isErrorDeleting,
+			error: errorDelete,
+		},
 	] = useDeleteCedulaMutation();
-	const [postCedula, { isLoading: isLoadingPost, isError: isErrorPost, error: errorPost }] =
-		usePostCedulaMutation();
+	const [
+		postCedula,
+		{ isLoading: isLoadingPost, isError: isErrorPost, error: errorPost },
+	] = usePostCedulaMutation();
 	if (isError || isErrorDeleting || isErrorPost)
-		return <Error message={error?.data || errorDelete?.data || errorPost?.data} />;
-	if (isLoading || isLoadingDelete || isLoadingPost) return <Spinner size={20} />;
+		return (
+			<Error message={error?.data || errorDelete?.data || errorPost?.data} />
+		);
+	if (isLoading || isLoadingDelete || isLoadingPost)
+		return <Spinner size={20} />;
 	return (
 		<div
 			className={`overflow-auto ${username ? "w-full min-h-screen bg-white dark:bg-black antialiased tracking-tight" : ""}`}

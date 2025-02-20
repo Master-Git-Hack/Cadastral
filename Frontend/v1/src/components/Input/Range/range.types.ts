@@ -1,6 +1,5 @@
 /** @format */
 
-
 /** @format */
 
 export interface RangeProps {
@@ -11,5 +10,7 @@ export interface RangeProps {
 	max?: number;
 	step?: number;
 	progress?: boolean;
-	customTooltip?: (value: number) => JSX.Element|React.ReactNode|React.ReactNode[];
+	customTooltip?: (
+		value: number,
+	) => JSX.Element | React.ReactNode | React.ReactNode[];
 }

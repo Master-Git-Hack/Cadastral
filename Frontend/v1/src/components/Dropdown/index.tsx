@@ -14,7 +14,7 @@ export const Dropdown = ({
 	type,
 	appearance,
 	disabled,
-}: DropdownProps)=> (
+}: DropdownProps) => (
 	<ButtonToolbar>
 		<Component
 			title={title}

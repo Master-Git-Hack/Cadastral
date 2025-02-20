@@ -12,7 +12,10 @@ export default function Metadata() {
 			<Routes>
 				<Route path="/" element={<Metadatos />} />
 				<Route path="edit/:uid" element={<EditMetadatos />} />
-				<Route path="temporal/edit/:uid" element={<EditMetadatos isTemporal={true} />} />
+				<Route
+					path="temporal/edit/:uid"
+					element={<EditMetadatos isTemporal={true} />}
+				/>
 				<Route path="crear/" element={<CreateMetadatos />} />
 				<Route path="view/:uid" element={<MetadatosViewer />} />
 			</Routes>

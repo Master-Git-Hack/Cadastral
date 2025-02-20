@@ -142,7 +142,11 @@ export const md_dataidentification_characterset = [
 		description: "Código japonés utilizado en máquinas basadas en UNIX",
 		code: "24",
 	},
-	{ label: "usAscii", description: "Código ASCII de Estados Unidos (ISO 646 US)", code: "25" },
+	{
+		label: "usAscii",
+		description: "Código ASCII de Estados Unidos (ISO 646 US)",
+		code: "25",
+	},
 	{
 		label: "Ebcdic",
 		description: "Código de los ordenadores centrales (mainframe) IBM",
@@ -151,7 +155,8 @@ export const md_dataidentification_characterset = [
 	{ label: "EucKR", description: "Código Coreano", code: "27" },
 	{
 		label: "Big5",
-		description: "Código tradicional Chino usado en Taiwán, Hong Kong y otras áreas",
+		description:
+			"Código tradicional Chino usado en Taiwán, Hong Kong y otras áreas",
 		code: "28",
 	},
 	{ label: "GB2312", description: "Código Chino Simplificado", code: "29" },

@@ -25,7 +25,10 @@ export const api = (component: string) => ({
 	/* Creating a thunk that can be used to make a post request to the server. */
 	post: createAsyncThunk(
 		`${component}/post`,
-		async ({ url, responseType, payload }: ApiProps, { rejectWithValue, fulfillWithValue }) => {
+		async (
+			{ url, responseType, payload }: ApiProps,
+			{ rejectWithValue, fulfillWithValue },
+		) => {
 			try {
 				const { data } = await consume(responseType).post(url, payload);
 				return fulfillWithValue(data);
@@ -37,7 +40,10 @@ export const api = (component: string) => ({
 	/* Creating a thunk that can be used to make a patch request to the server. */
 	patch: createAsyncThunk(
 		`${component}/patch`,
-		async ({ url, responseType, payload }: any, { rejectWithValue, fulfillWithValue }) => {
+		async (
+			{ url, responseType, payload }: any,
+			{ rejectWithValue, fulfillWithValue },
+		) => {
 			try {
 				const { data } = await consume(responseType).patch(url, payload);
 				return fulfillWithValue(data);

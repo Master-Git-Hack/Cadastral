@@ -16,21 +16,22 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@utils/ui";
 
-const NavigationMenu = forwardRef<ElementRef<typeof Root>, ComponentPropsWithoutRef<typeof Root>>(
-	({ className, children, ...props }, ref) => (
-		<Root
-			ref={ref}
-			className={cn(
-				"relative z-10 flex max-w-max flex-1 items-center justify-center",
-				className,
-			)}
-			{...props}
-		>
-			{children}
-			<NavigationMenuViewport />
-		</Root>
-	),
-);
+const NavigationMenu = forwardRef<
+	ElementRef<typeof Root>,
+	ComponentPropsWithoutRef<typeof Root>
+>(({ className, children, ...props }, ref) => (
+	<Root
+		ref={ref}
+		className={cn(
+			"relative z-10 flex max-w-max flex-1 items-center justify-center",
+			className,
+		)}
+		{...props}
+	>
+		{children}
+		<NavigationMenuViewport />
+	</Root>
+));
 NavigationMenu.displayName = Root.displayName;
 
 const NavigationMenuList = forwardRef<
@@ -58,7 +59,11 @@ const NavigationMenuTrigger = forwardRef<
 	ElementRef<typeof Trigger>,
 	ComponentPropsWithoutRef<typeof Trigger>
 >(({ className, children, ...props }, ref) => (
-	<Trigger ref={ref} className={cn(navigationMenuTriggerStyle(), "group", className)} {...props}>
+	<Trigger
+		ref={ref}
+		className={cn(navigationMenuTriggerStyle(), "group", className)}
+		{...props}
+	>
 		{children}
 		{""}
 		<ChevronDownIcon

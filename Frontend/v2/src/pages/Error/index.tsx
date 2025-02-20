@@ -16,7 +16,9 @@ export default function ErrorPage() {
 				<p className="text-red-500 mb-4">
 					¡Lo sentimos, un error inesperado acaba de suceder!
 				</p>
-				<p className="text-gray-600 text-center">{error?.statusText || error?.message}</p>
+				<p className="text-gray-600 text-center">
+					{error?.statusText || error?.message}
+				</p>
 			</div>
 		</div>
 	);

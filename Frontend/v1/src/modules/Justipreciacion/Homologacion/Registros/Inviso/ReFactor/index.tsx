@@ -14,7 +14,10 @@ import {
 	setReFactorForm,
 } from "../../../../../../redux/justipreciacion/homologacion";
 import { asFancyNumber } from "../../../../../../utils/number";
-import { getJustipreciacion, setInitialState } from "../../../../../../redux/justipreciacion";
+import {
+	getJustipreciacion,
+	setInitialState,
+} from "../../../../../../redux/justipreciacion";
 
 export const ReFactor = () => {
 	const dispatch = useAppDispatch();
@@ -40,7 +43,9 @@ export const ReFactor = () => {
 	useEffect(() => {
 		type.includes("TERRENO") &&
 			sp1_factor !== (form?.value ?? 1) &&
-			dispatch(setInitialState({ type, sp1_superficie, sp1_factor: form?.value ?? 1 }));
+			dispatch(
+				setInitialState({ type, sp1_superficie, sp1_factor: form?.value ?? 1 }),
+			);
 	}, [type, form?.value]);
 
 	return (
@@ -132,9 +137,7 @@ export const ReFactor = () => {
 										<small>
 											<strong>
 												<sup>{root.value}</sup>&radic;
-												<span style={{ textDecoration: "overline" }}>
-													x
-												</span>
+												<span style={{ textDecoration: "overline" }}>x</span>
 											</strong>
 										</small>
 										<br />

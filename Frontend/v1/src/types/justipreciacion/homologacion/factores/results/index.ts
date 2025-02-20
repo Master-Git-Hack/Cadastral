@@ -38,7 +38,7 @@ const initialState: FactorsProps = {
 	name: "Homologación Resultante",
 	tag: "F.Ho.Re.",
 	isUsed: true,
-	data: [template(1),template(2),template(3),template(4)],
+	data: [template(1), template(2), template(3), template(4)],
 };
 export const results = {
 	template,

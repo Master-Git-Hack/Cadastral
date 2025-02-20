@@ -19,7 +19,14 @@ export interface DropdownProps {
 	title: string;
 	onSelect: (eventKey: string, event: SyntheticEvent<Element, Event>) => void;
 	size?: "xs" | "sm" | "md" | "lg";
-	type?: "danger" | "success" | "warning" | "info" | "primary" | "secondary" | "orange";
+	type?:
+		| "danger"
+		| "success"
+		| "warning"
+		| "info"
+		| "primary"
+		| "secondary"
+		| "orange";
 	appearance?: "default" | "primary" | "link" | "light" | "outline";
 	disabled?: boolean;
 }

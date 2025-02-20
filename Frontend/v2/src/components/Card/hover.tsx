@@ -27,7 +27,11 @@ const HoverCardContent = forwardRef<
 HoverCardContent.displayName = Content.displayName;
 
 export default {
-	Hover: { Component: HoverCard, Trigger: HoverCardTrigger, Content: HoverCardContent },
+	Hover: {
+		Component: HoverCard,
+		Trigger: HoverCardTrigger,
+		Content: HoverCardContent,
+	},
 	Component: HoverCard,
 	Trigger: HoverCardTrigger,
 	Content: HoverCardContent,

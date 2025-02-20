@@ -46,37 +46,48 @@ import { FactorsProps } from "../";
 // ALTA	1.12
 // LUJO	1.15
 // RESIDENCIAL	1.20
-const options=[{
-	label:"PRECARIA",
-	value:0.91
-},{
-	label:"BAJA",
-	value:0.94
-},{
-	label:"ECONÓMICA",
-	value:0.97
-},{
-	label:"COMERCIAL",
-	value:1.0
-},{
-	label:"INTERÉS SOCIAL",
-	value:1.03
-},{
-	label:"MEDIA COMÚN",
-	value:1.06
-},{
-	label:"MEDIA ALTA",
-	value:1.09
-},{
-	label:"ALTA",
-	value:1.12
-},{
-	label:"LUJO",
-	value:1.15
-},{
-	label:"RESIDENCIAL",
-	value:1.20
-}]
+const options = [
+	{
+		label: "PRECARIA",
+		value: 0.91,
+	},
+	{
+		label: "BAJA",
+		value: 0.94,
+	},
+	{
+		label: "ECONÓMICA",
+		value: 0.97,
+	},
+	{
+		label: "COMERCIAL",
+		value: 1.0,
+	},
+	{
+		label: "INTERÉS SOCIAL",
+		value: 1.03,
+	},
+	{
+		label: "MEDIA COMÚN",
+		value: 1.06,
+	},
+	{
+		label: "MEDIA ALTA",
+		value: 1.09,
+	},
+	{
+		label: "ALTA",
+		value: 1.12,
+	},
+	{
+		label: "LUJO",
+		value: 1.15,
+	},
+	{
+		label: "RESIDENCIAL",
+		value: 1.2,
+	},
+];
 const template = (id: number) => ({
 	id,
 	...options[0],
@@ -88,7 +99,7 @@ const initialState: FactorsProps = {
 	isUsed: false,
 	position: 0,
 	subject: options[0],
-	data: [template(1),template(2),template(3),template(4)],
+	data: [template(1), template(2), template(3), template(4)],
 };
 export const quality = {
 	template,

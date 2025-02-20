@@ -29,7 +29,14 @@ const Title = ({ title, onChange }: any) => (
 	</div>
 );
 
-const Component = ({ index, data, total, totalByUnit, factorGTO, unit }: any) => {
+const Component = ({
+	index,
+	data,
+	total,
+	totalByUnit,
+	factorGTO,
+	unit,
+}: any) => {
 	const dispatch = useAppDispatch();
 	const {
 		handlers: {
@@ -54,7 +61,10 @@ const Component = ({ index, data, total, totalByUnit, factorGTO, unit }: any) =>
 					withText
 					label="Factor GTO"
 					onChange={(value: boolean) =>
-						setTimeout(() => dispatch(setDoc({ index, key: "factorGTO", value })), 1000)
+						setTimeout(
+							() => dispatch(setDoc({ index, key: "factorGTO", value })),
+							1000,
+						)
 					}
 				/>
 			</div>
@@ -111,7 +121,9 @@ const Component = ({ index, data, total, totalByUnit, factorGTO, unit }: any) =>
 						<strong>Total</strong>
 					</HeaderCell>
 					<Cell>
-						{(rowData: any) => asFancyNumber(rowData.total, { isCurrency: true })}
+						{(rowData: any) =>
+							asFancyNumber(rowData.total, { isCurrency: true })
+						}
 					</Cell>
 				</Column>
 
@@ -153,7 +165,9 @@ const Component = ({ index, data, total, totalByUnit, factorGTO, unit }: any) =>
 						<strong>Total:</strong>
 					</Col>
 					<Col md={4} className="text-start">
-						{asFancyNumber(total * getGTOFactor(factorGTO), { isCurrency: true })}
+						{asFancyNumber(total * getGTOFactor(factorGTO), {
+							isCurrency: true,
+						})}
 					</Col>
 				</Row>
 				<Row>
@@ -178,7 +192,10 @@ const Component = ({ index, data, total, totalByUnit, factorGTO, unit }: any) =>
 						Agregar Productos
 					</Success>
 					{data.length > 1 && (
-						<Danger appearance="link" onClick={() => dispatch(rmDataRow(index))}>
+						<Danger
+							appearance="link"
+							onClick={() => dispatch(rmDataRow(index))}
+						>
 							Remover última fila
 						</Danger>
 					)}
@@ -215,7 +232,11 @@ export const Documentation = () => {
 								}
 							/>
 							<Area {...area} index={index} />
-							<Component {...item} index={index} unit={area.unit.toUpperCase()} />
+							<Component
+								{...item}
+								index={index}
+								unit={area.unit.toUpperCase()}
+							/>
 						</div>
 						<Divider>
 							<strong>{title(index).toUpperCase()}</strong>
@@ -237,7 +258,13 @@ export const Documentation = () => {
 		</>
 	);
 };
-const SelectUnitCell = ({ rowData, dataKey, onChange, isCurrency, ...props }: any) => {
+const SelectUnitCell = ({
+	rowData,
+	dataKey,
+	onChange,
+	isCurrency,
+	...props
+}: any) => {
 	const editing = rowData.status === "EDIT";
 
 	const current = rowData[dataKey];
@@ -261,10 +288,18 @@ const SelectUnitCell = ({ rowData, dataKey, onChange, isCurrency, ...props }: an
 		</Cell>
 	);
 };
-const FancyCell = ({ rowData, dataKey, onChange, isCurrency, ...props }: any) => {
+const FancyCell = ({
+	rowData,
+	dataKey,
+	onChange,
+	isCurrency,
+	...props
+}: any) => {
 	const editing = rowData.status === "EDIT";
 	const current = rowData[dataKey];
-	const value = dataKey.includes("value") ? rowData.value * rowData.ind : current;
+	const value = dataKey.includes("value")
+		? rowData.value * rowData.ind
+		: current;
 	return (
 		<Cell {...props} className={editing ? "table-content-editing" : ""}>
 			{editing ? (

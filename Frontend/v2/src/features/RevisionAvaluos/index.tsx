@@ -17,7 +17,9 @@ export const Valuador = () => {
 			<div className="flex  flex-row-reverse w-full py-2">
 				<div className="justify-end">
 					<Dropdown
-						onClick={(type) => navigate(`/revision-avaluos/${type}/nuevo-registro`)}
+						onClick={(type) =>
+							navigate(`/revision-avaluos/${type}/nuevo-registro`)
+						}
 						options={[
 							{
 								id: 1,

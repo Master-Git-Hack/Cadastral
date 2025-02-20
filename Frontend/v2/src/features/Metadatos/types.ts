@@ -86,15 +86,19 @@ export const translateTags = {
 	presentationform: "Forma de Presentación",
 	ci_onlineresource_linkage: "Enlace del Recurso en Línea de CI",
 	maintenanceandupdatefrequency: "Frecuencia de Mantenimiento y Actualización",
-	md_dataidentification_characterset: "Conjunto de Caracteres de Identificación de Datos",
+	md_dataidentification_characterset:
+		"Conjunto de Caracteres de Identificación de Datos",
 	specuse: "Uso Específico",
 	datestamp: "Sello de Fecha",
 	datetype: "Tipo de Fecha",
 	date_creation: "Fecha de Creación",
 	inpname: "Nombre INP",
-	ci_responsibleparty_individualname: "Nombre Individual de la Parte Responsable de CI",
-	ci_responsibleparty_organisationname: "Nombre de la Organización de la Parte Responsable de CI",
-	ci_responsibleparty_positionname: "Nombre del Puesto de la Parte Responsable de CI",
+	ci_responsibleparty_individualname:
+		"Nombre Individual de la Parte Responsable de CI",
+	ci_responsibleparty_organisationname:
+		"Nombre de la Organización de la Parte Responsable de CI",
+	ci_responsibleparty_positionname:
+		"Nombre del Puesto de la Parte Responsable de CI",
 	ci_responsibleparty_linkage: "Enlace de la Parte Responsable de CI",
 	ci_responsibleparty_role: "Rol de la Parte Responsable de CI",
 	westboundlongitude: "Longitud Oeste",
@@ -135,15 +139,22 @@ export const translateTags = {
 	level: "Nivel",
 	dq_quantitativeresult: "Resultado Cuantitativo DQ",
 	dq_completeness_nameofmeasure: "Nombre de la Medida de Completitud DQ",
-	dq_logicconsistency_nameofmeasure: "Nombre de la Medida de Coherencia Lógica DQ",
-	positionalaccuracy_nameofmeasure: "Nombre de la Medida de Precisión Posicional",
+	dq_logicconsistency_nameofmeasure:
+		"Nombre de la Medida de Coherencia Lógica DQ",
+	positionalaccuracy_nameofmeasure:
+		"Nombre de la Medida de Precisión Posicional",
 	temporalaccuracy_nameofmeasure: "Nombre de la Medida de Precisión Temporal",
 	thematicaccuracy_nameofmeasure: "Nombre de la Medida de Precisión Temática",
-	dq_completeness_measuredescription: "Descripción de la Medida de Completitud DQ",
-	dq_logicconsistency_measuredescription: "Descripción de la Medida de Coherencia Lógica DQ",
-	positionalaccuracy_measuredescription: "Descripción de la Medida de Precisión Posicional",
-	temporalaccuracy_measuredescription: "Descripción de la Medida de Precisión Temporal",
-	thematicaccuracy_measuredescription: "Descripción de la Medida de Precisión Temática",
+	dq_completeness_measuredescription:
+		"Descripción de la Medida de Completitud DQ",
+	dq_logicconsistency_measuredescription:
+		"Descripción de la Medida de Coherencia Lógica DQ",
+	positionalaccuracy_measuredescription:
+		"Descripción de la Medida de Precisión Posicional",
+	temporalaccuracy_measuredescription:
+		"Descripción de la Medida de Precisión Temporal",
+	thematicaccuracy_measuredescription:
+		"Descripción de la Medida de Precisión Temática",
 	positionalaccuracy_valueunit: "Unidad de Valor de Precisión Posicional",
 	temporalaccuracy_valueunit: "Unidad de Valor de Precisión Temporal",
 	thematicaccuracy_valueunit: "Unidad de Valor de Precisión Temática",
@@ -410,7 +421,8 @@ export const transformKeys = (data) => {
 		}
 		if (currentKey in keys) {
 			if (key.includes("keyword")) {
-				if (typeof transformed[currentKey] === "undefined") transformed[currentKey] = [];
+				if (typeof transformed[currentKey] === "undefined")
+					transformed[currentKey] = [];
 				transformed[currentKey].push(data[key]);
 			} else {
 				transformed = {
@@ -420,7 +432,8 @@ export const transformKeys = (data) => {
 			}
 		}
 	}
-	if (transformed["keyword"]) transformed["keyword"] = transformed["keyword"].slice(0, -2);
+	if (transformed["keyword"])
+		transformed["keyword"] = transformed["keyword"].slice(0, -2);
 	return transformed;
 };
 

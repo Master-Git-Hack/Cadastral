@@ -12,7 +12,9 @@ export default function useMunicipios() {
 	const [metadato, setMetadatos] = useState<IMetadatos | null>(null);
 	const get = (table_name: string) =>
 		setMetadatos(
-			data?.data.find((metadato: IMetadatos) => metadato.table_name === table_name) ?? null,
+			data?.data.find(
+				(metadato: IMetadatos) => metadato.table_name === table_name,
+			) ?? null,
 		);
 	const [
 		postMetadato,

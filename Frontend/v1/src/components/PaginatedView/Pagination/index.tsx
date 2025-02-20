@@ -12,7 +12,7 @@ export const Pagination = ({
 	maxButtons,
 	size,
 	onChangePage,
-}: PaginationProps)=> {
+}: PaginationProps) => {
 	const [current, setCurrent] = useState(activePage);
 	useEffect(() => {
 		current !== activePage && setCurrent(activePage);

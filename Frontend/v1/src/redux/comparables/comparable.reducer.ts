@@ -27,7 +27,10 @@ export const reducers = {
 		const { length } = reports;
 		length > 1 && reports.pop();
 	},
-	setLimits: (state: StateProps, { payload: { id, key, value } }: PayloadAction<any>) => {
+	setLimits: (
+		state: StateProps,
+		{ payload: { id, key, value } }: PayloadAction<any>,
+	) => {
 		if (id !== undefined && key !== undefined && value !== undefined) {
 			const { reports } = state;
 			const { limits } = reports[id];
@@ -55,28 +58,42 @@ export const reducers = {
 			}
 		}
 	},
-	setValues: (state: StateProps, { payload: { id, key, value } }: PayloadAction<any>) => {
+	setValues: (
+		state: StateProps,
+		{ payload: { id, key, value } }: PayloadAction<any>,
+	) => {
 		if (id !== undefined && key !== undefined && value !== undefined) {
 			const { reports } = state;
 			reports[id][key] = value;
 		}
 	},
-	setDefaultProperties: (state: StateProps, { payload: { id, value } }: PayloadAction<any>) => {
+	setDefaultProperties: (
+		state: StateProps,
+		{ payload: { id, value } }: PayloadAction<any>,
+	) => {
 		if (id !== undefined && value !== undefined) {
 			const { reports } = state;
-			const { zoom, moreProperties } = value ? recommendedProperties : initialProperties;
+			const { zoom, moreProperties } = value
+				? recommendedProperties
+				: initialProperties;
 
 			reports[id].zoom = zoom;
 			reports[id].moreProperties = moreProperties;
 		}
 	},
-	setMoreProperties: (state: StateProps, { payload: { id, key, value } }: PayloadAction<any>) => {
+	setMoreProperties: (
+		state: StateProps,
+		{ payload: { id, key, value } }: PayloadAction<any>,
+	) => {
 		if (id !== undefined && key !== undefined && value !== undefined) {
 			const { moreProperties } = state.reports[id];
 			moreProperties[key] = value;
 		}
 	},
-	setMargins: (state: StateProps, { payload: { id, key, value } }: PayloadAction<any>) => {
+	setMargins: (
+		state: StateProps,
+		{ payload: { id, key, value } }: PayloadAction<any>,
+	) => {
 		if (id !== undefined && key !== undefined && value !== undefined) {
 			const { margins } = state.reports[id].moreProperties;
 			margins[key] = value <= 20 ? value : 20;
@@ -88,7 +105,10 @@ export const reducers = {
 	 * @param state - The current state of the reducer.
 	 * @param action - PayloadAction<any>
 	 */
-	changeStatus(state: StateProps, { payload: { id, status } }: PayloadAction<any>) {
+	changeStatus(
+		state: StateProps,
+		{ payload: { id, status } }: PayloadAction<any>,
+	) {
 		if (id !== undefined && status !== undefined) {
 			const { reports } = state;
 			reports[id].status = status;
@@ -108,7 +128,10 @@ export const reducers = {
 		if (itemName !== undefined && itemID !== undefined && value !== undefined) {
 			reports[itemID][itemName] = value;
 		}
-		if (itemName === "recommendedProperties" && reports[itemID].recommendedProperties) {
+		if (
+			itemName === "recommendedProperties" &&
+			reports[itemID].recommendedProperties
+		) {
 			reports[itemID].zoom = zoom;
 			reports[itemID].moreProperties = moreProperties;
 			reports[itemID].showProperties = true;

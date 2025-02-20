@@ -52,7 +52,12 @@ const useUser = create<IUserState & IUserActions>()(
 					true,
 				);
 				const expires = Date.now() + data.expires * 60 * 1000;
-				set({ timeStamp: Date.now(), token: headers?.authorization, expires, ...data });
+				set({
+					timeStamp: Date.now(),
+					token: headers?.authorization,
+					expires,
+					...data,
+				});
 			},
 			signOut: async () => {
 				await api.delete("oauth2/sign-out");

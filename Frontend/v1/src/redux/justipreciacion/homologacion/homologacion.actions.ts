@@ -34,7 +34,8 @@ export const addRowFN = (state: any) => {
 
 	for (const key in factors) {
 		const { subject, data, results } = factors[key];
-		const { template, insertColumn, templateData, templateResults } = handlers[key];
+		const { template, insertColumn, templateData, templateResults } =
+			handlers[key];
 		const id = data.length + 1;
 		key !== "Location" && key !== "Zone" && data.push(template(id));
 		if (key === "Location" || key === "Zone") {
@@ -53,7 +54,8 @@ export const addRowFN = (state: any) => {
 		const length = data !== undefined ? data.length : 0;
 		if (Object(handlers[key]).hasOwnProperty("template")) {
 			const { template, templateResults } = handlers[key];
-			const id = !key.includes("ReFactor") && !key.includes("Indiviso") ? length + 1 : 0;
+			const id =
+				!key.includes("ReFactor") && !key.includes("Indiviso") ? length + 1 : 0;
 			if (key.includes("Area") || key.includes("WeightingPercentage")) {
 				const { type } = record;
 				data.push(template(id, type));
@@ -96,7 +98,8 @@ export const rmRowFN = (state: any) => {
 	for (const key in documentation) {
 		const { data, results } = documentation[key];
 		const length = data !== undefined ? data.length : 0;
-		const id = !key.includes("ReFactor") && !key.includes("Indiviso") ? length : 0;
+		const id =
+			!key.includes("ReFactor") && !key.includes("Indiviso") ? length : 0;
 		if (key.includes("Area") || key.includes("WeightingPercentage")) {
 			id > 4 && data.pop();
 		}
@@ -136,7 +139,10 @@ const handleSalesCost = (
 	SalesCost.data = handlers.SalesCost.operation(data, Area);
 	SalesCost.results = handlers.SalesCost.operationResults(SalesCost, Results);
 	SalesCost.averageUnitCost = handlers.SalesCost.handleAverageUnitCostValue(
-		handlers.SalesCost.calculateAverageUnitCostValue(results, WeightingPercentage),
+		handlers.SalesCost.calculateAverageUnitCostValue(
+			results,
+			WeightingPercentage,
+		),
 		factor,
 		SalesCost.averageUnitCost.roundedTo,
 		SalesCost.averageUnitCost.roundedResult,
@@ -158,7 +164,11 @@ export const updateValuesFN = (state: any) => {
 	const { Zone, Results, Surface } = factors;
 	const { Area, WeightingPercentage, ReFactor, Indiviso } = documentation;
 	let resultReFactor = 1;
-	Area.data = handlers.Area.handleDataFactors(Area.subject, Area.data, Zone.data);
+	Area.data = handlers.Area.handleDataFactors(
+		Area.subject,
+		Area.data,
+		Zone.data,
+	);
 	Zone.results = handlers.Zone.handleResults(Area.data);
 	Results.data = handlers.Results.operation(Results.data, factors);
 
@@ -171,7 +181,9 @@ export const updateValuesFN = (state: any) => {
 		handlers,
 	);
 
-	WeightingPercentage.total = handlers.WeightingPercentage.calculation(WeightingPercentage.data);
+	WeightingPercentage.total = handlers.WeightingPercentage.calculation(
+		WeightingPercentage.data,
+	);
 
 	Area.averageLotArea.value = handlers.Area.operationAverageLotArea(Area.data);
 
@@ -205,7 +217,10 @@ export const updateValuesFN = (state: any) => {
 
 	//indiviso
 	if (type.includes("TERRENO")) {
-		documentation.Indiviso = handlers.Indiviso.operation(Indiviso, Area.subject.value);
+		documentation.Indiviso = handlers.Indiviso.operation(
+			Indiviso,
+			Area.subject.value,
+		);
 	}
 	// state.errors = checkErrors(state);
 	return state;

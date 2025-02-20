@@ -1,7 +1,13 @@
 /** @format */
 
 import { useState, useEffect } from "react";
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import {
 	Select,
@@ -55,7 +61,10 @@ export const Section6 = ({ editable = true }: any) => {
 					>
 						6.1
 					</TableCell>
-					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<TableCell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Alcance o ámbito
 					</TableCell>
 				</TableRow>
@@ -91,7 +100,8 @@ export const Section6 = ({ editable = true }: any) => {
 
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
-							{catalogo.level[findSelectValue("level")?.code - 1]?.description ??
+							{catalogo.level[findSelectValue("level")?.code - 1]
+								?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
 					</TableCell>
@@ -329,7 +339,10 @@ export const Section6 = ({ editable = true }: any) => {
 					>
 						6.3
 					</TableCell>
-					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<TableCell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Linaje
 					</TableCell>
 				</TableRow>

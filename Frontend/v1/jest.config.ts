@@ -1,1 +1,1 @@
-setupFilesAfterEnv: ['<rootDir>/src/setupTest.ts'];
+setupFilesAfterEnv: ["<rootDir>/src/setupTest.ts"];

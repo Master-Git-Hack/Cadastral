@@ -33,7 +33,11 @@ import { Section9 } from "./sections/section9";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import { useParams } from "react-router-dom";
-import { addNotification, rmNotification, getNotifications } from "@reducers/Notifications";
+import {
+	addNotification,
+	rmNotification,
+	getNotifications,
+} from "@reducers/Notifications";
 import { useAppDispatch, useAppSelector } from "@redux/provider";
 import { useLocation } from "react-router-dom";
 const baseAlert = (record: any, isTmp: boolean): object => {
@@ -53,7 +57,8 @@ const baseAlert = (record: any, isTmp: boolean): object => {
 			cancelButton: "order-1 me-16",
 			confirmButton: "order-3 ",
 			denyButton: "order-2 ",
-			input: "disabled:opacity-75 border-0 border-transparent outline-transparent ring-transparent text-white placeholder-white",
+			input:
+				"disabled:opacity-75 border-0 border-transparent outline-transparent ring-transparent text-white placeholder-white",
 		},
 		focusConfirm: true,
 		input: "hidden",
@@ -72,7 +77,11 @@ const baseAlert = (record: any, isTmp: boolean): object => {
 	}
 	return alert;
 };
-export default function Create({ onEdit = true, record = undefined, isTemporal = false }) {
+export default function Create({
+	onEdit = true,
+	record = undefined,
+	isTemporal = false,
+}) {
 	const params = useParams();
 	const location = useLocation();
 	const isTmp = isTemporal;
@@ -112,7 +121,10 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 					// );
 					// Verificar si el tipo de dato es el mismo
 					if (typeof base[key] === typeof newData[key]) {
-						if (typeof newData[key] === "string" && typeof base[key] === "number") {
+						if (
+							typeof newData[key] === "string" &&
+							typeof base[key] === "number"
+						) {
 							base[key] = justNumbers(newData[key]);
 						}
 						base[key] = newData[key];
@@ -140,14 +152,20 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 			setData({ ...data, uid });
 		}
 	}, [uid]);
-	const justNumbers = (value: string) => parseFloat(value.replace(/[^0-9.]/g, ""));
+	const justNumbers = (value: string) =>
+		parseFloat(value.replace(/[^0-9.]/g, ""));
 	const handleSelectChange = ({ value }) =>
 		setData({ ...data, table_name: value.label, schema_name: value.parent });
 	const handleTreeSelect = ({ value }) => {
 		const [db_name, schema_name, table_name] = value.split(".");
 		setData({ ...data, db_name, table_name, schema_name });
 	};
-	if (isLoadingCreate || isLoadingUpdate || isLoadingCreateTemporal || isLoadingUpdateTemporal)
+	if (
+		isLoadingCreate ||
+		isLoadingUpdate ||
+		isLoadingCreateTemporal ||
+		isLoadingUpdateTemporal
+	)
 		return <Spinner size={20} />;
 	if (isErrorCreate || isErrorUpdate)
 		return <Error message={errorMessageCreate ?? errorMessageUpdate} />;
@@ -163,7 +181,9 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 		detail: string = "",
 		severity: string = "error",
 	) => {
-		const index = notifications.findIndex(({ summary }: any) => summary === summary);
+		const index = notifications.findIndex(
+			({ summary }: any) => summary === summary,
+		);
 		if (index === -1 && detail !== "") {
 			dispatch(
 				addNotification({
@@ -254,7 +274,9 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 				titleText: "¡Error!",
 			};
 		}
-		return Alert(props).finally(() => navigate("/metadatos", { state: { refresh: true } }));
+		return Alert(props).finally(() =>
+			navigate("/metadatos", { state: { refresh: true } }),
+		);
 	};
 	const checkData = () => {
 		//iter over data json object to check value o some keys
@@ -344,8 +366,7 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 										label: data.schema_name
 											.split("_")
 											.map(
-												(word) =>
-													word.charAt(0).toUpperCase() + word.slice(1),
+												(word) => word.charAt(0).toUpperCase() + word.slice(1),
 											)
 											.join(" "),
 										disabled: true,
@@ -354,8 +375,7 @@ export default function Create({ onEdit = true, record = undefined, isTemporal =
 										label: data.table_name
 											.split("_")
 											.map(
-												(word) =>
-													word.charAt(0).toUpperCase() + word.slice(1),
+												(word) => word.charAt(0).toUpperCase() + word.slice(1),
 											)
 											.join(" "),
 										disabled: true,

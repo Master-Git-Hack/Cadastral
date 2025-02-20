@@ -12,7 +12,11 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from "@/components/ui/pagination";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Create from "./create";
@@ -87,7 +91,12 @@ function MetadataContent() {
 
 	return (
 		<Layout>
-			<Create isTemporal={isTemporal} page={page.toString()} onEdit={true} data={0} />
+			<Create
+				isTemporal={isTemporal}
+				page={page.toString()}
+				onEdit={true}
+				data={0}
+			/>
 			<Pages page={parseInt(page)} isTemporal={isTemporal} />
 		</Layout>
 	);

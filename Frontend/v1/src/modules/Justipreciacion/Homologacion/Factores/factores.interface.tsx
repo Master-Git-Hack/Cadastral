@@ -9,7 +9,9 @@ export interface AgeContainerProps {
 }
 export const Title = ({ name, colSpan, title }: TitleProps) => (
 	<tr>
-		<th colSpan={colSpan ?? 4}>{title ?? `FACTOR POR ${name.toUpperCase()}`}</th>
+		<th colSpan={colSpan ?? 4}>
+			{title ?? `FACTOR POR ${name.toUpperCase()}`}
+		</th>
 	</tr>
 );
 
@@ -31,7 +33,9 @@ export const Header = ({ name, isAge }: HeaderProps) => (
 		<td>
 			<div
 				className={
-					isAge ? "bg-warning bg-opacity-75 text-white" : "d-inline p-2 text-bg-dark"
+					isAge
+						? "bg-warning bg-opacity-75 text-white"
+						: "d-inline p-2 text-bg-dark"
 				}
 			>
 				<strong>{name.toUpperCase()} </strong>

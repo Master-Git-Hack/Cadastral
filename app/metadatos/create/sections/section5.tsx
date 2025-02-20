@@ -1,6 +1,12 @@
 /** @format */
 
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import Input from "@/components/Input";
 import { InputNumber } from "primereact/inputnumber";
 import {
@@ -14,7 +20,8 @@ import catalogo from "../catologos/index";
 import useMedatados from "@/store/metadatos/index";
 export const Section5 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
-	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
+	const handleInputChange = ({ target }) =>
+		setData({ ...data, [target.name]: target.value });
 	const handleSelectChange = ({
 		target: {
 			name,
@@ -28,7 +35,9 @@ export const Section5 = ({ editable = true }: any) => {
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
 		(item) => item.code === data.md_dataidentification_language,
 	);
-	const spatialrepresentationtype = findSelectValue("spatialrepresentationtype")?.label;
+	const spatialrepresentationtype = findSelectValue(
+		"spatialrepresentationtype",
+	)?.label;
 	const enabled =
 		spatialrepresentationtype === "Vector" ||
 		spatialrepresentationtype === "Raster" ||
@@ -1003,7 +1012,10 @@ export const Section5 = ({ editable = true }: any) => {
 					>
 						5.1
 					</TableCell>
-					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<TableCell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Sistema de Referencia Horizontal
 					</TableCell>
 				</TableRow>
@@ -1015,7 +1027,10 @@ export const Section5 = ({ editable = true }: any) => {
 					>
 						5.1.2
 					</TableCell>
-					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<TableCell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Coordenadas Planas
 					</TableCell>
 				</TableRow>
@@ -1119,8 +1134,8 @@ export const Section5 = ({ editable = true }: any) => {
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
-							Para sistemas de referencia WGS84 UTM zona 14N (EPSG:32614) y México
-							ITRF2008 UTM zona 14N: <strong>-99.00</strong>
+							Para sistemas de referencia WGS84 UTM zona 14N (EPSG:32614) y
+							México ITRF2008 UTM zona 14N: <strong>-99.00</strong>
 						</small>
 					</TableCell>
 				</TableRow>

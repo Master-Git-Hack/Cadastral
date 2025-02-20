@@ -2,7 +2,12 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { name, initialState, consume, StateProps } from "./costosConstruccion.interface";
+import {
+	name,
+	initialState,
+	consume,
+	StateProps,
+} from "./costosConstruccion.interface";
 import { reducers } from "./costosConstruccion.reducer";
 
 export const consumeCC = consume;

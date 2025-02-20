@@ -6,7 +6,10 @@ import { CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "@utils/ui";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { Checkbox as Component, CheckboxProps as CheckProps } from "primereact/checkbox";
+import {
+	Checkbox as Component,
+	CheckboxProps as CheckProps,
+} from "primereact/checkbox";
 const labelVariants = cva(
 	"flex items-center justify-center pt-1 text-current  text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
 );
@@ -24,7 +27,9 @@ export const Checkbox = forwardRef<ElementRef<typeof Component>, CheckboxProps>(
 				)}
 				{...props}
 			>
-				<Indicator className={cn("flex items-center justify-center text-current")}>
+				<Indicator
+					className={cn("flex items-center justify-center text-current")}
+				>
 					<CheckIcon className="h-4 w-4" />
 				</Indicator>
 			</Component>

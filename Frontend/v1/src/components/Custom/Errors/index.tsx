@@ -31,15 +31,23 @@ export const Errors = ({ name, errors, show }: AlertProps) => {
 			)}
 			{show &&
 				!hide &&
-				errors?.map(({ title, message, reference }: ErrorsProps, index: number) => (
-					<div key={`errors alert for component ${name} ${index}`} className="py-1">
-						<Alert header={<span>Error encontrado en: {title}</span>} type="error">
-							<p style={{ textAlign: "justify", textJustify: "inter-word" }}>
-								{message}, favor de revisar {reference}
-							</p>
-						</Alert>
-					</div>
-				))}
+				errors?.map(
+					({ title, message, reference }: ErrorsProps, index: number) => (
+						<div
+							key={`errors alert for component ${name} ${index}`}
+							className="py-1"
+						>
+							<Alert
+								header={<span>Error encontrado en: {title}</span>}
+								type="error"
+							>
+								<p style={{ textAlign: "justify", textJustify: "inter-word" }}>
+									{message}, favor de revisar {reference}
+								</p>
+							</Alert>
+						</div>
+					),
+				)}
 		</ScrollBars>
 	);
 };

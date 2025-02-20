@@ -4,7 +4,10 @@ import { useEffect } from "react";
 import { Fancy } from "../../../../../components/Input/Fancy";
 import { Component } from "../../../../../components/Table";
 import { useAppDispatch, useAppSelector } from "../../../../../redux";
-import { getJustipreciacion, setInitialState } from "../../../../../redux/justipreciacion";
+import {
+	getJustipreciacion,
+	setInitialState,
+} from "../../../../../redux/justipreciacion";
 import {
 	setAgeSubject,
 	setAgeData,
@@ -14,7 +17,7 @@ import { asFancyNumber } from "../../../../../utils/number";
 import { Title, Header } from "../factores.interface";
 import { BodyProps, FooterProps } from "./age.types";
 
-const Body = ({ name, data }: BodyProps)=> {
+const Body = ({ name, data }: BodyProps) => {
 	const dispatch = useAppDispatch();
 	return (
 		<>

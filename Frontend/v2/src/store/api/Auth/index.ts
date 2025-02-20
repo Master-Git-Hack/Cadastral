@@ -26,7 +26,10 @@ export const AuthApi = createApi({
 				return data;
 			},
 			transformErrorResponse: ({ data, message }) => {
-				Toast({ icon: "error", text: message ?? data?.message ?? "Error en el Servidor " });
+				Toast({
+					icon: "error",
+					text: message ?? data?.message ?? "Error en el Servidor ",
+				});
 			},
 		}),
 	}),

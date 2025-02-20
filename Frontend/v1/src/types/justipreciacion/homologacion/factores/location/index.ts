@@ -2,7 +2,9 @@
 
 import { symbolsOptions as options, FactorsProps } from "../";
 const operation = (items: any) => {
-	const columns = Object.keys(items[0]).filter((key: string) => key.includes("C"));
+	const columns = Object.keys(items[0]).filter((key: string) =>
+		key.includes("C"),
+	);
 	const results = columns.map((column: string) =>
 		items
 			.map((item: any) => ({
@@ -15,9 +17,16 @@ const operation = (items: any) => {
 				1,
 			),
 	);
-	return results.map((item: number, index: number) => ({ id: index + 1, value: item }));
+	return results.map((item: number, index: number) => ({
+		id: index + 1,
+		value: item,
+	}));
 };
-const templateSubject = (id: number,percentage:number=10,observations:string="") => ({
+const templateSubject = (
+	id: number,
+	percentage: number = 10,
+	observations: string = "",
+) => ({
 	id,
 	C1: options[0],
 	C2: options[0],
@@ -38,7 +47,9 @@ const insertColumn = (columnName: string, item: any) => {
 const insertionSubject = (data: any) => {
 	const id = data.length + 1;
 
-	const keys = Object.keys(data[id - 2]).filter((name: string) => name.includes("C"));
+	const keys = Object.keys(data[id - 2]).filter((name: string) =>
+		name.includes("C"),
+	);
 	let newRow = templateSubject(id);
 	for (let i = 2; i <= keys.length; i++) {
 		newRow = newRow.insertion(`C${i}`, newRow);
@@ -57,8 +68,12 @@ const initialState: FactorsProps = {
 	tag: "FUbic.",
 	isUsed: false,
 	position: 0,
-	subject: [templateSubject(1,2,"MANZANA"),templateSubject(2,5,"VIALIDAD"),templateSubject(3,3,"PAVIMENTO")],
-	data: [templateData(1),templateData(2),templateData(3),templateData(4)],
+	subject: [
+		templateSubject(1, 2, "MANZANA"),
+		templateSubject(2, 5, "VIALIDAD"),
+		templateSubject(3, 3, "PAVIMENTO"),
+	],
+	data: [templateData(1), templateData(2), templateData(3), templateData(4)],
 };
 
 export const location = {

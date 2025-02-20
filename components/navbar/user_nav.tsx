@@ -18,7 +18,9 @@ import { useTheme } from "next-themes";
 
 import useUser from "@/store/user/index";
 export default function User() {
-	const { nombre, usuario, iniciales, isExpired, signOut } = useUser((state) => state);
+	const { nombre, usuario, iniciales, isExpired, signOut } = useUser(
+		(state) => state,
+	);
 	const { theme, setTheme } = useTheme();
 	const [isDark, setIsDark] = useState(theme === "dark");
 	const router = useRouter();
@@ -50,7 +52,9 @@ export default function User() {
 				<DropdownMenuLabel className="font-normal">
 					<div className="flex flex-col space-y-1">
 						<p className="text-sm font-medium leading-none">{nombre}</p>
-						<p className="text-xs leading-none text-muted-foreground">{usuario}</p>
+						<p className="text-xs leading-none text-muted-foreground">
+							{usuario}
+						</p>
 					</div>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
@@ -76,7 +80,9 @@ export default function User() {
 				<DropdownMenuSeparator />
 				<DropdownMenuItem
 					className="bg-red-600  text-black hover:text-red-600 hover:font-bold  dark:text-white  hover:opacity-100 text-right focus:text-red-600 focus:font-bold hover:border focus:border hover:border-red-600 focus:border-red-600 rounded-md "
-					onClick={() => signOut() && setTimeout(() => router.push("/sign-in"), 1500)}
+					onClick={() =>
+						signOut() && setTimeout(() => router.push("/sign-in"), 1500)
+					}
 				>
 					Cerrar Sesión
 					{/* <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut> */}

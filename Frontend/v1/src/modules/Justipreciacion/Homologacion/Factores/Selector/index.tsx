@@ -30,13 +30,14 @@ export const Selector = () => {
 		<Container
 			header={
 				<h2>
-					Favor de seleccionar aquellos factores que sean necesarios para realizar la
-					operación.
+					Favor de seleccionar aquellos factores que sean necesarios para
+					realizar la operación.
 				</h2>
 			}
 			footer={
 				<span className="text-muted">
-					El numero a la izquierda indica la posicion en la que apareceran en la tabla
+					El numero a la izquierda indica la posicion en la que apareceran en la
+					tabla
 				</span>
 			}
 		>

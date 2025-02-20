@@ -52,14 +52,27 @@ export const topiccategory = [
 			"Características de las aguas interiores, sistema de drenaje y sus características",
 		code: "10",
 	},
-	{ label: "Localización", description: "Información posicional y servicios", code: "11" },
+	{
+		label: "Localización",
+		description: "Información posicional y servicios",
+		code: "11",
+	},
 	{
 		label: "Planeamiento catastral",
-		description: "Información utilizada de acciones apropiadas para el uso futuro de la tierra",
+		description:
+			"Información utilizada de acciones apropiadas para el uso futuro de la tierra",
 		code: "12",
 	},
-	{ label: "Sociedad", description: "Características de la sociedad y las culturas", code: "13" },
-	{ label: "Estructura", description: "Construcciones hechas por el hombre", code: "14" },
+	{
+		label: "Sociedad",
+		description: "Características de la sociedad y las culturas",
+		code: "13",
+	},
+	{
+		label: "Estructura",
+		description: "Construcciones hechas por el hombre",
+		code: "14",
+	},
 	{
 		label: "Transportación",
 		description: "Medios y ayudas para transportar personas o mercancías",

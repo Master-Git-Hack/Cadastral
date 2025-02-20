@@ -10,7 +10,11 @@ import { Label } from "../label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Warning } from "@/components/ui/alert";
 import Resizer from "react-image-file-resizer";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 export const DropZone = () => {
 	const [isDragging, setIsDragging] = useState(false);

@@ -1,6 +1,6 @@
 /** @format */
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import "primereact/resources/themes/tailwind-light/theme.css";
@@ -27,11 +27,17 @@ export default function Create() {
 	const navigate = useNavigate();
 	const [data, setData] = useState(initialState(parseInt(cedula_mercado)));
 
-	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
+	const handleInputChange = ({ target }) =>
+		setData({ ...data, [target.name]: target.value });
 
 	const [
 		postComparable,
-		{ isLoading: isLoadingPost, isError: isErrorPost, error: errorPost, isSuccess },
+		{
+			isLoading: isLoadingPost,
+			isError: isErrorPost,
+			error: errorPost,
+			isSuccess,
+		},
 	] = usePostComparableMutation();
 
 	if (isErrorPost) return <Error message={errorPost?.data} />;

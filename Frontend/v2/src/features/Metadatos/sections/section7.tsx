@@ -49,7 +49,10 @@ export const Section7 = ({ data, setData, editable = true }: any) => {
 					>
 						7.1
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Descripción general de entidades y atributos
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -71,7 +74,10 @@ export const Section7 = ({ data, setData, editable = true }: any) => {
 					>
 						7.2
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Cita del detalle de entidades y atributos
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">

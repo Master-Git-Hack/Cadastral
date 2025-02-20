@@ -10,7 +10,9 @@ import {
 	TipoJustipreciacionValue,
 	defaultState,
 } from "./interface";
-const useJustipreciacion = create<IJustipreciacionState & IJustipreciacionActions>()(
+const useJustipreciacion = create<
+	IJustipreciacionState & IJustipreciacionActions
+>()(
 	persist((set, get) => ({ ...defaultState }), {
 		name: "justipreciacion-storage",
 		storage: createJSONStorage(() => localStorage),

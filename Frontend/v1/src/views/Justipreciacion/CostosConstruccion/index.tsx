@@ -3,8 +3,16 @@ import { useEffect } from "react";
 import { Save } from "../../../components/Button";
 import { CostosConstruccion as Component } from "../../../modules/Justipreciacion/CostosConstruccion";
 import { useAppDispatch, useAppSelector } from "../../../redux";
-import { consumeJustipreciacion, getJustipreciacion } from "../../../redux/justipreciacion";
-import { getCC, get, post, patch } from "../../../redux/justipreciacion/costosConstruccion";
+import {
+	consumeJustipreciacion,
+	getJustipreciacion,
+} from "../../../redux/justipreciacion";
+import {
+	getCC,
+	get,
+	post,
+	patch,
+} from "../../../redux/justipreciacion/costosConstruccion";
 import { Alert } from "../../../utils/alert";
 import { roundNumber } from "../../../utils/number";
 import { getURLParams } from "../../../utils/url";
@@ -97,12 +105,16 @@ export default function CostosConstruccion() {
 			dispatch(get({ url: `COSTOSCONSTRUCCION/${justipreciacion.id}` }));
 	}, [id, justipreciacion.id, dispatch]);
 	useEffect(() => {
-		status.includes("fail") && Alert.Error({ title: "¡Error de Conexión!", text: message });
+		status.includes("fail") &&
+			Alert.Error({ title: "¡Error de Conexión!", text: message });
 		if (status.includes("warning") && message !== undefined) {
 			Alert.Warning({ title: "¡Registro NO encontrado!", text: message });
 		}
 		if (status.includes("success") && message !== undefined) {
-			Alert.Success({ title: "¡Registro encontrado Exitosamente!", text: message });
+			Alert.Success({
+				title: "¡Registro encontrado Exitosamente!",
+				text: message,
+			});
 		}
 	}, [message, status]);
 

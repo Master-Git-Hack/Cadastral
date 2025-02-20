@@ -1,7 +1,14 @@
 /** @format */
 
 export const colorPicker: {
-	[key: string]: "red" | "orange" | "yellow" | "green" | "cyan" | "blue" | "violet";
+	[key: string]:
+		| "red"
+		| "orange"
+		| "yellow"
+		| "green"
+		| "cyan"
+		| "blue"
+		| "violet";
 } = {
 	danger: "red",
 	success: "green",

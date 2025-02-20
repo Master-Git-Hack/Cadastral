@@ -73,7 +73,10 @@ export default function SignIn() {
 				/>
 				<h1 className="text-4xl font-semibold mb-4">Bienvenido</h1>
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="flex flex-col gap-4"
+					>
 						<FormField
 							control={form.control}
 							name="username"
@@ -99,7 +102,9 @@ export default function SignIn() {
 							name="password"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel className="text-gray-600 mb-4">Contraseña</FormLabel>
+									<FormLabel className="text-gray-600 mb-4">
+										Contraseña
+									</FormLabel>
 									<FormControl>
 										<Input
 											type={showPassword ? "text" : "password"} // Cambia el tipo según el estado

@@ -48,7 +48,7 @@ const initialState: FactorsProps = {
 	isUsed: false,
 	position: 0,
 	subject: options[0],
-	data: [template(1),template(2),template(3),template(4)],
+	data: [template(1), template(2), template(3), template(4)],
 };
 export const topography = {
 	template,

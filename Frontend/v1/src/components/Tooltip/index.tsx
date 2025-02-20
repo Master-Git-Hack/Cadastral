@@ -10,7 +10,7 @@ export const Tooltip = ({
 	delay,
 	followCursor,
 	placement,
-}: TooltipProps)=> (
+}: TooltipProps) => (
 	<Whisper
 		trigger={trigger ?? ["click", "hover", "focus"]}
 		placement={placement ?? "auto"}

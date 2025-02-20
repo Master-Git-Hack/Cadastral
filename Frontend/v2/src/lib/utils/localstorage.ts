@@ -2,7 +2,8 @@
 
 export const deleteLSAll = () => typeof localStorage.clear();
 
-export const removeLSItem = (item: string): any => localStorage.removeItem(item);
+export const removeLSItem = (item: string): any =>
+	localStorage.removeItem(item);
 
 export const getLSItem = (item: string, defaultValue: any = undefined): any => {
 	if (typeof window === "undefined") return undefined;

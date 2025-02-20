@@ -6,8 +6,18 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@utils/index";
 import "react-day-picker/dist/style.css";
 import { es } from "date-fns/locale";
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
 import { Calendar as CalendarIcon } from "lucide-react";
 import {
 	Select,
@@ -46,7 +56,10 @@ export const Section2 = ({ editable = true }: any) => {
 					>
 						2.1
 					</TableCell>
-					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<TableCell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Fechas y eventos
 					</TableCell>
 				</TableRow>
@@ -144,9 +157,12 @@ export const Section2 = ({ editable = true }: any) => {
 					>
 						2.2
 					</TableCell>
-					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
-						Fechas de los insumos tomados para la elaboración del producto o conjunto de
-						datos espaciales
+					<TableCell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
+						Fechas de los insumos tomados para la elaboración del producto o
+						conjunto de datos espaciales
 					</TableCell>
 				</TableRow>
 				<TableRow>
@@ -203,9 +219,7 @@ export const Section2 = ({ editable = true }: any) => {
 									onSelect={(e) =>
 										setData({
 											...data,
-											date_creation: moment(e)
-												.format("YYYY-MM-DD")
-												.toString(),
+											date_creation: moment(e).format("YYYY-MM-DD").toString(),
 										})
 									}
 									isSelected={data.date_creation}

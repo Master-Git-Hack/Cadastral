@@ -32,7 +32,8 @@ import { Dropdown } from "primereact/dropdown";
 import catalogo from "../catologos/index";
 
 export const Section5 = ({ data, setData, editable = true }: any) => {
-	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
+	const handleInputChange = ({ target }) =>
+		setData({ ...data, [target.name]: target.value });
 	const handleSelectChange = ({
 		target: {
 			name,
@@ -46,7 +47,9 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
 		(item) => item.code === data.md_dataidentification_language,
 	);
-	const spatialrepresentationtype = findSelectValue("spatialrepresentationtype")?.label;
+	const spatialrepresentationtype = findSelectValue(
+		"spatialrepresentationtype",
+	)?.label;
 	const enabled =
 		spatialrepresentationtype === "Vector" ||
 		spatialrepresentationtype === "Raster" ||
@@ -1027,7 +1030,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1
 					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<Table.Cell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Sistema de Referencia Horizontal
 					</Table.Cell>
 				</Table.Row>
@@ -1039,7 +1045,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.2
 					</Table.Cell>
-					<Table.Cell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<Table.Cell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Coordenadas Planas
 					</Table.Cell>
 				</Table.Row>
@@ -1051,7 +1060,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.2.2.1.1
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Número de Zona UTM
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -1085,7 +1097,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.2.2.1.2
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Factor de escala en el meridiano central
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -1120,7 +1135,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.2.2.1.3
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Longitud del meridiano central
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -1141,8 +1159,8 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 						/>
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
-							Para sistemas de referencia WGS84 UTM zona 14N (EPSG:32614) y México
-							ITRF2008 UTM zona 14N: <strong>-99.00</strong>
+							Para sistemas de referencia WGS84 UTM zona 14N (EPSG:32614) y
+							México ITRF2008 UTM zona 14N: <strong>-99.00</strong>
 						</small>
 					</Table.Cell>
 				</Table.Row>
@@ -1154,7 +1172,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.2.2.1.4
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Latitud del origen de proyección
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -1183,7 +1204,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.2.2.1.5
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Falso este
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -1212,7 +1236,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.2.2.1.6
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Falso norte
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -1241,7 +1268,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.2.4.1
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Nombre del datum horizontal
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -1265,7 +1295,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.4.2
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Nombre del elipsoide
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -1290,7 +1323,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.4.3
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Semieje mayor
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -1319,7 +1355,10 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 					>
 						5.1.4.4
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Factor de denominador de achatamiento
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">

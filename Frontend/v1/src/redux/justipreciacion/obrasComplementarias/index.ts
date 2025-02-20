@@ -3,7 +3,12 @@
 import { RootState } from "./../../store/index";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { reducers } from "./obrasComplementarias.reducer";
-import { name, initialState, consume, StateProps } from "./obrasComplementarias.interface";
+import {
+	name,
+	initialState,
+	consume,
+	StateProps,
+} from "./obrasComplementarias.interface";
 export const consumeOC = consume;
 export const { get, post, patch } = consumeOC;
 export const slice = createSlice({
@@ -15,9 +20,13 @@ export const slice = createSlice({
 		builder
 			.addCase(
 				get.rejected,
-				(state: StateProps, { payload: { status, message } }: PayloadAction<any>) => {
+				(
+					state: StateProps,
+					{ payload: { status, message } }: PayloadAction<any>,
+				) => {
 					state.status = status ?? "fail";
-					state.message = message ?? "No fue posible establer conexión con el servidor";
+					state.message =
+						message ?? "No fue posible establer conexión con el servidor";
 				},
 			)
 			.addCase(get.pending, (state: StateProps) => {
@@ -36,8 +45,14 @@ export const slice = createSlice({
 					if (status.includes("success")) {
 						switch (operation) {
 							case "HOMOLOGACION/ObrasComplementarias":
-								const { record, documentation, calculous, total, isComplete,rounded } =
-									data;
+								const {
+									record,
+									documentation,
+									calculous,
+									total,
+									isComplete,
+									rounded,
+								} = data;
 								state.record = record;
 								state.Documentation = documentation;
 								state.Calculation = calculous;
@@ -56,9 +71,13 @@ export const slice = createSlice({
 		builder
 			.addCase(
 				post.rejected,
-				(state: StateProps, { payload: { status, message } }: PayloadAction<any>) => {
+				(
+					state: StateProps,
+					{ payload: { status, message } }: PayloadAction<any>,
+				) => {
 					state.status = status ?? "fail";
-					state.message = message ?? "No fue posible establer conexión con el servidor";
+					state.message =
+						message ?? "No fue posible establer conexión con el servidor";
 				},
 			)
 			.addCase(post.pending, (state: StateProps) => {
@@ -88,9 +107,13 @@ export const slice = createSlice({
 		builder
 			.addCase(
 				patch.rejected,
-				(state: StateProps, { payload: { status, message } }: PayloadAction<any>) => {
+				(
+					state: StateProps,
+					{ payload: { status, message } }: PayloadAction<any>,
+				) => {
 					state.status = status ?? "fail";
-					state.message = message ?? "No fue posible establer conexión con el servidor";
+					state.message =
+						message ?? "No fue posible establer conexión con el servidor";
 				},
 			)
 			.addCase(patch.pending, (state: StateProps) => {
@@ -138,6 +161,8 @@ export const {
 	setRound,
 } = slice.actions;
 export const getOC = (state: RootState) => state.ObrasComplementarias;
-export const getDocumentation = (state: RootState) => state.ObrasComplementarias.Documentation;
-export const getCalculation = (state: RootState) => state.ObrasComplementarias.Calculation;
+export const getDocumentation = (state: RootState) =>
+	state.ObrasComplementarias.Documentation;
+export const getCalculation = (state: RootState) =>
+	state.ObrasComplementarias.Calculation;
 export default slice.reducer;

@@ -24,7 +24,12 @@ export const Area = ({ data, unit, total, index }: AreaProps) => {
 		const nextData = Object.assign([], data);
 		const activeItem: any = nextData.find((item: any) => item.id - 1 === id);
 		dispatch(
-			setAreaData({ index, id, key: "status", value: activeItem.status ? null : "EDIT" }),
+			setAreaData({
+				index,
+				id,
+				key: "status",
+				value: activeItem.status ? null : "EDIT",
+			}),
 		);
 	};
 	return (
@@ -75,7 +80,11 @@ export const Area = ({ data, unit, total, index }: AreaProps) => {
 				</Column>
 			</Table>
 			<div className="d-flex justify-content-between mx-3 pt-2">
-				<Success appearance="outline" onClick={() => dispatch(addAreaRow(index))} size="xs">
+				<Success
+					appearance="outline"
+					onClick={() => dispatch(addAreaRow(index))}
+					size="xs"
+				>
 					Agregar Productos
 				</Success>
 				<div className="text-end">
@@ -95,7 +104,13 @@ export const Area = ({ data, unit, total, index }: AreaProps) => {
 		</div>
 	);
 };
-const SelectUnitCell = ({ rowData, dataKey, onChange, isCurrency, ...props }: any) => {
+const SelectUnitCell = ({
+	rowData,
+	dataKey,
+	onChange,
+	isCurrency,
+	...props
+}: any) => {
 	const editing = rowData.status === "EDIT";
 
 	const current = rowData[dataKey];

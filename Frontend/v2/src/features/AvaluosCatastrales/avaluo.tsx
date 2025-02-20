@@ -26,10 +26,22 @@ export const Avaluo = ({ collection, from, to, year, setRegistro, styles }) => (
 					/>
 				</Table.Cell>
 				<Table.Cell>
-					<Input type="number" name="from" onChange={setRegistro} value={from} min={1} />
+					<Input
+						type="number"
+						name="from"
+						onChange={setRegistro}
+						value={from}
+						min={1}
+					/>
 				</Table.Cell>
 				<Table.Cell>
-					<Input type="number" name="to" onChange={setRegistro} value={to} min={1} />
+					<Input
+						type="number"
+						name="to"
+						onChange={setRegistro}
+						value={to}
+						min={1}
+					/>
 				</Table.Cell>
 				<Table.Cell>
 					<Input

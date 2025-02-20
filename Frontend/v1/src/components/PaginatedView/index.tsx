@@ -25,7 +25,7 @@ export const PaginatedView = ({
 	showErrors,
 	currentPage,
 	...props
-}: PaginatedViewProps)=> {
+}: PaginatedViewProps) => {
 	const [activePage, setActivePage] = useState(startAt ?? 1);
 	useEffect(() => {
 		if (startAt !== undefined && startAt !== 1) {
@@ -55,10 +55,10 @@ export const PaginatedView = ({
 				activePage > 0 && activePage < totalPages
 					? activePage + 1
 					: activePage === totalPages
-					? activePage - 1
-					: activePage - 1 !== 0
-					? activePage - 1
-					: activePage,
+						? activePage - 1
+						: activePage - 1 !== 0
+							? activePage - 1
+							: activePage,
 			);
 		currentPage && currentPage(activePage);
 		window.scrollTo(0, 0);
@@ -80,18 +80,21 @@ export const PaginatedView = ({
 					</div>
 
 					{actions && showActions.includes("all") && <Actions />}
-					{actions && showActions.includes("first") && activePage === 1 && <Actions />}
-					{actions &&
-						showActions.includes("afterFirst") &&
-						((totalPages > 1 && activePage > 1) || activePage === 1) && <Actions />}
-					{actions &&
-						showActions.includes("beforeLast") &&
-						((totalPages > 1 && activePage < totalPages) || activePage === 1) && (
-							<Actions />
-						)}
-					{actions && showActions.includes("last") && activePage === totalPages && (
+					{actions && showActions.includes("first") && activePage === 1 && (
 						<Actions />
 					)}
+					{actions &&
+						showActions.includes("afterFirst") &&
+						((totalPages > 1 && activePage > 1) || activePage === 1) && (
+							<Actions />
+						)}
+					{actions &&
+						showActions.includes("beforeLast") &&
+						((totalPages > 1 && activePage < totalPages) ||
+							activePage === 1) && <Actions />}
+					{actions &&
+						showActions.includes("last") &&
+						activePage === totalPages && <Actions />}
 				</>
 			}
 			footer={
@@ -130,7 +133,11 @@ export const PaginatedView = ({
 					<Row>
 						{showErrors && (
 							<Col xs={24} sm={13} md={8} lg={7} xl={7} xxl={6}>
-								<Errors name="PaginatedView" errors={errors} show={showErrors} />
+								<Errors
+									name="PaginatedView"
+									errors={errors}
+									show={showErrors}
+								/>
 							</Col>
 						)}
 						<Col

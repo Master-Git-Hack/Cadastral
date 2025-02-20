@@ -15,8 +15,10 @@ export const AvaluosCatastrales = () => {
 		to: 67,
 		year: moment().year() % 100,
 	});
-	const handleRegistro = (e) => setRegistro({ ...registro, [e.target.name]: e.target.value });
-	const [requestRegistro, { data, isLoading, isSuccess, isError }] = useGetReporteMutation();
+	const handleRegistro = (e) =>
+		setRegistro({ ...registro, [e.target.name]: e.target.value });
+	const [requestRegistro, { data, isLoading, isSuccess, isError }] =
+		useGetReporteMutation();
 	const [properties, setProperties] = useState({
 		page: {
 			fontFamily: "Helvetica",

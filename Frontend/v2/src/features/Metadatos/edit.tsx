@@ -23,7 +23,10 @@ export default function EditMetadatos({ isTemporal = false }) {
 
 	return <Edit data={data} isTemporal={isTemporal} />;
 }
-export const Edit = ({ data, isTemporal }: { data: IMetadatos; isTemporal: boolean }) => {
+export const Edit = ({
+	data,
+	isTemporal,
+}: { data: IMetadatos; isTemporal: boolean }) => {
 	const [editData, setEditData] = useState<boolean>(false);
 
 	return (

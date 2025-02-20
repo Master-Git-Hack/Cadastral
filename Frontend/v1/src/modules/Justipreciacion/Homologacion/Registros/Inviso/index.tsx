@@ -5,7 +5,10 @@ import { Grid, Row, Col } from "rsuite";
 import { Fancy } from "../../../../../components/Input/Fancy";
 import { Table } from "../../../../../components/Table";
 import { useAppSelector, useAppDispatch } from "../../../../../redux";
-import { getJustipreciacion, setInitialState } from "../../../../../redux/justipreciacion";
+import {
+	getJustipreciacion,
+	setInitialState,
+} from "../../../../../redux/justipreciacion";
 import {
 	getHomologaciones,
 	setIndiviso,
@@ -18,19 +21,21 @@ export const Indiviso = () => {
 	return (
 		<Grid fluid>
 			<Row>
-			<ReFactor />
-			<Col style={{alignItems:"center"}}><AdjustedValue /></Col>
-				
-				
+				<ReFactor />
+				<Col style={{ alignItems: "center" }}>
+					<AdjustedValue />
+				</Col>
 			</Row>
 		</Grid>
 	);
 };
-export const IndivisoPage2=()=><Grid fluid>
-			<Row>
-<Component />
-</Row>
-		</Grid>
+export const IndivisoPage2 = () => (
+	<Grid fluid>
+		<Row>
+			<Component />
+		</Row>
+	</Grid>
+);
 export const Component = () => {
 	const {
 		documentation: {
@@ -112,7 +117,9 @@ export const Component = () => {
 					</tr>
 					<tr>
 						<td>INDIVISO</td>
-						<td>{asFancyNumber(indiviso, { style: "decimal", decimals: 6 })}</td>
+						<td>
+							{asFancyNumber(indiviso, { style: "decimal", decimals: 6 })}
+						</td>
 					</tr>
 					<tr>
 						<td>SUPERFICIE TOTAL DEL TERRENO</td>
@@ -142,8 +149,8 @@ export const Component = () => {
 			customFooter={
 				<tr>
 					<td colSpan={2} style={{ minWidth: 450 }}>
-						TERRENO QUE LE CORRESPONDE AL LOCAL DE ACUERDO CON EL INDIVISO CALCULADO POR
-						EL PERITO
+						TERRENO QUE LE CORRESPONDE AL LOCAL DE ACUERDO CON EL INDIVISO
+						CALCULADO POR EL PERITO
 					</td>
 				</tr>
 			}

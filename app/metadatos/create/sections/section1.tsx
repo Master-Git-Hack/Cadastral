@@ -5,7 +5,13 @@ import { Chips } from "primereact/chips";
 import catalogo from "../catologos/index";
 import { MultiSelect } from "primereact/multiselect";
 
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -44,25 +50,33 @@ export const Section1 = ({ editable = true }) => {
 	const handleMultiSelect = (e) => {
 		const { name } = e.target;
 		const items = e.value.filter((item) => {
-			return item.code && item.label !== "undefined" && item.description !== "undefined";
+			return (
+				item.code &&
+				item.label !== "undefined" &&
+				item.description !== "undefined"
+			);
 		});
 		setData({
 			...data,
-			[name]: items?.map((item) => `${item.code}. ${item.label}. ${item.description}`),
+			[name]: items?.map(
+				(item) => `${item.code}. ${item.label}. ${item.description}`,
+			),
 		});
 	};
 	const findMultiSelect = (name: string) => {
 		const input = data[name] ?? [];
 		const result = input
 			?.map((item) => {
-				const [code, label, description] = item.split(". ")?.map((text, index) => {
-					if (index === 0 && text.trim()) {
-						return text.trim();
-					} else if (index !== 0 && text.trim() !== "undefined") {
-						return text.trim();
-					}
-					return null;
-				});
+				const [code, label, description] = item
+					.split(". ")
+					?.map((text, index) => {
+						if (index === 0 && text.trim()) {
+							return text.trim();
+						} else if (index !== 0 && text.trim() !== "undefined") {
+							return text.trim();
+						}
+						return null;
+					});
 
 				if (code && label !== "undefined" && description !== "undefined") {
 					return { code, label, description };
@@ -165,11 +179,13 @@ export const Section1 = ({ editable = true }) => {
 								<SelectValue placeholder="Seleccione un Idioma" />
 							</SelectTrigger>
 							<SelectContent>
-								{catalogo.md_dataidentification_language.map(({ code, label }) => (
-									<SelectItem value={code} key={code}>
-										{label}
-									</SelectItem>
-								))}
+								{catalogo.md_dataidentification_language.map(
+									({ code, label }) => (
+										<SelectItem value={code} key={code}>
+											{label}
+										</SelectItem>
+									),
+								)}
 							</SelectContent>
 						</Select>
 					</TableCell>
@@ -216,7 +232,9 @@ export const Section1 = ({ editable = true }) => {
 						<Select
 							name="groupcategory"
 							value={data.groupcategory}
-							onValueChange={(groupcategory) => setData({ ...data, groupcategory })}
+							onValueChange={(groupcategory) =>
+								setData({ ...data, groupcategory })
+							}
 							disabled={!editable}
 						>
 							<SelectTrigger>
@@ -236,8 +254,9 @@ export const Section1 = ({ editable = true }) => {
 
 						<span className="underline me-1">Descripción:</span>
 						<small className="font-xs">
-							{catalogo.groupcategory[findSelectValue("groupcategory")?.code - 1]
-								?.description ??
+							{catalogo.groupcategory[
+								findSelectValue("groupcategory")?.code - 1
+							]?.description ??
 								"Seleccione una opción para ver su descripción correspondiente"}
 						</small>
 					</TableCell>
@@ -253,7 +272,9 @@ export const Section1 = ({ editable = true }) => {
 						<Chips
 							name="keyword"
 							value={data.keyword}
-							onChange={(e) => setData((prev) => ({ ...prev, keyword: e.value }))}
+							onChange={(e) =>
+								setData((prev) => ({ ...prev, keyword: e.value }))
+							}
 							placeholder="Palabras o frases usadas para describir algún aspecto del conjunto de datos espaciales o producto y que pueden ser utilizadas como referencia para búsquedas."
 							disabled={!editable}
 							allowDuplicate={false}

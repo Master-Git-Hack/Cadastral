@@ -28,7 +28,10 @@ export const reducers = {
 	renta: (state: StateProps, { payload }: PayloadAction<number>) => {
 		state.comparativo_mercado = payload ?? 1;
 	},
-	obrasComplementarias: (state: StateProps, { payload }: PayloadAction<number>) => {
+	obrasComplementarias: (
+		state: StateProps,
+		{ payload }: PayloadAction<number>,
+	) => {
 		state.valor_total_obras_comp = payload ?? 1;
 	},
 };

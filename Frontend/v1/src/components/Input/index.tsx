@@ -21,7 +21,7 @@ export const Text = ({
 	rows,
 	value,
 	disabled,
-}: TextProps)=> {
+}: TextProps) => {
 	const [visible, setVisible] = useState(false);
 
 	return (
@@ -31,7 +31,9 @@ export const Text = ({
 				size={size}
 				as={isArea ? "textarea" : undefined}
 				onChange={(value: string, event: any) => onChange(value)}
-				type={type?.includes("password") ? (visible ? "text" : "password") : type}
+				type={
+					type?.includes("password") ? (visible ? "text" : "password") : type
+				}
 				rows={rows ?? 1}
 				placeholder={placeholder}
 				disabled={disabled}

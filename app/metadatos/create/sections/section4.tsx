@@ -1,6 +1,12 @@
 /** @format */
 
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 
 import { InputNumber } from "primereact/inputnumber";
 import {
@@ -14,7 +20,8 @@ import catalogo from "../catologos/index";
 import useMedatados from "@/store/metadatos/index";
 export const Section4 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
-	const handleInputChange = ({ target }) => setData({ ...data, [target.name]: target.value });
+	const handleInputChange = ({ target }) =>
+		setData({ ...data, [target.name]: target.value });
 
 	const findSelectValue = (name: string) => {
 		const [code, label, description] = String(data[name] ?? "")?.split(". ");
@@ -40,7 +47,10 @@ export const Section4 = ({ editable = true }: any) => {
 					>
 						4.1
 					</TableCell>
-					<TableCell colSpan={11} className=" text-black dark:text-white w-11/12">
+					<TableCell
+						colSpan={11}
+						className=" text-black dark:text-white w-11/12"
+					>
 						Localización geográfica del conjunto de datos espaciales o producto
 					</TableCell>
 				</TableRow>

@@ -8,7 +8,15 @@ import { Header } from "./header";
 import { Row } from "./row";
 import { Cell } from "./cell";
 import { Caption } from "./caption";
-export const Table = Object.assign(Component, { Body, Footer, Head, Header, Row, Cell, Caption });
+export const Table = Object.assign(Component, {
+	Body,
+	Footer,
+	Head,
+	Header,
+	Row,
+	Cell,
+	Caption,
+});
 export const DataTable = ({
 	data,
 	columns,

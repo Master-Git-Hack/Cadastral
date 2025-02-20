@@ -32,7 +32,8 @@ export const groupcategory = [
 		code: "5",
 	},
 	{
-		label: "Grupo de datos de límites costeros, internacionales, estatales y municipales",
+		label:
+			"Grupo de datos de límites costeros, internacionales, estatales y municipales",
 		description:
 			"Subdivisión de la Infraestructura de Datos Espaciales de México que representa las fronteras de los espacios territoriales contenedores de datos e información",
 		code: "6",

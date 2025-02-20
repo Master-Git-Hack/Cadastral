@@ -71,7 +71,9 @@ const Body = (type: boolean, options: any) => {
 								}),
 							);
 							!checked &&
-								dispatch(setAreaAddress({ index, key: "streetNumber", value: 0 }));
+								dispatch(
+									setAreaAddress({ index, key: "streetNumber", value: 0 }),
+								);
 						}}
 					/>
 				</td>
@@ -125,7 +127,9 @@ const Body = (type: boolean, options: any) => {
 						isArea
 						value={extras.observations}
 						onChange={(value) => {
-							dispatch(setAreaAddressExtra({ index, key: "observations", value }));
+							dispatch(
+								setAreaAddressExtra({ index, key: "observations", value }),
+							);
 						}}
 					/>
 				</td>
@@ -147,8 +151,8 @@ const Consults = (props: any) => {
 				size="sm"
 			>
 				<div className="mb-5 pb-5" style={{ minHeight: 300 }}>
-					Ingrese las referencias necesarias para complementar la información (link o
-					descripción):
+					Ingrese las referencias necesarias para complementar la información
+					(link o descripción):
 					<LinkPreviewed
 						onChange={(value: string): void => {
 							dispatch(setAreaAddressExtra({ index, key: "reference", value }));
@@ -156,8 +160,8 @@ const Consults = (props: any) => {
 						value={reference}
 					/>
 					<span className="my-2">
-						En caso de ser requerido puede agregar un archivo complementario para
-						adjuntar:
+						En caso de ser requerido puede agregar un archivo complementario
+						para adjuntar:
 					</span>
 					<div className="d-flex flex-fill justify-content-center ">
 						<File

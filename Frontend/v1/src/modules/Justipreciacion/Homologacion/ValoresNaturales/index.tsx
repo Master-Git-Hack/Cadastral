@@ -4,7 +4,11 @@ import { Component } from "../../../../components/Table";
 import { Tooltip } from "../../../../components/Tooltip";
 import { useAppSelector } from "../../../../redux";
 import { getDocumentation } from "../../../../redux/justipreciacion/homologacion";
-import { average, standardDeviation, asFancyNumber } from "../../../../utils/number";
+import {
+	average,
+	standardDeviation,
+	asFancyNumber,
+} from "../../../../utils/number";
 
 export const NaturalValues = () => {
 	const { SalesCost } = useAppSelector(getDocumentation);
@@ -23,7 +27,9 @@ export const NaturalValues = () => {
 	homologado.sort((a: number, b: number) => a - b);
 
 	const resultadoNatural = Number((natural[length] / natural[0]).toFixed(2)),
-		resultadoHomologado = Number((homologado[length] / homologado[0]).toFixed(2));
+		resultadoHomologado = Number(
+			(homologado[length] / homologado[0]).toFixed(2),
+		);
 	const media = Number(average(homologado).toFixed(2));
 	const desviacion = Number(standardDeviation(homologado).toFixed(2));
 	const coeficiente = Number(((desviacion / media) * 100).toFixed(0));

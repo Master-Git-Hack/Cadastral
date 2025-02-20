@@ -24,7 +24,9 @@ export const InputNumber = ({
 		onChange(value + currentStep <= currentMax ? value + currentStep : value);
 	const id = `custom-input-number ${props?.id ?? uuidv4()}`;
 	useEffect(() => {
-		const buttons = document.getElementsByClassName("rs-input-number-btn-group-vertical");
+		const buttons = document.getElementsByClassName(
+			"rs-input-number-btn-group-vertical",
+		);
 		//buttons.item(0)?.replaceChildren();
 		buttons[0].parentNode?.removeChild(buttons[0]);
 		const input = document.getElementById(id);

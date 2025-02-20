@@ -18,7 +18,13 @@ import {
 	CommandList,
 	CommandSeparator,
 } from "@/components/ui/command";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import {
+	Card,
+	CardHeader,
+	CardTitle,
+	CardContent,
+	CardFooter,
+} from "@/components/ui/card";
 export default function Page() {
 	const { municipios, getMunicipios, setMunicipio } = useFotogrametria();
 	const { isLoading, isError, message } = useStatusStore((state) => state);

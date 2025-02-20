@@ -23,13 +23,13 @@ const initialState = (type: string) => ({
 					name: "FACTOR DE RESULTANTE",
 					value: 1,
 				},
-		  }
+			}
 		: {
 				surface: {
 					name: "FACTOR DE TERRENO",
 					value: 1,
 				},
-		  }),
+			}),
 	root: {
 		enabled: false,
 		value: 8,

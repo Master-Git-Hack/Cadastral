@@ -25,7 +25,10 @@ const axiosBaseQuery =
 		unknown,
 		unknown
 	> =>
-	async ({ url, method, data, params, headers, responseType = "json" }, { getState }) => {
+	async (
+		{ url, method, data, params, headers, responseType = "json" },
+		{ getState },
+	) => {
 		const timestamp = getNow();
 		ls.set("lastRequest", { url, method, data, params, timestamp });
 		ls.set("timestamp", timestamp);

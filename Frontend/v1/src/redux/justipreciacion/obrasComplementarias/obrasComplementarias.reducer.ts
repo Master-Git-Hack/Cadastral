@@ -20,7 +20,8 @@ export const reducers = {
 			},
 		} = state;
 		const { length } = Documentation;
-		Documentation.push(documentationTemplate) && Calculation.push(calculationTemplate);
+		Documentation.push(documentationTemplate) &&
+			Calculation.push(calculationTemplate);
 
 		const response = updateValuesFN(state);
 		state.Documentation = response.Documentation;
@@ -96,7 +97,12 @@ export const reducers = {
 		state: StateProps,
 		{ payload: { index, indx, id, key, value } }: PayloadAction<any>,
 	) => {
-		if (index !== undefined && id !== undefined && key !== undefined && value !== undefined) {
+		if (
+			index !== undefined &&
+			id !== undefined &&
+			key !== undefined &&
+			value !== undefined
+		) {
 			const { Documentation } = state;
 			const { data } = Documentation[index].area;
 			data[id][key] = value;
@@ -107,7 +113,10 @@ export const reducers = {
 		state.total = response.total;
 		state.errors = checkErrorsFN(state);
 	},
-	setDoc: (state: StateProps, { payload: { index, key, value } }: PayloadAction<any>) => {
+	setDoc: (
+		state: StateProps,
+		{ payload: { index, key, value } }: PayloadAction<any>,
+	) => {
 		const { Documentation } = state;
 		if (index !== undefined && key !== undefined && value !== undefined) {
 			Documentation[index][key] = value;
@@ -118,9 +127,17 @@ export const reducers = {
 		state.total = response.total;
 		state.errors = checkErrorsFN(state);
 	},
-	setDocData: (state: StateProps, { payload: { index, id, key, value } }: PayloadAction<any>) => {
+	setDocData: (
+		state: StateProps,
+		{ payload: { index, id, key, value } }: PayloadAction<any>,
+	) => {
 		const { Documentation } = state;
-		if (index !== undefined && id !== undefined && key !== undefined && value !== undefined) {
+		if (
+			index !== undefined &&
+			id !== undefined &&
+			key !== undefined &&
+			value !== undefined
+		) {
 			const { data } = Documentation[index];
 			data[id][key] = value;
 			data[id].total = data[id].ind * data[id].value * data[id].quantity;
@@ -131,7 +148,10 @@ export const reducers = {
 		state.total = response.total;
 		state.errors = checkErrorsFN(state);
 	},
-	setCalc: (state: StateProps, { payload: { index, key, value } }: PayloadAction<any>) => {
+	setCalc: (
+		state: StateProps,
+		{ payload: { index, key, value } }: PayloadAction<any>,
+	) => {
 		const { Calculation } = state;
 		if (index !== undefined && key !== undefined && value !== undefined) {
 			Calculation[index][key] = value;
@@ -142,7 +162,10 @@ export const reducers = {
 		state.total = response.total;
 		state.errors = checkErrorsFN(state);
 	},
-	setAge: (state: StateProps, { payload: { index, key, value } }: PayloadAction<any>) => {
+	setAge: (
+		state: StateProps,
+		{ payload: { index, key, value } }: PayloadAction<any>,
+	) => {
 		const { Calculation } = state;
 		if (index !== undefined && key !== undefined && value !== undefined) {
 			const { age } = Calculation[index];
@@ -160,7 +183,10 @@ export const reducers = {
 	setIsComplete: (state: StateProps, { payload }: PayloadAction<boolean>) => {
 		state.isComplete = payload;
 	},
-	setPartialAge: (state: StateProps, { payload: { index, key, value } }: PayloadAction<any>) => {
+	setPartialAge: (
+		state: StateProps,
+		{ payload: { index, key, value } }: PayloadAction<any>,
+	) => {
 		if (index !== undefined && key !== undefined && value !== undefined) {
 			const { area } = state.Documentation[index];
 			area[key] = value;

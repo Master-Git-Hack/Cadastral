@@ -1,2 +1,9 @@
 /** @format */
-import { formatNumb, asFancyNumber, roundNumber, average, standardDeviation, mergeSort } from ".";
+import {
+	formatNumb,
+	asFancyNumber,
+	roundNumber,
+	average,
+	standardDeviation,
+	mergeSort,
+} from ".";

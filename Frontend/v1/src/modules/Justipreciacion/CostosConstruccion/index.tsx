@@ -24,7 +24,11 @@ import {
 import { asFancyNumber } from "../../../utils/number";
 const { Column, HeaderCell, Cell } = Table;
 const headerStyle = { padding: 4, backgroundColor: "#d1e6dd", color: "black" };
-export const CostosConstruccion = ({ children, subTotal, totalCalculado }: any) => {
+export const CostosConstruccion = ({
+	children,
+	subTotal,
+	totalCalculado,
+}: any) => {
 	const dispatch = useAppDispatch();
 
 	const {
@@ -43,7 +47,11 @@ export const CostosConstruccion = ({ children, subTotal, totalCalculado }: any) 
 		const nextData = Object.assign([], data);
 		const activeItem: any = nextData.find((item: any) => item.id === id);
 		dispatch(
-			setValues({ id: id - 1, key: "status", value: activeItem.status ? null : "EDIT" }),
+			setValues({
+				id: id - 1,
+				key: "status",
+				value: activeItem.status ? null : "EDIT",
+			}),
 		);
 	};
 	useEffect(() => {
@@ -106,7 +114,10 @@ export const CostosConstruccion = ({ children, subTotal, totalCalculado }: any) 
 
 							<Column align="center" verticalAlign="middle" flexGrow={1} fixed>
 								<HeaderCell style={headerStyle}>Valor Real Neto</HeaderCell>
-								<Cell dataKey="valorNeto" style={{ padding: 4, maxHeight: 100 }}>
+								<Cell
+									dataKey="valorNeto"
+									style={{ padding: 4, maxHeight: 100 }}
+								>
 									{(rowData) => (
 										<span className="table-content-edit-span">
 											{asFancyNumber(rowData.valorNeto, { isCurrency: true })}
@@ -210,7 +221,13 @@ export const CostosConstruccion = ({ children, subTotal, totalCalculado }: any) 
 		</Justipreciacion>
 	);
 };
-const FancyCell = ({ rowData, dataKey, onChange, isCurrency, ...props }: any) => {
+const FancyCell = ({
+	rowData,
+	dataKey,
+	onChange,
+	isCurrency,
+	...props
+}: any) => {
 	const editing = rowData.status === "EDIT";
 	return (
 		<Cell {...props} className={editing ? "table-content-editing" : ""}>

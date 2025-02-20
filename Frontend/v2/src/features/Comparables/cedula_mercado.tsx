@@ -1,9 +1,12 @@
 /** @format */
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import "primereact/resources/themes/tailwind-light/theme.css";
 import { Table, Button, Tooltip } from "flowbite-react";
 import { NavLink, useParams } from "react-router-dom";
-import { useGetComparablesQuery, useDeleteComparableMutation } from "@api/Comparables";
+import {
+	useGetComparablesQuery,
+	useDeleteComparableMutation,
+} from "@api/Comparables";
 import Spinner from "@components/Spinner";
 import Error from "../Error";
 import Alert from "@components/Alerts";
@@ -28,11 +31,14 @@ export default function Comparables() {
 	const navigate = useNavigate();
 	const [searchParams, setParams] = useSearchParams();
 	const [downloadFile] = useDownloadMutation();
-	const [preview, { data: dataPreview, isSuccess: isSuccessPreview }] = usePreviewMutation();
+	const [preview, { data: dataPreview, isSuccess: isSuccessPreview }] =
+		usePreviewMutation();
 	const [deleteTemporal] = useDeleteComparableMutation();
 	const dispatch = useAppDispatch();
 	const [backward, setBackward] = useState(false);
-	const [ids, setIDs] = useState<number[]>(data?.data.map(({ id }: any) => id) ?? []);
+	const [ids, setIDs] = useState<number[]>(
+		data?.data.map(({ id }: any) => id) ?? [],
+	);
 
 	useEffect(() => {
 		dispatch(setComparables({ key: "ids", value: ids }));
@@ -63,7 +69,9 @@ export default function Comparables() {
 			className={`overflow-auto ${username ? "w-full min-h-screen bg-white dark:bg-black antialiased tracking-tight" : ""}`}
 		>
 			<div className="flex flex-row justify-between my-3 mx-2">
-				<NavLink to={username ? `/modules/comparables/${username}/` : `/comparables`}>
+				<NavLink
+					to={username ? `/modules/comparables/${username}/` : `/comparables`}
+				>
 					<Button pill color="light">
 						Atras
 					</Button>
@@ -85,7 +93,9 @@ export default function Comparables() {
 
 							<Button
 								pill
-								onClick={() => preview({ cedula_mercado, data: { ids }, username })}
+								onClick={() =>
+									preview({ cedula_mercado, data: { ids }, username })
+								}
 							>
 								<Tooltip content="Solo se mostraran aquellos registros seleccionados">
 									Previsualizar
@@ -143,7 +153,9 @@ export default function Comparables() {
 								<p className=" text-center cursor-text">{tipo}</p>
 							</Table.Cell>
 							<Table.Cell>
-								<p className=" text-center cursor-text">{id_comparable_catcom}</p>
+								<p className=" text-center cursor-text">
+									{id_comparable_catcom}
+								</p>
 							</Table.Cell>
 							<Table.Cell className="px-6 py-4 text-right">
 								{/* <NavLink

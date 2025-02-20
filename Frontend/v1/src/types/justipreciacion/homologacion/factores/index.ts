@@ -19,7 +19,8 @@ export const operation = (data: any, subject: any) =>
 		item.result = subject.value / item.value;
 		return item;
 	});
-export const insertion = (data: any, template: any) => data.push(template(data.length));
+export const insertion = (data: any, template: any) =>
+	data.push(template(data.length));
 export const symbolsOptions = [
 	{
 		label: "+",

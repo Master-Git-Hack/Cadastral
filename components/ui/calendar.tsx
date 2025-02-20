@@ -11,7 +11,12 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
+function Calendar({
+	className,
+	classNames,
+	showOutsideDays = true,
+	...props
+}: CalendarProps) {
 	return (
 		<DayPicker
 			showOutsideDays={showOutsideDays}
@@ -47,7 +52,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
 				day_range_end: "day-range-end",
 				day_selected:
 					"bg-zinc-900 text-zinc-50 hover:bg-zinc-900 hover:text-zinc-50 focus:bg-zinc-900 focus:text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50 dark:hover:text-zinc-900 dark:focus:bg-zinc-50 dark:focus:text-zinc-900",
-				day_today: "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50",
+				day_today:
+					"bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50",
 				day_outside:
 					"day-outside text-zinc-500 aria-selected:bg-zinc-100/50 aria-selected:text-zinc-500 dark:text-zinc-400 dark:aria-selected:bg-zinc-800/50 dark:aria-selected:text-zinc-400",
 				day_disabled: "text-zinc-500 opacity-50 dark:text-zinc-400",

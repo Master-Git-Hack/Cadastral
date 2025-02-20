@@ -19,9 +19,12 @@ import { useAppDispatch, useAppSelector } from "../../../redux";
 import { BigPicture } from "./BigPicture";
 import { Area } from "./Registros/Area";
 import { NaturalValues } from "./ValoresNaturales";
-import { Indiviso,IndivisoPage2 } from "./Registros/Inviso";
+import { Indiviso, IndivisoPage2 } from "./Registros/Inviso";
 import { Justipreciacion } from "..";
-import { consumeJustipreciacion, getJustipreciacion } from "../../../redux/justipreciacion";
+import {
+	consumeJustipreciacion,
+	getJustipreciacion,
+} from "../../../redux/justipreciacion";
 import { Drawer } from "rsuite";
 const { AgeContainer, Compilation, Selector } = Factores;
 //const { Success, Error, SimpleMessage, Save } = Alert;
@@ -38,8 +41,8 @@ const Pages = (type: "TERRENO" | "RENTA", isUsed: boolean) =>
 		: {
 				...base(type, "7"),
 				5: <Indiviso />,
-				6:<IndivisoPage2/>
-		  };
+				6: <IndivisoPage2 />,
+			};
 
 export const Homologacion = () => {
 	const dispatch = useAppDispatch();
@@ -74,7 +77,8 @@ export const Homologacion = () => {
 		dispatch(loadFactors());
 	}, []);
 	useEffect(() => {
-		status.includes("fail") && Alert.Error({ title: "¡Algo Fallo!", text: message });
+		status.includes("fail") &&
+			Alert.Error({ title: "¡Algo Fallo!", text: message });
 		//status.includes("loading") && setLoadingPage(true);
 		if (status.includes("warning") && message !== undefined) {
 			setLoadingPage(false);
@@ -82,14 +86,18 @@ export const Homologacion = () => {
 		}
 		if (status.includes("success") && message !== undefined) {
 			setLoadingPage(false);
-			Alert.Success({ title: "¡Registro encontrado Exitosamente!", text: message });
+			Alert.Success({
+				title: "¡Registro encontrado Exitosamente!",
+				text: message,
+			});
 			setStartAt(3);
 		}
 	}, [message, status]);
 
 	const saveAction = () => {
 		const url = `HOMOLOGACION/${type}/${justipreciacion.id}`;
-		const { adjustedValue, roundedValue } = documentation.SalesCost.averageUnitCost;
+		const { adjustedValue, roundedValue } =
+			documentation.SalesCost.averageUnitCost;
 		const payload: any = {
 			factores: factors,
 			resultado: documentation,
@@ -186,31 +194,37 @@ export const Homologacion = () => {
 								Homologación de tipo: <strong>{type}</strong>
 							</h1>
 							<>
-{				id!==0&&			<Button className="me-4" disabled>
-								<span>Revisión</span>
-							</Button>}
-							
-							{currentPage>2&&
-								<>
-								<Button className="me-4" onClick={() => setOpen(true)}>
-									<span>Mostrar Información</span>
-								</Button>
-							
-							<Drawer
-								open={open}
-								onClose={() => setOpen(false)}
-								placement={"bottom"}
-							>
-								<Drawer.Header>
-									<Drawer.Title>Documentación</Drawer.Title>
-								</Drawer.Header>
-								<Drawer.Body >
-									<div style={{pointerEvents: 'none',
-		opacity: 0.5 }} tabIndex={-1}><Area.Documentation /></div>
-									
-								</Drawer.Body>
-							</Drawer></>
-							}
+								{id !== 0 && (
+									<Button className="me-4" disabled>
+										<span>Revisión</span>
+									</Button>
+								)}
+
+								{currentPage > 2 && (
+									<>
+										<Button className="me-4" onClick={() => setOpen(true)}>
+											<span>Mostrar Información</span>
+										</Button>
+
+										<Drawer
+											open={open}
+											onClose={() => setOpen(false)}
+											placement={"bottom"}
+										>
+											<Drawer.Header>
+												<Drawer.Title>Documentación</Drawer.Title>
+											</Drawer.Header>
+											<Drawer.Body>
+												<div
+													style={{ pointerEvents: "none", opacity: 0.5 }}
+													tabIndex={-1}
+												>
+													<Area.Documentation />
+												</div>
+											</Drawer.Body>
+										</Drawer>
+									</>
+								)}
 								<Save
 									status={record.status}
 									loading={loadingSave}
@@ -221,10 +235,10 @@ export const Homologacion = () => {
 					}
 					footer={
 						<span className="text-muted fw-lighter">
-							Sí el ejercicio cuenta con proceso de cálculo de indivisos, favor de
-							posicionarse en la página 6 o posterior para actualizar el registro de
-							justipreciación, sino se utilizará el valor resultante mostrado en la
-							página 5.
+							Sí el ejercicio cuenta con proceso de cálculo de indivisos, favor
+							de posicionarse en la página 6 o posterior para actualizar el
+							registro de justipreciación, sino se utilizará el valor resultante
+							mostrado en la página 5.
 						</span>
 					}
 					totalPages={!isUsed ? 5 : 7}

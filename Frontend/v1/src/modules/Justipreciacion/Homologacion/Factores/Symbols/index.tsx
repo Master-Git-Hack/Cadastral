@@ -26,7 +26,12 @@ import {
 } from "./symbols.types";
 const { Fancy, Text } = Input;
 const Select = Input.Select.Normal;
-const Actions = ({ tag, length, colSpan, ...props }: LocationZoneActionsProps) => {
+const Actions = ({
+	tag,
+	length,
+	colSpan,
+	...props
+}: LocationZoneActionsProps) => {
 	const dispatch = useAppDispatch();
 
 	const key = props.name;
@@ -54,11 +59,19 @@ const Actions = ({ tag, length, colSpan, ...props }: LocationZoneActionsProps) =
 const ColumnsHeader = ({ columns, name }: LocationZoneColumnsProps) => (
 	<>
 		{columns.map((column: string, index: number) => (
-			<th key={`header for table component ${name} ${index} ${column}`}>{column}</th>
+			<th key={`header for table component ${name} ${index} ${column}`}>
+				{column}
+			</th>
 		))}
 	</>
 );
-const ColumnsBody = ({ columns, item, index, name, options }: ColumnsBodyProps) => {
+const ColumnsBody = ({
+	columns,
+	item,
+	index,
+	name,
+	options,
+}: ColumnsBodyProps) => {
 	const dispatch = useAppDispatch();
 	return (
 		<>
@@ -91,64 +104,68 @@ const Body = ({ tag, columns, ...props }: LocationZoneColumnsProps) => {
 	const { subject } = factors[props.name];
 	const { options } = handlers[props.name];
 
-	return subject.map(({ percentage, observations, ...item }: any, index: number) => (
-		<tr key={`body for table component ${props.name} ${index}`}>
-			<td>
-				<Fancy
-					index={index}
-					name={props.name}
-					label={props.name}
-					value={percentage}
-					classNameDecorator="text-center bg-light"
-					onChange={({ currentTarget: { valueAsNumber } }) =>
-						dispatch(
-							updateLocZoneSubject({
-								index,
-								key: props.name,
-								name: "percentage",
-								value: valueAsNumber,
-							}),
-						)
-					}
-					isPercentage
-				/>
-			</td>
-			<td>
-				<div className="d-flex d-flex-row">
-					<label
-						className="invisible disabled"
-						htmlFor={`observations component ${index}`}
-					/>
-					<Text
-						onChange={(value) =>
+	return subject.map(
+		({ percentage, observations, ...item }: any, index: number) => (
+			<tr key={`body for table component ${props.name} ${index}`}>
+				<td>
+					<Fancy
+						index={index}
+						name={props.name}
+						label={props.name}
+						value={percentage}
+						classNameDecorator="text-center bg-light"
+						onChange={({ currentTarget: { valueAsNumber } }) =>
 							dispatch(
 								updateLocZoneSubject({
 									index,
 									key: props.name,
-									name: "observations",
-									value,
+									name: "percentage",
+									value: valueAsNumber,
 								}),
 							)
 						}
-						value={observations}
+						isPercentage
 					/>
-				</div>
-			</td>
-			<ColumnsBody
-				index={index}
-				item={item}
-				name={props.name}
-				columns={columns}
-				options={options}
-			/>
-		</tr>
-	));
+				</td>
+				<td>
+					<div className="d-flex d-flex-row">
+						<label
+							className="invisible disabled"
+							htmlFor={`observations component ${index}`}
+						/>
+						<Text
+							onChange={(value) =>
+								dispatch(
+									updateLocZoneSubject({
+										index,
+										key: props.name,
+										name: "observations",
+										value,
+									}),
+								)
+							}
+							value={observations}
+						/>
+					</div>
+				</td>
+				<ColumnsBody
+					index={index}
+					item={item}
+					name={props.name}
+					columns={columns}
+					options={options}
+				/>
+			</tr>
+		),
+	);
 };
 const Footer = ({ name, results }: FooterProps) => (
 	<tr>
 		<td colSpan={2} />
 		{results.map((item: any, index: number) => (
-			<td key={`footer for table component ${name} ${index}`}>{asFancyNumber(item.value)}</td>
+			<td key={`footer for table component ${name} ${index}`}>
+				{asFancyNumber(item.value)}
+			</td>
 		))}
 	</tr>
 );
@@ -167,7 +184,12 @@ const LocationZone = ({ tag, ...props }: LocationZoneProps) => {
 	const Header = () => (
 		<>
 			<Title name={name} colSpan={columns.length + 2} />
-			<Actions name={props.name} tag={name} colSpan={colSpan} length={subject.length} />
+			<Actions
+				name={props.name}
+				tag={name}
+				colSpan={colSpan}
+				length={subject.length}
+			/>
 			<tr>
 				<th>
 					<div className="d-flex justify-content-between my-auto py-auto">
@@ -178,15 +200,17 @@ const LocationZone = ({ tag, ...props }: LocationZoneProps) => {
 									percentage === 100
 										? "success"
 										: percentage > 100
-										? "danger"
-										: "warning"
+											? "danger"
+											: "warning"
 								}
 								text={asFancyNumber(percentage, { isPercentage: true })}
 							/>
 						</div>
 					</div>
 				</th>
-				<th className="bg-warning bg-opacity-75 text-white">{name.toUpperCase()}</th>
+				<th className="bg-warning bg-opacity-75 text-white">
+					{name.toUpperCase()}
+				</th>
 				<ColumnsHeader name={props.name} columns={columns} />
 			</tr>
 		</>
@@ -241,7 +265,7 @@ const Extra = () => {
 };
 export const Symbols = ({ name, tag }: LocationZoneProps) => {
 	const colSpan = name.includes("Zone") ? 24 : 24;
-	const minColSpan = name.includes("Zone") ? colSpan + 4 : colSpan+4;
+	const minColSpan = name.includes("Zone") ? colSpan + 4 : colSpan + 4;
 	return (
 		<Grid fluid>
 			<Row>

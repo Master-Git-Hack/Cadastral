@@ -1,7 +1,11 @@
 /** @format */
 
 export const level = [
-	{ label: "Atributo", description: "Información aplicada al valor de atributo", code: "1" },
+	{
+		label: "Atributo",
+		description: "Información aplicada al valor de atributo",
+		code: "1",
+	},
 	{
 		label: "Tipo de atributo",
 		description: "Información aplicada a la característica del objeto",
@@ -22,7 +26,11 @@ export const level = [
 		description: "Información aplicada al conjunto de datos espaciales",
 		code: "5",
 	},
-	{ label: "Series", description: "Información aplicada a las series", code: "6" },
+	{
+		label: "Series",
+		description: "Información aplicada a las series",
+		code: "6",
+	},
 	{
 		label: "Conjunto de datos no espaciales",
 		description: "Información aplicada a los datos no espaciales",
@@ -33,7 +41,11 @@ export const level = [
 		description: "Información aplicada al grupo de la dimensión",
 		code: "8",
 	},
-	{ label: "Objeto espacial", description: "Información aplicada al objeto espacial", code: "9" },
+	{
+		label: "Objeto espacial",
+		description: "Información aplicada al objeto espacial",
+		code: "9",
+	},
 	{
 		label: "Tipo de objeto espacial",
 		description: "Información aplicada al tipo de objeto espacial",
@@ -72,5 +84,9 @@ export const level = [
 			"Información aplicada a un mosaico, un subconjunto espacial de datos espaciales",
 		code: "16",
 	},
-	{ label: "Producto", description: "Información aplicada al producto", code: "17" },
+	{
+		label: "Producto",
+		description: "Información aplicada al producto",
+		code: "17",
+	},
 ];

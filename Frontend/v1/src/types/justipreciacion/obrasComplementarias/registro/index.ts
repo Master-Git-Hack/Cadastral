@@ -68,9 +68,15 @@ export const documentation = {
 	areaTemplate,
 	areaDataTemplate,
 	getTotalArea: (data: Array<DataProps>) =>
-		data.reduce((previous: number, { value }: DataProps) => previous + value, 0),
+		data.reduce(
+			(previous: number, { value }: DataProps) => previous + value,
+			0,
+		),
 	getDataTotal: (data: Array<DataProps>) =>
-		data.reduce((previous: number, { total }: DataProps) => previous + total, 0),
+		data.reduce(
+			(previous: number, { total }: DataProps) => previous + total,
+			0,
+		),
 	getTotalByUnit: (value: number, total: number) => total / value,
 	getGTOFactor: (factorGTO: boolean = false) => (factorGTO ? 0.935 : 1),
 };

@@ -1,5 +1,11 @@
 /** @format */
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import catalogo from "../catologos/index";
@@ -14,7 +20,11 @@ export const Section8 = ({ editable = true }: any) => {
 		const { name } = e.target;
 		console.log(e.value);
 		const items = e.value.filter((item) => {
-			return item.code && item.label !== "undefined" && item.description !== "undefined";
+			return (
+				item.code &&
+				item.label !== "undefined" &&
+				item.description !== "undefined"
+			);
 		});
 
 		const current = items.map(

@@ -51,8 +51,13 @@ const handleAverageUnitCostValue = (
 
 const initialState = (type: string): SalesCostProps => ({
 	tag: `Precio de ${type === "TERRENO" ? "Venta" : "Renta"}`,
-	data: [templateData(1),templateData(2),templateData(3),templateData(4)],
-	results: [templateResults(1),templateResults(2),templateResults(3),templateResults(4)],
+	data: [templateData(1), templateData(2), templateData(3), templateData(4)],
+	results: [
+		templateResults(1),
+		templateResults(2),
+		templateResults(3),
+		templateResults(4),
+	],
 	averageUnitCost: {
 		value: 1,
 		roundedTo: {

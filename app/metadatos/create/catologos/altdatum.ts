@@ -2,7 +2,8 @@
 
 export const altdatum = [
 	{
-		label: "Coordenada de elevación explícita incluida con coordenadas horizontales",
+		label:
+			"Coordenada de elevación explícita incluida con coordenadas horizontales",
 		description: "",
 		code: "1",
 	},

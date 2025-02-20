@@ -1,5 +1,13 @@
 /** @format */
-import { Page, Text, View, Document, StyleSheet, Image, Link } from "@react-pdf/renderer";
+import {
+	Page,
+	Text,
+	View,
+	Document,
+	StyleSheet,
+	Image,
+	Link,
+} from "@react-pdf/renderer";
 const currentEnv = import.meta.env.MODE;
 const devUrl = import.meta.env.VITE_API_URL_DEV;
 const prodUrl = import.meta.env.VITE_API_URL_PROD;

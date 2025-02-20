@@ -20,7 +20,8 @@ export const store = configureStore({
 		AvaluosCatastrales,
 		Comparables,
 	},
-	middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export type AppDispatch = typeof store.dispatch;

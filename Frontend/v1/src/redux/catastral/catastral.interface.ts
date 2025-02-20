@@ -52,7 +52,10 @@ export const recommendedProperties = {
 	},
 };
 const { zoom, moreProperties } = initialProperties;
-export const reportsTemplate = (id: number, date: string = moment().toISOString()): Reports => ({
+export const reportsTemplate = (
+	id: number,
+	date: string = moment().toISOString(),
+): Reports => ({
 	id,
 	filename: `report_${date}_temp.pdf`,
 	document: "",

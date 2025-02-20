@@ -33,7 +33,11 @@ const slice = createSlice({
 				) => {
 					state.message = message;
 					state.status = status;
-					if (status.includes("success") && data !== null && data !== undefined) {
+					if (
+						status.includes("success") &&
+						data !== null &&
+						data !== undefined
+					) {
 						switch (operation) {
 							case "HOMOLOGACION/IndicadoresMunicipales":
 								break;
@@ -118,7 +122,8 @@ const slice = createSlice({
 
 export const getHomologaciones = (state: RootState) => state.Homologaciones;
 export const getFactors = (state: RootState) => state.Homologaciones.factors;
-export const getDocumentation = (state: RootState) => state.Homologaciones.documentation;
+export const getDocumentation = (state: RootState) =>
+	state.Homologaciones.documentation;
 export const {
 	addRow,
 	rmRow,

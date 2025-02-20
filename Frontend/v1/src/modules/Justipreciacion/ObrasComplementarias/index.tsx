@@ -35,7 +35,7 @@ const Pages = (isComplete: boolean = true) =>
 		? {
 				1: <Documentation />,
 				2: <Calculation />,
-		  }
+			}
 		: { 1: <PartialCalculation /> };
 export const ObrasComplementarias = () => {
 	const dispatch = useAppDispatch();
@@ -67,11 +67,13 @@ export const ObrasComplementarias = () => {
 	}, [id, justipreciacion.id]);
 
 	useEffect(() => {
-		justipreciacion.valor_total_obras_comp !== total && dispatch(obrasComplementarias(total));
+		justipreciacion.valor_total_obras_comp !== total &&
+			dispatch(obrasComplementarias(total));
 	}, [total]);
 
 	useEffect(() => {
-		status.includes("fail") && Alert.Error({ title: "¡Algo Fallo!", text: message });
+		status.includes("fail") &&
+			Alert.Error({ title: "¡Algo Fallo!", text: message });
 		//status.includes("loading") && setLoadingPage(true);
 		if (status.includes("warning") && message !== undefined) {
 			setLoadingPage(false);
@@ -79,7 +81,10 @@ export const ObrasComplementarias = () => {
 		}
 		if (status.includes("success") && message !== undefined) {
 			setLoadingPage(false);
-			Alert.Success({ title: "¡Registro encontrado Exitosamente!", text: message });
+			Alert.Success({
+				title: "¡Registro encontrado Exitosamente!",
+				text: message,
+			});
 		}
 	}, [message, status]);
 
@@ -195,10 +200,7 @@ export const ObrasComplementarias = () => {
 											reverse
 											withText
 											onChange={(value: boolean) =>
-												setTimeout(
-													() => dispatch(setIsComplete(value)),
-													1000,
-												)
+												setTimeout(() => dispatch(setIsComplete(value)), 1000)
 											}
 										/>
 									</div>

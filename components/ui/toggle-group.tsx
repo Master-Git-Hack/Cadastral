@@ -9,7 +9,9 @@ import { type VariantProps } from "class-variance-authority";
 import { cn } from "@utils/index";
 import { toggleVariants } from "@/components/ui/toggle";
 
-const ToggleGroupContext = React.createContext<VariantProps<typeof toggleVariants>>({
+const ToggleGroupContext = React.createContext<
+	VariantProps<typeof toggleVariants>
+>({
 	size: "default",
 	variant: "default",
 });

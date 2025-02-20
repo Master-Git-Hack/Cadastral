@@ -5,7 +5,9 @@
 const backendURL = process.env.NEXT_PUBLIC_API_URL;
 
 if (!backendURL) {
-	throw new Error("NEXT_PUBLIC_API_URL is not set. Please check your environment variables.");
+	throw new Error(
+		"NEXT_PUBLIC_API_URL is not set. Please check your environment variables.",
+	);
 }
 
 const nextConfig = {
@@ -18,7 +20,16 @@ const nextConfig = {
 
 	experimental: {
 		turbo: {
-			resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json", ".pdf"],
+			resolveExtensions: [
+				".mdx",
+				".tsx",
+				".ts",
+				".jsx",
+				".js",
+				".mjs",
+				".json",
+				".pdf",
+			],
 		},
 	},
 	rewrites: async () => {

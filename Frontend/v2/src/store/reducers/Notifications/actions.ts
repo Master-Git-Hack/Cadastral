@@ -18,10 +18,20 @@ export const reducers = {
 		const { severity, summary } = payload;
 		const closable = true;
 		const sticky = true;
-		state.notifications.push({ id, severity, summary, detail, closable, sticky });
+		state.notifications.push({
+			id,
+			severity,
+			summary,
+			detail,
+			closable,
+			sticky,
+		});
 		state.badge = state.notifications.length;
 	},
-	rmNotification: (state: NotificationState, { payload }: PayloadAction<string>) => {
+	rmNotification: (
+		state: NotificationState,
+		{ payload }: PayloadAction<string>,
+	) => {
 		state.notifications = state.notifications.filter(
 			(notification: Notification) => notification.id !== payload,
 		);

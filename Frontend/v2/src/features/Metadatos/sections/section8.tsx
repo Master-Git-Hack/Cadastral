@@ -28,9 +28,15 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 	const handleMultiSelect = (e) => {
 		const { name } = e.target;
 		const items = e.value.filter((item) => {
-			return item.code && item.label !== "undefined" && item.description !== "undefined";
+			return (
+				item.code &&
+				item.label !== "undefined" &&
+				item.description !== "undefined"
+			);
 		});
-		const current = items.map((item) => `${item.code}. ${item.label}. ${item.description}`);
+		const current = items.map(
+			(item) => `${item.code}. ${item.label}. ${item.description}`,
+		);
 		setData({
 			...data,
 			accessconstraints: current,
@@ -42,14 +48,16 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 		const input = data[name] ?? [];
 		const result = input
 			.map((item) => {
-				const [code, label, description] = item.split(". ").map((text, index) => {
-					if (index === 0 && text.trim()) {
-						return text.trim();
-					} else if (index !== 0 && text.trim() !== "undefined") {
-						return text.trim();
-					}
-					return null;
-				});
+				const [code, label, description] = item
+					.split(". ")
+					.map((text, index) => {
+						if (index === 0 && text.trim()) {
+							return text.trim();
+						} else if (index !== 0 && text.trim() !== "undefined") {
+							return text.trim();
+						}
+						return null;
+					});
 
 				if (code && label !== "undefined" && description !== "undefined") {
 					return { code, label, description };
@@ -84,7 +92,10 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 					>
 						8.1
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Restricciones de acceso
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -107,7 +118,10 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 					>
 						8.2
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Restricciones de uso
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -144,7 +158,10 @@ export const Section8 = ({ data, setData, editable = true }: any) => {
 					>
 						8.3
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Responsabilidad de distribución
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">

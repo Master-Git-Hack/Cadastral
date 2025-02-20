@@ -18,25 +18,32 @@ const comercial = {
 			label: "Antecedentes",
 			children: [
 				{
-					label: "Revisar dentro de las bases de Catastro si existe algún registro realizado anteriormente del mismo inmueble.",
+					label:
+						"Revisar dentro de las bases de Catastro si existe algún registro realizado anteriormente del mismo inmueble.",
 				},
-				{ label: "Verificar que se este usando el formato vigente del avalúo." },
+				{
+					label: "Verificar que se este usando el formato vigente del avalúo.",
+				},
 			],
 			value: 5,
 		},
 		{
 			label: "Fecha de Servicio",
-			children: [{ label: "Revisar que la fecha coincida en todo el documento." }],
+			children: [
+				{ label: "Revisar que la fecha coincida en todo el documento." },
+			],
 			value: 2,
 		},
 		{
 			label: "Folios",
 			children: [
 				{
-					label: "Revisar que los folios de solicitud y su fecha correspondan a los capturados en el avalúo.",
+					label:
+						"Revisar que los folios de solicitud y su fecha correspondan a los capturados en el avalúo.",
 				},
 				{
-					label: "Revisar, para los casos de embargo o peritajes, el número de expediente dentro del servicio.",
+					label:
+						"Revisar, para los casos de embargo o peritajes, el número de expediente dentro del servicio.",
 				},
 			],
 			value: 3,
@@ -45,28 +52,34 @@ const comercial = {
 			label: "Solicitante",
 			children: [
 				{
-					label: "Revisar que el nombre del solicitante corresponda con el capturado en el oficio de solicitud.",
+					label:
+						"Revisar que el nombre del solicitante corresponda con el capturado en el oficio de solicitud.",
 				},
 				{
-					label: "Revisar que el propietario corresponda con la información legal proporcionada.",
+					label:
+						"Revisar que el propietario corresponda con la información legal proporcionada.",
 				},
 			],
 			value: 5,
 		},
 		{
 			label: "Observaciones",
-			children: [{ label: "Verificar que las notas sean consistentes con el avalúo." }],
+			children: [
+				{ label: "Verificar que las notas sean consistentes con el avalúo." },
+			],
 			value: 5,
 		},
 		{
 			label: "Documentos",
 			children: [
 				{
-					label: "Verificar que en documentación se cuente con la información completa y acorde al tipo de inmueble valuado.",
+					label:
+						"Verificar que en documentación se cuente con la información completa y acorde al tipo de inmueble valuado.",
 				},
 				{ label: "Verificar que la información sea legible." },
 				{
-					label: "Verificar que la información sea la correcta y que corresponde al inmueble valuado.",
+					label:
+						"Verificar que la información sea la correcta y que corresponde al inmueble valuado.",
 				},
 				{ label: "Verificar que se incluya el soporte del cálculo de áreas." },
 			],
@@ -76,23 +89,32 @@ const comercial = {
 			label: "Impresión",
 			children: [
 				{
-					label: "Revisión y ortografía de todo el documento previo a la impresión del servicio.",
+					label:
+						"Revisión y ortografía de todo el documento previo a la impresión del servicio.",
 				},
 				{
-					label: "No deberán existir hojas en blanco en la impresión, así como tampoco hojas que prácticamente toda esta en blanco (tiene muy pocos renglones escritos), se deberá ajustar el archivo.",
-				},
-				{ label: "Verificar los pie de páginas y la paginación para que estén correctos." },
-				{
-					label: "Verificar que los textos están completos en las celdas, en ocasiones se cortan dichos textos por no ajustar las celdas.",
+					label:
+						"No deberán existir hojas en blanco en la impresión, así como tampoco hojas que prácticamente toda esta en blanco (tiene muy pocos renglones escritos), se deberá ajustar el archivo.",
 				},
 				{
-					label: "Verificar que no aparezcan símbolos raros en el documento (#REF, ###, etc.).",
+					label:
+						"Verificar los pie de páginas y la paginación para que estén correctos.",
 				},
 				{
-					label: "Verificar que el documento NO tenga celdas en colores que se quedan de algunas revisiones.",
+					label:
+						"Verificar que los textos están completos en las celdas, en ocasiones se cortan dichos textos por no ajustar las celdas.",
 				},
 				{
-					label: "Verificar que las fotos y anexos queden dentro de los recuadros establecidos  y que el pie de foto describa correctamente la foto que se anexa.",
+					label:
+						"Verificar que no aparezcan símbolos raros en el documento (#REF, ###, etc.).",
+				},
+				{
+					label:
+						"Verificar que el documento NO tenga celdas en colores que se quedan de algunas revisiones.",
+				},
+				{
+					label:
+						"Verificar que las fotos y anexos queden dentro de los recuadros establecidos  y que el pie de foto describa correctamente la foto que se anexa.",
 				},
 			],
 			value: 4,
@@ -117,7 +139,9 @@ const ControlPoint = ({ index, expanded, type }) => {
 			onMouseLeave={(e) => panel.current.toggle(null)}
 		>
 			<span className=" flex flex-col font-bold text-lg me-2">{index + 1}</span>
-			<span className="flex flex-col font-thin text-lg capitalize">{label}</span>
+			<span className="flex flex-col font-thin text-lg capitalize">
+				{label}
+			</span>
 			<OverlayPanel ref={panel} dismissable>
 				<Card className="border-none shadow-none">
 					<h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
@@ -134,7 +158,9 @@ const ControlPoint = ({ index, expanded, type }) => {
 					<p className="text-base text-gray-500 dark:text-gray-400 sm:text-lg">
 						<p>
 							<span className="mb-1 text-xs me-2">Valor:</span>
-							<span className="-mt-1 font-sans text-sm font-semibold ">{value}</span>
+							<span className="-mt-1 font-sans text-sm font-semibold ">
+								{value}
+							</span>
 						</p>
 					</p>
 				</Card>
@@ -157,7 +183,9 @@ const Header = ({ level }) => {
 			<Table.HeadCell>Ponderación</Table.HeadCell>
 			{level >= 2 && (
 				<>
-					{!selected2 && <Table.HeadCell>Comentarios de Jefatura</Table.HeadCell>}
+					{!selected2 && (
+						<Table.HeadCell>Comentarios de Jefatura</Table.HeadCell>
+					)}
 					<Table.HeadCell>Cumplimiento #</Table.HeadCell>
 					{selected2 && <Table.HeadCell>Fecha N</Table.HeadCell>}
 					<Table.HeadCell>Validación de Control</Table.HeadCell>
@@ -165,7 +193,9 @@ const Header = ({ level }) => {
 			)}
 			{level === 3 && (
 				<>
-					{!selected3 && <Table.HeadCell>Comentarios de Coordinación</Table.HeadCell>}
+					{!selected3 && (
+						<Table.HeadCell>Comentarios de Coordinación</Table.HeadCell>
+					)}
 					<Table.HeadCell>Cumplimiento #</Table.HeadCell>
 					{selected3 && <Table.HeadCell>Fecha N</Table.HeadCell>}
 					<Table.HeadCell>Validación de Control</Table.HeadCell>
@@ -201,7 +231,9 @@ const Row = ({ level, index, type }) => {
 						disabled={level > 1}
 					/>
 
-					<i className={`pi ${selected ? "pi-check swap-on " : "pi-times swap-off "}`} />
+					<i
+						className={`pi ${selected ? "pi-check swap-on " : "pi-times swap-off "}`}
+					/>
 				</Label>
 			</Table.Cell>
 			{selected && (
@@ -344,7 +376,9 @@ export default function Create({ options, level = 3 }) {
 	return (
 		<Card>
 			<h5 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
-				{type === "comercial" ? "Revisión Comercial" : "Revisión Justipreciación"}
+				{type === "comercial"
+					? "Revisión Comercial"
+					: "Revisión Justipreciación"}
 			</h5>
 			<p className="mb-5 text-base text-gray-500 dark:text-gray-400 sm:text-lg inline-flex items-center justify-between">
 				<div className="flex flex-row gap-2 mt-1">
@@ -383,7 +417,9 @@ export default function Create({ options, level = 3 }) {
 						<span className="p-float-label max-w-md flex-col w-80">
 							<InputText
 								id="valuador"
-								value={"Einar Jhordany Serna Valdivia (eserna@guanajuato.gob.mx)"}
+								value={
+									"Einar Jhordany Serna Valdivia (eserna@guanajuato.gob.mx)"
+								}
 								className="w-full max-w-xs input input-sm  input-bordered"
 								disabled
 							/>

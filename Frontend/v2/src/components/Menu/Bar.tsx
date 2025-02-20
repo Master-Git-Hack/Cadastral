@@ -1,7 +1,16 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef, HTMLAttributes } from "react";
-import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons";
+import {
+	forwardRef,
+	ElementRef,
+	ComponentPropsWithoutRef,
+	HTMLAttributes,
+} from "react";
+import {
+	CheckIcon,
+	ChevronRightIcon,
+	DotFilledIcon,
+} from "@radix-ui/react-icons";
 import {
 	Menu,
 	Group,
@@ -33,18 +42,19 @@ const MenubarSub = Sub;
 
 const MenubarRadioGroup = RadioGroup;
 
-const Menubar = forwardRef<ElementRef<typeof Root>, ComponentPropsWithoutRef<typeof Root>>(
-	({ className, ...props }, ref) => (
-		<Root
-			ref={ref}
-			className={cn(
-				"flex h-9 items-center space-x-1 rounded-md border border-zinc-200 bg-white p-1 shadow-sm dark:border-zinc-800 dark:bg-zinc-950",
-				className,
-			)}
-			{...props}
-		/>
-	),
-);
+const Menubar = forwardRef<
+	ElementRef<typeof Root>,
+	ComponentPropsWithoutRef<typeof Root>
+>(({ className, ...props }, ref) => (
+	<Root
+		ref={ref}
+		className={cn(
+			"flex h-9 items-center space-x-1 rounded-md border border-zinc-200 bg-white p-1 shadow-sm dark:border-zinc-800 dark:bg-zinc-950",
+			className,
+		)}
+		{...props}
+	/>
+));
 Menubar.displayName = Root.displayName;
 
 const MenubarTrigger = forwardRef<
@@ -101,21 +111,26 @@ MenubarSubContent.displayName = SubContent.displayName;
 const MenubarContent = forwardRef<
 	ElementRef<typeof Content>,
 	ComponentPropsWithoutRef<typeof Content>
->(({ className, align = "start", alignOffset = -4, sideOffset = 8, ...props }, ref) => (
-	<Portal>
-		<Content
-			ref={ref}
-			align={align}
-			alignOffset={alignOffset}
-			sideOffset={sideOffset}
-			className={cn(
-				"z-50 min-w-[12rem] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 text-zinc-950 shadow-md data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50",
-				className,
-			)}
-			{...props}
-		/>
-	</Portal>
-));
+>(
+	(
+		{ className, align = "start", alignOffset = -4, sideOffset = 8, ...props },
+		ref,
+	) => (
+		<Portal>
+			<Content
+				ref={ref}
+				align={align}
+				alignOffset={alignOffset}
+				sideOffset={sideOffset}
+				className={cn(
+					"z-50 min-w-[12rem] overflow-hidden rounded-md border border-zinc-200 bg-white p-1 text-zinc-950 shadow-md data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50",
+					className,
+				)}
+				{...props}
+			/>
+		</Portal>
+	),
+);
 MenubarContent.displayName = Content.displayName;
 
 const MenubarItem = forwardRef<
@@ -189,7 +204,11 @@ const MenubarLabel = forwardRef<
 >(({ className, inset, ...props }, ref) => (
 	<Label
 		ref={ref}
-		className={cn("px-2 py-1.5 text-sm font-semibold", inset && "pl-8", className)}
+		className={cn(
+			"px-2 py-1.5 text-sm font-semibold",
+			inset && "pl-8",
+			className,
+		)}
 		{...props}
 	/>
 ));
@@ -207,7 +226,10 @@ const MenubarSeparator = forwardRef<
 ));
 MenubarSeparator.displayName = Separator.displayName;
 
-const MenubarShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => {
+const MenubarShortcut = ({
+	className,
+	...props
+}: HTMLAttributes<HTMLSpanElement>) => {
 	return (
 		<span
 			className={cn(

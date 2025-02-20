@@ -50,7 +50,10 @@ export const Comparable = ({
 	const [properties, setProperties] = useState(false);
 	const [showProperties, setShowProperties] = useState(false);
 
-	const handleCommonChanges = (key: string, value: number | string | boolean) => {
+	const handleCommonChanges = (
+		key: string,
+		value: number | string | boolean,
+	) => {
 		dispatch(setValues({ id: id - 1, key, value }));
 	};
 
@@ -250,7 +253,15 @@ export const Comparable = ({
 			{showProperties && (
 				<>
 					<Row className="my-2">
-						<Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12} className="my-2">
+						<Col
+							xs={12}
+							sm={12}
+							md={12}
+							lg={12}
+							xl={12}
+							xxl={12}
+							className="my-2"
+						>
 							<Select
 								label="Tipo de página"
 								searchable={false}
@@ -285,7 +296,9 @@ export const Comparable = ({
 								step={100}
 								value={dpi}
 								customTooltip={(value: number) => value}
-								onChange={(value: number) => handlerMoreProperties("dpi", value)}
+								onChange={(value: number) =>
+									handlerMoreProperties("dpi", value)
+								}
 							/>
 						</Col>
 					</Row>
@@ -395,7 +408,15 @@ export const Comparable = ({
 				</>
 			)}
 			<Row className="mt-5">
-				<Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24} className="text-end">
+				<Col
+					xs={24}
+					sm={24}
+					md={24}
+					lg={24}
+					xl={24}
+					xxl={24}
+					className="text-end"
+				>
 					<PopPanel
 						size="full"
 						btnAppearance="primary"

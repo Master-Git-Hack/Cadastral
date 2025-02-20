@@ -10,10 +10,13 @@ const options = [
 	{ label: "pza", value: "pza" },
 ];
 
-export const SelectUnit = ({ currentItem, onSelect }: SelectUnitProps)=> (
+export const SelectUnit = ({ currentItem, onSelect }: SelectUnitProps) => (
 	<Custom
 		block
-		data={options.map(option => ({ label: option.label, value: <span>{option.value}</span> }))}
+		data={options.map((option) => ({
+			label: option.label,
+			value: <span>{option.value}</span>,
+		}))}
 		placement="autoHorizontalStart"
 		value={currentItem}
 		onSelect={(eventKey: string, event: any) => onSelect(eventKey)}

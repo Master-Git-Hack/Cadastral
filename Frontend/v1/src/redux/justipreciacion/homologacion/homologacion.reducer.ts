@@ -5,7 +5,12 @@ import { commercial } from "./../../../types/justipreciacion/homologacion/factor
 
 import { PayloadAction } from "@reduxjs/toolkit";
 
-import { addRowFN, updateValuesFN, rmRowFN, positions } from "./homologacion.actions";
+import {
+	addRowFN,
+	updateValuesFN,
+	rmRowFN,
+	positions,
+} from "./homologacion.actions";
 import { StateProps } from "./homologacion.interface";
 
 export const reducers = {
@@ -22,14 +27,20 @@ export const reducers = {
 		state.documentation = documentation;
 		state = updateValuesFN(state);
 	},
-	addRowLocZone: (state: StateProps, { payload: { key } }: PayloadAction<any>) => {
+	addRowLocZone: (
+		state: StateProps,
+		{ payload: { key } }: PayloadAction<any>,
+	) => {
 		const { factors, handlers } = state;
 		const { insertionSubject } = handlers[key];
 		const { subject } = factors[key];
 		factors[key].subject = insertionSubject(subject);
 		state = updateValuesFN(state);
 	},
-	rmRowLocZone: (state: StateProps, { payload: { key } }: PayloadAction<any>) => {
+	rmRowLocZone: (
+		state: StateProps,
+		{ payload: { key } }: PayloadAction<any>,
+	) => {
 		const { factors } = state;
 		const { subject } = factors[key];
 
@@ -62,7 +73,10 @@ export const reducers = {
 			state = updateValuesFN(state);
 		}
 	},
-	updateCommonSubject: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	updateCommonSubject: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { factors } = state;
 		if (key !== undefined && value !== undefined) {
 			factors[key].subject = value;
@@ -140,7 +154,10 @@ export const reducers = {
 			state = updateValuesFN(state);
 		}
 	},
-	setAgeSubject: (state: StateProps, { payload: { value } }: PayloadAction<any>) => {
+	setAgeSubject: (
+		state: StateProps,
+		{ payload: { value } }: PayloadAction<any>,
+	) => {
 		const {
 			factors: { Age },
 			handlers: {
@@ -154,7 +171,10 @@ export const reducers = {
 			state = updateValuesFN(state);
 		}
 	},
-	setAgeData: (state: StateProps, { payload: { index, value } }: PayloadAction<any>) => {
+	setAgeData: (
+		state: StateProps,
+		{ payload: { index, value } }: PayloadAction<any>,
+	) => {
 		const {
 			factors: { Age },
 			handlers: {
@@ -168,7 +188,10 @@ export const reducers = {
 			state = updateValuesFN(state);
 		}
 	},
-	setAreaSubject: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	setAreaSubject: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { subject } = state.documentation.Area;
 		if (key !== undefined && value !== undefined) subject[key] = value;
 		state = updateValuesFN(state);
@@ -183,19 +206,28 @@ export const reducers = {
 
 		state = updateValuesFN(state);
 	},
-	setAreaAverageLotArea: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	setAreaAverageLotArea: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { averageLotArea } = state.documentation.Area;
 		if (key !== undefined && value !== undefined) averageLotArea[key] = value;
 		state = updateValuesFN(state);
 	},
-	setAreaData: (state: StateProps, { payload: { index, key, value } }: PayloadAction<any>) => {
+	setAreaData: (
+		state: StateProps,
+		{ payload: { index, key, value } }: PayloadAction<any>,
+	) => {
 		const { data } = state.documentation.Area;
 
 		if (index !== undefined && key !== undefined && value !== undefined)
 			data[index][key] = value;
 		state = updateValuesFN(state);
 	},
-	setAreaAddress: (state: StateProps, { payload: { index, key, value } }: PayloadAction<any>) => {
+	setAreaAddress: (
+		state: StateProps,
+		{ payload: { index, key, value } }: PayloadAction<any>,
+	) => {
 		const { data } = state.documentation.Area;
 		if (index !== undefined && key !== undefined && value !== undefined)
 			data[index].address[key] = value;
@@ -215,10 +247,14 @@ export const reducers = {
 		{ payload: { index, value } }: PayloadAction<any>,
 	) => {
 		const { data } = state.documentation.Area;
-		if (index !== undefined && value !== undefined) data[index].address.extras.document = value;
+		if (index !== undefined && value !== undefined)
+			data[index].address.extras.document = value;
 		state = updateValuesFN(state);
 	},
-	setSurfaceRoot: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	setSurfaceRoot: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { root } = state.factors.Surface;
 		if (key !== undefined && value !== undefined) root[key] = value;
 		state = updateValuesFN(state);
@@ -250,7 +286,10 @@ export const reducers = {
 			data[index][key] = value;
 		state = updateValuesFN(state);
 	},
-	setPercentageTotal: (state: StateProps, { payload: { value } }: PayloadAction<any>) => {
+	setPercentageTotal: (
+		state: StateProps,
+		{ payload: { value } }: PayloadAction<any>,
+	) => {
 		const { weightingPercentage } = state.documentation;
 		if (value !== undefined) weightingPercentage.total = value;
 		state = updateValuesFN(state);
@@ -260,48 +299,72 @@ export const reducers = {
 		if (payload !== undefined) documentation.observations = payload;
 		state = updateValuesFN(state);
 	},
-	setIndivisoVisibility: (state: StateProps, { payload }: PayloadAction<boolean>) => {
+	setIndivisoVisibility: (
+		state: StateProps,
+		{ payload }: PayloadAction<boolean>,
+	) => {
 		const { ReFactor } = state.documentation;
 		ReFactor.isUsed = payload ?? false;
 		state = updateValuesFN(state);
 	},
-	setRoundedTo: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	setRoundedTo: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { roundedTo } = state.documentation.SalesCost.averageUnitCost;
 		if (key !== undefined && value !== undefined) roundedTo[key] = value;
 
 		state = updateValuesFN(state);
 	},
-	setRoundedResult: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	setRoundedResult: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { roundedResult } = state.documentation.SalesCost.averageUnitCost;
 		if (key !== undefined && value !== undefined) roundedResult[key] = value;
 		state = updateValuesFN(state);
 	},
-	setReFactorRoot: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	setReFactorRoot: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { root } = state.documentation.ReFactor;
 		if (key !== undefined && value !== undefined) root[key] = value;
 		state = updateValuesFN(state);
 	},
-	setReFactorSurface: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	setReFactorSurface: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { surface } = state.documentation.ReFactor;
 		if (key !== undefined && value !== undefined) surface[key] = value;
 		state = updateValuesFN(state);
 	},
-	setReFactorForm: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	setReFactorForm: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { form } = state.documentation.ReFactor;
 		if (key !== undefined && value !== undefined) form[key] = value;
 		state = updateValuesFN(state);
 	},
-	setIndiviso: (state: StateProps, { payload: { key, value } }: PayloadAction<any>) => {
+	setIndiviso: (
+		state: StateProps,
+		{ payload: { key, value } }: PayloadAction<any>,
+	) => {
 		const { Indiviso } = state.documentation;
 		if (key !== undefined && value !== undefined) Indiviso[key] = value;
 		state = updateValuesFN(state);
 	},
-	setOther:(state: StateProps, { payload: { id, value } }: PayloadAction<any>) => {
-		const { data } = state.factors.Other
+	setOther: (
+		state: StateProps,
+		{ payload: { id, value } }: PayloadAction<any>,
+	) => {
+		const { data } = state.factors.Other;
 		if (id !== undefined && value !== undefined) {
 			const index = data.findIndex((item: any) => item.id === id);
-			state.factors.Other.data[index].result=value;
+			state.factors.Other.data[index].result = value;
 		}
 		state = updateValuesFN(state);
-	}
+	},
 };

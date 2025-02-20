@@ -2,5 +2,5 @@
 
 /** @format */
 export interface NavbarProps {
-	children: React.ReactNode|React.ReactNode[];
+	children: React.ReactNode | React.ReactNode[];
 }

@@ -1,6 +1,12 @@
 /** @format */
 
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 
 import {
 	Select,
@@ -27,7 +33,8 @@ export const Section3 = ({ editable = true }: any) => {
 			<TableHeader>
 				<TableHead colSpan={1}>3</TableHead>
 				<TableHead className="text-center title" colSpan={11}>
-					Unidad del estado responsable del conjunto de datos espaciales o producto
+					Unidad del estado responsable del conjunto de datos espaciales o
+					producto
 				</TableHead>
 			</TableHeader>
 			<TableBody>

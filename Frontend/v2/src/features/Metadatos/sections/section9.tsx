@@ -21,7 +21,8 @@ export const Section9 = ({ data, setData, editable }: any) => {
 	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
 	const findSelectValue = (name: string) => {
 		const [code] = String(data[name] ?? "")?.split(".");
-		if (name === "inf_metadata_ci_responsibleparty_role") name = "ci_responsibleparty_role";
+		if (name === "inf_metadata_ci_responsibleparty_role")
+			name = "ci_responsibleparty_role";
 		return catalogo?.[name]?.find((item) => item.code === code);
 	};
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
@@ -53,7 +54,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.1
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Nombre del estándar de metadatos
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -76,7 +80,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.3
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Idioma de los metadatos
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -92,7 +99,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.2
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Nombre de la organización
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -115,7 +125,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.4
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Teléfono
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -138,7 +151,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.6
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Dirección
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -161,7 +177,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.7
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Ciudad
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -184,7 +203,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.8
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Área administrativa
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -199,7 +221,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.9
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Área administrativa
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -214,7 +239,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.9
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Código postal
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -237,7 +265,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.10
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						País
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -260,7 +291,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.11
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Dirección de correo electrónico del contacto
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -283,7 +317,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.4.12
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Rol
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -322,7 +359,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.5
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Fecha de Publicación
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">
@@ -337,7 +377,10 @@ export const Section9 = ({ data, setData, editable }: any) => {
 					>
 						9.6
 					</Table.Cell>
-					<Table.Cell colSpan={2} className=" text-black dark:text-white w-2/12">
+					<Table.Cell
+						colSpan={2}
+						className=" text-black dark:text-white w-2/12"
+					>
 						Conjunto de caracteres
 					</Table.Cell>
 					<Table.Cell colSpan={9} className=" w-9/12">

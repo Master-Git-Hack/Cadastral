@@ -44,7 +44,10 @@ const totalRows = (data: any): any =>
 		};
 	});
 const getTotal = (data: any): number =>
-	data.reduce((previous: number, current: any) => previous + Number(current.total), 0);
+	data.reduce(
+		(previous: number, current: any) => previous + Number(current.total),
+		0,
+	);
 
 export const name = "CostosConstruccion";
 export const consume = api(name);

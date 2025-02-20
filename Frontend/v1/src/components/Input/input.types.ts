@@ -6,7 +6,9 @@ export interface Input {
 	index?: number;
 	name: string;
 	label: string;
-	onChange: ChangeEventHandler<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
+	onChange: ChangeEventHandler<
+		HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+	>;
 	className?: string;
 }
 export interface TextProps {

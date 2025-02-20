@@ -16,7 +16,10 @@ import {
 	IIndicator,
 	indicadores,
 } from "@api/Municipios/types";
-export default function useMunicipios({ type, municipio: param }: IuseMunicipios) {
+export default function useMunicipios({
+	type,
+	municipio: param,
+}: IuseMunicipios) {
 	const {
 		data: dataMunicipios,
 		error: errorMunicipios,
@@ -50,14 +53,23 @@ export default function useMunicipios({ type, municipio: param }: IuseMunicipios
 	const [municipios, setMunicipios] = useState<IMunicipio[] | null>(null);
 	const [municipio, setMunicipio] = useState<IMunicipio | null>(null);
 	const [indicadores, setIndicadores] = useState<IIndicator[] | null>(null);
-	const [rawIndicadores, setRawIndicadores] = useState<IIndicador[] | null>(null);
-	const [departamentos, setDepartamentos] = useState<IDepartamentoSolicitante[] | null>(null);
+	const [rawIndicadores, setRawIndicadores] = useState<IIndicador[] | null>(
+		null,
+	);
+	const [departamentos, setDepartamentos] = useState<
+		IDepartamentoSolicitante[] | null
+	>(null);
 
 	useEffect(() => {
 		if (municipiosIsLoading || municipiosIsFetching) setMunicipios([]);
 		if (dataMunicipios) setMunicipios(dataMunicipios?.data ?? dataMunicipios);
 		if (errorMunicipios) setMunicipios(null);
-	}, [dataMunicipios, errorMunicipios, municipiosIsLoading, municipiosIsFetching]);
+	}, [
+		dataMunicipios,
+		errorMunicipios,
+		municipiosIsLoading,
+		municipiosIsFetching,
+	]);
 	useEffect(() => {
 		if (municipioIsLoading || municipioIsFetching) setMunicipio({});
 		if (dataMunicipio) setMunicipio(dataMunicipio?.data ?? dataMunicipio);
@@ -67,17 +79,34 @@ export default function useMunicipios({ type, municipio: param }: IuseMunicipios
 		if (indicatorIsLoading || indicatorIsFetching) setIndicadores([]);
 		if (dataIndicators) setIndicadores(dataIndicators?.data ?? dataIndicators);
 		if (errorIndicators) setIndicadores(null);
-	}, [dataIndicators, errorIndicators, indicatorIsLoading, indicatorIsFetching]);
+	}, [
+		dataIndicators,
+		errorIndicators,
+		indicatorIsLoading,
+		indicatorIsFetching,
+	]);
 	useEffect(() => {
 		if (rawIndicatorIsLoading || rawIndicatorIsFetching) setRawIndicadores([]);
-		if (dataRawIndicators) setRawIndicadores(dataRawIndicators?.data ?? dataRawIndicators);
+		if (dataRawIndicators)
+			setRawIndicadores(dataRawIndicators?.data ?? dataRawIndicators);
 		if (errorRawIndicators) setRawIndicadores(null);
-	}, [dataRawIndicators, errorRawIndicators, rawIndicatorIsLoading, rawIndicatorIsFetching]);
+	}, [
+		dataRawIndicators,
+		errorRawIndicators,
+		rawIndicatorIsLoading,
+		rawIndicatorIsFetching,
+	]);
 	useEffect(() => {
 		if (departamentoIsLoading || departamentoIsFetching) setDepartamentos([]);
-		if (dataDepartamentos) setDepartamentos(dataDepartamentos?.data ?? dataDepartamentos);
+		if (dataDepartamentos)
+			setDepartamentos(dataDepartamentos?.data ?? dataDepartamentos);
 		if (errorDepartamentos) setDepartamentos(null);
-	}, [dataDepartamentos, errorDepartamentos, departamentoIsLoading, departamentoIsFetching]);
+	}, [
+		dataDepartamentos,
+		errorDepartamentos,
+		departamentoIsLoading,
+		departamentoIsFetching,
+	]);
 	if (type === Type.municipios) {
 		return {
 			data: municipios,

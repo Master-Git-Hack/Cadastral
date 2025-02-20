@@ -3,7 +3,7 @@
 export interface TooltipProps {
 	id: string;
 	children: any;
-	tooltip: React.ReactNode|React.ReactNode[];
+	tooltip: React.ReactNode | React.ReactNode[];
 	trigger?: "click" | "contextMenu" | "hover" | "focus" | "active" | "none";
 	delay?: number;
 	followCursor?: boolean;

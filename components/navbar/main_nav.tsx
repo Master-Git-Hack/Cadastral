@@ -31,13 +31,19 @@ export const routes = [
 		avatar: "RA",
 	},
 ];
-export default function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
+export default function MainNav({
+	className,
+	...props
+}: React.HTMLAttributes<HTMLElement>) {
 	const pathname = usePathname();
 	if (pathname === "/" || pathname === "/home") {
 		return <></>;
 	}
 	return (
-		<nav className={cn("flex items-center space-x-4 lg:space-x-6", className)} {...props}>
+		<nav
+			className={cn("flex items-center space-x-4 lg:space-x-6", className)}
+			{...props}
+		>
 			{routes.map(({ label, href }) => (
 				<Link
 					key={label}

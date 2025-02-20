@@ -1,10 +1,16 @@
 /** @format */
 
-
 /** @format */
 
 export interface ModalProps {
-	type?: "danger" | "success" | "warning" | "info" | "primary" | "secondary" | "orange";
+	type?:
+		| "danger"
+		| "success"
+		| "warning"
+		| "info"
+		| "primary"
+		| "secondary"
+		| "orange";
 	appearance?: "default" | "primary" | "link" | "light" | "outline";
 	btnSize?: "xs" | "sm" | "md" | "lg";
 	size?: "full" | "lg" | "md" | "sm" | "xs";
@@ -14,5 +20,5 @@ export interface ModalProps {
 	setEditable: (checked: boolean) => void;
 	comment: string;
 	setComment: (value: string) => void;
-	children: React.ReactNode|React.ReactNode[];
+	children: React.ReactNode | React.ReactNode[];
 }

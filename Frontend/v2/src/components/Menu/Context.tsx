@@ -1,6 +1,11 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef, HTMLAttributes } from "react";
+import {
+	forwardRef,
+	ElementRef,
+	ComponentPropsWithoutRef,
+	HTMLAttributes,
+} from "react";
 import {
 	Group,
 	Portal,
@@ -18,7 +23,11 @@ import {
 	Separator,
 	ItemIndicator,
 } from "@radix-ui/react-context-menu";
-import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons";
+import {
+	CheckIcon,
+	ChevronRightIcon,
+	DotFilledIcon,
+} from "@radix-ui/react-icons";
 
 import { cn } from "@lib/utils/ui";
 
@@ -180,7 +189,10 @@ const ContextMenuSeparator = forwardRef<
 ));
 ContextMenuSeparator.displayName = Separator.displayName;
 
-const ContextMenuShortcut = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => {
+const ContextMenuShortcut = ({
+	className,
+	...props
+}: HTMLAttributes<HTMLSpanElement>) => {
 	return (
 		<span
 			className={cn(

@@ -1,18 +1,25 @@
 /** @format */
 
 import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react";
-import { Root, Item, Trigger, Header, Content } from "@radix-ui/react-accordion";
+import {
+	Root,
+	Item,
+	Trigger,
+	Header,
+	Content,
+} from "@radix-ui/react-accordion";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@lib/utils/ui";
 
 const Accordion = Root;
 
-const AccordionItem = forwardRef<ElementRef<typeof Item>, ComponentPropsWithoutRef<typeof Item>>(
-	({ className, ...props }, ref) => (
-		<Item ref={ref} className={cn("border-b", className)} {...props} />
-	),
-);
+const AccordionItem = forwardRef<
+	ElementRef<typeof Item>,
+	ComponentPropsWithoutRef<typeof Item>
+>(({ className, ...props }, ref) => (
+	<Item ref={ref} className={cn("border-b", className)} {...props} />
+));
 AccordionItem.displayName = "AccordionItem";
 
 const AccordionTrigger = forwardRef<

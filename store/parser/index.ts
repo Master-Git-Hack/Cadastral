@@ -33,7 +33,8 @@ const useParser = create<IParserState & IParserActions>()(
 			},
 			jsonToXml: async (json: any, filename: string) => {},
 
-			clearFile: () => set({ file: null, filename: null, fileType: null, data: {} }),
+			clearFile: () =>
+				set({ file: null, filename: null, fileType: null, data: {} }),
 
 			setFile: (file: File | File[]) =>
 				set({

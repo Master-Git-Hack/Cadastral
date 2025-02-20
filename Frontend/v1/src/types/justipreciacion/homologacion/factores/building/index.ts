@@ -58,7 +58,7 @@ import { FactorsProps } from "../";
 // ANTIGUO ECONÓMICO	0.92
 // ANTIGUO PRECARIO	0.90
 // MIXTAS	0.88
-const options=[
+const options = [
 	{
 		label: "MODERNO SUPERIOR",
 		value: 1.08,
@@ -102,8 +102,8 @@ const options=[
 	{
 		label: "MIXTAS",
 		value: 0.88,
-	}
-]
+	},
+];
 const template = (id: number) => ({
 	id,
 	...options[0],
@@ -115,7 +115,7 @@ const initialState: FactorsProps = {
 	isUsed: false,
 	position: 0,
 	subject: options[0],
-	data: [template(1),template(2),template(3),template(4)],
+	data: [template(1), template(2), template(3), template(4)],
 };
 export const building = {
 	options,

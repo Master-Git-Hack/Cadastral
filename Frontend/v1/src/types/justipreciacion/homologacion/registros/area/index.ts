@@ -35,8 +35,10 @@ const template = (id: number, type: string) => ({
 });
 
 const operationAverageLotArea = (data: any) =>
-	data.reduce((previous: number, current: any) => previous + Number(current.value), 0) /
-	data.length;
+	data.reduce(
+		(previous: number, current: any) => previous + Number(current.value),
+		0,
+	) / data.length;
 const findLocation = (id: string, disctrict: any) =>
 	disctrict.find((location: any) => location.id === Number(id));
 
@@ -70,12 +72,16 @@ const initialState = (type: string): AreaProps => ({
 	name: type.includes("TERRENO") ? "Áreas " : "Sup. Const ",
 	tag: type.includes("TERRENO") ? "Área de Lote Moda" : "Superficie del sujeto",
 	averageLotArea: {
-		name: type.includes("TERRENO") ? "SUPERFICIE LOTE MODA" : "SUPERFICIE DEL COMPARABLE",
+		name: type.includes("TERRENO")
+			? "SUPERFICIE LOTE MODA"
+			: "SUPERFICIE DEL COMPARABLE",
 		value: 1,
 		surface: 1,
 	},
 	subject: {
-		name: type.includes("TERRENO") ? "SUPERFICIE TOTAL DEL TERRENO" : "SUPERFICIE DEL SUJETO",
+		name: type.includes("TERRENO")
+			? "SUPERFICIE TOTAL DEL TERRENO"
+			: "SUPERFICIE DEL SUJETO",
 		value:
 			Number(
 				type.includes("TERRENO")
@@ -88,7 +94,12 @@ const initialState = (type: string): AreaProps => ({
 			{ id: 2, type: "totalPopulation", root: 12 },
 		],
 	},
-	data: [template(1, type),template(2, type),template(3, type),template(4, type)],
+	data: [
+		template(1, type),
+		template(2, type),
+		template(3, type),
+		template(4, type),
+	],
 });
 export const area = {
 	operationAverageLotArea,

@@ -54,7 +54,7 @@ export const Danger = ({
 	loading,
 	size,
 	onClick,
-}: ButtonProps)=> (
+}: ButtonProps) => (
 	<Component
 		color={colorPicker["danger"]}
 		appearance={appearancePicker[appearance ?? "link"]}

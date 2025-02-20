@@ -9,7 +9,10 @@ import { Fancy } from "../../../../../../components/Input/Fancy";
 import { Component } from "../../../../../../components/Table";
 import { Tooltip } from "../../../../../../components/Tooltip";
 import { useAppDispatch, useAppSelector } from "../../../../../../redux";
-import { getJustipreciacion, setInitialState } from "../../../../../../redux/justipreciacion";
+import {
+	getJustipreciacion,
+	setInitialState,
+} from "../../../../../../redux/justipreciacion";
 import {
 	getHomologaciones,
 	setAreaData,
@@ -27,7 +30,9 @@ const Header = ({ type, tag, name, percentage }: HeaderProps) => {
 	return (
 		<tr>
 			<th>#</th>
-			<th className={className}>{type ? tag : <M2 text={<>Sup. Terreno ($ / </>} />})</th>
+			<th className={className}>
+				{type ? tag : <M2 text={<>Sup. Terreno ($ / </>} />})
+			</th>
 			<th className={className}>
 				{name}(<M2 />)
 			</th>
@@ -41,7 +46,11 @@ const Header = ({ type, tag, name, percentage }: HeaderProps) => {
 					Ponderación
 					<Badge
 						type={
-							percentage === 100 ? "success" : percentage > 100 ? "danger" : "warning"
+							percentage === 100
+								? "success"
+								: percentage > 100
+									? "danger"
+									: "warning"
 						}
 						text={asFancyNumber(percentage, { isPercentage: true })}
 					/>
@@ -76,12 +85,12 @@ const Body = ({
 										index,
 										key: "value",
 										value: !isNaN(valueAsNumber) ? valueAsNumber : 0,
-								  })
+									})
 								: setAreaData({
 										index,
 										key: "surface",
 										value: !isNaN(valueAsNumber) ? valueAsNumber : 0,
-								  }),
+									}),
 						);
 					}}
 					isCurrency={type}
@@ -105,7 +114,9 @@ const Body = ({
 					classNameDecorator="text-center bg-light"
 				/>
 			</td>
-			<td>{asFancyNumber(salesCost[index].unitaryCost, { isCurrency: true })}</td>
+			<td>
+				{asFancyNumber(salesCost[index].unitaryCost, { isCurrency: true })}
+			</td>
 			<td>
 				<Tooltip
 					id={`surface factor ${index}`}
@@ -119,7 +130,9 @@ const Body = ({
 						</>
 					}
 				>
-					<div id={`surface factor ${index}`}>{asFancyNumber(surface[index].value)}</div>
+					<div id={`surface factor ${index}`}>
+						{asFancyNumber(surface[index].value)}
+					</div>
 				</Tooltip>
 			</td>
 			<td>
@@ -160,7 +173,12 @@ const Body = ({
 		</tr>
 	));
 };
-export const Footer = ({ type, subject, surface, averageLotArea }: FooterProps) => {
+export const Footer = ({
+	type,
+	subject,
+	surface,
+	averageLotArea,
+}: FooterProps) => {
 	const dispatch = useAppDispatch();
 	const { cna_edad, cna_superficie } = useAppSelector(getJustipreciacion);
 	useEffect(() => {
@@ -178,7 +196,7 @@ export const Footer = ({ type, subject, surface, averageLotArea }: FooterProps) 
 	return (
 		<tr>
 			<td colSpan={type ? 2 : 1}>SUJETO</td>
-			
+
 			<Fancy
 				name=""
 				label=""
@@ -193,7 +211,7 @@ export const Footer = ({ type, subject, surface, averageLotArea }: FooterProps) 
 				}}
 				classNameDecorator="text-center bg-light"
 			/>
-		
+
 			<td>
 				<M2 text={asFancyNumber(averageLotArea)} />
 			</td>
@@ -265,7 +283,11 @@ export const Calculation = () => {
 	useEffect(() => {
 		if (subject.value !== cna_superficie) {
 			dispatch(
-				setInitialState({ type: record.type, cna_superficie: subject.value, cna_edad }),
+				setInitialState({
+					type: record.type,
+					cna_superficie: subject.value,
+					cna_edad,
+				}),
 			);
 		}
 	}, [subject.value]);

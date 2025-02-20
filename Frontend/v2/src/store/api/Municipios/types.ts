@@ -44,7 +44,9 @@ const translate = ({
 	populationDensity: densidad_poblacion,
 	totalPopulation: poblacion_total,
 });
-export const translateIndicador = (data: IIndicador | IIndicador[]): IIndicator | IIndicator[] => {
+export const translateIndicador = (
+	data: IIndicador | IIndicador[],
+): IIndicator | IIndicator[] => {
 	if (Array.isArray(data)) {
 		return data.map(translate);
 	}

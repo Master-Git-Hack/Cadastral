@@ -1,6 +1,11 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef, HTMLAttributes } from "react";
+import {
+	forwardRef,
+	ElementRef,
+	ComponentPropsWithoutRef,
+	HTMLAttributes,
+} from "react";
 import {
 	Root,
 	Trigger,
@@ -64,31 +69,47 @@ const DialogContent = forwardRef<
 ));
 DialogContent.displayName = Content.displayName;
 
-const DialogHeader = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
+const DialogHeader = ({
+	className,
+	...props
+}: HTMLAttributes<HTMLDivElement>) => (
 	<div
-		className={cn("flex flex-col space-y-1.5 text-center sm:text-left", className)}
+		className={cn(
+			"flex flex-col space-y-1.5 text-center sm:text-left",
+			className,
+		)}
 		{...props}
 	/>
 );
 DialogHeader.displayName = "DialogHeader";
 
-const DialogFooter = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
+const DialogFooter = ({
+	className,
+	...props
+}: HTMLAttributes<HTMLDivElement>) => (
 	<div
-		className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className)}
+		className={cn(
+			"flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+			className,
+		)}
 		{...props}
 	/>
 );
 DialogFooter.displayName = "DialogFooter";
 
-const DialogTitle = forwardRef<ElementRef<typeof Title>, ComponentPropsWithoutRef<typeof Title>>(
-	({ className, ...props }, ref) => (
-		<Title
-			ref={ref}
-			className={cn("text-lg font-semibold leading-none tracking-tight", className)}
-			{...props}
-		/>
-	),
-);
+const DialogTitle = forwardRef<
+	ElementRef<typeof Title>,
+	ComponentPropsWithoutRef<typeof Title>
+>(({ className, ...props }, ref) => (
+	<Title
+		ref={ref}
+		className={cn(
+			"text-lg font-semibold leading-none tracking-tight",
+			className,
+		)}
+		{...props}
+	/>
+));
 DialogTitle.displayName = Title.displayName;
 
 const DialogDescription = forwardRef<
