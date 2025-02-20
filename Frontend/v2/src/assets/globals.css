@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--font-family);
+}                                        
+ 
+html {
+  scroll-behavior: smooth;
+}
+.bg-navbar{
+    background: rgb(204, 204, 176);
+}
+.bg-login{
+    background-image:url('./gto.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    filter: blur(px);
+
+}
