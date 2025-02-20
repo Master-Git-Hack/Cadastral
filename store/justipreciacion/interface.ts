@@ -1,63 +1,67 @@
 /** @format */
 
-enum TipoJustipreciacion {
-	TERRENO = "terreno",
-	RENTA = "renta",
-}
-enum TipoJustipreciacionValue {
-	TERRENO = 0,
-	RENTA = 1,
-}
-export interface IJustipreciacionState {
+import {Tipo} from "../homologación/factores/base";
+
+
+export type SPKeys = `sp${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`;
+export type CNKeys =
+	`cn${"a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j"}`;
+
+export interface IJustipreciacionState
+	extends Partial<
+			Record<SPKeys, { vu?: number; factor?: number; superficie?: number }>
+		>,
+		Partial<
+			Record<CNKeys, { edad?: number; superficie?: number; vu?: number }>
+		> {
 	id: number;
-	registro: string;
-
-	sp1_vu?: number;
-	sp1_factor?: number;
-	sp1_superficie?: number;
-
-	sp2_vu?: number;
-	sp2_factor?: number;
-	sp2_superficie?: number;
-
-	sp3_vu?: number;
-	sp3_factor?: number;
-	sp3_superficie?: number;
-
-	sp4_vu?: number;
-	sp4_factor?: number;
-	sp4_superficie?: number;
-
-	comparativo_mercado?: number;
-
-	cna_edad?: number;
-	cna_superficie?: number;
-	justipreciacioncna_vu?: number;
-
-	cnb_edad?: number;
-	cnb_superficie?: number;
-	justipreciacioncnb_vu?: number;
-
-	cnc_edad?: number;
-	cnc_superficie?: number;
-	justipreciacioncnc_vu?: number;
-
-	cnd_edad?: number;
-	cnd_superficie?: number;
-	justipreciacioncnd_vu?: number;
-
-	valor_total_obras_comp?: number;
-	tipo: TipoJustipreciacion | TipoJustipreciacionValue;
+	registro: string | null;
+	tipo: Tipo | keyof typeof Tipo;
+	comparativo_mercado: number;
+	valor_total_obras_comp: number;
 }
+
 export interface IJustipreciacionActions {
 	setJustipreciacion: (justipreciacion: Partial<IJustipreciacionState>) => void;
 	clearJustipreciacion: () => void;
 	getJustipreciacionById: () => void;
 	getJustipreciacionByRegistro: () => void;
 	patchJustipreciacion: () => void;
+	flattenObject<T extends Record<string, any>>(obj: T): Record<string, any>;
 }
-export const defaultState = {
+
+// Estado por defecto
+export const defaultState: IJustipreciacionState = {
 	id: 0,
 	registro: null,
-	tipo: TipoJustipreciacion.TERRENO,
+	tipo: Tipo.TERRENO,
+	sp1: { vu: 0, superficie: 0, factor: 0 },
+	sp2: { vu: 0, superficie: 0, factor: 0 },
+	sp3: { vu: 0, superficie: 0, factor: 0 },
+	sp4: { vu: 0, superficie: 0, factor: 0 },
+	cna: { edad: 0, superficie: 0, vu: 0 },
+	cnb: { edad: 0, superficie: 0, vu: 0 },
+	cnc: { edad: 0, superficie: 0, vu: 0 },
+	cnd: { edad: 0, superficie: 0, vu: 0 },
+	comparativo_mercado: 0,
+	valor_total_obras_comp: 0,
 };
+
+function flattenObject<T extends Record<string, any>>(
+	obj: T,
+): Record<string, any> {
+	const flattened: Record<string, any> = {};
+
+	for (const key in obj) {
+		if (typeof obj[key] === "object" && obj[key] !== null) {
+			for (const subKey in obj[key]) {
+				flattened[`${key}_${subKey}`] = obj[key][subKey];
+			}
+		} else {
+			flattened[key] = obj[key];
+		}
+	}
+
+	return flattened;
+}
+//const flattened = flattenObject(original);
