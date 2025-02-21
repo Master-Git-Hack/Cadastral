@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Toggle } from "rsuite";
-import { SwitchProps } from "./switch.types";
+import type { SwitchProps } from "./switch.types";
 
 export const Switch = ({
 	checked,

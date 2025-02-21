@@ -1,7 +1,12 @@
 /** @format */
-import { useState, forwardRef, useEffect, ChangeEventHandler } from "react";
+import {
+	useState,
+	forwardRef,
+	useEffect,
+	type ChangeEventHandler,
+} from "react";
 import { Dropdown } from "./dropdown";
-import { FileButtonProps } from "./types";
+import type { FileButtonProps } from "./types";
 import { UploadIcon, DownloadIcon, DeleteIcon } from "@assets/icons";
 import FileSaver from "file-saver";
 const emptyFile = [

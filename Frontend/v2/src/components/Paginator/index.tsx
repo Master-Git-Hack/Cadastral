@@ -1,7 +1,7 @@
 /** @format */
 import { Paginator as Component } from "primereact/paginator";
-import { PaginatorProps } from "./types";
-import { ElementRef, forwardRef } from "react";
+import type { PaginatorProps } from "./types";
+import { type ElementRef, forwardRef } from "react";
 
 export const Paginator = forwardRef<
 	ElementRef<typeof Paginator>,

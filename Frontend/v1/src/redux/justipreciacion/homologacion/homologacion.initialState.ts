@@ -2,7 +2,7 @@
 
 import { homologacion } from "../../../types/justipreciacion/homologacion";
 import { getURLParams } from "../../../utils/url";
-import { StateProps, zoneInformation } from "./homologacion.interface";
+import { type StateProps, zoneInformation } from "./homologacion.interface";
 
 const {
 	factors: {

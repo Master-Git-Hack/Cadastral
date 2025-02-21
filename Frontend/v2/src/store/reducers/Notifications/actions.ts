@@ -1,8 +1,12 @@
 /** @format */
 
-import { NotificationState, Notification, NotificationPayload } from "./types";
+import type {
+	NotificationState,
+	Notification,
+	NotificationPayload,
+} from "./types";
 import { v4 as uuidv4 } from "uuid";
-import { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 export const initialState: NotificationState = {
 	notifications: [],

@@ -1,6 +1,6 @@
 /** @format */
 
-import { FactorsProps } from "../";
+import type { FactorsProps } from "../";
 const options = [
 	{
 		label: "URBANO",

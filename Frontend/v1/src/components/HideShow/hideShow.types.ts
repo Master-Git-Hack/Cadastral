@@ -1,2 +1,2 @@
 /** @format */
-export interface HideShowProps {}
+export type HideShowProps = {};

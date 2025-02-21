@@ -18,7 +18,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-import { IMetaTable } from "./types";
+import type { IMetaTable } from "./types";
 import {
 	DropdownMenu,
 	DropdownMenuContent,

@@ -29,7 +29,7 @@ const useParser = create<IParserState & IParserActions>()(
 			xmlToJson: async (file: File) => {
 				const formData = new FormData();
 				formData.append("file", file);
-				return await api.post(`parser?from=xml&to=json`, formData, true, {});
+				return await api.post("parser?from=xml&to=json",formData,true,{});
 			},
 			jsonToXml: async (json: any, filename: string) => {},
 

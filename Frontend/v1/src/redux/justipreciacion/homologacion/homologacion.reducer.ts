@@ -3,7 +3,7 @@
 import { commercial } from "./../../../types/justipreciacion/homologacion/factores/commercial/index";
 /** @format */
 
-import { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 import {
 	addRowFN,
@@ -11,7 +11,7 @@ import {
 	rmRowFN,
 	positions,
 } from "./homologacion.actions";
-import { StateProps } from "./homologacion.interface";
+import type { StateProps } from "./homologacion.interface";
 
 export const reducers = {
 	addRow: (state: StateProps) => {
@@ -58,7 +58,7 @@ export const reducers = {
 				common: { operation },
 			},
 		} = state;
-		for (let key in factors) {
+		for (const key in factors) {
 			if (
 				!key.includes("Commercial") &&
 				!key.includes("Age") &&

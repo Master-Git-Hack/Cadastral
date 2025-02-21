@@ -2,7 +2,7 @@
 
 import { forwardRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { variants, SelectProps } from "./types";
+import { variants, type SelectProps } from "./types";
 import { cn } from "@utils/ui";
 import { Tooltip } from "flowbite-react";
 

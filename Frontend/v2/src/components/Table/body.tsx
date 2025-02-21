@@ -1,6 +1,6 @@
 /** @format */
 
-import { forwardRef, HTMLAttributes } from "react";
+import { forwardRef, type HTMLAttributes } from "react";
 
 import { cn } from "@utils/ui";
 export const Body = forwardRef<

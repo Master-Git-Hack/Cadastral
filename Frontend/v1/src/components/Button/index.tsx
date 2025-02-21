@@ -1,7 +1,7 @@
 /** @format */
 
 import { Button as Component } from "rsuite";
-import { ButtonProps, SaveProps } from "./button.types";
+import type { ButtonProps, SaveProps } from "./button.types";
 import { colorPicker, appearancePicker } from "../../utils/color";
 import { ReactNode } from "react";
 export const Button = ({

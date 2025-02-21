@@ -1,7 +1,7 @@
 /** @format */
 
 import { forwardRef } from "react";
-import { variants, InputProps } from "./types";
+import { variants, type InputProps } from "./types";
 import { cn } from "@utils/ui";
 import { Area } from "./area";
 import { Select } from "./select";

@@ -1,3 +1,3 @@
 /** @format */
 
-export interface ZoneProps {}
+export type ZoneProps = {};

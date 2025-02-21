@@ -1,21 +1,18 @@
 /** @format */
 
-export const clear = () => localStorage.clear();
+export const clear = (): void => localStorage.clear();
 
-export const rm = (item: string): any => localStorage.removeItem(item);
+export const rm = (item: string): void => localStorage.removeItem(item);
 
-export const getItem = (item: string): any => {
+export const getItem = (item: string): string | object | undefined | null => {
 	if (typeof window === "undefined") return undefined;
 	try {
-		if (item === "token") return localStorage.getItem(item);
 		const data = localStorage.getItem(item);
 		if (data === null) return undefined;
-		// Check if data is an object or a string
-		if (/^\{.*\}$/.test(data)) {
+		if (item === "token") return data;
+		try {
 			return JSON.parse(data);
-		} else if (/^".*"$/.test(data)) {
-			return data.slice(1, -1);
-		} else {
+		} catch {
 			return data;
 		}
 	} catch (error) {
@@ -24,21 +21,19 @@ export const getItem = (item: string): any => {
 	}
 };
 
-export const setItem = (key: string, value: any): void => {
-	if (typeof window === "undefined") return undefined;
+export const setItem = (key: string, value: string | object | number | boolean | null): void => {
+	if (typeof window === "undefined") return;
 	if (typeof key !== "string") {
 		throw new Error("The key must be a string");
 	}
-	const jsonValue = JSON.stringify(value);
-	localStorage.removeItem(key);
-	localStorage.setItem(key, key !== "token" ? jsonValue : value);
+	const storedValue = key === "token" ? String(value) : JSON.stringify(value);
+	localStorage.setItem(key, storedValue);
 };
 
-export const saveLocation = (path: string) => setItem("location", path);
+export const saveLocation = (path: string): void => setItem("location", path);
 
-export const getLocation = () => {
-	return localStorage.getItem("location") || "";
-};
+export const getLocation = (): string => getItem("location") as string || "";
+
 export const LS = {
 	get: getItem,
 	set: setItem,

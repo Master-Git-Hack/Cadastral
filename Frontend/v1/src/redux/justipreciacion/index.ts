@@ -1,10 +1,10 @@
 /** @format */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { reducers } from "./justipreciacion.reducer";
 import { api } from "../../api";
-import { StateProps, initialState } from "./justipreciacion.interface";
-import { RootState } from "../store";
+import { type StateProps, initialState } from "./justipreciacion.interface";
+import type { RootState } from "../store";
 
 const name = "Justipreciacion";
 export const consumeJustipreciacion = api(name);

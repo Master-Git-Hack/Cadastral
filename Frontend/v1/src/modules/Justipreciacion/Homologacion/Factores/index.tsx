@@ -6,10 +6,10 @@ import { Container } from "../../../../components/Container";
 import { Area } from "../Registros/Area";
 import { Age } from "./Age";
 import { Common } from "./Common";
-import { AgeContainerProps, ContainerProps } from "./factores.interface";
+import type { AgeContainerProps, ContainerProps } from "./factores.interface";
 import { Selector } from "./Selector";
 import { Symbols } from "./Symbols";
-import { LocationZoneProps } from "./Symbols/symbols.types";
+import type { LocationZoneProps } from "./Symbols/symbols.types";
 
 export const AgeContainer = ({ type }: AgeContainerProps) => {
 	const [colSpan, setColSpan] = useState(24);

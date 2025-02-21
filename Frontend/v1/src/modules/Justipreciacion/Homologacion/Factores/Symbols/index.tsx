@@ -17,7 +17,7 @@ import {
 import { asFancyNumber } from "../../../../../utils/number";
 import { searchByValue } from "../../../../../utils/search";
 import { Title } from "../factores.interface";
-import {
+import type {
 	ColumnsBodyProps,
 	FooterProps,
 	LocationZoneActionsProps,

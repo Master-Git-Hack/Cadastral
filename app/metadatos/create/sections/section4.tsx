@@ -24,9 +24,9 @@ export const Section4 = ({ editable = true }: any) => {
 		setData({ ...data, [target.name]: target.value });
 
 	const findSelectValue = (name: string) => {
-		const [code, label, description] = String(data[name] ?? "")?.split(". ");
+		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	};
+	}
 
 	return (
 		<>

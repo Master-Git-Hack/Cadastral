@@ -1,7 +1,7 @@
 /** @format */
 
 import { forwardRef } from "react";
-import { variants, ToggleProps } from "./types";
+import { variants, type ToggleProps } from "./types";
 import { cn } from "@utils/ui";
 export const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
 	({ className, variant, size, children, ...props }, ref) => (

@@ -6,7 +6,7 @@ import {
 	usePostMetadatoMutation,
 	usePatchMetadatoMutation,
 } from "@api/Metadatos";
-import { IMetadatos } from "@api/Metadatos/types";
+import type { IMetadatos } from "@api/Metadatos/types";
 export default function useMunicipios() {
 	const { data, isLoading, isFetching, error } = useGetMetadatosQuery(null);
 	const [metadato, setMetadatos] = useState<IMetadatos | null>(null);

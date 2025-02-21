@@ -1,11 +1,11 @@
 /** @format */
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../store";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../../store";
 import { checkErrors } from "./homologacion.actions";
 
 import { initialState } from "./homologacion.initialState";
-import { name, consume, StateProps } from "./homologacion.interface";
+import { name, consume, type StateProps } from "./homologacion.interface";
 import { reducers } from "./homologacion.reducer";
 
 export const consumeHomologacion = consume;

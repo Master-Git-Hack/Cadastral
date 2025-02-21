@@ -1,2 +1,2 @@
 /** @format */
-export interface Selector {}
+export type Selector = {};

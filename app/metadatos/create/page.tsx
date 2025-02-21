@@ -97,7 +97,7 @@ function MetadataContent() {
 				onEdit={true}
 				data={0}
 			/>
-			<Pages page={parseInt(page)} isTemporal={isTemporal} />
+			<Pages page={Number.parseInt(page)} isTemporal={isTemporal} />
 		</Layout>
 	);
 }

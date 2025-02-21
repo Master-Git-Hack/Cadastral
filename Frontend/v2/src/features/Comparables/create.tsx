@@ -25,7 +25,9 @@ export const baseUrl = currentEnv === "development" ? devUrl : prodUrl;
 export default function Create() {
 	const { cedula_mercado, username } = useParams();
 	const navigate = useNavigate();
-	const [data, setData] = useState(initialState(parseInt(cedula_mercado)));
+	const [data, setData] = useState(
+		initialState(Number.parseInt(cedula_mercado)),
+	);
 
 	const handleInputChange = ({ target }) =>
 		setData({ ...data, [target.name]: target.value });
@@ -128,7 +130,7 @@ export default function Create() {
 							.then(({ isConfirmed }) => {
 								if (isConfirmed) {
 									postComparable({ ...data, username });
-									setData(initialState(parseInt(cedula_mercado)));
+									setData(initialState(Number.parseInt(cedula_mercado)));
 								}
 							})
 							.finally(() =>

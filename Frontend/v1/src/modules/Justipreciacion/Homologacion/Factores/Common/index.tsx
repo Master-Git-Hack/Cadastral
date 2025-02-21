@@ -1,6 +1,6 @@
 /** @format */
 
-import { CommonProps, BodyProps } from "./common.types";
+import type { CommonProps, BodyProps } from "./common.types";
 import { Normal as Select } from "../../../../../components/Input/Select";
 import { useAppDispatch, useAppSelector } from "../../../../../redux";
 import {

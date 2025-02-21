@@ -1,6 +1,10 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react";
+import {
+	forwardRef,
+	type ElementRef,
+	type ComponentPropsWithoutRef,
+} from "react";
 import {
 	Root,
 	Item,

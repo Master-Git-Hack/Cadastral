@@ -9,7 +9,7 @@ export const flattenObject = (
 	for (const key in obj) {
 		if (key === "type") continue;
 		if (obj.hasOwnProperty(key)) {
-			const newKey = Number.isInteger(parseInt(key))
+			const newKey = Number.isInteger(Number.parseInt(key))
 				? `${parentKey}_${key}`
 				: key.includes("#text")
 					? parentKey

@@ -1,7 +1,7 @@
 /** @format */
 
 import { roundNumber } from "../../../utils/number";
-import { StateProps } from "./obrasComplementarias.interface";
+import type { StateProps } from "./obrasComplementarias.interface";
 
 /** @format */
 export const updateValuesFN = ({

@@ -1,6 +1,11 @@
 /** @format */
 "use client";
-import { useState, forwardRef, useEffect, ChangeEventHandler } from "react";
+import {
+	useState,
+	forwardRef,
+	useEffect,
+	type ChangeEventHandler,
+} from "react";
 import { UploadIcon, DownloadIcon, DeleteIcon } from "@assets/icons";
 import { cn } from "@utils/index";
 import {

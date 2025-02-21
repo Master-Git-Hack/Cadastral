@@ -1,6 +1,6 @@
 /** @format */
 
-import { Properties } from "..";
+import type { Properties } from "..";
 
 export interface AreaDataProps extends Properties {
 	id: number;
@@ -78,5 +78,5 @@ export const documentation = {
 			0,
 		),
 	getTotalByUnit: (value: number, total: number) => total / value,
-	getGTOFactor: (factorGTO: boolean = false) => (factorGTO ? 0.935 : 1),
+	getGTOFactor: (factorGTO = false) => (factorGTO ? 0.935 : 1),
 };

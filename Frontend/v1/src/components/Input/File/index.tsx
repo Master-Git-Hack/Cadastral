@@ -6,11 +6,11 @@ import FileDownloadIcon from "@rsuite/icons/FileDownload";
 import AttachmentIcon from "@rsuite/icons/Attachment";
 import TrashIcon from "@rsuite/icons/Trash";
 import { Tooltip } from "../../Tooltip";
-import { FileProps } from "./file.types";
+import type { FileProps } from "./file.types";
 import FileSaver from "file-saver";
 export const File = ({ onChange, file, filename, remove }: FileProps) => {
 	const onClick = () => {
-		let input = document.createElement("input");
+		const input = document.createElement("input");
 		input.type = "file";
 		input.style.display = "none";
 		input.click();

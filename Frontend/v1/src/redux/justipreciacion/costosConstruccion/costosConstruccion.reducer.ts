@@ -1,6 +1,6 @@
 /** @format */
-import { PayloadAction } from "@reduxjs/toolkit";
-import { StateProps } from "./costosConstruccion.interface";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { StateProps } from "./costosConstruccion.interface";
 
 export const reducers = {
 	addRow: ({ data, handlers: { dataTemplate } }: StateProps) => {

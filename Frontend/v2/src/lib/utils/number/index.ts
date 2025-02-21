@@ -1,6 +1,6 @@
 /** @format */
 
-import { FancyProps } from "./number.types";
+import type { FancyProps } from "./number.types";
 /**
  * It takes a number and returns with the number of decimals given, by default it returns with 3 decimals.
  *
@@ -10,7 +10,7 @@ import { FancyProps } from "./number.types";
  * @returns {number} - The number with the given decimals.
  */
 
-export const formatNumb = (value: number, decimals: number = 3): number =>
+export const formatNumb = (value: number, decimals = 3): number =>
 	Number(value.toFixed(decimals));
 /**
  * It takes a number with optional properties and returns a number with the same properties.
@@ -64,7 +64,7 @@ export const asFancyNumber = (
  * @param {number} [decimals=-1] - The number of decimals to round to.
  * @returns Function takes two parameters, value and decimals, and returns a number.
  */
-export const roundNumber = (value: number, round: number = -1): number => {
+export const roundNumber = (value: number, round = -1): number => {
 	if (round > -1) {
 		const roundType = 10 ** round;
 		const reducedValue = value / roundType;

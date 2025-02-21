@@ -7,7 +7,7 @@ import {
 	Footer,
 	Sidebar,
 } from "rsuite";
-import { ContainerProps } from "./container.types";
+import type { ContainerProps } from "./container.types";
 import { ReactNode } from "react";
 
 export const Container = ({

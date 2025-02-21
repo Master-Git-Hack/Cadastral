@@ -1,4 +1,4 @@
-import { defaultFactorData } from "./base";
+import { defaultFactorData } from "../base";
 export enum CatalogoNivel {
 	"SOTANO 1" = 0.9,
 	"SOTANO 2" = 0.95,

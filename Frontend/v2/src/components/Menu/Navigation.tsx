@@ -1,6 +1,10 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react";
+import {
+	forwardRef,
+	type ElementRef,
+	type ComponentPropsWithoutRef,
+} from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import {
 	Root,

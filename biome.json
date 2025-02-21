@@ -7,7 +7,21 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": [
+			".git",
+			"node_modules/*",
+			"dist/*",
+			"build/*",
+			"coverage",
+			"temp",
+			"tmp",
+			"out",
+			"output",
+			"logs",
+			".next/*",
+			".vscode/*",
+			"Frontend/*"
+		]
 	},
 	"formatter": {
 		"enabled": true,
@@ -19,7 +33,15 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			
+			"suspicious":
+			{
+				"noExplicitAny":"off"
+			},"correctness":{
+"useExhaustiveDependencies":"off"
+			}
+			
 		}
 	},
 	"javascript": {

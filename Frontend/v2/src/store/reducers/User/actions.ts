@@ -1,6 +1,6 @@
 /** @format */
 
-import { UserState } from "./types";
+import type { UserState } from "./types";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { idleTime } from "@utils/datetime";
 import ls from "@utils/localstorage";

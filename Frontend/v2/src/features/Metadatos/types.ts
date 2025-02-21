@@ -1,6 +1,6 @@
 /** @format */
 import { findBestMatch } from "string-similarity";
-import { HTMLAttributes, MouseEventHandler } from "react";
+import type { HTMLAttributes, MouseEventHandler } from "react";
 import moment from "moment";
 export const template = {
 	db_name: "",

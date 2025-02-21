@@ -1,5 +1,5 @@
 /** @format */
-import { ISpinnerProps } from "./types";
+import type { ISpinnerProps } from "./types";
 export default function Spinner({
 	size = 8,
 	color = "blue-600",

@@ -3,7 +3,7 @@
 import { AutoComplete as Component } from "primereact/autocomplete";
 import { forwardRef } from "react";
 import { cn } from "@utils/ui";
-import { AutoCompleteProps } from "./types";
+import type { AutoCompleteProps } from "./types";
 
 const AutoComplete = forwardRef<HTMLInputElement, AutoCompleteProps>(
 	({ className, type, ...props }, ref) => {

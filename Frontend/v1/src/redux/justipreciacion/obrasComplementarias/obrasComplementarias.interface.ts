@@ -2,11 +2,11 @@
 
 import { api } from "../../../api";
 import {
-	Properties,
+	type Properties,
 	ObrasComplementarias,
 } from "../../../types/justipreciacion/obrasComplementarias";
-import { CalculationProps } from "../../../types/justipreciacion/obrasComplementarias/calculo";
-import { DocumentationProps } from "../../../types/justipreciacion/obrasComplementarias/registro";
+import type { CalculationProps } from "../../../types/justipreciacion/obrasComplementarias/calculo";
+import type { DocumentationProps } from "../../../types/justipreciacion/obrasComplementarias/registro";
 
 export interface Record {
 	id: number;

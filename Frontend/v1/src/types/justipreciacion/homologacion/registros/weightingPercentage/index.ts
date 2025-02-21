@@ -1,6 +1,6 @@
 /** @format */
 
-import { WeightingPercentageProps } from "..";
+import type { WeightingPercentageProps } from "..";
 
 const template = (id: number) => ({ id, value: 100 });
 const insertion = (data: any) => {

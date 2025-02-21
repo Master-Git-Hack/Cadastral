@@ -5,18 +5,20 @@ import {
 	DaumResult,
 	ValueLabel,
 	SubjectComplex,
-	Result,Tipo,Root,
-} from "./factores/base";
+	Result,
+	Tipo,
+	Root,
+	Resultado,
+} from "./base";
 import Factors from "./factores";
-import { Factores } from "@/Frontend/v1/src/modules/Justipreciacion/Homologacion/Factores";
 
 export interface IHomologacionState {
 	factors: Factores;
 	documentation: Resultado;
-    id: number;
-    type:Tipo;
-    appraisalPurpose: string;
-};
+	id: number;
+	type: Tipo;
+	appraisalPurpose: string;
+}
 
 export interface Factores {
 	Age: FactorBase<Subject, Daum>;
@@ -45,8 +47,7 @@ export interface FactorBase<S, D> {
 	data: D[];
 }
 
-export interface FactorBaseWithRoot<D, R>
-	extends FactorBase<null, D> {
+export interface FactorBaseWithRoot<D, R> extends FactorBase<null, D> {
 	root: R;
 }
 
@@ -64,125 +65,10 @@ export interface SubjectLabel {
 	value: number;
 }
 
-
-
-export interface Resultado {
-	Area: Area;
-	SalesCost: SalesCost;
-	WeightingPercentage: WeightingPercentage;
-	ReFactor: ReFactor;
-	Indiviso: Indiviso;
-	observations: string;
-}
-
-export interface Area {
-	name: string;
-	tag: string;
-	averageLotArea: AverageLotArea;
-	subject: SubjectArea;
-	data: DaumArea[];
-}
-
-export interface AverageLotArea {
-	name: string;
-	value: number;
-	surface: number;
-}
-
-export interface SubjectArea {
-	name: string;
-	value: number;
-	zone: ZoneData;
-	factors: Factor[];
-}
-
-export interface ZoneData {
-	id: number;
-	name: string;
-	totalPopulation: number;
-	populationDensity: number;
-	percentage: number;
-}
-
-export interface Factor {
-	id: number;
-	type: Tipo;
-	root: number;
-}
-
-export interface DaumArea {
-	id: number;
-	value: number;
-	surface: number;
-	address: Address;
-	factorResult: Record<number, number>;
-}
-
-export interface Address {
-	street: string;
-	streetNumber: number;
-	hasNoStreetNumber: boolean;
-	colony: string;
-	zone: ZoneData;
-	extras: Extras;
-}
-
-export interface Extras {
-	factor:Record<number, number>;
-	date: string;
-	observations: string;
-	reference: string;
-	document: Document;
-}
-
-export interface Document {
-	filename: string;
-	file: any;
-}
-
-export interface SalesCost {
-	tag: string;
-	data: DaumCost[];
-	results: Result[];
-	averageUnitCost: AverageUnitCost;
-}
-
-export interface DaumCost {
-	id: number;
-	value: number;
-	unitaryCost: number;
-}
-
-export interface AverageUnitCost {
-	value: number;
-	roundedValue: number;
-	result: number;
-	adjustedValue: number;
-}
-
-export interface WeightingPercentage {
-	total: number;
-	data: DaumValue[];
-}
-
-export interface ReFactor {
-	surface: ValueLabel;
-	form: ValueLabel;
-	result: ValueLabel;
-	root: Root;
-	isUsed: boolean;
-}
-
-export interface Indiviso {
-	surface: number;
-	building: number;
-	indiviso: number;
-}
-
 const defaultState: IHomologacionState = {
-    id: 0,
-    type:Tipo.TERRENO,
-    appraisalPurpose: "",
+	id: 0,
+	type: Tipo.TERRENO,
+	appraisalPurpose: "",
 	factors: {
 		Age: {
 			name: "Edad",
@@ -224,7 +110,7 @@ const defaultState: IHomologacionState = {
 			name: "Proyecto",
 			tag: "FProy.",
 			isUsed: false,
-            position: 0,
+			position: 0,
 			...Factors.Proyecto.default,
 		},
 		Quality: {
@@ -249,33 +135,35 @@ const defaultState: IHomologacionState = {
 			name: "Topografía",
 			tag: "FTop.",
 			isUsed: false,
-            position:0,
+			position: 0,
 			...Factors.Topografia.default,
 		},
 		TypeForm: {
-			name: "",
-			tag: "",
-			isUsed: false,
-			data: [{ id: 0, value: 0, result: 0, label: "" }],
+			name: "Forma",
+			tag: "FFo.",
+			isUsed: true,
+			position: 2,
+			...Factors.Forma.default,
 		},
 		Usage: {
-			name: "",
-			tag: "",
-			isUsed: false,
-			data: [{ id: 0, value: 0, result: 0, label: "" }],
+			name: "Uso",
+			tag: "FUso.",
+			isUsed: true,
+			position: 3,
+			...Factors.Uso.default,
 		},
 		Location: {
 			name: "Ubicación",
 			tag: "FUbic.",
 			isUsed: false,
-            position: 0,
+			position: 0,
 			...Factors.Ubicacion.default,
 		},
 		Zone: {
 			name: "Zona",
 			tag: "FZon.",
 			isUsed: false,
-            position: 0,
+			position: 0,
 			...Factors.Zona.default,
 		},
 		Other: {
@@ -302,38 +190,12 @@ const defaultState: IHomologacionState = {
 				},
 				factors: [],
 			},
-			data: [
-				{
-					id: 0,
-					value: 0,
-					surface: 0,
-					address: {
-						street: "",
-						streetNumber: 0,
-						hasNoStreetNumber: false,
-						colony: "",
-						zone: {
-							id: 0,
-							name: "",
-							totalPopulation: 0,
-							populationDensity: 0,
-							percentage: 0,
-						},
-						extras: {
-							factor:{1:1,2:1},
-							date: "",
-							observations: "",
-							reference: "",
-							document: { filename: "", file: null },
-						},
-					},
-				},
-			],
+			data: [],
 		},
 		SalesCost: {
 			tag: "",
 			data: [{ id: 0, value: 0, unitaryCost: 0 }],
-			results: [{ id: 0, factor:{1:1,2:1} }],
+			results: [{ id: 0, factor: { 1: 1, 2: 1 } }],
 			averageUnitCost: {
 				value: 0,
 				roundedValue: 0,
@@ -357,10 +219,11 @@ const defaultState: IHomologacionState = {
 			building: 0,
 			indiviso: 0,
 		},
-		observations: "",
+		observations: null,
 	},
 };
 export interface IHomologacionActions {
 	updateAge: (data: Daum[], subject: Subject) => Daum[];
-    updateResults:(data: Daum[], factors:Factores) => Daum[];
+	updateResults: (data: Daum[], factors: Factores) => Daum[];
+	updateLocation:(data:)
 }

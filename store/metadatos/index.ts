@@ -4,8 +4,8 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { api } from "../api.config";
 import {
-	IMetadatosState,
-	IMetadatatosActions,
+	type IMetadatosState,
+	type IMetadatatosActions,
 	defaultState,
 } from "./interface";
 const useMetadatos = create<IMetadatosState & IMetadatatosActions>()(
@@ -15,7 +15,7 @@ const useMetadatos = create<IMetadatosState & IMetadatatosActions>()(
 			getMetadatosPreview: async () => await api.get("metadatos/preview", {}),
 			getMetadatos: async () => await api.get("metadatos/complete", {}),
 			getResources: async () => await api.get("resources/tree", {}),
-			getMetadato: async (uid: string, isTemporal: boolean = false) => {
+			getMetadato: async (uid: string, isTemporal = false) => {
 				const {
 					data: { data },
 				} = await api.get(

@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import * as qs from "qs";
-import { PathLike } from "fs";
+import type { PathLike } from "fs";
 
 /**
  * It creates an axios instance with the baseURL, timeout, headers, responseType, and paramsSerializer

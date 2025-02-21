@@ -1,7 +1,6 @@
 /** @format */
 
-import {Tipo} from "../homologación/factores/base";
-
+import { Tipo } from "../homologación/base";
 
 export type SPKeys = `sp${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`;
 export type CNKeys =

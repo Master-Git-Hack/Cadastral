@@ -1,7 +1,7 @@
 /** @format */
 
 import { Modal } from "../../Modal";
-import { ModalProps } from "./justifyChange.types";
+import type { ModalProps } from "./justifyChange.types";
 import { Input } from "../../Input";
 const { Switch, Text } = Input;
 export const JustifyChanges = ({

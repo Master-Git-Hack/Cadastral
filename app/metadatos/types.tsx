@@ -1,6 +1,6 @@
 /** @format */
 
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 
 export interface IMetaTable {
 	db_name: string;

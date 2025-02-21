@@ -1,7 +1,7 @@
 /** @format */
 
 import { Custom } from "../../Input/Select";
-import { SelectUnitProps } from "./selectedUnit.types";
+import type { SelectUnitProps } from "./selectedUnit.types";
 const options = [
 	{ label: "m2", value: "m2" },
 	{ label: "m3", value: "m3" },

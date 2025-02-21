@@ -1,7 +1,7 @@
 /** @format */
 
-import { ComparablesState } from "./types";
-import { PayloadAction } from "@reduxjs/toolkit";
+import type { ComparablesState } from "./types";
+import type { PayloadAction } from "@reduxjs/toolkit";
 export const initialState: ComparablesState = { ids: [], record: [] };
 export const reducers = {
 	setComparables: (

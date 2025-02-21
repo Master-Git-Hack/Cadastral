@@ -3,7 +3,7 @@
 import { forwardRef, useState } from "react";
 import Select from "@components/Input/select";
 import { useGetSchemasQuery } from "@redux-api/Schemas/index";
-import { SchemasProps } from "./types";
+import type { SchemasProps } from "./types";
 
 export const SchemaSelect = forwardRef<HTMLDivElement, SchemasProps>(
 	({ schema_name, table_name, db, currentSchema }, ref) => {

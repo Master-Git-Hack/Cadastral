@@ -103,7 +103,7 @@ function MetadataContent({ params }: any) {
 					page={page}
 					isTemporal={isTemporal}
 				/>
-				<Pages page={parseInt(page)} isTemporal={isTemporal} />
+				<Pages page={Number.parseInt(page)} isTemporal={isTemporal} />
 			</Layout>
 		</Suspense>
 	);

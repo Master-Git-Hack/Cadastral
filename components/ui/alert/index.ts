@@ -1,6 +1,11 @@
 /** @format */
 
-import { AlertProps, IAlert, DEFAULT_ALERT_OPTIONS, variants } from "./types";
+import {
+	type AlertProps,
+	type IAlert,
+	DEFAULT_ALERT_OPTIONS,
+	variants,
+} from "./types";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { cn } from "@utils/ui";

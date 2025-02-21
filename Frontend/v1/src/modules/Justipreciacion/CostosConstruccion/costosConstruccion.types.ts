@@ -1,3 +1,3 @@
 /** @format */
 
-export interface CostosConstruccionProps {}
+export type CostosConstruccionProps = {};

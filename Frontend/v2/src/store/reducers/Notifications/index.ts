@@ -1,7 +1,7 @@
 /** @format */
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "@redux/index";
+import type { RootState } from "@redux/index";
 import { reducers, initialState } from "./actions";
 
 const slice = createSlice({

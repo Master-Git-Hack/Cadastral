@@ -1,7 +1,7 @@
 /** @format */
 
 import { Dropdown as Component, ButtonToolbar } from "rsuite";
-import { DropdownProps } from "./dropdown.types";
+import type { DropdownProps } from "./dropdown.types";
 import { colorPicker, appearancePicker } from "../../utils/color";
 export const Dropdown = ({
 	items,

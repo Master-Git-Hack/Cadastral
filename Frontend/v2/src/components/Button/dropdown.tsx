@@ -2,7 +2,7 @@
 
 import { forwardRef, useState, useRef, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { variants, aligns, DropdownButtonProps } from "./types";
+import { variants, aligns, type DropdownButtonProps } from "./types";
 import { cn } from "@utils/ui";
 import { Button } from "flowbite-react";
 

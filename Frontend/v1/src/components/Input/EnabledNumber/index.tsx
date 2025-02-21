@@ -1,6 +1,6 @@
 /** @format */
 
-import { EnabledNumberProps } from "./enabledNumber.types";
+import type { EnabledNumberProps } from "./enabledNumber.types";
 import { InputNumber } from "rsuite";
 import { Switch } from "../Switch";
 import { SyntheticEvent } from "react";

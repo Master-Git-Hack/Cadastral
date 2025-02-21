@@ -1,13 +1,13 @@
 /** @format */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { reducers } from "./comparable.reducer";
 import {
 	name,
 	consume,
 	initialState,
-	StateProps,
+	type StateProps,
 } from "./comparables.interface";
-import { RootState } from "../store";
+import type { RootState } from "../store";
 
 export const consumeComparables = consume;
 export const { get, post, patch } = consumeComparables;

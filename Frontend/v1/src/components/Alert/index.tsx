@@ -1,7 +1,7 @@
 /** @format */
 import React, { ReactNode } from "react";
 import { Message } from "rsuite";
-import { AlertProps } from "./alert.types";
+import type { AlertProps } from "./alert.types";
 
 export const Alert = ({
 	closable,

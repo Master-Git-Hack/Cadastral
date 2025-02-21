@@ -1,12 +1,12 @@
 /** @format */
 
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../store";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../../store";
 import {
 	name,
 	initialState,
 	consume,
-	StateProps,
+	type StateProps,
 } from "./costosConstruccion.interface";
 import { reducers } from "./costosConstruccion.reducer";
 

@@ -23,7 +23,7 @@ import {
 	setPercentageData,
 } from "../../../../../../redux/justipreciacion/homologacion";
 import { asFancyNumber } from "../../../../../../utils/number";
-import { BodyProps, HeaderProps, FooterProps } from "./calculation.types";
+import type { BodyProps, HeaderProps, FooterProps } from "./calculation.types";
 
 const Header = ({ type, tag, name, percentage }: HeaderProps) => {
 	const className = " align-middle text-brake";

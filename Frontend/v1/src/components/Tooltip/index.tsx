@@ -1,7 +1,7 @@
 /** @format */
 
 import { Grid, Col, Row, Tooltip as Component, Whisper } from "rsuite";
-import { TooltipProps } from "./tooltip.types";
+import type { TooltipProps } from "./tooltip.types";
 export const Tooltip = ({
 	id,
 	children,

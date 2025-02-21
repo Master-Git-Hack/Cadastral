@@ -8,7 +8,7 @@ import {
 	ButtonGroup,
 } from "rsuite";
 import ArrowDownIcon from "@rsuite/icons/ArrowDown";
-import { DropdownProps } from "./dropdown.types";
+import type { DropdownProps } from "./dropdown.types";
 import { colorPicker, appearancePicker } from "../../../utils/color";
 import { Button } from "../../Button";
 export const Dropdown = ({

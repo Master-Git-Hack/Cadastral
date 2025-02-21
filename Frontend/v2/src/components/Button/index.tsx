@@ -2,7 +2,7 @@
 
 import { forwardRef } from "react";
 
-import { variants, ButtonProps } from "./types";
+import { variants, type ButtonProps } from "./types";
 import { cn } from "@utils/ui";
 
 const Component = forwardRef<HTMLButtonElement, ButtonProps>(

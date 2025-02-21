@@ -5,7 +5,7 @@ import { saveAs } from "file-saver";
 
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "../baseUrl";
-import { IMetadatos } from "./types";
+import type { IMetadatos } from "./types";
 import { saveAs } from "file-saver";
 export const MetadatosApi = createApi({
 	reducerPath: "Metadatos",

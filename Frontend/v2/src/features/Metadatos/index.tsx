@@ -17,7 +17,7 @@ import {
 	useNewVersionMutation,
 	usePreviousVersionMutation,
 } from "@api/Metadatos";
-import { IMetadatos } from "@api/Metadatos/types";
+import type { IMetadatos } from "@api/Metadatos/types";
 import Spinner from "@components/Spinner";
 import Alert from "@components/Alerts";
 import Error from "../Error";

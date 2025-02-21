@@ -1,6 +1,6 @@
 /** @format */
 
-import { IndivisoProps } from "../";
+import type { IndivisoProps } from "../";
 import { getURLParams } from "../../../../../utils/url";
 
 const operation = (indiviso: any, subject: number) => ({

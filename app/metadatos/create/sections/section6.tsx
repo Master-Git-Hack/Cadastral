@@ -25,9 +25,9 @@ export const Section6 = ({ editable = true }: any) => {
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
 
 	const findSelectValue = (name: string) => {
-		const [code, label, description] = String(data[name] ?? "")?.split(". ");
+		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	};
+	}
 
 	const [positionalaccuracy_value, setDataValue] = useState(
 		data.positionalaccuracy_value ??

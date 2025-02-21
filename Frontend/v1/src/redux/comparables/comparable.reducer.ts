@@ -1,8 +1,8 @@
 /** @format */
 
-import { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import {
-	StateProps,
+	type StateProps,
 	reportsTemplate,
 	recommendedProperties,
 	initialProperties,

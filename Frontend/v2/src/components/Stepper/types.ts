@@ -1,6 +1,11 @@
 /** @format */
 
-import { HTMLAttributes, HtmlHTMLAttributes, ReactNode, SVGProps } from "react";
+import {
+	type HTMLAttributes,
+	type HtmlHTMLAttributes,
+	ReactNode,
+	type SVGProps,
+} from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 export interface Icon extends SVGProps<SVGSVGElement> {}

@@ -56,7 +56,7 @@ export const Section5 = ({ data, setData, editable = true }: any) => {
 		spatialrepresentationtype === "TIN";
 	const justNumbers = (value: string) => {
 		if (!value) return 0;
-		return parseFloat(String(value)?.replace(/[^0-9.]/g, ""));
+		return Number.parseFloat(String(value)?.replace(/[^0-9.]/g, ""));
 	};
 	return (
 		<>

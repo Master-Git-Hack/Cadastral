@@ -1,6 +1,6 @@
 /** @format */
 
-import { NavbarProps } from "./navbar.types";
+import type { NavbarProps } from "./navbar.types";
 import { Navbar as Component, Nav } from "rsuite";
 import logo from "../../assets/images/logoGto.png";
 import { Container } from "../Container";

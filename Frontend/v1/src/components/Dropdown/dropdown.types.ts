@@ -1,6 +1,6 @@
 /** @format */
 
-import { SyntheticEvent } from "react";
+import type { SyntheticEvent } from "react";
 
 /** @format */
 export interface DropdownProps {

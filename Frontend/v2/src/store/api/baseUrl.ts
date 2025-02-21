@@ -4,7 +4,7 @@ import { getNow } from "@utils/datetime";
 import axios from "axios";
 import type { AxiosRequestConfig, AxiosError } from "axios";
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
-import { RootState } from "..";
+import type { RootState } from "..";
 const currentEnv = import.meta.env.MODE;
 const devUrl = import.meta.env.VITE_API_URL_DEV;
 const prodUrl = import.meta.env.VITE_API_URL_PROD;

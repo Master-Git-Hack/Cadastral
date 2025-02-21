@@ -1,7 +1,7 @@
 /** @format */
 
-import { PayloadAction } from "@reduxjs/toolkit";
-import { StateProps } from "./justipreciacion.interface";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { StateProps } from "./justipreciacion.interface";
 
 /** @format */
 export const reducers = {

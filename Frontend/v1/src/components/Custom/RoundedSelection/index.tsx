@@ -1,7 +1,7 @@
 /** @format */
 
 import { Dropdown } from "../../Dropdown";
-import { RoundedSelectionProps } from "./roundedSelection.types";
+import type { RoundedSelectionProps } from "./roundedSelection.types";
 const options = [
 	"Sin Redondeo",
 	"Unidad ----------- (1x10^0)",

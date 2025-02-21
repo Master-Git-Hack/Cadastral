@@ -328,13 +328,13 @@ const CurrentCell = ({
 	const data = factors?.Other?.data ?? [];
 
 	const value = asFancyNumber(rowData[dataKey], { isCurrency, isPercentage });
-	const id = parseInt(rowData?.id?.replace("C", ""));
+	const id = Number.parseInt(rowData?.id?.replace("C", ""));
 	const dispatch = useAppDispatch();
 	let current = rowData[dataKey];
 
 	if (dataKey === "FOtro") {
 		const obj = data?.[id - 1] ?? { result: 0 };
-		current = parseFloat(obj.result);
+		current = Number.parseFloat(obj.result);
 	}
 
 	return (

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Button } from "../Button";
 import { Container } from "../Container";
-import { HidePageProps } from "./hidePage.types";
-import React from "react";
+import type { HidePageProps } from "./hidePage.types";
+import type React from "react";
 
 export const HidePage = ({ children, elementOnHide, title }: HidePageProps) => {
 	const [hide, setHide] = useState(true);

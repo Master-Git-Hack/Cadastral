@@ -9,7 +9,7 @@ import { Switch } from "../../components/Input/Switch";
 import { InputRange } from "../../components/Input/Range";
 import { Custom as Select } from "../../components/Input/Select";
 import { PopPanel } from "../../components/PopPanel";
-import { ComparableProps } from "./comparable.types";
+import type { ComparableProps } from "./comparable.types";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import {

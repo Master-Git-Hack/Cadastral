@@ -1,5 +1,5 @@
 /** @format */
-import { IconProps } from "./types";
+import type { IconProps } from "./types";
 export const UploadIcon = ({
 	width = "20px",
 	height = "20px",

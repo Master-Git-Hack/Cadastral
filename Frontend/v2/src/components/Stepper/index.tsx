@@ -1,5 +1,5 @@
 /** @format */
-import { StepperProps, Items, Label, Icon } from "./types";
+import { type StepperProps, type Items, Label, Icon } from "./types";
 import { forwardRef, useState, useEffect } from "react";
 import { cn } from "@utils/ui";
 import { Tooltip } from "flowbite-react";

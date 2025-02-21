@@ -1,6 +1,6 @@
 /** @format */
 import { Button, SelectPicker } from "rsuite";
-import { SelectProps, Item } from "./select.types";
+import type { SelectProps, Item } from "./select.types";
 export const Normal = ({
 	index,
 	className,

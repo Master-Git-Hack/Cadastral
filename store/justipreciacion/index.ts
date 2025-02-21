@@ -4,8 +4,8 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { api } from "../api.config";
 import {
-	IJustipreciacionActions,
-	IJustipreciacionState,
+	type IJustipreciacionActions,
+	type IJustipreciacionState,
 	TipoJustipreciacion,
 	TipoJustipreciacionValue,
 	defaultState,

@@ -15,7 +15,7 @@ import {
 } from "../../../../../redux/justipreciacion/homologacion";
 import { asFancyNumber } from "../../../../../utils/number";
 import { Title, Header } from "../factores.interface";
-import { BodyProps, FooterProps } from "./age.types";
+import type { BodyProps, FooterProps } from "./age.types";
 
 const Body = ({ name, data }: BodyProps) => {
 	const dispatch = useAppDispatch();

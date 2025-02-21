@@ -1,7 +1,7 @@
 /** @format */
 
 import moment from "moment";
-import { AreaProps } from "..";
+import type { AreaProps } from "..";
 import { zoneInformation } from "../../../../../redux/justipreciacion/homologacion/homologacion.interface";
 
 import { getURLParams } from "../../../../../utils/url";

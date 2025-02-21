@@ -3,11 +3,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "../baseUrl";
 import {
-	IMunicipio,
+	type IMunicipio,
 	translateIndicador,
-	IDepartamentoSolicitante,
-	IIndicador,
-	IIndicator,
+	type IDepartamentoSolicitante,
+	type IIndicador,
+	type IIndicator,
 	indicadores,
 } from "./types";
 export const MunicipiosApi = createApi({

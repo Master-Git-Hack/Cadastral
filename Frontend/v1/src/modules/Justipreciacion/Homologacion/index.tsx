@@ -28,7 +28,7 @@ import {
 import { Drawer } from "rsuite";
 const { AgeContainer, Compilation, Selector } = Factores;
 //const { Success, Error, SimpleMessage, Save } = Alert;
-const base = (type: "TERRENO" | "RENTA", key: string = "5") => ({
+const base = (type: "TERRENO" | "RENTA", key = "5") => ({
 	1: <Compilation type={type} />,
 	2: <AgeContainer type={type} />,
 	3: <Area.Component />,

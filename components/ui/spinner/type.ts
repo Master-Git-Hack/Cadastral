@@ -1,6 +1,6 @@
 /** @format */
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 export interface ISpinnerProps {
 	size?: number;
 	color?: string;

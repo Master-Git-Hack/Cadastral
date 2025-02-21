@@ -1,6 +1,6 @@
 /** @format */
 
-import { forwardRef, ThHTMLAttributes } from "react";
+import { forwardRef, type ThHTMLAttributes } from "react";
 
 import { cn } from "@utils/ui";
 export const Head = forwardRef<

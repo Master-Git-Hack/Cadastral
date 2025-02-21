@@ -1,7 +1,7 @@
 /** @format */
 import { useState, useEffect } from "react";
 import ls from "@utils/localstorage";
-import { Button, ButtonProps } from "primereact/button";
+import { Button, type ButtonProps } from "primereact/button";
 
 export default function DarkToggle({ children, ...props }: ButtonProps) {
 	const [icon, setIcon] = useState("pi-sun");

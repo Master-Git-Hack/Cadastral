@@ -33,9 +33,9 @@ export const Section2 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 
 	const findSelectValue = (name: string) => {
-		const [code, label, description] = String(data[name] ?? "")?.split(". ");
+		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	};
+	}
 
 	return (
 		<>
@@ -134,7 +134,7 @@ export const Section2 = ({ editable = true }: any) => {
 							</SelectTrigger>
 							<SelectContent>
 								{catalogo.datetype.map(({ code, label, description }) => (
-									<SelectItem value={`${code}. ${label}. ${description}`}>
+									<SelectItem value={`${code}. ${label}. ${description}`} key={`${code}. ${label}. ${description}`}>
 										{label}
 									</SelectItem>
 								))}

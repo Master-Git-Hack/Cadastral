@@ -1,10 +1,14 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react";
+import {
+	forwardRef,
+	type ElementRef,
+	type ComponentPropsWithoutRef,
+} from "react";
 import {
 	Root,
 	Trigger,
-	AlertDialogPortalProps,
+	type AlertDialogPortalProps,
 	Portal,
 	Overlay,
 	Content,

@@ -1,5 +1,5 @@
 /** @format */
-export interface SymbolsProps {}
+export type SymbolsProps = {};
 export interface LocationZoneProps {
 	name: "Location" | "Zone";
 	tag?: "FUbic." | "FZon.";

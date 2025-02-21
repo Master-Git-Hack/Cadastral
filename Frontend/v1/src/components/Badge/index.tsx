@@ -2,7 +2,7 @@
 
 import { Badge as Component } from "rsuite";
 import { colorPicker } from "../../utils/color";
-import { BadgeProps } from "./badge.types";
+import type { BadgeProps } from "./badge.types";
 import { ReactNode } from "react";
 export const Badge = ({ children, type, text }: BadgeProps) => (
 	<div>

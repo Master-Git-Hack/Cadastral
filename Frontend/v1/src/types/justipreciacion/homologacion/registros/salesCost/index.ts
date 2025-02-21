@@ -1,6 +1,6 @@
 /** @format */
 
-import { SalesCostProps } from "..";
+import type { SalesCostProps } from "..";
 import { roundNumber } from "../../../../../utils/number";
 
 const templateData = (id: number) => ({
@@ -31,7 +31,7 @@ const calculateAverageUnitCostValue = (data: any, percentages: any) =>
 
 const handleAverageUnitCostValue = (
 	value: number,
-	factor: number = 1,
+	factor = 1,
 	roundedTo: any,
 	roundedResult: any,
 ) => {

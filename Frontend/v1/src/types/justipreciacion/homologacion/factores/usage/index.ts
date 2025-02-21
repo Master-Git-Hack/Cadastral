@@ -1,6 +1,6 @@
 /** @format */
 
-import { FactorsProps } from "../";
+import type { FactorsProps } from "../";
 import { getURLParams } from "../../../../../utils/url";
 
 export const optionRenta = [

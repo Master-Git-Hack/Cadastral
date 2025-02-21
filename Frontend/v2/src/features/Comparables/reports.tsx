@@ -21,7 +21,7 @@ const prodUrl = import.meta.env.VITE_API_URL_PROD;
 export const baseUrl = currentEnv === "development" ? devUrl : prodUrl;
 import { TabView, TabPanel } from "primereact/tabview";
 
-import { ColumnsProps, SimpleRowProps } from "./types";
+import type { ColumnsProps, SimpleRowProps } from "./types";
 function capturePage(url) {
 	// Specify the URL of the webpage to capture
 
@@ -34,7 +34,7 @@ function capturePage(url) {
 			tempDiv.innerHTML = html;
 
 			// Capture the contents of the temporary div using html2canvas
-			html2canvas(tempDiv).then(function (canvas) {
+			html2canvas(tempDiv).then((canvas) => {
 				// Convert the canvas to base64 image data
 				const imageData = canvas.toDataURL("image/png");
 
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const splitText = (text: string, first: boolean = false): string => {
+const splitText = (text: string, first = false): string => {
 	const words = text.split(" ");
 	const half = Math.ceil(words.length / 2);
 
@@ -1110,6 +1110,7 @@ const BaseMercado = ({ tipo, index, data }) => (
 								href={url_fuente}
 								className="link text-blue-600 visited:text-purple-600"
 								target="_blank"
+								rel="noreferrer"
 							>
 								{url_fuente}
 							</a>

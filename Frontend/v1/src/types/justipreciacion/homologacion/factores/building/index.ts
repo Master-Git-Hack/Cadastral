@@ -1,6 +1,6 @@
 /** @format */
 
-import { FactorsProps } from "../";
+import type { FactorsProps } from "../";
 // export const options = [
 // 	{
 // 		label: "RESIDENCIAL PLUS",

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { InputNumber as Component, InputGroup } from "rsuite";
-import { NumberProps } from "./number.types";
+import type { NumberProps } from "./number.types";
 import { v4 as uuidv4 } from "uuid";
 export const InputNumber = ({
 	defaultValue,

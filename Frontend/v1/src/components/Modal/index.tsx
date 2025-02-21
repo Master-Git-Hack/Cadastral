@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Modal as Component } from "rsuite";
 import { Button } from "../Button";
-import { ModalProps } from "./modal.types";
+import type { ModalProps } from "./modal.types";
 export const Modal = ({
 	action,
 	children,

@@ -3,7 +3,11 @@
 import { aligns } from "./types";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { ButtonHTMLAttributes, ReactNode, ChangeEventHandler } from "react";
+import type {
+	ButtonHTMLAttributes,
+	ReactNode,
+	ChangeEventHandler,
+} from "react";
 
 export const aligns = cva("justify-self-auto", {
 	variants: {

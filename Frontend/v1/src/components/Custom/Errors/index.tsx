@@ -1,5 +1,5 @@
 /** @format */
-import { AlertProps, ErrorsProps } from "./errors.types";
+import type { AlertProps, ErrorsProps } from "./errors.types";
 import { Alert } from "../../Alert";
 import ScrollBars from "react-scrollbar";
 import { useState } from "react";

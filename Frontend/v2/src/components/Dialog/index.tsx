@@ -2,14 +2,14 @@
 
 import {
 	forwardRef,
-	ElementRef,
-	ComponentPropsWithoutRef,
-	HTMLAttributes,
+	type ElementRef,
+	type ComponentPropsWithoutRef,
+	type HTMLAttributes,
 } from "react";
 import {
 	Root,
 	Trigger,
-	DialogPortalProps,
+	type DialogPortalProps,
 	Portal,
 	Overlay,
 	Content,

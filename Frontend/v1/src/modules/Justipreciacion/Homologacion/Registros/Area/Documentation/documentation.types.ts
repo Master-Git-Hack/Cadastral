@@ -1,3 +1,3 @@
 /** @format */
 
-export interface DocumentationProps {}
+export type DocumentationProps = {};

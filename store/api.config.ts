@@ -1,6 +1,10 @@
 /** @format */
 "use client";
-import axios, { AxiosInstance, CreateAxiosDefaults, AxiosError } from "axios";
+import axios, {
+	type AxiosInstance,
+	type CreateAxiosDefaults,
+	type AxiosError,
+} from "axios";
 import { create } from "zustand";
 import { useUser } from "./user";
 import LS from "@utils/localStorage";
@@ -9,7 +13,7 @@ const _URL = process.env.NEXT_PUBLIC_API_URL;
 const _ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const _VERSION = process.env.NEXT_PUBLIC_API_VERSION;
 const baseURL = `${_URL}/${_ENDPOINT}/${_VERSION}`;
-import { NextRouter } from "next/router";
+import type { NextRouter } from "next/router";
 import { useRouter } from "next/navigation";
 const consume = ({
 	headers = {},
@@ -174,7 +178,7 @@ export const api = {
 	post: async (
 		url: string,
 		data: CreateAxiosDefaults["data"] = {},
-		formData: boolean = false,
+		formData = false,
 		params?: CreateAxiosDefaults,
 		router?: NextRouter,
 	) => {

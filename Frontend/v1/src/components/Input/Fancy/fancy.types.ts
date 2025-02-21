@@ -1,7 +1,7 @@
 /** @format */
 
-import { ChangeEventHandler } from "react";
-import { Input } from "../input.types";
+import type { ChangeEventHandler } from "react";
+import type { Input } from "../input.types";
 export interface FancyProps extends Input {
 	value: number;
 	isCurrency?: boolean;

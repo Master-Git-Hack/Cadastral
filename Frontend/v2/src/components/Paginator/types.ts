@@ -1,7 +1,7 @@
 /** @format */
 
-import { PaginatorProps as Props } from "primereact/paginator";
-import { ReactNode } from "react";
+import type { PaginatorProps as Props } from "primereact/paginator";
+import type { ReactNode } from "react";
 export interface PaginatorProps extends Props {
 	children?: ReactNode | ReactNode[];
 }

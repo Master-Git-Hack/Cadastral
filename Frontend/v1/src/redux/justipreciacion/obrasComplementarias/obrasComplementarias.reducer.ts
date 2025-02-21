@@ -1,13 +1,13 @@
 /** @format */
 
-import { PayloadAction } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { roundNumber } from "../../../utils/number";
 import {
 	checkErrorsFN,
 	updatePartialValuesFN,
 	updateValuesFN,
 } from "./obrasComplementarias.actions";
-import { StateProps } from "./obrasComplementarias.interface";
+import type { StateProps } from "./obrasComplementarias.interface";
 
 export const reducers = {
 	addRow: (state: StateProps) => {

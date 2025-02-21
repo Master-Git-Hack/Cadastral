@@ -1,7 +1,7 @@
 /** @format */
 
 import { forwardRef } from "react";
-import { variantsArea, AreaProps } from "./types";
+import { variantsArea, type AreaProps } from "./types";
 import { cn } from "@utils/ui";
 export const Area = forwardRef<HTMLTextAreaElement, AreaProps>(
 	({ className, variant, size, rounded, validation, ...props }, ref) => (

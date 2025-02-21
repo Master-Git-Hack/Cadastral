@@ -1,2 +1,2 @@
 /** @format */
-export interface ObrasComplementariasProps {}
+export type ObrasComplementariasProps = {};

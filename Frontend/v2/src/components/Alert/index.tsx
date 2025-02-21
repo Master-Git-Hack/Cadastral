@@ -1,6 +1,6 @@
 /** @format */
 
-import { forwardRef, HTMLAttributes } from "react";
+import { forwardRef, type HTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@lib/utils/ui";

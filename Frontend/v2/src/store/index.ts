@@ -1,6 +1,10 @@
 /** @format */
 
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import {
+	configureStore,
+	type ThunkAction,
+	type Action,
+} from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { ReporteCatastralApi } from "./api/Catastral";
 import { MunicipiosApi } from "./api/Municipios";

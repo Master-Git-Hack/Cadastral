@@ -8,7 +8,7 @@ import { Switch } from "../../components/Input/Switch";
 import { InputRange } from "../../components/Input/Range";
 import { Custom as Select } from "../../components/Input/Select";
 import { PopPanel } from "../../components/PopPanel";
-import { CatastralProps } from "./catastral.types";
+import type { CatastralProps } from "./catastral.types";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import {

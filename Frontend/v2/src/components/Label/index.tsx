@@ -1,6 +1,10 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react";
+import {
+	forwardRef,
+	type ElementRef,
+	type ComponentPropsWithoutRef,
+} from "react";
 import { Root } from "@radix-ui/react-label";
 import { cva, type VariantProps } from "class-variance-authority";
 

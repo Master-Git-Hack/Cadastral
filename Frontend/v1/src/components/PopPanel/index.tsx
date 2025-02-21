@@ -2,7 +2,7 @@
 
 import { Drawer } from "rsuite";
 import { useState } from "react";
-import { PopPanelProps } from "./popPanel.types";
+import type { PopPanelProps } from "./popPanel.types";
 import { Button } from "../Button";
 
 export const PopPanel = ({

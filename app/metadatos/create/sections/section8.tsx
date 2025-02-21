@@ -18,7 +18,6 @@ export const Section8 = ({ editable = true }: any) => {
 
 	const handleMultiSelect = (e) => {
 		const { name } = e.target;
-		console.log(e.value);
 		const items = e.value.filter((item) => {
 			return (
 				item.code &&

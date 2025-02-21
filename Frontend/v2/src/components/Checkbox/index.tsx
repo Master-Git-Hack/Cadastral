@@ -1,6 +1,6 @@
 /** @format */
 
-import { forwardRef, ElementRef, reactNode } from "react";
+import { forwardRef, type ElementRef, type reactNode } from "react";
 import { Root, Indicator } from "@radix-ui/react-checkbox";
 import { CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "@utils/ui";
@@ -8,7 +8,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import {
 	Checkbox as Component,
-	CheckboxProps as CheckProps,
+	type CheckboxProps as CheckProps,
 } from "primereact/checkbox";
 const labelVariants = cva(
 	"flex items-center justify-center pt-1 text-current  text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",

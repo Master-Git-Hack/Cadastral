@@ -1,7 +1,7 @@
 /** @format */
 import { useState, useEffect, ChangeEventHandler } from "react";
 import { template } from "./types";
-import { IMetadatos } from "@api/Metadatos/types";
+import type { IMetadatos } from "@api/Metadatos/types";
 import { BreadCrumb } from "primereact/breadcrumb";
 import FileButton from "@components/Button/file";
 import { TreeSelect } from "primereact/treeselect";
@@ -43,7 +43,7 @@ import { useLocation } from "react-router-dom";
 const baseAlert = (record: any, isTmp: boolean): object => {
 	const action = record !== undefined ? "Actualizar" : "Guardar";
 
-	let alert = {
+	const alert = {
 		titleText: `¿Está seguro de ${action} el registro?`,
 		showCancelButton: true,
 		confirmButtonText: `${action}`,
@@ -153,7 +153,7 @@ export default function Create({
 		}
 	}, [uid]);
 	const justNumbers = (value: string) =>
-		parseFloat(value.replace(/[^0-9.]/g, ""));
+		Number.parseFloat(value.replace(/[^0-9.]/g, ""));
 	const handleSelectChange = ({ value }) =>
 		setData({ ...data, table_name: value.label, schema_name: value.parent });
 	const handleTreeSelect = ({ value }) => {
@@ -178,8 +178,8 @@ export default function Create({
 	};
 	const handleNotification = (
 		summary: string,
-		detail: string = "",
-		severity: string = "error",
+		detail = "",
+		severity = "error",
 	) => {
 		const index = notifications.findIndex(
 			({ summary }: any) => summary === summary,

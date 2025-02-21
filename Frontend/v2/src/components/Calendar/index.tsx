@@ -1,6 +1,6 @@
 /** @format */
 
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { DayPicker } from "react-day-picker";
 

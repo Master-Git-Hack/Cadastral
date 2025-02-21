@@ -1,6 +1,6 @@
 /** @format */
 
-import { ChangeEventHandler, ReactNode } from "react";
+import { type ChangeEventHandler, ReactNode } from "react";
 
 export interface Item {
 	/** The value of the option corresponds to the `valueKey` in the data. **/

@@ -3,7 +3,11 @@
 import { Comparable } from "./../../views/Comparables/comparable";
 /** @format */
 
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import {
+	configureStore,
+	type ThunkAction,
+	type Action,
+} from "@reduxjs/toolkit";
 import Homologaciones from "../justipreciacion/homologacion";
 import Justipreciacion from "../justipreciacion";
 import CostosConstruccion from "../justipreciacion/costosConstruccion";

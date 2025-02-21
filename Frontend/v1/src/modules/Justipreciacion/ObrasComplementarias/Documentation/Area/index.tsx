@@ -6,7 +6,7 @@ import { SelectUnit } from "../../../../../components/Custom/SelectUnit";
 import { Fancy } from "../../../../../components/Input/Fancy";
 import { Text } from "../../../../../components/Input";
 import { asFancyNumber } from "../../../../../utils/number";
-import { AreaProps } from "./area.types";
+import type { AreaProps } from "./area.types";
 import { useAppDispatch } from "../../../../../redux";
 import {
 	addAreaRow,

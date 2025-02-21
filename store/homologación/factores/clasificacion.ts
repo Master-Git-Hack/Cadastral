@@ -1,4 +1,4 @@
-import { defaultFactorData } from "./base";
+import { defaultFactorData } from "../base";
 export enum CatalogoClasificacion {
 	URBANO = 1.1,
 	SUBURBANO = 1.05,

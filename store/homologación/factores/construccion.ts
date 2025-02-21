@@ -1,4 +1,4 @@
-import { defaultFactorData } from "./base";
+import { defaultFactorData } from "../base";
 export enum CatalogoConstrucciones {
 	"MODERNO SUPERIOR" = 1.08,
 	"MODERNO MEDIO" = 1.06,

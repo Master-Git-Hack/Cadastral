@@ -1,6 +1,10 @@
 /** @format */
 
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react";
+import {
+	forwardRef,
+	type ElementRef,
+	type ComponentPropsWithoutRef,
+} from "react";
 import { Root, Trigger, Content } from "@radix-ui/react-hover-card";
 
 import { cn } from "@lib/utils/ui";

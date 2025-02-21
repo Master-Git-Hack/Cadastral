@@ -2,7 +2,7 @@
 
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "../baseUrl";
-import { IComparables } from "./types";
+import type { IComparables } from "./types";
 import { saveAs } from "file-saver";
 import { setComparables } from "../../reducers/Comparables";
 

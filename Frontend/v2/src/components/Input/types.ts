@@ -1,6 +1,6 @@
 /** @format */
 
-import { HTMLAttributes, TextareaHTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, TextareaHTMLAttributes, ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 export const variants = cva("rounded-lg  text-sm", {

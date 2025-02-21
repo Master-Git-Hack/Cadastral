@@ -145,13 +145,13 @@ const SaveActions = ({ open, setOpen, uid, isTemporal }: any) => {
 					{!uid && (
 						<div className="flex gap-2">
 							<Button
-								className={cn(`bg-blue-500 hover:bg-blue-900`)}
+								className={cn("bg-blue-500 hover:bg-blue-900")}
 								onClick={() => handleSave(MetadatoActions.PostTemporal)}
 							>
 								Crear Registro Temporal
 							</Button>
 							<Button
-								className={cn(`ms-5 bg-teal-600 hover:bg-teal-900`)}
+								className={cn("ms-5 bg-teal-600 hover:bg-teal-900")}
 								onClick={() => handleSave(MetadatoActions.PostMetadato)}
 							>
 								Crear Nuevo Registro
@@ -163,7 +163,7 @@ const SaveActions = ({ open, setOpen, uid, isTemporal }: any) => {
 						<div className="flex gap-2">
 							{isTemporal && (
 								<Button
-									className={cn(`bg-blue-500 hover:bg-blue-900 `)}
+									className={cn("bg-blue-500 hover:bg-blue-900")}
 									onClick={() => handleSave(MetadatoActions.PatchTemporal)}
 								>
 									Actualizar Registro Temporal
@@ -171,14 +171,14 @@ const SaveActions = ({ open, setOpen, uid, isTemporal }: any) => {
 							)}
 							{isTemporal ? (
 								<Button
-									className={cn(`ms-5 bg-teal-600 hover:bg-teal-900`)}
+									className={cn("ms-5 bg-teal-600 hover:bg-teal-900")}
 									onClick={() => handleSave(MetadatoActions.PostMetadato)}
 								>
 									Crear Nuevo Registro
 								</Button>
 							) : (
 								<Button
-									className={cn(`ms-5 bg-teal-600 hover:bg-teal-900`)}
+									className={cn("ms-5 bg-teal-600 hover:bg-teal-900")}
 									onClick={() => handleSave(MetadatoActions.PatchMetadato)}
 								>
 									Actualizar Registro
@@ -359,33 +359,33 @@ export default function Create({
 			</div>
 			<div className="flex flex-row justify-between my-5">
 				<div className="flex-col">
-					{parseInt(page) - 1 > 0 && (
+					{Number.parseInt(page) - 1 > 0 && (
 						<Button
 							variant="outline"
 							className="mt-1 "
 							onClick={() =>
 								router.push(
-									`?page=${parseInt(page) - 1}${isTemporal ? "&temporal=true" : ""}`,
+									`?page=${Number.parseInt(page) - 1}${isTemporal ? "&temporal=true" : ""}`,
 								)
 							}
 						>
-							Anterior {parseInt(page) - 1}
+							Anterior {Number.parseInt(page) - 1}
 						</Button>
 					)}
 				</div>
 
 				<div className="flex-col">
-					{parseInt(page) + 1 < 10 && (
+					{Number.parseInt(page) + 1 < 10 && (
 						<Button
 							variant="outline"
 							className="mt-1 "
 							onClick={() =>
 								router.push(
-									`?page=${parseInt(page) + 1}${isTemporal ? "&temporal=true" : ""}`,
+									`?page=${Number.parseInt(page) + 1}${isTemporal ? "&temporal=true" : ""}`,
 								)
 							}
 						>
-							Siguiente {parseInt(page) + 1}
+							Siguiente {Number.parseInt(page) + 1}
 						</Button>
 					)}
 				</div>

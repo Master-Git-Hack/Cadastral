@@ -1,6 +1,6 @@
 /** @format */
 
-import { HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 export const bodyVariants = cva("[&_tr:last-child]:border-0", {
 	variants: {

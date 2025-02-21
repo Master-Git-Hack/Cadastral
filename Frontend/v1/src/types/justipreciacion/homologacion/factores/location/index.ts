@@ -1,6 +1,6 @@
 /** @format */
 
-import { symbolsOptions as options, FactorsProps } from "../";
+import { symbolsOptions as options, type FactorsProps } from "../";
 const operation = (items: any) => {
 	const columns = Object.keys(items[0]).filter((key: string) =>
 		key.includes("C"),
@@ -22,11 +22,7 @@ const operation = (items: any) => {
 		value: item,
 	}));
 };
-const templateSubject = (
-	id: number,
-	percentage: number = 10,
-	observations: string = "",
-) => ({
+const templateSubject = (id: number, percentage = 10, observations = "") => ({
 	id,
 	C1: options[0],
 	C2: options[0],

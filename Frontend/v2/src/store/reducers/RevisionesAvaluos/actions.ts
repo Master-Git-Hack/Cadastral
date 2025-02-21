@@ -1,6 +1,6 @@
 /** @format */
 
-import { ReviewState } from "./types";
+import type { ReviewState } from "./types";
 import { getNow } from "@utils/datetime";
 import { PayloadAction } from "@reduxjs/toolkit";
 

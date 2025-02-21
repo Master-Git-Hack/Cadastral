@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { asFancyNumber } from "../../../utils/number";
 import { Tooltip } from "../../Tooltip";
-import { FancyProps } from "./fancy.types";
+import type { FancyProps } from "./fancy.types";
 
 export const Fancy = ({
 	index,

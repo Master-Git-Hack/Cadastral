@@ -1,8 +1,13 @@
 /** @format */
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { reducers } from "./catastral.reducer";
-import { name, consume, initialState, StateProps } from "./catastral.interface";
-import { RootState } from "../store";
+import {
+	name,
+	consume,
+	initialState,
+	type StateProps,
+} from "./catastral.interface";
+import type { RootState } from "../store";
 
 export const consumeCatastral = consume;
 export const { get, post, patch } = consumeCatastral;

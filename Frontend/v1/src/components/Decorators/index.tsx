@@ -1,6 +1,6 @@
 /** @format */
 
-import { DecoratorM2Props } from "./decorators.types";
+import type { DecoratorM2Props } from "./decorators.types";
 
 export const M2 = (props: DecoratorM2Props) => (
 	<p className={props?.className} style={props?.style}>

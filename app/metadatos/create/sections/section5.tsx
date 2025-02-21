@@ -29,9 +29,9 @@ export const Section5 = ({ editable = true }: any) => {
 		},
 	}) => setData({ ...data, [name]: `${code}. ${label}. ${description}` });
 	const findSelectValue = (name: string) => {
-		const [code, label, description] = String(data[name] ?? "")?.split(". ");
+		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	};
+	}
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
 		(item) => item.code === data.md_dataidentification_language,
 	);
@@ -44,7 +44,7 @@ export const Section5 = ({ editable = true }: any) => {
 		spatialrepresentationtype === "TIN";
 	const justNumbers = (value: string) => {
 		if (!value) return 0;
-		return parseFloat(String(value)?.replace(/[^0-9.]/g, ""));
+		return Number.parseFloat(String(value)?.replace(/[^0-9.]/g, ""));
 	};
 	return (
 		<>
@@ -1185,7 +1185,7 @@ export const Section5 = ({ editable = true }: any) => {
 							value={data.utm_feast}
 							onValueChange={handleInputChange}
 							name="utm_feast"
-							className={`w-full md:w-14rem $`}
+							className="w-full md:w-14rem"
 							maxFractionDigits={0}
 							step={1}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -1252,7 +1252,7 @@ export const Section5 = ({ editable = true }: any) => {
 							</SelectTrigger>
 							<SelectContent>
 								{catalogo.horizdn.map(({ code, label, description }) => (
-									<SelectItem value={`${code}. ${label}. ${description}`}>
+									<SelectItem value={`${code}. ${label}. ${description}`} key={`${code}. ${label}. ${description}`}>
 										{label}
 									</SelectItem>
 								))}
@@ -1283,7 +1283,7 @@ export const Section5 = ({ editable = true }: any) => {
 							</SelectTrigger>
 							<SelectContent>
 								{catalogo.ellips.map(({ code, label, description }) => (
-									<SelectItem value={`${code}. ${label}. ${description}`}>
+									<SelectItem value={`${code}. ${label}. ${description}`} key={`${code}. ${label}. ${description}`}>
 										{label}
 									</SelectItem>
 								))}

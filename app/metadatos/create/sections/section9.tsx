@@ -26,9 +26,9 @@ export const Section9 = ({ editable = true }: any) => {
 		setData({ ...data, [currentTarget.name]: currentTarget.value });
 
 	const findSelectValue = (name: string) => {
-		const [code, label, description] = String(data[name] ?? "")?.split(". ");
+		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	};
+	}
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
 		(item) => item.code === data.md_dataidentification_language,
 	);
@@ -278,7 +278,7 @@ export const Section9 = ({ editable = true }: any) => {
 							<SelectContent>
 								{catalogo?.ci_responsibleparty_role?.map(
 									({ code, label, description }) => (
-										<SelectItem value={`${code}. ${label}. ${description}`}>
+										<SelectItem value={`${code}. ${label}. ${description}`} key ={`${code}. ${label}. ${description}`}>
 											{label}
 										</SelectItem>
 									),

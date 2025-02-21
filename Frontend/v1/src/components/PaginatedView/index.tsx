@@ -3,7 +3,7 @@
 import { Pagination } from "./Pagination";
 import { Container } from "../Container";
 import { useState, useEffect, forwardRef } from "react";
-import { PaginatedViewProps } from "./paginatedView.types";
+import type { PaginatedViewProps } from "./paginatedView.types";
 import { Divider, Animation, Grid, Row, Col } from "rsuite";
 import { Errors } from "../Custom/Errors";
 

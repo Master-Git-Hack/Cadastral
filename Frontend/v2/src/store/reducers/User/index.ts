@@ -1,9 +1,9 @@
 /** @format */
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "@redux/index";
+import type { RootState } from "@redux/index";
 import { reducers, initialState } from "./actions";
-import { UserState } from "./types";
+import type { UserState } from "./types";
 const slice = createSlice({
 	name: "User",
 	initialState: initialState() as UserState,

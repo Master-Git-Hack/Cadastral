@@ -1,6 +1,6 @@
 /** @format */
 
-import { forwardRef, TdHTMLAttributes } from "react";
+import { forwardRef, type TdHTMLAttributes } from "react";
 
 import { cn } from "@utils/ui";
 export const Cell = forwardRef<

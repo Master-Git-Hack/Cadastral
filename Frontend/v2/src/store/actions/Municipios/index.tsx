@@ -1,6 +1,6 @@
 /** @format */
 import { useState, useEffect } from "react";
-import { IuseMunicipios, Type } from "./types";
+import { type IuseMunicipios, Type } from "./types";
 import {
 	useGetMunicipiosQuery,
 	useGetMunicipioQuery,
@@ -9,11 +9,11 @@ import {
 	useGetDepartamentosQuery,
 } from "@api/Municipios";
 import {
-	IMunicipio,
+	type IMunicipio,
 	translateIndicador,
-	IDepartamentoSolicitante,
-	IIndicador,
-	IIndicator,
+	type IDepartamentoSolicitante,
+	type IIndicador,
+	type IIndicator,
 	indicadores,
 } from "@api/Municipios/types";
 export default function useMunicipios({

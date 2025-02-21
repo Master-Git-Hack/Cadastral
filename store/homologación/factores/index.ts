@@ -1,4 +1,4 @@
-import Common from "./base";
+import Common from "../base";
 import Clasificacion from "./clasificacion";
 import Conservacion from "./conservacion";
 import Construcciones from "./construccion";
@@ -9,16 +9,20 @@ import Proyecto from "./proyecto";
 import Calidad from "./calidad";
 import Superficie from "./superficie";
 import Topografia from "./topografia";
+import Forma from "./forma";
+import Uso from "./uso";
 export default {
 	Common,
 	Clasificacion,
 	Construcciones,
 	Conservacion,
 	Nivel,
-    Ubicacion,
-    Zona,
-    Proyecto,
-    Calidad,
-    Superficie,
-    Topografia
+	Ubicacion,
+	Zona,
+	Proyecto,
+	Calidad,
+	Superficie,
+	Topografia,
+	Forma,
+	Uso,
 };

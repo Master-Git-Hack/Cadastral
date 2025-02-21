@@ -1,13 +1,13 @@
 /** @format */
 
-import { RootState } from "./../../store/index";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "./../../store/index";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { reducers } from "./obrasComplementarias.reducer";
 import {
 	name,
 	initialState,
 	consume,
-	StateProps,
+	type StateProps,
 } from "./obrasComplementarias.interface";
 export const consumeOC = consume;
 export const { get, post, patch } = consumeOC;

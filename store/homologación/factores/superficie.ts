@@ -1,7 +1,7 @@
-import { defaultRoot,defaultValueData } from "./base";
+import { defaultRoot, defaultValueData } from "../base";
 export default {
-    default:{
-        data:defaultValueData(),
-        root:defaultRoot
-    }
+	default: {
+		data: defaultValueData(),
+		root: defaultRoot,
+	},
 };

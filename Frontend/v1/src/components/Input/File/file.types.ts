@@ -1,6 +1,6 @@
 /** @format */
 
-import { ChangeEventHandler, MouseEventHandler } from "react";
+import type { ChangeEventHandler, MouseEventHandler } from "react";
 
 export interface FileProps {
 	filename: string;

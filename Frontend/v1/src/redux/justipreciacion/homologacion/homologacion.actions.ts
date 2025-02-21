@@ -126,7 +126,7 @@ const handleSalesCost = (
 	Area: any,
 	Results: any,
 	WeightingPercentage: any,
-	factor: number = 1,
+	factor = 1,
 	handlers: any,
 ) => {
 	/*SalesCost.data = SalesCost.operation(SalesCost.data, Area.data);

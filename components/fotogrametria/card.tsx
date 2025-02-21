@@ -42,7 +42,10 @@ const Card = ({ image, title, fields, onEdit, loaded }: CardProps) => {
 	};
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
-		setCoordinates((prev) => ({ ...prev, [name]: parseFloat(value) || 0 }));
+		setCoordinates((prev) => ({
+			...prev,
+			[name]: Number.parseFloat(value) || 0,
+		}));
 	};
 	if (isLoading)
 		return (

@@ -1,7 +1,7 @@
 /** @format */
 import { useEffect, useState } from "react";
 import { LinkPreview } from "@dhaiwat10/react-link-preview";
-import { LinkPreviewProps } from "./linkPreview.types";
+import type { LinkPreviewProps } from "./linkPreview.types";
 import { Text } from "../Input";
 import { isURL } from "../../utils/url";
 import { Notification } from "rsuite";

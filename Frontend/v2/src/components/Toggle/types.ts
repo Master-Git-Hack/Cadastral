@@ -1,6 +1,6 @@
 /** @format */
 
-import { HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 export const variants = cva(
 	"bg-gray-200 rounded-full peer peer-focus:ring-4 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute  after:bg-white after:border-gray-300 after:border after:rounded-full  after:transition-all dark:border-gray-600",

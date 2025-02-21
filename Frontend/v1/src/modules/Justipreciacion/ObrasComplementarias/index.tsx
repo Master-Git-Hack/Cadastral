@@ -30,7 +30,7 @@ import { Calculation } from "./Calculation";
 import { Documentation } from "./Documentation";
 import { PartialCalculation } from "./PartialCalculation";
 
-const Pages = (isComplete: boolean = true) =>
+const Pages = (isComplete = true) =>
 	isComplete
 		? {
 				1: <Documentation />,

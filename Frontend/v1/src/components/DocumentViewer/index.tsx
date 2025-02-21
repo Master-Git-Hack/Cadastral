@@ -1,6 +1,6 @@
 /** @format */
 
-import { DocumentViewerProps } from "./documentViewer.types";
+import type { DocumentViewerProps } from "./documentViewer.types";
 import { Spinner } from "../Spinner";
 import { Alert } from "../Alert";
 import blankDocument from "../../assets/docs/blank.pdf";

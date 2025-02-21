@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-import { CreateAxiosDefaults } from "axios";
+import type { CreateAxiosDefaults } from "axios";
 import LS from "@utils/localStorage";
 
 import { api } from "../api.config";

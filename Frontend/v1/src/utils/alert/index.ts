@@ -3,7 +3,7 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { colorAlertPicker } from "../color";
-import { SADefinedProps, SweetAlertProps } from "./alert.types";
+import type { SADefinedProps, SweetAlertProps } from "./alert.types";
 
 const definedProps = {
 	backdrop: false,
@@ -83,7 +83,7 @@ const base = (
 	text: string,
 	icon: "success" | "error" | "warning" | "info" | "question",
 	confirmButtonColor: string,
-	isLoading: boolean = false,
+	isLoading = false,
 ) => {
 	const Component = withReactContent(Swal);
 	return Component.fire({
@@ -107,7 +107,7 @@ export const Info = ({ title, text, isLoading }: SADefinedProps) =>
 	base(title, text, "info", colorAlertPicker("info"), isLoading);
 export const Question = ({ title, text, isLoading }: SADefinedProps) =>
 	base(title, text, "question", colorAlertPicker("primary"), isLoading);
-export const SimpleMessage = (titleText: string = "", text: string = "") =>
+export const SimpleMessage = (titleText = "", text = "") =>
 	Swal.fire({ titleText, text });
 
 export const Save = (props: { title: string; text: string }) =>

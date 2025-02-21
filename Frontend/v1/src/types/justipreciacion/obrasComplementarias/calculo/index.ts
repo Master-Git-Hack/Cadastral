@@ -1,6 +1,6 @@
 /** @format */
 
-import { Properties } from "..";
+import type { Properties } from "..";
 
 /** @format */
 export interface OptionProps extends Properties {
