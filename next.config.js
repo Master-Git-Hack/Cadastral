@@ -11,6 +11,9 @@ if (!backendURL) {
 }
 
 const nextConfig = {
+	output: 'export', // Ensures static export
+	distDir: '.next',
+	trailingSlash: true, // Better handling for NGINX
 	eslint: {
 		ignoreDuringBuilds: true,
 	},

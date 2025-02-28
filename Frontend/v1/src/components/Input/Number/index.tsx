@@ -49,7 +49,7 @@ export const InputNumber = ({
 						| React.ChangeEvent<HTMLInputElement>
 						| React.SyntheticEvent<Element, Event>,
 				) => {
-					onChange(Number(value));
+					onChange(value as number);
 				}}
 				size={size}
 				scrollable

@@ -6,7 +6,7 @@ COPY . /usr/src/v1
 RUN apt-get update --allow-releaseinfo-change && \
     apt-get install -y nano wget fontconfig libfreetype6 \
     libjpeg62-turbo libpng16-16 libx11-6 libxcb1 libxext6 \
-    libxrender1 xfonts-75dpi xfonts-base
+    libxrender1 xfonts-75dpi xfonts-base musl-locales musl-locales-lang
 
 RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.bullseye_amd64.deb && \
     dpkg -i wkhtmltox_0.12.6.1-2.bullseye_amd64.deb && \ 
@@ -18,6 +18,7 @@ RUN python -m pip install --upgrade pip && \
     pip install --no-cache-dir -r /usr/src/v1/requirements.v1.txt
 
 ENV LANG=es_MX.UTF-8
+ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=es_MX.UTF-8
 ENV FLASK_APP="wsgi.py"
 ENV FLASK_RUN_HOST='0.0.0.0'

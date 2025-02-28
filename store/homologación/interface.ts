@@ -225,5 +225,5 @@ const defaultState: IHomologacionState = {
 export interface IHomologacionActions {
 	updateAge: (data: Daum[], subject: Subject) => Daum[];
 	updateResults: (data: Daum[], factors: Factores) => Daum[];
-	updateLocation:(data:)
+	
 }

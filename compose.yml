@@ -1,28 +1,44 @@
-version: "3.8"
-
 services:
   frontend:
+    container_name: frontend_v3
     build:
       context: .
-      dockerfile: Dockerfile # Dockerfile del frontend
+      dockerfile: Dockerfile
+    # image: frontend_v3
     ports:
-      - "3000:3000"
+      - "80:3000"
     environment:
       - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://backend_v3:5000
+      - NEXT_PUBLIC_API_ENDPOINT=api
+      - NEXT_PUBLIC_API_VERSION=v3
     volumes:
-      - .:/app
+      - ./frontend:/app
       - /app/node_modules
     depends_on:
       - backend
+    networks:
+      - cadastral_network
 
   backend:
+    container_name: backend_v3
     build:
       context: ./api
-      dockerfile: Dockerfile # Dockerfile del backend
+      dockerfile: Dockerfile
+    # image: backend_v3
     restart: always
     ports:
       - "5000:5000"
+    env_file:
+      - .env
     environment:
       - PYTHONUNBUFFERED=1
+      - ENV=production
     volumes:
       - ./api:/app
+    networks:
+      - cadastral_network
+
+networks:
+  cadastral_network:
+    driver: bridge

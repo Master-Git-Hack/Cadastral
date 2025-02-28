@@ -342,12 +342,18 @@ const CurrentCell = ({
 			{isArea ? (
 				<M2 text={`${value} `} />
 			) : dataKey === "FOtro" ? (
-				<InputNumber
-					size="xs"
-					value={current}
-					step={0.01}
-					onChange={(value: number) => dispatch(setOther({ id, value }))}
-				/>
+				<input className="form-control form-control-sm" type="number" value={Number.parseFloat(current)}
+				step={0.01}
+				max={2}
+				min={0.01}
+				onChange={(e) => {
+					const value =e.target.valueAsNumber;
+					if (value>=0.01 && value<=2)
+						dispatch(setOther({ id, value }));
+					else
+						dispatch(setOther({ id, value:0.01 }));
+				}}/>
+				
 			) : (
 				value
 			)}

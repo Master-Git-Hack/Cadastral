@@ -90,7 +90,7 @@ export const Homologacion = () => {
 				title: "¡Registro encontrado Exitosamente!",
 				text: message,
 			});
-			setStartAt(3);
+			setStartAt(1);
 		}
 	}, [message, status]);
 

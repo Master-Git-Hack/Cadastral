@@ -18,14 +18,15 @@ export interface IJustipreciacionState
 	tipo: Tipo | keyof typeof Tipo;
 	comparativo_mercado: number;
 	valor_total_obras_comp: number;
+	exists:Record<Tipo,boolean>
 }
 
 export interface IJustipreciacionActions {
 	setJustipreciacion: (justipreciacion: Partial<IJustipreciacionState>) => void;
 	clearJustipreciacion: () => void;
-	getJustipreciacionById: () => void;
-	getJustipreciacionByRegistro: () => void;
-	patchJustipreciacion: () => void;
+	getJustipreciacionById: (key?:string,includes?:string[],excludes?:string[],isLegacy?:boolean) => void;
+	getJustipreciacionByRegistro: (key?:string,includes?:string[],excludes?:string[],isLegacy?:boolean) => void;
+	patchJustipreciacion: (isLegacy?:boolean) => void;
 	flattenObject<T extends Record<string, any>>(obj: T): Record<string, any>;
 }
 
@@ -44,6 +45,7 @@ export const defaultState: IJustipreciacionState = {
 	cnd: { edad: 0, superficie: 0, vu: 0 },
 	comparativo_mercado: 0,
 	valor_total_obras_comp: 0,
+	exists:{[Tipo.TERRENO]:false,[Tipo.RENTA]:false}
 };
 
 function flattenObject<T extends Record<string, any>>(
