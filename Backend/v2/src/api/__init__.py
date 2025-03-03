@@ -67,3 +67,7 @@ app.include_router(ua_comparables, prefix=config.API_URL_PREFIX)
 from .catastral import catastrales
 
 app.include_router(catastrales, prefix=config.API_URL_PREFIX)
+
+from .func import custom_func
+
+app.include_router(custom_func, prefix=config.API_URL_PREFIX)
