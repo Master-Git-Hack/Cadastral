@@ -13,11 +13,13 @@ import {
 	CardFooter,
 } from "@/components/ui/card";
 import Link from "next/link";
-
+import useUser from "@/store/user";
+import Spinner from "@/components/ui/spinner";
 export default function Page() {
 	const firstRender = useRef(true);
+	const {token} = useUser((state) => state);
 	useEffect(() => {
-		if (firstRender.current) {
+		if (firstRender.current &&token!==null) {
 			Success({
 				title: "Inicio de sesión exitoso",
 				text: "Bienvenido al sistema",
@@ -31,8 +33,12 @@ export default function Page() {
 			// );
 			firstRender.current = false;
 		}
-	}, []);
-
+		if(token===null){
+			if (typeof window !== 'undefined') window.location.href = '/sign-in';
+		}
+	}, [token]);
+	if(token===null && firstRender.current){
+		return <Spinner />;}
 	return (
 		<Layout>
 			<div className="flex flex-wrap justify-center gap-4 m-4 ">

@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"backend": "./.backend.sh",
-		"frontend": "next dev --turbopack --port 3001",
+		"frontend": "next dev --turbopack --port 3000",
 		"format": "concurrently \"black ./api/\" \"prettier --ignore-path ./.prettierignore --config ./.prettierrc.json --write './**/*.{ts,tsx,}'\"",
 		"dev": "concurrently \"yarn frontend\" \"yarn backend\"",
 		"build": "next build",

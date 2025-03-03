@@ -66,6 +66,7 @@ const consume = ({
 				const router = useRouter();
 				LS.clear();
 				router.push("/sign-in");
+				if (typeof window !== 'undefined') window.location.href = '/sign-in';
 			}
 			return Promise.reject(error);
 		},
@@ -90,7 +91,7 @@ const setConfig = (url: string, config?: CreateAxiosDefaults) => {
 		}
 		//check if data element on config delete it
 		if (config?.data) {
-			delete config.data;
+			config.data=null;
 		}
 	}
 	return { headers: { ...headers, ...config?.headers }, ...config };
@@ -217,7 +218,6 @@ export const api = {
 		url: string,
 		data: CreateAxiosDefaults["data"] = {},
 		params?: CreateAxiosDefaults,
-		router?: NextRouter,
 	) => {
 		const { setLoading, setSuccess, setError, setDefault } =
 			useStatusStore.getState();

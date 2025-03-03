@@ -34,8 +34,10 @@ export default function User() {
 			signOut();
 			alert("Sesión Expirada");
 			router.push("/sign-in");
+			if (typeof window !== 'undefined') window.location.href = '/sign-in';
+			
 		}
-	}, []);
+	}, [isExpired,signOut]);
 
 	return (
 		<Dropdown placement="bottom-end" backdrop="opaque">
@@ -75,8 +77,12 @@ export default function User() {
 			{isDark ? "Deshabilitar " : "Habilitar "} Tema Oscuro</div>
 			</DropdownItem>
            
-			 <DropdownSection showDivider >
-					<DropdownItem key="logout" className="hover:text-red-600 hover:bg-red-400 text-red-300  rounded-lg "startContent={<span className="animate-pulse pi pi-sign-out me-2"/>} >
+			 <DropdownSection showDivider>
+					<DropdownItem key="logout" className="hover:text-red-600 hover:bg-red-400 text-red-300  rounded-lg "startContent={<span className="animate-pulse pi pi-sign-out me-2"/>} onPress={()=>{
+				signOut();
+				router.push("/sign-in");
+				if (typeof window !== 'undefined') window.location.href = '/sign-in';
+			 }}>
 					Cerrar Sesión
 					</DropdownItem>
 				
