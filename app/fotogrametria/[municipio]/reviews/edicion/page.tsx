@@ -1,4 +1,4 @@
-/** @format */
-export default function Page() {
+"use client";
+export default function EdtitionFoto() {
 	return <></>;
 }

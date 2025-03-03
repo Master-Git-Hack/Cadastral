@@ -1,5 +1,5 @@
 # Dockerfile for Next.js
-FROM node:23.9-alpine3.20 AS builder
+FROM node:23.9-alpine3.20
 
 # Set working directory
 WORKDIR /app
@@ -8,23 +8,16 @@ WORKDIR /app
 COPY package.json ./
 
 # Install dependencies
-RUN npm install
+RUN yarn install
 
 # Copy all files to the container
 COPY . .
-RUN npm run build && npm prune --production
-
-# Use a minimal image for production
-FROM nginx:1.27.4-alpine AS runner
-WORKDIR /app
-
-COPY --from=builder /app/.next /usr/share/nginx/html
-COPY --from=builder /app/public /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
-ENV NODE_ENV=production
-COPY nginx.conf /etc/nginx/nginx.conf
-# Expose port 3000 for Next.js
-EXPOSE 80
+ENV NODE_ENV=production \
+    NEXT_PUBLIC_API_URL=http://backend_v3:5000 \
+    NEXT_PUBLIC_API_ENDPOINT=api \
+    NEXT_PUBLIC_API_VERSION=v3
+RUN yarn build 
+EXPOSE 3000
 
 # Run Next.js in production mode
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["yarn", "start"]

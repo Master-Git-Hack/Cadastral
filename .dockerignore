@@ -1,0 +1,11 @@
+node_modules
+.gitignore
+.python-version
+.vscode
+.next
+*.sh
+*.py
+.env
+frontend
+Frontend
+Backend
