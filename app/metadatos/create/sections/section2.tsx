@@ -1,24 +1,15 @@
 /** @format */
 
-import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@utils/index";
 import "react-day-picker/dist/style.css";
-import { es } from "date-fns/locale";
-import {
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar as CalendarIcon } from "lucide-react";
 import {
 	Select,
 	SelectContent,
@@ -26,16 +17,25 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import catalogo from "../catologos/index";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import useMedatados from "@/store/metadatos/index";
+import { es } from "date-fns/locale";
+import { Calendar as CalendarIcon } from "lucide-react";
 import moment from "moment";
+import catalogo from "../catologos/index";
 export const Section2 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 
 	const findSelectValue = (name: string) => {
 		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	}
+	};
 
 	return (
 		<>
@@ -134,7 +134,10 @@ export const Section2 = ({ editable = true }: any) => {
 							</SelectTrigger>
 							<SelectContent>
 								{catalogo.datetype.map(({ code, label, description }) => (
-									<SelectItem value={`${code}. ${label}. ${description}`} key={`${code}. ${label}. ${description}`}>
+									<SelectItem
+										value={`${code}. ${label}. ${description}`}
+										key={`${code}. ${label}. ${description}`}
+									>
 										{label}
 									</SelectItem>
 								))}

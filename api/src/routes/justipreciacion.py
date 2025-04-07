@@ -20,6 +20,7 @@ justi = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+
 def has_homologation(db: Session, registro: str):
     homologacion = Homologacion(db)
     if homologacion.filter_group(registro=registro) is None:
@@ -29,7 +30,14 @@ def has_homologation(db: Session, registro: str):
                 1: False,
             },
         }
-    return {"exists":{[0 if h.tipo=="terreno" else 1]:False if h.tipo is None else True for h in homologacion.Current}}
+    return {
+        "exists": {
+            "0" if h.tipo == "terreno" else "1": False if h.tipo is None else True
+            for h in homologacion.Current
+        }
+    }
+
+
 @justi.get("/{id}")
 async def get_justi(
     id: int,
@@ -43,8 +51,12 @@ async def get_justi(
     if justipreciacion.get(id) is None:
         return __response.error(message="No se encontró el registro", status_code=404)
     data = justipreciacion.dict(includes=includes, excludes=excludes)
-    
-    return __response.success(data=data.get(key, data)|has_homologation(db, justipreciacion.Current.registro))
+    # if excludes is None:
+    #     excludes = ["geom", "fecha_solicitud"]
+    return __response.success(
+        data=data.get(key, data)
+        | has_homologation(db, justipreciacion.Current.registro)
+    )
 
 
 @justi.get("/legacy/{id}", tags=["Legacy"], deprecated=True)
@@ -58,9 +70,23 @@ async def get_justi_legacy(
     justipreciacion = Justipreciacion(db)
     if justipreciacion.get(id) is None:
         return __response.error(message="No se encontró el registro", status_code=404)
+    # if excludes is None:
+    #     excludes = ["geom", "fecha_solicitud"]
     data = justipreciacion.dict(includes=includes, excludes=excludes)
+    print(
+        {
+            **data.get(key, data),
+            **has_homologation(db, justipreciacion.Current.registro),
+        }
+    )
+    return __response.success(
+        data={
+            **data.get(key, data),
+            **has_homologation(db, justipreciacion.Current.registro),
+        }
+    )
 
-    return __response.success(data=data.get(key, data)|has_homologation(db, justipreciacion.Current.registro))
+
 #
 @justi.get("/{registro}")
 async def get_justi_registro(
@@ -76,7 +102,10 @@ async def get_justi_registro(
         return __response.error(message="No se encontró el registro", status_code=404)
     data = justipreciacion.dict(includes=includes, excludes=excludes)
 
-    return __response.success(data=data.get(key, data)|has_homologation(db, justipreciacion.Current.registro))
+    return __response.success(
+        data=data.get(key, data)
+        | has_homologation(db, justipreciacion.Current.registro)
+    )
 
 
 @justi.get("/legacy/{registro}", tags=["Legacy"], deprecated=True)
@@ -92,8 +121,14 @@ async def get_justi_legacy_registro(
         return __response.error(message="No se encontró el registro", status_code=404)
     data = justipreciacion.dict(includes=includes, excludes=excludes)
 
-    return __response.success(data=data.get(key, data)|has_homologation(db, justipreciacion.Current.registro))
+    return __response.success(
+        data=data.get(key, data)
+        | has_homologation(db, justipreciacion.Current.registro)
+    )
+
+
 #
+
 
 @justi.patch("/{id}")
 async def update_justi(

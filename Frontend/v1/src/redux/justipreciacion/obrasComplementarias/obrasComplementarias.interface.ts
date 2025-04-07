@@ -13,6 +13,15 @@ export interface Record {
 	register: string;
 	status: "newOne" | "exists";
 }
+interface EmsambleProps {
+	name: string;
+	cost: number;
+	enabled: boolean;
+}
+export interface PartidaProps {
+	ensambles: Array<EmsambleProps>;
+	image: string | ArrayBuffer | null;
+}
 export interface StateProps {
 	Documentation: Array<DocumentationProps>;
 	Calculation: Array<CalculationProps>;
@@ -24,16 +33,27 @@ export interface StateProps {
 	record: Record;
 	handlers: Properties;
 	rounded: number;
+	Partida?: PartidaProps;
 }
 const { calculo, documentation } = ObrasComplementarias;
 const { documentationTemplate } = documentation;
 const { calculationTemplate } = calculo;
-
+const partidas = {
+	ensambles: [
+		{
+			name: "",
+			cost: 0,
+			enabled: true,
+		},
+	],
+	image: "https://placehold.co/600x400",
+};
 export const name = "ObrasComplementarias";
 export const consume = api(name);
 export const initialState: StateProps = {
 	Documentation: [documentationTemplate],
 	Calculation: [calculationTemplate],
+	Partida: partidas,
 	total: 0,
 	message: "",
 	status: "unset",

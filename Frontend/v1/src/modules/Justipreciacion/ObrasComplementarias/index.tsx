@@ -29,12 +29,14 @@ import { Alert } from "../../../utils/alert";
 import { Calculation } from "./Calculation";
 import { Documentation } from "./Documentation";
 import { PartialCalculation } from "./PartialCalculation";
+import Partida from "./Partida";
 
 const Pages = (isComplete = true) =>
 	isComplete
 		? {
-				1: <Documentation />,
-				2: <Calculation />,
+				1: <Partida />,
+				2: <Documentation />,
+				3: <Calculation />,
 			}
 		: { 1: <PartialCalculation /> };
 export const ObrasComplementarias = () => {
@@ -144,12 +146,6 @@ export const ObrasComplementarias = () => {
 									}),
 								);
 						});
-				isConfirmed &&
-					length > 0 &&
-					Alert.Error({
-						title: "¡Algo Fallo!",
-						text: "Hay errores en el formulario, que necesita atender primero.",
-					});
 			})
 			.catch((error) =>
 				Alert.Error({
@@ -181,7 +177,7 @@ export const ObrasComplementarias = () => {
 							placement="rightEnd"
 						/>
 					}
-					totalPages={isComplete ? 2 : 1}
+					totalPages={isComplete ? 3 : 1}
 					actions={{
 						children: (
 							<>

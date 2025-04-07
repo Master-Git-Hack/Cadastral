@@ -2,18 +2,10 @@
 
 "use client";
 import { Chips } from "primereact/chips";
-import catalogo from "../catologos/index";
 import { MultiSelect } from "primereact/multiselect";
+import catalogo from "../catologos/index";
 
-import {
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
 	Select,
 	SelectContent,
@@ -21,6 +13,14 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 import useMedatados from "@/store/metadatos/index";
 import { useEffect } from "react";
 export const Section1 = ({ editable = true }) => {
@@ -45,7 +45,7 @@ export const Section1 = ({ editable = true }) => {
 	const findSelectValue = (name: string) => {
 		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	}
+	};
 
 	const handleMultiSelect = (e) => {
 		const { name } = e.target;
@@ -72,7 +72,8 @@ export const Section1 = ({ editable = true }) => {
 					?.map((text, index) => {
 						if (index === 0 && text.trim()) {
 							return text.trim();
-						} else if (index !== 0 && text.trim() !== "undefined") {
+						}
+						if (index !== 0 && text.trim() !== "undefined") {
 							return text.trim();
 						}
 						return null;

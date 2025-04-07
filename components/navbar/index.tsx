@@ -1,25 +1,25 @@
 /** @format */
 "use client";
-import TeamSwitcher from "./team_switcher";
+import Spinner from "@/components/ui/spinner";
+import { useStatusStore } from "@/store/api.config";
+import gtoLogo from "@assets/logo.png";
 import {
+	Avatar,
+	Dropdown,
+	DropdownItem,
+	DropdownMenu,
+	DropdownTrigger,
+	Link,
 	Navbar,
 	NavbarBrand,
 	NavbarContent,
 	NavbarItem,
-	Link,
-	DropdownItem,
-	DropdownTrigger,
-	Dropdown,
-	DropdownMenu,
-	Avatar,
-  } from "@heroui/react";
-import UserNav from "./user_nav";
-import {routes,Trigger,Route} from "./main_nav";
+} from "@heroui/react";
 import Image from "next/image";
-import gtoLogo from "@assets/logo.png";
-import { useStatusStore } from "@/store/api.config";
-import Spinner from "@/components/ui/spinner";
 import { usePathname } from "next/navigation";
+import { type Route, Trigger, routes } from "./main_nav";
+import TeamSwitcher from "./team_switcher";
+import UserNav from "./user_nav";
 interface INavBar {
 	children: React.ReactNode;
 	container?: boolean;
@@ -28,10 +28,14 @@ interface INavBar {
 export default function NavBar({ children, container = false }: INavBar) {
 	const { isLoading } = useStatusStore((state) => state);
 	const pathname = usePathname();
-	
+
 	return (
 		<div className="hidden flex-col md:flex">
-			<Navbar className="border-black bg-navbar" shouldHideOnScroll maxWidth="full" >
+			<Navbar
+				className="border-black bg-navbar"
+				shouldHideOnScroll
+				maxWidth="full"
+			>
 				{/* Left Content */}
 				<NavbarContent className="hidden sm:flex gap-4" justify="start">
 					<TeamSwitcher />
@@ -50,11 +54,17 @@ export default function NavBar({ children, container = false }: INavBar) {
 				</NavbarBrand>
 
 				<NavbarContent justify="start">
-					{!["/", "/home"].includes(pathname.replace(/\/+$/, ""))&&routes.map(({ label, href, children }: Route) => (
-						<Trigger key={label} label={label} href={href} pathname={pathname} routes={children} />
-					))}
+					{!["/", "/home"].includes(pathname.replace(/\/+$/, "")) &&
+						routes.map(({ label, href, children }: Route) => (
+							<Trigger
+								key={label}
+								label={label}
+								href={href}
+								pathname={pathname}
+								routes={children}
+							/>
+						))}
 				</NavbarContent>
-			
 
 				{/* Right Content */}
 				<NavbarContent justify="end">

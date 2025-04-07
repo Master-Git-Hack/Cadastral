@@ -1,9 +1,9 @@
 /** @format */
 
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import { api } from "../api.config";
 import { NextRouter } from "next/router";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { api } from "../api.config";
 
 export interface IParserState {
 	file?: File | File[];
@@ -29,7 +29,7 @@ const useParser = create<IParserState & IParserActions>()(
 			xmlToJson: async (file: File) => {
 				const formData = new FormData();
 				formData.append("file", file);
-				return await api.post("parser?from=xml&to=json",formData,true,{});
+				return await api.post("parser?from=xml&to=json", formData, true, {});
 			},
 			jsonToXml: async (json: any, filename: string) => {},
 

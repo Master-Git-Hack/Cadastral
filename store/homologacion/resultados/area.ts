@@ -1,4 +1,4 @@
-import { Tipo, zoneInformation, Area, defaultRootFactor } from "../base";
+import { Area, Tipo, defaultRootFactor, zoneInformation } from "../base";
 export const base = {
 	name: {
 		[Tipo.TERRENO]: "Áreas ",
@@ -41,5 +41,5 @@ export default {
 			zone: zoneInformation[0],
 		},
 		factors: defaultRootFactor({}),
-	}, 
+	},
 };

@@ -1,18 +1,18 @@
 /** @format */
 
-// Card.jsx
-import { useState, useEffect } from "react";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 import {
-	Card as Component,
 	CardContent,
 	CardHeader,
 	CardTitle,
+	Card as Component,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Check, Pencil } from "lucide-react";
+import Image from "next/image";
+// Card.jsx
+import { useEffect, useState } from "react";
 interface Coordinates {
 	x: number;
 	y: number;

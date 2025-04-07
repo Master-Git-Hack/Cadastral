@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input";
 /** @format */
 import {
 	TableBody,
@@ -6,11 +7,10 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import catalogo from "../catologos/index";
-import { MultiSelect } from "primereact/multiselect";
 import useMedatados from "@/store/metadatos/index";
+import { MultiSelect } from "primereact/multiselect";
+import catalogo from "../catologos/index";
 export const Section8 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 	const handleInputChange = ({ currentTarget }) =>

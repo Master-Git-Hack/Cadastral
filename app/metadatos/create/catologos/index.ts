@@ -1,28 +1,28 @@
+import { altdatum } from "./altdatum";
+import { altenc } from "./altenc";
+import { altunits } from "./altunits";
+import { bearing_uni } from "./bearing_uni";
 /** @format */
 import { ci_responsibleparty_role } from "./ci_responsibleparty_role";
+import { coord_repres } from "./coord_repres";
 import { datetype } from "./datetype";
+import { depthdn } from "./depthdn";
+import { depthdu } from "./depthdu";
+import { ellips } from "./ellips";
+import { geounit } from "./geounit";
 import { groupcategory } from "./groupcategory";
+import { horizdn } from "./horizdn";
 import { level } from "./level";
 import { maintenanceandupdatefrequency } from "./maintenanceandupdatefrequency";
 import { md_dataidentification_characterset } from "./md_dataidentification_characterset";
 import { md_dataidentification_language } from "./md_dataidentification_language";
 import { presentationform } from "./presentationform";
-import { spatialrepresentationtype } from "./spatialrepresentationtype";
-import { topiccategory } from "./topiccategory";
-import { geounit } from "./geounit";
-import { valueunit } from "./valueunit";
-import { coord_repres } from "./coord_repres";
 import { ref_bearing_dir } from "./ref_bearing_dir";
 import { ref_bearing_mer } from "./ref_bearing_mer";
-import { bearing_uni } from "./bearing_uni";
-import { horizdn } from "./horizdn";
-import { ellips } from "./ellips";
-import { altenc } from "./altenc";
-import { altunits } from "./altunits";
-import { altdatum } from "./altdatum";
-import { depthdn } from "./depthdn";
-import { depthdu } from "./depthdu";
+import { spatialrepresentationtype } from "./spatialrepresentationtype";
+import { topiccategory } from "./topiccategory";
 import { useconstraints } from "./useconstraints";
+import { valueunit } from "./valueunit";
 export const catalogo = {
 	ci_responsibleparty_role,
 	datetype,

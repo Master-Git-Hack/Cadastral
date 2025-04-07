@@ -34,14 +34,13 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
-			
-			"suspicious":
-			{
-				"noExplicitAny":"off"
-			},"correctness":{
-"useExhaustiveDependencies":"off"
+
+			"suspicious": {
+				"noExplicitAny": "off"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "off"
 			}
-			
 		}
 	},
 	"javascript": {

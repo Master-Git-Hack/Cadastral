@@ -1,25 +1,25 @@
 /** @format */
 
 "use client";
-import { useEffect, useRef } from "react";
-import { Success } from "@/components/ui/alert";
 import Layout from "@/components/navbar/index";
 import { routes } from "@/components/navbar/main_nav";
+import { Success } from "@/components/ui/alert";
 import {
 	Card,
-	CardHeader,
-	CardTitle,
 	CardContent,
 	CardFooter,
+	CardHeader,
+	CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
-import useUser from "@/store/user";
 import Spinner from "@/components/ui/spinner";
+import useUser from "@/store/user";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
 export default function Page() {
 	const firstRender = useRef(true);
-	const {token} = useUser((state) => state);
+	const { token } = useUser((state) => state);
 	useEffect(() => {
-		if (firstRender.current &&token!==null) {
+		if (firstRender.current && token !== null) {
 			Success({
 				title: "Inicio de sesión exitoso",
 				text: "Bienvenido al sistema",
@@ -33,12 +33,13 @@ export default function Page() {
 			// );
 			firstRender.current = false;
 		}
-		if(token===null){
-			if (typeof window !== 'undefined') window.location.href = '/sign-in';
+		if (token === null) {
+			if (typeof window !== "undefined") window.location.href = "/sign-in";
 		}
 	}, [token]);
-	if(token===null && firstRender.current){
-		return <Spinner />;}
+	if (token === null && firstRender.current) {
+		return <Spinner />;
+	}
 	return (
 		<Layout>
 			<div className="flex flex-wrap justify-center gap-4 m-4 ">

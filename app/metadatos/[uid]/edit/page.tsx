@@ -2,8 +2,11 @@
 "use client";
 import Error from "@/components/error";
 import Layout from "@/components/navbar/index";
-import Create from "../../create/create";
-import useMedatados from "@/store/metadatos/index";
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import {
 	Pagination,
 	PaginationContent,
@@ -12,15 +15,12 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-	HoverCard,
-	HoverCardContent,
-	HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { useSearchParams } from "next/navigation";
+import useMedatados from "@/store/metadatos/index";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { use } from "react";
+import Create from "../../create/create";
 const Pages = ({ page, isTemporal }: any) => {
 	//make an array of 9 pages
 	const pages = Array.from({ length: 9 }, (_, i) => i + 1);
@@ -76,7 +76,7 @@ const Pages = ({ page, isTemporal }: any) => {
 					<PaginationNext
 						href={`?page=${page + 1 < 10 ? page + 1 : 1}${isTemporal ? "&temporal=true" : ""}`}
 						customtext="Siguiente"
-					></PaginationNext>
+					/>
 				</PaginationItem>
 			</PaginationContent>
 		</Pagination>

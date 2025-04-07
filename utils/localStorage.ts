@@ -21,7 +21,10 @@ export const getItem = (item: string): string | object | undefined | null => {
 	}
 };
 
-export const setItem = (key: string, value: string | object | number | boolean | null): void => {
+export const setItem = (
+	key: string,
+	value: string | object | number | boolean | null,
+): void => {
 	if (typeof window === "undefined") return;
 	if (typeof key !== "string") {
 		throw new Error("The key must be a string");
@@ -32,7 +35,7 @@ export const setItem = (key: string, value: string | object | number | boolean |
 
 export const saveLocation = (path: string): void => setItem("location", path);
 
-export const getLocation = (): string => getItem("location") as string || "";
+export const getLocation = (): string => (getItem("location") as string) || "";
 
 export const LS = {
 	get: getItem,

@@ -107,15 +107,14 @@ export const Homologacion = () => {
 			tipo_servicio: appraisalPurpose,
 		};
 		const responseType = "json";
-		const { length } = errors;
-		setShowErrors(length > 0);
+
+		// setShowErrors(length > 0);
 		const action = record.status.includes("newOne") ? "guardar" : "actualizar";
 		Alert.Save({
 			title: `¡Esta por ${action} el registro!`,
 			text: action,
 		}).then(({ isConfirmed, isDismissed }) => {
 			isConfirmed &&
-				length === 0 &&
 				justipreciacion.registro !== "" &&
 				dispatch(
 					record.status.includes("newOne")
@@ -170,12 +169,6 @@ export const Homologacion = () => {
 								}),
 							);
 					});
-			isConfirmed &&
-				length > 0 &&
-				Alert.Error({
-					title: "¡Algo Fallo!",
-					text: "Hay errores en el formulario, que necesita atender primero.",
-				});
 		});
 	};
 	const [currentPage, setCurrentPage] = useState(1);
@@ -185,8 +178,6 @@ export const Homologacion = () => {
 			{!loadingPage && (
 				<PaginatedView
 					startAt={startAt}
-					errors={errors}
-					showErrors={showErrors}
 					currentPage={setCurrentPage}
 					title={
 						<>

@@ -1,10 +1,10 @@
 /** @format */
 
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import { v4 } from "uuid";
-import { CreateAxiosDefaults } from "axios";
 import { now } from "@utils/time";
+import { CreateAxiosDefaults } from "axios";
+import { v4 } from "uuid";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { api } from "../api.config";
 export interface IScraping {
 	survey_point_id: string;

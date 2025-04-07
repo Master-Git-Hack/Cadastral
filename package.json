@@ -8,7 +8,7 @@
 		"format": "concurrently \"black ./api/\" \"prettier --ignore-path ./.prettierignore --config ./.prettierrc.json --write './**/*.{ts,tsx,}'\"",
 		"dev": "concurrently \"yarn frontend\" \"yarn backend\"",
 		"build": "next build",
-		"start": "next start -p 3000",
+		"start": "next start -p 8080",
 		"deploy": "concurrently \"yarn build\" \"yarn start\" \"yarn backend\"",
 		"lint": "oxlint  --fix --fix-suggestions -c ./.oxlintrc.json --import-plugin "
 	},
@@ -56,7 +56,7 @@
 		"concurrently": "^9.0.1",
 		"date-fns": "^4.1.0",
 		"eslint": "^9.19.0",
-		"eslint-config-next": "15.1.6",
+		"eslint-config-nextyarn biome format --write": "15.1.6",
 		"fast-xml-parser": "^4.5.0",
 		"framer-motion": "^12.4.7",
 		"html2canvas-pro": "^1.5.8",

@@ -1,5 +1,7 @@
 /** @format */
 "use client";
+import LS from "@utils/localStorage";
+import { now } from "@utils/time";
 import axios, {
 	type AxiosInstance,
 	type CreateAxiosDefaults,
@@ -7,14 +9,12 @@ import axios, {
 } from "axios";
 import { create } from "zustand";
 import { useUser } from "./user";
-import LS from "@utils/localStorage";
-import { now } from "@utils/time";
 const _URL = process.env.NEXT_PUBLIC_API_URL;
 const _ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const _VERSION = process.env.NEXT_PUBLIC_API_VERSION;
 const baseURL = `${_URL}/${_ENDPOINT}/${_VERSION}`;
-import type { NextRouter } from "next/router";
 import { useRouter } from "next/navigation";
+import type { NextRouter } from "next/router";
 const consume = ({
 	headers = {},
 	responseType = "json",
@@ -66,7 +66,7 @@ const consume = ({
 				const router = useRouter();
 				LS.clear();
 				router.push("/sign-in");
-				if (typeof window !== 'undefined') window.location.href = '/sign-in';
+				if (typeof window !== "undefined") window.location.href = "/sign-in";
 			}
 			return Promise.reject(error);
 		},
@@ -91,7 +91,7 @@ const setConfig = (url: string, config?: CreateAxiosDefaults) => {
 		}
 		//check if data element on config delete it
 		if (config?.data) {
-			config.data=null;
+			config.data = null;
 		}
 	}
 	return { headers: { ...headers, ...config?.headers }, ...config };

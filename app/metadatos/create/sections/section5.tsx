@@ -1,14 +1,6 @@
 /** @format */
 
-import {
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import Input from "@/components/Input";
-import { InputNumber } from "primereact/inputnumber";
 import {
 	Select,
 	SelectContent,
@@ -16,8 +8,16 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import catalogo from "../catologos/index";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import useMedatados from "@/store/metadatos/index";
+import { InputNumber } from "primereact/inputnumber";
+import catalogo from "../catologos/index";
 export const Section5 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 	const handleInputChange = ({ target }) =>
@@ -31,7 +31,7 @@ export const Section5 = ({ editable = true }: any) => {
 	const findSelectValue = (name: string) => {
 		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	}
+	};
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
 		(item) => item.code === data.md_dataidentification_language,
 	);
@@ -1120,7 +1120,7 @@ export const Section5 = ({ editable = true }: any) => {
 							value={data.utm_longcm}
 							onValueChange={handleInputChange}
 							name="utm_longcm"
-							className={`w-full md:w-14rem `}
+							className={"w-full md:w-14rem "}
 							maxFractionDigits={0}
 							step={1}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -1155,7 +1155,7 @@ export const Section5 = ({ editable = true }: any) => {
 							value={data.utm_latprjo}
 							onValueChange={handleInputChange}
 							name="utm_latprjo"
-							className={`w-full md:w-14rem `}
+							className={"w-full md:w-14rem "}
 							maxFractionDigits={0}
 							step={1}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -1215,7 +1215,7 @@ export const Section5 = ({ editable = true }: any) => {
 							value={data.utm_fnorth}
 							onValueChange={handleInputChange}
 							name="utm_fnorth"
-							className={`w-full md:w-14rem `}
+							className={"w-full md:w-14rem "}
 							maxFractionDigits={0}
 							step={1}
 							inputClassName="text-gray-900 dark:bg-white focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100  focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 text-center"
@@ -1252,7 +1252,10 @@ export const Section5 = ({ editable = true }: any) => {
 							</SelectTrigger>
 							<SelectContent>
 								{catalogo.horizdn.map(({ code, label, description }) => (
-									<SelectItem value={`${code}. ${label}. ${description}`} key={`${code}. ${label}. ${description}`}>
+									<SelectItem
+										value={`${code}. ${label}. ${description}`}
+										key={`${code}. ${label}. ${description}`}
+									>
 										{label}
 									</SelectItem>
 								))}
@@ -1283,7 +1286,10 @@ export const Section5 = ({ editable = true }: any) => {
 							</SelectTrigger>
 							<SelectContent>
 								{catalogo.ellips.map(({ code, label, description }) => (
-									<SelectItem value={`${code}. ${label}. ${description}`} key={`${code}. ${label}. ${description}`}>
+									<SelectItem
+										value={`${code}. ${label}. ${description}`}
+										key={`${code}. ${label}. ${description}`}
+									>
 										{label}
 									</SelectItem>
 								))}

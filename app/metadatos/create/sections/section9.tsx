@@ -1,13 +1,6 @@
 /** @format */
 
 "use client";
-import {
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import {
 	Select,
@@ -16,9 +9,16 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import catalogo from "../catologos/index";
+import {
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
 import useMedatados from "@/store/metadatos/index";
 import moment from "moment";
+import catalogo from "../catologos/index";
 
 export const Section9 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
@@ -28,7 +28,7 @@ export const Section9 = ({ editable = true }: any) => {
 	const findSelectValue = (name: string) => {
 		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	}
+	};
 	const findLanguageValue = catalogo.md_dataidentification_language.find(
 		(item) => item.code === data.md_dataidentification_language,
 	);
@@ -278,7 +278,10 @@ export const Section9 = ({ editable = true }: any) => {
 							<SelectContent>
 								{catalogo?.ci_responsibleparty_role?.map(
 									({ code, label, description }) => (
-										<SelectItem value={`${code}. ${label}. ${description}`} key ={`${code}. ${label}. ${description}`}>
+										<SelectItem
+											value={`${code}. ${label}. ${description}`}
+											key={`${code}. ${label}. ${description}`}
+										>
 											{label}
 										</SelectItem>
 									),

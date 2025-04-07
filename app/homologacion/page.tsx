@@ -1,15 +1,13 @@
-
-'use client';
-import Link from "next/link";
-import { Suspense,use } from "react";
+"use client";
 import Layout from "@/components/navbar/index";
-import Spinner from "@/components/ui/spinner";
+import { Danger, Success } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
-	CardHeader,
-	CardTitle,
 	CardContent,
 	CardFooter,
+	CardHeader,
+	CardTitle,
 } from "@/components/ui/card";
 import {
 	Drawer,
@@ -19,14 +17,15 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 } from "@/components/ui/drawer";
-import { Success, Danger } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { cn } from "@utils/index";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Tipo,TipoReverseMap,parseTipo } from "@/store/homologación/base";
+import Spinner from "@/components/ui/spinner";
+import { Tipo, TipoReverseMap, parseTipo } from "@/store/homologacion/base";
 import useJustipreciacion from "@/store/justipreciacion";
+import { cn } from "@utils/index";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Suspense, use } from "react";
+import { useState } from "react";
 interface SearchProps {
 	open: boolean;
 	setOpen: (open: boolean) => void;
@@ -34,20 +33,24 @@ interface SearchProps {
 }
 const Search = ({ open, setOpen, type }: SearchProps) => {
 	const [exists, setExists] = useState(false);
-	
+
 	const router = useRouter();
-	const  {id,registro,getJustipreciacionById} = useJustipreciacion((state) => state);
-	const handleRequest = async (action:string) => {
+	const { id, registro, getJustipreciacionById } = useJustipreciacion(
+		(state) => state,
+	);
+	const handleRequest = async (action: string) => {
 		try {
-			const includes =type===Tipo.TERRENO? []:[]
-			await getJustipreciacionById(undefined,includes,undefined,false).then(()=>{}).catch(({ status, message, ...response }) => {
+			const includes = type === Tipo.TERRENO ? [] : [];
+			await getJustipreciacionById(undefined, includes, undefined, false)
+				.then(() => {})
+				.catch(({ status, message, ...response }) => {
 					Danger({
 						title: status ?? "Error",
 						text: response?.data?.detail ?? response?.data?.message ?? message,
 					});
-				})
-			
-			router.push(`/homologacion/${registro}/${exists ? "edit" : "create"}?tipo=${TipoReverseMap[type]}`);
+				});
+
+			router.push(`/homologacion/${registro}?tipo=${TipoReverseMap[type]}`);
 		} catch (error: any) {
 			// Manejo de errores generales
 			// Danger({ title: "Error", text: error?.message ?? "Error desconocido" });
@@ -61,44 +64,54 @@ const Search = ({ open, setOpen, type }: SearchProps) => {
 		>
 			<DrawerContent>
 				<DrawerHeader>
-					<DrawerTitle className="text-center">Ingrese el numero de registro</DrawerTitle>
-					
+					<DrawerTitle className="text-center">
+						Ingrese el numero de registro
+					</DrawerTitle>
 				</DrawerHeader>
 				<DrawerFooter className="mb-5 flex flex-row items-center justify-between p-4">
 					<div className="flex gap-2">
 						<Button
-							className={cn(`bg-red-300 hover:bg-red-600 `)}
+							className={cn("bg-red-300 hover:bg-red-600 ")}
 							onClick={() => setOpen(false)}
 						>
 							Cancelar
 						</Button>
 					</div>
-					
-				<div className="flex gap-2">
-					<Input autoFocus value={registro} onChange={(e)=>setRegistro(e.target.value)}/>
-					<Button
-						className={cn("ms-5 bg-teal-600 hover:bg-teal-900")}
-						onClick={() => handleRequest("")}
-					>
-						Buscar
-					</Button>
-				</div>
-					
 
-					
+					<div className="flex gap-2">
+						<Input
+							autoFocus
+							value={registro}
+							onChange={(e) => setRegistro(e.target.value)}
+						/>
+						<Button
+							className={cn("ms-5 bg-teal-600 hover:bg-teal-900")}
+							onClick={() => handleRequest("")}
+						>
+							Buscar
+						</Button>
+					</div>
 				</DrawerFooter>
 			</DrawerContent>
 		</Drawer>
 	);
 };
-const routes =()=>[{ label:"Terreno", href:"#", avatar:"Te",type:Tipo.TERRENO },{
-	label:"Renta", href:"#", avatar:"Re",type:Tipo.RENTA }];
+const routes = () => [
+	{ label: "Terreno", href: "#", avatar: "Te", type: Tipo.TERRENO },
+	{
+		label: "Renta",
+		href: "#",
+		avatar: "Re",
+		type: Tipo.RENTA,
+	},
+];
 export default function Homologacion() {
 	const [open, setOpen] = useState(false);
 	const [type, setType] = useState(Tipo.TERRENO);
-return <Layout>
-    <div className="flex flex-wrap justify-center gap-4 m-4 ">
-				{routes()?.map(({ label, href, avatar,type}) => (
+	return (
+		<Layout>
+			<div className="flex flex-wrap justify-center gap-4 m-4 ">
+				{routes()?.map(({ label, href, avatar, type }) => (
 					<Card
 						key={label}
 						className="border border-gray-400 rounded-lg w-48 h-64 bg-gray-300 dark:bg-gray-800"
@@ -120,8 +133,7 @@ return <Layout>
 								onClick={() => {
 									setType(type);
 									setOpen(true);
-								}
-								}
+								}}
 							>
 								Ir a
 							</Link>
@@ -129,10 +141,7 @@ return <Layout>
 					</Card>
 				))}
 			</div>
-			<Search
-				open={open}
-				setOpen={setOpen}
-				type={type}
-			/>
-</Layout>
+			<Search open={open} setOpen={setOpen} type={type} />
+		</Layout>
+	);
 }

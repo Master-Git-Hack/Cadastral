@@ -1,6 +1,12 @@
 /** @format */
 
-import { useState, useEffect } from "react";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 import {
 	TableBody,
 	TableCell,
@@ -9,13 +15,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+import { useEffect, useState } from "react";
 import catalogo from "../catologos/index";
 
 import useMedatados from "@/store/metadatos/index";
@@ -27,7 +27,7 @@ export const Section6 = ({ editable = true }: any) => {
 	const findSelectValue = (name: string) => {
 		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	}
+	};
 
 	const [positionalaccuracy_value, setDataValue] = useState(
 		data.positionalaccuracy_value ??

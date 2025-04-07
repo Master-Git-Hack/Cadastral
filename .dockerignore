@@ -2,10 +2,11 @@ node_modules
 .gitignore
 .python-version
 .vscode
-.next
+# .next
 *.sh
 *.py
 .env
 frontend
 Frontend
 Backend
+docker-compose.yml

@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input";
 /** @format */
 // export const section7 = {
 // 	entity_detail: "",
@@ -10,7 +11,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import useMedatados from "@/store/metadatos/index";

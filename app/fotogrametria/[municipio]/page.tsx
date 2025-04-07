@@ -1,7 +1,7 @@
 /** @format */
 "use client";
-import { use } from "react";
 import Layout from "@/components/navbar/index";
+import { use } from "react";
 interface MunicipioProps {
 	params: Promise<{ municipio: string }>;
 }

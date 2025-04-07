@@ -1,7 +1,7 @@
 /** @format */
 
 import "./globals.css";
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 
 import { PrimeReactProvider } from "primereact/api";
@@ -10,7 +10,7 @@ import "primereact/resources/themes/tailwind-light/theme.css";
 import "primeicons/primeicons.css";
 //core
 import "primereact/resources/primereact.min.css";
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
 	title:
@@ -24,7 +24,7 @@ export default function RootLayout({
 }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>
+			<body>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="light"

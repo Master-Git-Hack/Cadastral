@@ -1,20 +1,20 @@
 /** @format */
 
-import { useState, useMemo, useCallback, memo, useEffect } from "react";
-import Image from "next/image";
-import { Card, CardHeader, CardContent, CardFooter } from "../card";
-import { ChevronsUpDown, Plus, X, Pencil, Check, Trash } from "lucide-react";
-import { Button } from "../button";
-import { Input } from "../input";
-import { Label } from "../label";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Warning } from "@/components/ui/alert";
-import Resizer from "react-image-file-resizer";
 import {
 	HoverCard,
 	HoverCardContent,
 	HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Check, ChevronsUpDown, Pencil, Plus, Trash, X } from "lucide-react";
+import Image from "next/image";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import Resizer from "react-image-file-resizer";
+import { Button } from "../button";
+import { Card, CardContent, CardFooter, CardHeader } from "../card";
+import { Input } from "../input";
+import { Label } from "../label";
 
 export const DropZone = () => {
 	const [isDragging, setIsDragging] = useState(false);

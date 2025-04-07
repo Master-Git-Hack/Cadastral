@@ -1,14 +1,14 @@
 /** @format */
 
-import {
-	type AlertProps,
-	type IAlert,
-	DEFAULT_ALERT_OPTIONS,
-	variants,
-} from "./types";
+import { cn } from "@utils/ui";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { cn } from "@utils/ui";
+import {
+	type AlertProps,
+	DEFAULT_ALERT_OPTIONS,
+	type IAlert,
+	variants,
+} from "./types";
 const Template = ({
 	titleText = "",
 	text = "",

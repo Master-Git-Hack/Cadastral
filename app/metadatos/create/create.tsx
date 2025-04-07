@@ -1,6 +1,31 @@
 /** @format */
 
 "use client";
+import { Danger, Success } from "@/components/ui/alert";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
+import FileButton from "@/components/ui/button-file";
+import {
+	Drawer,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+} from "@/components/ui/drawer";
+import { Table } from "@/components/ui/table";
+import useMedatados from "@/store/metadatos/index";
+import useParser from "@/store/parser/index";
+import { cn } from "@utils/index";
+import { useRouter } from "next/navigation";
+import { TreeSelect } from "primereact/treeselect";
+import { useEffect, useState } from "react";
 import { Section1 } from "./sections/section1";
 import { Section2 } from "./sections/section2";
 import { Section3 } from "./sections/section3";
@@ -10,31 +35,6 @@ import { Section6 } from "./sections/section6";
 import { Section7 } from "./sections/section7";
 import { Section8 } from "./sections/section8";
 import { Section9 } from "./sections/section9";
-import { Button } from "@/components/ui/button";
-import { TreeSelect } from "primereact/treeselect";
-import useMedatados from "@/store/metadatos/index";
-import FileButton from "@/components/ui/button-file";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import {
-	Breadcrumb,
-	BreadcrumbItem,
-	BreadcrumbList,
-	BreadcrumbPage,
-	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Table } from "@/components/ui/table";
-import {
-	Drawer,
-	DrawerContent,
-	DrawerDescription,
-	DrawerFooter,
-	DrawerHeader,
-	DrawerTitle,
-} from "@/components/ui/drawer";
-import { Success, Danger } from "@/components/ui/alert";
-import { cn } from "@utils/index";
-import useParser from "@/store/parser/index";
 enum MetadatoActions {
 	PostMetadato = "POST_METADATO",
 	PatchMetadato = "PATCH_METADATO",
@@ -136,7 +136,7 @@ const SaveActions = ({ open, setOpen, uid, isTemporal }: any) => {
 				<DrawerFooter className="mb-5 flex flex-row items-center justify-between p-4">
 					<div className="flex gap-2">
 						<Button
-							className={cn(`bg-red-300 hover:bg-red-600 `)}
+							className={cn("bg-red-300 hover:bg-red-600 ")}
 							onClick={() => setOpen(false)}
 						>
 							Cancelar
@@ -239,21 +239,19 @@ export default function Create({
 		<div className="p-4 bg-white dark:bg-black  max-h-full">
 			<div className="flex flex-row-reverse py-2 justify-between items-center">
 				{currentUID && (
-					<>
-						<Button
+					<Button
+						className={cn(
+							`bg-${!disabled ? "teal" : "red"}-500 hover:bg-${!disabled ? "teal" : "red"}-700 text-white dark:text-gray-600 rounded-full`,
+						)}
+						onClick={() => onEdit(!disabled)}
+					>
+						<span
 							className={cn(
-								`bg-${!disabled ? "teal" : "red"}-500 hover:bg-${!disabled ? "teal" : "red"}-700 text-white dark:text-gray-600 rounded-full`,
+								`pi pi-${!disabled ? "check" : "times"}-circle me-5 text-white dark:text-gray-600`,
 							)}
-							onClick={() => onEdit(!disabled)}
-						>
-							<span
-								className={cn(
-									`pi pi-${!disabled ? "check" : "times"}-circle me-5 text-white dark:text-gray-600`,
-								)}
-							></span>
-							<span>Edición</span>
-						</Button>
-					</>
+						/>
+						<span>Edición</span>
+					</Button>
 				)}
 			</div>
 

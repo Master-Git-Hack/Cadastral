@@ -1,10 +1,10 @@
 /** @format */
 
 "use client";
-import { use, Suspense } from "react";
-import type { MetadatosProps } from "./interface";
 import Layout from "@/components/navbar/index";
 import Spinner from "@/components/ui/spinner";
+import { Suspense, use } from "react";
+import type { MetadatosProps } from "./interface";
 
 export default function Metadatos(props: MetadatosProps) {
 	const params = use(props.params);
@@ -12,7 +12,7 @@ export default function Metadatos(props: MetadatosProps) {
 		<Suspense fallback={<Spinner />}>
 			<Layout>
 				{params.metadatoUID}
-				<div className="fex flex-column"></div>
+				<div className="fex flex-column" />
 			</Layout>
 		</Suspense>
 	);

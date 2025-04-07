@@ -1,14 +1,6 @@
 /** @format */
 "use client";
 import {
-	useState,
-	forwardRef,
-	useEffect,
-	type ChangeEventHandler,
-} from "react";
-import { UploadIcon, DownloadIcon, DeleteIcon } from "@assets/icons";
-import { cn } from "@utils/index";
-import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -16,6 +8,14 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DeleteIcon, DownloadIcon, UploadIcon } from "@assets/icons";
+import { cn } from "@utils/index";
+import {
+	type ChangeEventHandler,
+	forwardRef,
+	useEffect,
+	useState,
+} from "react";
 const emptyFile = [
 	{
 		label: "Importar",
@@ -91,7 +91,7 @@ export const FileButton = forwardRef<HTMLInputElement, {}>(
 					<span className="me-2  text-sm">{children ?? "Archivo:"}</span>
 					<span
 						className={`"me-auto  hover:animate-bounce  pi  ${isOpen ? "pi-chevron-up" : "pi-chevron-down"}`}
-					></span>
+					/>
 					{file?.name && <br />}
 					<span className="ms-1 underline decoration-1 truncate font-bold text-xs w-fit">
 						{useFilename && (

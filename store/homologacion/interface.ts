@@ -1,14 +1,14 @@
 import {
-	Daum,
-	DaumLabel,
-	DaumValue,
-	DaumResult,
-	ValueLabel,
-	SubjectComplex,
-	Result,
+	type Daum,
+	type DaumLabel,
+	type DaumResult,
+	type DaumValue,
+	type Result,
+	type Resultado,
+	type Root,
+	type SubjectComplex,
 	Tipo,
-	Root,
-	Resultado,
+	ValueLabel,
 } from "./base";
 import Factors from "./factores";
 
@@ -65,7 +65,7 @@ export interface SubjectLabel {
 	value: number;
 }
 
-const defaultState: IHomologacionState = {
+export const defaultState: IHomologacionState = {
 	id: 0,
 	type: Tipo.TERRENO,
 	appraisalPurpose: "",
@@ -225,5 +225,4 @@ const defaultState: IHomologacionState = {
 export interface IHomologacionActions {
 	updateAge: (data: Daum[], subject: Subject) => Daum[];
 	updateResults: (data: Daum[], factors: Factores) => Daum[];
-	
 }

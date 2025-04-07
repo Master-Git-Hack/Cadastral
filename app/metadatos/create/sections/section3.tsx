@@ -8,6 +8,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
+import { Input } from "@/components/ui/input";
 import {
 	Select,
 	SelectContent,
@@ -15,9 +16,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import catalogo from "../catologos/index";
-import { Input } from "@/components/ui/input";
 import useMedatados from "@/store/metadatos/index";
+import catalogo from "../catologos/index";
 export const Section3 = ({ editable = true }: any) => {
 	const { setMetadatos: setData, ...data } = useMedatados((state) => state);
 	const handleInputChange = ({ currentTarget }) =>
@@ -26,7 +26,7 @@ export const Section3 = ({ editable = true }: any) => {
 	const findSelectValue = (name: string) => {
 		const [code, label, description] = String(data[name] ?? "").split(". ");
 		return catalogo?.[name]?.find((item) => item.code === code);
-	}
+	};
 
 	return (
 		<>

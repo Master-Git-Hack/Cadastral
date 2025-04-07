@@ -14,19 +14,10 @@ import {
 import { useEffect, useState } from "react";
 
 import Layout from "@/components/navbar/index";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import type { IMetaTable } from "./types";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
 	Drawer,
 	DrawerContent,
@@ -35,7 +26,16 @@ import {
 	DrawerHeader,
 	DrawerTitle,
 } from "@/components/ui/drawer";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import ImportXML from "./create/xml_import";
+import type { IMetaTable } from "./types";
 const PreviousVersions = ({ id, open, setOpen }: any) => {
 	const { getPrevious, setMetadatos: setMeta } = useMedatados((state) => state);
 	const [metadatos, setMetadatos] = useState([]);
@@ -237,7 +237,7 @@ export default function Metadatos() {
 		<Layout container>
 			<div className="flex flex-row-reverse py-2">
 				<Link
-					href={`metadatos/create?page=1`}
+					href={"metadatos/create?page=1"}
 					onClick={clearMetadatos}
 					className="ms-5"
 				>
@@ -348,7 +348,7 @@ export default function Metadatos() {
 												<DropdownMenuLabel>Versiones</DropdownMenuLabel>
 												<DropdownMenuSeparator />
 												<DropdownMenuItem>
-													<Link href={`#new_version`}>
+													<Link href={"#new_version"}>
 														<Button
 															variant="link"
 															onClick={async () =>
@@ -362,7 +362,7 @@ export default function Metadatos() {
 												</DropdownMenuItem>
 												{version > 1 && (
 													<DropdownMenuItem>
-														<Link href={`#previous_versions`}>
+														<Link href={"#previous_versions"}>
 															<Button
 																variant="link"
 																onClick={() => {
@@ -429,7 +429,7 @@ export default function Metadatos() {
 												</DropdownMenuItem>
 												<DropdownMenuItem>
 													<Link
-														href={`/metadatos#xml`}
+														href={"/metadatos#xml"}
 														className="transition-colors hover:text-blue-500"
 													>
 														<Button
@@ -575,7 +575,7 @@ export default function Metadatos() {
 									</Link>
 									<span className="mx-2">/</span>
 									<Link
-										href={`#`}
+										href={"#"}
 										className="text-red-400 transition-colors hover:text-red-600"
 										onClick={async () => {
 											await deleteTemporal(uid).then(() =>

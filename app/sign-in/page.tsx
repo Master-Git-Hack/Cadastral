@@ -1,14 +1,7 @@
 /** @format */
 "use client";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import useUser from "@/store/user/index";
-import useStatusStore from "@/store/api.config";
-import Spinner from "@/components/ui/spinner";
+import { Danger, Success } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Form,
 	FormControl,
@@ -19,9 +12,16 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Spinner from "@/components/ui/spinner";
+import useStatusStore from "@/store/api.config";
+import useUser from "@/store/user/index";
 import logoGto from "@assets/guanajuato_logo.svg";
-import { Success, Danger } from "@/components/ui/alert";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 const oauthSchema = z.object({
 	username: z.string().min(2, {
 		message:

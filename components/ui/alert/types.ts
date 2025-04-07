@@ -2,8 +2,8 @@
 
 import { ReactSweetAlertOptions } from "sweetalert2-react-content";
 
-import type { SweetAlertOptions, SweetAlertIcon } from "sweetalert2";
-import { cva, type VariantProps } from "class-variance-authority";
+import { type VariantProps, cva } from "class-variance-authority";
+import type { SweetAlertIcon, SweetAlertOptions } from "sweetalert2";
 export const variants = {
 	default: "#2563EB",
 	primary: "#8B5CF6",

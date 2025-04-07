@@ -2,14 +2,13 @@
 
 "use client";
 
-import * as React from "react";
 import {
 	CaretSortIcon,
 	CheckIcon,
 	PlusCircledIcon,
 } from "@radix-ui/react-icons";
+import * as React from "react";
 
-import { cn } from "@utils/index";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,6 +44,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import gtoLogo from "@assets/round.png";
+import { cn } from "@utils/index";
 const groups = [
 	// {
 	// 	label: "Personal Account",

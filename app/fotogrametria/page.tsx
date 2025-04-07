@@ -1,14 +1,15 @@
 /** @format */
 
 "use client";
-import { useEffect } from "react";
-import useFotogrametria from "@/store/fotogrametria/index";
-import useStatusStore from "@/store/api.config";
-import { Danger } from "@/components/ui/alert";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
 import Layout from "@/components/navbar/index";
+import { Danger } from "@/components/ui/alert";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import {
 	Command,
 	CommandEmpty,
@@ -18,13 +19,12 @@ import {
 	CommandList,
 	CommandSeparator,
 } from "@/components/ui/command";
-import {
-	Card,
-	CardHeader,
-	CardTitle,
-	CardContent,
-	CardFooter,
-} from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import useStatusStore from "@/store/api.config";
+import useFotogrametria from "@/store/fotogrametria/index";
+import Link from "next/link";
+import { useEffect } from "react";
 export default function Page() {
 	const { municipios, getMunicipios, setMunicipio } = useFotogrametria();
 	const { isLoading, isError, message } = useStatusStore((state) => state);

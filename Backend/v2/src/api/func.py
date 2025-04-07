@@ -20,13 +20,12 @@ async def get_tasa_capitalizacion(
     db: Session = Depends(database.VALUACIONES)
 ):
     try:
-        query = text("SELECT tasa_capitalizacion FROM tasa_capitalizacion(:inmueble, :edad)")
-        result = db.execute(query, {"inmueble": inmueble, "edad": edad}).scalar_one_or_none()
-
+        query = text("SELECT tasa_capitalizacion, descripcion FROM tasa_capitalizacion(:inmueble, :edad)").bindparams(inmueble=inmueble, edad=edad)
+        result = db.execute(query).first()
         if result is None:
             return __response.error(message="No se encontró la tasa de capitalización")
 
-        return __response.success(data={"tasa_capitalizacion": result})
+        return __response.success(data=dict(result._mapping))
 
     except Exception as e:
         logger.error(f"Error: {str(e)}")

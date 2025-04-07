@@ -1,9 +1,12 @@
 /** @format */
 "use client";
-import { useEffect, useState } from "react";
 import Error from "@/components/error";
 import Layout from "@/components/navbar/index";
-import Spinner from "@/components/ui/spinner";
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import {
 	Pagination,
 	PaginationContent,
@@ -12,15 +15,12 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-	HoverCard,
-	HoverCardContent,
-	HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { useSearchParams } from "next/navigation";
+import Spinner from "@/components/ui/spinner";
 import Link from "next/link";
-import Create from "./create";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Suspense } from "react";
+import Create from "./create";
 
 const Pages = ({ page, isTemporal }: any) => {
 	//make an array of 9 pages
@@ -77,7 +77,7 @@ const Pages = ({ page, isTemporal }: any) => {
 					<PaginationNext
 						href={`?page=${page + 1 < 10 ? page + 1 : 1}${isTemporal ? "&temporal=true" : ""}`}
 						customtext="Siguiente"
-					></PaginationNext>
+					/>
 				</PaginationItem>
 			</PaginationContent>
 		</Pagination>

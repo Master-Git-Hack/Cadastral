@@ -1,14 +1,14 @@
 /** @format */
 "use client";
 
+import Error from "@/components/error";
+import Layout from "@/components/navbar/index";
 import useStatusStore from "@/store/api.config";
 // import blankDocument from "@assets/blank.pdf";
 import useMedatados from "@/store/metadatos/index";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { use } from "react";
 import { MetadatosProps } from "../interface";
-import Error from "@/components/error";
-import Layout from "@/components/navbar/index";
 export default function DocumentViewer({
 	params,
 	width = window.innerWidth,

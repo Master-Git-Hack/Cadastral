@@ -1,6 +1,6 @@
 /** @format */
 
-import { XMLParser, XMLBuilder, XMLValidator } from "fast-xml-parser";
+import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
 // import FileSaver from "file-saver";
 export const xmlToJson = async (file: File): Promise<any> => {
 	if (!file) return null;

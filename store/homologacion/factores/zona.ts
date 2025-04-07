@@ -1,7 +1,7 @@
 import {
 	defaultFactorData,
-	defaultSymbolResult,
 	defaultSubject,
+	defaultSymbolResult,
 } from "../base";
 export enum CatalogoZona {
 	MANZANA = 0,

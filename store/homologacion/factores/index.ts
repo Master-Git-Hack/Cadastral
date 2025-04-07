@@ -1,16 +1,16 @@
 import Common from "../base";
+import Calidad from "./calidad";
 import Clasificacion from "./clasificacion";
 import Conservacion from "./conservacion";
 import Construcciones from "./construccion";
+import Forma from "./forma";
 import Nivel from "./nivel";
-import Ubicacion from "./ubicacion";
-import Zona from "./zona";
 import Proyecto from "./proyecto";
-import Calidad from "./calidad";
 import Superficie from "./superficie";
 import Topografia from "./topografia";
-import Forma from "./forma";
+import Ubicacion from "./ubicacion";
 import Uso from "./uso";
+import Zona from "./zona";
 export default {
 	Common,
 	Clasificacion,

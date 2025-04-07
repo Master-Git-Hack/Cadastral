@@ -1,16 +1,16 @@
 /** @format */
 "use client";
-import {
-	useState,
-	useRef,
-	forwardRef,
-	useEffect,
-	ChangeEventHandler,
-} from "react";
+import { Button } from "@/components/ui/button";
+import useMedatados from "@/store/metadatos/index";
 import { UploadIcon } from "@assets/icons";
 import { cn } from "@utils/index";
-import useMedatados from "@/store/metadatos/index";
-import { Button } from "@/components/ui/button";
+import {
+	ChangeEventHandler,
+	forwardRef,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 
 import { useRouter } from "next/navigation";
 export const ImportXML = forwardRef<HTMLInputElement, {}>(
@@ -57,7 +57,7 @@ export const ImportXML = forwardRef<HTMLInputElement, {}>(
 					onChange={handleFileChange}
 				/>
 				<Button variant="outline" onClick={uploadFile}>
-					<span className="pi pi-file-import me-4"></span>
+					<span className="pi pi-file-import me-4" />
 					<span>{children ?? "Importar XML"}</span>
 				</Button>
 			</>

@@ -35,7 +35,7 @@ export const asFancyNumber = (
 		: isPercentage
 			? "percent"
 			: (properties?.style ?? "decimal");
-	const decimals =
+	const minimumFractionDigits =
 		!isPercentage || !String(style).includes("percent")
 			? (properties?.decimals ?? 2)
 			: 0;
@@ -47,10 +47,10 @@ export const asFancyNumber = (
 			: 1;
 	const format = new Intl.NumberFormat("es-MX", {
 		style,
-		minimumFractionDigits: decimals,
+		minimumFractionDigits,
 		currency,
 	});
-	const current = value?.toFixed(decimals);
+	const current = value?.toFixed(minimumFractionDigits);
 	return properties !== undefined
 		? format.format(Number(current) / unit)
 		: current;

@@ -1,15 +1,13 @@
 /** @format */
-'use client';
+"use client";
+import useUser from "@/store/user";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import useUser from "@/store/user";
 export default function Home() {
-	const {token} = useUser((state) => state);
-	if(token===null)
-		redirect("/sign-in");
-	if(token!==null)
-		redirect("/home")
+	const { token } = useUser((state) => state);
+	if (token === null) redirect("/sign-in");
+	if (token !== null) redirect("/home");
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-24">
 			<div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
