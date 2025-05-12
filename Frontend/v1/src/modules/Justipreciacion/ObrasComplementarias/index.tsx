@@ -44,6 +44,7 @@ export const ObrasComplementarias = () => {
 	const {
 		Calculation,
 		Documentation,
+		Partida,
 		total,
 		status,
 		message,
@@ -97,6 +98,7 @@ export const ObrasComplementarias = () => {
 		const payload = {
 			datos: Documentation,
 			calculo: Calculation,
+			partida:Partida,
 			valor_unitario: total,
 			registro: justipreciacion.registro,
 			calculo_completo: isComplete,

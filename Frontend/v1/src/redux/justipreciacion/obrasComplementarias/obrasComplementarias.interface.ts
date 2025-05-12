@@ -53,7 +53,14 @@ export const consume = api(name);
 export const initialState: StateProps = {
 	Documentation: [documentationTemplate],
 	Calculation: [calculationTemplate],
-	Partida: partidas,
+	Partida:  {
+        ensambles: [{
+			name: "",
+			cost: 0,
+			enabled: true,
+		},],
+        image: "https://placehold.co/600x400",
+    },
 	total: 0,
 	message: "",
 	status: "unset",

@@ -123,6 +123,50 @@ export const Section3 = ({ editable = true }: any) => {
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white "
 					>
+						3.6
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
+						Dirección
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Input
+							name="ci_responsibleparty_deliverypoint"
+							type="text"
+							placeholder="Dirección de la persona responsable"
+							value={data.ci_responsibleparty_deliverypoint}
+							onChange={handleInputChange}
+							disabled={!editable}
+						/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
+						3.7
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
+						Ciudad
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Input
+							name="ci_responsibleparty_city"
+							type="text"
+							placeholder="Ciudad de la persona responsable"
+							value={data.ci_responsibleparty_city}
+							onChange={handleInputChange}
+							disabled={!editable}
+						/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
 						3.8
 					</TableCell>
 					<TableCell colSpan={2} className=" text-black dark:text-white ">
@@ -134,6 +178,72 @@ export const Section3 = ({ editable = true }: any) => {
 							type="text"
 							placeholder="Área de la persona responsable"
 							value={data.ci_responsibleparty_administrativearea}
+							onChange={handleInputChange}
+							disabled={!editable}
+						/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
+						3.9
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
+						Código Postal
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Input
+							name="ci_responsibleparty_postalcode"
+							type="text"
+							placeholder="Código Postal de la persona responsable"
+							value={data.ci_responsibleparty_postalcode}
+							onChange={handleInputChange}
+							disabled={!editable}
+						/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
+						3.10
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
+						País
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Input
+							name="ci_responsibleparty_country"
+							type="text"
+							placeholder="País"
+							value={data.ci_responsibleparty_country}
+							onChange={handleInputChange}
+							disabled={!editable}
+						/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
+						3.11
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
+						Dirección de correo electrónico del contacto
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Input
+							name="ci_responsibleparty_electronicmailaddress"
+							type="email"
+							placeholder="País"
+							value={data.ci_responsibleparty_electronicmailaddress}
 							onChange={handleInputChange}
 							disabled={!editable}
 						/>

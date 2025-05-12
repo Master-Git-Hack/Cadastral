@@ -48,6 +48,7 @@ export const slice = createSlice({
 								const {
 									record,
 									documentation,
+									partida,
 									calculous,
 									total,
 									isComplete,
@@ -59,6 +60,7 @@ export const slice = createSlice({
 								state.total = total;
 								state.isComplete = isComplete;
 								state.rounded = rounded;
+								state.Partida = partida;
 								break;
 							default:
 								break;
@@ -159,6 +161,7 @@ export const {
 	setPartialCalculation,
 	setPartialAgeFactor,
 	setRound,
+	setPartida
 } = slice.actions;
 export const getOC = (state: RootState) => state.ObrasComplementarias;
 export const getDocumentation = (state: RootState) =>

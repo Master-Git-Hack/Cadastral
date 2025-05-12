@@ -196,6 +196,21 @@ class Model(SQLModel, table=True):
             comment="3.4	Teléfono (Opc, repetible) | 9.4.4	Teléfono (Opc, repetible)",
         )
     )
+    ci_responsibleparty_deliverypoint: str = Field(
+        sa_column=Column(
+            String,
+            nullable=True,
+            comment="3.6	Dirección (Opc)",
+        )
+    )
+    ci_responsibleparty_city: str = Field(
+        sa_column=Column(
+            String,
+            nullable=True,
+            default="Guanaajuato",
+            comment="3.7	Ciudad (Opc)",
+        )
+    )
     ci_responsibleparty_administrativearea: str = Field(
         sa_column=Column(
             String,
@@ -203,6 +218,24 @@ class Model(SQLModel, table=True):
             comment="3.8	Área administrativa (Opc) | 9.4.8	Área administrativa (Opc)",
         )
     )
+    ci_responsibleparty_postalcode: str = Field(
+        sa_column=Column(
+            String,
+            nullable=True,
+            comment="3.9	Código postal (Opc)",
+        )
+    )
+    ci_responsibleparty_country: str = Field(
+        sa_column=Column(String, comment="3.10	País (Opc)", default="México")
+    )
+    ci_responsibleparty_electronicmailaddress: str = Field(
+        sa_column=Column(
+            String,
+            nullable=True,
+            comment="3.11	Dirección de correo electrónico del contacto (Opc, repetible)",
+        )
+    )
+
     ci_responsibleparty_linkage: str = Field(
         sa_column=Column(
             String,
@@ -367,11 +400,28 @@ class Model(SQLModel, table=True):
             comment="9.1	Nombre del estándar de metadatos (O)",
         )
     )
+    inf_metadata_ci_responsibleparty_individualname: str = Field(
+        sa_column=Column(
+            String,
+            nullable=True,
+            comment="9.4.1	Nombre de la persona (C)",
+            default="Arq. Maricela Margarita Montiel Martínez",
+        )
+    )
     inf_metadata_ci_responsibleparty_organisationname: str = Field(
         sa_column=Column(
             String,
             nullable=True,
             comment="9.4.2	Nombre de la organización (C)",
+            default="Dirección General de Recursos Materiales, Servicios Generales y Catastro",
+        )
+    )
+    inf_metadata_ci_responsibleparty_positionname: str = Field(
+        sa_column=Column(
+            String,
+            nullable=True,
+            comment="9.4.3	Cargo de la persona (C)",
+            default="Directora de Catastro",
         )
     )
     inf_metadata_ci_responsibleparty_voice: str = Field(
@@ -381,14 +431,15 @@ class Model(SQLModel, table=True):
             comment="9.4.4	Teléfono (Opc, repetible)",
         )
     )
-    ci_responsibleparty_deliverypoint: str = Field(
+    inf_metadata_ci_responsibleparty_deliverypoint: str = Field(
         sa_column=Column(
             String,
             nullable=True,
             comment="9.4.6	Dirección (Opc)",
         )
     )
-    ci_responsibleparty_city: str = Field(
+
+    inf_metadata_ci_responsibleparty_city: str = Field(
         sa_column=Column(
             String,
             nullable=True,
@@ -396,23 +447,25 @@ class Model(SQLModel, table=True):
             comment="9.4.7	Ciudad (Opc)",
         )
     )
-    ci_responsibleparty_postalcode: str = Field(
+    inf_metadata_ci_responsibleparty_postalcode: str = Field(
         sa_column=Column(
             String,
             nullable=True,
             comment="9.4.9	Código postal (Opc)",
         )
     )
-    ci_responsibleparty_country: str = Field(
+    inf_metadata_ci_responsibleparty_country: str = Field(
         sa_column=Column(String, comment="9.4.10	País (Opc)", default="México")
     )
-    ci_responsibleparty_electronicmailaddress: str = Field(
+    inf_metadata_ci_responsibleparty_electronicmailaddress: str = Field(
         sa_column=Column(
             String,
             nullable=True,
+            default="",
             comment="9.4.11	Dirección de correo electrónico del contacto (Opc, repetible)",
         )
     )
+
     inf_metadata_ci_responsibleparty_role: str = Field(
         sa_column=Column(
             String,

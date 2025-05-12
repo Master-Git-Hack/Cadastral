@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metadatos - {{ title }}</title>
+    <style>
+        /* Estilos generales */
+        @page {
+            size: A4;
+            margin: 20mm 15mm 20mm 15mm;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: white;
+            font-size: 11pt;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 210mm; /* Ancho A4 */
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header-content {
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        .logo {
+            height: 60px;
+            margin-right: 20px;
+        }
+        
+        .logo-right {
+            height: 60px;
+            margin-left: 20px;
+        }
+        
+        h1 {
+            color: #005288;
+            margin: 0;
+            font-size: 18pt;
+        }
+        
+        h2 {
+            color: #005288;
+            font-size: 14pt;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+            break-after: avoid;
+            page-break-after: avoid;
+        }
+        
+        .metadata-section {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        
+        .metadata-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            page-break-inside: auto;
+            break-inside: auto;
+        }
+        
+        .metadata-table th, .metadata-table td {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+            vertical-align: top;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        
+        .metadata-table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+            width: 30%;
+        }
+        
+        .metadata-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 9pt;
+            color: #666;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .context-box {
+            background-color: #f9f9f9;
+            border-left: 4px solid #005288;
+            padding: 10px;
+            margin: 15px 0;
+            font-size: 10pt;
+        }
+        
+        .pre-wrap {
+            white-space: pre-wrap;
+        }
+        
+        .map-container {
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .map-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+        }
+        
+        ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 3px;
+        }
+        
+        /* Numeración de páginas */
+        @page {
+            @bottom-right {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 9pt;
+            }
+        }
+        
+        /* Clase para forzar salto de página */
+        .page-break {
+            page-break-before: always;
+            break-before: page;
+        }
+        
+        /* Estilos específicos para impresión */
+        @media print {
+            body {
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .container {
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .no-print {
+                display: none;
+            }
+            
+            /* Evitar que los encabezados queden solos al final de la página */
+            h2 {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+            
+            /* Evitar que las tablas se corten entre páginas de manera inadecuada */
+            tr {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            
+            /* Asegurar que las secciones grandes puedan dividirse entre páginas */
+            .metadata-section {
+                page-break-inside: auto;
+                break-inside: auto;
+            }
+            
+            /* Pero mantener las filas de tabla juntas */
+            .metadata-table tr {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            
+            /* Numeración de páginas en el pie de página */
+            .page-number:after {
+                content: counter(page);
+            }
+            
+            .page-count:after {
+                content: counter(pages);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://finanzas.guanajuato.gob.mx/assets/img/FINANZAS.png" alt="Logo Finanzas Guanajuato" class="logo">
+            <div class="header-content">
+                <h1>{{ title }}</h1>
+                <p>Fecha de generación: {{ fecha_generacion }}</p>
+            </div>
+            <div style="width: 120px;"></div> <!-- Espacio para equilibrar el logo -->
+        </header>
+
+        <div class="context-box">
+            <p>La presente información ha sido elaborada por la Coordinación de Plataformas Geomáticas Catastrales siguiendo los lineamientos establecidos en la Norma Técnica para la elaboración de Metadatos Geográficos del INEGI. Esta información se refiere a los productos relacionados con la Cartografía Catastral, detallando aspectos como la fuente de origen, su ubicación en la base de datos, la extensión geográfica y el sistema de referencia utilizado. Todos estos elementos proporcionan un contexto adecuado para el uso eficiente de la información.</p>
+        </div>
+
+        <section class="metadata-section">
+            <h2>Información General</h2>
+            <table class="metadata-table">
+                <tr>
+                    <th>Título</th>
+                    <td>{{ title }}</td>
+                </tr>
+                <tr>
+                    <th>Propósito</th>
+                    <td class="pre-wrap">{{ purpose }}</td>
+                </tr>
+                <tr>
+                    <th>Resumen</th>
+                    <td class="pre-wrap">{{ abstract }}</td>
+                </tr>
+                <tr>
+                    <th>Idioma</th>
+                    <td>{{ md_dataidentification_language }}</td>
+                </tr>
+                <tr>
+                    <th>Categoría Temática</th>
+                    <td>
+                        <ul>
+                            <li>{{ topiccategory }}</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Grupo de Categoría</th>
+                    <td>{{ groupcategory }}</td>
+                </tr>
+                <tr>
+                    <th>Palabras Clave</th>
+                    <td>
+                        <ul>
+                            <li>{{ keyword }}</li>
+                        </ul>
+                        
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="metadata-section">
+            <h2>Forma de Presentación y Fechas</h2>
+            <table class="metadata-table">
+                <tr>
+                    <th>Forma de Presentación</th>
+                    <td>
+                        <ul>
+                            <li>{{ presentationform }}</li>
+                        </ul>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <th>Fecha de Creación</th>
+                    <td>{{ date_creation|replace('T00:00:00', '') }}</td>
+                </tr>
+                <tr>
+                    <th>Uso Específico</th>
+                    <td>{{ specuse }}</td>
+                </tr>
+                <tr>
+                    <th>Frecuencia de Actualización</th>
+                    <td>{{ maintenanceandupdatefrequency }}</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Forzar salto de página después de la información general -->
+        <div class="page-break"></div>
+
+        <section class="metadata-section">
+            <h2>Responsable</h2>
+            <table class="metadata-table">
+                <tr>
+                    <th>Nombre</th>
+                    <td>{{ ci_responsibleparty_individualname }}</td>
+                </tr>
+                <tr>
+                    <th>Organización</th>
+                    <td>{{ ci_responsibleparty_organisationname }}</td>
+                </tr>
+                <tr>
+                    <th>Cargo</th>
+                    <td>{{ ci_responsibleparty_positionname }}</td>
+                </tr>
+                <tr>
+                    <th>Teléfono</th>
+                    <td>{{ ci_responsibleparty_voice }}</td>
+                </tr>
+                <tr>
+                    <th>Dirección</th>
+                    <td>{{ ci_responsibleparty_deliverypoint }}</td>
+                </tr>
+                <tr>
+                    <th>Ciudad</th>
+                    <td>{{ ci_responsibleparty_city }}</td>
+                </tr>
+                <tr>
+                    <th>Estado</th>
+                    <td>{{ ci_responsibleparty_administrativearea }}</td>
+                </tr>
+                <tr>
+                    <th>Código Postal</th>
+                    <td>{{ ci_responsibleparty_postalcode }}</td>
+                </tr>
+                <tr>
+                    <th>País</th>
+                    <td>{{ ci_responsibleparty_country }}</td>
+                </tr>
+                <tr>
+                    <th>Correo Electrónico</th>
+                    <td>{{ ci_responsibleparty_electronicmailaddress }}</td>
+                </tr>
+                <tr>
+                    <th>Rol</th>
+                    <td>{{ ci_responsibleparty_role }}</td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="metadata-section">
+            <h2>Ubicación en la Base de Datos</h2>
+            <table class="metadata-table">
+                <tr>
+                    <th>Base de Datos</th>
+                    <td>{{ db_name }}</td>
+                </tr>
+                <tr>
+                    <th>Esquema</th>
+                    <td>{{ schema_name }}</td>
+                </tr>
+                <tr>
+                    <th>Tabla</th>
+                    <td>{{ table_name }}</td>
+                </tr>
+                <tr>
+                    <th>Enlace</th>
+                    <td>{{ ci_onlineresource_linkage }}</td>
+                </tr>
+                <tr>
+                    <th>Detalle de Entidad</th>
+                    <td>{{ entity_detail }}</td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="metadata-section">
+            <h2>Extensión Geográfica</h2>
+            <table class="metadata-table">
+                <tr>
+                    <th>Coordenada Oeste</th>
+                    <td>{{ westboundlongitude }}</td>
+                </tr>
+                <tr>
+                    <th>Coordenada Este</th>
+                    <td>{{ eastboundlongitude }}</td>
+                </tr>
+                <tr>
+                    <th>Coordenada Norte</th>
+                    <td>{{ northboundlatitude }}</td>
+                </tr>
+                <tr>
+                    <th>Coordenada Sur</th>
+                    <td>{{ southboundlatitude }}</td>
+                </tr>
+            </table>
+            
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <p>Representación gráfica del área de cobertura</p>
+                    <!-- Aquí se podría insertar un mapa real usando las coordenadas proporcionadas -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Forzar salto de página antes del sistema de referencia -->
+        <div class="page-break"></div>
+
+        <section class="metadata-section">
+            <h2>Sistema de Referencia</h2>
+            <table class="metadata-table">
+                <tr>
+                    <th>Tipo de Representación Espacial</th>
+                    <td>{{ spatialrepresentationtype }}</td>
+                </tr>
+                <tr>
+                    <th>Zona UTM</th>
+                    <td>{{ utm_zone }}</td>
+                </tr>
+                <tr>
+                    <th>Factor de Escala del Meridiano Central</th>
+                    <td>{{ utm_sfctrmer }}</td>
+                </tr>
+                <tr>
+                    <th>Longitud del Meridiano Central</th>
+                    <td>{{ utm_longcm }}</td>
+                </tr>
+                <tr>
+                    <th>Latitud de Proyección de Origen</th>
+                    <td>{{ utm_latprjo }}</td>
+                </tr>
+                <tr>
+                    <th>Falso Este</th>
+                    <td>{{ utm_feast }}</td>
+                </tr>
+                <tr>
+                    <th>Falso Norte</th>
+                    <td>{{ utm_fnorth }}</td>
+                </tr>
+                <tr>
+                    <th>Datum Horizontal</th>
+                    <td>{{ horizdn }}</td>
+                </tr>
+                <tr>
+                    <th>Elipsoide</th>
+                    <td>{{ ellips }}</td>
+                </tr>
+                <tr>
+                    <th>Semieje Mayor</th>
+                    <td>{{ semiaxis }} metros</td>
+                </tr>
+                <tr>
+                    <th>Denominador de Achatamiento</th>
+                    <td>{{ denflat }}</td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="metadata-section">
+            <h2>Información de Origen y Procesamiento</h2>
+            <table class="metadata-table">
+                <tr>
+                    <th>Nombre del Insumo</th>
+                    <td>{{ inpname }}</td>
+                </tr>
+                <tr>
+                    <th>Descripción de la Fuente</th>
+                    <td class="pre-wrap">{{ li_source_description }}</td>
+                </tr>
+                <tr>
+                    <th>Descripción del Proceso</th>
+                    <td class="pre-wrap">{{ li_processstep_description }}</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Forzar salto de página antes de las restricciones -->
+        <div class="page-break"></div>
+
+        <section class="metadata-section">
+            <h2>Restricciones</h2>
+            <table class="metadata-table">
+                <tr>
+                    <th>Restricciones de Acceso</th>
+                    <td>
+                        <ul>
+                            <li>{{ accessconstraints }}</li>
+                        </ul>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <th>Restricciones de Uso</th>
+                    <td>
+                        <ul>
+                            <li>{{ constraint }}</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Otras Restricciones</th>
+                    <td>{{ otherconstraints }}</td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="metadata-section">
+            <h2>Información del Metadato</h2>
+            <table class="metadata-table">
+                <tr>
+                    <th>Estándar del Metadato</th>
+                    <td>{{ metadatastandardname }}</td>
+                </tr>
+                <tr>
+                    <th>Organización Responsable</th>
+                    <td>{{ inf_metadata_ci_responsibleparty_organisationname }}</td>
+                </tr>
+                <tr>
+                    <th>Teléfono</th>
+                    <td>{{ inf_metadata_ci_responsibleparty_voice }}</td>
+                </tr>
+                <tr>
+                    <th>Rol</th>
+                    <td>{{ inf_metadata_ci_responsibleparty_role }}</td>
+                </tr>
+                <tr>
+                    <th>Fecha de Creación del Metadato</th>
+                    <td>{{ datestamp|replace('T', ' ')|replace('.272039', '') }}</td>
+                </tr>
+                <tr>
+                    <th>Fecha de Actualización</th>
+                    <td>{{ update_date|replace('T', ' ')|replace('.759328', '') }}</td>
+                </tr>
+                <tr>
+                    <th>Usuario</th>
+                    <td>{{ username }}</td>
+                </tr>
+                <tr>
+                    <th>Identificador Único</th>
+                    <td>{{ uid }}</td>
+                </tr>
+            </table>
+        </section>
+
+        <footer>
+            <p>Documento generado por la Coordinación de Plataformas Geomáticas Catastrales</p>
+            <p>Conforme a la Norma Técnica para la elaboración de Metadatos Geográficos del INEGI</p>
+            <div class="no-print">
+                <p>Página <span class="page-number"></span> de <span class="page-count"></span></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

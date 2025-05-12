@@ -123,6 +123,7 @@ def patch_oc(_id: int, data: Dict) -> Tuple[Dict, int]:
     obras_c.registro = data["registro"]
     obras_c.calculo_completo = data["calculo_completo"]
     obras_c.redondeo = data["redondeo"]
+    obras_c.partida = data["partida"]
     if save_changes(obras_c):
         return Response.success(
             data=None,

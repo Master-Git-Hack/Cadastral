@@ -1,4 +1,3 @@
-
 DROP VIEW IF EXISTS pgmetadata.v_export_table;
 DROP VIEW IF EXISTS pgmetadata.v_dataset;
 CREATE VIEW pgmetadata.v_dataset AS
@@ -87,7 +86,9 @@ CREATE VIEW pgmetadata.v_dataset AS
 			d.datetype,
 			d.version,
 			d.inf_metadata_ci_responsibleparty_voice,
-            cat.cat,
+			d.inf_metadata_ci_responsibleparty_individualname, d.inf_metadata_ci_responsibleparty_deliverypoint, d.inf_metadata_ci_responsibleparty_city, d.inf_metadata_ci_responsibleparty_postalcode, d.inf_metadata_ci_responsibleparty_electronicmailaddress, d.inf_metadata_ci_responsibleparty_country,
+            d.inf_metadata_ci_responsibleparty_positionname,
+			cat.cat,
             theme.theme
            FROM ((pgmetadata.dataset d
              LEFT JOIN LATERAL unnest(d.categories) cat(cat) ON (true))
@@ -171,6 +172,8 @@ CREATE VIEW pgmetadata.v_dataset AS
 			s.ci_responsibleparty_country,
 			s.ci_responsibleparty_electronicmailaddress,
 			s.inf_metadata_ci_responsibleparty_role,
+			s.inf_metadata_ci_responsibleparty_individualname, s.inf_metadata_ci_responsibleparty_deliverypoint, s.inf_metadata_ci_responsibleparty_city, s.inf_metadata_ci_responsibleparty_postalcode, s.inf_metadata_ci_responsibleparty_electronicmailaddress, s.inf_metadata_ci_responsibleparty_country,
+			s.inf_metadata_ci_responsibleparty_positionname,
 			s.datetype,
 			s.version,
 			s.inf_metadata_ci_responsibleparty_voice,
@@ -256,6 +259,8 @@ CREATE VIEW pgmetadata.v_dataset AS
 	ss.ci_responsibleparty_country,
 	ss.ci_responsibleparty_electronicmailaddress,
 	ss.inf_metadata_ci_responsibleparty_role,
+	ss.inf_metadata_ci_responsibleparty_individualname, ss.inf_metadata_ci_responsibleparty_deliverypoint, ss.inf_metadata_ci_responsibleparty_city, ss.inf_metadata_ci_responsibleparty_postalcode, ss.inf_metadata_ci_responsibleparty_electronicmailaddress, ss.inf_metadata_ci_responsibleparty_country,
+	ss.inf_metadata_ci_responsibleparty_positionname,
 	ss.datetype,
 	ss.version,
 	ss.inf_metadata_ci_responsibleparty_voice,
@@ -330,7 +335,7 @@ CREATE VIEW pgmetadata.v_dataset AS
 	ss.ci_responsibleparty_country,
 	ss.ci_responsibleparty_electronicmailaddress,
 	ss.inf_metadata_ci_responsibleparty_role,
-	ss.datetype, ss.version,ss.inf_metadata_ci_responsibleparty_voice;
+	ss.datetype, ss.version,ss.inf_metadata_ci_responsibleparty_voice, ss.inf_metadata_ci_responsibleparty_individualname, ss.inf_metadata_ci_responsibleparty_deliverypoint, ss.inf_metadata_ci_responsibleparty_city, ss.inf_metadata_ci_responsibleparty_postalcode, ss.inf_metadata_ci_responsibleparty_electronicmailaddress, ss.inf_metadata_ci_responsibleparty_country, ss.inf_metadata_ci_responsibleparty_positionname;
 
  CREATE VIEW pgmetadata.v_export_table AS
  SELECT d.id,
@@ -403,6 +408,8 @@ CREATE VIEW pgmetadata.v_dataset AS
 			d.ci_responsibleparty_country,
 			d.ci_responsibleparty_electronicmailaddress,
 			d.inf_metadata_ci_responsibleparty_role,
+			d.inf_metadata_ci_responsibleparty_individualname, d.inf_metadata_ci_responsibleparty_deliverypoint, d.inf_metadata_ci_responsibleparty_city, d.inf_metadata_ci_responsibleparty_postalcode, d.inf_metadata_ci_responsibleparty_electronicmailaddress, d.inf_metadata_ci_responsibleparty_country,
+			d.inf_metadata_ci_responsibleparty_positionname,
 			d.datetype,
 			d.version,
 			d.inf_metadata_ci_responsibleparty_voice,
@@ -481,6 +488,8 @@ CREATE VIEW pgmetadata.v_dataset AS
 			d.ci_responsibleparty_country,
 			d.ci_responsibleparty_electronicmailaddress,
 			d.inf_metadata_ci_responsibleparty_role,
+			d.inf_metadata_ci_responsibleparty_individualname, d.inf_metadata_ci_responsibleparty_deliverypoint, d.inf_metadata_ci_responsibleparty_city, d.inf_metadata_ci_responsibleparty_postalcode, d.inf_metadata_ci_responsibleparty_electronicmailaddress, d.inf_metadata_ci_responsibleparty_country,
+			d.inf_metadata_ci_responsibleparty_positionname,
 			d.datetype,
 			d.version,
 			d.inf_metadata_ci_responsibleparty_voice

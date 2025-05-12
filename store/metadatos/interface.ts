@@ -121,6 +121,22 @@ export interface IMetadatosState {
 	is_latest?: boolean;
 	version?: number;
 	parent_id?: number;
+	inf_metadata_ci_responsibleparty_individualname?: string;
+	inf_metadata_ci_responsibleparty_deliverypoint?: string;
+	inf_metadata_ci_responsibleparty_city?: string;
+	inf_metadata_ci_responsibleparty_postalcode?: string;
+	ci_responsibleparty_electronicmailaddress?: string;
+	inf_metadata_ci_responsibleparty_electronicmailaddress?: string;
+	ci_responsibleparty_country: string;
+	inf_metadata_ci_responsibleparty_country?: string;
+	ci_responsibleparty_city?: string;
+	ci_responsibleparty_deliverypoint?: string;
+	ci_responsibleparty_administrativearea?: string;
+	ci_responsibleparty_postalcode?: string;
+	inf_metadata_ci_responsibleparty_positionname?: string;
+	ci_responsibleparty_voice?: string;
+	inf_metadata_ci_responsibleparty_organisationname?: string;
+	inf_metadata_ci_responsibleparty_voice?: string;
 }
 interface IResponseGet {
 	data: any;
@@ -176,6 +192,12 @@ export const defaultState: IMetadatosState = {
 	ci_responsibleparty_administrativearea: "",
 	ci_responsibleparty_linkage: "",
 	ci_responsibleparty_role: "",
+	ci_responsibleparty_deliverypoint: "",
+	ci_responsibleparty_city: "",
+	ci_responsibleparty_postalcode: "",
+
+	ci_responsibleparty_electronicmailaddress: "",
+	ci_responsibleparty_country: "México",
 	westboundlongitude: 0,
 	eastboundlongitude: 0,
 	southboundlatitude: 0,
@@ -201,14 +223,19 @@ export const defaultState: IMetadatosState = {
 	useconstraints: [],
 	otherconstraints: "",
 	metadatastandardname: "ISO 19115:2003 (Norma Técnica para Metadatos).",
+	inf_metadata_ci_responsibleparty_individualname:
+		"Arq. Maricela Margarita Montiel Martínez",
+	inf_metadata_ci_responsibleparty_positionname: "Directora de Catastro",
 	inf_metadata_ci_responsibleparty_organisationname:
-		"Coordinación de Plataformas Geomáticas Catastrales",
+		"Dirección General de Recursos Materiales, Servicios Generales y Catastro",
 	inf_metadata_ci_responsibleparty_voice: "473 7351500 Extensión 2404",
-	ci_responsibleparty_deliverypoint: "Paseo de la Presa 172, Zona Centro.",
-	ci_responsibleparty_city: "Guanajuato",
-	ci_responsibleparty_postalcode: "36000",
-	ci_responsibleparty_country: "México",
-	ci_responsibleparty_electronicmailaddress: "catastro@guanajuato.gob.mx",
+	inf_metadata_ci_responsibleparty_deliverypoint:
+		"Paseo de la Presa 172, Zona Centro.",
+	inf_metadata_ci_responsibleparty_city: "Guanajuato",
+	inf_metadata_ci_responsibleparty_postalcode: "36000",
+	inf_metadata_ci_responsibleparty_country: "México",
+	inf_metadata_ci_responsibleparty_electronicmailaddress:
+		"catastro@guanajuato.gob.mx",
 	inf_metadata_ci_responsibleparty_role:
 		"2.Custodio.Parte que acepta la responsabilidad de los datos y asegura un cuidado apropiado y el mantenimiento del recurso",
 	datestamp: moment().format("YYYY-MM-DD"),

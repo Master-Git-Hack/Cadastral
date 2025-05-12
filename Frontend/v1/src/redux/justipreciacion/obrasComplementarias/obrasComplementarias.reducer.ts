@@ -238,4 +238,10 @@ export const reducers = {
 
 		state.total = roundNumber(total, payload ?? -1);
 	},
+	setPartida: (state: StateProps, { payload }: PayloadAction<any>) => {
+		if (payload !== undefined) state.Partida = payload;
+		const { total, Calculation } = updatePartialValuesFN(state);
+		state.Calculation = Calculation;
+		state.total = roundNumber(total, state.rounded);
+	}
 };

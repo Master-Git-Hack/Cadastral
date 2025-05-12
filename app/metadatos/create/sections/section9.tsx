@@ -88,24 +88,78 @@ export const Section9 = ({ editable = true }: any) => {
 						{findLanguageValue?.label}
 					</TableCell>
 				</TableRow>
-
 				<TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
 					<TableCell
 						scope="row"
 						colSpan={1}
 						className="text-gray-900 whitespace-nowrap dark:text-white w-1/12"
 					>
+						9.4
+					</TableCell>
+					<TableCell colSpan={11} />
+				</TableRow>
+				<TableRow>
+					<TableCell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
+						9.4.1
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
+						Nombre de la persona responsable
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Input
+							name="inf_metadata_ci_responsibleparty_individualname"
+							type="text"
+							placeholder="Nombre de la persona responsable"
+							value={data.inf_metadata_ci_responsibleparty_individualname}
+							onChange={handleInputChange}
+							disabled={!editable}
+						/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
 						9.4.2
 					</TableCell>
-					<TableCell colSpan={2} className=" text-black dark:text-white w-2/12">
-						Nombre de la organización
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
+						Nombre de la organización responsable
 					</TableCell>
-					<TableCell colSpan={9} className=" w-9/12">
+					<TableCell colSpan={9} className="w-9/12">
 						<Input
 							name="inf_metadata_ci_responsibleparty_organisationname"
-							value={data?.inf_metadata_ci_responsibleparty_organisationname}
-							onChange={handleInputChange}
 							type="text"
+							placeholder="Nombre de la organización responsable"
+							value={data.inf_metadata_ci_responsibleparty_organisationname}
+							onChange={handleInputChange}
+							disabled={!editable}
+						/>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell
+						scope="row"
+						colSpan={1}
+						className="text-gray-900 whitespace-nowrap dark:text-white "
+					>
+						9.4.3
+					</TableCell>
+					<TableCell colSpan={2} className=" text-black dark:text-white ">
+						Puesto del contacto
+					</TableCell>
+					<TableCell colSpan={9} className="w-9/12">
+						<Input
+							name="inf_metadata_ci_responsibleparty_positionname"
+							type="text"
+							placeholder="Nombre de la persona responsable"
+							value={data.inf_metadata_ci_responsibleparty_positionname}
+							onChange={handleInputChange}
 							disabled={!editable}
 						/>
 					</TableCell>
@@ -144,8 +198,8 @@ export const Section9 = ({ editable = true }: any) => {
 					</TableCell>
 					<TableCell colSpan={9} className=" w-9/12">
 						<Input
-							name="ci_responsibleparty_deliverypoint"
-							value={data?.ci_responsibleparty_deliverypoint}
+							name="inf_metadata_ci_responsibleparty_deliverypoint"
+							value={data?.inf_metadata_ci_responsibleparty_deliverypoint}
 							onChange={handleInputChange}
 							type="text"
 							disabled={!editable}
@@ -165,8 +219,8 @@ export const Section9 = ({ editable = true }: any) => {
 					</TableCell>
 					<TableCell colSpan={9} className=" w-9/12">
 						<Input
-							name="ci_responsibleparty_city"
-							value={data?.ci_responsibleparty_city}
+							name="inf_metadata_ci_responsibleparty_city"
+							value={data?.inf_metadata_ci_responsibleparty_city}
 							onChange={handleInputChange}
 							type="text"
 							disabled={!editable}
@@ -202,8 +256,8 @@ export const Section9 = ({ editable = true }: any) => {
 					</TableCell>
 					<TableCell colSpan={9} className=" w-9/12">
 						<Input
-							name="ci_responsibleparty_postalcode"
-							value={data?.ci_responsibleparty_postalcode}
+							name="inf_metadata_ci_responsibleparty_postalcode"
+							value={data?.inf_metadata_ci_responsibleparty_postalcode}
 							onChange={handleInputChange}
 							type="text"
 							disabled={!editable}
@@ -223,8 +277,8 @@ export const Section9 = ({ editable = true }: any) => {
 					</TableCell>
 					<TableCell colSpan={9} className=" w-9/12">
 						<Input
-							name="ci_responsibleparty_country"
-							value={data?.ci_responsibleparty_country}
+							name="inf_metadata_ci_responsibleparty_country"
+							value={data?.inf_metadata_ci_responsibleparty_country}
 							onChange={handleInputChange}
 							type="text"
 							disabled={!editable}
@@ -244,7 +298,7 @@ export const Section9 = ({ editable = true }: any) => {
 					</TableCell>
 					<TableCell colSpan={9} className=" w-9/12">
 						<Input
-							name="ci_responsibleparty_electronicmailaddress"
+							name="inf_metadata_ci_responsibleparty_electronicmailaddress"
 							value={data?.ci_responsibleparty_electronicmailaddress}
 							onChange={handleInputChange}
 							type="text"

@@ -1,11 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../../../../redux";
 import {
-	addDataRow,
 	getOC,
-	rmDataRow,
-	setCalc,
-	setDoc,
-	setDocData,
+	setPartida,
 } from "../../../../redux/justipreciacion/obrasComplementarias";
 import { Text } from "../../../../components/Input";
 import { Col, Divider, Grid, Row, Table } from "rsuite";
@@ -15,7 +11,7 @@ import { asFancyNumber } from "../../../../utils/number";
 import { Switch } from "../../../../components/Input/Switch";
 import { HidePage } from "../../../../components/HidePage";
 import { Image } from "rsuite";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { FlexboxGrid } from "rsuite";
 import { Input } from 'rsuite';
 import { Fancy } from "../../../../components/Input/Fancy";
@@ -43,81 +39,105 @@ const Component = () => {
 	const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(
 		image,
 	);
+	const [rows, setRows] = useState<IEmsamble[]>(ensambles);
 	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
 			const reader = new FileReader();
 			reader.onloadend = () => {
 				setImagePreview(reader.result);
-				dispatch(setDocData({ image: reader.result }));
+				dispatch(setPartida({ image: reader.result, ensambles: rows }));
 			};
 			reader.readAsDataURL(file);
 		}
 	};
-
-	const handleImageRemove = () => {
-		setImagePreview(null);
-		dispatch(setDocData({ image: "" }));
-	};
-
-	const [rows, setRows] = useState<IEmsamble[]>(ensambles);
+	
+	
 
 	const addRow = () => {
 		setRows([...rows, { name: "", cost: 0, enabled: true }]);
 	};
-
+	const removeRow = () => {
+		if (rows.length > 1) {
+			const newRows = [...rows];
+			newRows.pop();
+			setRows(newRows);
+		}
+	}
+	useEffect(() => {
+		dispatch(setPartida({ ensambles: rows, image: imagePreview }));
+	}, [rows]);
 	const updateRow = <K extends keyof IEmsamble>(
 		index: number,
 		target: K,
 		value: IEmsamble[K],
 	) => {
-		const newRows: IEmsamble[] = [...rows];
-		newRows[index][target] = value;
-		setRows(newRows);
+		const newRows = [...rows]; // Crear una copia del array
+		newRows[index] = { ...newRows[index], [target]: value }; // Crear una copia del objeto y actualizar la propiedad
+		setRows(newRows); // Actualizar el estado
 	};
 
 	return (
-		<div className="show-grid">
-			<FlexboxGrid>
-				<FlexboxGrid.Item colspan={6}>
-					<input type="file" onChange={handleImageChange} />
-					<Image
-						rounded
-						src={typeof imagePreview === "string" ? imagePreview : undefined}
-						alt="imagen de la partida"
-						width={500}
-					/>
-				</FlexboxGrid.Item>
-				<FlexboxGrid.Item colspan={18}><table className="w-full border-collapse border border-gray-300 shadow-md">
+		<div style={{ display: "flex", flexDirection: "row", gap: "16px" }}>
+			{/* Imagen a la izquierda */}
+			<div style={{ flex: "1", display: "flex", justifyContent: "center", alignItems: "center" }}>
+				<Image
+					rounded
+					src={typeof imagePreview === "string" ? imagePreview : undefined}
+					alt="imagen de la partida"
+					style={{
+						width: "100%",
+						height: "auto",
+						maxHeight: "400px",
+						objectFit: "contain",
+						border: "1px solid #ccc",
+						borderRadius: "8px",
+					}}
+				/>
+			</div>
+	
+			{/* Tabla dinámica a la derecha */}
+			<div style={{ flex: "2" }}>
+			<Input
+				type="file"
+				accept="image/*"
+				onChange={(value, event) => handleImageChange(event)} // Ajusta para pasar el evento correctamente
+				style={{ width: "100%", border: "none", outline: "none" }}
+			/>
+				<table style={{ width: "100%", borderCollapse: "collapse", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" }}>
 					<thead>
-						<tr className="bg-gray-200">
-							<th className="border p-2" />
-							<th className="border p-2">Partida</th>
-							<th className="border p-2 text-right">Costo Directo</th>
+						<tr style={{ backgroundColor: "#f2f2f2" }}>
+							<th style={{ border: "1px solid #ccc", padding: "8px" }} />
+							<th style={{ border: "1px solid #ccc", padding: "8px", textAlign: "center"  }} >#</th>
+							<th style={{ border: "1px solid #ccc", padding: "8px" }}>Partida</th>
+							<th style={{ border: "1px solid #ccc", padding: "8px", textAlign: "right" }}>Costo Directo</th>
 						</tr>
 					</thead>
 					<tbody>
 						{rows.map((row, index) => (
-							<tr key={index} className="border">
-								<td className="border p-2">
-								
+							<tr key={index}>
+								<td style={{ border: "1px solid #ccc", padding: "8px" }}>
 									<input
 										type="checkbox"
 										checked={row.enabled}
 										onChange={(e) =>
 											updateRow(index, "enabled", e.target.checked || false)
 										}
-										className="w-full border-none outline-none"
+										style={{ width: "100%" }}
 									/>
 								</td>
-								<td className="border p-2">
-								<Input type="text"
+								<td style={{ border: "1px solid #ccc", padding: "8px", textAlign: "center" }}>
+									{index + 1}
+								</td>
+								<td style={{ border: "1px solid #ccc", padding: "8px" }}>
+									<Input
+										type="text"
 										value={row.name}
 										onChange={(value) => updateRow(index, "name", value)}
-										className="w-full border-none outline-none" />
-									
+										style={{ width: "100%", border: "none", outline: "none" }}
+									/>
 								</td>
-								<td className="border p-2 text-right">
+								<td style={{ border: "1px solid #ccc", padding: "8px", textAlign: "right" }}>
 									<Fancy
 										index={index}
 										name="costo"
@@ -132,44 +152,59 @@ const Component = () => {
 										}
 										isCurrency
 									/>
-								{/* <Input type="number"
-										value={row.cost}
-										onChange={(value) => updateRow(index, "cost", !isNaN(parseFloat(value)) ? parseFloat(value) : 0)}
-										placeholder="0.00"
-										className="w-full border-none outline-none" /> */}
-									
 								</td>
 							</tr>
 						))}
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colSpan={2} className="text-right"></td>
-							<td className="text-center">
-								{asFancyNumber(rows.reduce(
-									(sum, row) => (row.enabled ? sum + row.cost : sum),
-									0,
-								),{isCurrency:true})}
+							<td colSpan={2} style={{ textAlign: "right", padding: "8px" }}></td>
+							<td style={{ textAlign: "center", padding: "8px" }}>
+								{asFancyNumber(
+									rows.reduce(
+										(sum, row) => (row.enabled ? sum + row.cost : sum),
+										0,
+									),
+									{ isCurrency: true }
+								)}
 							</td>
 						</tr>
 					</tfoot>
 				</table>
-				<button
-					onClick={addRow}
-					className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-				>
-					Agregar Fila
-				</button>
-				</FlexboxGrid.Item>
-			</FlexboxGrid>{" "}
-			
-			<div className="w-1/3 flex justify-center items-center"></div>
-			{/* Right Table */}
-			<div className="w-2/3">
-				
-
-				{/* Add Row Button */}
-			
+	
+				{/* Botones separados */}
+				<div style={{ display: "flex", justifyContent: "space-between", marginTop: "16px" }}>
+					<button
+						onClick={removeRow}
+						style={{
+							padding: "8px 16px",
+							backgroundColor: "#d9534f",
+							color: "white",
+							border: "none",
+							borderRadius: "4px",
+							cursor: "pointer",
+						}}
+						onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#c9302c")}
+						onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#d9534f")}
+					>
+						Remover Fila
+					</button>
+					<button
+						onClick={addRow}
+						style={{
+							padding: "8px 16px",
+							backgroundColor: "#5cb85c",
+							color: "white",
+							border: "none",
+							borderRadius: "4px",
+							cursor: "pointer",
+						}}
+						onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#4cae4c")}
+						onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#5cb85c")}
+					>
+						Agregar Fila
+					</button>
+				</div>
 			</div>
 		</div>
 	);
