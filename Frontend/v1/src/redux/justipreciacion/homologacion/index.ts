@@ -159,6 +159,8 @@ export const {
 	setReFactorForm,
 	setIndiviso,
 	setOther,
+	setRevisiones,
+	addOrUpdateRevision,
 } = slice.actions;
 
 export default slice.reducer;

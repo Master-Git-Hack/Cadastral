@@ -92,7 +92,7 @@ const UploadIcon = ({
 		/>
 	</svg>
 );
-exp
+
 const emptyFile = [
 	{
 		label: "Importar",

@@ -1,4 +1,5 @@
 """File for Homologacion endpoints"""
+
 from email import message
 from typing import Dict, Optional, Tuple
 
@@ -62,4 +63,5 @@ class HOMOLOGACION(Resource):
             valor_unitario=data["valor_unitario"],
             registro=data["registro"],
             tipo_servicio=data["tipo_servicio"],
+            revisiones=data["revisiones"],
         )

@@ -41,6 +41,7 @@ def get_oc(_id: int) -> Tuple[Dict, int]:
             documentation=obras_c.datos,
             calculous=obras_c.calculo,
             total=obras_c.valor_unitario,
+            partida=obras_c.partida,
             isComplete=obras_c.calculo_completo,
             rounded=obras_c.redondeo,
         ),

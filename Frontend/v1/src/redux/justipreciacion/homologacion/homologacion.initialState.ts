@@ -29,7 +29,7 @@ const {
 const tipo: string = getURLParams("tipo")?.toUpperCase() ?? "TERRENO";
 const tipo_servicio: string =
 	getURLParams("tipo_servicio")?.toUpperCase() ?? "justipreciacion";
-export const initialState: StateProps = {
+export const initialState = {
 	status: "working",
 	message: "",
 	factors: {
@@ -87,4 +87,11 @@ export const initialState: StateProps = {
 		ReFactor: reFactor,
 		Indiviso: indiviso,
 	},
+	revisiones: {
+		status: "PENDIENTE",
+		created_at: new Date().toISOString(),
+		updated_at: new Date().toISOString(),
+		reviewed_at: new Date().toISOString(),
+		revisiones: [],
+	}
 };

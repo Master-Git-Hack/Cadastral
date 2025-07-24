@@ -45,6 +45,18 @@ services:
       - nextjs
     networks:
       - cadastral_network
+      
+  vite-app:
+    container_name: vite-app
+    build:
+      context: ./Frontend/v2
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - cadastral_network
 
 networks:
   cadastral_network:

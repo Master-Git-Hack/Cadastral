@@ -12,8 +12,63 @@ import {
 	positions,
 } from "./homologacion.actions";
 import type { StateProps } from "./homologacion.interface";
+export interface PageRevision {
+  observations: string;
+  reviewer: string;
+  reviewed_at: string;
+}
+
+export interface RevisionEntry {
+  version: string;
+  created_by: string;
+  created_at: string;
+  pages: {
+    [key: `page${number}`]: PageRevision;
+  };
+}
+
+interface ReviewState {
+  revisiones: RevisionEntry[];
+}
+
+
+interface AddRevisionPayload {
+  version: string;
+  pageKey: `page${number}`;
+  observations: string;
+  reviewer: string;
+}
 
 export const reducers = {
+	setRevisiones(state: ReviewState, action: PayloadAction<RevisionEntry[]>) {
+	  state.revisiones = action.payload;
+	},
+	addOrUpdateRevision(state: ReviewState, action: PayloadAction<AddRevisionPayload>) {
+	  const { version, pageKey, observations, reviewer } = action.payload;
+	  const now = new Date().toISOString();
+	  const existing = state.revisiones.find((r) => r.version === version);
+
+	  if (existing) {
+		existing.pages[pageKey] = {
+		  observations,
+		  reviewer,
+		  reviewed_at: now,
+		};
+	  } else {
+		state.revisiones.push({
+		  version,
+		  created_by: reviewer,
+		  created_at: now,
+		  pages: {
+			[pageKey]: {
+			  observations,
+			  reviewer,
+			  reviewed_at: now,
+			},
+		  },
+		});
+	  }
+	},
 	addRow: (state: StateProps) => {
 		const { factors, documentation } = addRowFN(state);
 		state.factors = factors;

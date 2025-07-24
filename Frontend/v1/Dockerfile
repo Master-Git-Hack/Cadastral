@@ -19,7 +19,7 @@ LABEL mantenier="Einar Jhordany Serna Valdivia<eserna@guanajuato.gob.mx>"
 WORKDIR /usr/share/nginx/html
 # Remove default nginx static assets
 RUN rm -rf ./*
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/nginx.conf
 EXPOSE 80
 COPY --from=builder /usr/src/v1/build /usr/share/nginx/html
 # Containers run nginx with global directives and daemon off

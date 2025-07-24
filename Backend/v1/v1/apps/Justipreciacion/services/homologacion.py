@@ -1,4 +1,5 @@
 """Service file to handle Homologation operation"""
+
 from typing import Dict, Tuple
 
 from ....utils.dbo import save_changes
@@ -43,6 +44,7 @@ def get_homologation(_id: int, tipo: str) -> Tuple[Dict, int]:
                     appraisalPurpose=record.tipo_servicio,
                     status="exists",
                 ),
+                revisiones=record.revisiones,
             )
             return Response.success(
                 data=data,
@@ -91,6 +93,7 @@ def patch_homologation(
     valor_unitario: float,
     registro: str,
     tipo_servicio: str,
+    revisiones: dict,
 ) -> Tuple[dict, int]:
     """
     Update Homologation Object
@@ -119,6 +122,7 @@ def patch_homologation(
         homologation.valor_unitario = valor_unitario
         homologation.registro = registro
         homologation.tipo_servicio = tipo_servicio.lower()
+        homologation.revisiones = revisiones
         if save_changes(homologation):
             return Response.success(
                 data=None,

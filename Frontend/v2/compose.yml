@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # Servicio que ejecuta vite preview
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app
+    container_name: vite-app
+    restart: unless-stopped
+    networks:
+      - frontend-network
+
+  # Servicio de proxy Nginx
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: nginx
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge
