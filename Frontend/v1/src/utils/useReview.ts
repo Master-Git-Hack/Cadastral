@@ -1,36 +1,45 @@
 // src/hooks/useReview.ts
 import { useAppDispatch, useAppSelector } from "../redux";
 import {
-  addOrUpdateRevision,getHomologaciones,
-  setRevisiones,
-} from '../redux/justipreciacion/homologacion';
-export interface PageRevision {
-  observations: string;
-  reviewer: string;
-  reviewed_at: string;
-}
+  getRevisionData,
+  getIsReviewing,
+  getActiveRevision,
+  startRevision,
+  submitRevision,
+  addSuggestion
+} from '../redux/justipreciacion/homologacion/revisiones';
+import { RevisionEntry, RevisionSuggestion } from '../redux/justipreciacion/homologacion/revisiones/revisiones.interface';
+
 export const useReview = () => {
-  const revisiones = useAppSelector(getHomologaciones);
+  const revisionData = useAppSelector(getRevisionData);
+  const isReviewing = useAppSelector(getIsReviewing);
+  const activeRevision = useAppSelector(getActiveRevision);
   const dispatch = useAppDispatch();
 
-  const getPageRevision = (version: string, pageKey: `page${number}`): PageRevision | undefined => {
-    const revision = revisiones.find((r) => r.version === version);
-    return revision?.pages[pageKey];
+  const getRevision = (version: string): RevisionEntry | undefined => {
+    return revisionData?.revisiones.find((r) => r.version === version);
   };
 
-  const updatePageRevision = (
-    version: string,
-    pageKey: `page${number}`,
-    observations: string,
-    reviewer: string
-  ) => {
-    dispatch(addOrUpdateRevision({ version, pageKey, observations, reviewer }));
+  const startNewRevision = (reviewer: string) => {
+    const version = `v${Date.now()}`;
+    dispatch(startRevision({ reviewer, version }));
+  };
+
+  const addRevisionSuggestion = (suggestion: RevisionSuggestion) => {
+    dispatch(addSuggestion(suggestion));
+  };
+
+  const submitCurrentRevision = (generalComments?: string) => {
+    dispatch(submitRevision({ generalComments }));
   };
 
   return {
-    revisiones,
-    getPageRevision,
-    updatePageRevision,
-    setRevisiones: (data: typeof revisiones) => dispatch(setRevisiones(data)),
+    revisionData,
+    isReviewing,
+    activeRevision,
+    getRevision,
+    startNewRevision,
+    addRevisionSuggestion,
+    submitCurrentRevision,
   };
 };

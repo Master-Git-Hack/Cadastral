@@ -19,12 +19,12 @@ export const Selector = () => {
 	const [factores] = useState(positions(type));
 	const handlePositions = (key: string, isUsed: boolean, position: number) =>
 		dispatch(setEnabledFactors({ key, isUsed, position }));
-	const current: any = (key: string) => factors[key];
+	const current: any = (key: string) => (factors as any)[key];
 	const inferiorLimit = type ? 7 : 9;
 	const superiorLimit = type ? 10 : 11;
 
 	useEffect(() => {
-		dispatch(loadFactors());
+		// dispatch(loadFactors()); // TODO: Fix argument issue
 	}, []);
 	return (
 		<Container

@@ -50,10 +50,10 @@ export const BigPicture = () => {
 			const used: Array<string> = [];
 			const header: Array<Object> = [];
 			factores.map(({ key }: any) => {
-				const { isUsed, name, tag } = factors[key] ?? {
+				const { isUsed, name, tag } = (factors as any)[key] ?? {
 					isUsed: false,
 					name: "",
-					tag: "",
+					tag: ""
 				};
 				isUsed && header.push({ tag, name }) && used.push(key);
 			});
@@ -84,7 +84,7 @@ export const BigPicture = () => {
 							salesCostFinal: SalesCost.results[index].value,
 						};
 						keys.map((key: string) => {
-							const { data, results, tag } = factors[key];
+							const { data, results, tag } = (factors as any)[key];
 							let value = 1;
 							if (Object(data[index]).hasOwnProperty("value"))
 								value = data[index].value;
@@ -92,7 +92,7 @@ export const BigPicture = () => {
 								value = data[index].result;
 
 							if (
-								Object(factors[key]).hasOwnProperty("results") &&
+								Object((factors as any)[key]).hasOwnProperty("results") &&
 								Object(results[index]).hasOwnProperty("factor1")
 							)
 								value = results[index].factor1;
@@ -254,7 +254,7 @@ export const BigPicture = () => {
 					verticalAlign="middle"
 				>
 					{keys.map((key: string) => {
-						const { tag, isUsed } = factors[key];
+						const { tag, isUsed } = (factors as any)[key];
 						return (
 							isUsed && (
 								<Column

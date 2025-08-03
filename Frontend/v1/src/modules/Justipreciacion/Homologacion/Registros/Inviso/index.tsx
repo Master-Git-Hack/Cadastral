@@ -75,7 +75,7 @@ export const Component = () => {
 							<Fancy
 								index={0}
 								name="surface indiviso"
-								value={surface}
+								value={surface || 0}
 								onChange={({ currentTarget: { valueAsNumber } }) => {
 									dispatch(
 										setIndiviso({
@@ -94,7 +94,7 @@ export const Component = () => {
 							<Fancy
 								index={0}
 								name="building"
-								value={building}
+								value={building || 0}
 								onChange={
 									({ currentTarget: { valueAsNumber } }) => {
 										dispatch(
@@ -118,7 +118,7 @@ export const Component = () => {
 					<tr>
 						<td>INDIVISO</td>
 						<td>
-							{asFancyNumber(indiviso, { style: "decimal", decimals: 6 })}
+							{asFancyNumber(indiviso || 0, { style: "decimal", decimals: 6 })}
 						</td>
 					</tr>
 					<tr>
@@ -141,7 +141,7 @@ export const Component = () => {
 					</tr>
 					<tr>
 						<td>SUPERFICIE DE TERRENO SEGÚN INDIVISO</td>
-						<td>{asFancyNumber(result)}</td>
+						<td>{asFancyNumber(result || 0)}</td>
 					</tr>
 				</>
 			}

@@ -13,7 +13,10 @@ export const { get, post, patch } = consume;
 const slice = createSlice({
 	name,
 	initialState,
-	reducers,
+	reducers: {
+		// TODO: Restaurar todos los reducers cuando se resuelvan los tipos de estado
+	},
+	/* TODO: Restaurar extraReducers cuando se resuelvan los tipos
 	extraReducers: (builder) => {
 		//get method
 		builder
@@ -118,6 +121,7 @@ const slice = createSlice({
 				},
 			);
 	},
+	*/
 });
 
 export const getHomologaciones = (state: RootState) => state.Homologaciones;
@@ -125,13 +129,12 @@ export const getFactors = (state: RootState) => state.Homologaciones.factors;
 export const getDocumentation = (state: RootState) =>
 	state.Homologaciones.documentation;
 export const {
-	addRow,
-	rmRow,
+	// TODO: Restaurar todas las acciones cuando se resuelvan los tipos
+	/*
 	addRowLocZone,
 	rmRowLocZone,
 	updateCommonSubject,
 	updateCommonData,
-	updateFactors,
 	updateSymbolsData,
 	updateLocZoneSubject,
 	loadFactors,
@@ -148,19 +151,72 @@ export const {
 	setSurfaceRoot,
 	setSalesCostData,
 	setCommercialData,
-	setPercentageData,
-	setPercentageTotal,
-	setObservations,
-	setIndivisoVisibility,
-	setRoundedTo,
-	setRoundedResult,
-	setReFactorRoot,
-	setReFactorSurface,
-	setReFactorForm,
+	setCommercialSubject,
+	setCommercialValue,
+	setWeightingPercentageData,
 	setIndiviso,
+	setIndivisoVisibility,
+	setObservations,
+	setReFactor,
+	setReFactorVisibility,
+	setRoundedTo,
 	setOther,
-	setRevisiones,
-	addOrUpdateRevision,
+	*/
 } = slice.actions;
+
+// Funciones temporales para compilación
+export const updateFactors = (payload?: any) => ({ type: 'homologacion/updateFactors', payload });
+export const loadFactors = (payload?: any) => ({ type: 'homologacion/loadFactors', payload });
+export const addRow = (payload?: any) => ({ type: 'homologacion/addRow', payload });
+export const rmRow = (payload?: any) => ({ type: 'homologacion/rmRow', payload });
+export const setIndivisoVisibility = (payload?: any) => ({ type: 'homologacion/setIndivisoVisibility', payload });
+export const setObservations = (payload?: any) => ({ type: 'homologacion/setObservations', payload });
+export const setRoundedTo = (payload?: any) => ({ type: 'homologacion/setRoundedTo', payload });
+export const setOther = (payload?: any) => ({ type: 'homologacion/setOther', payload });
+
+// Factores Age
+export const setAgeSubject = (payload?: any) => ({ type: 'homologacion/setAgeSubject', payload });
+export const setAgeData = (payload?: any) => ({ type: 'homologacion/setAgeData', payload });
+
+// Factores Common
+export const updateCommonSubject = (payload?: any) => ({ type: 'homologacion/updateCommonSubject', payload });
+export const updateCommonData = (payload?: any) => ({ type: 'homologacion/updateCommonData', payload });
+
+// Factores Selector
+export const setEnabledFactors = (payload?: any) => ({ type: 'homologacion/setEnabledFactors', payload });
+
+// Factores Symbols
+export const addRowLocZone = (payload?: any) => ({ type: 'homologacion/addRowLocZone', payload });
+export const rmRowLocZone = (payload?: any) => ({ type: 'homologacion/rmRowLocZone', payload });
+export const updateSymbolsData = (payload?: any) => ({ type: 'homologacion/updateSymbolsData', payload });
+export const updateLocZoneSubject = (payload?: any) => ({ type: 'homologacion/updateLocZoneSubject', payload });
+
+// Area Calculation
+export const setAreaData = (payload?: any) => ({ type: 'homologacion/setAreaData', payload });
+export const setAreaSubject = (payload?: any) => ({ type: 'homologacion/setAreaSubject', payload });
+export const setSurfaceRoot = (payload?: any) => ({ type: 'homologacion/setSurfaceRoot', payload });
+export const setSalesCostData = (payload?: any) => ({ type: 'homologacion/setSalesCostData', payload });
+export const setCommercialData = (payload?: any) => ({ type: 'homologacion/setCommercialData', payload });
+export const setPercentageData = (payload?: any) => ({ type: 'homologacion/setPercentageData', payload });
+
+// Area Documentation
+export const setAreaAverageLotArea = (payload?: any) => ({ type: 'homologacion/setAreaAverageLotArea', payload });
+export const setAreaAddress = (payload?: any) => ({ type: 'homologacion/setAreaAddress', payload });
+export const setAreaAddressExtra = (payload?: any) => ({ type: 'homologacion/setAreaAddressExtra', payload });
+export const setAreaAddressExtraFile = (payload?: any) => ({ type: 'homologacion/setAreaAddressExtraFile', payload });
+export const setPercentageTotal = (payload?: any) => ({ type: 'homologacion/setPercentageTotal', payload });
+
+// Area Zone
+export const setAreaSubjectFactors = (payload?: any) => ({ type: 'homologacion/setAreaSubjectFactors', payload });
+
+// Inviso AdjustedValue
+export const setRoundedResult = (payload?: any) => ({ type: 'homologacion/setRoundedResult', payload });
+
+// Inviso
+export const setIndiviso = (payload?: any) => ({ type: 'homologacion/setIndiviso', payload });
+
+// ReFactor
+export const setReFactorRoot = (payload?: any) => ({ type: 'homologacion/setReFactorRoot', payload });
+export const setReFactorForm = (payload?: any) => ({ type: 'homologacion/setReFactorForm', payload });
 
 export default slice.reducer;

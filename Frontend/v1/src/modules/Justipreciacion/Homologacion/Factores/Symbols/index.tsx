@@ -104,7 +104,7 @@ const Body = ({ tag, columns, ...props }: LocationZoneColumnsProps) => {
 	const { subject } = factors[props.name];
 	const { options } = handlers[props.name];
 
-	return subject.map(
+	return subject?.map(
 		({ percentage, observations, ...item }: any, index: number) => (
 			<tr key={`body for table component ${props.name} ${index}`}>
 				<td>
@@ -172,23 +172,23 @@ const Footer = ({ name, results }: FooterProps) => (
 const LocationZone = ({ tag, ...props }: LocationZoneProps) => {
 	const { factors } = useAppSelector(getHomologaciones);
 	const { subject, name, data } = factors[props.name];
-	const columns: Array<string> = Object.keys(subject[0]).filter((key: string) =>
+	const columns: Array<string> = subject ? Object.keys(subject[0]).filter((key: string) =>
 		key.includes("C"),
-	);
+	) : [];
 	const colSpan = columns.length + 2;
 
-	const percentage = subject.reduce(
+	const percentage = subject ? subject.reduce(
 		(previous: number, { percentage }: any) => previous + Number(percentage),
 		0,
-	);
+	) : 0;
 	const Header = () => (
 		<>
 			<Title name={name} colSpan={columns.length + 2} />
 			<Actions
 				name={props.name}
-				tag={name}
+				tag={name as "FUbic." | "FZon."}
 				colSpan={colSpan}
-				length={subject.length}
+				length={subject?.length || 0}
 			/>
 			<tr>
 				<th>
@@ -235,9 +235,9 @@ const Extra = () => {
 		},
 	} = useAppSelector(getHomologaciones);
 
-	const headers = Object.keys(results[0])
+	const headers = results ? Object.keys(results[0])
 		.filter((key: string) => key.includes("factor"))
-		.slice(1);
+		.slice(1) : [];
 	return (
 		<Component
 			name="Zone extra info"
@@ -253,7 +253,7 @@ const Extra = () => {
 							<td>C{id}</td>
 							{headers.map((key: string, identifier: number) => (
 								<td key={`column generator ${index} ${identifier}`}>
-									{asFancyNumber(results[index][key])}
+									{results ? asFancyNumber(results[index][key]) : 0}
 								</td>
 							))}
 						</tr>

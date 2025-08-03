@@ -34,7 +34,7 @@ const Body = ({ options, data, subject, name, tag }: BodyProps) => {
 										key: name,
 										value: searchByValue(options, Number(value)),
 									}),
-								) && dispatch(updateFactors())
+								) && dispatch(updateFactors({ type: 'update' }))
 							}
 							data={options}
 							className="bg-warning bg-opacity-25 text-center"
@@ -65,7 +65,7 @@ const Body = ({ options, data, subject, name, tag }: BodyProps) => {
 										},
 									}),
 								);
-								dispatch(updateFactors());
+								dispatch(updateFactors({ type: 'update' }));
 							}}
 							data={options}
 						/>
@@ -79,8 +79,8 @@ const Body = ({ options, data, subject, name, tag }: BodyProps) => {
 };
 export const Common = (props: CommonProps) => {
 	const { factors, handlers } = useAppSelector(getHomologaciones);
-	const { data, subject, name } = factors[props.name];
-	const { options } = handlers[props.name];
+	const { data, subject, name } = (factors as any)[props.name];
+	const { options } = (handlers as any)[props.name];
 
 	return (
 		<Component

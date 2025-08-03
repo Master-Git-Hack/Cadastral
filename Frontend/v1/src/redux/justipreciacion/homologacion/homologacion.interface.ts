@@ -1,4 +1,8 @@
-/** @format */
+/*import { FactorsProps } from "../../../types/justipreciacion/homologacion/factores";
+import { api } from "../../api";
+
+export const name = "Homologacion";
+export const consume = api(name);ormat */
 
 import { api } from "../../../api";
 
@@ -476,33 +480,36 @@ export interface recordStorageProps extends Properties {
 	appraisalPurpose: string;
 	status: "exists" | "newOne";
 }
-export interface PageRevision {
-  observations: string;
-  reviewer: string;
-  reviewed_at: string;
-}
-export interface RevisionEntry {
-  version: string; // v1, v2, etc.
-  created_by: string; // usuario que hizo la revisión
-  created_at: string;
-  pages: {
-    [key: `page${number}`]: PageRevision;
-  };
-}
-export interface ReviewedProps{
-	status:"PENDIENTE"|"EN_REVISION"|"REVISADO_CON_ERRORES"|"REVISADO_APROBADO"|"RECHAZADO"|"OBSOLETO",
-	created_at: string,
-	updated_at: string,
-	reviewed_at: string,
-	revisiones: RevisionEntry[],
-}
+
 export interface StateProps extends Properties {
 	status: "success" | "loading" | "working" | "fail";
 	message: string;
-	factors: Properties;
+	factors: {
+		[key: string]: any;
+		Age: any;
+		Building: any;
+		Classification: any;
+		Commercial: any;
+		Level: any;
+		Location: any;
+		Population: any;
+		Size: any;
+		Surface: any;
+		WeightingPercentage: any;
+		Zone: any;
+		Other: any;
+		Indiviso: any;
+		ReFactor: any;
+	};
 	documentation: Properties;
 	errors: Array<Properties>;
-	record: Properties;
-	handlers: Properties;
-	revisiones:ReviewedProps
+	record: {
+		id: number;
+		type: string;
+		status: "newOne" | "exists";
+		appraisalPurpose: string;
+	};
+	handlers: {
+		[key: string]: any;
+	};
 }

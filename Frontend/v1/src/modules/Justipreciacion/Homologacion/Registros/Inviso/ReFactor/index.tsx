@@ -29,15 +29,26 @@ export const ReFactor = () => {
 				subject,
 				averageLotArea: { surface, value },
 			},
-			ReFactor: {
-				root: { enabled, observations, ...root },
-				form,
-				result,
-				...ReFactor
+			ReFactor: reFactorData = {
+				root: { enabled: false, value: 0, observations: "" },
+				isUsed: false,
+				surface: { name: "", value: 0 }
 			},
 		},
 		record: { type },
 	} = useAppSelector(getHomologaciones);
+
+	// Desestructurar reFactorData de manera segura
+	const {
+		root: { enabled, observations, value: rootValue } = { enabled: false, observations: "", value: 0 },
+		isUsed,
+		surface: reFactorSurface = { name: "", value: 0 }
+	} = reFactorData;
+	
+	// Crear objetos por defecto para form y result si no existen
+	const form = (reFactorData as any)?.form || { name: "", value: 0 };
+	const result = (reFactorData as any)?.result || { name: "", value: 0 };
+	const ReFactor = { ...reFactorData, surface: reFactorSurface };
 
 	const { sp1_factor, sp1_superficie } = useAppSelector(getJustipreciacion);
 	useEffect(() => {
@@ -136,7 +147,7 @@ export const ReFactor = () => {
 										<span>Valor actual: Raíz </span>
 										<small>
 											<strong>
-												<sup>{root.value}</sup>&radic;
+												<sup>{rootValue}</sup>&radic;
 												<span style={{ textDecoration: "overline" }}>x</span>
 											</strong>
 										</small>
@@ -152,7 +163,7 @@ export const ReFactor = () => {
 													}),
 												);
 											}}
-											value={root.value}
+											value={rootValue}
 										/>
 									</div>
 								</JustifyChanges>

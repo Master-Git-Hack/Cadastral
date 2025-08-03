@@ -308,7 +308,7 @@ export const Calculation = () => {
 					data={data}
 					type={type}
 					salesCost={SalesCost.data}
-					root={root.value}
+					root={root?.value || 0}
 					surface={Surface.data}
 					commercial={Commercial.data}
 					percentage={WeightingPercentage.data}

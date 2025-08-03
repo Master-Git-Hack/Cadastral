@@ -255,7 +255,7 @@ const Body = () => {
 							value={extras.factor2}
 							isPercentage={factores[1].type.includes("percentage")}
 						/>
-						<NumberComponent value={Zone.results[index].factor1} isResult />
+						<NumberComponent value={Zone.results?.[index]?.factor1 || 0} isResult />
 					</tr>
 				);
 			})}
