@@ -172,25 +172,21 @@ export function useRevisionIntegration({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          key: `homologacion_${recordType.toLowerCase()}_${recordId}`,
-          tipo: recordType.toLowerCase(),
-          id: recordId,
-          username: 'current_user', // Se puede obtener del contexto de usuario
-          descripcion: `Revisión para ${recordType} ${recordId}`,
-          metadatos: {
-            record_type: recordType.toLowerCase(),
-            record_id: recordId,
-            justipreciacion_id: justipreciacionId,
-            created_from: 'homologacion_module'
-          }
+          homologacion_id: recordId,
+          type: recordType.toUpperCase(), // "TERRENO" o "RENTA"
+          appraisal_purpose: `Revisión de ${recordType.toLowerCase()} para justipreciación ${justipreciacionId}`,
+          assigned_reviewer: 'current_user' // Se puede obtener del contexto de usuario
         }),
       });
 
       if (!response.ok) {
-        throw new Error(`Error creando revisión: ${response.status}`);
+        const errorData = await response.json();
+        console.error('Error del backend:', errorData);
+        throw new Error(`Error creando revisión: ${response.status} - ${JSON.stringify(errorData)}`);
       }
 
       const newRevision = await response.json();
+      console.log('✅ Revisión creada exitosamente:', newRevision);
       
       // Refrescar el estado después de crear
       await refreshRevisionStatus();
