@@ -1,4 +1,5 @@
 """Main file with the app instance"""
+
 from unittest import TestLoader, TextTestRunner
 
 from flask import Flask
@@ -49,6 +50,10 @@ app.app_context().push()
 
 
 from .routes import *
+
+# # Registrar blueprint de revisiones
+# from .apps.Justipreciacion.api.routes.revisiones import revisiones_bp
+# app.register_blueprint(revisiones_bp)
 
 
 @app.cli.command()

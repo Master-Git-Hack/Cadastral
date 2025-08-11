@@ -1,4 +1,5 @@
 """File for Justipreciacion endpoints"""
+
 from typing import Dict, Optional, Tuple
 
 from flask import request
@@ -17,6 +18,8 @@ from .costos_construccion import *
 from .homologacion import *
 from .indicadores_municales import *
 from .obras_complementarias import *
+
+# from .revisiones import revisiones_bp
 
 homologacion = Namespaces.homologacion
 js = Namespaces.justipreciacion

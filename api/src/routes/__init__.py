@@ -8,6 +8,8 @@ from .log import actions
 from .metadatos import meta
 from .oauth import oauth2
 from .func import custom_func
+from .revisiones import revisiones
+
 # from ..middlewares.database import InstanceDB
 
 
@@ -19,3 +21,4 @@ app.include_router(meta, prefix=config.API.get("url_prefix", "/api/v1"))
 app.include_router(justi, prefix=config.API.get("url_prefix", "/api/v1"))
 app.include_router(actions, prefix=config.API.get("url_prefix", "/api/v1"))
 app.include_router(custom_func, prefix=config.API.get("url_prefix", "/api/v1"))
+app.include_router(revisiones, prefix=config.API.get("url_prefix", "/api/v1"))

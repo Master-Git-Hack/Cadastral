@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Revisión Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+            display: inline-block;
+            margin: 5px;
+        }
+        .sin_revision { background-color: #6c757d; }
+        .en_revision { background-color: #0d6efd; }
+        .revisado { background-color: #198754; }
+        .rechazado { background-color: #dc3545; }
+        
+        .test-section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        
+        .error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de Integración de Revisiones</h1>
+    
+    <div class="test-section">
+        <h3>Estado de Revisión - Homologación 170 (Terreno)</h3>
+        <div id="status-display">Cargando...</div>
+        <button onclick="testRevisionStatus()">Refrescar Estado</button>
+        <button onclick="createRevision()">Crear Nueva Revisión</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>Log de Respuestas del API</h3>
+        <pre id="api-log" style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto;"></pre>
+    </div>
+
+    <script>
+        const API_BASE = 'http://172.31.103.57:56733/api/v1';
+        let logContent = '';
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logContent += `[${timestamp}] ${message}\n`;
+            document.getElementById('api-log').textContent = logContent;
+        }
+        
+        function mapBackendStatus(backendStatus) {
+            switch (backendStatus) {
+                case "PENDIENTE":
+                    return "en_revision";
+                case "APROBADA":
+                    return "revisado";
+                case "RECHAZADA":
+                    return "rechazado";
+                case "EN_REVISION":
+                    return "en_revision";
+                default:
+                    return "sin_revision";
+            }
+        }
+        
+        function getStatusLabel(status) {
+            switch (status) {
+                case 'sin_revision': return 'Sin Revisión';
+                case 'en_revision': return 'En Revisión';
+                case 'revisado': return 'Revisado';
+                case 'rechazado': return 'Rechazado';
+                default: return 'Desconocido';
+            }
+        }
+        
+        async function testRevisionStatus() {
+            const statusDisplay = document.getElementById('status-display');
+            statusDisplay.innerHTML = '<span class="loading">Cargando...</span>';
+            
+            try {
+                log('Consultando estado de revisiones...');
+                const response = await fetch(`${API_BASE}/revisiones/status/homologacion/170?tipo=terreno`);
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                log(`Respuesta del API: ${JSON.stringify(data, null, 2)}`);
+                
+                const mappedStatus = mapBackendStatus(data.latest_status);
+                const statusLabel = getStatusLabel(mappedStatus);
+                
+                const revisions = data.revisions || [];
+                const pendingCount = revisions.filter(r => r.status === "PENDIENTE" || r.status === "EN_REVISION").length;
+                const completedCount = revisions.filter(r => r.status === "APROBADA").length;
+                const rejectedCount = revisions.filter(r => r.status === "RECHAZADA").length;
+                
+                statusDisplay.innerHTML = `
+                    <div>
+                        <span class="status-badge ${mappedStatus}">${statusLabel}</span>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <strong>Detalles:</strong><br>
+                        Tiene revisiones: ${data.has_revisions ? 'Sí' : 'No'}<br>
+                        Total: ${data.total_count}<br>
+                        Pendientes: ${pendingCount}<br>
+                        Completadas: ${completedCount}<br>
+                        Rechazadas: ${rejectedCount}<br>
+                        Estado actual: ${data.latest_status}<br>
+                        Estado mapeado: ${mappedStatus}<br>
+                        Puede crear nueva: ${data.can_create ? 'Sí' : 'No'}
+                    </div>
+                `;
+                
+                log('Estado actualizado correctamente');
+                
+            } catch (error) {
+                log(`Error: ${error.message}`);
+                statusDisplay.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function createRevision() {
+            try {
+                log('Creando nueva revisión...');
+                const response = await fetch(`${API_BASE}/revisiones/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        homologacion_id: 170,
+                        type: "TERRENO",
+                        appraisal_purpose: "Justipreciación de terreno - Test desde HTML",
+                        assigned_reviewer: "test_html_user"
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                log(`Revisión creada: ${JSON.stringify(data, null, 2)}`);
+                
+                // Refrescar el estado
+                setTimeout(testRevisionStatus, 500);
+                
+            } catch (error) {
+                log(`Error creando revisión: ${error.message}`);
+            }
+        }
+        
+        // Cargar el estado inicial
+        testRevisionStatus();
+    </script>
+</body>
+</html>

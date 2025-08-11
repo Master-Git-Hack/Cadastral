@@ -7,6 +7,12 @@ import useJusti from "@/store/justipreciacion";
 import { use, useEffect, useMemo, useState, useRef } from "react";
 import { stat } from "fs";
 import { set } from "date-fns";
+// Importar el hook de integración de revisiones
+import {
+	useRevisionIntegration,
+	type RevisionInfo,
+} from "./useRevisionIntegration";
+
 interface IUseHomologacion extends Partial<IJustipreciacionState> {
 	tipo_servicio?: "justipreciacion";
 	isLegacy: boolean;
@@ -58,9 +64,11 @@ export default function useHomologacion({
 	}, []);
 	const firstCallJusti = async () => {
 		const response = await getJustipreciacionById({ isLegacy });
+		if (!response?.data) return;
+
 		const {
 			data: { exists, ...data },
-		} = response?.data;
+		} = response.data;
 		console.log(exists);
 		setJustipreciacion({ ...transformCnxData(data) });
 	};
@@ -79,6 +87,19 @@ export default function useHomologacion({
 		justipreciacion: {
 			registro,
 			...justipreciacion,
+		},
+		// Integración con sistema de revisiones
+		revision: {
+			// Información de revisión para el registro actual
+			info: null, // Se implementará cuando se identifique el tipo
+			// Función para obtener la información de revisión
+			getRevisionInfo: (recordType: "terreno" | "renta") => {
+				// Esta función puede ser llamada desde el componente
+				// para obtener información de revisión específica
+				return null;
+			},
+			// Estado de si el registro actual puede ser revisado
+			canCreateRevision: (id ?? 0) > 0,
 		},
 	};
 }

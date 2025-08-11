@@ -26,6 +26,7 @@ import {
 	getJustipreciacion,
 } from "../../../redux/justipreciacion";
 import { Drawer } from "rsuite";
+import { RevisionButtons } from "./components/RevisionButtons";
 const { AgeContainer, Compilation, Selector } = Factores;
 //const { Success, Error, SimpleMessage, Save } = Alert;
 const base = (type: "TERRENO" | "RENTA", key = "5") => ({
@@ -185,10 +186,13 @@ export const Homologacion = () => {
 								Homologación de tipo: <strong>{type}</strong>
 							</h1>
 							<>
+								{/* Sistema de Revisiones Integrado */}
 								{id !== 0 && (
-									<Button className="me-4" disabled>
-										<span>Revisión</span>
-									</Button>
+									<RevisionButtons
+										recordType={type}
+										recordId={id}
+										justipreciacionId={justipreciacion.id}
+									/>
 								)}
 
 								{currentPage > 2 && (
@@ -217,7 +221,7 @@ export const Homologacion = () => {
 									</>
 								)}
 								<Save
-									status={record.status}
+									status={record.status as "newOne" | "exists"}
 									loading={loadingSave}
 									onClick={saveAction}
 								/>
@@ -238,12 +242,12 @@ export const Homologacion = () => {
 							<>
 								<Success
 									appearance="link"
-									onClick={() => dispatch(addRow())}
+									onClick={() => dispatch(addRow({}))}
 									size="xs"
 								>
 									Agregar Fila
 								</Success>
-								<Danger onClick={() => dispatch(rmRow())} size="xs">
+								<Danger onClick={() => dispatch(rmRow({}))} size="xs">
 									Remover Fila
 								</Danger>
 							</>
@@ -252,7 +256,7 @@ export const Homologacion = () => {
 						show: "first",
 					}}
 				>
-					{Pages(type, isUsed)}
+					{Pages(type as "TERRENO" | "RENTA", isUsed)}
 				</PaginatedView>
 			)}
 		</Justipreciacion>
