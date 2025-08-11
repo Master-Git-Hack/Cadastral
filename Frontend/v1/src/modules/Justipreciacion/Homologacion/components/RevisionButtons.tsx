@@ -53,7 +53,10 @@ export const RevisionButtons = ({
     justipreciacionId,
     revisionInfo,
     isLoading,
-    error
+    error,
+    showHistorialModal,
+    showPublicarModal,
+    showSugerenciasModal
   });
 
   // Función para crear nueva revisión con confirmación
@@ -86,19 +89,22 @@ export const RevisionButtons = ({
 
   // Función para abrir el modal de publicación de revisiones
   const handlePublishRevision = () => {
-    if (!revisionInfo?.id) return;
     setShowPublicarModal(true);
   };
 
   // Función para abrir el modal de historial
   const handleOpenHistory = () => {
-    if (!revisionInfo?.id) return;
+    console.log('🔍 Abriendo modal de historial:', { 
+      revisionInfoId: revisionInfo?.id, 
+      recordId, 
+      revisionInfo,
+      willUseId: revisionInfo?.id || recordId 
+    });
     setShowHistorialModal(true);
   };
 
   // Función para abrir el modal de sugerencias
   const handleOpenSuggestions = () => {
-    if (!revisionInfo?.id) return;
     setShowSugerenciasModal(true);
   };
 
@@ -236,31 +242,30 @@ export const RevisionButtons = ({
         </span>
       )}
 
-      {/* Modales */}
-      {revisionInfo?.id && (
-        <>
-          <PublicarRevisionModal
-            show={showPublicarModal}
-            onClose={() => setShowPublicarModal(false)}
-            revisionId={revisionInfo.id}
-            tipo={normalizedType}
-            recordId={recordId}
-            justipreciacionId={justipreciacionId}
-          />
-          
-          <HistorialRevisionModal
-            show={showHistorialModal}
-            onClose={() => setShowHistorialModal(false)}
-            revisionId={revisionInfo.id}
-          />
-          
-          <SugerenciasRevisionModal
-            show={showSugerenciasModal}
-            onClose={() => setShowSugerenciasModal(false)}
-            revisionId={revisionInfo.id}
-          />
-        </>
-      )}
+      {/* Modales - Siempre renderizar para que puedan mostrar datos simulados */}
+      <PublicarRevisionModal
+        show={showPublicarModal}
+        onClose={() => setShowPublicarModal(false)}
+        revisionId={revisionInfo?.id || recordId} // Usar recordId como fallback
+        tipo={normalizedType}
+        recordId={recordId}
+        justipreciacionId={justipreciacionId}
+      />
+      
+      <HistorialRevisionModal
+        show={showHistorialModal}
+        onClose={() => {
+          console.log('🔄 Cerrando modal de historial');
+          setShowHistorialModal(false);
+        }}
+        revisionId={revisionInfo?.id || recordId} // Usar recordId como fallback
+      />
+      
+      <SugerenciasRevisionModal
+        show={showSugerenciasModal}
+        onClose={() => setShowSugerenciasModal(false)}
+        revisionId={revisionInfo?.id || recordId} // Usar recordId como fallback
+      />
     </>
   );
 };
