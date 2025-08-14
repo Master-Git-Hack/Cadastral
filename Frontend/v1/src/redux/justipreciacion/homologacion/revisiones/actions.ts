@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { revisionService } from '../../../services/revisionService';
+import { revisionService } from '../../../../services/revisionService';
 import { CreateRevisionPayload, CreateSuggestionPayload, UpdateRevisionPayload } from './types';
 
 // Obtener revisión por ID

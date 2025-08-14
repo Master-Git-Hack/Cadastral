@@ -5,7 +5,7 @@ node_modules
 # .next
 *.sh
 *.py
-.env
+# .env
 frontend
 Frontend
 Backend

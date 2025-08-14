@@ -28,7 +28,9 @@ interface UseRevisionIntegrationReturn {
   isLoading: boolean;
   error: string | null;
   refreshRevisionStatus: () => Promise<void>;
-  createRevision: () => Promise<void>;
+  createRevision: () => Promise<any>;
+  approveRevision: (revisionId: number, comentarios?: string) => Promise<any>;
+  rejectRevision: (revisionId: number, comentarios?: string) => Promise<any>;
   openRevisionHistory: () => void;
   openRevisionSuggestions: () => void;
   hasPermissionToReview: boolean;
@@ -219,6 +221,84 @@ export function useRevisionIntegration({
     }
   }, [revisionInfo?.id]);
 
+  // Función para aprobar una revisión
+  const approveRevision = useCallback(async (revisionId: number, comentarios: string = '') => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`http://172.31.103.57:56733/api/v1/revisiones/${revisionId}/aprobar`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          comentarios,
+          usuario_revisor: 'current_user', // Se puede obtener del contexto de usuario
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error del backend al aprobar:', errorData);
+        throw new Error(`Error aprobando revisión: ${response.status} - ${JSON.stringify(errorData)}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Revisión aprobada exitosamente:', result);
+      
+      // Refrescar el estado después de aprobar
+      await refreshRevisionStatus();
+      
+      return result;
+    } catch (err) {
+      console.error('Error aprobando revisión:', err);
+      setError(err instanceof Error ? err.message : 'Error aprobando revisión');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [refreshRevisionStatus]);
+
+  // Función para rechazar una revisión
+  const rejectRevision = useCallback(async (revisionId: number, comentarios: string = '') => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`http://172.31.103.57:56733/api/v1/revisiones/${revisionId}/rechazar`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          comentarios,
+          usuario_revisor: 'current_user', // Se puede obtener del contexto de usuario
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error del backend al rechazar:', errorData);
+        throw new Error(`Error rechazando revisión: ${response.status} - ${JSON.stringify(errorData)}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Revisión rechazada exitosamente:', result);
+      
+      // Refrescar el estado después de rechazar
+      await refreshRevisionStatus();
+      
+      return result;
+    } catch (err) {
+      console.error('Error rechazando revisión:', err);
+      setError(err instanceof Error ? err.message : 'Error rechazando revisión');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [refreshRevisionStatus]);
+
   // Verificar estado al montar el componente o cambiar parámetros
   useEffect(() => {
     checkRevisionStatus();
@@ -232,6 +312,8 @@ export function useRevisionIntegration({
     error,
     refreshRevisionStatus,
     createRevision,
+    approveRevision,
+    rejectRevision,
     openRevisionHistory,
     openRevisionSuggestions,
     hasPermissionToReview,

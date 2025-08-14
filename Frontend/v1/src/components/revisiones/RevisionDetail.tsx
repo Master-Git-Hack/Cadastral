@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RevisionData } from '../../redux/justipreciacion/homologacion/revisiones/types';
 import { useRevisiones } from '../../hooks/useRevisiones';
+import RevisionStatusControl from './RevisionStatusControl';
 
 interface RevisionDetailProps {
   revision: RevisionData;
@@ -43,8 +44,19 @@ export const RevisionDetail: React.FC<RevisionDetailProps> = ({ revision }) => {
     return colors[status as keyof typeof colors] || '#6c757d';
   };
 
+  const handleRevisionStatusChange = (updatedRevision: RevisionData) => {
+    console.log('📋 Revisión actualizada:', updatedRevision);
+    // El componente se refrescará automáticamente
+  };
+
   return (
     <div className="revision-detail">
+      {/* Control de estado de la revisión */}
+      <RevisionStatusControl 
+        revision={revision}
+        onStatusChange={handleRevisionStatusChange}
+      />
+
       <div className="revision-detail-header">
         <h3>Información de la Revisión</h3>
         {revision.can_edit && (

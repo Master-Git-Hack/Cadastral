@@ -1,0 +1,367 @@
+.
+├── api
+│   ├── compose.yml
+│   ├── Dockerfile
+│   ├── middleware.ts
+│   ├── requirements.txt
+│   └── src
+│       ├── __init__.py
+│       ├── config.py
+│       ├── controllers
+│       │   ├── __init__.py
+│       │   ├── comparables.py
+│       │   ├── geo_share.py
+│       │   └── metadatos.py
+│       ├── main.py
+│       ├── middlewares
+│       │   ├── __init__.py
+│       │   ├── database.py
+│       │   ├── response.py
+│       │   └── websocket.py
+│       ├── models
+│       │   ├── __init__.py
+│       │   ├── catastral.py
+│       │   ├── cedula_comparables.py
+│       │   ├── cedula_mercado.py
+│       │   ├── checklist.py
+│       │   ├── comparables_catcom.py
+│       │   ├── costos_construccion.py
+│       │   ├── dataset.py
+│       │   ├── departamento_solicitante.py
+│       │   ├── fotogrametria.py
+│       │   ├── homologacion.py
+│       │   ├── indicadores_municipales.py
+│       │   ├── justipreciacion.py
+│       │   ├── metadatos.py
+│       │   ├── municipios.py
+│       │   ├── obras_complementarias.py
+│       │   ├── revision_checklist.py
+│       │   └── usuarios.py
+│       ├── routes
+│       │   ├── __init__.py
+│       │   ├── catastral.py
+│       │   ├── comparables.py
+│       │   ├── costos_construccion.py
+│       │   ├── fotogrametria.py
+│       │   ├── func.py
+│       │   ├── homologacion.py
+│       │   ├── information.py
+│       │   ├── justipreciacion.py
+│       │   ├── log.py
+│       │   ├── metadatos.py
+│       │   ├── oauth.py
+│       │   └── revisiones.py
+│       ├── static
+│       │   ├── errors.json
+│       │   ├── fonts
+│       │   │   ├── AltBold.otf
+│       │   │   ├── AltLight.otf
+│       │   │   ├── AltThin.otf
+│       │   │   ├── Black.otf
+│       │   │   ├── Bold.otf
+│       │   │   ├── Extrabold.otf
+│       │   │   ├── Regular.otf
+│       │   │   └── Thin.otf
+│       │   ├── images
+│       │   │   ├── blank.png
+│       │   │   ├── croquis.png
+│       │   │   ├── gl.png
+│       │   │   ├── gl.svg
+│       │   │   ├── logo-gl-min.svg
+│       │   │   ├── logo-gl.png
+│       │   │   ├── logo-gl.svg
+│       │   │   ├── logo.png
+│       │   │   ├── norte.png
+│       │   │   ├── satelite.jpg
+│       │   │   ├── 'Screenshot from 2022-02-25 16-01-58.png'
+│       │   │   ├── Sec.png
+│       │   │   ├── teapot.png
+│       │   │   ├── twitter-brands.svg
+│       │   │   └── twitter.png
+│       │   ├── query.sql
+│       │   ├── queryv2.sql
+│       │   ├── success.json
+│       │   ├── swagger.json
+│       │   ├── templates
+│       │   │   ├── _blank.pdf
+│       │   │   ├── avaluo_catastral_template.html
+│       │   │   ├── cedulas_mercado.html
+│       │   │   ├── contact.html
+│       │   │   ├── documentation.html
+│       │   │   ├── formato_comercial.xlsm
+│       │   │   ├── link.html
+│       │   │   ├── main.html
+│       │   │   ├── mercado.html
+│       │   │   ├── metadatos-2.html
+│       │   │   ├── metadatos.html
+│       │   │   └── watermark.pdf
+│       │   ├── view.sql
+│       │   └── view2.sql
+│       ├── tmp
+│       │   ├── Ortomosaico_Irapuato.pdf
+│       │   ├── Ortomosaico_Moroleón_2025.pdf
+│       │   ├── Ortomosaico_Purisima_2025.pdf
+│       │   ├── Ortomosaico_Purisima_del_Rincón_2025.pdf
+│       │   └── Ortomosaico_Uriangato_2025.pdf
+│       └── utils
+│           ├── __init__.py
+│           ├── geometry.py
+│           ├── google_maps.py
+│           ├── json.py
+│           ├── locale.py
+│           ├── pdf.py
+│           ├── temporary.py
+│           └── xml.py
+├── app
+│   ├── api
+│   │   └── auth
+│   ├── favicon.ico
+│   ├── fotogrametria
+│   │   ├── [municipio]
+│   │   │   ├── page.tsx
+│   │   │   └── reviews
+│   │   │       ├── edicion
+│   │   │       │   └── page.tsx
+│   │   │       ├── page.tsx
+│   │   │       └── reporte
+│   │   │           └── page.tsx
+│   │   └── page.tsx
+│   ├── globals.css
+│   ├── gto.webp
+│   ├── home
+│   │   └── page.tsx
+│   ├── homologacion
+│   │   ├── [justipreciacion]
+│   │   │   ├── create
+│   │   │   │   ├── common_table.tsx
+│   │   │   │   ├── create.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── table.tsx
+│   │   │   └── edit
+│   │   │       └── page.tsx
+│   │   ├── page.tsx
+│   │   └── revision-example
+│   │       └── page.tsx
+│   ├── layout.tsx
+│   ├── metadatos
+│   │   ├── [uid]
+│   │   │   ├── edit
+│   │   │   │   └── page.tsx
+│   │   │   ├── interface.ts
+│   │   │   ├── page.tsx
+│   │   │   └── view
+│   │   │       └── page.tsx
+│   │   ├── create
+│   │   │   ├── catologos
+│   │   │   │   ├── altdatum.ts
+│   │   │   │   ├── altenc.ts
+│   │   │   │   ├── altunits.ts
+│   │   │   │   ├── bearing_uni.ts
+│   │   │   │   ├── ci_responsibleparty_role.ts
+│   │   │   │   ├── coord_repres.ts
+│   │   │   │   ├── datetype.ts
+│   │   │   │   ├── depthdn.ts
+│   │   │   │   ├── depthdu.ts
+│   │   │   │   ├── ellips.ts
+│   │   │   │   ├── geounit.ts
+│   │   │   │   ├── groupcategory.ts
+│   │   │   │   ├── horizdn.ts
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── level.ts
+│   │   │   │   ├── maintenanceandupdatefrequency.ts
+│   │   │   │   ├── md_dataidentification_characterset.ts
+│   │   │   │   ├── md_dataidentification_language.ts
+│   │   │   │   ├── presentationform.ts
+│   │   │   │   ├── ref_bearing_dir.ts
+│   │   │   │   ├── ref_bearing_mer.ts
+│   │   │   │   ├── spatialrepresentationtype.ts
+│   │   │   │   ├── topiccategory.ts
+│   │   │   │   ├── useconstraints.ts
+│   │   │   │   └── valueunit.ts
+│   │   │   ├── create.tsx
+│   │   │   ├── page.tsx
+│   │   │   ├── sections
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── section1.tsx
+│   │   │   │   ├── section2.tsx
+│   │   │   │   ├── section3.tsx
+│   │   │   │   ├── section4.tsx
+│   │   │   │   ├── section5.tsx
+│   │   │   │   ├── section6.tsx
+│   │   │   │   ├── section7.tsx
+│   │   │   │   ├── section8.tsx
+│   │   │   │   └── section9.tsx
+│   │   │   └── xml_import.tsx
+│   │   ├── page.tsx
+│   │   └── types.tsx
+│   ├── page.tsx
+│   └── sign-in
+│       └── page.tsx
+├── app.json
+├── biome.json
+├── components
+│   ├── error
+│   │   └── index.tsx
+│   ├── fotogrametria
+│   │   ├── card.tsx
+│   │   └── index.tsx
+│   ├── navbar
+│   │   ├── index.tsx
+│   │   ├── main_nav.tsx
+│   │   ├── team_switcher.tsx
+│   │   └── user_nav.tsx
+│   ├── revision
+│   │   └── RevisionStatusDisplay.tsx
+│   ├── theme-provider.tsx
+│   ├── theme-toggle.tsx
+│   └── ui
+│       ├── alert
+│       │   ├── index.ts
+│       │   └── types.ts
+│       ├── alert-dialog.tsx
+│       ├── avatar.tsx
+│       ├── breadcrumb.tsx
+│       ├── button-file.tsx
+│       ├── button.tsx
+│       ├── calendar.tsx
+│       ├── card.tsx
+│       ├── checkbox.tsx
+│       ├── collapsible.tsx
+│       ├── command.tsx
+│       ├── dialog.tsx
+│       ├── drag_and_drop_images
+│       │   └── index.tsx
+│       ├── drawer.tsx
+│       ├── dropdown-menu.tsx
+│       ├── form.tsx
+│       ├── hover-card.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── menubar.tsx
+│       ├── pagination.tsx
+│       ├── popover.tsx
+│       ├── scroll-area.tsx
+│       ├── select.tsx
+│       ├── separator.tsx
+│       ├── skeleton.tsx
+│       ├── spinner
+│       │   ├── index.tsx
+│       │   └── type.ts
+│       ├── switch.tsx
+│       ├── table.tsx
+│       ├── tabs.tsx
+│       ├── textarea.tsx
+│       ├── toggle-group.tsx
+│       ├── toggle.tsx
+│       └── tooltip.tsx
+├── components.json
+├── compose.yml
+├── data.json
+├── deploy.sh
+├── Dockerfile
+├── docs
+│   └── REVISION_SYSTEM_FLOW.md
+├── eslint.config.mjs
+├── first_request.json
+├── hooks
+│   ├── useHomologación.tsx
+│   └── useRevisionIntegration.ts
+├── mapa.html
+├── next-env.d.ts
+├── next.config.js
+├── nginx.conf
+├── package.json
+├── postcss.config.js
+├── public
+│   ├── assets
+│   │   ├── background-presa.jpg
+│   │   ├── blank.pdf
+│   │   ├── fonts
+│   │   │   ├── AktivGroteskEx_Bold.ttf
+│   │   │   ├── AktivGroteskEx_Light.ttf
+│   │   │   ├── AktivGroteskEx_Regular.ttf
+│   │   │   ├── Barlow-BoldItalic.ttf
+│   │   │   ├── Barlow-Medium.ttf
+│   │   │   ├── Roboto-Regular.ttf
+│   │   │   ├── SF-Pro-Display-Bold.otf
+│   │   │   ├── SF-Pro-Display-Heavy.otf
+│   │   │   ├── SF-Pro-Display-Regular.otf
+│   │   │   └── SF-Pro-Display-Semibold.otf
+│   │   ├── globals.css
+│   │   ├── gto.webp
+│   │   ├── gto_round.png
+│   │   ├── guanajuato_logo.svg
+│   │   ├── icons
+│   │   │   ├── delete.tsx
+│   │   │   ├── download.tsx
+│   │   │   ├── index.ts
+│   │   │   ├── types.ts
+│   │   │   └── upload.tsx
+│   │   ├── leones.png
+│   │   ├── logo.png
+│   │   ├── logo_sfia_200.png
+│   │   └── round.png
+│   ├── favicon.ico
+│   ├── next.svg
+│   ├── response.json
+│   └── vercel.svg
+├── README_REVISIONES.md
+├── requirements
+│   ├── '01 Ene2025 Ind econ.xlsx'
+│   ├── JDR.73-2_24.xlsm
+│   ├── 'PLATAFORMA JUSTIPRECIACIONES.docx'
+│   ├── Requirements.docx
+│   └── Requirements.md
+├── RESUMEN_REVISIONES.md
+├── run.py
+├── second_request.json
+├── second_second_request.json
+├── start.sh
+├── store
+│   ├── api.config.ts
+│   ├── fotogrametria
+│   │   └── index.ts
+│   ├── homologacion
+│   │   ├── base.ts
+│   │   ├── factores
+│   │   │   ├── calidad.ts
+│   │   │   ├── clasificacion.ts
+│   │   │   ├── conservacion.ts
+│   │   │   ├── construccion.ts
+│   │   │   ├── forma.ts
+│   │   │   ├── index.ts
+│   │   │   ├── nivel.ts
+│   │   │   ├── proyecto.ts
+│   │   │   ├── resultados.ts
+│   │   │   ├── superficie.ts
+│   │   │   ├── topografia.ts
+│   │   │   ├── ubicacion.ts
+│   │   │   ├── uso.ts
+│   │   │   └── zona.ts
+│   │   ├── index.ts
+│   │   ├── interface.ts
+│   │   └── resultados
+│   │       ├── area.ts
+│   │       └── index.ts
+│   ├── index.ts
+│   ├── justipreciacion
+│   │   ├── index.ts
+│   │   └── interface.ts
+│   ├── metadatos
+│   │   ├── index.ts
+│   │   └── interface.ts
+│   ├── parser
+│   │   └── index.ts
+│   └── user
+│       └── index.ts
+├── test-revision-integration.html
+├── test_revisiones.sh
+├── tree.txt
+├── tsconfig.json
+├── utils
+│   ├── index.ts
+│   ├── localStorage.ts
+│   ├── number.ts
+│   ├── time.ts
+│   └── xml.ts
+└── yarn.lock
