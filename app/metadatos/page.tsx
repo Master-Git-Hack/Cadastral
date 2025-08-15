@@ -353,7 +353,9 @@ export default function Metadatos() {
 															variant="link"
 															onClick={async () =>
 																(await newVersion(id)) &&
-																window.location.reload(true)
+																(typeof window !== "undefined"
+																	? window.location.reload()
+																	: null)
 															}
 														>
 															Cambiar de Versión
@@ -442,22 +444,19 @@ export default function Metadatos() {
 																	);
 
 																	// Create a link element
-																	const link = document.createElement("a");
-
-																	// Create an object URL for the blob and set it as the link's href
-																	link.href = URL.createObjectURL(
-																		response.data,
-																	);
-
-																	// Set the file name for download (the name of the file being downloaded)
-																	link.download = `${uid}.xml`;
-
-																	// Append the link to the document and simulate a click to start the download
-																	document.body.appendChild(link);
-																	link.click();
-
-																	// Clean up: remove the link element after clicking
-																	document.body.removeChild(link);
+																	const link =
+																		typeof document !== "undefined"
+																			? document.createElement("a")
+																			: null;
+																	if (link) {
+																		link.href = URL.createObjectURL(
+																			response.data,
+																		);
+																		link.download = `${uid}.xml`;
+																		document.body.appendChild(link);
+																		link.click();
+																		document.body.removeChild(link);
+																	}
 																} catch (error) {
 																	console.error(
 																		"Error downloading file:",
@@ -579,7 +578,9 @@ export default function Metadatos() {
 										className="text-red-400 transition-colors hover:text-red-600"
 										onClick={async () => {
 											await deleteTemporal(uid).then(() =>
-												window.location.reload(true),
+												typeof window !== "undefined"
+													? window.location.reload()
+													: null,
 											);
 										}}
 									>

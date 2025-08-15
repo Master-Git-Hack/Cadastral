@@ -7,12 +7,14 @@ export default function DarkToggle({ children, ...props }: ButtonProps) {
 	const [icon, setIcon] = useState("pi-sun");
 	const [theme, setTheme] = useState(ls.get("color-theme"));
 	useEffect(() => {
-		if (theme === "dark") {
-			setIcon("pi-moon");
-			document.documentElement.classList.add("dark");
-		} else {
-			setIcon("pi-sun");
-			document.documentElement.classList.remove("dark");
+		if (typeof document !== "undefined") {
+			if (theme === "dark") {
+				setIcon("pi-moon");
+				document.documentElement.classList.add("dark");
+			} else {
+				setIcon("pi-sun");
+				document.documentElement.classList.remove("dark");
+			}
 		}
 	}, [theme]);
 

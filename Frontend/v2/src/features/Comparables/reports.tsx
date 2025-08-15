@@ -24,34 +24,34 @@ import { TabView, TabPanel } from "primereact/tabview";
 import type { ColumnsProps, SimpleRowProps } from "./types";
 function capturePage(url) {
 	// Specify the URL of the webpage to capture
-
 	// Make a cross-origin request to fetch the webpage content
 	fetch(url)
 		.then((response) => response.text())
 		.then((html) => {
-			// Create a temporary div element and insert the fetched HTML content
-			const tempDiv = document.createElement("div");
-			tempDiv.innerHTML = html;
+			if (typeof document !== "undefined") {
+				// Create a temporary div element and insert the fetched HTML content
+				const tempDiv = document.createElement("div");
+				tempDiv.innerHTML = html;
 
-			// Capture the contents of the temporary div using html2canvas
-			html2canvas(tempDiv).then((canvas) => {
-				// Convert the canvas to base64 image data
-				const imageData = canvas.toDataURL("image/png");
+				// Capture the contents of the temporary div using html2canvas
+				html2canvas(tempDiv).then((canvas) => {
+					// Convert the canvas to base64 image data
+					const imageData = canvas.toDataURL("image/png");
 
-				// Create a link element
-				const link = document.createElement("a");
-				link.href = imageData;
-				link.download = "captured_page.png";
+					// Create a link element
+					const link = document.createElement("a");
+					link.href = imageData;
+					link.download = "captured_page.png";
 
-				// Append the link to the document body and click it programmatically
-				document.body.appendChild(link);
-				link.click();
+					// Append the link to the document body and click it programmatically
+					document.body.appendChild(link);
+					link.click();
 
-				// Clean up: remove the link from the document body
-				document.body.removeChild(link);
-			});
-		})
-		.catch((error) => console.error("Error fetching webpage:", error));
+					// Clean up: remove the link from the document body
+					document.body.removeChild(link);
+				});
+			}
+		});
 }
 // export const Reports = ({ as_report, ...props }) =>
 // 	!as_report ? <Cedula {...props} /> : <Mercado {...props} />;

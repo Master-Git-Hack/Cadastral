@@ -26,7 +26,7 @@ export const ImportXML = forwardRef<HTMLInputElement, {}>(
 			if (selectedFile) {
 				setFile(selectedFile);
 				importXML(selectedFile);
-				window.location.reload(true);
+				if (typeof window !== "undefined") window.location.reload();
 			}
 		};
 
@@ -38,14 +38,16 @@ export const ImportXML = forwardRef<HTMLInputElement, {}>(
 
 		const saveFile = () => {
 			if (!file) return;
-			const blob = new Blob([file], { type: file.type });
-			const link = document.createElement("a");
-			link.href = URL.createObjectURL(blob);
-			link.download = file.name ?? "file.xml";
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			URL.revokeObjectURL(link.href);
+			if (typeof document !== "undefined") {
+				const blob = new Blob([file], { type: file.type });
+				const link = document.createElement("a");
+				link.href = URL.createObjectURL(blob);
+				link.download = file.name ?? "file.xml";
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				URL.revokeObjectURL(link.href);
+			}
 		};
 		return (
 			<>

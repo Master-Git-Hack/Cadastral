@@ -221,7 +221,9 @@ export function RevisionStatusDisplay({
 							className="w-full text-xs"
 							onClick={() => {
 								// Navegar a la página de revisión
-								window.open(`/revisiones/${revisionInfo.id}`, "_blank");
+								if (typeof window !== "undefined") {
+									window.open(`/revisiones/${revisionInfo.id}`, "_blank");
+								}
 							}}
 						>
 							<FileText className="h-3 w-3 mr-1" />

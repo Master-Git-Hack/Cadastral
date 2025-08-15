@@ -64,26 +64,29 @@ export const FileButton = forwardRef<HTMLInputElement, {}>(
 			setOptions(file !== null ? withFile : emptyFile);
 		}, [file]);
 		const uploadFile = () => {
-			const input = document.createElement("input");
-			input.type = "file";
-			input.style.display = "none";
-			input.accept = `.${fileType ?? "*"}`;
-			input.click();
-			input.onchange = ({
-				target: { files },
-			}: ChangeEventHandler<HTMLInputElement>) => {
-				setFile(files[0]);
-				onChange(files[0]);
-			};
+			if (typeof document !== "undefined") {
+				const input = document.createElement("input");
+				input.type = "file";
+				input.style.display = "none";
+				input.accept = `.${fileType ?? "*"}`;
+				input.click();
+				input.onchange = ({
+					target: { files },
+				}: ChangeEventHandler<HTMLInputElement>) => {
+					setFile(files[0]);
+					onChange(files[0]);
+				};
+			}
 		};
-		// const saveFile = () => saveAs(file, file?.name);
 		const saveFile = () => {
-			const blob = new Blob(file, { type: file?.type });
-			const link = document.createElement("a");
-			link.download = file?.name ?? "file";
-			link.href = URL.createObjectURL(blob);
-			link.click();
-			URL.revokeObjectURL(link.href);
+			if (typeof document !== "undefined" && file) {
+				const blob = new Blob([file], { type: file?.type });
+				const link = document.createElement("a");
+				link.download = file?.name ?? "file";
+				link.href = URL.createObjectURL(blob);
+				link.click();
+				URL.revokeObjectURL(link.href);
+			}
 		};
 		return (
 			<DropdownMenu onOpenChange={(open) => setIsOpen(open)}>
